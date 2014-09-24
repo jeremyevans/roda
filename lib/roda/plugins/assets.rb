@@ -153,7 +153,6 @@ class Roda
                 path = file
               end
 
-              puts content_type
               if File.exists? "#{path}.#{engine}"
                 scope.render path: "#{path}.#{engine}"
               elsif File.exists? path + ext
