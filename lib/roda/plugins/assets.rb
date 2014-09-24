@@ -27,8 +27,6 @@ class Roda
         opts[:compile]    ||= false
         opts[:headers]    ||= {}
         opts[:cache]        = app.thread_safe_cache if opts.fetch(:cache, true)
-
-        yield opts if block
       end
 
       module ClassMethods
