@@ -1,5 +1,5 @@
 require "tilt"
-
+require 'open-uri'
 class Roda
   module RodaPlugins
     module Assets
@@ -127,7 +127,7 @@ class Roda
         %w(css js).each do |type|
           define_method "#{type}_assets_path" do
             Regexp.new(
-              assets_opts[:route] + '/' + assets_opts[:"#{type}_folder"] + '/(.*)'
+              assets_opts[:route] + '/' + assets_opts[:"#{type}_folder"] + '/(.*)(\.(css|js)|http.*)$'
             )
           end
         end
@@ -136,19 +136,18 @@ class Roda
       module RequestMethods
         def assets
           %w(css js).each do |type|
-            on self.class.public_send "#{type}_assets_path" do |file|
+            on self.class.public_send "#{type}_assets_path" do |file, ext|
               file.gsub!(/(\$2E|%242E)/, '.')
-              file.gsub!(/\.\w{2,3}$/, '')
 
-              content_type = Rack::Mime.mime_type File.extname(file)
+              content_type = Rack::Mime.mime_type ext || ".#{type}"
 
               response.headers.merge!({
-                "Content-Type"              => content_type + '; charset=UTF-8',
+                "Content-Type" => content_type + '; charset=UTF-8',
               }.merge(scope.assets_opts[:headers]))
 
               engine = scope.assets_opts[:"#{type}_engine"]
 
-              if !file[/^\.\//]
+              if !file[/^\.\//] && !file[/^http/]
                 path = scope.assets_opts[:path] + '/' + scope.assets_opts[:"#{type}_folder"] + "/#{file}"
               else
                 path = file
@@ -156,10 +155,10 @@ class Roda
 
               if File.exists? "#{path}.#{engine}"
                 scope.render path: "#{path}.#{engine}"
-              elsif File.exists? "#{path}.#{type}"
-                File.read "#{path}.#{type}"
-              elsif File.exists?(path) && path[/\.#{type}$/]
-                File.read path
+              elsif File.exists? path + ext
+                File.read path + ext
+              elsif ext[/^http/]
+                open(ext).read
               elsif File.exists? path
                 begin
                   scope.render path: path

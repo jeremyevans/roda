@@ -47,6 +47,7 @@ else
       body('/assets/css/app.css').should include('color: red')
       body('/assets/css/%242E%242E/raw.css').should include('color: blue')
       body('/assets/js/head/app.js').should include('console.log')
+      body('/assets/css/http://google.com').should include('google.com')
     end
 
     it 'should contain proper assets html tags' do
