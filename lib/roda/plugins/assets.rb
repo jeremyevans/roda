@@ -23,6 +23,8 @@ class Roda
         opts[:route]      ||= 'assets'
         opts[:css_engine] ||= 'scss'
         opts[:js_engine]  ||= 'coffee'
+        opts[:concat]     ||= false
+        opts[:compile]    ||= false
         opts[:headers]    ||= {}
         opts[:cache]        = app.thread_safe_cache if opts.fetch(:cache, true)
 
@@ -42,36 +44,6 @@ class Roda
         # Return the assets options for this class.
         def assets_opts
           opts[:assets]
-        end
-
-        def asset_path file, type
-          file.gsub!(/\.#{type}$/, '')
-          assets = assets_opts[:"#{type}"]
-
-          if assets.is_a? Array
-            file_path = assets.select {|a| a["#{file}"]}.first
-          else
-            file      = file.split('/')
-            sub       = file.shift.to_sym
-            file      = file.join '/'
-            file_path = assets[sub].select {|a| a["#{file}"]}.first
-
-            if file_path && !file_path[/^\.\//]
-              file_path = "#{sub}/#{file_path}"
-            end
-          end
-
-          folder = assets_opts[:"#{type}_folder"]
-
-          if file_path
-            if !file_path[/^\.\//]
-              "#{assets_opts[:path]}/#{folder}/#{file_path}"
-            else
-              file_path
-            end
-          else
-            file
-          end
         end
       end
 
