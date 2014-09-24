@@ -139,7 +139,7 @@ class Roda
             on self.class.public_send "#{type}_assets_path" do |file, ext|
               file.gsub!(/(\$2E|%242E)/, '.')
 
-              content_type = Rack::Mime.mime_type ext || ".#{type}"
+              content_type = Rack::Mime.mime_type ".#{type}"
 
               response.headers.merge!({
                 "Content-Type" => content_type + '; charset=UTF-8',
@@ -153,6 +153,7 @@ class Roda
                 path = file
               end
 
+              puts content_type
               if File.exists? "#{path}.#{engine}"
                 scope.render path: "#{path}.#{engine}"
               elsif File.exists? path + ext
