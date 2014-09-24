@@ -3,3 +3,4 @@
 /coverage
 /www/public/*.html
 /www/public/rdoc
+.sass-cache/
