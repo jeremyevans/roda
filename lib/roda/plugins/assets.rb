@@ -90,6 +90,46 @@ class Roda
           end
         end
 
+        def render_asset(file, type)
+          file.gsub!(/(\$2E|%242E)/, '.')
+
+          folder = assets_opts[:"#{type}_folder"]
+
+          # If there is no file it must be a remote file request.
+          # Lets set the file to the url
+          if file == ''
+            route = assets_opts[:route]
+            file  = env['SCRIPT_NAME'].gsub(/^\/#{route}\/#{folder}\//, '')
+          end
+
+          if !file[/^\.\//] && !file[/^http/]
+            path = assets_opts[:path] + '/' + folder + "/#{file}"
+          else
+            path = file
+          end
+
+          engine = assets_opts[:"#{type}_engine"]
+
+          # render via tilt
+          if File.exists? "#{path}.#{engine}"
+            render path: "#{path}.#{engine}"
+          # read file directly
+          elsif File.exists? "#{path}.#{type}"
+            File.read "#{path}.#{type}"
+          # grab remote file content
+          elsif file[/^http/]
+            open(file).read
+          # as a last attempt lets see if the file can be rendered by tilt
+          # otherwise load the file directly
+          elsif File.exists? path
+            begin
+              render path: path
+            rescue
+              File.read path
+            end
+          end
+        end
+
         # Shortcut for class opts
         def assets_opts
           self.class.assets_opts
@@ -136,47 +176,12 @@ class Roda
         def assets
           on self.class.assets_route_regex do |type, file|
             content_type = type == 'css' ? 'text/css' : 'application/javascript'
-            folder       = scope.assets_opts[:"#{type}_folder"]
 
             response.headers.merge!({
               "Content-Type" => content_type + '; charset=UTF-8',
             }.merge(scope.assets_opts[:headers]))
 
-            file.gsub!(/(\$2E|%242E)/, '.')
-
-            # If there is no file it must be a remote file request.
-            # Lets set the file to the url
-            if file == ''
-              route = scope.assets_opts[:route]
-              file  = scope.env['SCRIPT_NAME'].gsub(/^\/#{route}\/#{folder}\//, '')
-            end
-
-            if !file[/^\.\//] && !file[/^http/]
-              path = scope.assets_opts[:path] + '/' + folder + "/#{file}"
-            else
-              path = file
-            end
-
-            engine = scope.assets_opts[:"#{type}_engine"]
-
-            # render via tilt
-            if File.exists? "#{path}.#{engine}"
-              scope.render path: "#{path}.#{engine}"
-            # read file directly
-            elsif File.exists? "#{path}.#{type}"
-              File.read "#{path}.#{type}"
-            # grab remote file content
-            elsif file[/^http/]
-              open(file).read
-            # as a last attempt lets see if the file can be rendered by tilt
-            # otherwise load the file directly
-            elsif File.exists? path
-              begin
-                scope.render path: path
-              rescue
-                File.read path
-              end
-            end
+            scope.render_asset file, type
           end
         end
       end
