@@ -126,7 +126,7 @@ class Roda
           Regexp.new(
             assets_opts[:route] + '/' +
             "(#{assets_opts[:"css_folder"]}|#{assets_opts[:"js_folder"]})" +
-            '/(.*)(\.(css|js)|http.*)$'
+            '/(.*)(?:\.(css|js)|http.*)$'
           )
         end
       end
@@ -134,32 +134,40 @@ class Roda
       module RequestMethods
         # Handles calls to the assets route
         def assets
-          on self.class.assets_route_regex do |type, file, ext|
-            file.gsub!(/(\$2E|%242E)/, '.')
-
+          on self.class.assets_route_regex do |type, file|
             content_type = type == 'css' ? 'text/css' : 'application/javascript'
+            folder       = scope.assets_opts[:"#{type}_folder"]
 
             response.headers.merge!({
               "Content-Type" => content_type + '; charset=UTF-8',
             }.merge(scope.assets_opts[:headers]))
 
-            engine = scope.assets_opts[:"#{type}_engine"]
+            file.gsub!(/(\$2E|%242E)/, '.')
+
+            # If there is no file it must be a remote file request.
+            # Lets set the file to the url
+            if file == ''
+              route = scope.assets_opts[:route]
+              file  = scope.env['SCRIPT_NAME'].gsub(/^\/#{route}\/#{folder}\//, '')
+            end
 
             if !file[/^\.\//] && !file[/^http/]
-              path = scope.assets_opts[:path] + '/' + scope.assets_opts[:"#{type}_folder"] + "/#{file}"
+              path = scope.assets_opts[:path] + '/' + folder + "/#{file}"
             else
               path = file
             end
+
+            engine = scope.assets_opts[:"#{type}_engine"]
 
             # render via tilt
             if File.exists? "#{path}.#{engine}"
               scope.render path: "#{path}.#{engine}"
             # read file directly
-            elsif File.exists? path + ext
-              File.read path + ext
+            elsif File.exists? "#{path}.#{type}"
+              File.read "#{path}.#{type}"
             # grab remote file content
-            elsif ext[/^http/]
-              open(ext).read
+            elsif file[/^http/]
+              open(file).read
             # as a last attempt lets see if the file can be rendered by tilt
             # otherwise load the file directly
             elsif File.exists? path
