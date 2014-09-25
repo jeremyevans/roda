@@ -99,7 +99,6 @@ class Roda
           self.class.assets_unique_id
         end
 
-
         private
 
         # CSS tag template
