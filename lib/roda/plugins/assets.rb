@@ -1,5 +1,6 @@
 require "tilt"
 require 'open-uri'
+
 class Roda
   module RodaPlugins
     module Assets
@@ -136,7 +137,7 @@ class Roda
           on self.class.assets_route_regex do |type, file, ext|
             file.gsub!(/(\$2E|%242E)/, '.')
 
-            content_type = Rack::Mime.mime_type ".#{type}"
+            content_type = type == 'css' ? 'text/css' : 'application/javascript'
 
             response.headers.merge!({
               "Content-Type" => content_type + '; charset=UTF-8',
