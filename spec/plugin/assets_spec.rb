@@ -1,5 +1,4 @@
 require File.expand_path("spec_helper", File.dirname(File.dirname(__FILE__)))
-require 'pry'
 
 begin
   require 'tilt'
@@ -52,8 +51,16 @@ else
 
     it 'should contain proper assets html tags' do
       html = body '/test'
+      html.scan(/<link/).length.should eq 2
+      html.scan(/<script/).length.should eq 1
       html.should include('link')
       html.should include('script')
+    end
+
+    it 'should concat files and only use show links' do
+      app.assets_opts[:concat] = true
+      html = body '/test'
+      html.scan(/<link/).length.should eq 1
     end
   end
 end
