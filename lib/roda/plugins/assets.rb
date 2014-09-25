@@ -15,19 +15,25 @@ class Roda
           app.opts[:assets] = opts.dup
         end
 
-        opts                = app.opts[:assets]
-        opts[:css]        ||= []
-        opts[:js]         ||= []
-        opts[:js_folder]  ||= 'js'
-        opts[:css_folder] ||= 'css'
-        opts[:path]       ||= File.expand_path("assets", Dir.pwd)
-        opts[:route]      ||= 'assets'
-        opts[:css_engine] ||= 'scss'
-        opts[:js_engine]  ||= 'coffee'
-        opts[:concat]     ||= false
-        opts[:compile]    ||= false
-        opts[:headers]    ||= {}
-        opts[:cache]        = app.thread_safe_cache if opts.fetch(:cache, true)
+        opts                   = app.opts[:assets]
+        opts[:css]           ||= []
+        opts[:js]            ||= []
+        opts[:js_folder]     ||= 'js'
+        opts[:css_folder]    ||= 'css'
+        opts[:path]          ||= File.expand_path("assets", Dir.pwd)
+        opts[:compiled_path] ||= opts[:path]
+        opts[:compiled_name] ||= 'roda.assets.compiled'
+        opts[:concat_name]   ||= 'roda.assets.concat'
+        opts[:route]         ||= 'assets'
+        opts[:css_engine]    ||= 'scss'
+        opts[:js_engine]     ||= 'coffee'
+        opts[:concat]        ||= false
+        opts[:compiled]      ||= false
+        opts[:headers]       ||= {}
+
+        if opts.fetch(:cache, true)
+          opts[:cache] = app.thread_safe_cache
+        end
       end
 
       module ClassMethods
@@ -47,10 +53,20 @@ class Roda
 
         # Generates a unique id, this is used to keep concat/compiled files
         # from caching in the browser when they are generated
-        def assets_unique_id
-          @unique_id ||= begin
-             o = [('a'..'z'), ('A'..'Z'), (0..9)].map { |i| i.to_a }.flatten
-             (0...50).map { o[rand(o.length)] }.join
+        def assets_unique_id type
+          if id = instance_variable_get("@#{type}")
+            id
+          else
+            path = "#{assets_opts[:compiled_path]}/#{assets_opts[:"#{type}_folder"]}"
+            file = "#{path}/#{assets_opts[:compiled_name]}.#{type}"
+
+            if File.exist?(file)
+              content = File.read(file)
+            else
+              content = ''
+            end
+
+            instance_variable_set("@#{type}", Digest::SHA1.hexdigest(content))
           end
         end
       end
@@ -83,8 +99,9 @@ class Roda
             # Return tags as string
             tags.join "\n"
           else
+            name = assets_opts[:compiled] ? assets_opts[:compiled_name] : assets_opts[:concat_name]
             # Generate unique url so middleware knows to check for # compile/concat
-            attrs.unshift("#{attr}=\"/#{path}/#{assets_unique_id}.roda.assets.#{type}\"")
+            attrs.unshift("#{attr}=\"/#{path}/#{assets_unique_id(type)}.#{name}.#{type}\"")
             # Return tag string
             send("#{type}_assets_tag", attrs.join(' '))
           end
@@ -136,8 +153,8 @@ class Roda
         end
 
         # Shortcut for class assets unique id
-        def assets_unique_id
-          self.class.assets_unique_id
+        def assets_unique_id(*args)
+          self.class.assets_unique_id(*args)
         end
 
         private
