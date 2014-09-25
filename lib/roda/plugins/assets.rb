@@ -54,17 +54,12 @@ class Roda
         # Generates a unique id, this is used to keep concat/compiled files
         # from caching in the browser when they are generated
         def assets_unique_id type
-          if id = instance_variable_get("@#{type}")
-            id
+          if unique_id = instance_variable_get("@#{type}")
+            unique_id
           else
-            path = "#{assets_opts[:compiled_path]}/#{assets_opts[:"#{type}_folder"]}"
-            file = "#{path}/#{assets_opts[:compiled_name]}.#{type}"
-
-            if File.exist?(file)
-              content = File.read(file)
-            else
-              content = ''
-            end
+            path    = "#{assets_opts[:compiled_path]}/#{assets_opts[:"#{type}_folder"]}"
+            file    = "#{path}/#{assets_opts[:compiled_name]}.#{type}"
+            content = File.exist?(file) ? File.read(file) : ''
 
             instance_variable_set("@#{type}", Digest::SHA1.hexdigest(content))
           end
