@@ -57,10 +57,18 @@ else
       html.should include('script')
     end
 
-    it 'should concat files and only use show links' do
+    it 'should only show one link when concat is true' do
       app.assets_opts[:concat] = true
       html = body '/test'
       html.scan(/<link/).length.should eq 1
+    end
+
+    it 'should join all files when concat is true' do
+      app.assets_opts[:concat] = true
+      path = app.assets_opts[:concat_name] + '/css/123'
+      css = body("/assets/css/#{path}.css")
+      css.should include('color: red')
+      css.should include('color: blue')
     end
   end
 end

@@ -22,8 +22,8 @@ class Roda
         opts[:css_folder]    ||= 'css'
         opts[:path]          ||= File.expand_path("assets", Dir.pwd)
         opts[:compiled_path] ||= opts[:path]
-        opts[:compiled_name] ||= 'roda.assets.compiled'
-        opts[:concat_name]   ||= 'roda.assets.concat'
+        opts[:compiled_name] ||= 'compiled.roda.assets'
+        opts[:concat_name]   ||= 'concat.roda.assets'
         opts[:route]         ||= 'assets'
         opts[:css_engine]    ||= 'scss'
         opts[:js_engine]     ||= 'coffee'
@@ -95,8 +95,9 @@ class Roda
             tags.join "\n"
           else
             name = assets_opts[:compiled] ? assets_opts[:compiled_name] : assets_opts[:concat_name]
+            name = "#{name}/#{folder.join('-')}"
             # Generate unique url so middleware knows to check for # compile/concat
-            attrs.unshift("#{attr}=\"/#{path}/#{assets_unique_id(type)}.#{name}.#{type}\"")
+            attrs.unshift("#{attr}=\"/#{path}/#{name}/#{assets_unique_id(type)}.#{type}\"")
             # Return tag string
             send("#{type}_assets_tag", attrs.join(' '))
           end
@@ -105,6 +106,31 @@ class Roda
         def render_asset(file, type)
           file.gsub!(/(\$2E|%242E)/, '.')
 
+          if !assets_opts[:compiled] && !assets_opts[:concat]
+            read_asset_file file, type
+          elsif assets_opts[:compiled]
+            path = assets_opts[:compiled_path] \
+                   + "/#{assets_opts[:"#{type}_folder"]}/" \
+                   + assets_opts[:compiled_name] + ".#{type}"
+
+            File.read path
+          elsif assets_opts[:concat]
+            # "concat.roda.assets/css/123"
+            html   = ''
+            folder = file.split('/')[1].split('-', 1)
+            files  = folder.length == 1 \
+                    ? assets_opts[:"#{folder[0]}"] \
+                    : assets_opts[:"#{folder[0]}"][:"#{folder[1]}"]
+
+            files.each do |f|
+              html += read_asset_file f, type
+            end
+
+            html
+          end
+        end
+
+        def read_asset_file file, type
           folder = assets_opts[:"#{type}_folder"]
 
           # If there is no file it must be a remote file request.
