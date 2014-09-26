@@ -57,8 +57,12 @@ else
       html.should include('script')
     end
 
-    it 'should only show one link when concat is true' do
+    it 'should only show one link when concat/compile is true' do
       app.assets_opts[:concat] = true
+      html = body '/test'
+      html.scan(/<link/).length.should eq 1
+
+      app.assets_opts[:compiled] = true
       html = body '/test'
       html.scan(/<link/).length.should eq 1
     end
@@ -69,6 +73,14 @@ else
       css = body("/assets/css/#{path}.css")
       css.should include('color: red')
       css.should include('color: blue')
+    end
+
+    it 'should grab compiled files' do
+      app.compile_assets
+      app.assets_opts[:compiled] = true
+      path = app.assets_opts[:compiled_name] + '/js-head/123'
+      js = body("/assets/js/#{path}.js")
+      js.should include('console.log')
     end
   end
 end

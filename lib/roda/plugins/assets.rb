@@ -64,6 +64,52 @@ class Roda
             instance_variable_set("@#{type}", Digest::SHA1.hexdigest(content))
           end
         end
+
+        def compile_assets(concat_only = false)
+          assets_opts[:concat_only] = concat_only
+
+          %w(css js).each do |type|
+            files = assets_opts[type.to_sym]
+
+            if files.is_a? Array
+              compile_process_files files, type, type
+            else
+              files.each do |folder, f|
+                compile_process_files f, type, folder
+              end
+            end
+          end
+        end
+
+        private
+
+        def compile_process_files files, type, folder
+          require 'yuicompressor'
+
+          r = new
+
+          content = ''
+
+          files.each do |file|
+            if type != folder
+              file = "#{folder}/#{file}"
+            end
+
+            content += r.read_asset_file file, type
+          end
+
+          path = assets_opts[:compiled_path] \
+                 + "/#{assets_opts[:"#{type}_folder"]}/" \
+                 + assets_opts[:compiled_name] \
+                 + (type != folder ? ".#{folder}" : '') \
+                 + ".#{type}"
+
+          unless assets_opts[:concat_only]
+            content = YUICompressor.send("compress_#{type}", content, munge: true)
+          end
+
+          File.write path, content
+        end
       end
 
       module InstanceMethods
@@ -109,24 +155,25 @@ class Roda
           if !assets_opts[:compiled] && !assets_opts[:concat]
             read_asset_file file, type
           elsif assets_opts[:compiled]
-            path = assets_opts[:compiled_path] \
+            folder = file.split('/')[1].split('-', 2)
+            path   = assets_opts[:compiled_path] \
                    + "/#{assets_opts[:"#{type}_folder"]}/" \
-                   + assets_opts[:compiled_name] + ".#{type}"
+                   + assets_opts[:compiled_name] \
+                   + (folder.length > 1 ? ".#{folder[1]}" : '') \
+                   + ".#{type}"
 
             File.read path
           elsif assets_opts[:concat]
             # "concat.roda.assets/css/123"
-            html   = ''
-            folder = file.split('/')[1].split('-', 1)
+            content   = ''
+            folder = file.split('/')[1].split('-', 2)
             files  = folder.length == 1 \
                     ? assets_opts[:"#{folder[0]}"] \
                     : assets_opts[:"#{folder[0]}"][:"#{folder[1]}"]
 
-            files.each do |f|
-              html += read_asset_file f, type
-            end
+            files.each { |f| content += read_asset_file f, type }
 
-            html
+            content
           end
         end
 
