@@ -25,10 +25,20 @@ describe "multi_route plugin" do
         end
       end
 
+      route(:p) do |r|
+        r.is do
+          'p'
+        end
+      end
+
       route do |r|
         r.on 'foo' do
           r.multi_route do
             "foo"
+          end
+
+          r.on "p" do
+            r.route(:p)
           end
         end
 
@@ -69,6 +79,18 @@ describe "multi_route plugin" do
     body('/foo/post/').should == 'post'
     body('/foo/post/a').should == 'posta'
     body('/foo/post/b').should == 'foo'
+  end
+
+  it "does not have multi_route match non-String named routes" do
+    body('/foo/p').should == 'p'
+    status('/foo/p/2').should == 404
+  end
+
+  it "Can have multi_route pick up routes newly added" do
+    body('/foo/get/').should == 'get'
+    status('/foo/delete').should == 404
+    app.route('delete'){|r| r.on{'delete'}}
+    body('/foo/delete').should == 'delete'
   end
 
   it "handles loading the plugin multiple times correctly" do

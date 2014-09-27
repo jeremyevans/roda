@@ -51,9 +51,10 @@ class Roda
     @roda_class = ::Roda
   end
 
-  @builder = ::Rack::Builder.new
+  @app = nil
   @middleware = []
   @opts = {}
+  @route_block = nil
 
   # Module in which all Roda plugins should be stored. Also contains logic for
   # registering and loading plugins.
@@ -94,6 +95,9 @@ class Roda
         # The settings/options hash for the current class.
         attr_reader :opts
 
+        # The route block that this class uses.
+        attr_reader :route_block
+
         # Call the internal rack application with the given environment.
         # This allows the class itself to be used as a rack application.
         # However, for performance, it's better to use #app to get direct
@@ -122,17 +126,14 @@ class Roda
           request_module{define_method(:"match_#{key}", &block)}
         end
 
-        # When inheriting Roda, setup a new rack app builder, copy the
-        # default middleware and opts into the subclass, and set the
-        # request and response classes in the subclasses to be subclasses
-        # of the request and responses classes in the parent class.  This
-        # makes it so child classes inherit plugins from their parent,
-        # but using plugins in child classes does not affect the parent.
+        # When inheriting Roda, copy the shared data into the subclass,
+        # and setup the request and response subclasses.
         def inherited(subclass)
           super
-          subclass.instance_variable_set(:@builder, ::Rack::Builder.new)
           subclass.instance_variable_set(:@middleware, @middleware.dup)
           subclass.instance_variable_set(:@opts, opts.dup)
+          subclass.instance_variable_set(:@route_block, @route_block)
+          subclass.send(:build_rack_app)
           
           request_class = Class.new(self::RodaRequest)
           request_class.roda_class = subclass
@@ -235,9 +236,8 @@ class Roda
         # This should only be called once per class, and if called multiple
         # times will overwrite the previous routing.
         def route(&block)
-          @middleware.each{|a, b| @builder.use(*a, &b)}
-          @builder.run lambda{|env| new.call(env, &block)}
-          @app = @builder.to_app
+          @route_block = block
+          build_rack_app
         end
 
         # A new thread safe cache instance.  This is a method so it can be
@@ -252,9 +252,20 @@ class Roda
         #   Roda.use Rack::Session::Cookie, :secret=>ENV['secret']
         def use(*args, &block)
           @middleware << [args, block]
+          build_rack_app
         end
 
         private
+
+        # Build the rack app to use
+        def build_rack_app
+          if block = @route_block
+            builder = Rack::Builder.new
+            @middleware.each{|a, b| builder.use(*a, &b)}
+            builder.run lambda{|env| new.call(env, &block)}
+            @app = builder.to_app
+          end
+        end
 
         # Backbone of the request_module and response_module support.
         def module_include(type, mod)
