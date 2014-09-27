@@ -91,7 +91,7 @@ class Roda
           content = ''
 
           files.each do |file|
-            if type != folder
+            if type != folder && !file[/^\.\//] && !file[/^http/]
               file = "#{folder}/#{file}"
             end
 

@@ -1,3 +1,3 @@
 class Roda
-  RodaVersion = '1.0.2'.freeze
+  RodaVersion = '1.0.3'.freeze
 end
