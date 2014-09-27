@@ -1,7 +1,7 @@
 require File.expand_path("../lib/roda/version", __FILE__)
 
 Gem::Specification.new do |s|
-  s.name              = "roda"
+  s.name              = "roda-cj"
   s.version           = Roda::RodaVersion.dup
   s.summary           = "Routing tree web framework"
   s.description       = "Routing tree web framework, inspired by Sinatra and Cuba"
