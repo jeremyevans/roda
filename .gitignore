@@ -4,3 +4,4 @@
 /www/public/*.html
 /www/public/rdoc
 .sass-cache/
+compiled.roda.assets*
