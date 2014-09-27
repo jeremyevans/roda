@@ -126,7 +126,14 @@ class Roda
                   : assets_opts[:"#{folder[0]}"][:"#{folder[1]}"]
 
           # Create a tag for each individual file
-          if !assets_opts[:concat]
+          if assets_opts[:compiled] || assets_opts[:concat]
+            name = assets_opts[:compiled] ? assets_opts[:compiled_name] : assets_opts[:concat_name]
+            name = "#{name}/#{folder.join('-')}"
+            # Generate unique url so middleware knows to check for # compile/concat
+            attrs.unshift("#{attr}=\"/#{path}/#{name}/#{assets_unique_id(type)}.#{type}\"")
+            # Return tag string
+            send("#{type}_assets_tag", attrs.join(' '))
+          else
             files.each do |file|
               # This allows you to do things like:
               # assets_opts[:css] = ['app', './bower/jquery/jquery-min.js']
@@ -139,13 +146,6 @@ class Roda
             end
             # Return tags as string
             tags.join "\n"
-          else
-            name = assets_opts[:compiled] ? assets_opts[:compiled_name] : assets_opts[:concat_name]
-            name = "#{name}/#{folder.join('-')}"
-            # Generate unique url so middleware knows to check for # compile/concat
-            attrs.unshift("#{attr}=\"/#{path}/#{name}/#{assets_unique_id(type)}.#{type}\"")
-            # Return tag string
-            send("#{type}_assets_tag", attrs.join(' '))
           end
         end
 
