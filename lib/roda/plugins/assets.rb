@@ -1,5 +1,6 @@
 require "tilt"
-require 'open-uri'
+require 'net/http'
+require 'uri'
 
 class Roda
   module RodaPlugins
@@ -53,7 +54,7 @@ class Roda
 
         # Generates a unique id, this is used to keep concat/compiled files
         # from caching in the browser when they are generated
-        def assets_unique_id type
+        def assets_unique_id(type)
           if unique_id = instance_variable_get("@#{type}")
             unique_id
           else
@@ -83,11 +84,13 @@ class Roda
 
         private
 
-        def compile_process_files files, type, folder
+        def compile_process_files(files, type, folder)
           require 'yuicompressor'
 
-          r = new
+          # start app instance
+          app = new
 
+          # content to render to file
           content = ''
 
           files.each do |file|
@@ -95,7 +98,7 @@ class Roda
               file = "#{folder}/#{file}"
             end
 
-            content += r.read_asset_file file, type
+            content += app.read_asset_file file, type
           end
 
           path = assets_opts[:compiled_path] \
@@ -150,6 +153,7 @@ class Roda
         end
 
         def render_asset(file, type)
+          # convert back url safe to period
           file.gsub!(/(\$2E|%242E)/, '.')
 
           if !assets_opts[:compiled] && !assets_opts[:concat]
@@ -177,7 +181,7 @@ class Roda
           end
         end
 
-        def read_asset_file file, type
+        def read_asset_file(file, type)
           folder = assets_opts[:"#{type}_folder"]
 
           # If there is no file it must be a remote file request.
@@ -187,31 +191,29 @@ class Roda
             file  = env['SCRIPT_NAME'].gsub(/^\/#{route}\/#{folder}\//, '')
           end
 
+          # If it's not a url or parent direct append the full path
           if !file[/^\.\//] && !file[/^http/]
-            path = assets_opts[:path] + '/' + folder + "/#{file}"
-          else
-            path = file
+            file = assets_opts[:path] + '/' + folder + "/#{file}"
           end
 
+          # set the current engine
           engine = assets_opts[:"#{type}_engine"]
 
-          # render via tilt
-          if File.exists? "#{path}.#{engine}"
-            render path: "#{path}.#{engine}"
-          # read file directly
-          elsif File.exists? "#{path}.#{type}"
-            File.read "#{path}.#{type}"
-          # grab remote file content
+          if File.exists? "#{file}.#{engine}"
+            # render via tilt
+            render path: "#{file}.#{engine}"
+          elsif File.exists? "#{file}.#{type}"
+            # read file directly
+            File.read "#{file}.#{type}"
           elsif file[/^http/]
-            open(file).read
-          # as a last attempt lets see if the file can be rendered by tilt
-          # otherwise load the file directly
-          elsif File.exists? path
-            begin
-              render path: path
-            rescue
-              File.read path
-            end
+            # grab remote file content
+            Net::HTTP.get(URI.parse(file))
+          elsif File.exists?(file) && !file[/\.#{type}$/]
+            # Render via tilt if the type isn't css or js
+            render path: file
+          else
+            # if it is css/js read the file directly
+            File.read file
           end
         end
 
@@ -229,13 +231,13 @@ class Roda
 
         # CSS tag template
         # <link rel="stylesheet" href="theme.css">
-        def css_assets_tag attrs
+        def css_assets_tag(attrs)
           "<link rel=\"stylesheet\" #{attrs} />"
         end
 
         # JS tag template
         # <script src="scriptfile.js"></script>
-        def js_assets_tag attrs
+        def js_assets_tag(attrs)
           "<script type=\"text/javascript\" #{attrs}></script>"
         end
       end
