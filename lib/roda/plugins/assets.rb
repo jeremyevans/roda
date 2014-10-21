@@ -47,6 +47,12 @@ class Roda
       # :compiled_path :: Path to save your compiled files to.
       # :compiled_name :: Compiled file name.
       # :concat_name :: Concated file name.
+      # :route :: URI route to render your assets. i.e. /assets/js/yourfile.js.
+      # :css_engine :: default engine to use for css.
+      # :js_engine :: default engine to use for js.
+      # :concat :: Boolean to turn on and off concating files.
+      # :compiled :: Boolean to turn on and off using compiled files.
+      # :headers :: Add additional headers to your rendered files.
 
       def self.load_dependencies(app, opts={})
         app.plugin :render
