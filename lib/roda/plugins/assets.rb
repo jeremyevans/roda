@@ -5,6 +5,49 @@ require 'uri'
 class Roda
   module RodaPlugins
     module Assets
+      # The assets plugin adds support for rendering your front end files using
+      # the tilt library.  You have one instance method +assets+ and a class
+      # method +compile_assets+.
+      #
+      #   plugin(:assets, {
+      #     css: ['some_file'],
+      #     js:  ['some_file']
+      #   })
+      #
+      #   route do |r|
+      #     r.assets
+      #   end
+      #
+      # In your views you'd then use the code below to render tags for each file:
+      #   assets(:css)
+      #   assets(:js)
+      #
+      # You can add attributes to the tags by simply doing:
+      #   assets(:css, media: 'print')
+      #
+      # Assets also supports groups incase you have different css/js files for
+      # your front end and back end.  To do this you'd simply do:
+      #
+      #   plugin(:assets {
+      #     css: {
+      #       frontend: ['some_frontend_file'],
+      #       backend:  ['some_backend_file']
+      #     }
+      #   })
+      # 
+      # Then in your view code just do:
+      #   assets [:css, :frontend]
+      #
+      # You can provide options to the plugin method, or later by modifying
+      # +assets_opts+.
+      #
+      # :js_folder :: Folder name containing your javascript.
+      # :css_folder :: Folder name containing your stylesheets.
+      # :path :: Path to your assets directory.
+      # :compiled_path :: Path to save your compiled files to.
+      # :compiled_name :: Compiled file name.
+      # :concat_name :: Concated file name.
+
       def self.load_dependencies(app, opts={})
         app.plugin :render
       end
@@ -67,6 +110,7 @@ class Roda
         end
 
         def compile_assets(concat_only = false)
+          # if true don't YUI compress
           assets_opts[:concat_only] = concat_only
 
           %w(css js).each do |type|
@@ -182,6 +226,10 @@ class Roda
         end
 
         def read_asset_file(file, type)
+          # set the current engine
+          engine = assets_opts[:"#{type}_engine"]
+
+          # set the current folder
           folder = assets_opts[:"#{type}_folder"]
 
           # If there is no file it must be a remote file request.
@@ -195,9 +243,6 @@ class Roda
           if !file[/^\.\//] && !file[/^http/]
             file = assets_opts[:path] + '/' + folder + "/#{file}"
           end
-
-          # set the current engine
-          engine = assets_opts[:"#{type}_engine"]
 
           if File.exists? "#{file}.#{engine}"
             # render via tilt
