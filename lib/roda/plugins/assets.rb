@@ -1,7 +1,3 @@
-require "tilt"
-require 'net/http'
-require 'uri'
-
 class Roda
   module RodaPlugins
     module Assets
@@ -18,7 +14,7 @@ class Roda
       #     r.assets
       #   end
       #
-      # In your views you'd then use the code below to render tags for each file:
+      # In your views you'd then use the code below to render tags for each file
       #   assets(:css)
       #   assets(:js)
       #
@@ -34,7 +30,7 @@ class Roda
       #       backend:  ['some_backend_file']
       #     }
       #   })
-      # 
+      #
       # Then in your view code just do:
       #   assets [:css, :frontend]
       #
@@ -46,7 +42,6 @@ class Roda
       # :path :: Path to your assets directory.
       # :compiled_path :: Path to save your compiled files to.
       # :compiled_name :: Compiled file name.
-      # :concat_name :: Concated file name.
       # :route :: URI route to render your assets. i.e. /assets/js/yourfile.js.
       # :css_engine :: default engine to use for css.
       # :js_engine :: default engine to use for js.
@@ -54,11 +49,11 @@ class Roda
       # :compiled :: Boolean to turn on and off using compiled files.
       # :headers :: Add additional headers to your rendered files.
 
-      def self.load_dependencies(app, opts={})
+      def self.load_dependencies(app, _opts)
         app.plugin :render
       end
 
-      def self.configure(app, opts={}, &block)
+      def self.configure(app, opts = {}, &_block)
         if app.opts[:assets]
           app.opts[:assets].merge!(opts)
         else
@@ -70,10 +65,9 @@ class Roda
         opts[:js]            ||= []
         opts[:js_folder]     ||= 'js'
         opts[:css_folder]    ||= 'css'
-        opts[:path]          ||= File.expand_path("assets", Dir.pwd)
+        opts[:path]          ||= File.expand_path('assets', Dir.pwd)
         opts[:compiled_path] ||= opts[:path]
         opts[:compiled_name] ||= 'compiled.roda.assets'
-        opts[:concat_name]   ||= 'concat.roda.assets'
         opts[:route]         ||= 'assets'
         opts[:css_engine]    ||= 'scss'
         opts[:js_engine]     ||= 'coffee'
@@ -81,10 +75,10 @@ class Roda
         opts[:compiled]      ||= false
         opts[:headers]       ||= {}
 
-        if opts.fetch(:cache, true)
-          opts[:cache] = app.thread_safe_cache
-        end
+        opts.fetch(:cache, true) && opts[:cache] = app.thread_safe_cache
       end
+
+      # need to flattern js/css opts
 
       module ClassMethods
         # Copy the assets options into the subclass, duping
@@ -93,6 +87,8 @@ class Roda
         def inherited(subclass)
           super
           opts         = subclass.opts[:assets] = assets_opts.dup
+          opts[:css]   = opts[:css].dup
+          opts[:js]    = opts[:js].dup
           opts[:cache] = thread_safe_cache if opts[:cache]
         end
 
@@ -104,10 +100,11 @@ class Roda
         # Generates a unique id, this is used to keep concat/compiled files
         # from caching in the browser when they are generated
         def assets_unique_id(type)
-          if unique_id = instance_variable_get("@#{type}")
+          if (unique_id = instance_variable_get("@#{type}"))
             unique_id
           else
-            path    = "#{assets_opts[:compiled_path]}/#{assets_opts[:"#{type}_folder"]}"
+            path    = "#{assets_opts[:compiled_path]}\
+                      /#{assets_opts[:"#{type}_folder"]}"
             file    = "#{path}/#{assets_opts[:compiled_name]}.#{type}"
             content = File.exist?(file) ? File.read(file) : ''
 
@@ -123,10 +120,10 @@ class Roda
             files = assets_opts[type.to_sym]
 
             if files.is_a? Array
-              compile_process_files files, type, type
+              compile_process_files(files, type, type)
             else
               files.each do |folder, f|
-                compile_process_files f, type, folder
+                compile_process_files(f, type, folder)
               end
             end
           end
@@ -135,8 +132,6 @@ class Roda
         private
 
         def compile_process_files(files, type, folder)
-          require 'yuicompressor'
-
           # start app instance
           app = new
 
@@ -144,11 +139,8 @@ class Roda
           content = ''
 
           files.each do |file|
-            if type != folder && !file[/^\.\//] && !file[/^http/]
-              file = "#{folder}/#{file}"
-            end
-
-            content += app.read_asset_file file, type
+            (type != folder && !file[/\A\.\//]) && file = "#{folder}/#{file}"
+            content << app.read_asset_file(file, type)
           end
 
           path = assets_opts[:compiled_path] \
@@ -158,7 +150,11 @@ class Roda
                  + ".#{type}"
 
           unless assets_opts[:concat_only]
-            content = YUICompressor.send("compress_#{type}", content, munge: true)
+            require 'yuicompressor'
+
+            content = YUICompressor.send(
+              "compress_#{type}", content, munge: true
+            )
           end
 
           File.write path, content
@@ -167,26 +163,28 @@ class Roda
 
       module InstanceMethods
         # This will ouput the files with the appropriate tags
-        def assets folder, options = {}
-          attrs   = options.map{|k,v| "#{k}=\"#{v}\""}
+        def assets(folder, options = {})
+          attrs   = options.map{ |k, v| "#{k}=\"#{v}\"" }
           tags    = []
           folder  = [folder] unless folder.is_a? Array
           type    = folder.first
           attr    = type.to_s == 'js' ? 'src' : 'href'
           path    = "#{assets_opts[:route]}/#{assets_opts[:"#{type}_folder"]}"
-          files   = folder.length == 1 \
-                  ? assets_opts[:"#{folder[0]}"] \
-                  : assets_opts[:"#{folder[0]}"][:"#{folder[1]}"]
 
           # Create a tag for each individual file
           if assets_opts[:compiled] || assets_opts[:concat]
-            name = assets_opts[:compiled] ? assets_opts[:compiled_name] : assets_opts[:concat_name]
-            name = "#{name}/#{folder.join('-')}"
-            # Generate unique url so middleware knows to check for # compile/concat
-            attrs.unshift("#{attr}=\"/#{path}/#{name}/#{assets_unique_id(type)}.#{type}\"")
+            name = "#{assets_opts[:compiled_name]}/#{folder.join('-')}"
+            # Generate unique url so middleware knows
+            # to check for # compile/concat
+            attrs.unshift(
+              "#{attr}=\"/#{path}/#{name}/#{assets_unique_id(type)}.#{type}\""
+            )
             # Return tag string
             send("#{type}_assets_tag", attrs.join(' '))
           else
+            files = (folder.length == 1 ? assets_opts[:"#{folder[0]}"] : \
+                    assets_opts[:"#{folder[0]}"][:"#{folder[1]}"])
+
             files.each do |file|
               # This allows you to do things like:
               # assets_opts[:css] = ['app', './bower/jquery/jquery-min.js']
@@ -194,7 +192,8 @@ class Roda
               # Add tags to the tags array
               tags << send(
                 "#{type}_assets_tag",
-                attrs.dup.unshift( "#{attr}=\"/#{path}/#{file}.#{type}\"").join(' ')
+                attrs.dup.unshift("#{attr}=\"/#{path}/#{file}.#{type}\"")
+                         .join(' ')
               )
             end
             # Return tags as string
@@ -210,22 +209,19 @@ class Roda
             read_asset_file file, type
           elsif assets_opts[:compiled]
             folder = file.split('/')[1].split('-', 2)
-            path   = assets_opts[:compiled_path] \
-                   + "/#{assets_opts[:"#{type}_folder"]}/" \
-                   + assets_opts[:compiled_name] \
-                   + (folder.length > 1 ? ".#{folder[1]}" : '') \
-                   + ".#{type}"
+            path   = "#{assets_opts[:compiled_path]}/" << \
+                     "#{assets_opts[:"#{type}_folder"]}/" << \
+                     "#{assets_opts[:compiled_name]}" << \
+                     "#{(folder.length > 1 ? ".#{folder[1]}" : '')}.#{type}"
 
-            File.read path
-          elsif assets_opts[:concat]
-            # "concat.roda.assets/css/123"
-            content   = ''
-            folder = file.split('/')[1].split('-', 2)
-            files  = folder.length == 1 \
-                    ? assets_opts[:"#{folder[0]}"] \
-                    : assets_opts[:"#{folder[0]}"][:"#{folder[1]}"]
+            File.read(path)
+          else
+            content = ''
+            folder  = file.split('/')[1].split('-', 2)
+            files = (folder.length == 1 ? assets_opts[:"#{folder[0]}"] : \
+                    assets_opts[:"#{folder[0]}"][:"#{folder[1]}"])
 
-            files.each { |f| content += read_asset_file f, type }
+            files.each { |f| content << read_asset_file(f, type) }
 
             content
           end
@@ -238,33 +234,17 @@ class Roda
           # set the current folder
           folder = assets_opts[:"#{type}_folder"]
 
-          # If there is no file it must be a remote file request.
-          # Lets set the file to the url
-          if file == ''
-            route = assets_opts[:route]
-            file  = env['SCRIPT_NAME'].gsub(/^\/#{route}\/#{folder}\//, '')
-          end
+          # If it's not a parent directory append the full path
+          !file[/\A\.\//] && file = "#{assets_opts[:path]}/#{folder}/#{file}"
 
-          # If it's not a url or parent direct append the full path
-          if !file[/^\.\//] && !file[/^http/]
-            file = assets_opts[:path] + '/' + folder + "/#{file}"
-          end
-
-          if File.exists? "#{file}.#{engine}"
+          if File.exist?("#{file}.#{engine}")
             # render via tilt
             render path: "#{file}.#{engine}"
-          elsif File.exists? "#{file}.#{type}"
+          elsif File.exist?("#{file}.#{type}")
             # read file directly
-            File.read "#{file}.#{type}"
-          elsif file[/^http/]
-            # grab remote file content
-            Net::HTTP.get(URI.parse(file))
-          elsif File.exists?(file) && !file[/\.#{type}$/]
-            # Render via tilt if the type isn't css or js
-            render path: file
+            File.read("#{file}.#{type}")
           else
-            # if it is css/js read the file directly
-            File.read file
+            !file[/\.#{type}$/] ? render(path: file) : File.read(file)
           end
         end
 
@@ -302,8 +282,8 @@ class Roda
         # The regex for the assets route
         def assets_route_regex
           Regexp.new(
-            assets_opts[:route] + '/' +
-            "(#{assets_opts[:"css_folder"]}|#{assets_opts[:"js_folder"]})" +
+            "#{assets_opts[:route]}/" << \
+            "(#{assets_opts[:"css_folder"]}|#{assets_opts[:"js_folder"]})" << \
             '/(.*)(?:\.(css|js)|http.*)$'
           )
         end
@@ -316,7 +296,7 @@ class Roda
             content_type = type == 'css' ? 'text/css' : 'application/javascript'
 
             response.headers.merge!({
-              "Content-Type" => content_type + '; charset=UTF-8',
+              'Content-Type' => "#{content_type}; charset=UTF-8"
             }.merge(scope.assets_opts[:headers]))
 
             scope.render_asset file, type
