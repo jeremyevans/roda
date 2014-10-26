@@ -46,8 +46,7 @@ class Roda
     # :js_engine :: default engine to use for js.
     # :concat_only :: whether to just concatenate instead of concatentating
     #                 and compressing files (default: false)
-    # :concat :: whether to turn on and off concating files (default: false)
-    # :compiled :: whether to turn on and off using compiled files (default: false)
+    # :compiled :: whether to turn on using compiled files (default: false)
     # :headers :: Add additional headers to your rendered files.
     module Assets
 
@@ -74,7 +73,6 @@ class Roda
         opts[:css_engine]    ||= 'scss'
         opts[:js_engine]     ||= 'coffee'
         opts[:concat_only]   = false unless opts.has_key?(:concat_only)
-        opts[:concat]        = false unless opts.has_key?(:concat)
         opts[:compiled]      = false unless opts.has_key?(:compiled)
         opts[:headers]       ||= {}
 
@@ -173,7 +171,7 @@ class Roda
           path    = "#{assets_opts[:prefix]}#{assets_opts[:"#{type}_folder"]}"
 
           # Create a tag for each individual file
-          if assets_opts[:compiled] || assets_opts[:concat]
+          if assets_opts[:compiled]
             name = "#{assets_opts[:compiled_name]}/#{folder.join('-')}"
             # Generate unique url so middleware knows
             # to check for # compile/concat
@@ -206,21 +204,12 @@ class Roda
           # convert back url safe to period
           file.gsub!(/(\$2E|%242E)/, '.')
 
-          if !assets_opts[:compiled] && !assets_opts[:concat]
-            read_asset_file file, type
-          elsif assets_opts[:compiled]
+          if assets_opts[:compiled]
             folder = file.split('/')[1].split('-', 2)
             path = "#{assets_opts.values_at(:compiled_path, :"#{type}_folder", :compiled_name).join('/')}#{".#{folder[1]}" if folder.length > 1}.#{type}"
             File.read(path)
           else
-            content = ''
-            folder  = file.split('/')[1].split('-', 2)
-            files = (folder.length == 1 ? assets_opts[:"#{folder[0]}"] : \
-                    assets_opts[:"#{folder[0]}"][:"#{folder[1]}"])
-
-            files.each{|f| content << read_asset_file(f, type)}
-
-            content
+            read_asset_file file, type
           end
         end
 

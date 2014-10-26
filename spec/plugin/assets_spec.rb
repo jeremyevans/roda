@@ -77,14 +77,6 @@ if run_tests
       html.scan(/<link/).length.should == 1
     end
 
-    it 'should join all files when concat is true' do
-      app.assets_opts[:concat] = true
-      path = app.assets_opts[:compiled_name] + '/css/123'
-      css = body("/assets/css/#{path}.css")
-      css.should include('color: red')
-      css.should include('color: blue')
-    end
-
     it 'should grab compiled files' do
       app.compile_assets
       app.assets_opts[:compiled] = true
