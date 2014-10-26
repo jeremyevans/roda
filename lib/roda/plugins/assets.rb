@@ -47,7 +47,9 @@ class Roda
     # :concat_only :: whether to just concatenate instead of concatentating
     #                 and compressing files (default: false)
     # :compiled :: whether to turn on using compiled files (default: false)
-    # :headers :: Add additional headers to your rendered files.
+    # :headers :: Add additional headers to both js and css rendered files.
+    # :css_headers :: Add additional headers to your css rendered files.
+    # :js_headers :: Add additional headers to your js rendered files.
     module Assets
 
       def self.load_dependencies(app, _opts)
@@ -74,7 +76,15 @@ class Roda
         opts[:js_engine]     ||= 'coffee'
         opts[:concat_only]   = false unless opts.has_key?(:concat_only)
         opts[:compiled]      = false unless opts.has_key?(:compiled)
-        opts[:headers]       ||= {}
+
+        opts[:css_headers]   ||= {} 
+        opts[:js_headers]    ||= {} 
+        if headers = opts[:headers]
+          opts[:css_headers] ||= headers.merge(opts[:css_headers])
+          opts[:js_headers]  ||= headers.merge(opts[:js_headers])
+        end
+        opts[:css_headers]['Content-Type'] ||= "text/css; charset=UTF-8"
+        opts[:js_headers]['Content-Type']  ||= "application/javascript; charset=UTF-8"
 
         if opts.fetch(:cache, true)
           opts[:cache] = app.thread_safe_cache
@@ -89,9 +99,11 @@ class Roda
         # affecting the parent class.
         def inherited(subclass)
           super
-          opts         = subclass.opts[:assets] = assets_opts.dup
-          opts[:css]   = opts[:css].dup
-          opts[:js]    = opts[:js].dup
+          opts               = subclass.opts[:assets] = assets_opts.dup
+          opts[:css]         = opts[:css].dup
+          opts[:js]          = opts[:js].dup
+          opts[:css_headers] = opts[:css_headers].dup
+          opts[:js_headers]  = opts[:js_headers].dup
           opts[:cache] = thread_safe_cache if opts[:cache]
         end
 
@@ -267,13 +279,8 @@ class Roda
         # Handles calls to the assets route
         def assets
           on self.class.assets_route_regexp do |file, type|
-            content_type = type == 'css' ? 'text/css' : 'application/javascript'
-
-            response.headers.merge!({
-              'Content-Type' => "#{content_type}; charset=UTF-8"
-            }.merge(scope.assets_opts[:headers]))
-
-            scope.render_asset file, type
+            response.headers.merge!(scope.assets_opts[:"#{type}_headers"])
+            scope.render_asset(file, type)
           end
         end
       end
