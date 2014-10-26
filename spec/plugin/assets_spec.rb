@@ -1,12 +1,23 @@
 require File.expand_path("spec_helper", File.dirname(File.dirname(__FILE__)))
 
 begin
-  require 'tilt'
-  require 'tilt/sass'
-  require 'tilt/coffee'
+  for lib in %w'tilt tilt/sass tilt/coffee'
+    require lib
+  end
+  run_tests = true
 rescue LoadError
-  warn 'tilt not installed, skipping assets plugin test'
-else
+  warn "#{lib} not installed, skipping assets plugin test"
+rescue
+  # ExecJS::RuntimeUnavailable may or may not be defined, so can't use do:
+  #   rescue ExecJS::RuntimeUnavailable'
+  if $!.class.name == 'ExecJS::RuntimeUnavailable'
+    warn "#{$!.to_s}: skipping assets plugin tests"
+  else
+    raise
+  end
+end
+
+if run_tests
   describe 'assets plugin' do
     before do
       app(:bare) do
@@ -46,13 +57,12 @@ else
       body('/assets/css/app.css').should include('color: red')
       body('/assets/css/%242E%242E/raw.css').should include('color: blue')
       body('/assets/js/head/app.js').should include('console.log')
-      body('/assets/css/http://google.com').should include('google.com')
     end
 
     it 'should contain proper assets html tags' do
       html = body '/test'
-      html.scan(/<link/).length.should eq 2
-      html.scan(/<script/).length.should eq 1
+      html.scan(/<link/).length.should == 2
+      html.scan(/<script/).length.should == 1
       html.should include('link')
       html.should include('script')
     end
@@ -60,16 +70,16 @@ else
     it 'should only show one link when concat/compile is true' do
       app.assets_opts[:concat] = true
       html = body '/test'
-      html.scan(/<link/).length.should eq 1
+      html.scan(/<link/).length.should == 1
 
       app.assets_opts[:compiled] = true
       html = body '/test'
-      html.scan(/<link/).length.should eq 1
+      html.scan(/<link/).length.should == 1
     end
 
     it 'should join all files when concat is true' do
       app.assets_opts[:concat] = true
-      path = app.assets_opts[:concat_name] + '/css/123'
+      path = app.assets_opts[:compiled_name] + '/css/123'
       css = body("/assets/css/#{path}.css")
       css.should include('color: red')
       css.should include('color: blue')
