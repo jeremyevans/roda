@@ -50,6 +50,7 @@ class Roda
     # :headers :: Add additional headers to both js and css rendered files.
     # :css_headers :: Add additional headers to your css rendered files.
     # :js_headers :: Add additional headers to your js rendered files.
+    # :unique_ids :: A hash of types/folders to the unique id for the compiled asset file.
     module Assets
 
       def self.load_dependencies(app, _opts)
@@ -76,6 +77,7 @@ class Roda
         opts[:js_engine]     ||= 'coffee'
         opts[:concat_only]   = false unless opts.has_key?(:concat_only)
         opts[:compiled]      = false unless opts.has_key?(:compiled)
+        opts[:unique_ids]    ||= {} 
 
         opts[:css_headers]   ||= {} 
         opts[:js_headers]    ||= {} 
@@ -112,31 +114,24 @@ class Roda
           opts[:assets]
         end
 
-        # Generates a unique id, this is used to keep concat/compiled files
-        # from caching in the browser when they are generated
-        def assets_unique_id(type)
-          if (unique_id = instance_variable_get("@#{type}"))
-            unique_id
-          else
-            path    = "#{assets_opts.values_at(:compiled_path, :"#{type}_folder", :compiled_name).join('/')}.#{type}"
-            content = File.exist?(path) ? File.read(path) : ''
-
-            instance_variable_set("@#{type}", Digest::SHA1.hexdigest(content))
-          end
-        end
-
         def compile_assets
+          unique_ids = {}
+
           %w(css js).each do |type|
             files = assets_opts[type.to_sym]
 
             if files.is_a? Array
-              compile_process_files(files, type, type)
+              key, id = compile_process_files(files, type, type)
+              unique_ids[key] = id
             else
               files.each do |folder, f|
-                compile_process_files(f, type, folder)
+                key, id = compile_process_files(f, type, folder)
+                unique_ids[key] = id
               end
             end
           end
+
+          unique_ids
         end
 
         private
@@ -155,7 +150,6 @@ class Roda
             content << app.read_asset_file(file, type)
           end
 
-          path = "#{assets_opts.values_at(:compiled_path, :"#{type}_folder", :compiled_name).join('/')}#{".#{folder}" unless type == folder}.#{type}"
 
           unless assets_opts[:concat_only]
             begin
@@ -166,7 +160,11 @@ class Roda
             end
           end
 
+          key = "type#{".#{folder}" unless type == folder}"
+          unique_id = assets_opts[:unique_ids][key] = Digest::SHA1.hexdigest(content)
+          path = "#{assets_opts.values_at(:compiled_path, :"#{type}_folder", :compiled_name).join('/')}#{".#{folder}" unless type == folder}.#{unique_id}.#{type}"
           File.open(path, 'wb'){|f| f.write(content)}
+          [key, unique_id]
         end
       end
 
@@ -175,7 +173,11 @@ class Roda
         def assets(folder, options = {})
           assets_opts = self.class.assets_opts
           attrs   = options.map{|k,v| "#{k}=\"#{v}\""}.join(' ')
-          folder  = [folder] unless folder.is_a? Array
+          if folder.is_a? Array
+            folder_path = ".#{folder}"
+          else
+            folder  = [folder]
+          end
           type    = folder.first
           if type.to_s == 'js'
             tag_start = "<script type=\"text/javascript\" #{attrs} src=\"/#{assets_opts[:prefix]}#{assets_opts[:"#{type}_folder"]}/"
@@ -189,7 +191,7 @@ class Roda
           if assets_opts[:compiled]
             # Generate unique url so middleware knows
             # to check for # compile/concat
-            "#{tag_start}#{assets_opts[:compiled_name]}/#{folder.join('-')}/#{self.class.assets_unique_id(type)}#{tag_end}"
+            "#{tag_start}#{assets_opts[:compiled_name]}#{folder_path}.#{assets_opts["#{type}#{folder_segment}"]}#{tag_end}"
           else
             files = (folder.length == 1 ? assets_opts[:"#{folder[0]}"] : \
                     assets_opts[:"#{folder[0]}"][:"#{folder[1]}"])
