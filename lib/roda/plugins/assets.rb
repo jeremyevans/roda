@@ -210,11 +210,7 @@ class Roda
             read_asset_file file, type
           elsif assets_opts[:compiled]
             folder = file.split('/')[1].split('-', 2)
-            path   = "#{assets_opts[:compiled_path]}/" << \
-                     "#{assets_opts[:"#{type}_folder"]}/" << \
-                     "#{assets_opts[:compiled_name]}" << \
-                     "#{(folder.length > 1 ? ".#{folder[1]}" : '')}.#{type}"
-
+            path = "#{assets_opts.values_at(:compiled_path, :"#{type}_folder", :compiled_name).join('/')}#{".#{folder[1]}" if folder.length > 1}.#{type}"
             File.read(path)
           else
             content = ''
