@@ -165,7 +165,7 @@ class Roda
       module InstanceMethods
         # This will ouput the files with the appropriate tags
         def assets(folder, options = {})
-          attrs   = options.map{ |k, v| "#{k}=\"#{v}\"" }
+          attrs   = options.map{|k,v| "#{k}=\"#{v}\""}
           tags    = []
           folder  = [folder] unless folder.is_a? Array
           type    = folder.first
@@ -218,7 +218,7 @@ class Roda
             files = (folder.length == 1 ? assets_opts[:"#{folder[0]}"] : \
                     assets_opts[:"#{folder[0]}"][:"#{folder[1]}"])
 
-            files.each { |f| content << read_asset_file(f, type) }
+            files.each{|f| content << read_asset_file(f, type)}
 
             content
           end
