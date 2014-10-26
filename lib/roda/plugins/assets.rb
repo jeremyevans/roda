@@ -45,8 +45,10 @@ class Roda
       # :prefix :: prefix for assets path, including trailing slash if not empty (default: 'assets/')
       # :css_engine :: default engine to use for css.
       # :js_engine :: default engine to use for js.
-      # :concat :: Boolean to turn on and off concating files.
-      # :compiled :: Boolean to turn on and off using compiled files.
+      # :concat_only :: whether to just concatenate instead of concatentating
+      #                 and compressing files (default: false)
+      # :concat :: whether to turn on and off concating files (default: false)
+      # :compiled :: whether to turn on and off using compiled files (default: false)
       # :headers :: Add additional headers to your rendered files.
 
       def self.load_dependencies(app, _opts)
@@ -71,8 +73,9 @@ class Roda
         opts[:prefix]        ||= 'assets/'
         opts[:css_engine]    ||= 'scss'
         opts[:js_engine]     ||= 'coffee'
-        opts[:concat]        ||= false
-        opts[:compiled]      ||= false
+        opts[:concat_only]   = false unless opts.has_key?(:concat_only)
+        opts[:concat]        = false unless opts.has_key?(:concat)
+        opts[:compiled]      = false unless opts.has_key?(:compiled)
         opts[:headers]       ||= {}
 
         opts.fetch(:cache, true) && opts[:cache] = app.thread_safe_cache
@@ -112,10 +115,7 @@ class Roda
           end
         end
 
-        def compile_assets(concat_only = false)
-          # if true don't YUI compress
-          assets_opts[:concat_only] = concat_only
-
+        def compile_assets
           %w(css js).each do |type|
             files = assets_opts[type.to_sym]
 
