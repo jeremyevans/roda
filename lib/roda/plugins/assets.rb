@@ -42,7 +42,7 @@ class Roda
       # :path :: Path to your assets directory.
       # :compiled_path :: Path to save your compiled files to.
       # :compiled_name :: Compiled file name.
-      # :route :: URI route to render your assets. i.e. /assets/js/yourfile.js.
+      # :prefix :: prefix for assets path, including trailing slash if not empty (default: 'assets/')
       # :css_engine :: default engine to use for css.
       # :js_engine :: default engine to use for js.
       # :concat :: Boolean to turn on and off concating files.
@@ -68,7 +68,7 @@ class Roda
         opts[:path]          ||= File.expand_path('assets', Dir.pwd)
         opts[:compiled_path] ||= opts[:path]
         opts[:compiled_name] ||= 'compiled.roda.assets'
-        opts[:route]         ||= 'assets'
+        opts[:prefix]        ||= 'assets/'
         opts[:css_engine]    ||= 'scss'
         opts[:js_engine]     ||= 'coffee'
         opts[:concat]        ||= false
@@ -170,7 +170,7 @@ class Roda
           folder  = [folder] unless folder.is_a? Array
           type    = folder.first
           attr    = type.to_s == 'js' ? 'src' : 'href'
-          path    = "#{assets_opts[:route]}/#{assets_opts[:"#{type}_folder"]}"
+          path    = "#{assets_opts[:prefix]}#{assets_opts[:"#{type}_folder"]}"
 
           # Create a tag for each individual file
           if assets_opts[:compiled] || assets_opts[:concat]
@@ -285,7 +285,7 @@ class Roda
         # The regexp for the assets route
         def assets_route_regexp
           # FIXME: Should be changed to only match known assets
-          @assets_route_regexp ||= %r{#{assets_opts[:route]}/(?:#{assets_opts[:css_folder]}|#{assets_opts[:js_folder]})/(.+)\.(css|js)\z}
+          @assets_route_regexp ||= %r{#{assets_opts[:prefix]}(?:#{assets_opts[:css_folder]}|#{assets_opts[:js_folder]})/(.+)\.(css|js)\z}
         end
       end
 
