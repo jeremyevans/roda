@@ -22,10 +22,8 @@ if run_tests
     before do
       app(:bare) do
         plugin(:assets, {
-          path: './spec/dummy/assets',
-          css_engine: 'scss',
-          js_engine: 'coffee',
-          headers: {
+          :path => './spec/dummy/assets',
+          :headers => {
             "Cache-Control"             => 'public, max-age=2592000, no-transform',
             'Connection'                => 'keep-alive',
             'Age'                       => '25637',
@@ -35,7 +33,7 @@ if run_tests
         })
 
         assets_opts[:css] = ['app', '../raw.css']
-        assets_opts[:js]  = { head: ['app'] }
+        assets_opts[:js]  = { :head => ['app'] }
 
         route do |r|
           r.assets

@@ -226,14 +226,14 @@ class Roda
 
           if File.exist?("#{file}.#{engine}")
             # render via tilt
-            render path: "#{file}.#{engine}"
+            render(:path => "#{file}.#{engine}")
           elsif File.exist?("#{file}.#{type}")
             # read file directly
             File.read("#{file}.#{type}")
           elsif file =~ /\.#{type}\z/
             File.read(file)
           else
-            render(path: file)
+            render(:path => file)
           end
         end
 
