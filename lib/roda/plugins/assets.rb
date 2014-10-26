@@ -147,11 +147,7 @@ class Roda
             content << app.read_asset_file(file, type)
           end
 
-          path = assets_opts[:compiled_path] \
-                 + "/#{assets_opts[:"#{type}_folder"]}/" \
-                 + assets_opts[:compiled_name] \
-                 + (type != folder ? ".#{folder}" : '') \
-                 + ".#{type}"
+          path = "#{assets_opts.values_at(:compiled_path, :"#{type}_folder", :compiled_name).join('/')}#{".#{folder}" unless type == folder}.#{type}"
 
           unless assets_opts[:concat_only]
             begin
