@@ -55,7 +55,7 @@ class Roda
         app.plugin :render
       end
 
-      def self.configure(app, opts = {}, &_block)
+      def self.configure(app, opts = {})
         if app.opts[:assets]
           app.opts[:assets].merge!(opts)
         else
@@ -78,7 +78,9 @@ class Roda
         opts[:compiled]      = false unless opts.has_key?(:compiled)
         opts[:headers]       ||= {}
 
-        opts.fetch(:cache, true) && opts[:cache] = app.thread_safe_cache
+        if opts.fetch(:cache, true)
+          opts[:cache] = app.thread_safe_cache
+        end
       end
 
       # need to flattern js/css opts
@@ -139,7 +141,9 @@ class Roda
           content = ''
 
           files.each do |file|
-            (type != folder && !file[/\A\.\//]) && file = "#{folder}/#{file}"
+            if type != folder && file !~ /\A\.\//
+              file = "#{folder}/#{file}"
+            end
             content << app.read_asset_file(file, type)
           end
 
@@ -236,7 +240,9 @@ class Roda
           folder = assets_opts[:"#{type}_folder"]
 
           # If it's not a parent directory append the full path
-          !file[/\A\.\//] && file = "#{assets_opts[:path]}/#{folder}/#{file}"
+          if file !~ /\A\.\//
+            file = "#{assets_opts[:path]}/#{folder}/#{file}"
+          end
 
           if File.exist?("#{file}.#{engine}")
             # render via tilt
