@@ -161,8 +161,7 @@ class Roda
       module InstanceMethods
         # This will ouput the files with the appropriate tags
         def assets(folder, options = {})
-          attrs   = options.map{|k,v| "#{k}=\"#{v}\""}
-          tags    = []
+          attrs   = options.map{|k,v| "#{k}=\"#{v}\""}.join(' ')
           folder  = [folder] unless folder.is_a? Array
           type    = folder.first
           attr    = type.to_s == 'js' ? 'src' : 'href'
@@ -173,28 +172,18 @@ class Roda
             name = "#{assets_opts[:compiled_name]}/#{folder.join('-')}"
             # Generate unique url so middleware knows
             # to check for # compile/concat
-            attrs.unshift(
-              "#{attr}=\"/#{path}/#{name}/#{assets_unique_id(type)}.#{type}\""
-            )
-            # Return tag string
-            send("#{type}_assets_tag", attrs.join(' '))
+            attrs << " #{attr}=\"/#{path}/#{name}/#{assets_unique_id(type)}.#{type}\""
+            send("#{type}_assets_tag", attrs)
           else
             files = (folder.length == 1 ? assets_opts[:"#{folder[0]}"] : \
                     assets_opts[:"#{folder[0]}"][:"#{folder[1]}"])
 
-            files.each do |file|
+            files.map do |file|
               # This allows you to do things like:
               # assets_opts[:css] = ['app', './bower/jquery/jquery-min.js']
               file.gsub!(/\./, '$2E')
-              # Add tags to the tags array
-              tags << send(
-                "#{type}_assets_tag",
-                attrs.dup.unshift("#{attr}=\"/#{path}/#{file}.#{type}\"")
-                         .join(' ')
-              )
-            end
-            # Return tags as string
-            tags.join "\n"
+              send("#{type}_assets_tag", "#{attrs} #{attr}=\"/#{path}/#{file}.#{type}\"")
+            end.join("\n")
           end
         end
 

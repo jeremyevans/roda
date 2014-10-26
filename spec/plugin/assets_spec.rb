@@ -67,11 +67,7 @@ if run_tests
       html.should include('script')
     end
 
-    it 'should only show one link when concat/compile is true' do
-      app.assets_opts[:concat] = true
-      html = body '/test'
-      html.scan(/<link/).length.should == 1
-
+    it 'should only show one link when :compiled is true' do
       app.assets_opts[:compiled] = true
       html = body '/test'
       html.scan(/<link/).length.should == 1
