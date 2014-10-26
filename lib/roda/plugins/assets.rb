@@ -106,10 +106,8 @@ class Roda
           if (unique_id = instance_variable_get("@#{type}"))
             unique_id
           else
-            path    = "#{assets_opts[:compiled_path]}\
-                      /#{assets_opts[:"#{type}_folder"]}"
-            file    = "#{path}/#{assets_opts[:compiled_name]}.#{type}"
-            content = File.exist?(file) ? File.read(file) : ''
+            path    = "#{assets_opts.values_at(:compiled_path, :"#{type}_folder", :compiled_name).join('/')}.#{type}"
+            content = File.exist?(path) ? File.read(path) : ''
 
             instance_variable_set("@#{type}", Digest::SHA1.hexdigest(content))
           end
