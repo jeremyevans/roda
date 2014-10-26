@@ -243,8 +243,10 @@ class Roda
           elsif File.exist?("#{file}.#{type}")
             # read file directly
             File.read("#{file}.#{type}")
+          elsif file =~ /\.#{type}\z/
+            File.read(file)
           else
-            !file[/\.#{type}$/] ? render(path: file) : File.read(file)
+            render(path: file)
           end
         end
 
