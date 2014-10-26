@@ -1,55 +1,55 @@
 class Roda
   module RodaPlugins
+    # The assets plugin adds support for rendering your front end files using
+    # the tilt library.  You have one instance method +assets+ and a class
+    # method +compile_assets+.
+    #
+    #   plugin(:assets, {
+    #     css: ['some_file'],
+    #     js:  ['some_file']
+    #   })
+    #
+    #   route do |r|
+    #     r.assets
+    #   end
+    #
+    # In your views you'd then use the code below to render tags for each file
+    #   assets(:css)
+    #   assets(:js)
+    #
+    # You can add attributes to the tags by simply doing:
+    #   assets(:css, media: 'print')
+    #
+    # Assets also supports groups incase you have different css/js files for
+    # your front end and back end.  To do this you'd simply do:
+    #
+    #   plugin(:assets {
+    #     css: {
+    #       frontend: ['some_frontend_file'],
+    #       backend:  ['some_backend_file']
+    #     }
+    #   })
+    #
+    # Then in your view code just do:
+    #   assets [:css, :frontend]
+    #
+    # You can provide options to the plugin method, or later by modifying
+    # +assets_opts+.
+    #
+    # :js_folder :: Folder name containing your javascript.
+    # :css_folder :: Folder name containing your stylesheets.
+    # :path :: Path to your assets directory.
+    # :compiled_path :: Path to save your compiled files to.
+    # :compiled_name :: Compiled file name.
+    # :prefix :: prefix for assets path, including trailing slash if not empty (default: 'assets/')
+    # :css_engine :: default engine to use for css.
+    # :js_engine :: default engine to use for js.
+    # :concat_only :: whether to just concatenate instead of concatentating
+    #                 and compressing files (default: false)
+    # :concat :: whether to turn on and off concating files (default: false)
+    # :compiled :: whether to turn on and off using compiled files (default: false)
+    # :headers :: Add additional headers to your rendered files.
     module Assets
-      # The assets plugin adds support for rendering your front end files using
-      # the tilt library.  You have one instance method +assets+ and a class
-      # method +compile_assets+.
-      #
-      #   plugin(:assets, {
-      #     css: ['some_file'],
-      #     js:  ['some_file']
-      #   })
-      #
-      #   route do |r|
-      #     r.assets
-      #   end
-      #
-      # In your views you'd then use the code below to render tags for each file
-      #   assets(:css)
-      #   assets(:js)
-      #
-      # You can add attributes to the tags by simply doing:
-      #   assets(:css, media: 'print')
-      #
-      # Assets also supports groups incase you have different css/js files for
-      # your front end and back end.  To do this you'd simply do:
-      #
-      #   plugin(:assets {
-      #     css: {
-      #       frontend: ['some_frontend_file'],
-      #       backend:  ['some_backend_file']
-      #     }
-      #   })
-      #
-      # Then in your view code just do:
-      #   assets [:css, :frontend]
-      #
-      # You can provide options to the plugin method, or later by modifying
-      # +assets_opts+.
-      #
-      # :js_folder :: Folder name containing your javascript.
-      # :css_folder :: Folder name containing your stylesheets.
-      # :path :: Path to your assets directory.
-      # :compiled_path :: Path to save your compiled files to.
-      # :compiled_name :: Compiled file name.
-      # :prefix :: prefix for assets path, including trailing slash if not empty (default: 'assets/')
-      # :css_engine :: default engine to use for css.
-      # :js_engine :: default engine to use for js.
-      # :concat_only :: whether to just concatenate instead of concatentating
-      #                 and compressing files (default: false)
-      # :concat :: whether to turn on and off concating files (default: false)
-      # :compiled :: whether to turn on and off using compiled files (default: false)
-      # :headers :: Add additional headers to your rendered files.
 
       def self.load_dependencies(app, _opts)
         app.plugin :render
