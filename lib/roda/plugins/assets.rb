@@ -150,14 +150,15 @@ class Roda
                  + ".#{type}"
 
           unless assets_opts[:concat_only]
-            require 'yuicompressor'
-
-            content = YUICompressor.send(
-              "compress_#{type}", content, munge: true
-            )
+            begin
+              require 'yuicompressor'
+              content = YUICompressor.send("compress_#{type}", content, :munge => true)
+            rescue LoadError
+              # yuicompressor not available, just use concatenated, uncompressed output
+            end
           end
 
-          File.write path, content
+          File.open(path, 'wb'){|f| f.write(content)}
         end
       end
 
