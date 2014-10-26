@@ -282,20 +282,17 @@ class Roda
           roda_class.assets_opts
         end
 
-        # The regex for the assets route
-        def assets_route_regex
-          Regexp.new(
-            "#{assets_opts[:route]}/" << \
-            "(#{assets_opts[:"css_folder"]}|#{assets_opts[:"js_folder"]})" << \
-            '/(.*)(?:\.(css|js)|http.*)$'
-          )
+        # The regexp for the assets route
+        def assets_route_regexp
+          # FIXME: Should be changed to only match known assets
+          @assets_route_regexp ||= %r{#{assets_opts[:route]}/(?:#{assets_opts[:css_folder]}|#{assets_opts[:js_folder]})/(.+)\.(css|js)\z}
         end
       end
 
       module RequestMethods
         # Handles calls to the assets route
         def assets
-          on self.class.assets_route_regex do |type, file|
+          on self.class.assets_route_regexp do |file, type|
             content_type = type == 'css' ? 'text/css' : 'application/javascript'
 
             response.headers.merge!({
