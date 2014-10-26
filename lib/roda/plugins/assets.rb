@@ -173,19 +173,23 @@ class Roda
       module InstanceMethods
         # This will ouput the files with the appropriate tags
         def assets(folder, options = {})
+          assets_opts = self.class.assets_opts
           attrs   = options.map{|k,v| "#{k}=\"#{v}\""}.join(' ')
           folder  = [folder] unless folder.is_a? Array
           type    = folder.first
-          attr    = type.to_s == 'js' ? 'src' : 'href'
-          path    = "#{assets_opts[:prefix]}#{assets_opts[:"#{type}_folder"]}"
+          if type.to_s == 'js'
+            tag_start = "<script type=\"text/javascript\" #{attrs} src=\"/#{assets_opts[:prefix]}#{assets_opts[:"#{type}_folder"]}/"
+            tag_end = ".#{type}\"></script>"
+          else
+            tag_start = "<link rel=\"stylesheet\" #{attrs} href=\"/#{assets_opts[:prefix]}#{assets_opts[:"#{type}_folder"]}/"
+            tag_end = ".#{type}\" />"
+          end
 
           # Create a tag for each individual file
           if assets_opts[:compiled]
-            name = "#{assets_opts[:compiled_name]}/#{folder.join('-')}"
             # Generate unique url so middleware knows
             # to check for # compile/concat
-            attrs << " #{attr}=\"/#{path}/#{name}/#{assets_unique_id(type)}.#{type}\""
-            send("#{type}_assets_tag", attrs)
+            "#{tag_start}#{assets_opts[:compiled_name]}/#{folder.join('-')}/#{self.class.assets_unique_id(type)}#{tag_end}"
           else
             files = (folder.length == 1 ? assets_opts[:"#{folder[0]}"] : \
                     assets_opts[:"#{folder[0]}"][:"#{folder[1]}"])
@@ -194,7 +198,7 @@ class Roda
               # This allows you to do things like:
               # assets_opts[:css] = ['app', './bower/jquery/jquery-min.js']
               file.gsub!(/\./, '$2E')
-              send("#{type}_assets_tag", "#{attrs} #{attr}=\"/#{path}/#{file}.#{type}\"")
+              "#{tag_start}#{file}#{tag_end}"
             end.join("\n")
           end
         end
@@ -203,9 +207,9 @@ class Roda
           # convert back url safe to period
           file.gsub!(/(\$2E|%242E)/, '.')
 
-          if assets_opts[:compiled]
+          if self.class.assets_opts[:compiled]
             folder = file.split('/')[1].split('-', 2)
-            path = "#{assets_opts.values_at(:compiled_path, :"#{type}_folder", :compiled_name).join('/')}#{".#{folder[1]}" if folder.length > 1}.#{type}"
+            path = "#{self.class.assets_opts.values_at(:compiled_path, :"#{type}_folder", :compiled_name).join('/')}#{".#{folder[1]}" if folder.length > 1}.#{type}"
             File.read(path)
           else
             read_asset_file file, type
@@ -213,6 +217,8 @@ class Roda
         end
 
         def read_asset_file(file, type)
+          assets_opts = self.class.assets_opts
+
           # set the current engine
           engine = assets_opts[:"#{type}_engine"]
 
@@ -236,30 +242,6 @@ class Roda
             render(:path => file)
           end
         end
-
-        # Shortcut for class opts
-        def assets_opts
-          self.class.assets_opts
-        end
-
-        # Shortcut for class assets unique id
-        def assets_unique_id(*args)
-          self.class.assets_unique_id(*args)
-        end
-
-        private
-
-        # CSS tag template
-        # <link rel="stylesheet" href="theme.css">
-        def css_assets_tag(attrs)
-          "<link rel=\"stylesheet\" #{attrs} />"
-        end
-
-        # JS tag template
-        # <script src="scriptfile.js"></script>
-        def js_assets_tag(attrs)
-          "<script type=\"text/javascript\" #{attrs}></script>"
-        end
       end
 
       module RequestClassMethods
@@ -279,7 +261,7 @@ class Roda
         # Handles calls to the assets route
         def assets
           on self.class.assets_route_regexp do |file, type|
-            response.headers.merge!(scope.assets_opts[:"#{type}_headers"])
+            response.headers.merge!(self.class.assets_opts[:"#{type}_headers"])
             scope.render_asset(file, type)
           end
         end
