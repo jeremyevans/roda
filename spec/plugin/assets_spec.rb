@@ -23,6 +23,7 @@ if run_tests
       app(:bare) do
         plugin(:assets, {
           :path => './spec/dummy/assets',
+          :compiled_path => './spec/dummy/assets',
           :headers => {
             "Cache-Control"             => 'public, max-age=2592000, no-transform',
             'Connection'                => 'keep-alive',
@@ -71,12 +72,16 @@ if run_tests
       html.scan(/<link/).length.should == 1
     end
 
-    it 'should grab compiled files' do
+    it 'should write compiled files' do
       app.compile_assets
-      app.assets_opts[:compiled] = true
-      path = app.assets_opts[:compiled_name] + '/js-head/123'
-      js = body("/assets/js/#{path}.js")
-      js.should include('console.log')
+      app.assets_opts[:compiled].should == true
+      app.new.assets(:css) =~ %r{href="(/assets/css/app\.[a-f0-9]{40}\.css)"}
+      css = $1
+      File.read("spec/dummy#{css}").should =~ /color: red;/
+      File.read("spec/dummy#{css}").should =~ /color: blue;/
+      app.new.assets([:js, :head]) =~ %r{src="(/assets/js/app\.head\.[a-f0-9]{40}\.js)"}
+      js = $1
+      File.read("spec/dummy#{js}").should include('console.log')
     end
   end
 end

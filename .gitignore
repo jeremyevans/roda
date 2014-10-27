@@ -1,7 +1,8 @@
 /roda-*.gem
-/rdoc
-/coverage
+/rdoc/
+/coverage/
 /www/public/*.html
-/www/public/rdoc
-.sass-cache/
-compiled.roda.assets*
+/www/public/rdoc/
+/.sass-cache/
+/spec/dummy/assets/css/app.*.css
+/spec/dummy/assets/js/app.head.*.js

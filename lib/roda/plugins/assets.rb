@@ -1,65 +1,82 @@
 class Roda
   module RodaPlugins
-    # The assets plugin adds support for rendering your front end files using
-    # the tilt library.  You have one instance method +assets+ and a class
-    # method +compile_assets+.
+    # The assets plugin adds support for rendering your CSS and javascript
+    # asset files using the render plugin in development, and compiling them
+    # to a single, compressed file in production.
     #
-    #   plugin(:assets, {
-    #     css: ['some_file'],
-    #     js:  ['some_file']
-    #   })
+    # When loading the plugin, use the :css and :js options
+    # to set the source file(s) to use for CSS and javascript assets:
+    #
+    #   plugin :assets, :css => 'some_file', :js => 'some_file'
+    #
+    # By default, the plugin assumes coffeescript source for javascript files,
+    # and SCSS source for CSS files.  You can override those choices using the
+    # :css_engine and :js_engine options.
+    #
+    # In your routes, call the r.assets method to add a route to your assets:
     #
     #   route do |r|
     #     r.assets
     #   end
     #
-    # In your views you'd then use the code below to render tags for each file
-    #   assets(:css)
-    #   assets(:js)
+    # In your layout view, use the assets method to add links to your CSS and
+    # javascript files assets:
     #
-    # You can add attributes to the tags by simply doing:
-    #   assets(:css, media: 'print')
+    #   <%= assets(:css) %>
+    #   <%= assets(:js) %>
+    #
+    # You can add attributes to the tags by using options:
+    #
+    #   <%= assets(:css, :media => 'print') %>
     #
     # Assets also supports groups incase you have different css/js files for
     # your front end and back end.  To do this you'd simply do:
     #
-    #   plugin(:assets {
-    #     css: {
-    #       frontend: ['some_frontend_file'],
-    #       backend:  ['some_backend_file']
-    #     }
-    #   })
+    #   plugin :assets, :css => {:frontend => 'some_frontend_file',
+    #                            :backend => 'some_backend_file'}
     #
-    # Then in your view code just do:
-    #   assets [:css, :frontend]
+    # Then in your view code use an array argument in your call to assets:
+    #
+    #   <%= assets([:css, :frontend]) %>
+    #
+    # In production, you are generally going to want to compile your assets
+    # into a single file, with you can do by calling compile_assets after
+    # loading the plugin:
+    #
+    #   plugin :assets, :css => 'some_file', :js => 'some_file'
+    #   compile_assets
+    #
+    # After calling compile_assets, calls to assets in your views will default
+    # to a using a single link each to your CSS and javascript compiled asset
+    # files.  By default the compiled files are written to the public folder,
+    # so that they can be served by the webserver.
     #
     # You can provide options to the plugin method, or later by modifying
     # +assets_opts+.
     #
-    # :js_folder :: Folder name containing your javascript.
-    # :css_folder :: Folder name containing your stylesheets.
-    # :path :: Path to your assets directory.
-    # :compiled_path :: Path to save your compiled files to.
-    # :compiled_name :: Compiled file name.
+    # :js_folder :: Folder name containing your javascript (default: 'js')
+    # :css_folder :: Folder name containing your stylesheets (default: 'css')
+    # :path :: Path to your assets directory (default: 'assets')
+    # :compiled_path :: Path to save your compiled files to (default: "public/:prefix")
+    # :compiled_name :: Compiled file name (default: "app")
     # :prefix :: prefix for assets path, including trailing slash if not empty (default: 'assets/')
-    # :css_engine :: default engine to use for css.
-    # :js_engine :: default engine to use for js.
+    # :css_engine :: default engine to use for css (default: 'scss')
+    # :js_engine :: default engine to use for js (default: 'coffee')
     # :concat_only :: whether to just concatenate instead of concatentating
     #                 and compressing files (default: false)
     # :compiled :: whether to turn on using compiled files (default: false)
-    # :headers :: Add additional headers to both js and css rendered files.
-    # :css_headers :: Add additional headers to your css rendered files.
-    # :js_headers :: Add additional headers to your js rendered files.
-    # :unique_ids :: A hash of types/folders to the unique id for the compiled asset file.
+    # :headers :: Add additional headers to both js and css rendered files
+    # :css_headers :: Add additional headers to your css rendered files
+    # :js_headers :: Add additional headers to your js rendered files
+    # :unique_ids :: A hash of types/folders to the unique id for the compiled asset file
     module Assets
-
       def self.load_dependencies(app, _opts)
         app.plugin :render
       end
 
       def self.configure(app, opts = {})
-        if app.opts[:assets]
-          app.opts[:assets].merge!(opts)
+        if app.assets_opts
+          app.assets_opts.merge!(opts)
         else
           app.opts[:assets] = opts.dup
         end
@@ -70,13 +87,13 @@ class Roda
         opts[:js_folder]     ||= 'js'
         opts[:css_folder]    ||= 'css'
         opts[:path]          ||= File.expand_path('assets', Dir.pwd)
-        opts[:compiled_path] ||= opts[:path]
-        opts[:compiled_name] ||= 'compiled.roda.assets'
+        opts[:compiled_name] ||= 'app'
         opts[:prefix]        ||= 'assets/'
+        opts[:compiled_path] ||= "public/#{opts[:prefix]}"
         opts[:css_engine]    ||= 'scss'
         opts[:js_engine]     ||= 'coffee'
-        opts[:concat_only]   = false unless opts.has_key?(:concat_only)
-        opts[:compiled]      = false unless opts.has_key?(:compiled)
+        opts[:concat_only]     = false unless opts.has_key?(:concat_only)
+        opts[:compiled]        = opts.has_key?(:unique_ids) unless opts.has_key?(:compiled)
         opts[:unique_ids]    ||= {} 
 
         opts[:css_headers]   ||= {} 
@@ -114,42 +131,41 @@ class Roda
           opts[:assets]
         end
 
-        def compile_assets
-          unique_ids = {}
+        def compile_assets(type=nil)
+          if type == nil
+            compile_assets(:css)
+            compile_assets(:js)
+          else
+            files = assets_opts[type]
 
-          %w(css js).each do |type|
-            files = assets_opts[type.to_sym]
-
-            if files.is_a? Array
-              key, id = compile_process_files(files, type, type)
-              unique_ids[key] = id
-            else
+            case files
+            when Hash
               files.each do |folder, f|
-                key, id = compile_process_files(f, type, folder)
-                unique_ids[key] = id
+                compile_process_files(Array(f), type.to_s, folder.to_s)
               end
+            when nil
+              # No files for this asset type
+            else
+              compile_process_files(Array(files), type.to_s, type.to_s)
             end
           end
 
-          unique_ids
+          assets_opts[:compiled] = true
+          assets_opts[:unique_ids]
         end
 
         private
 
         def compile_process_files(files, type, folder)
-          # start app instance
+          require 'digest/sha1'
+
           app = new
-
-          # content to render to file
-          content = ''
-
-          files.each do |file|
+          content = files.map do |file|
             if type != folder && file !~ /\A\.\//
               file = "#{folder}/#{file}"
             end
-            content << app.read_asset_file(file, type)
-          end
-
+            app.read_asset_file(file, type)
+          end.join
 
           unless assets_opts[:concat_only]
             begin
@@ -160,11 +176,11 @@ class Roda
             end
           end
 
-          key = "type#{".#{folder}" unless type == folder}"
+          key = "#{type}#{".#{folder}" unless type == folder}"
           unique_id = assets_opts[:unique_ids][key] = Digest::SHA1.hexdigest(content)
           path = "#{assets_opts.values_at(:compiled_path, :"#{type}_folder", :compiled_name).join('/')}#{".#{folder}" unless type == folder}.#{unique_id}.#{type}"
           File.open(path, 'wb'){|f| f.write(content)}
-          [key, unique_id]
+          nil
         end
       end
 
@@ -173,8 +189,8 @@ class Roda
         def assets(folder, options = {})
           assets_opts = self.class.assets_opts
           attrs   = options.map{|k,v| "#{k}=\"#{v}\""}.join(' ')
-          if folder.is_a? Array
-            folder_path = ".#{folder}"
+          if folder.is_a?(Array)
+            folder_path = ".#{folder.last}"
           else
             folder  = [folder]
           end
@@ -191,7 +207,7 @@ class Roda
           if assets_opts[:compiled]
             # Generate unique url so middleware knows
             # to check for # compile/concat
-            "#{tag_start}#{assets_opts[:compiled_name]}#{folder_path}.#{assets_opts["#{type}#{folder_segment}"]}#{tag_end}"
+            "#{tag_start}#{assets_opts[:compiled_name]}#{folder_path}.#{assets_opts[:unique_ids]["#{type}#{folder_path}"]}#{tag_end}"
           else
             files = (folder.length == 1 ? assets_opts[:"#{folder[0]}"] : \
                     assets_opts[:"#{folder[0]}"][:"#{folder[1]}"])
