@@ -1,3 +1,4 @@
+require 'awesome_print'
 require File.expand_path("spec_helper", File.dirname(File.dirname(__FILE__)))
 
 begin
@@ -54,8 +55,8 @@ if run_tests
 
     it 'should serve proper assets' do
       body('/assets/css/app.css').should include('color: red')
-      body('/assets/css/%242E%242E/raw.css').should include('color: blue')
-      body('/assets/js/head/app.js').should include('console.log')
+      # body('/assets/css/%242E%242E/raw.css').should include('color: blue')
+      # body('/assets/js/head/app.js').should include('console.log')
     end
 
     it 'should contain proper assets html tags' do
@@ -82,6 +83,10 @@ if run_tests
       app.new.assets([:js, :head]) =~ %r{src="(/assets/js/app\.head\.[a-f0-9]{40}\.js)"}
       js = $1
       File.read("spec/dummy#{js}").should include('console.log')
+    end
+
+    it 'should only allow files in your list' do
+      body('/assets/css/%242E%242E/%242E%242E/no_access.css').should_not include('no access')
     end
   end
 end
