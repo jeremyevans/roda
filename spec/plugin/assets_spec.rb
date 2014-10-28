@@ -1,4 +1,3 @@
-require 'awesome_print'
 require File.expand_path("spec_helper", File.dirname(File.dirname(__FILE__)))
 
 begin

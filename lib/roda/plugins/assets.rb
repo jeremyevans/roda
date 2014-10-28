@@ -270,12 +270,12 @@ class Roda
 
         # The regexp for the assets route
         def assets_route_regexp
-          css_assets = flatten_nested_hash(assets_opts[:css],'css').join('|')
-          js_assets  = flatten_nested_hash(assets_opts[:js], 'js').join('|')
-          # ap flatten_nested_hash(assets_opts[:css])
-          regex = Regexp.new "#{assets_opts[:prefix]}(?:#{assets_opts[:css_folder]}|#{assets_opts[:js_folder]})/(#{js_assets}|#{css_assets})(?:\\.|)(css|js|)\\z"
-          # FIXME: Should be changed to only match known assets
-          @assets_route_regexp ||= regex
+          @assets_route_regexp ||= begin
+            css_assets = flatten_nested_hash(assets_opts[:css],'css').join('|')
+            js_assets  = flatten_nested_hash(assets_opts[:js], 'js').join('|')
+
+            Regexp.new "#{assets_opts[:prefix]}(?:#{assets_opts[:css_folder]}|#{assets_opts[:js_folder]})/(#{js_assets}|#{css_assets})(?:\\.|)(css|js|)\\z"
+          end
         end
 
         def flatten_nested_hash(categories, type)
