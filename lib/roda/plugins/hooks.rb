@@ -31,7 +31,7 @@ class Roda
     module Hooks
       def self.configure(app)
         app.opts[:before_hook] ||= nil
-        app.opts[:after_hook] ||= nil
+        app.opts[:after_hook]  ||= nil
       end
 
       module ClassMethods

@@ -94,10 +94,10 @@ class Roda
         end
 
         opts = app.opts[:render]
-        opts[:engine] ||= "erb"
-        opts[:ext] = nil unless opts.has_key?(:ext)
-        opts[:views] ||= File.expand_path("views", Dir.pwd)
-        opts[:layout_opts] = (opts[:layout_opts] || {}).dup
+        opts[:engine]     ||= "erb"
+        opts[:ext]          = nil unless opts.has_key?(:ext)
+        opts[:views]      ||= File.expand_path("views", Dir.pwd)
+        opts[:layout_opts]  = (opts[:layout_opts] || {}).dup
 
         if layout = orig_opts.fetch(:layout, true)
           opts[:layout] = true unless opts.has_key?(:layout)
@@ -148,9 +148,9 @@ class Roda
         def render(template, opts = OPTS, &block)
           opts = find_template(parse_template_opts(template, opts))
           cached_template(opts) do
-            template_opts = render_opts[:template_opts]
+            template_opts         = render_opts[:template_opts]
             current_template_opts = opts[:template_opts]
-            template_opts = template_opts.merge(current_template_opts) if current_template_opts
+            template_opts         = template_opts.merge(current_template_opts) if current_template_opts
             opts[:template_class].new(opts[:path], 1, template_opts, &opts[:template_block])
           end.render(self, (opts[:locals]||OPTS), &block)
         end
@@ -200,12 +200,12 @@ class Roda
         # and template block to use for the render.
         def find_template(opts)
           if content = opts[:inline]
-            path = opts[:path] = content
-            template_class = opts[:template_class] ||= ::Tilt[opts[:engine] || render_opts[:engine]]
+            path                  = opts[:path] = content
+            template_class        = opts[:template_class] ||= ::Tilt[opts[:engine] || render_opts[:engine]]
             opts[:template_block] = Proc.new{content}
           else
-            path = opts[:path] ||= template_path(opts)
-            template_class = opts[:template_class]
+            path                    = opts[:path] ||= template_path(opts)
+            template_class          = opts[:template_class]
             opts[:template_class] ||= ::Tilt
           end
 

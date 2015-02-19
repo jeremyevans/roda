@@ -15,7 +15,7 @@ class Roda
     # database.
     #
     # There are a couple disadvantages of streaming using chunked encoding.
-    # First is that the layout must be rendered before the content, so any state 
+    # First is that the layout must be rendered before the content, so any state
     # changes made in your content template will not affect the layout template.
     # Second, error handling is reduced, since if an error occurs while
     # rendering a template, a successful response code has already been sent.
@@ -125,11 +125,11 @@ class Roda
     # method is not called until template rendering, the flash may not be
     # rotated.
     module Chunked
-      HTTP_VERSION = 'HTTP_VERSION'.freeze
-      HTTP11 = "HTTP/1.1".freeze
+      HTTP_VERSION      = 'HTTP_VERSION'.freeze
+      HTTP11            = "HTTP/1.1".freeze
       TRANSFER_ENCODING = 'Transfer-Encoding'.freeze
-      CHUNKED = 'chunked'.freeze
-      OPTS = {}.freeze
+      CHUNKED           = 'chunked'.freeze
+      OPTS              = {}.freeze
 
       # Depend on the render plugin
       def self.load_dependencies(app, opts=OPTS)
@@ -149,8 +149,8 @@ class Roda
       # Rack response body instance for chunked responses
       class Body
         CHUNK_SIZE = "%x\r\n".freeze
-        CRLF = "\r\n".freeze
-        FINISH = "0\r\n\r\n".freeze
+        CRLF       = "\r\n".freeze
+        FINISH     = "0\r\n\r\n".freeze
 
         # Save the scope of the current request handling.
         def initialize(scope)
@@ -211,7 +211,7 @@ class Roda
               opts = opts.merge(template)
             end
           end
-          
+
           # Hack so that the arguments don't need to be passed
           # through the response and body objects.
           @_each_chunk_args = [template, opts, block]

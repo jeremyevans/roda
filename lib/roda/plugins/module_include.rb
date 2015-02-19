@@ -36,7 +36,7 @@ class Roda
         def request_module(mod = nil, &block)
           module_include(:request, mod, &block)
         end
-    
+
         # Include the given module in the response class. If a block
         # is provided instead of a module, create a module using the
         # the block. Example:
@@ -62,7 +62,7 @@ class Roda
         def module_include(type, mod)
           if type == :response
             klass = self::RodaResponse
-            iv = :@response_module
+            iv    = :@response_module
           else
             klass = self::RodaRequest
             iv = :@request_module

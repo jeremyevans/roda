@@ -30,15 +30,15 @@ class Roda
     module ErrorEmail
       OPTS = {}.freeze
       DEFAULTS = {
-        :headers=>{},
-        :host=>'localhost',
+        :headers         => {},
+        :host            => 'localhost',
         # :nocov:
-        :emailer=>lambda{|h| Net::SMTP.start(h[:host]){|s| s.send_message(h[:message], h[:from], h[:to])}},
+        :emailer         => lambda{|h| Net::SMTP.start(h[:host]){|s| s.send_message(h[:message], h[:from], h[:to])}},
         # :nocov:
-        :default_headers=>lambda do |h, e|
+        :default_headers => lambda do |h, e|
           {'From'=>h[:from], 'To'=>h[:to], 'Subject'=>"#{h[:prefix]}#{e.class}: #{e.message}"}
         end,
-        :body=>lambda do |s, e|
+        :body            => lambda do |s, e|
           format = lambda{|h| h.map{|k, v| "#{k.inspect} => #{v.inspect}"}.sort.join("\n")}
 
           message = <<END
@@ -76,8 +76,8 @@ END
 
       # Set default opts for plugin.  See ErrorEmail module RDoc for options.
       def self.configure(app, opts=OPTS)
-        email_opts = app.opts[:error_email] ||= DEFAULTS
-        email_opts = email_opts.merge(opts)
+        email_opts           = app.opts[:error_email] ||= DEFAULTS
+        email_opts           = email_opts.merge(opts)
         email_opts[:headers] = email_opts[:headers].dup
         unless email_opts[:to] && email_opts[:from]
           raise RodaError, "must provide :to and :from options to error_email plugin"
@@ -90,11 +90,11 @@ END
       module InstanceMethods
         # Send an email for the given error.
         def error_email(e)
-          email_opts = self.class.opts[:error_email].dup
-          headers = email_opts[:default_headers].call(email_opts, e)
-          headers = headers.merge(email_opts[:headers])
-          headers = headers.map{|k,v| "#{k}: #{v.gsub(/\r?\n/m, "\r\n ")}"}.sort.join("\r\n")
-          body = email_opts[:body].call(self, e)
+          email_opts           = self.class.opts[:error_email].dup
+          headers              = email_opts[:default_headers].call(email_opts, e)
+          headers              = headers.merge(email_opts[:headers])
+          headers              = headers.map{|k,v| "#{k}: #{v.gsub(/\r?\n/m, "\r\n ")}"}.sort.join("\r\n")
+          body                 = email_opts[:body].call(self, e)
           email_opts[:message] = "#{headers}\r\n\r\n#{body}"
           email_opts[:emailer].call(email_opts)
         end
