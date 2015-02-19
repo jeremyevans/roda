@@ -23,7 +23,7 @@ class Roda
     # and the match block yields.
     module BacktrackingArray
       module RequestMethods
-        PATH_INFO = "PATH_INFO".freeze
+        PATH_INFO   = "PATH_INFO".freeze
         SCRIPT_NAME = "SCRIPT_NAME".freeze
 
         private

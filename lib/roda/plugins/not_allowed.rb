@@ -123,8 +123,8 @@ class Roda
         # Set the response status to 405 (Method Not Allowed), and set the Allow header
         # to the given string of allowed request methods.
         def method_not_allowed(verbs)
-          res = response
-          res.status = 405
+          res          = response
+          res.status   = 405
           res['Allow'] = verbs
         end
       end

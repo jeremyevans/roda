@@ -101,19 +101,19 @@ class Roda
     # available in your email views.
     module Mailer
       REQUEST_METHOD = "REQUEST_METHOD".freeze
-      PATH_INFO = "PATH_INFO".freeze
-      SCRIPT_NAME = 'SCRIPT_NAME'.freeze
-      EMPTY_STRING = ''.freeze
-      RACK_INPUT = 'rack.input'.freeze
-      RODA_MAIL = 'roda.mail'.freeze
+      PATH_INFO      = "PATH_INFO".freeze
+      SCRIPT_NAME    = 'SCRIPT_NAME'.freeze
+      EMPTY_STRING   = ''.freeze
+      RACK_INPUT     = 'rack.input'.freeze
+      RODA_MAIL      = 'roda.mail'.freeze
       RODA_MAIL_ARGS = 'roda.mail_args'.freeze
-      MAIL = "MAIL".freeze
-      CONTENT_TYPE = 'Content-Type'.freeze
-      TEXT_PLAIN = "text/plain".freeze
-      OPTS = {}.freeze
+      MAIL           = "MAIL".freeze
+      CONTENT_TYPE   = 'Content-Type'.freeze
+      TEXT_PLAIN     = "text/plain".freeze
+      OPTS           = {}.freeze
 
       # Error raised when the using the mail class method, but the routing
-      # tree doesn't return the mail object. 
+      # tree doesn't return the mail object.
       class Error < ::Roda::RodaError; end
 
       # Set the options for the mailer.  Options:

@@ -22,9 +22,9 @@ class Roda
     #   partial('test')     # uses _test.erb
     #   partial('dir/test') # uses dir/_test.erb
     #
-    # 
+    #
     module PadrinoRender
-      OPTS = {}.freeze
+      OPTS  = {}.freeze
       SLASH = '/'.freeze
 
       # Depend on the render plugin, since this overrides
@@ -41,13 +41,13 @@ class Roda
         end
 
         # Renders the given template without a layout, but
-        # prefixes the template filename to use with an 
+        # prefixes the template filename to use with an
         # underscore.
         def partial(template, opts=OPTS)
           opts = parse_template_opts(template, opts)
           if opts[:template]
-            template = opts[:template].split(SLASH)
-            template[-1] = "_#{template[-1]}"
+            template        = opts[:template].split(SLASH)
+            template[-1]    = "_#{template[-1]}"
             opts[:template] = template.join(SLASH)
           end
           render_template(opts)

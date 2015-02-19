@@ -3,7 +3,7 @@ class Roda
     # The caching plugin adds methods related to HTTP caching.
     #
     # For proper caching, you should use either the +last_modified+ or
-    # +etag+ request methods.  
+    # +etag+ request methods.
     #
     #   r.get '/albums/:d' do |album_id|
     #     @album = Album[album_id]
@@ -30,7 +30,7 @@ class Roda
     #
     #   response.cache_control :public=>true, :max_age=>60
     #   # Cache-Control: public, max-age=60
-    # 
+    #
     # The +expires+ method is similar, but in addition
     # to setting the HTTP 1.1 Cache-Control header, it also sets
     # the HTTP 1.0 Expires header:
@@ -44,7 +44,7 @@ class Roda
     #
     # Copyright (c) 2007, 2008, 2009 Blake Mizerany
     # Copyright (c) 2010, 2011, 2012, 2013, 2014 Konstantin Haase
-    # 
+    #
     # Permission is hereby granted, free of charge, to any person
     # obtaining a copy of this software and associated documentation
     # files (the "Software"), to deal in the Software without
@@ -53,10 +53,10 @@ class Roda
     # copies of the Software, and to permit persons to whom the
     # Software is furnished to do so, subject to the following
     # conditions:
-    # 
+    #
     # The above copyright notice and this permission notice shall be
     # included in all copies or substantial portions of the Software.
-    # 
+    #
     # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
     # EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
     # OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -69,13 +69,13 @@ class Roda
       OPTS = {}.freeze
 
       module RequestMethods
-        LAST_MODIFIED = 'Last-Modified'.freeze
-        HTTP_IF_NONE_MATCH = 'HTTP_IF_NONE_MATCH'.freeze
-        HTTP_IF_MATCH = 'HTTP_IF_MATCH'.freeze
-        HTTP_IF_MODIFIED_SINCE = 'HTTP_IF_MODIFIED_SINCE'.freeze
+        LAST_MODIFIED            = 'Last-Modified'.freeze
+        HTTP_IF_NONE_MATCH       = 'HTTP_IF_NONE_MATCH'.freeze
+        HTTP_IF_MATCH            = 'HTTP_IF_MATCH'.freeze
+        HTTP_IF_MODIFIED_SINCE   = 'HTTP_IF_MODIFIED_SINCE'.freeze
         HTTP_IF_UNMODIFIED_SINCE = 'HTTP_IF_UNMODIFIED_SINCE'.freeze
-        ETAG = 'ETag'.freeze
-        STAR = '*'.freeze
+        ETAG                     = 'ETag'.freeze
+        STAR                     = '*'.freeze
 
         # Set the last modified time of the resource using the Last-Modified header.
         # The +time+ argument should be a Time instance.
@@ -89,8 +89,8 @@ class Roda
         # with a 412 status.
         def last_modified(time)
           return unless time
-          res = response
-          e = env
+          res                = response
+          e                  = env
           res[LAST_MODIFIED] = time.httpdate
           return if e[HTTP_IF_NONE_MATCH]
           status = res.status
@@ -122,13 +122,13 @@ class Roda
         # etag that doesn't match, immediately returns a response with a 412 status.
         def etag(value, opts=OPTS)
           # Before touching this code, please double check RFC 2616 14.24 and 14.26.
-          weak = opts[:weak]
+          weak         = opts[:weak]
           new_resource = opts.fetch(:new_resource){post?}
 
-          res = response
-          e = env
+          res       = response
+          e         = env
           res[ETAG] = etag = "#{'W/' if weak}\"#{value}\""
-          status = res.status
+          status    = res.status
 
           if (!status || (status >= 200 && status < 300) || status == 304)
             if etag_matches?(e[HTTP_IF_NONE_MATCH], etag, new_resource)
@@ -163,12 +163,12 @@ class Roda
       end
 
       module ResponseMethods
-        UNDERSCORE = '_'.freeze
-        DASH = '-'.freeze
-        COMMA = ', '.freeze
-        CACHE_CONTROL = 'Cache-Control'.freeze
-        EXPIRES = 'Expires'.freeze
-        CONTENT_TYPE = 'Content-Type'.freeze
+        UNDERSCORE     = '_'.freeze
+        DASH           = '-'.freeze
+        COMMA          = ', '.freeze
+        CACHE_CONTROL  = 'Cache-Control'.freeze
+        EXPIRES        = 'Expires'.freeze
+        CONTENT_TYPE   = 'Content-Type'.freeze
         CONTENT_LENGTH = 'Content-Length'.freeze
 
         # Specify response freshness policy for using the Cache-Control header.

@@ -52,7 +52,7 @@ class Roda
       end
 
       module RequestMethods
-        CONTENT_TYPE = 'Content-Type'.freeze
+        CONTENT_TYPE     = 'Content-Type'.freeze
         APPLICATION_JSON = 'application/json'.freeze
 
         private

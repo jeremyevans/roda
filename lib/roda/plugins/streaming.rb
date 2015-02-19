@@ -28,7 +28,7 @@ class Roda
     #
     # Copyright (c) 2007, 2008, 2009 Blake Mizerany
     # Copyright (c) 2010, 2011, 2012, 2013, 2014 Konstantin Haase
-    # 
+    #
     # Permission is hereby granted, free of charge, to any person
     # obtaining a copy of this software and associated documentation
     # files (the "Software"), to deal in the Software without
@@ -37,10 +37,10 @@ class Roda
     # copies of the Software, and to permit persons to whom the
     # Software is furnished to do so, subject to the following
     # conditions:
-    # 
+    #
     # The above copyright notice and this permission notice shall be
     # included in all copies or substantial portions of the Software.
-    # 
+    #
     # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
     # EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
     # OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -89,10 +89,10 @@ class Roda
         # Handle streaming options, see Streaming for details.
         def initialize(opts=OPTS, &back)
           @scheduler = opts[:scheduler] || Scheduler.new(self)
-          @back = back.to_proc
+          @back      = back.to_proc
           @keep_open = opts[:keep_open]
           @callbacks = []
-          @closed = false
+          @closed    = false
 
           if opts[:callback]
             callback(&opts[:callback])

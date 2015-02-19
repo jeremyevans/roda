@@ -42,7 +42,7 @@ class Roda
   # class are added by Roda::RodaPlugins::Base::RequestMethods, the
   # class methods are added by Roda::RodaPlugins::Base::RequestClassMethods.
   class RodaRequest < ::Rack::Request
-    @roda_class = ::Roda
+    @roda_class          = ::Roda
     @match_pattern_cache = ::Roda::RodaCache.new
   end
 
@@ -53,11 +53,11 @@ class Roda
     @roda_class = ::Roda
   end
 
-  @app = nil
+  @app                = nil
   @inherit_middleware = true
-  @middleware = []
-  @opts = {}
-  @route_block = nil
+  @middleware         = []
+  @opts               = {}
+  @route_block        = nil
 
   # Module in which all Roda plugins should be stored. Also contains logic for
   # registering and loading plugins.
@@ -148,13 +148,13 @@ class Roda
           end
           subclass.instance_variable_set(:@route_block, @route_block)
           subclass.send(:build_rack_app)
-          
-          request_class = Class.new(self::RodaRequest)
-          request_class.roda_class = subclass
+
+          request_class                     = Class.new(self::RodaRequest)
+          request_class.roda_class          = subclass
           request_class.match_pattern_cache = thread_safe_cache
           subclass.const_set(:RodaRequest, request_class)
 
-          response_class = Class.new(self::RodaResponse)
+          response_class            = Class.new(self::RodaResponse)
           response_class.roda_class = subclass
           subclass.const_set(:RodaResponse, response_class)
         end
@@ -234,8 +234,8 @@ class Roda
       module InstanceMethods
         # Create a request and response of the appopriate class
         def initialize(env)
-          klass = self.class
-          @_request = klass::RodaRequest.new(self, env)
+          klass      = self.class
+          @_request  = klass::RodaRequest.new(self, env)
           @_response = klass::RodaResponse.new
         end
 
@@ -327,15 +327,15 @@ class Roda
       # Instance methods for RodaRequest, mostly related to handling routing
       # for the request.
       module RequestMethods
-        PATH_INFO = "PATH_INFO".freeze
-        SCRIPT_NAME = "SCRIPT_NAME".freeze
-        REQUEST_METHOD = "REQUEST_METHOD".freeze
-        EMPTY_STRING = "".freeze
-        SLASH = "/".freeze
-        SEGMENT = "([^\\/]+)".freeze
-        TERM_INSPECT = "TERM".freeze
+        PATH_INFO          = "PATH_INFO".freeze
+        SCRIPT_NAME        = "SCRIPT_NAME".freeze
+        REQUEST_METHOD     = "REQUEST_METHOD".freeze
+        EMPTY_STRING       = "".freeze
+        SLASH              = "/".freeze
+        SEGMENT            = "([^\\/]+)".freeze
+        TERM_INSPECT       = "TERM".freeze
         GET_REQUEST_METHOD = 'GET'.freeze
-        SESSION_KEY = 'rack.session'.freeze
+        SESSION_KEY        = 'rack.session'.freeze
 
         TERM = Object.new
         def TERM.inspect
@@ -353,8 +353,8 @@ class Roda
 
         # Store the roda instance and environment.
         def initialize(scope, env)
-          @scope = scope
-          @captures = []
+          @scope          = scope
+          @captures       = []
           @remaining_path = env[PATH_INFO]
           super(env)
         end
@@ -380,7 +380,7 @@ class Roda
         # is given, uses the current response.
         #
         #   r.halt [200, {'Content-Type'=>'text/html'}, ['Hello World!']]
-        #   
+        #
         #   response.status = 200
         #   response['Content-Type'] = 'text/html'
         #   response.write 'Hello World!'
@@ -402,7 +402,7 @@ class Roda
         # have fully matched the path.  If it matches, the match block is
         # executed, and when the match block returns, the rack response is
         # returned.
-        # 
+        #
         #   r.remaining_path
         #   # => "/foo/bar"
         #
@@ -415,7 +415,7 @@ class Roda
         #   end
         #
         # If no arguments are given, matches if the path is already fully matched.
-        # 
+        #
         #   r.on 'foo/bar' do
         #     r.is do
         #       # matches as path is already empty
@@ -431,11 +431,11 @@ class Roda
         #   r.is 'foo/bar' do
         #     # does not match, as path isn't fully matched (/ remaining)
         #   end
-        # 
+        #
         #   r.is 'foo/bar/' do
         #     # matches as path is empty after matching
         #   end
-        # 
+        #
         #   r.on 'foo/bar' do
         #     r.is "" do
         #       # matches as path is empty after matching
@@ -463,7 +463,7 @@ class Roda
         # have matched the path.  Because this doesn't fully match the
         # path, this is usually used to setup branches of the routing tree,
         # not for final handling of the request.
-        # 
+        #
         #   r.remaining_path
         #   # => "/foo/bar"
         #
@@ -527,7 +527,7 @@ class Roda
         #   r.redirect '/page1', 301 if r['param'] == 'value1'
         #   r.redirect '/page2' # uses 302 status code
         #   response.status = 404 # not reached
-        #   
+        #
         # If you do not provide a path, by default it will redirect to the same
         # path if the request is not a +GET+ request.  This is designed to make
         # it easy to use where a +POST+ request to a URL changes state, +GET+
@@ -538,7 +538,7 @@ class Roda
         #     r.get do
         #       # show state
         #     end
-        #   
+        #
         #     r.post do
         #       # change state
         #       r.redirect
@@ -597,7 +597,7 @@ class Roda
         #
         # Use <tt>r.post ""</tt> for +POST+ requests where the current path
         # is +/+.
-        # 
+        #
         # Nor does it match empty paths:
         #
         #   [r.request_method, r.remaining_path]
@@ -629,12 +629,12 @@ class Roda
         # before dispatching to another rack app, so the app still works as
         # a URL mapper.
         def run(app)
-          e = @env
-          path = @remaining_path
-          sn = SCRIPT_NAME
-          pi = PATH_INFO
+          e           = @env
+          path        = @remaining_path
+          sn          = SCRIPT_NAME
+          pi          = PATH_INFO
           script_name = e[sn]
-          path_info = e[pi]
+          path_info   = e[pi]
           begin
             e[sn] += path_info.chomp(path)
             e[pi] = path
@@ -772,7 +772,7 @@ class Roda
         ensure
           @remaining_path = path
         end
-        
+
         # Attempt to match the argument to the given request, handling
         # common ruby types.
         def match(matcher)
@@ -827,9 +827,9 @@ class Roda
 
       # Instance methods for RodaResponse
       module ResponseMethods
-        CONTENT_LENGTH = "Content-Length".freeze
+        CONTENT_LENGTH  = "Content-Length".freeze
         DEFAULT_HEADERS = {"Content-Type" => "text/html".freeze}.freeze
-        LOCATION = "Location".freeze
+        LOCATION        = "Location".freeze
 
         # The body for the current response.
         attr_reader :body
@@ -921,7 +921,7 @@ class Roda
         #   response.redirect('bar')
         def redirect(path, status = 302)
           @headers[LOCATION] = path
-          @status  = status
+          @status            = status
         end
 
         # Return the Roda class related to this response.

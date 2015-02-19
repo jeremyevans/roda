@@ -32,7 +32,7 @@ class Roda
     # a block to a block that is instance_execed.
     module Path
       DEFAULT_PORTS = {'http' => 80, 'https' => 443}.freeze
-      OPTS = {}.freeze
+      OPTS          = {}.freeze
 
       module ClassMethods
         # Create a new instance method for the named path.  See plugin module documentation for options.
@@ -78,10 +78,10 @@ class Roda
             end
 
             url_block = lambda do |*a, &blk|
-              r = request
+              r      = request
               scheme = r.scheme
-              port = r.port
-              uri = ["#{scheme}://#{r.host}#{":#{port}" unless DEFAULT_PORTS[scheme] == port}"]
+              port   = r.port
+              uri    = ["#{scheme}://#{r.host}#{":#{port}" unless DEFAULT_PORTS[scheme] == port}"]
               uri << request.script_name.to_s if add_script_name
               uri << send(_meth, *a, &blk)
               File.join(uri)
