@@ -84,31 +84,62 @@ describe "json plugin" do
     end
 
     describe "works with indifferent_params" do
-      before do
-        app(:bare) do
-          plugin :json, :request_body => true
-          plugin :indifferent_params
+      describe "specified before" do
+        before do
+          app(:bare) do
+            plugin :indifferent_params
+            plugin :json, :request_body => true
 
-          route do |r|
-            r.on 'foo' do
-              {foo: params[:foo]}
-            end
-            r.on 'bar/baz/bat' do
-              {bat: params[:bar][params[:baz]][:bat]}
+            route do |r|
+              r.on 'foo' do
+                {foo: params[:foo]}
+              end
+              r.on 'bar/baz/bat' do
+                {bat: params[:bar][params[:baz]][:bat]}
+              end
             end
           end
         end
+
+        it "should indifference parsed bodies" do
+          body('/foo', 'CONTENT_TYPE'=>'application/json', 'rack.input'=>StringIO.new(json)).should == '{"foo":"bar"}'
+        end
+
+        it "should recursively indifference parsed bodies" do
+          body('/bar/baz/bat',
+               'CONTENT_TYPE'=>'application/json',
+               'rack.input'=>StringIO.new({bar:[0,"this",{bat:"self"}],baz:2}.to_json)
+              ).should == '{"bat":"self"}'
+        end
       end
 
-      it "should indifference parsed bodies" do
-        body('/foo', 'CONTENT_TYPE'=>'application/json', 'rack.input'=>StringIO.new(json)).should == '{"foo":"bar"}'
-      end
+      describe "specified after" do
+        before do
+          app(:bare) do
+            plugin :json, :request_body => true
+            plugin :indifferent_params
 
-      it "should recursively indifference parsed bodies" do
-        body('/bar/baz/bat',
-             'CONTENT_TYPE'=>'application/json',
-             'rack.input'=>StringIO.new({bar:[0,"this",{bat:"self"}],baz:2}.to_json)
-            ).should == '{"bat":"self"}'
+            route do |r|
+              r.on 'foo' do
+                {foo: params[:foo]}
+              end
+              r.on 'bar/baz/bat' do
+                {bat: params[:bar][params[:baz]][:bat]}
+              end
+            end
+          end
+        end
+
+        it "should indifference parsed bodies" do
+          body('/foo', 'CONTENT_TYPE'=>'application/json', 'rack.input'=>StringIO.new(json)).should == '{"foo":"bar"}'
+        end
+
+        it "should recursively indifference parsed bodies" do
+          body('/bar/baz/bat',
+               'CONTENT_TYPE'=>'application/json',
+               'rack.input'=>StringIO.new({bar:[0,"this",{bat:"self"}],baz:2}.to_json)
+              ).should == '{"bat":"self"}'
+        end
       end
     end
   end

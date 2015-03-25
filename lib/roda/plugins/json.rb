@@ -98,6 +98,29 @@ class Roda
 
       module InstanceMethods
 
+        def self.included base
+          base.class_eval do
+
+            # Lazily initialize a `@_params` instance variable, similar to
+            # indifferent_params plugin. Merge objects into params, set Arrays
+            # at params[:body]. Run through `indifferent_params` if available.
+            def params
+              unless @_params
+                @_params = request.params
+                if self.class.json_request_body? and json_request?
+                  case b = convert_body_from_json
+                  when Hash;  @_params.merge! b
+                  when Array; @_params[:body] = b
+                  end
+                end
+                @_params = indifferent_params(@_params) rescue @_params
+              end
+              @_params
+            end
+
+          end
+        end
+
         # Convert the given JSON to object.  Uses `JSON.parse` by default,
         # but can be overridden to use a different implementation.
         def convert_body_from_json
@@ -106,23 +129,6 @@ class Roda
           response.status = 400
         ensure
           request.body.rewind
-        end
-
-        # Lazily initialize a `@_params` instance variable, similar to
-        # indifferent_params plugin. Merge objects into params, set Arrays
-        # at params[:body]. Run through `indifferent_params` if available.
-        def params
-          unless @_params
-            @_params = request.params
-            if self.class.json_request_body? and json_request?
-              case b = convert_body_from_json
-              when Hash;  @_params.merge! b
-              when Array; @_params[:body] = b
-              end
-            end
-            @_params = indifferent_params(@_params) rescue @_params
-          end
-          @_params
         end
 
         private
