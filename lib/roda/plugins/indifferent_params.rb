@@ -23,10 +23,19 @@ class Roda
     # you load the plugin into.
     module IndifferentParams
       module InstanceMethods
-        # A copy of the request params that will automatically
-        # convert symbols to strings.
-        def params
-          @_params ||= indifferent_params(request.params)
+
+        # todo: better way of handling `params` between json plugin and this
+        def self.included base
+          unless base.instance_methods.include? :params
+            base.class_eval do
+
+              # A copy of the request params that will automatically
+              # convert symbols to strings.
+              def params
+                @_params ||= indifferent_params(request.params)
+              end
+            end
+          end
         end
 
         private
@@ -35,7 +44,7 @@ class Roda
         # hashes to support indifferent access, leaving
         # other values alone.
         def indifferent_params(params)
-          case params 
+          case params
           when Hash
             hash = Hash.new{|h, k| h[k.to_s] if Symbol === k}
             params.each{|k, v| hash[k] = indifferent_params(v)}
@@ -46,7 +55,7 @@ class Roda
             params
           end
         end
-      end  
+      end
     end
 
     register_plugin(:indifferent_params, IndifferentParams)
