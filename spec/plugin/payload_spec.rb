@@ -14,6 +14,18 @@ describe "payload plugin" do
     body('QUERY_STRING'=>'a=2&b=3', 'rack.input'=>StringIO.new(string)).must_equal string
   end
 
+  describe "No payload content" do
+    it "returns `nil` and doesn't raise an error" do
+      app(:payload) do |r|
+        r.on do
+          payload
+        end
+      end
+
+      body('QUERY_STRING'=>'a=2&b=3').must_equal ''
+    end
+  end
+
   describe "`Roda::RodaPlugins::Json` plugin is loaded" do
     before { Roda::RodaPlugins.load_plugin(:json) }
 
