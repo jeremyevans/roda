@@ -6,7 +6,7 @@ class Roda
     # via a GET request or non-POST request.
     # Example:
     #
-    #   plugin :indifferent_params
+    #   plugin :payload
     #
     #   route do |r|
     #     payload
