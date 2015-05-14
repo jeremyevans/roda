@@ -35,9 +35,7 @@ class Roda
 
         # Reads the payload data to a String if it exists in `request.env`
         def raw_payload
-          @_raw_payload ||= request.env['rack.input'].read
-        rescue
-          nil
+          @_raw_payload ||= env['rack.input'].read
         end
       end  
     end

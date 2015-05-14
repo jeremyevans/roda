@@ -22,7 +22,7 @@ describe "payload plugin" do
         end
       end
 
-      body('QUERY_STRING'=>'a=2&b=3').must_equal ''
+      body('QUERY_STRING'=>'a=2&b=3', 'rack.input'=>StringIO.new).must_equal ''
     end
   end
 
@@ -39,7 +39,7 @@ describe "payload plugin" do
           end
         end
 
-        body('QUERY_STRING'=>'a=2', 'rack.input'=>StringIO.new(json_string)).must_equal string
+        body('QUERY_STRING'=>'a=2', 'rack.input'=>StringIO.new(json_string), 'CONTENT_TYPE'=>'text/json').must_equal string
       end
     end
 
