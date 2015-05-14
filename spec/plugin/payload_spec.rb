@@ -26,32 +26,32 @@ describe "payload plugin" do
     end
   end
 
-  describe "`Roda::RodaPlugins::Json` plugin is loaded" do
-    before { Roda::RodaPlugins.load_plugin(:json) }
+  describe "`Roda::RodaPlugins::Json` plugin is loaded on the app" do
+    before do
+      app(:bare) do |r|
+        plugin :payload
+        plugin :json_parser
 
-    describe "payload IS in JSON format" do
-      let(:json_string) { JSON.dump({'key' => string}) }
-
-      it "should parse the JSON and return the parsed object" do
-        app(:payload) do |r|
+        route do |r|
           r.on do
-            payload['key']
+            payload.to_s
           end
         end
-
-        body('QUERY_STRING'=>'a=2', 'rack.input'=>StringIO.new(json_string), 'CONTENT_TYPE'=>'text/json').must_equal string
       end
     end
 
-    describe "payload IS NOT in JSON format" do
-      it "should just return the raw String contents" do
-        app(:payload) do |r|
-          r.on do
-            payload
-          end
-        end
+    describe "payload IS in JSON format" do
+      let(:obj) { {'key' => string} }
+      let(:json_string) { JSON.dump(obj) }
 
-        body('QUERY_STRING'=>'a=2', 'rack.input'=>StringIO.new(string)).must_equal string
+      it "should parse the JSON and return the parsed object" do
+        body('QUERY_STRING'=>'a=2', 'rack.input'=>StringIO.new(json_string), 'CONTENT_TYPE'=>'text/json').must_equal obj.to_s
+      end
+    end
+
+    describe "payload IS NOT in JSON format (but content_type mistakenly says it is)" do
+      it "should just return the raw String contents" do
+        body('QUERY_STRING'=>'a=2', 'rack.input'=>StringIO.new(string), 'CONTENT_TYPE'=>'text/json').must_equal string
       end
     end
   end

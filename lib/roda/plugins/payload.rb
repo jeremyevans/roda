@@ -24,8 +24,8 @@ class Roda
         # returned.
         def payload
           @_payload ||=
-            if Roda::RodaPlugins.instance_variable_get(:@plugins)[:json] && defined?(JSON)
-              JSON.parse(raw_payload) rescue raw_payload
+            if opts[:json_parser_parser] && request.media_type =~ /json/
+              opts[:json_parser_parser].call(raw_payload) rescue raw_payload
             else
               raw_payload
             end
