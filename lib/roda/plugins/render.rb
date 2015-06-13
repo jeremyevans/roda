@@ -1,4 +1,6 @@
-require "tilt"
+require 'erb'
+require 'tilt'
+require 'tilt/erubis'
 
 class Roda
   module RodaPlugins
