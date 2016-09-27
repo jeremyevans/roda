@@ -936,7 +936,7 @@ class Roda
           s = (@status ||= b.empty? ? 404 : default_status)
           set_default_headers
           h = @headers
-          if b.empty? && ((s >= 100 && s <= 199) || s == 204 || s == 205 || s == 304)
+          if b.empty? && Rack::Utils::STATUS_WITH_NO_ENTITY_BODY.include?(s)
             h.delete(CONTENT_TYPE)
           else
             h[CONTENT_LENGTH] ||= @length.to_s
