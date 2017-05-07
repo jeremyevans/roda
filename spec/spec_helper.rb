@@ -26,7 +26,7 @@ end
 
 require "roda"
 require "stringio"
-gem 'minitest'
+require "minitest"
 require "minitest/autorun"
 
 #def (Roda::RodaPlugins).warn(s); end
