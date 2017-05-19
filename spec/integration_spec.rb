@@ -206,4 +206,11 @@ describe "integration" do
   it "should have route_block return the route block" do
     app{|r| 1}.route_block.call(nil).must_equal 1
   end
+
+  it "should raise an error if called without a route block" do
+    Object.const_set(:TestAppName, app(:bare){})
+    ex = proc{ app.call({}) }.must_raise
+    ex.message.must_equal 'No route block defined for TestAppName'
+    Object.send(:remove_const, :TestAppName)
+  end
 end
