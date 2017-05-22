@@ -36,9 +36,9 @@ class Roda
     # Patterns can be rewritten dynamically by providing a block accepting a MatchData
     # object and evaluating to the replacement.
     #
-    #   rewrite_path(/\A\/a/(\w+)/){|match| "/a/#{match[1].capitalize}"}
+    #   rewrite_path(/\A\/a\/(\w+)/){|match| "/a/#{match[1].capitalize}"}
     #   # PATH_INFO '/a/moo' => remaining_path '/a/Moo'
-    #   rewrite_path(/\A\/a/(\w+)/, :path_info => true){|match| "/a/#{match[1].capitalize}"}
+    #   rewrite_path(/\A\/a\/(\w+)/, :path_info => true){|match| "/a/#{match[1].capitalize}"}
     #   # PATH_INFO '/a/moo' => PATH_INFO '/a/Moo'
     #
     # All path rewrites are applied in order, so if a path is rewritten by one rewrite,
