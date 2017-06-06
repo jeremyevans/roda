@@ -1,5 +1,5 @@
 $:.unshift(File.expand_path("../lib", File.dirname(__FILE__)))
-
+gem 'minitest'
 require "rubygems"
 
 if ENV['WARNING']
@@ -26,7 +26,6 @@ end
 
 require "roda"
 require "stringio"
-gem 'minitest'
 require "minitest/autorun"
 
 #def (Roda::RodaPlugins).warn(s); end
@@ -58,7 +57,7 @@ class Minitest::Spec
     env = {"REQUEST_METHOD" => "GET", "PATH_INFO" => "/", "SCRIPT_NAME" => ""}.merge(env)
     @app.call(env)
   end
-  
+
   def status(path='/', env={})
     req(path, env)[0]
   end
