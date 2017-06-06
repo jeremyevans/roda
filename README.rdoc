@@ -128,6 +128,8 @@ it will be interpreted as the body for the response.
 
 +r.redirect+ immediately returns the response,
 allowing for code such as <tt>r.redirect(path) if some_condition</tt>.
+If +r.redirect+ is called with two arguments, the second argument is used as
+the HTTP status (defaults to 302).
 If +r.redirect+ is called without arguments
 and the current request method is not +GET+, it redirects to the current path.
 
