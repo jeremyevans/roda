@@ -1,0 +1,52 @@
+top_features:
+  simplicity: Roda uses a routing tree. At any point during routing, it allows you to operate on the current request.
+  usability: Roda is designed to be simple, both internally and externally, reducing cognitive overhead.
+  productivity: Roda makes it easy to develop applications quickly.
+headline: A Modular, Scalable Ruby Framework
+features:
+  - name: Built on Rack
+    info: Ruby's de facto webserver interface.
+  - name: Flexible Architecture
+    info: Any design pattern for any app.
+  - name: Rich Set of Plugins
+    info: Tools for every aspect of web dev.
+  - name: Simple, Reliable API
+    info: Currently at version <%= Roda::RodaVersion %>
+  - name: Mountable Apps
+    info: Build reusable components with ease.
+  - name: Streaming Views & Assets
+    info: Websockets and front end pipelines
+videos_title: Learn Roda. It's Easy!
+videos:
+  # Please note only youtube links are automatically embedded for now
+  - url: https://www.youtube.com/watch?v=W8zglFFFRMM
+    title: "RubyConf 2014 - Roda: The Routing Tree Web Framework by Jeremy Evans"
+    info: Watch Roda's lead developer guide you through design philosophy and basic functions. Get up and running in no time!
+
+performance_info: Roda compares favorably within the Ruby ecosystem.<br>The following benchmarks are available on <a href="https://github.com/luislavena/bench-micro">Github</a>
+requests_title: Serve More Requests
+memory_title: Use Less Resources
+requests:
+  rack: 15839
+  watts: 13585
+  syro: 13306
+  roda: 11776
+  cuba: 11501
+  hobbit: 11140
+  hanami: 10247
+  rails_metal: 6598
+  sinatra: 3977
+  grape: 2937
+  rails_api: 1211
+memory:
+  rack: 2920
+  watts: 3200
+  roda: 3608
+  syro: 3608
+  cuba: 3688
+  hobbit: 3928
+  hanami: 4880
+  rails_metal: 5728
+  sinatra: 12512
+  grape: 20800
+  rails_api: 28017

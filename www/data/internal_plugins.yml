@@ -1,0 +1,182 @@
+- name: Routing
+  list:
+    - name: all_verbs
+      info: Adds request routing methods for all http verbs.
+    - name: backtracking_array
+      info: Allows array matchers to backtrack if later matchers do not match.
+    - name: class_level_routing
+      info: Adds class level routing methods, for a DSL similar to sinatra.
+    - name: error_handler
+      info: Adds ability to automatically handle errors raised by the application.
+    - name: head
+      info: Treat HEAD requests like GET requests with an empty response body.
+    - name: hooks
+      info: Adds before/after hook methods.
+    - name: multi_route
+      info: Allows for multiple named route blocks that can be dispatched to inside main route block.
+    - name: multi_run
+      info: Adds the ability to dispatch to multiple rack applications based on the request path prefix.
+    - name: not_allowed
+      info: Adds support for automatically returning 405 Method Not Allowed responses.
+    - name: not_found
+      info: Adds not_found method for handling responses not otherwise handled by a route.
+    - name: pass
+      info: Adds pass method for skipping the current matching route block as if it didn't match.
+    - name: path_rewriter
+      info: Adds support for rewriting paths before routing.
+    - name: run_append_slash
+      info: Makes r.run use "/" instead of "" for app's PATH_INFO
+    - name: run_handler
+      info: Allows for modifying rack response arrays when using r.run, and continuing routing for 404 responses.
+    - name: static_routing
+      info: Adds class level static routing methods, for maximum performance when handling static routes (routes without placeholders).
+    - name: status_handler
+      info: Adds status_handler method for handling responses without bodies for a given status code.
+    - name: type_routing
+      info: Route based on path extensions and Accept headers.
+    - name: unescape_path
+      info: Decodes path-encoded PATH_INFO before routing.
+- name: Rendering/View
+  list:
+    - name: assets
+      info: Adds support for rendering CSS/JS javascript assets on the fly in development, or compiling them into a single compressed file in production.
+    - name: assets_preloading
+      info: Adds support for generating browser-hinting preload link tags and headers.
+    - name: branch_locals
+      info: Adds ability to specify defaults for template locals on a per-branch basis.
+    - name: chunked
+      info: 'Adds support for streaming template responses using Transfer-Encoding: chunked.'
+    - name: content_for
+      info: Allows storage of content in one template and retrieval of that content in a different template.
+    - name: h
+      info: Adds h method for html escaping.
+    - name: json
+      info: Allows match blocks to return arrays and hashes, using a json representation as the response body.
+    - name: multi_view
+      info: Allows for easily setting up routing for rendering multiple views.
+    - name: named_templates
+      info: Adds the ability to create inline templates by name, instead of storing them in the file system.
+    - name: padrino_render
+      info: Makes render method that work similarly to Padrino's rendering, using a layout by default.
+    - name: partials
+      info: Adds partial method for rendering partials (templates prefixed with an underscore).
+    - name: precompile_templates
+      info: Adds support for precompiling templates, saving memory when using a forking webserver.
+    - name: public
+      info: Adds support for serving all files in the public directory.
+    - name: render
+      info: Adds render method for rendering templates, using tilt.
+    - name: render_each
+      info: Render a template for each value in an enumerable.
+    - name: render_locals
+      info: Adds ability to specify defaults for template locals.
+    - name: static
+      info: Adds support for serving static files using Rack::Static.
+    - name: streaming
+      info: Adds ability to stream responses.
+    - name: symbol_views
+      info: Allows match blocks to return template name symbols, uses the template view as the response body.
+    - name: timestamp_public
+      info: Adds support for serving files in the public directory, with paths that change based on file modification time.
+    - name: view_options
+      info: Allows for setting view options on a per-request basis.
+- name: Request/Response
+  list:
+    - name: caching
+      info: Adds request and response methods related to http caching.
+    - name: content_security_policy
+      info: Allows setting an appropriate Content-Security-Policy header for the application/branch/action.
+    - name: cookies
+      info: Adds response methods for handling cookies.
+    - name: default_headers
+      info: Allows modifying the default headers for responses.
+    - name: default_status
+      info: Allows overriding the default status for responses.
+    - name: delegate
+      info: Adds class methods for creating instance methods that delegate to the request, response, or class.
+    - name: delete_empty_headers
+      info: Automatically delete response headers with empty values.
+    - name: disallow_file_uploads
+      info: Disallow multipart file uploads.
+    - name: drop_body
+      info: Automatically drops response body and Content-Type/Content-Length headers for response statuses indicating no body.
+    - name: halt
+      info: Augments request halt method for support for setting response status and/or response body.
+    - name: module_include
+      info: Adds request_module and response_module class methods for adding modules/methods to request/response classes.
+    - name: request_aref
+      info: Adds configurable handling for [] and []= request methods.
+    - name: request_headers
+      info: Adds a headers method to the request object, for easier access to request headers.
+    - name: response_request
+      info: Gives response object access to request object.
+    - name: sinatra_helpers
+      info: Port of Sinatra::Helpers methods not covered by other plugins.
+    - name: status_303
+      info: Uses 303 as the default redirect status for non-GET requests by HTTP 1.1 clients.
+    - name: symbol_status
+      info: Allows the use of symbols as status codes, converting them to the appropriate integer.
+    - name: typecast_params
+      info: Allows for easily converting parameter values to explicit types.
+- name: Matchers 
+  list:
+    - name: class_matchers
+      info: Adds support for handling matchers for arbitrary classes, with support for type conversion.
+    - name: empty_root
+      info: Makes root matcher match empty string in addition to single slash.
+    - name: hash_matcher
+      info: Adds hash_matcher class method for easily defining hash matchers.
+    - name: header_matchers
+      info: Adds matchers using information from the request headers.
+    - name: match_affix
+      info: Adds support for overriding default prefix/suffix used in match patterns.
+    - name: param_matchers
+      info: Adds matchers using information from the request params.
+    - name: params_capturing
+      info: Stores matcher captures in the request params.
+    - name: path_matchers
+      info: Adds matchers using information from the request path.
+    - name: placeholder_string_matchers
+      info: Supports placeholders in string for backwards compatibility.
+    - name: optimized_string_matchers
+      info: Adds performance optimized matchers for single string arguments.
+    - name: slash_path_empty
+      info: Considers a path of "/" as an empty path when doing a terminal match.
+    - name: symbol_matchers
+      info: Adds support for symbol-specific matching regexps.
+- name: Other
+  list:
+  - name: csrf
+    info: Older CSRF plugin for backwards compatibility using rack_csrf.
+  - name: delay_build
+    info: Delay building the rack app until Roda.app is called.
+  - name: environments
+    info: Adds support for handling different execution environments (development/test/production).
+  - name: early_hints
+    info: Adds support for using 103 Early Hints responses when using a compatible server.
+  - name: error_email
+    info: Adds ability to easily email a notification when an error is raised by the application, using net/smtp.
+  - name: error_mail
+    info: Adds ability to easily email a notification when an error is raised by the application, using mail.
+  - name: flash
+    info: Adds flash handling.
+  - name: heartbeat
+    info: Adds support for heartbeats.
+  - name: indifferent_params
+    info: Adds params method for indifferent parameters.
+  - name: json_parser
+    info: Parses request bodies in JSON format.
+  - name: mailer
+    info: Adds support for sending emails using the routing tree.
+  - name: middleware
+    info: Allows the Roda app to be used as middleware by another app.
+  - name: middleware_stack
+    info: Allows removing middleware and inserting middleware before the end of the stack.
+  - name: path
+    info: Adds support for named paths.
+  - name: route_csrf
+    info: Recommended CSRF plugin with request-specific tokens and control over where CSRF tokens are checked during routing.
+  - name: shared_vars
+    info: Stores and retrives variables shared between multiple Roda apps.
+  - name: strip_path_prefix
+    info: Strips prefixes off internal absolute paths, making them relative paths.

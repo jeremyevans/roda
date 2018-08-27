@@ -4,37 +4,28 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Roda: Routing Tree Web Toolkit<%= " - #{title.capitalize}" unless title == 'index' %></title>
-    <link href='http://fonts.googleapis.com/css?family=Italianno|Open+Sans|PT+Mono' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/styles/default.min.css">
+    <title><%= title %></title>
+    <meta name="description" content="<%= description %>">
     <link rel="stylesheet" href="css/roda.css">
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js" defer></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js" defer></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/highlight.min.js" defer></script>
-    <script>
-      document.addEventListener("DOMContentLoaded", function() {
-        hljs.initHighlighting();
-      });
-    </script>
+    <script src="/js/roda.js" defer></script>
   </head>
-  <body>
-    <nav class="navbar navbar-default navigation-clean">
-      <div class="container">
-        <div class="navbar-header"><a class="navbar-brand navbar-link" href="index.html"><span class="roda">Roda</span> : Routing Tree Web Toolkit</a>
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1" aria-expanded="false"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+  <body class="<%= current_page %>">
+    <%- unless current_page == 'index' -%>  
+      <nav class='main'>
+        <div class="contain">
+        <%- %w(index documentation development github).map do |page| -%>
+          
+            <%- item = data(:site, :pages, page) -%>
+            <%- item_class = 'active' if page == current_page -%>
+            <a class="<%= [item_class, page].join(' ') %>" href="<%= item["url"] %>">
+              <%= item["text"] -%>
+            </a>
+          
+        <%- end -%>
         </div>
-        <div class="collapse navbar-collapse" id="navcol-1">
-          <ul class="nav navbar-nav navbar-right">
-            <li role="presentation"><a href="documentation.html">Documentation</a></li>
-            <li role="presentation"><a href="development.html">Development</a></li>
-            <li role="presentation"><a href="https://github.com/jeremyevans/roda">GitHub</a></li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-    <div class="container" id="content">
-      <%= content %>
-    </div>
+      </nav>
+    <%- end -%>
+    <div class="content"><%= content %></div>
+    <footer class="bg-graydark white center">&copy; <%= Time.now.year %> <a href="<%= data(:site,:copyright_link) %>" target="_blank"><%= data(:site, :copyright) %></a></footer>
   </body>
 </html>

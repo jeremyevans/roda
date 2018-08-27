@@ -1,0 +1,43 @@
+title: Documentation for Roda (v<%= Roda::RodaVersion %>)
+readme:
+  info: Introduction to Roda, start here if new 
+  path: http://roda.jeremyevans.net/rdoc/files/README_rdoc.html
+
+guides:
+  - name: Conventions
+    path: http://roda.jeremyevans.net/rdoc/files/doc/conventions_rdoc.html
+
+rdoc:
+  path: http://roda.jeremyevans.net/rdoc/files/README_rdoc.html
+  info: Here are direct links to the most important pages
+  list:
+    - name: ClassMethods
+      info: used for configuring Roda
+    - name: InstanceMethods
+      info: minimal so as not to pollute the scope
+    - name: RequestMethods
+      info: all the methods for routing requests, such as r.on
+    - name: ResponseMethods
+      info: methods for manipulating the response directly
+
+
+plugins_info: Plugins are a very important part of Roda, since by design Roda has a very small core.
+included_plugins_info: Plugins that Ship with Roda
+external_plugins_info: These projects ship external plugins for Roda
+libraries_info: These external projects are related to Roda
+external_guides:
+  - name: Adding Authentication
+    path: https://github.com/badosu/Yogurt/wiki/Example:-Adding-authentication
+  - name: "Up and Going in Roda: Static Ruby Websites"
+    path: http://mrcook.uk/static-websites-with-roda-framework
+  - name: "Up and Going in Roda: A Simple Ruby Blog"
+    path: http://mrcook.uk/simple-roda-blog-tutorial
+  - name: Digging ruby from Roda
+    path: http://watabelabs.com/blog/view/digging-ruby-from-roda-a-rack-based-web-framework
+interviews:
+  - name: "Ruby Rogues 210: Roda and Routing Trees with Jeremy Evans"
+    path: http://devchat.tv/ruby-rogues/210-rr-roda-and-routing-trees-with-jeremy-evans
+books:
+  - name: Mastering Roda
+    path: http://lucidcode.org/mastering-roda-book
+applications_title: Here are some open source applications that use Roda
