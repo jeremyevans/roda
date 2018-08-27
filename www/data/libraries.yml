@@ -1,0 +1,12 @@
+- name: newrelic-roda
+  path: https://github.com/mikz/newrelic-roda
+  info: Adds newrelic instrument for Roda.
+- name: roda-bin
+  path: https://github.com/cj/roda-bin
+  info: Add bin/roda binary for a simple development server that reloads on changes.
+- name: roda-sequel-stack
+  path: https://github.com/jeremyevans/roda-sequel-stack
+  info: Application Skeleton For Roda/Sequel stack.
+- name: roda_app
+  path: https://github.com/GregTemplates/roda_app
+  info: Generator for Roda apps.

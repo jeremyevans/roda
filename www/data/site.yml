@@ -1,0 +1,29 @@
+copyright: Jeremy Evans
+copyright_link: https://github.com/jeremyevans/roda
+tagline: The Routing Tree Web Toolkit
+
+pages:
+  index:
+    text: Roda
+    url: /
+    title: "Roda: Routing Tree Web Toolkit"
+    description: "Roda is a lightweight and productive framework for building web applications in Ruby."
+  documentation:
+    text: Docs
+    url: /documentation.html
+    title: "Documentation | Roda: Routing Tree Web Toolkit"
+    description: "Documentation and Tutorials for Roda, the Routing Tree Web Toolkit for Ruby"
+  development:
+    text: Development
+    url: /development.html
+    title: "Development | Roda: Routing Tree Web Toolkit"
+    description: "Contributing to Roda, the Routing Tree Web Toolkit for Ruby"
+  github:
+    text: Github
+    url: https://github.com/jeremyevans/roda
+  compare_to_sinatra:
+    title: Compare Roda to Sinatra
+    url: /compare_to_sinatra.html
+    description: A brief breakdown of how Roda stacks up against Sinatra for web development.
+    excerpt: Roda aims to take the ease of development and understanding that Sinatra brings, and enable it to scale to support the development of large web applications.
+

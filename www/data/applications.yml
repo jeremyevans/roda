@@ -1,0 +1,42 @@
+- name: Kontena
+  info: Docker Container Management
+  path: https://github.com/kontena/kontena/tree/master/server
+- name: Alienist Viewer
+  info: JRuby Memory Dump Viewer
+  path: https://github.com/enebo/alienist_viewer
+- name: golf-score-roda
+  info: Backend for golf-score-frontend
+  path: https://github.com/mmmries/golf-score-roda
+- name: tus-ruby-server
+  info: Backend for Resumable Uploads
+  path: https://github.com/janko-m/tus-ruby-server
+- name: SPAM
+  info: Simple Personal Accounting Manager
+  path: https://github.com/jeremyevans/spam
+- name: Giftsmas
+  info: Gift Tracking
+  path: https://github.com/jeremyevans/giftsmas
+- name: KaeruEra
+  info: Exception Tracking
+  path: https://github.com/jeremyevans/kaeruera
+- name: Quinto
+  info: Version of 1960s 3M Board Game
+  path: https://github.com/jeremyevans/quinto
+- name: CSPVR
+  info: Content-Security-Policy Violation Recorder and Viewer
+  path: https://github.com/jeremyevans/cspvr
+- name: Lila Shell
+  info: Basic Chat Application
+  path: https://github.com/jeremyevans/lila_shell
+- name: Falcom CD Catalog
+  info: Database of Nihon Falcom Albums
+  path: https://github.com/jeremyevans/falcomcdcatalog
+- name: Forme Demo
+  info: Demo Site for Forme
+  path: https://github.com/jeremyevans/forme/tree/master/demo-site
+- name: AutoForme Demo
+  info: Demo Site for AutoForme
+  path: https://github.com/jeremyevans/autoforme/tree/master/demo-site
+- name: Rodauth Demo
+  info: Demo Site for Rodauth
+  path: https://github.com/jeremyevans/rodauth/tree/master/demo-site
