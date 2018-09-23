@@ -134,6 +134,7 @@ class Roda
         # However, for performance, it's better to use #app to get direct
         # access to the underlying rack app.
         def call(env)
+          raise RodaError, "No route block defined for #{self}" if app.nil?
           app.call(env)
         end
 
