@@ -20,8 +20,14 @@ class Roda
     #   plugin :common_logger, Logger.new('filename')
     module CommonLogger
       def self.configure(app, logger=nil)
+        raise "logger doesn't respond to write()" unless !logger.nil? && logger.respond_to?(:write)
+        raise "logger doesn't respond to <<" unless !logger.nil? && logger.respond_to?(:<<)
+        raise "logger doesn't respond to call()" unless !logger.nil? && logger.respond_to?(:call)
+
         app.opts[:common_logger] = logger || app.opts[:common_logger] || $stderr
-        app.opts[:common_logger_meth] = app.opts[:common_logger].method(logger.respond_to?(:write) ? :write : :<<)
+        app.opts[:common_logger_meth] = app.opts[:common_logger].method(:write) if logger.respond_to?(:write)
+        app.opts[:common_logger_meth] = app.opts[:common_logger].method(:<<) if logger.respond_to?(:<<)
+        app.opts[:common_logger_meth] = app.opts[:common_logger] if logger.respond_to?(:call)
       end
 
       if RUBY_VERSION >= '2.1'
