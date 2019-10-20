@@ -332,7 +332,7 @@ class Roda
           if block = @raw_route_block
             subclass.route(&block)
           end
-          
+
           request_class = Class.new(self::RodaRequest)
           request_class.roda_class = subclass
           request_class.match_pattern_cache = RodaCache.new
@@ -697,7 +697,11 @@ WARNING
         def block_result(result)
           res = response
           if res.empty? && (body = block_result_body(result))
-            res.write(body)
+            if body.class == Array
+              body.each{|string| res.write(string) }
+            else
+              res.write(body)
+            end
           end
         end
 
@@ -713,7 +717,7 @@ WARNING
         # is given, uses the current response.
         #
         #   r.halt [200, {'Content-Type'=>'text/html'}, ['Hello World!']]
-        #   
+        #
         #   response.status = 200
         #   response['Content-Type'] = 'text/html'
         #   response.write 'Hello World!'
@@ -735,7 +739,7 @@ WARNING
         # have fully matched the path.  If it matches, the match block is
         # executed, and when the match block returns, the rack response is
         # returned.
-        # 
+        #
         #   r.remaining_path
         #   # => "/foo/bar"
         #
@@ -748,7 +752,7 @@ WARNING
         #   end
         #
         # If no arguments are given, matches if the path is already fully matched.
-        # 
+        #
         #   r.on 'foo/bar' do
         #     r.is do
         #       # matches as path is already empty
@@ -764,11 +768,11 @@ WARNING
         #   r.is 'foo/bar' do
         #     # does not match, as path isn't fully matched (/ remaining)
         #   end
-        # 
+        #
         #   r.is 'foo/bar/' do
         #     # matches as path is empty after matching
         #   end
-        # 
+        #
         #   r.on 'foo/bar' do
         #     r.is "" do
         #       # matches as path is empty after matching
@@ -796,7 +800,7 @@ WARNING
         # have matched the path.  Because this doesn't fully match the
         # path, this is usually used to setup branches of the routing tree,
         # not for final handling of the request.
-        # 
+        #
         #   r.remaining_path
         #   # => "/foo/bar"
         #
@@ -866,7 +870,7 @@ WARNING
         #   r.redirect '/page1', 301 if r['param'] == 'value1'
         #   r.redirect '/page2' # uses 302 status code
         #   response.status = 404 # not reached
-        #   
+        #
         # If you do not provide a path, by default it will redirect to the same
         # path if the request is not a +GET+ request.  This is designed to make
         # it easy to use where a +POST+ request to a URL changes state, +GET+
@@ -877,7 +881,7 @@ WARNING
         #     r.get do
         #       # show state
         #     end
-        #   
+        #
         #     r.post do
         #       # change state
         #       r.redirect
@@ -936,7 +940,7 @@ WARNING
         #
         # Use <tt>r.post ""</tt> for +POST+ requests where the current path
         # is +/+.
-        # 
+        #
         # Nor does it match empty paths:
         #
         #   [r.request_method, r.remaining_path]
@@ -1059,7 +1063,7 @@ WARNING
             length == 0 && rp.getbyte(0) == 47
           end
 
-          if match 
+          if match
             length += 1
             case rp.getbyte(length)
             when 47
@@ -1122,6 +1126,8 @@ WARNING
         # returned otherwise.
         def block_result_body(result)
           case result
+          when Array
+            result
           when String
             result
           when nil, false

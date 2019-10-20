@@ -24,6 +24,16 @@ describe "response #headers and #body" do
   end
 end
 
+describe "response #block_result" do
+  it "pass through an array of strings" do
+    app do |r|
+      ['ab', 'ba']
+    end
+
+    body.must_equal 'abba'
+  end
+end
+
 describe "response #write" do
   it "should add to body" do
     app do |r|
