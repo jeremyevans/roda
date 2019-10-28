@@ -219,6 +219,7 @@ describe "streaming plugin" do
       *, b = req
       q.deq
       a.must_equal %w'a b c d e f g h i j'
+      b.to_a # drain the queue
     end
 
     it "should handle :queue option to override queue" do
@@ -241,6 +242,7 @@ describe "streaming plugin" do
       *, b = req
       q.deq
       a.must_equal %w'a b c d e'
+      b.to_a # drain the queue
     end
   end
 end

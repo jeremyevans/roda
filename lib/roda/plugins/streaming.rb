@@ -96,7 +96,7 @@ class Roda
 
         def initialize(opts=OPTS, &block)
           @stream = Stream.new(opts, &block)
-          @queue = opts[:queue] || SizedQueue.new(10) # have some default backpressure
+          @queue = fetch_queue(opts)
           @thread = Thread.new { enqueue_chunks }
         end
 
@@ -132,6 +132,43 @@ class Roda
               break
             end
           end
+        end
+
+        if RUBY_VERSION >= '2.3'
+          # Returns queue to be used for sending chunks.
+          def fetch_queue(opts)
+            opts[:queue] || SizedQueue.new(10)
+          end
+        else
+          # :nocov:
+          def fetch_queue(opts)
+            ClosableQueue.new(opts[:queue] || SizedQueue.new(10))
+          end
+
+          # Queue wrapper that implements #close for Rubies lower than 2.3.0.
+          class ClosableQueue
+            def initialize(queue)
+              @queue = queue
+              @closed = false
+            end
+
+            def push(chunk)
+              raise ClosedQueueError, "queue closed" if @closed
+              @queue.push(chunk)
+            end
+
+            def pop
+              @queue.pop
+            end
+
+            def close
+              @closed = true
+              @queue.push(nil)
+            end
+          end
+
+          class ClosedQueueError < StopIteration; end
+          # :nocov:
         end
       end
 
