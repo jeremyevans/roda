@@ -57,7 +57,7 @@ class Roda
     # As the exception_page plugin is based on Rack::ShowExceptions, it is also under
     # rack's license:
     #
-    # Copyright (C) 2007-2018 Christian Neukirchen <http://chneukirchen.org/infopage.html>
+    # Copyright (C) 2007-2020 Leah Neukirchen <http://leahneukirchen.org/infopage.html>
     #
     # Permission is hereby granted, free of charge, to any person obtaining a copy
     # of this software and associated documentation files (the "Software"), to
