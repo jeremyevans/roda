@@ -141,7 +141,7 @@ describe "exception_page plugin" do
     body = body('HTTP_ACCEPT'=>'text/html')
     body.must_include "RuntimeError: foo"
     body.must_include __FILE__
-    body.wont_include 'id="c0"'
+    body.must_include 'id="c0"'
   end
 
   it "should still show line numbers if the line content cannot be displayed" do
@@ -152,7 +152,7 @@ describe "exception_page plugin" do
     body.must_include "RuntimeError: foo"
     body.must_include "foo-bar.rb:#{4200+42}"
     body.must_include __FILE__
-    body.wont_include 'id="c0"'
+    body.must_include 'id="c1"'
   end
 
   it "should serve exception page assets" do
