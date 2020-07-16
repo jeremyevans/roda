@@ -1,5 +1,7 @@
 = master
 
+* In render plugin allow options :views and :engine to be arrays to support template overriding (hmdne)
+
 * Warn when loading a plugin with arguments or a block if the plugin does not accept arguments or block (jeremyevans)
 
 = 3.34.0 (2020-07-14)

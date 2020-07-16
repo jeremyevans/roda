@@ -265,22 +265,22 @@ describe "render plugin" do
   it "app :root option affects :views default" do
     app
     app.plugin :render
-    app.render_opts[:views].must_equal File.join(Dir.pwd, 'views')
+    app.render_opts[:views].must_equal [File.join(Dir.pwd, 'views')]
 
     app.opts[:root] = '/foo'
     app.plugin :render
     # Work around for Windows
-    app.render_opts[:views].sub(/\A\w:/, '').must_equal '/foo/views'
+    app.render_opts[:views].first.sub(/\A\w:/, '').must_equal '/foo/views'
 
     app.opts[:root] = '/foo/bar'
     app.plugin :render
-    app.render_opts[:views].sub(/\A\w:/, '').must_equal '/foo/bar/views'
+    app.render_opts[:views].first.sub(/\A\w:/, '').must_equal '/foo/bar/views'
 
     app.opts[:root] = nil
     app.plugin :render
-    app.render_opts[:views].must_equal File.join(Dir.pwd, 'views')
+    app.render_opts[:views].must_equal [File.join(Dir.pwd, 'views')]
     app.plugin :render, :views=>'bar'
-    app.render_opts[:views].must_equal File.join(Dir.pwd, 'bar')
+    app.render_opts[:views].must_equal [File.join(Dir.pwd, 'bar')]
   end
 
   if Roda::RodaPlugins::Render::COMPILED_METHOD_SUPPORT
@@ -940,6 +940,36 @@ describe "render plugin" do
     app.render_opts[:template_opts][:default_encoding].must_equal Encoding.default_external
     app.plugin :render, :template_opts=>{:default_encoding=>'ISO-8859-1'}
     app.render_opts[:template_opts][:default_encoding].must_equal 'ISO-8859-1'
+  end
+
+  it "supports :views parameter as an array to support template path override" do
+    app(:bare) do
+      opts[:root] = "spec"
+      plugin :render, :views=>%w[views/override views]
+
+      route do |r|
+        r.is('a') { render :a }
+        r.is('b') { render :b }
+        r.is('z') { render :z }
+      end
+    end
+    body("/a").strip.must_equal "overrided"
+    body("/b").strip.must_equal "b"
+    body("/z").strip.must_equal "zz"
+  end
+
+  it "supports :engine parameter as an array to support template engine override" do
+    app(:bare) do
+      opts[:root] = "spec"
+      plugin :render, :views=>"views/override", :engine=>%w[erubi erb]
+
+      route do |r|
+        r.is('a') { render :a }
+        r.is('z') { render :z }
+      end
+    end
+    body("/a").strip.must_equal "overrided"
+    body("/z").strip.must_equal "zzz"
   end
 end
 end

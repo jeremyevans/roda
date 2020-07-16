@@ -56,7 +56,8 @@ class Roda
     # :cache_class :: A class to use as the template cache instead of the default.
     # :check_paths :: Can be set to false to turn off template path checking.
     # :engine :: The tilt engine to use for rendering, also the default file extension for
-    #            templates, defaults to 'erb'.
+    #            templates, defaults to 'erb'. It can also be an array, in which case all engines
+    #            will be tried and the first will be used.
     # :escape :: Use Erubi as the ERB template engine, and enable escaping by default,
     #            which makes <tt><%= %></tt> escape output and  <tt><%== %></tt> not escape output.
     #            If given, sets the <tt>:escape=>true</tt> option for all template engines, which
@@ -71,7 +72,8 @@ class Roda
     # :engine_opts :: The tilt options to use per template engine.  Keys are
     #                 engine strings, values are hashes of template options.
     # :views :: The directory holding the view files, defaults to the 'views' subdirectory of the
-    #           application's :root option (the process's working directory by default).
+    #           application's :root option (the process's working directory by default). It can also
+    #           be an array in which case all paths will be tried and the first will be used.
     #
     # = Render/View Method Options
     #
@@ -161,9 +163,9 @@ class Roda
         app.opts[:render][:orig_opts] = opts
 
         opts = app.opts[:render]
-        opts[:engine] = (opts[:engine] || "erb").dup.freeze
-        opts[:views] = app.expand_path(opts[:views]||"views").freeze
-        opts[:allowed_paths] ||= [opts[:views]].freeze
+        opts[:engine] = Array((opts[:engine] || "erb").dup.freeze).freeze
+        opts[:views] = Array((opts[:views] || "views").dup.freeze).map{|f| app.expand_path(f)}.uniq.freeze
+        opts[:allowed_paths] ||= opts[:views].freeze
         opts[:allowed_paths] = opts[:allowed_paths].map{|f| app.expand_path(f, nil)}.uniq.freeze
         opts[:check_paths] = true unless opts.has_key?(:check_paths)
 
@@ -188,7 +190,7 @@ class Roda
         opts[:layout_opts] = (opts[:layout_opts] || {}).dup
         opts[:layout_opts][:_is_layout] = true
         if opts[:layout_opts][:views]
-          opts[:layout_opts][:views] = app.expand_path(opts[:layout_opts][:views]).freeze
+          opts[:layout_opts][:views] = Array(opts[:layout_opts][:views]).map{|f| app.expand_path(f).freeze}.freeze
         end
 
         if layout = opts.fetch(:layout, true)
@@ -515,13 +517,17 @@ class Roda
           render_opts = self.class.opts[:render]
           engine_override = opts[:engine]
           engine = opts[:engine] ||= render_opts[:engine]
+          engine = Array(engine)
           if content = opts[:inline]
+            engine = opts[:engine] = engine.first
             path = opts[:path] = content
             template_class = opts[:template_class] ||= ::Tilt[engine]
             opts[:template_block] = Proc.new{content}
           else
             opts[:views] ||= render_opts[:views]
-            path = opts[:path] ||= template_path(opts)
+            opts[:views] = Array(opts[:views])
+            opts[:path], opts[:engine] = template_path_and_engine(opts) unless opts[:path]
+            path = opts[:path]
             template_class = opts[:template_class]
             opts[:template_class] ||= ::Tilt
           end
@@ -625,15 +631,21 @@ class Roda
         end
 
         # The template path for the given options.
-        def template_path(opts)
-          path = "#{opts[:views]}/#{template_name(opts)}.#{opts[:engine]}"
+        def template_path_and_engine(opts)
+          path, engine = nil, nil
+          views_and_engines = Array(opts[:views]).product(Array(opts[:engine]))
+          views_and_engines.each do |views, eng|
+            path = "#{views}/#{template_name(opts)}.#{eng}"
+            engine = eng
+            break if views_and_engines.length == 1 || File.exist?(path)
+          end
           if opts.fetch(:check_paths){render_opts[:check_paths]}
             full_path = self.class.expand_path(path)
             unless render_opts[:allowed_paths].any?{|f| full_path.start_with?(f)}
               raise RodaError, "attempt to render path not in allowed_paths: #{full_path} (allowed: #{render_opts[:allowed_paths].join(', ')})"
             end
           end
-          path
+          [path, engine]
         end
 
         # If a layout should be used, return a hash of options for
