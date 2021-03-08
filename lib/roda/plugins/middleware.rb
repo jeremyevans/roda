@@ -85,8 +85,9 @@ class Roda
         # Make a subclass of +mid+ to use as the current middleware,
         # and store +app+ as the next middleware to call.
         def initialize(mid, app, *args, &block)
-          @mid = Class.new(mid)
+          @mid = mid
           if configure = @mid.opts[:middleware_configure]
+            @mid = Class.new(@mid)
             configure.call(@mid, *args, &block)
           elsif block || !args.empty?
             raise RodaError, "cannot provide middleware args or block unless loading middleware plugin with a block"

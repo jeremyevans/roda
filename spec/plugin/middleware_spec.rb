@@ -81,9 +81,14 @@ describe "middleware plugin" do
     body.must_equal 'a'
   end
 
-  it "makes middleware always use a subclass of the app" do
-    app(:middleware) do |r|
-      r.get{opts[:a]}
+  it "makes middleware use a subclass of the app when configuration block is passed in" do
+    app(:bare) do
+      plugin :middleware do |mid, *args, &block|
+        # ...
+      end
+      route do |r|
+        r.get{opts[:a]}
+      end
     end
     app.opts[:a] = 'a'
     a = app
