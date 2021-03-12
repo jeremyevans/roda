@@ -303,7 +303,7 @@ preceded by a slash, and followed by a slash or the end of the path:
 
   /foo\w+/ # matches "/foobar"
   /foo\w+/ # does not match "/foo/bar"
-  /foo/i # matches "/foo", "/Foo/"
+  /foo/i # matches "/foo", "/Foo"
   /foo/i # does not match "/food"
 
 If any patterns are captured by the Regexp, they are yielded:
