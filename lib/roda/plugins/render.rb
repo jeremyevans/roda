@@ -66,6 +66,17 @@ class Roda
     # :layout :: The base name of the layout file, defaults to 'layout'.  This can be provided as a hash
     #            with the :template or :inline options.
     # :layout_opts :: The options to use when rendering the layout, if different from the default options.
+    # :multi_layout :: Automatically switch between different layout following the current template
+    #                  name.  This option must be a Hash, which keys are string or regexp, and
+    #                  values are valid template name.  The keys of this Hash will be tested against
+    #                  the current template name, as requested in a +view+ call.  If a match is
+    #                  found, the corresponding value is used instead of the default layout template
+    #                  name.  If nothing match, the default layout template is used.
+    #                  If given, the same <tt>:layout_opts</tt> will be used for all possible layout
+    #                  templates.
+    #                  This option helps benefit from the default caching mecanism and keep good
+    #                  performance with simple multi-layout structure.
+    #                  Example: <tt>{ '^admin/' => 'backoffice/layout' }</tt>
     # :template_opts :: The tilt options used when rendering all templates. defaults to:
     #                   <tt>{outvar: '@_out_buf', default_encoding: Encoding.default_external}</tt>.
     # :engine_opts :: The tilt options to use per template engine.  Keys are
@@ -150,6 +161,11 @@ class Roda
         # :nocov:
       end
 
+      # Returns the symbol used as a cache key for the given layout method.
+      def self.layout_cached_method_name(layout)
+        "_roda_#{layout.tr('/', '_')}_layout".to_sym
+      end
+
       # Setup default rendering options.  See Render for details.
       def self.configure(app, opts=OPTS)
         if app.opts[:render]
@@ -183,7 +199,17 @@ class Roda
           app.const_set(:RodaCompiledTemplates, compiled_templates_module)
         end
         opts[:template_method_cache] = orig_method_cache || (opts[:cache_class] || RodaCache).new
-        opts[:template_method_cache][:_roda_layout] = nil if opts[:template_method_cache][:_roda_layout]
+        if opts[:multi_layout]
+          opts[:multi_layout].freeze
+          opts[:multi_layout].values.each do |layout|
+            method_cache_key = layout_cached_method_name(layout)
+            if opts[:template_method_cache][method_cache_key]
+              opts[:template_method_cache][method_cache_key] = nil
+            end
+          end
+        elsif opts[:template_method_cache][:_roda_layout]
+          opts[:template_method_cache][:_roda_layout] = nil
+        end
         opts[:cache] = orig_cache || (opts[:cache_class] || RodaCache).new
 
         opts[:layout_opts] = (opts[:layout_opts] || {}).dup
@@ -342,6 +368,7 @@ class Roda
           def freeze
             begin
               _freeze_layout_method
+              _freeze_multi_layout_methods
             rescue
               # This is only for optimization, if any errors occur, they can be ignored.
               # One possibility for error is the app doesn't use a layout, but doesn't
@@ -386,12 +413,29 @@ class Roda
             # :nocov:
               if (layout_template = render_opts[:optimize_layout]) && !opts[:render][:optimized_layout_method_created]
                 instance.send(:retrieve_template, :template=>layout_template, :cache_key=>nil, :template_method_cache_key => :_roda_layout)
-                layout_method = opts[:render][:template_method_cache][:_roda_layout]
-                define_method(:_layout_method){layout_method}
-                private :_layout_method
-                alias_method(:_layout_method, :_layout_method)
                 opts[:render] = opts[:render].merge(:optimized_layout_method_created=>true)
               end
+            end
+          end
+        end
+
+        def _freeze_multi_layout_methods
+          return unless render_opts[:multi_layout]
+          instance = allocate
+          default_layout_opts = instance.send(:view_layout_opts, OPTS)
+
+          render_opts[:multi_layout].values do |layout|
+            layout_opts = default_layout_opts.merge(:template=>layout)
+            instance.send(:retrieve_template, layout_opts)
+
+            # :nocov:
+            if COMPILED_METHOD_SUPPORT
+            # :nocov:
+              method_cache_key = Render.layout_cached_method_name(layout)
+              optimized_key = "optimized_#{method_cache_key}_method_created".to_sym
+              next if opts[:render][optimized_key]
+              instance.send(:retrieve_template, :template=>layout, :cache_key=>nil, :template_method_cache_key => method_cache_key)
+              opts[:render] = opts[:render].merge(optimized_key=>true)
             end
           end
         end
@@ -420,19 +464,28 @@ class Roda
         # and render it inside the layout.  See Render for details.
         def view(template, opts = (content = _optimized_view_content(template); OPTS))
           if content
+            # Set default layout
+            layout_template = render_opts[:optimize_layout]
+
             # First, check if the optimized layout method has already been created,
             # and use it if so.  This way avoids the extra conditional and local variable
             # assignments in the next section.
-            if layout_method = _layout_method
+            if render_opts[:multi_layout]
+              layout_template = _multi_layout_template(template, layout_template)
+              method_cache_key = Render.layout_cached_method_name(layout_template)
+            else
+              method_cache_key = :_roda_layout
+            end
+            if layout_method = render_opts[:template_method_cache][method_cache_key]
               return send(layout_method, OPTS){content}
             end
 
             # If we have an optimized template method but no optimized layout method, create the
             # optimized layout method if possible and use it.  If you can't create the optimized
             # layout method, fall through to the slower approach.
-            if layout_template = self.class.opts[:render][:optimize_layout]
-              retrieve_template(:template=>layout_template, :cache_key=>nil, :template_method_cache_key => :_roda_layout)
-              if layout_method = _layout_method
+            if layout_template
+              retrieve_template(:template=>layout_template, :cache_key=>nil, :template_method_cache_key => method_cache_key)
+              if layout_method = render_opts[:template_method_cache][method_cache_key]
                 return send(layout_method, OPTS){content}
               end
             end
@@ -471,11 +524,6 @@ class Roda
           # Return the instance method symbol for the template in the method cache.
           def _cached_template_method_lookup(method_cache, template)
             method_cache[template]
-          end
-
-          # Return a symbol containing the optimized layout method
-          def _layout_method
-            self.class.opts[:render][:template_method_cache][:_roda_layout]
           end
 
           # Use an optimized render path for templates with a hash of locals.  Returns the result
@@ -536,10 +584,6 @@ class Roda
           end
 
           def _cached_template_method_key(_)
-            nil
-          end
-
-          def _layout_method
             nil
           end
 
@@ -704,12 +748,27 @@ class Roda
           path
         end
 
+        # The layout to use for the given template.
+        def _multi_layout_template(template, default_layout_template)
+          return default_layout_template unless template && render_opts[:multi_layout]
+          render_opts[:multi_layout].each do |match, layout|
+            next unless template.match?(match)
+            return layout
+          end
+          default_layout_template
+        end
+
         # If a layout should be used, return a hash of options for
         # rendering the layout template.  If a layout should not be
         # used, return nil.
         def view_layout_opts(opts)
           if layout = opts.fetch(:layout, render_opts[:layout])
             layout_opts = render_layout_opts
+
+            # Select the best layout to use for the current template.
+            layout_opts[:template] = _multi_layout_template(
+              opts[:template], layout_opts[:template]
+            )
 
             method_layout_opts = opts[:layout_opts]
             layout_opts.merge!(method_layout_opts) if method_layout_opts
