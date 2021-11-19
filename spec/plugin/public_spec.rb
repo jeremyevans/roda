@@ -15,6 +15,7 @@ describe "public plugin" do
     end
 
     status("/about/_test.erb\0").must_equal 404
+    status("/output/file").must_equal 404
     body('/about/_test.erb').must_equal File.read('spec/views/about/_test.erb')
     body('/static/about/_test.erb').must_equal File.read('spec/views/about/_test.erb')
     body('/foo/.././/about/_test.erb').must_equal File.read('spec/views/about/_test.erb')
@@ -153,5 +154,20 @@ describe "public plugin" do
     end
 
     status("/about/_test.erb", "REQUEST_METHOD"=>"POST").must_equal 404
+  end
+
+  it "allows pretty URLs for HTML files" do
+    app(:bare) do
+      plugin :public, :root=>'spec/views', :pretty_urls=>true
+
+      route do |r|
+        r.public
+      end
+    end
+
+    body('/output/file').must_equal File.read('spec/views/output/file.html')
+    body('/output/file/').must_equal File.read('spec/views/output/file.html')
+    body('/output/second_file').must_equal File.read('spec/views/output/second_file/index.html')
+    body('/output/second_file/').must_equal File.read('spec/views/output/second_file/index.html')
   end
 end
