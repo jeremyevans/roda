@@ -169,5 +169,7 @@ describe "public plugin" do
     body('/output/file/').must_equal File.read('spec/views/output/file.html')
     body('/output/second_file').must_equal File.read('spec/views/output/second_file/index.html')
     body('/output/second_file/').must_equal File.read('spec/views/output/second_file/index.html')
+    body('/output/third_file').must_equal File.read('spec/views/output/third_file/index.html')
+    body('/output/third_file.html').must_equal File.read('spec/views/output/third_file.html')
   end
 end
