@@ -46,6 +46,8 @@ class Roda
       #            for clients supporting brotli transfer encoding.
       # :headers :: A hash of headers to use for statically served files
       # :root :: Use this option for the root of the public directory (default: "public")
+      # :pretty_urls :: Whether to check for either /path/to/file.html or
+      #                 /path/to/file/index.html for a URL of /path/to/file
       def self.configure(app, opts={})
         if opts[:root]
           app.opts[:public_root] = app.expand_path(opts[:root])
@@ -55,6 +57,7 @@ class Roda
         app.opts[:public_server] = ::Rack::File.new(app.opts[:public_root], opts[:headers]||{}, opts[:default_mime] || 'text/plain')
         app.opts[:public_gzip] = opts[:gzip]
         app.opts[:public_brotli] = opts[:brotli]
+        app.opts[:public_pretty_urls] = opts[:pretty_urls]
       end
 
       module RequestMethods
@@ -74,7 +77,19 @@ class Roda
             next if seg.empty? || seg == '.'
             seg == '..' ? segments.pop : segments << seg
           end
-            
+
+          if roda_class.opts[:public_pretty_urls]
+            check_path = ::File.join(roda_class.opts[:public_root], *segments)
+            unless ::File.file?(check_path)
+              check_path = ::File.join(check_path, "index.html")
+              if ::File.file?(check_path)
+                segments << "index.html"
+              elsif segments.size.positive?
+                segments[-1] = "#{segments.last}.html"
+              end
+            end
+          end
+
           segments
         end
 
