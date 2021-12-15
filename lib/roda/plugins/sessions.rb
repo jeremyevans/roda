@@ -108,7 +108,7 @@ class Roda
     #
     # If you need rack middleware to access the session information, then
     # <tt>require 'roda/session_middleware'</tt> and <tt>use RodaSessionMiddleware</tt>.
-    # <tt>RodaSessionMiddleware</tt> passes the options given to this plugin.
+    # <tt>RodaSessionMiddleware</tt> parses the options given to this plugin.
     #
     # = Session Cookie Cryptography/Format
     #
