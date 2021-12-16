@@ -141,32 +141,38 @@ describe "path plugin" do
 
   if RUBY_VERSION >= "2.1"
     it "supports keyword argument when opts[:add_script_name] is true" do
-      app(:bare) do
-        opts[:add_script_name] = true
-        plugin :path
-        path(:foo) {|bar:| "/foo/#{bar}"}
-        route{|r| foo_path(bar: "bar")}
-      end
+      eval(<<-'RUBY')
+        app(:bare) do
+          opts[:add_script_name] = true
+          plugin :path
+          path(:foo) {|bar:| "/foo/#{bar}"}
+          route{|r| foo_path(bar: "bar")}
+        end
+      RUBY
 
       body.must_equal "/foo/bar"
     end
 
     it "supports keyword arguments when :relative is true" do
-      app(:bare) do
-        plugin :path
-        path(:foo, relative: true) {|bar:| "/foo/#{bar}"}
-        route{|r| foo_path(bar: "bar")}
-      end
+      eval(<<-'RUBY')
+        app(:bare) do
+          plugin :path
+          path(:foo, relative: true) {|bar:| "/foo/#{bar}"}
+          route{|r| foo_path(bar: "bar")}
+        end
+      RUBY
 
       body.must_equal "./foo/bar"
     end
 
     it "supports keyword arguments when :url is true" do
-      app(:bare) do
-        plugin :path
-        path(:foo, url: true) {|bar:| "/foo/#{bar}"}
-        route{|r| foo_url(bar: "bar")}
-      end
+      eval(<<-'RUBY')
+        app(:bare) do
+          plugin :path
+          path(:foo, url: true) {|bar:| "/foo/#{bar}"}
+          route{|r| foo_url(bar: "bar")}
+        end
+      RUBY
 
       body("/", 'HTTP_HOST'=>'example.org:81', "rack.url_scheme"=>'http', 'SERVER_PORT'=>81).must_equal "http://example.org:81/foo/bar"
     end
