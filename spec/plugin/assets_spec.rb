@@ -722,11 +722,15 @@ END
     end
 
     it '#assets must_include attributes given' do
-      app.allocate.assets([:js, :head], 'a'=>'b').must_equal '<script type="text/javascript" a="b" src="/assets/js/head/app.js"></script>'
+      app.allocate.assets([:js, :head], 'a'=>'b').must_equal '<script a="b" type="text/javascript" src="/assets/js/head/app.js"></script>'
+    end
+
+    it '#assets must_include type given' do
+      app.allocate.assets([:js, :head], type: 'module').must_equal '<script type="module" src="/assets/js/head/app.js"></script>'
     end
 
     it '#assets should escape attribute values given' do
-      app.allocate.assets([:js, :head], 'a'=>'b"e').must_equal '<script type="text/javascript" a="b&quot;e" src="/assets/js/head/app.js"></script>'
+      app.allocate.assets([:js, :head], 'a'=>'b"e').must_equal '<script a="b&quot;e" type="text/javascript" src="/assets/js/head/app.js"></script>'
     end
 
     it 'requests for assets should return 304 if the asset has not been modified' do
@@ -826,14 +830,14 @@ END
     it 'should support :precompiled option' do
       app.plugin :assets, :precompiled=>metadata_file
       File.exist?(metadata_file).must_equal false
-      app.allocate.assets([:js, :head]).must_equal '<script type="text/javascript"  src="/assets/js/head/app.js"></script>'
+      app.allocate.assets([:js, :head]).must_equal '<script type="text/javascript" src="/assets/js/head/app.js"></script>'
 
       app.compile_assets
       File.exist?(metadata_file).must_equal true
       app.allocate.assets([:js, :head]).must_match %r{src="(/assets/app\.head\.[a-f0-9]{64}\.js)"}
 
       app.plugin :assets, :compiled=>false, :precompiled=>false
-      app.allocate.assets([:js, :head]).must_equal '<script type="text/javascript"  src="/assets/js/head/app.js"></script>'
+      app.allocate.assets([:js, :head]).must_equal '<script type="text/javascript" src="/assets/js/head/app.js"></script>'
 
       app.plugin :assets, :precompiled=>metadata_file
       app.allocate.assets([:js, :head]).must_match %r{src="(/assets/app\.head\.[a-f0-9]{64}\.js)"}

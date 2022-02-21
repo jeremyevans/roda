@@ -720,10 +720,15 @@ class Roda
             attrs[:integrity] = "#{algo}-#{h([[hash].pack('H*')].pack('m').tr("\n", ''))}"
           end
 
+          unless attrs[:type]
+            attrs = Hash[attrs]
+            attrs[:type] = "text/javascript"
+          end
+
           attrs = attrs.map{|k,v| "#{k}=\"#{h(v)}\""}.join(' ')
 
           if ltype == :js
-            tag_start = "<script type=\"text/javascript\" #{attrs} src=\""
+            tag_start = "<script #{attrs} src=\""
             tag_end = "\"></script>"
           else
             tag_start = "<link rel=\"stylesheet\" #{attrs} href=\""
