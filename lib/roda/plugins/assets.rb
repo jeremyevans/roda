@@ -201,7 +201,7 @@ class Roda
     # If you want to precompile your assets, so they do not need to be compiled
     # every time you boot the application, you can provide a :precompiled option
     # when loading the plugin.  The value of this option should be the filename
-    # where the compiled asset metadata is stored.  
+    # where the compiled asset metadata is stored.
     #
     # If the compiled asset metadata file does not exist when the assets plugin
     # is loaded, the plugin will run in non-compiled mode.  However, when you call
@@ -418,7 +418,7 @@ class Roda
         end
 
         [:css_headers, :js_headers, :css_opts, :js_opts, :dependencies].each do |s|
-          opts[s] ||= {} 
+          opts[s] ||= {}
         end
 
         expanded_deps = opts[:expanded_dependencies] = {}
