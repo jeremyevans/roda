@@ -54,6 +54,13 @@ class Roda
     #   Roda::RodaPlugins::ExceptionPage.css
     #   Roda::RodaPlugins::ExceptionPage.js
     #
+    # To customize the CSS or JS that applies to the exception page without creating
+    # static files, you can specify the values during plugin configuration:
+    #
+    #   plugin :exception_page,
+    #     css: ExceptionPage.css.dup.prepend("html { background: '#f00'}"),
+    #     js: my_custom_js
+    #
     # As the exception_page plugin is based on Rack::ShowExceptions, it is also under
     # rack's license:
     #
@@ -84,8 +91,16 @@ class Roda
     # Used under the modified BSD license:
     # http://www.xfree86.org/3.3.6/COPYRIGHT2.html#5
     module ExceptionPage
-      def self.load_dependencies(app)
+      def self.load_dependencies(app, opts=OPTS)
         app.plugin :h
+      end
+
+      # Use the CSS given as the :css option as the exception page's CSS and the
+      # JavaScript given as the :js option as the exception page's JavaScript,
+      # falling back to the defaults when not given.
+      def self.configure(app, opts=OPTS)
+        app.opts[:exception_page_css] = opts.fetch(:css, ExceptionPage.css)
+        app.opts[:exception_page_js] = opts.fetch(:js, ExceptionPage.js)
       end
 
       # Stylesheet used by the HTML exception page
@@ -161,6 +176,18 @@ for (var j = 0; j < num_contexts; j++) {
   contexts[j].onclick();
 }
 END
+      end
+
+      module ClassMethods
+        # Return the CSS to render in the exception page's CSS file
+        def exception_page_css
+          opts.fetch(:exception_page_css)
+        end
+
+        # Return the JavaScript to render in the exception page's JS file
+        def exception_page_js
+          opts.fetch(:exception_page_js)
+        end
       end
 
       module InstanceMethods
@@ -420,11 +447,11 @@ END
         def exception_page_assets
           get 'exception_page.css' do
             response['Content-Type'] = "text/css"
-            ExceptionPage.css
+            roda_class.exception_page_css
           end
           get 'exception_page.js' do
             response['Content-Type'] = "application/javascript"
-            ExceptionPage.js
+            roda_class.exception_page_js
           end
         end
       end
