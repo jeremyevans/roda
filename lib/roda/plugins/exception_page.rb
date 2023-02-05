@@ -55,11 +55,16 @@ class Roda
     #   Roda::RodaPlugins::ExceptionPage.js
     #
     # To customize the CSS or JS that applies to the exception page without creating
-    # static files, you can specify the values during plugin configuration:
+    # static files, you can use a callable to modify the defaults as they are passed
+    # in:
     #
     #   plugin :exception_page,
-    #     css: ExceptionPage.css.dup.prepend("html { background: '#f00'}"),
-    #     js: my_custom_js
+    #     assets: ->(css, js) {
+    #       css.concat("\n", 'html { background: "#facade" }')
+    #       js.concat("\n", 'console.log("hello")')
+    #
+    #       [css, js]
+    #     }
     #
     # As the exception_page plugin is based on Rack::ShowExceptions, it is also under
     # rack's license:
@@ -99,11 +104,12 @@ class Roda
       # JavaScript given as the :js option as the exception page's JavaScript,
       # falling back to the defaults when not given.
       def self.configure(app, opts=OPTS)
-        app.opts[:exception_page_css] = opts.fetch(:css, ExceptionPage.css)
-        app.opts[:exception_page_js] = opts.fetch(:js, ExceptionPage.js)
+        css, js = opts.fetch(:assets, NOOP).call(+self.css, +self.js)
+        app.exception_page_css = -css
+        app.exception_page_js = -js
       end
 
-      # Stylesheet used by the HTML exception page
+      # Default stylesheet used by the HTML exception page
       def self.css
         <<END
 html * { padding:0; margin:0; }
@@ -157,7 +163,7 @@ div.commands a { color:black; text-decoration:none; }
 END
       end
 
-      # Javascript used by the HTML exception page for context toggling
+      # Default Javascript used by the HTML exception page for context toggling
       def self.js
         <<END
 var contexts = document.getElementsByClassName('context');
@@ -179,15 +185,11 @@ END
       end
 
       module ClassMethods
-        # Return the CSS to render in the exception page's CSS file
-        def exception_page_css
-          opts.fetch(:exception_page_css)
-        end
+        # Read or set the CSS to render in the exception page's CSS file
+        attr_accessor :exception_page_css
 
-        # Return the JavaScript to render in the exception page's JS file
-        def exception_page_js
-          opts.fetch(:exception_page_js)
-        end
+        # Read or set the Javascript to render in the exception page's JS file
+        attr_accessor :exception_page_js
       end
 
       module InstanceMethods

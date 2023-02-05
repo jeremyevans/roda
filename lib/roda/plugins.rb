@@ -6,6 +6,7 @@ class Roda
   # Module in which all Roda plugins should be stored. Also contains logic for
   # registering and loading plugins.
   module RodaPlugins
+    NOOP = ->(*args) { args }.freeze
     OPTS = {}.freeze
     EMPTY_ARRAY = [].freeze
 

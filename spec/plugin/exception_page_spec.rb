@@ -235,7 +235,13 @@ describe "exception_page plugin" do
 
   it "should handle overriding exception page asset contents" do
     app(:bare) do
-      plugin :exception_page, css: '.hello {}', js: 'console.log("hello")'
+      plugin :exception_page,
+        assets: ->(css, js) {
+          css.concat("\n", 'html { background: "#facade" }')
+          js.concat("\n", 'console.log("hello")')
+
+          [css, js]
+        }
 
       route do |r|
         r.exception_page_assets
@@ -245,11 +251,11 @@ describe "exception_page plugin" do
     s, h, b = req('/exception_page.css')
     s.must_equal 200
     h['Content-Type'].must_equal 'text/css'
-    b.join.must_equal '.hello {}'
+    b.join.must_match 'html { background: "#facade" }'
 
     s, h, b = req('/exception_page.js')
     s.must_equal 200
     h['Content-Type'].must_equal 'application/javascript'
-    b.join.must_equal 'console.log("hello")'
+    b.join.must_match 'console.log("hello")'
   end
 end
