@@ -41,6 +41,8 @@ Roda::RodaPlugins::ExceptionPage::InstanceMethods
 <h3>Public Instance</h3>
 <ol>
 <li><a href="#method-i-exception_page">exception_page</a></li>
+<li><a href="#method-i-exception_page_css">exception_page_css</a></li>
+<li><a href="#method-i-exception_page_js">exception_page_js</a></li>
 </ol>
 </div>
 <div id='context'>
@@ -109,7 +111,7 @@ Roda::RodaPlugins::ExceptionPage::InstanceMethods
 <span class="line-num">227</span> 
 <span class="line-num">228</span>             <span class="ruby-identifier">css</span> = <span class="ruby-keyword">case</span> <span class="ruby-identifier">css_file</span>
 <span class="line-num">229</span>             <span class="ruby-keyword">when</span> <span class="ruby-keyword">nil</span>
-<span class="line-num">230</span>               <span class="ruby-node">&quot;&lt;style type=\&quot;text/css\&quot;&gt;#{ExceptionPage.css}&lt;/style&gt;&quot;</span>
+<span class="line-num">230</span>               <span class="ruby-node">&quot;&lt;style type=\&quot;text/css\&quot;&gt;#{exception_page_css}&lt;/style&gt;&quot;</span>
 <span class="line-num">231</span>             <span class="ruby-keyword">when</span> <span class="ruby-keyword">false</span>
 <span class="line-num">232</span>               <span class="ruby-comment"># :nothing</span>
 <span class="line-num">233</span>             <span class="ruby-keyword">else</span>
@@ -118,7 +120,7 @@ Roda::RodaPlugins::ExceptionPage::InstanceMethods
 <span class="line-num">236</span> 
 <span class="line-num">237</span>             <span class="ruby-identifier">js</span> = <span class="ruby-keyword">case</span> <span class="ruby-identifier">js_file</span>
 <span class="line-num">238</span>             <span class="ruby-keyword">when</span> <span class="ruby-keyword">nil</span>
-<span class="line-num">239</span>               <span class="ruby-node">&quot;&lt;script type=\&quot;text/javascript\&quot;&gt;\n//&lt;!--\n#{ExceptionPage.js}\n//--&gt;\n&lt;/script&gt;&quot;</span>
+<span class="line-num">239</span>               <span class="ruby-node">&quot;&lt;script type=\&quot;text/javascript\&quot;&gt;\n//&lt;!--\n#{exception_page_js}\n//--&gt;\n&lt;/script&gt;&quot;</span>
 <span class="line-num">240</span>             <span class="ruby-keyword">when</span> <span class="ruby-keyword">false</span>
 <span class="line-num">241</span>               <span class="ruby-comment"># :nothing</span>
 <span class="line-num">242</span>             <span class="ruby-keyword">else</span>
@@ -280,6 +282,48 @@ Roda::RodaPlugins::ExceptionPage::InstanceMethods
 <span class="line-num">398</span>             <span class="ruby-node">&quot;#{exception.class}: #{message}\n#{exception.backtrace.map{|l| &quot;\t#{l}&quot;}.join(&quot;\n&quot;)}&quot;</span>
 <span class="line-num">399</span>           <span class="ruby-keyword">end</span>
 <span class="line-num">400</span>         <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-exception_page_css'>
+<a name='method-i-exception_page_css'></a>
+<div class='synopsis'>
+<span class='name'>exception_page_css</span><span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+<p>The CSS to use on the exception page</p>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-exception_page_css-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-exception_page_css-source'>    <span class="ruby-comment"># File lib/roda/plugins/exception_page.rb</span>
+<span class="line-num">403</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">exception_page_css</span>
+<span class="line-num">404</span>   <span class="ruby-constant">ExceptionPage</span>.<span class="ruby-identifier">css</span>
+<span class="line-num">405</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-exception_page_js'>
+<a name='method-i-exception_page_js'></a>
+<div class='synopsis'>
+<span class='name'>exception_page_js</span><span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+<p>The JavaScript to use on the exception page</p>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-exception_page_js-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-exception_page_js-source'>    <span class="ruby-comment"># File lib/roda/plugins/exception_page.rb</span>
+<span class="line-num">408</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">exception_page_js</span>
+<span class="line-num">409</span>   <span class="ruby-constant">ExceptionPage</span>.<span class="ruby-identifier">js</span>
+<span class="line-num">410</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

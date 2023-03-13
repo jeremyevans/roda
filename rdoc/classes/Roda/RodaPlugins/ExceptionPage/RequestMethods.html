@@ -64,16 +64,16 @@ Roda::RodaPlugins::ExceptionPage::RequestMethods
 [show source]
 </a>
 <pre id='method-i-exception_page_assets-source'>    <span class="ruby-comment"># File lib/roda/plugins/exception_page.rb</span>
-<span class="line-num">420</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">exception_page_assets</span>
-<span class="line-num">421</span>   <span class="ruby-identifier">get</span> <span class="ruby-string">&#39;exception_page.css&#39;</span> <span class="ruby-keyword">do</span>
-<span class="line-num">422</span>     <span class="ruby-identifier">response</span>[<span class="ruby-string">&#39;Content-Type&#39;</span>] = <span class="ruby-string">&quot;text/css&quot;</span>
-<span class="line-num">423</span>     <span class="ruby-constant">ExceptionPage</span>.<span class="ruby-identifier">css</span>
-<span class="line-num">424</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">425</span>   <span class="ruby-identifier">get</span> <span class="ruby-string">&#39;exception_page.js&#39;</span> <span class="ruby-keyword">do</span>
-<span class="line-num">426</span>     <span class="ruby-identifier">response</span>[<span class="ruby-string">&#39;Content-Type&#39;</span>] = <span class="ruby-string">&quot;application/javascript&quot;</span>
-<span class="line-num">427</span>     <span class="ruby-constant">ExceptionPage</span>.<span class="ruby-identifier">js</span>
-<span class="line-num">428</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">429</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">430</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">exception_page_assets</span>
+<span class="line-num">431</span>   <span class="ruby-identifier">get</span> <span class="ruby-string">&#39;exception_page.css&#39;</span> <span class="ruby-keyword">do</span>
+<span class="line-num">432</span>     <span class="ruby-identifier">response</span>[<span class="ruby-string">&#39;Content-Type&#39;</span>] = <span class="ruby-string">&quot;text/css&quot;</span>
+<span class="line-num">433</span>     <span class="ruby-identifier">scope</span>.<span class="ruby-identifier">exception_page_css</span>
+<span class="line-num">434</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">435</span>   <span class="ruby-identifier">get</span> <span class="ruby-string">&#39;exception_page.js&#39;</span> <span class="ruby-keyword">do</span>
+<span class="line-num">436</span>     <span class="ruby-identifier">response</span>[<span class="ruby-string">&#39;Content-Type&#39;</span>] = <span class="ruby-string">&quot;application/javascript&quot;</span>
+<span class="line-num">437</span>     <span class="ruby-identifier">scope</span>.<span class="ruby-identifier">exception_page_js</span>
+<span class="line-num">438</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">439</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

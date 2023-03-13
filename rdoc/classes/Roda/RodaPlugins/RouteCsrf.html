@@ -87,7 +87,7 @@ Roda::RodaPlugins::RouteCsrf
 </td></tr><tr><td class='label'>csrf_field </td><td>
 <p>The field name to use for the hidden tag containing the CSRF token.</p>
 </td></tr><tr><td class='label'>csrf_path(action) </td><td>
-<p>This takes an argument that would be the value of the HTML form’s action attribute, and returns a path you can pass to csrf_token that should be valid for the form submission.  The argument should either be nil or a string representing a relative path, absolute path, or full URL.</p>
+<p>This takes an argument that would be the value of the HTML form’s action attribute, and returns a path you can pass to csrf_token that should be valid for the form submission.  The argument should either be nil or a string representing a relative path, absolute path, or full URL (using appropriate URL encoding).</p>
 </td></tr><tr><td class='label'>csrf_tag(path=nil, method=‘POST’) </td><td>
 <p>An HTML hidden input tag string containing the CSRF token, suitable for placing in an HTML form.  Takes the same arguments as csrf_token.</p>
 </td></tr><tr><td class='label'>csrf_token(path=nil, method=‘POST’) </td><td>
