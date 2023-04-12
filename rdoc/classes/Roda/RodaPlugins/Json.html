@@ -91,6 +91,7 @@ Roda::RodaPlugins::Json
 <h2>Classes and Modules</h2>
 <ol>
 <li><a href="Json/ClassMethods.html">Roda::RodaPlugins::Json::ClassMethods</a></li>
+<li><a href="Json/InstanceMethods.html">Roda::RodaPlugins::Json::InstanceMethods</a></li>
 <li><a href="Json/RequestMethods.html">Roda::RodaPlugins::Json::RequestMethods</a></li>
 </ol>
 </div>
@@ -114,18 +115,24 @@ Roda::RodaPlugins::Json
 </a>
 <pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/json.rb</span>
 <span class="line-num">57</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
-<span class="line-num">58</span>   <span class="ruby-identifier">classes</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:classes</span>] <span class="ruby-operator">||</span> [<span class="ruby-constant">Array</span>, <span class="ruby-constant">Hash</span>]
-<span class="line-num">59</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_result_classes</span>] <span class="ruby-operator">||=</span> []
-<span class="line-num">60</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_result_classes</span>] <span class="ruby-operator">+=</span> <span class="ruby-identifier">classes</span>
-<span class="line-num">61</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_result_classes</span>].<span class="ruby-identifier">uniq!</span>
-<span class="line-num">62</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_result_classes</span>].<span class="ruby-identifier">freeze</span>
-<span class="line-num">63</span> 
-<span class="line-num">64</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_result_serializer</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:serializer</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_result_serializer</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_serializer</span>] <span class="ruby-operator">||</span> <span class="ruby-value">:to_json</span>.<span class="ruby-identifier">to_proc</span>
-<span class="line-num">65</span> 
-<span class="line-num">66</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_result_include_request</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:include_request</span>] <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:include_request</span>)
-<span class="line-num">67</span> 
-<span class="line-num">68</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_result_content_type</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:content_type</span>] <span class="ruby-operator">||</span> <span class="ruby-string">&#39;application/json&#39;</span>.<span class="ruby-identifier">freeze</span>
-<span class="line-num">69</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">58</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:custom_block_results</span>
+<span class="line-num">59</span> 
+<span class="line-num">60</span>   <span class="ruby-identifier">classes</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:classes</span>] <span class="ruby-operator">||</span> [<span class="ruby-constant">Array</span>, <span class="ruby-constant">Hash</span>]
+<span class="line-num">61</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_result_classes</span>] <span class="ruby-operator">||=</span> []
+<span class="line-num">62</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_result_classes</span>] <span class="ruby-operator">+=</span> <span class="ruby-identifier">classes</span>
+<span class="line-num">63</span>   <span class="ruby-identifier">classes</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_result_classes</span>]
+<span class="line-num">64</span>   <span class="ruby-identifier">classes</span>.<span class="ruby-identifier">uniq!</span>
+<span class="line-num">65</span>   <span class="ruby-identifier">classes</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">66</span>   <span class="ruby-identifier">classes</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">klass</span><span class="ruby-operator">|</span>
+<span class="line-num">67</span>     <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:custom_block_results</span>][<span class="ruby-identifier">klass</span>] = <span class="ruby-value">:handle_json_block_result</span>
+<span class="line-num">68</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">69</span> 
+<span class="line-num">70</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_result_serializer</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:serializer</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_result_serializer</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_serializer</span>] <span class="ruby-operator">||</span> <span class="ruby-value">:to_json</span>.<span class="ruby-identifier">to_proc</span>
+<span class="line-num">71</span> 
+<span class="line-num">72</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_result_include_request</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:include_request</span>] <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:include_request</span>)
+<span class="line-num">73</span> 
+<span class="line-num">74</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_result_content_type</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:content_type</span>] <span class="ruby-operator">||</span> <span class="ruby-string">&#39;application/json&#39;</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">75</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

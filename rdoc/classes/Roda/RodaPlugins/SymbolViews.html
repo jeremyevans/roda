@@ -56,15 +56,39 @@ Roda::RodaPlugins::SymbolViews
 <span class="ruby-keyword">end</span>
 </pre>
 </div>
-<div id='context'>
-</div>
-<div id='class-list'>
-<h2>Classes and Modules</h2>
+<div id='method-list'>
+<h2>Methods</h2>
+<h3>Public Class</h3>
 <ol>
-<li><a href="SymbolViews/RequestMethods.html">Roda::RodaPlugins::SymbolViews::RequestMethods</a></li>
+<li><a href="#method-c-configure">configure</a></li>
 </ol>
 </div>
+<div id='context'>
+</div>
 <div id='section'>
+<div id='methods'>
+<h2>Public Class methods</h2>
+<div class='method public-class' id='method-method-c-configure'>
+<a name='method-c-configure'></a>
+<div class='synopsis'>
+<span class='name'>configure</span><span class='arguments'>(app)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-configure-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/symbol_views.rb</span>
+<span class="line-num">26</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>)
+<span class="line-num">27</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:custom_block_results</span>
+<span class="line-num">28</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:custom_block_results</span>][<span class="ruby-constant">Symbol</span>] = <span class="ruby-value">:view</span>
+<span class="line-num">29</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+</div>
 </div>
 
 </div>

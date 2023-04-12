@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+<head>
+<title>Roda::RodaPlugins::CustomBlockResults</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<link href='../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<script type='text/javascript'>
+  function popupCode(url) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+  
+  function toggleCode(id) {
+    var code = document.getElementById(id)
+  
+    code.style.display = code.style.display != 'block' ? 'block' : 'none'
+    return true
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+</script>
+</head>
+<body class='page'>
+<div class='class' id='wrapper'>
+<div class='header'>
+<h1 class='name'><span class='type'>module</span>
+Roda::RodaPlugins::CustomBlockResults
+</h1>
+<ol class='paths'>
+<li>
+<a href="../../../files/lib/roda/plugins/custom_block_results_rb.html">lib/roda/plugins/custom_block_results.rb</a>
+</li>
+</ol>
+</div>
+<div id='content'>
+<div id='text'>
+<div id='description'>
+<p>The custom_block_results plugin allows you to specify handling for different block results.  By default, <a href="../../Roda.html"><code>Roda</code></a> only supports nil, false, and string block results, but using this plugin, you can support other block results.</p>
+
+<p>For example, if you wanted to support returning Integer block results, and have them set the response status code, you could do:</p>
+
+<pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:custom_block_results</span>
+
+<span class="ruby-identifier">handle_block_result</span> <span class="ruby-constant">Integer</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">result</span><span class="ruby-operator">|</span>
+  <span class="ruby-identifier">response</span>.<span class="ruby-identifier">status_code</span> = <span class="ruby-identifier">result</span>
+<span class="ruby-keyword">end</span>
+
+<span class="ruby-identifier">route</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span>
+  <span class="ruby-value">200</span>
+<span class="ruby-keyword">end</span>
+</pre>
+
+<p>The expected use case for this is to customize behavior by class, but matching uses ===, so it is possible to use non-class objects that respond to === appropriately.</p>
+
+<p>Note that custom block result handling only occurs if the types are not handled by <a href="../../Roda.html"><code>Roda</code></a> itself.  You cannot use this to modify the handling of nil, false, or string results.</p>
+</div>
+<div id='method-list'>
+<h2>Methods</h2>
+<h3>Public Class</h3>
+<ol>
+<li><a href="#method-c-configure">configure</a></li>
+</ol>
+</div>
+<div id='context'>
+</div>
+<div id='class-list'>
+<h2>Classes and Modules</h2>
+<ol>
+<li><a href="CustomBlockResults/ClassMethods.html">Roda::RodaPlugins::CustomBlockResults::ClassMethods</a></li>
+<li><a href="CustomBlockResults/RequestMethods.html">Roda::RodaPlugins::CustomBlockResults::RequestMethods</a></li>
+</ol>
+</div>
+<div id='section'>
+<div id='methods'>
+<h2>Public Class methods</h2>
+<div class='method public-class' id='method-method-c-configure'>
+<a name='method-c-configure'></a>
+<div class='synopsis'>
+<span class='name'>configure</span><span class='arguments'>(app)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-configure-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/custom_block_results.rb</span>
+<span class="line-num">33</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>)
+<span class="line-num">34</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:custom_block_results</span>] <span class="ruby-operator">||=</span> {}
+<span class="line-num">35</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div id='footer-push'></div>
+</div>
+<div id='footer'>
+<a href="https://github.com/jeremyevans/hanna-nouveau"><strong>Hanna Nouveau</strong> RDoc template</a>
+</div>
+</body>
+</html>

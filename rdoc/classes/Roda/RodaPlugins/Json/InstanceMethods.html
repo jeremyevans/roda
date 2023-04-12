@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang='en'>
 <head>
-<title>Roda::RodaPlugins::Json::ClassMethods</title>
+<title>Roda::RodaPlugins::Json::InstanceMethods</title>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
 <link href='../../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
@@ -25,7 +25,7 @@
 <div class='class' id='wrapper'>
 <div class='header'>
 <h1 class='name'><span class='type'>module</span>
-Roda::RodaPlugins::Json::ClassMethods
+Roda::RodaPlugins::Json::InstanceMethods
 </h1>
 <ol class='paths'>
 <li>
@@ -40,7 +40,7 @@ Roda::RodaPlugins::Json::ClassMethods
 <h2>Methods</h2>
 <h3>Public Instance</h3>
 <ol>
-<li><a href="#method-i-json_result_classes">json_result_classes</a></li>
+<li><a href="#method-i-handle_json_block_result">handle_json_block_result</a></li>
 </ol>
 </div>
 <div id='context'>
@@ -48,26 +48,26 @@ Roda::RodaPlugins::Json::ClassMethods
 <div id='section'>
 <div id='methods'>
 <h2>Public Instance methods</h2>
-<div class='method public-instance' id='method-method-i-json_result_classes'>
-<a name='method-i-json_result_classes'></a>
+<div class='method public-instance' id='method-method-i-handle_json_block_result'>
+<a name='method-i-handle_json_block_result'></a>
 <div class='synopsis'>
-<span class='name'>json_result_classes</span><span class='arguments'>()</span>
+<span class='name'>handle_json_block_result</span><span class='arguments'>(result)</span>
 
 </div>
 <div class='description'>
 
-<p>The classes that should be automatically converted to json</p>
+<p>Handle a result for one of the registered JSON result classes by converting the result to JSON.</p>
 
 </div>
 <div class='source'>
-<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-json_result_classes-source&#39;); return false'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-handle_json_block_result-source&#39;); return false'>
 [show source]
 </a>
-<pre id='method-i-json_result_classes-source'>   <span class="ruby-comment"># File lib/roda/plugins/json.rb</span>
-<span class="line-num">79</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">json_result_classes</span>
-<span class="line-num">80</span>   <span class="ruby-comment"># RODA4: remove, only used by previous implementation.</span>
-<span class="line-num">81</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_result_classes</span>]
-<span class="line-num">82</span> <span class="ruby-keyword">end</span></pre>
+<pre id='method-i-handle_json_block_result-source'>   <span class="ruby-comment"># File lib/roda/plugins/json.rb</span>
+<span class="line-num">88</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">handle_json_block_result</span>(<span class="ruby-identifier">result</span>)
+<span class="line-num">89</span>   <span class="ruby-ivar">@_response</span>[<span class="ruby-string">&#39;Content-Type&#39;</span>] <span class="ruby-operator">||=</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_result_content_type</span>]
+<span class="line-num">90</span>   <span class="ruby-ivar">@_request</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:convert_to_json</span>, <span class="ruby-identifier">result</span>)
+<span class="line-num">91</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>
