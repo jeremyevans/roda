@@ -58,7 +58,7 @@ Roda::RodaPlugins::MultiRun::ClassMethods
 </div>
 <div class='description'>
 
-<p>Freeze the multi_run apps so that there can be no thread safety issues at runtime.</p>
+<p>Convert app blocks into apps by calling them, in order to force autoloads and to speed up subsequent calls. Freeze the multi_run apps so that there can be no thread safety issues at runtime.</p>
 
 </div>
 <div class='source'>
@@ -66,11 +66,17 @@ Roda::RodaPlugins::MultiRun::ClassMethods
 [show source]
 </a>
 <pre id='method-i-freeze-source'>   <span class="ruby-comment"># File lib/roda/plugins/multi_run.rb</span>
-<span class="line-num">59</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">freeze</span>
-<span class="line-num">60</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:multi_run_apps</span>].<span class="ruby-identifier">freeze</span>
-<span class="line-num">61</span>   <span class="ruby-keyword">self</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>.<span class="ruby-identifier">refresh_multi_run_regexp!</span>
-<span class="line-num">62</span>   <span class="ruby-keyword">super</span>
-<span class="line-num">63</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">76</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">freeze</span>
+<span class="line-num">77</span>   <span class="ruby-identifier">app_blocks</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:multi_run_app_blocks</span>]
+<span class="line-num">78</span>   <span class="ruby-identifier">apps</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:multi_run_apps</span>]
+<span class="line-num">79</span>   <span class="ruby-identifier">app_blocks</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">prefix</span>, <span class="ruby-identifier">block</span><span class="ruby-operator">|</span>
+<span class="line-num">80</span>     <span class="ruby-identifier">apps</span>[<span class="ruby-identifier">prefix</span>] = <span class="ruby-identifier">block</span>.<span class="ruby-identifier">call</span>
+<span class="line-num">81</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">82</span>   <span class="ruby-identifier">app_blocks</span>.<span class="ruby-identifier">clear</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">83</span>   <span class="ruby-identifier">apps</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">84</span>   <span class="ruby-keyword">self</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>.<span class="ruby-identifier">refresh_multi_run_regexp!</span>
+<span class="line-num">85</span>   <span class="ruby-keyword">super</span>
+<span class="line-num">86</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-multi_run_apps'>
@@ -89,35 +95,42 @@ Roda::RodaPlugins::MultiRun::ClassMethods
 [show source]
 </a>
 <pre id='method-i-multi_run_apps-source'>   <span class="ruby-comment"># File lib/roda/plugins/multi_run.rb</span>
-<span class="line-num">67</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">multi_run_apps</span>
-<span class="line-num">68</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:multi_run_apps</span>]
-<span class="line-num">69</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">90</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">multi_run_apps</span>
+<span class="line-num">91</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:multi_run_apps</span>]
+<span class="line-num">92</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-run'>
 <a name='method-i-run'></a>
 <div class='synopsis'>
-<span class='name'>run</span><span class='arguments'>(prefix, app=nil)</span>
+<span class='name'>run</span><span class='arguments'>(prefix, app=nil, &block)</span>
 
 </div>
 <div class='description'>
 
-<p>Add a rack application to dispatch to for the given prefix when r.multi_run is called.</p>
+<p>Add a rack application to dispatch to for the given prefix when r.multi_run is called. If a block is given, it is called every time there is a request for the route to get the app to call. If neither a block or an app is provided, any stored route for the prefix is removed.  It is an error to provide both an app and block in the same call.</p>
 
 </div>
 <div class='source'>
 <a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-run-source&#39;); return false'>
 [show source]
 </a>
-<pre id='method-i-run-source'>   <span class="ruby-comment"># File lib/roda/plugins/multi_run.rb</span>
-<span class="line-num">73</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">run</span>(<span class="ruby-identifier">prefix</span>, <span class="ruby-identifier">app</span>=<span class="ruby-keyword">nil</span>)
-<span class="line-num">74</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">app</span>
-<span class="line-num">75</span>     <span class="ruby-identifier">multi_run_apps</span>[<span class="ruby-identifier">prefix</span>.<span class="ruby-identifier">to_s</span>] = <span class="ruby-identifier">app</span>
-<span class="line-num">76</span>   <span class="ruby-keyword">else</span>
-<span class="line-num">77</span>     <span class="ruby-identifier">multi_run_apps</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">prefix</span>.<span class="ruby-identifier">to_s</span>)
-<span class="line-num">78</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">79</span>   <span class="ruby-keyword">self</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>.<span class="ruby-identifier">refresh_multi_run_regexp!</span>
-<span class="line-num">80</span> <span class="ruby-keyword">end</span></pre>
+<pre id='method-i-run-source'>    <span class="ruby-comment"># File lib/roda/plugins/multi_run.rb</span>
+<span class="line-num"> 99</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">run</span>(<span class="ruby-identifier">prefix</span>, <span class="ruby-identifier">app</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">100</span>   <span class="ruby-identifier">prefix</span> = <span class="ruby-identifier">prefix</span>.<span class="ruby-identifier">to_s</span>
+<span class="line-num">101</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">app</span> 
+<span class="line-num">102</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">Roda</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;cannot provide both app and block to Roda.run&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span>
+<span class="line-num">103</span>     <span class="ruby-identifier">opts</span>[<span class="ruby-value">:multi_run_apps</span>][<span class="ruby-identifier">prefix</span>] = <span class="ruby-identifier">app</span>
+<span class="line-num">104</span>     <span class="ruby-identifier">opts</span>[<span class="ruby-value">:multi_run_app_blocks</span>].<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">prefix</span>)
+<span class="line-num">105</span>   <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">block</span>
+<span class="line-num">106</span>     <span class="ruby-identifier">opts</span>[<span class="ruby-value">:multi_run_apps</span>].<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">prefix</span>)
+<span class="line-num">107</span>     <span class="ruby-identifier">opts</span>[<span class="ruby-value">:multi_run_app_blocks</span>][<span class="ruby-identifier">prefix</span>] = <span class="ruby-identifier">block</span>
+<span class="line-num">108</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">109</span>     <span class="ruby-identifier">opts</span>[<span class="ruby-value">:multi_run_apps</span>].<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">prefix</span>)
+<span class="line-num">110</span>     <span class="ruby-identifier">opts</span>[<span class="ruby-value">:multi_run_app_blocks</span>].<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">prefix</span>)
+<span class="line-num">111</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">112</span>   <span class="ruby-keyword">self</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>.<span class="ruby-identifier">refresh_multi_run_regexp!</span>
+<span class="line-num">113</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

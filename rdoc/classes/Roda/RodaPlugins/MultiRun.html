@@ -50,7 +50,7 @@ Roda::RodaPlugins::MultiRun
 <span class="ruby-constant">App</span>.<span class="ruby-identifier">run</span> <span class="ruby-string">&quot;si&quot;</span>, <span class="ruby-constant">SinatraApp</span>
 </pre>
 
-<p>Inside your route block, you can call r.multi_run to dispatch to all three rack applications based on the prefix:</p>
+<p>Inside your route block, you can call <code>r.multi_run</code> to dispatch to all three rack applications based on the prefix:</p>
 
 <pre class="ruby"><span class="ruby-constant">App</span>.<span class="ruby-identifier">route</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span>
   <span class="ruby-identifier">r</span>.<span class="ruby-identifier">multi_run</span>
@@ -59,7 +59,7 @@ Roda::RodaPlugins::MultiRun
 
 <p>This will dispatch routes starting with <code>/ra</code> to <code>PlainRackApp</code>, routes starting with <code>/ro</code> to <code>OtherRodaApp</code>, and routes starting with <code>/si</code> to SinatraApp.</p>
 
-<p>You can pass a block to <code>multi_run</code> that will be called with the prefix, before dispatching to the rack app:</p>
+<p>You can pass a block to <code>r.multi_run</code> that will be called with the prefix, before dispatching to the rack app:</p>
 
 <pre class="ruby"><span class="ruby-constant">App</span>.<span class="ruby-identifier">route</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span>
   <span class="ruby-identifier">r</span>.<span class="ruby-identifier">multi_run</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">prefix</span><span class="ruby-operator">|</span>
@@ -70,7 +70,16 @@ Roda::RodaPlugins::MultiRun
 
 <p>This is useful for modifying the environment before passing it to the rack app.</p>
 
-<p>The multi_run plugin is similar to the multi_route plugin, with the difference being the multi_route plugin keeps all routing subtrees in the same <a href="../../Roda.html"><code>Roda</code></a> app/class, while multi_run dispatches to other rack apps.  If you want to isolate your routing subtrees, multi_run is a better approach, but it does not let you set instance variables in the main <a href="../../Roda.html"><code>Roda</code></a> app and have those instance variables usable in the routing subtrees.</p>
+<p>You can also call <code>Roda.run</code> with a block:</p>
+
+<pre class="ruby"><span class="ruby-constant">App</span>.<span class="ruby-identifier">run</span>(<span class="ruby-string">&quot;ra&quot;</span>){<span class="ruby-constant">PlainRackApp</span>}
+<span class="ruby-constant">App</span>.<span class="ruby-identifier">run</span>(<span class="ruby-string">&quot;ro&quot;</span>){<span class="ruby-constant">OtherRodaApp</span>}
+<span class="ruby-constant">App</span>.<span class="ruby-identifier">run</span>(<span class="ruby-string">&quot;si&quot;</span>){<span class="ruby-constant">SinatraApp</span>}
+</pre>
+
+<p>When called with a block, <a href="../../Roda.html"><code>Roda</code></a> will call the block to get the app to dispatch to every time the block is called.  The expected usage is with autoloaded classes, so that the related classes are not loaded until there is a request for the related route.  This can sigficantly speedup startup or testing a subset of the application.  When freezing an application, the blocks are called once to get the app to dispatch to, and that is cached, to ensure the any autoloads are completed before the application is frozen.</p>
+
+<p>The multi_run plugin is similar to the hash_branches and multi_route plugins, with the difference being the hash_branches and multi_route plugins keep all routing subtrees in the same <a href="../../Roda.html"><code>Roda</code></a> app/class, while multi_run dispatches to other rack apps. If you want to isolate your routing subtrees, multi_run is a better approach, but it does not let you set instance variables in the main <a href="../../Roda.html"><code>Roda</code></a> app and have those instance variables usable in the routing subtrees.</p>
 
 <p>To handle development environments that reload code, you can call the <code>run</code> class method without an app to remove dispatching for the prefix.</p>
 </div>
@@ -110,9 +119,10 @@ Roda::RodaPlugins::MultiRun
 [show source]
 </a>
 <pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/multi_run.rb</span>
-<span class="line-num">53</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>)
-<span class="line-num">54</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:multi_run_apps</span>] <span class="ruby-operator">||=</span> {}
-<span class="line-num">55</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">67</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>)
+<span class="line-num">68</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:multi_run_apps</span>] <span class="ruby-operator">||=</span> {}
+<span class="line-num">69</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:multi_run_app_blocks</span>] <span class="ruby-operator">||=</span> {}
+<span class="line-num">70</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>
