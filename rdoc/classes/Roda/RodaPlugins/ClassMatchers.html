@@ -62,7 +62,7 @@ Roda::RodaPlugins::ClassMatchers
 
 <p>If you have a segment match the passed regexp, but decide during block processing that you do not want to treat it as a match, you can have the block return nil or false.  This is useful if you want to make sure you are using valid data:</p>
 
-<pre class="ruby"><span class="ruby-identifier">class_matcher</span>(<span class="ruby-constant">Date</span>, <span class="ruby-regexp">/(\dd\d)-(\d\d)-(\d\d)/</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">y</span>, <span class="ruby-identifier">m</span>, <span class="ruby-identifier">d</span><span class="ruby-operator">|</span>
+<pre class="ruby"><span class="ruby-identifier">class_matcher</span>(<span class="ruby-constant">Date</span>, <span class="ruby-regexp">/(\d\d\d\d)-(\d\d)-(\d\d)/</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">y</span>, <span class="ruby-identifier">m</span>, <span class="ruby-identifier">d</span><span class="ruby-operator">|</span>
   <span class="ruby-identifier">y</span> = <span class="ruby-identifier">y</span>.<span class="ruby-identifier">to_i</span>
   <span class="ruby-identifier">m</span> = <span class="ruby-identifier">m</span>.<span class="ruby-identifier">to_i</span>
   <span class="ruby-identifier">d</span> = <span class="ruby-identifier">d</span>.<span class="ruby-identifier">to_i</span>

@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+<head>
+<title>3.69.0.txt</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<link href='../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<script type='text/javascript'>
+  function popupCode(url) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+  
+  function toggleCode(id) {
+    var code = document.getElementById(id)
+  
+    code.style.display = code.style.display != 'block' ? 'block' : 'none'
+    return true
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+</script>
+</head>
+<body class='page'>
+<div class='file' id='wrapper'>
+<div class='header'>
+<h1 class='name'>3.69.0.txt
+</h1>
+<div class='paths'>
+doc/release_notes/3.69.0.txt
+</div>
+<div class='last-update'>
+Last Update:
+<span class='datetime'>2023-06-13 07:51:16 -0700</span>
+</div>
+</div>
+<div id='content'>
+<div id='text'>
+<div id='description'>
+<h1 id="label-New+Feature">New Feature<span><a href="#label-New+Feature">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<ul><li>
+<p>The symbol_matcher method in the symbol_matchers plugin now supports a block to allow for type conversion of matched segments:</p>
+
+<pre class="ruby"><span class="ruby-identifier">symbol_matcher</span>(<span class="ruby-value">:date</span>, <span class="ruby-regexp">/(\d\d\d\d)-(\d\d)-(\d\d)/</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">y</span>, <span class="ruby-identifier">m</span>, <span class="ruby-identifier">d</span><span class="ruby-operator">|</span>
+  [<span class="ruby-constant">Date</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">y</span>.<span class="ruby-identifier">to_i</span>, <span class="ruby-identifier">m</span>.<span class="ruby-identifier">to_i</span>, <span class="ruby-identifier">d</span>.<span class="ruby-identifier">to_i</span>)]
+<span class="ruby-keyword">end</span>
+
+<span class="ruby-identifier">route</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span>
+  <span class="ruby-identifier">r</span>.<span class="ruby-identifier">on</span> <span class="ruby-value">:date</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">date</span><span class="ruby-operator">|</span>
+    <span class="ruby-comment"># date is an instance of Date</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span>
+</pre>
+
+<p>As shown above, the block should return an array of objects to yield to the match block.</p>
+
+<p>If you have a segment match the passed regexp, but decide during block processing that you do not want to treat it as a match, you can have the block return nil or false.  This is useful if you want to make sure you are using valid data:</p>
+
+<pre class="ruby"><span class="ruby-identifier">symbol_matcher</span>(<span class="ruby-value">:date</span>, <span class="ruby-regexp">/(\d\d\d\d)-(\d\d)-(\d\d)/</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">y</span>, <span class="ruby-identifier">m</span>, <span class="ruby-identifier">d</span><span class="ruby-operator">|</span>
+  <span class="ruby-identifier">y</span> = <span class="ruby-identifier">y</span>.<span class="ruby-identifier">to_i</span>
+  <span class="ruby-identifier">m</span> = <span class="ruby-identifier">m</span>.<span class="ruby-identifier">to_i</span>
+  <span class="ruby-identifier">d</span> = <span class="ruby-identifier">d</span>.<span class="ruby-identifier">to_i</span>
+  [<span class="ruby-constant">Date</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">y</span>, <span class="ruby-identifier">m</span>, <span class="ruby-identifier">d</span>)] <span class="ruby-keyword">if</span> <span class="ruby-constant">Date</span>.<span class="ruby-identifier">valid_date?</span>(<span class="ruby-identifier">y</span>, <span class="ruby-identifier">m</span>, <span class="ruby-identifier">d</span>)
+<span class="ruby-keyword">end</span>
+</pre>
+
+<p>When providing a block when using the symbol_matchers method, that symbol may not work with the params_capturing plugin.</p>
+</li></ul>
+</div>
+<div id='context'>
+</div>
+
+</div>
+</div>
+
+<div id='footer-push'></div>
+</div>
+<div id='footer'>
+<a href="https://github.com/jeremyevans/hanna-nouveau"><strong>Hanna Nouveau</strong> RDoc template</a>
+</div>
+</body>
+</html>

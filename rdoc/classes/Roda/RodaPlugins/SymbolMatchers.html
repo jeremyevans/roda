@@ -70,6 +70,31 @@ Roda::RodaPlugins::SymbolMatchers
 <p>Would match <code>/users/foobar123</code>, but not <code>/users/foo</code>, <code>/users/FooBar123</code>, or <code>/users/foobar_123</code>.</p>
 
 <p>If using this plugin with the params_capturing plugin, this plugin should be loaded first.</p>
+
+<p>You can provide a block when calling <code>symbol_matcher</code>, and it will be called for all matches to allow for type conversion.  The block must return an array:</p>
+
+<pre class="ruby"><span class="ruby-identifier">symbol_matcher</span>(<span class="ruby-value">:date</span>, <span class="ruby-regexp">/(\d\d\d\d)-(\d\d)-(\d\d)/</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">y</span>, <span class="ruby-identifier">m</span>, <span class="ruby-identifier">d</span><span class="ruby-operator">|</span>
+  [<span class="ruby-constant">Date</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">y</span>.<span class="ruby-identifier">to_i</span>, <span class="ruby-identifier">m</span>.<span class="ruby-identifier">to_i</span>, <span class="ruby-identifier">d</span>.<span class="ruby-identifier">to_i</span>)]
+<span class="ruby-keyword">end</span>
+
+<span class="ruby-identifier">route</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span>
+  <span class="ruby-identifier">r</span>.<span class="ruby-identifier">on</span> <span class="ruby-value">:date</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">date</span><span class="ruby-operator">|</span>
+    <span class="ruby-comment"># date is an instance of Date</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span>
+</pre>
+
+<p>If you have a segment match the passed regexp, but decide during block processing that you do not want to treat it as a match, you can have the block return nil or false.  This is useful if you want to make sure you are using valid data:</p>
+
+<pre class="ruby"><span class="ruby-identifier">symbol_matcher</span>(<span class="ruby-value">:date</span>, <span class="ruby-regexp">/(\d\d\d\d)-(\d\d)-(\d\d)/</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">y</span>, <span class="ruby-identifier">m</span>, <span class="ruby-identifier">d</span><span class="ruby-operator">|</span>
+  <span class="ruby-identifier">y</span> = <span class="ruby-identifier">y</span>.<span class="ruby-identifier">to_i</span>
+  <span class="ruby-identifier">m</span> = <span class="ruby-identifier">m</span>.<span class="ruby-identifier">to_i</span>
+  <span class="ruby-identifier">d</span> = <span class="ruby-identifier">d</span>.<span class="ruby-identifier">to_i</span>
+  [<span class="ruby-constant">Date</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">y</span>, <span class="ruby-identifier">m</span>, <span class="ruby-identifier">d</span>)] <span class="ruby-keyword">if</span> <span class="ruby-constant">Date</span>.<span class="ruby-identifier">valid_date?</span>(<span class="ruby-identifier">y</span>, <span class="ruby-identifier">m</span>, <span class="ruby-identifier">d</span>)
+<span class="ruby-keyword">end</span>
+</pre>
+
+<p>However, if providing a block to the symbol_matchers plugin, the symbol may  not work with the params_capturing plugin.</p>
 </div>
 <div id='method-list'>
 <h2>Methods</h2>
@@ -105,11 +130,11 @@ Roda::RodaPlugins::SymbolMatchers
 [show source]
 </a>
 <pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/symbol_matchers.rb</span>
-<span class="line-num">45</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>)
-<span class="line-num">46</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">symbol_matcher</span>(<span class="ruby-value">:d</span>, <span class="ruby-regexp">/(\d+)/</span>)
-<span class="line-num">47</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">symbol_matcher</span>(<span class="ruby-value">:w</span>, <span class="ruby-regexp">/(\w+)/</span>)
-<span class="line-num">48</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">symbol_matcher</span>(<span class="ruby-value">:rest</span>, <span class="ruby-regexp">/(.*)/</span>)
-<span class="line-num">49</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">74</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>)
+<span class="line-num">75</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">symbol_matcher</span>(<span class="ruby-value">:d</span>, <span class="ruby-regexp">/(\d+)/</span>)
+<span class="line-num">76</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">symbol_matcher</span>(<span class="ruby-value">:w</span>, <span class="ruby-regexp">/(\w+)/</span>)
+<span class="line-num">77</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">symbol_matcher</span>(<span class="ruby-value">:rest</span>, <span class="ruby-regexp">/(.*)/</span>)
+<span class="line-num">78</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-class' id='method-method-c-load_dependencies'>
@@ -126,9 +151,9 @@ Roda::RodaPlugins::SymbolMatchers
 [show source]
 </a>
 <pre id='method-c-load_dependencies-source'>   <span class="ruby-comment"># File lib/roda/plugins/symbol_matchers.rb</span>
-<span class="line-num">41</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">load_dependencies</span>(<span class="ruby-identifier">app</span>)
-<span class="line-num">42</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:_symbol_regexp_matchers</span>
-<span class="line-num">43</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">70</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">load_dependencies</span>(<span class="ruby-identifier">app</span>)
+<span class="line-num">71</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:_symbol_regexp_matchers</span>
+<span class="line-num">72</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

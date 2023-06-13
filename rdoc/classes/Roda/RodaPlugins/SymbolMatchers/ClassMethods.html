@@ -51,7 +51,7 @@ Roda::RodaPlugins::SymbolMatchers::ClassMethods
 <div class='method public-instance' id='method-method-i-symbol_matcher'>
 <a name='method-i-symbol_matcher'></a>
 <div class='synopsis'>
-<span class='name'>symbol_matcher</span><span class='arguments'>(s, re)</span>
+<span class='name'>symbol_matcher</span><span class='arguments'>(s, re, &block)</span>
 
 </div>
 <div class='description'>
@@ -64,11 +64,12 @@ Roda::RodaPlugins::SymbolMatchers::ClassMethods
 [show source]
 </a>
 <pre id='method-i-symbol_matcher-source'>   <span class="ruby-comment"># File lib/roda/plugins/symbol_matchers.rb</span>
-<span class="line-num">53</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">symbol_matcher</span>(<span class="ruby-identifier">s</span>, <span class="ruby-identifier">re</span>)
-<span class="line-num">54</span>   <span class="ruby-identifier">meth</span> = <span class="ruby-value">:&quot;match_symbol_#{s}&quot;</span>
-<span class="line-num">55</span>   <span class="ruby-keyword">self</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:define_method</span>, <span class="ruby-identifier">meth</span>){<span class="ruby-identifier">re</span>}
-<span class="line-num">56</span>   <span class="ruby-keyword">self</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:private</span>, <span class="ruby-identifier">meth</span>)
-<span class="line-num">57</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">82</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">symbol_matcher</span>(<span class="ruby-identifier">s</span>, <span class="ruby-identifier">re</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">83</span>   <span class="ruby-identifier">meth</span> = <span class="ruby-value">:&quot;match_symbol_#{s}&quot;</span>
+<span class="line-num">84</span>   <span class="ruby-identifier">array</span> = [<span class="ruby-identifier">re</span>, <span class="ruby-identifier">block</span>].<span class="ruby-identifier">freeze</span>
+<span class="line-num">85</span>   <span class="ruby-keyword">self</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:define_method</span>, <span class="ruby-identifier">meth</span>){<span class="ruby-identifier">array</span>}
+<span class="line-num">86</span>   <span class="ruby-keyword">self</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:private</span>, <span class="ruby-identifier">meth</span>)
+<span class="line-num">87</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>
