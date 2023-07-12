@@ -98,14 +98,14 @@ Roda::RodaPlugins::SinatraHelpers::ResponseMethods
 <span class="line-num">463</span>       <span class="ruby-identifier">encoded_params</span> = <span class="ruby-node">&quot;; filename*=#{encoding.to_s}&#39;&#39;#{encoded_filename}&quot;</span>
 <span class="line-num">464</span>     <span class="ruby-keyword">end</span>
 <span class="line-num">465</span> 
-<span class="line-num">466</span>     <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@headers</span>[<span class="ruby-string">&quot;Content-Type&quot;</span>]
+<span class="line-num">466</span>     <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@headers</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_TYPE</span>]
 <span class="line-num">467</span>       <span class="ruby-identifier">ext</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">extname</span>(<span class="ruby-identifier">filename</span>)
 <span class="line-num">468</span>       <span class="ruby-keyword">unless</span> <span class="ruby-identifier">ext</span>.<span class="ruby-identifier">empty?</span>
 <span class="line-num">469</span>         <span class="ruby-identifier">content_type</span>(<span class="ruby-identifier">ext</span>)
 <span class="line-num">470</span>       <span class="ruby-keyword">end</span>
 <span class="line-num">471</span>     <span class="ruby-keyword">end</span>
 <span class="line-num">472</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">473</span>   <span class="ruby-ivar">@headers</span>[<span class="ruby-string">&quot;Content-Disposition&quot;</span>] = <span class="ruby-node">&quot;#{disposition}#{params}#{encoded_params}&quot;</span>
+<span class="line-num">473</span>   <span class="ruby-ivar">@headers</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_DISPOSITION</span>] = <span class="ruby-node">&quot;#{disposition}#{params}#{encoded_params}&quot;</span>
 <span class="line-num">474</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
@@ -179,7 +179,7 @@ Roda::RodaPlugins::SinatraHelpers::ResponseMethods
 <div class='method public-instance' id='method-method-i-content_type'>
 <a name='method-i-content_type'></a>
 <div class='synopsis'>
-<span class='name'>content_type</span><span class='arguments'>(type = nil || (return @headers["Content-Type"]), opts = OPTS)</span>
+<span class='name'>content_type</span><span class='arguments'>(type = nil || (return @headers[RodaResponseHeaders::CONTENT_TYPE]), opts = OPTS)</span>
 
 </div>
 <div class='description'>
@@ -192,7 +192,7 @@ Roda::RodaPlugins::SinatraHelpers::ResponseMethods
 [show source]
 </a>
 <pre id='method-i-content_type-source'>    <span class="ruby-comment"># File lib/roda/plugins/sinatra_helpers.rb</span>
-<span class="line-num">427</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">content_type</span>(<span class="ruby-identifier">type</span> = <span class="ruby-keyword">nil</span> <span class="ruby-operator">||</span> (<span class="ruby-keyword">return</span> <span class="ruby-ivar">@headers</span>[<span class="ruby-string">&quot;Content-Type&quot;</span>]), <span class="ruby-identifier">opts</span> = <span class="ruby-constant">OPTS</span>)
+<span class="line-num">427</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">content_type</span>(<span class="ruby-identifier">type</span> = <span class="ruby-keyword">nil</span> <span class="ruby-operator">||</span> (<span class="ruby-keyword">return</span> <span class="ruby-ivar">@headers</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_TYPE</span>]), <span class="ruby-identifier">opts</span> = <span class="ruby-constant">OPTS</span>)
 <span class="line-num">428</span>   <span class="ruby-keyword">unless</span> (<span class="ruby-identifier">mime_type</span> = <span class="ruby-identifier">mime_type</span>(<span class="ruby-identifier">type</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:default</span>])
 <span class="line-num">429</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-node">&quot;Unknown media type: #{type}&quot;</span>
 <span class="line-num">430</span>   <span class="ruby-keyword">end</span>
@@ -205,7 +205,7 @@ Roda::RodaPlugins::SinatraHelpers::ResponseMethods
 <span class="line-num">437</span>     <span class="ruby-keyword">end</span>
 <span class="line-num">438</span>   <span class="ruby-keyword">end</span>
 <span class="line-num">439</span> 
-<span class="line-num">440</span>   <span class="ruby-ivar">@headers</span>[<span class="ruby-string">&quot;Content-Type&quot;</span>] = <span class="ruby-identifier">mime_type</span>
+<span class="line-num">440</span>   <span class="ruby-ivar">@headers</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_TYPE</span>] = <span class="ruby-identifier">mime_type</span>
 <span class="line-num">441</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
@@ -226,7 +226,7 @@ Roda::RodaPlugins::SinatraHelpers::ResponseMethods
 </a>
 <pre id='method-i-finish-source'>    <span class="ruby-comment"># File lib/roda/plugins/sinatra_helpers.rb</span>
 <span class="line-num">409</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">finish</span>
-<span class="line-num">410</span>   <span class="ruby-ivar">@length</span> = <span class="ruby-ivar">@body</span>.<span class="ruby-identifier">length</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@body</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">DelayedBody</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@headers</span>[<span class="ruby-string">&quot;Content-Length&quot;</span>]
+<span class="line-num">410</span>   <span class="ruby-ivar">@length</span> = <span class="ruby-ivar">@body</span>.<span class="ruby-identifier">length</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@body</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">DelayedBody</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@headers</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_LENGTH</span>]
 <span class="line-num">411</span>   <span class="ruby-keyword">super</span>
 <span class="line-num">412</span> <span class="ruby-keyword">end</span></pre>
 </div>

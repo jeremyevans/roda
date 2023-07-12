@@ -336,7 +336,7 @@ Roda::RodaPlugins::Base::ClassMethods
 <span class="line-num">204</span> 
 <span class="line-num">205</span>         <span class="ruby-keyword">alias</span> <span class="ruby-identifier">set_default_headers</span> <span class="ruby-identifier">set_default_headers</span>
 <span class="line-num">206</span>         <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">set_default_headers</span>
-<span class="line-num">207</span>           <span class="ruby-ivar">@headers</span>[<span class="ruby-string">&#39;Content-Type&#39;</span>] <span class="ruby-operator">||=</span> <span class="ruby-string">&#39;text/html&#39;</span>
+<span class="line-num">207</span>           <span class="ruby-ivar">@headers</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_TYPE</span>] <span class="ruby-operator">||=</span> <span class="ruby-string">&#39;text/html&#39;</span>
 <span class="line-num">208</span>         <span class="ruby-keyword">end</span>
 <span class="line-num">209</span>       <span class="ruby-keyword">end</span>
 <span class="line-num">210</span>     <span class="ruby-keyword">end</span>
@@ -528,7 +528,7 @@ Roda::RodaPlugins::Base::ClassMethods
 </a>
 <pre id='method-i-set_default_headers-source'>    <span class="ruby-comment"># File lib/roda.rb</span>
 <span class="line-num">206</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">set_default_headers</span>
-<span class="line-num">207</span>   <span class="ruby-ivar">@headers</span>[<span class="ruby-string">&#39;Content-Type&#39;</span>] <span class="ruby-operator">||=</span> <span class="ruby-string">&#39;text/html&#39;</span>
+<span class="line-num">207</span>   <span class="ruby-ivar">@headers</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_TYPE</span>] <span class="ruby-operator">||=</span> <span class="ruby-string">&#39;text/html&#39;</span>
 <span class="line-num">208</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>

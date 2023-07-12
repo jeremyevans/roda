@@ -184,7 +184,7 @@ Roda::RodaPlugins::SinatraHelpers::RequestMethods
 <span class="line-num">327</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">send_file</span>(<span class="ruby-identifier">path</span>, <span class="ruby-identifier">opts</span> = <span class="ruby-constant">OPTS</span>)
 <span class="line-num">328</span>   <span class="ruby-identifier">res</span> = <span class="ruby-identifier">response</span>
 <span class="line-num">329</span>   <span class="ruby-identifier">headers</span> = <span class="ruby-identifier">res</span>.<span class="ruby-identifier">headers</span>
-<span class="line-num">330</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:type</span>] <span class="ruby-operator">||</span> <span class="ruby-operator">!</span><span class="ruby-identifier">headers</span>[<span class="ruby-string">&quot;Content-Type&quot;</span>]
+<span class="line-num">330</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:type</span>] <span class="ruby-operator">||</span> <span class="ruby-operator">!</span><span class="ruby-identifier">headers</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_TYPE</span>]
 <span class="line-num">331</span>     <span class="ruby-identifier">res</span>.<span class="ruby-identifier">content_type</span>(<span class="ruby-identifier">opts</span>[<span class="ruby-value">:type</span>] <span class="ruby-operator">||</span> <span class="ruby-operator">::</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">extname</span>(<span class="ruby-identifier">path</span>), <span class="ruby-value">:default</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-string">&#39;application/octet-stream&#39;</span>)
 <span class="line-num">332</span>   <span class="ruby-keyword">end</span>
 <span class="line-num">333</span> 
@@ -209,7 +209,7 @@ Roda::RodaPlugins::SinatraHelpers::RequestMethods
 <span class="line-num">352</span>   <span class="ruby-keyword">end</span>
 <span class="line-num">353</span> 
 <span class="line-num">354</span>   <span class="ruby-identifier">res</span>.<span class="ruby-identifier">status</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:status</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">s</span>
-<span class="line-num">355</span>   <span class="ruby-identifier">headers</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-string">&quot;Content-Length&quot;</span>)
+<span class="line-num">355</span>   <span class="ruby-identifier">headers</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_LENGTH</span>)
 <span class="line-num">356</span>   <span class="ruby-identifier">headers</span>.<span class="ruby-identifier">replace</span>(<span class="ruby-identifier">h</span>.<span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">headers</span>))
 <span class="line-num">357</span>   <span class="ruby-identifier">res</span>.<span class="ruby-identifier">body</span> = <span class="ruby-identifier">b</span>
 <span class="line-num">358</span> 

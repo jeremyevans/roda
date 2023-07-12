@@ -103,7 +103,7 @@ Roda::RodaPlugins::Chunked::InstanceMethods
 <span class="line-num">257</span>     <span class="ruby-identifier">headers</span>.<span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">chunk_headers</span>)
 <span class="line-num">258</span>   <span class="ruby-keyword">end</span>
 <span class="line-num">259</span>   <span class="ruby-keyword">if</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:force_chunked_encoding</span>]
-<span class="line-num">260</span>     <span class="ruby-identifier">headers</span>[<span class="ruby-string">&#39;Transfer-Encoding&#39;</span>] = <span class="ruby-string">&#39;chunked&#39;</span>
+<span class="line-num">260</span>     <span class="ruby-identifier">res</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">TRANSFER_ENCODING</span>] = <span class="ruby-string">&#39;chunked&#39;</span>
 <span class="line-num">261</span>     <span class="ruby-identifier">body</span> = <span class="ruby-constant">Body</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword">self</span>)
 <span class="line-num">262</span>   <span class="ruby-keyword">else</span>
 <span class="line-num">263</span>     <span class="ruby-identifier">body</span> = <span class="ruby-constant">StreamBody</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword">self</span>)

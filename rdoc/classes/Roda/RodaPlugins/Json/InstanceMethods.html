@@ -65,7 +65,7 @@ Roda::RodaPlugins::Json::InstanceMethods
 </a>
 <pre id='method-i-handle_json_block_result-source'>   <span class="ruby-comment"># File lib/roda/plugins/json.rb</span>
 <span class="line-num">88</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">handle_json_block_result</span>(<span class="ruby-identifier">result</span>)
-<span class="line-num">89</span>   <span class="ruby-ivar">@_response</span>[<span class="ruby-string">&#39;Content-Type&#39;</span>] <span class="ruby-operator">||=</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_result_content_type</span>]
+<span class="line-num">89</span>   <span class="ruby-ivar">@_response</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_TYPE</span>] <span class="ruby-operator">||=</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_result_content_type</span>]
 <span class="line-num">90</span>   <span class="ruby-ivar">@_request</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:convert_to_json</span>, <span class="ruby-identifier">result</span>)
 <span class="line-num">91</span> <span class="ruby-keyword">end</span></pre>
 </div>

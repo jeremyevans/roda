@@ -145,7 +145,7 @@ Superclass:
 </a>
 <pre id='method-i-header_key-source'>    <span class="ruby-comment"># File lib/roda/plugins/content_security_policy.rb</span>
 <span class="line-num">202</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">header_key</span>
-<span class="line-num">203</span>   <span class="ruby-ivar">@report_only</span> <span class="ruby-operator">?</span> <span class="ruby-string">&#39;Content-Security-Policy-Report-Only&#39;</span> <span class="ruby-operator">:</span> <span class="ruby-string">&#39;Content-Security-Policy&#39;</span>
+<span class="line-num">203</span>   <span class="ruby-ivar">@report_only</span> <span class="ruby-operator">?</span> <span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_SECURITY_POLICY_REPORT_ONLY</span> <span class="ruby-operator">:</span> <span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_SECURITY_POLICY</span>
 <span class="line-num">204</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>

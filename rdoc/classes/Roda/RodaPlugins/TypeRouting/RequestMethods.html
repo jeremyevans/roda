@@ -68,7 +68,7 @@ Roda::RodaPlugins::TypeRouting::RequestMethods
 <pre id='method-i-on_type-source'>    <span class="ruby-comment"># File lib/roda/plugins/type_routing.rb</span>
 <span class="line-num">153</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">on_type</span>(<span class="ruby-identifier">type</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
 <span class="line-num">154</span>   <span class="ruby-keyword">return</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">type</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">requested_type</span>
-<span class="line-num">155</span>   <span class="ruby-identifier">response</span>[<span class="ruby-string">&#39;Content-Type&#39;</span>] <span class="ruby-operator">||=</span> <span class="ruby-ivar">@scope</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:type_routing</span>][<span class="ruby-value">:types</span>][<span class="ruby-identifier">type</span>]
+<span class="line-num">155</span>   <span class="ruby-identifier">response</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_TYPE</span>] <span class="ruby-operator">||=</span> <span class="ruby-ivar">@scope</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:type_routing</span>][<span class="ruby-value">:types</span>][<span class="ruby-identifier">type</span>]
 <span class="line-num">156</span>   <span class="ruby-identifier">always</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
 <span class="line-num">157</span> <span class="ruby-keyword">end</span></pre>
 </div>

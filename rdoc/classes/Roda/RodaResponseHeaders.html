@@ -1,10 +1,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang='en'>
 <head>
-<title>chunked.rb</title>
+<title>Roda::RodaResponseHeaders</title>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
-<link href='../../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<link href='../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
 <script type='text/javascript'>
   function popupCode(url) {
     window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
@@ -22,22 +22,25 @@
 </script>
 </head>
 <body class='page'>
-<div class='file' id='wrapper'>
+<div class='class' id='wrapper'>
 <div class='header'>
-<h1 class='name'>chunked.rb
+<h1 class='name'><span class='type'>module</span>
+Roda::RodaResponseHeaders
 </h1>
-<div class='paths'>
-lib/roda/plugins/chunked.rb
-</div>
-<div class='last-update'>
-Last Update:
-<span class='datetime'>2023-06-19 16:20:51 -0700</span>
-</div>
+<ol class='paths'>
+<li>
+<a href="../../files/lib/roda/response_rb.html">lib/roda/response.rb</a>
+</li>
+</ol>
 </div>
 <div id='content'>
 <div id='text'>
-<div id='description'></div>
+<div id='description'>
+<p>Contains constants for response headers.  This approach is used so that all headers used internally by <a href="../Roda.html"><code>Roda</code></a> can be lower case on Rack 3, so that it is possible to use a plain hash of response headers instead of using Rack::Headers.</p>
+</div>
 <div id='context'>
+</div>
+<div id='section'>
 </div>
 
 </div>

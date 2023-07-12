@@ -84,8 +84,8 @@ Roda::RodaPlugins::DropBody::ResponseMethods
 <span class="line-num">27</span>   <span class="ruby-keyword">when</span> <span class="ruby-constant">DROP_BODY_RANGE</span>, <span class="ruby-value">204</span>, <span class="ruby-value">304</span>
 <span class="line-num">28</span>     <span class="ruby-identifier">r</span>[<span class="ruby-value">2</span>] = <span class="ruby-constant">EMPTY_ARRAY</span>
 <span class="line-num">29</span>     <span class="ruby-identifier">h</span> = <span class="ruby-identifier">r</span>[<span class="ruby-value">1</span>]
-<span class="line-num">30</span>     <span class="ruby-identifier">h</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-string">&quot;Content-Length&quot;</span>)
-<span class="line-num">31</span>     <span class="ruby-identifier">h</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-string">&quot;Content-Type&quot;</span>)
+<span class="line-num">30</span>     <span class="ruby-identifier">h</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_LENGTH</span>)
+<span class="line-num">31</span>     <span class="ruby-identifier">h</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_TYPE</span>)
 <span class="line-num">32</span>   <span class="ruby-keyword">when</span> <span class="ruby-value">205</span>
 <span class="line-num">33</span>     <span class="ruby-identifier">r</span>[<span class="ruby-value">2</span>] = <span class="ruby-constant">EMPTY_ARRAY</span>
 <span class="line-num">34</span>     <span class="ruby-identifier">empty_205_headers</span>(<span class="ruby-identifier">r</span>[<span class="ruby-value">1</span>])

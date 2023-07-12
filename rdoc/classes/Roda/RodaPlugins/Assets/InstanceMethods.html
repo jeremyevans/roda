@@ -212,7 +212,7 @@ Roda::RodaPlugins::Assets::InstanceMethods
 <span class="line-num">754</span>     <span class="ruby-identifier">file</span> = <span class="ruby-node">&quot;#{o[:&quot;compiled_#{type}_path&quot;]}#{file}&quot;</span>
 <span class="line-num">755</span> 
 <span class="line-num">756</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">o</span>[<span class="ruby-value">:gzip</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">env</span>[<span class="ruby-string">&#39;HTTP_ACCEPT_ENCODING&#39;</span>] <span class="ruby-operator">=~</span> <span class="ruby-regexp">/\bgzip\b/</span>
-<span class="line-num">757</span>       <span class="ruby-ivar">@_response</span>[<span class="ruby-string">&#39;Content-Encoding&#39;</span>] = <span class="ruby-string">&#39;gzip&#39;</span>
+<span class="line-num">757</span>       <span class="ruby-ivar">@_response</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_ENCODING</span>] = <span class="ruby-string">&#39;gzip&#39;</span>
 <span class="line-num">758</span>       <span class="ruby-identifier">file</span> <span class="ruby-operator">+=</span> <span class="ruby-string">&#39;.gz&#39;</span>
 <span class="line-num">759</span>     <span class="ruby-keyword">end</span>
 <span class="line-num">760</span> 

@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+<head>
+<title>Roda::RodaPlugins::PlainHashResponseHeaders</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<link href='../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<script type='text/javascript'>
+  function popupCode(url) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+  
+  function toggleCode(id) {
+    var code = document.getElementById(id)
+  
+    code.style.display = code.style.display != 'block' ? 'block' : 'none'
+    return true
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+</script>
+</head>
+<body class='page'>
+<div class='class' id='wrapper'>
+<div class='header'>
+<h1 class='name'><span class='type'>module</span>
+Roda::RodaPlugins::PlainHashResponseHeaders
+</h1>
+<ol class='paths'>
+<li>
+<a href="../../../files/lib/roda/plugins/plain_hash_response_headers_rb.html">lib/roda/plugins/plain_hash_response_headers.rb</a>
+</li>
+</ol>
+</div>
+<div id='content'>
+<div id='text'>
+<div id='description'>
+<p>The response_headers_plain_hash plugin will change <a href="../../Roda.html"><code>Roda</code></a> to use a plain hash for response headers.  This is Roda’s default behavior on Rack 2, but on Rack 3+, <a href="../../Roda.html"><code>Roda</code></a> defaults to using Rack::Headers for response headers for backwards compatibility (Rack::Headers automatically lower cases header keys).</p>
+
+<p>On Rack 3+, you should use this plugin for better performance if you are sure all headers in your application and middleware are already lower case (lower case response header keys are required by the Rack 3 spec).</p>
+</div>
+<div id='context'>
+</div>
+<div id='class-list'>
+<h2>Classes and Modules</h2>
+<ol>
+<li><a href="PlainHashResponseHeaders/ResponseMethods.html">Roda::RodaPlugins::PlainHashResponseHeaders::ResponseMethods</a></li>
+</ol>
+</div>
+<div id='section'>
+</div>
+
+</div>
+</div>
+
+<div id='footer-push'></div>
+</div>
+<div id='footer'>
+<a href="https://github.com/jeremyevans/hanna-nouveau"><strong>Hanna Nouveau</strong> RDoc template</a>
+</div>
+</body>
+</html>
