@@ -36,7 +36,7 @@ Roda::RodaPlugins::MatchHook
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The match_hook plugin adds hooks that are called upon a successful match by any of the matchers.</p>
+<p>The match_hook plugin adds hooks that are called upon a successful match by any of the matchers.  The hooks do not take any arguments.  If you would like hooks that pass the arguments/matchers and values yielded to the route block, use the match_hook_args plugin.</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:match_hook</span>
 
@@ -79,9 +79,9 @@ Roda::RodaPlugins::MatchHook
 [show source]
 </a>
 <pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/match_hook.rb</span>
-<span class="line-num">15</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>)
-<span class="line-num">16</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:match_hooks</span>] <span class="ruby-operator">||=</span> []
-<span class="line-num">17</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">17</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>)
+<span class="line-num">18</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:match_hooks</span>] <span class="ruby-operator">||=</span> []
+<span class="line-num">19</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>
@@ -93,7 +93,7 @@ Roda::RodaPlugins::MatchHook
 <div id='footer-push'></div>
 </div>
 <div id='footer'>
-<a href="https://github.com/jeremyevans/hanna-nouveau"><strong>Hanna Nouveau</strong> RDoc template</a>
+<a href="https://github.com/jeremyevans/hanna"><strong>Hanna</strong> RDoc template</a>
 </div>
 </body>
 </html>

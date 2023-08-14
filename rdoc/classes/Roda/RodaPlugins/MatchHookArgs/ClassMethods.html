@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+<head>
+<title>Roda::RodaPlugins::MatchHookArgs::ClassMethods</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<link href='../../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<script type='text/javascript'>
+  function popupCode(url) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+  
+  function toggleCode(id) {
+    var code = document.getElementById(id)
+  
+    code.style.display = code.style.display != 'block' ? 'block' : 'none'
+    return true
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+</script>
+</head>
+<body class='page'>
+<div class='class' id='wrapper'>
+<div class='header'>
+<h1 class='name'><span class='type'>module</span>
+Roda::RodaPlugins::MatchHookArgs::ClassMethods
+</h1>
+<ol class='paths'>
+<li>
+<a href="../../../../files/lib/roda/plugins/match_hook_args_rb.html">lib/roda/plugins/match_hook_args.rb</a>
+</li>
+</ol>
+</div>
+<div id='content'>
+<div id='text'>
+<div id='description'></div>
+<div id='method-list'>
+<h2>Methods</h2>
+<h3>Public Instance</h3>
+<ol>
+<li><a href="#method-i-add_match_hook">add_match_hook</a></li>
+<li><a href="#method-i-freeze">freeze</a></li>
+</ol>
+</div>
+<div id='context'>
+</div>
+<div id='section'>
+<div id='methods'>
+<h2>Public Instance methods</h2>
+<div class='method public-instance' id='method-method-i-add_match_hook'>
+<a name='method-i-add_match_hook'></a>
+<div class='synopsis'>
+<span class='name'>add_match_hook</span><span class='arguments'>(&block)</span>
+
+</div>
+<div class='description'>
+
+<p>Add a match hook that will be called with matchers and block args.</p>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-add_match_hook-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-add_match_hook-source'>   <span class="ruby-comment"># File lib/roda/plugins/match_hook_args.rb</span>
+<span class="line-num">50</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">add_match_hook</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">51</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:match_hook_args</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">define_roda_method</span>(<span class="ruby-string">&quot;match_hook_args&quot;</span>, <span class="ruby-value">:any</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">52</span> 
+<span class="line-num">53</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:match_hook_args</span>].<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-value">1</span>
+<span class="line-num">54</span>     <span class="ruby-identifier">class_eval</span>(<span class="ruby-node">&quot;alias _match_hook_args #{opts[:match_hook_args].first}&quot;</span>, <span class="ruby-keyword">__FILE__</span>, <span class="ruby-keyword">__LINE__</span>)
+<span class="line-num">55</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">56</span>     <span class="ruby-identifier">class_eval</span>(<span class="ruby-node">&quot;def _match_hook_args(v, a); #{opts[:match_hook_args].map{|m| &quot;#{m}(v, a)&quot;}.join(&#39;;&#39;)} end&quot;</span>, <span class="ruby-keyword">__FILE__</span>, <span class="ruby-keyword">__LINE__</span>)
+<span class="line-num">57</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">58</span> 
+<span class="line-num">59</span>   <span class="ruby-identifier">public</span> <span class="ruby-value">:_match_hook_args</span>
+<span class="line-num">60</span> 
+<span class="line-num">61</span>   <span class="ruby-keyword">nil</span>
+<span class="line-num">62</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-freeze'>
+<a name='method-i-freeze'></a>
+<div class='synopsis'>
+<span class='name'>freeze</span><span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+<p>Freeze the array of hook methods when freezing the app</p>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-freeze-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-freeze-source'>   <span class="ruby-comment"># File lib/roda/plugins/match_hook_args.rb</span>
+<span class="line-num">44</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">freeze</span>
+<span class="line-num">45</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:match_hook_args</span>].<span class="ruby-identifier">freeze</span>
+<span class="line-num">46</span>   <span class="ruby-keyword">super</span>
+<span class="line-num">47</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div id='footer-push'></div>
+</div>
+<div id='footer'>
+<a href="https://github.com/jeremyevans/hanna"><strong>Hanna</strong> RDoc template</a>
+</div>
+</body>
+</html>
