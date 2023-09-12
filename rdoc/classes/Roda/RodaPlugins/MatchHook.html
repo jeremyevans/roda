@@ -36,7 +36,7 @@ Roda::RodaPlugins::MatchHook
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The match_hook plugin adds hooks that are called upon a successful match by any of the matchers.  The hooks do not take any arguments.  If you would like hooks that pass the arguments/matchers and values yielded to the route block, use the match_hook_args plugin.</p>
+<p>The match_hook plugin adds hooks that are called upon a successful match by any of the matchers.  The hooks do not take any arguments.  If you would like hooks that pass the arguments/matchers and values yielded to the route block, use the match_hook_args plugin. This uses the match_hook_args plugin internally, but doesn’t pass the matchers and values yielded.</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:match_hook</span>
 
@@ -49,7 +49,7 @@ Roda::RodaPlugins::MatchHook
 <h2>Methods</h2>
 <h3>Public Class</h3>
 <ol>
-<li><a href="#method-c-configure">configure</a></li>
+<li><a href="#method-c-load_dependencies">load_dependencies</a></li>
 </ol>
 </div>
 <div id='context'>
@@ -58,30 +58,28 @@ Roda::RodaPlugins::MatchHook
 <h2>Classes and Modules</h2>
 <ol>
 <li><a href="MatchHook/ClassMethods.html">Roda::RodaPlugins::MatchHook::ClassMethods</a></li>
-<li><a href="MatchHook/InstanceMethods.html">Roda::RodaPlugins::MatchHook::InstanceMethods</a></li>
-<li><a href="MatchHook/RequestMethods.html">Roda::RodaPlugins::MatchHook::RequestMethods</a></li>
 </ol>
 </div>
 <div id='section'>
 <div id='methods'>
 <h2>Public Class methods</h2>
-<div class='method public-class' id='method-method-c-configure'>
-<a name='method-c-configure'></a>
+<div class='method public-class' id='method-method-c-load_dependencies'>
+<a name='method-c-load_dependencies'></a>
 <div class='synopsis'>
-<span class='name'>configure</span><span class='arguments'>(app)</span>
+<span class='name'>load_dependencies</span><span class='arguments'>(app)</span>
 
 </div>
 <div class='description'>
 
 </div>
 <div class='source'>
-<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-configure-source&#39;); return false'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-load_dependencies-source&#39;); return false'>
 [show source]
 </a>
-<pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/match_hook.rb</span>
-<span class="line-num">17</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>)
-<span class="line-num">18</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:match_hooks</span>] <span class="ruby-operator">||=</span> []
-<span class="line-num">19</span> <span class="ruby-keyword">end</span></pre>
+<pre id='method-c-load_dependencies-source'>   <span class="ruby-comment"># File lib/roda/plugins/match_hook.rb</span>
+<span class="line-num">18</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">load_dependencies</span>(<span class="ruby-identifier">app</span>)
+<span class="line-num">19</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:match_hook_args</span>
+<span class="line-num">20</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

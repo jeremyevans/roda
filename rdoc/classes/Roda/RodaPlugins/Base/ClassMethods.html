@@ -192,92 +192,96 @@ Roda::RodaPlugins::Base::ClassMethods
 <span class="line-num"> 88</span>   <span class="ruby-keyword">end</span>
 <span class="line-num"> 89</span>   <span class="ruby-identifier">call_meth</span> = <span class="ruby-identifier">meth</span>
 <span class="line-num"> 90</span> 
-<span class="line-num"> 91</span>   <span class="ruby-keyword">if</span> (<span class="ruby-identifier">check_arity</span> = <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-value">:check_arity</span>, <span class="ruby-keyword">true</span>)) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">block</span>.<span class="ruby-identifier">lambda?</span>
-<span class="line-num"> 92</span>     <span class="ruby-identifier">required_args</span>, <span class="ruby-identifier">optional_args</span>, <span class="ruby-identifier">rest</span>, <span class="ruby-identifier">keyword</span> = <span class="ruby-identifier">_define_roda_method_arg_numbers</span>(<span class="ruby-identifier">block</span>)
-<span class="line-num"> 93</span> 
-<span class="line-num"> 94</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">keyword</span> <span class="ruby-operator">==</span> <span class="ruby-value">:required</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">expected_arity</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">expected_arity</span> <span class="ruby-operator">==</span> <span class="ruby-value">1</span>)
-<span class="line-num"> 95</span>       <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-node">&quot;cannot use block with required keyword arguments when calling define_roda_method with expected arity #{expected_arity}&quot;</span>
-<span class="line-num"> 96</span>     <span class="ruby-keyword">end</span>
-<span class="line-num"> 97</span> 
-<span class="line-num"> 98</span>     <span class="ruby-keyword">case</span> <span class="ruby-identifier">expected_arity</span>
-<span class="line-num"> 99</span>     <span class="ruby-keyword">when</span> <span class="ruby-value">0</span>
-<span class="line-num">100</span>       <span class="ruby-keyword">unless</span> <span class="ruby-identifier">required_args</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span>
-<span class="line-num">101</span>         <span class="ruby-keyword">if</span> <span class="ruby-identifier">check_arity</span> <span class="ruby-operator">==</span> <span class="ruby-value">:warn</span>
-<span class="line-num">102</span>           <span class="ruby-constant">RodaPlugins</span>.<span class="ruby-identifier">warn</span> <span class="ruby-node">&quot;Arity mismatch in block passed to define_roda_method. Expected Arity 0, but arguments required for #{block.inspect}&quot;</span>
-<span class="line-num">103</span>         <span class="ruby-keyword">end</span>
-<span class="line-num">104</span>         <span class="ruby-identifier">b</span> = <span class="ruby-identifier">block</span>
-<span class="line-num">105</span>         <span class="ruby-identifier">block</span> = <span class="ruby-identifier">lambda</span>{<span class="ruby-identifier">instance_exec</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">b</span>)} <span class="ruby-comment"># Fallback</span>
-<span class="line-num">106</span>       <span class="ruby-keyword">end</span>
-<span class="line-num">107</span>     <span class="ruby-keyword">when</span> <span class="ruby-value">1</span>
-<span class="line-num">108</span>       <span class="ruby-keyword">if</span> <span class="ruby-identifier">required_args</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">optional_args</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">rest</span>
-<span class="line-num">109</span>         <span class="ruby-keyword">if</span> <span class="ruby-identifier">check_arity</span> <span class="ruby-operator">==</span> <span class="ruby-value">:warn</span>
-<span class="line-num">110</span>           <span class="ruby-constant">RodaPlugins</span>.<span class="ruby-identifier">warn</span> <span class="ruby-node">&quot;Arity mismatch in block passed to define_roda_method. Expected Arity 1, but no arguments accepted for #{block.inspect}&quot;</span>
-<span class="line-num">111</span>         <span class="ruby-keyword">end</span>
-<span class="line-num">112</span>         <span class="ruby-identifier">temp_method</span> = <span class="ruby-identifier">roda_method_name</span>(<span class="ruby-string">&quot;temp&quot;</span>)
-<span class="line-num">113</span>         <span class="ruby-identifier">class_eval</span>(<span class="ruby-node">&quot;def #{temp_method}(_) #{meth =~ /\A\w+\z/ ? &quot;#{meth}_arity&quot; : &quot;send(:\&quot;#{meth}_arity\&quot;)&quot;} end&quot;</span>, <span class="ruby-keyword">__FILE__</span>, <span class="ruby-keyword">__LINE__</span>)
-<span class="line-num">114</span>         <span class="ruby-identifier">alias_method</span> <span class="ruby-identifier">meth</span>, <span class="ruby-identifier">temp_method</span>
-<span class="line-num">115</span>         <span class="ruby-identifier">undef_method</span> <span class="ruby-identifier">temp_method</span>
-<span class="line-num">116</span>         <span class="ruby-identifier">private</span> <span class="ruby-identifier">meth</span>
-<span class="line-num">117</span>         <span class="ruby-identifier">alias_method</span> <span class="ruby-identifier">meth</span>, <span class="ruby-identifier">meth</span>
-<span class="line-num">118</span>         <span class="ruby-identifier">meth</span> = <span class="ruby-value">:&quot;#{meth}_arity&quot;</span>
-<span class="line-num">119</span>       <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">required_args</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span>
-<span class="line-num">120</span>         <span class="ruby-identifier">b</span> = <span class="ruby-identifier">block</span>
-<span class="line-num">121</span>         <span class="ruby-identifier">block</span> = <span class="ruby-identifier">lambda</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span> <span class="ruby-identifier">instance_exec</span>(<span class="ruby-identifier">r</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">b</span>)} <span class="ruby-comment"># Fallback</span>
-<span class="line-num">122</span>       <span class="ruby-keyword">end</span>
-<span class="line-num">123</span>     <span class="ruby-keyword">when</span> <span class="ruby-value">:any</span>
-<span class="line-num">124</span>       <span class="ruby-keyword">if</span> <span class="ruby-identifier">check_dynamic_arity</span> = <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-value">:check_dynamic_arity</span>, <span class="ruby-identifier">check_arity</span>)
-<span class="line-num">125</span>         <span class="ruby-keyword">if</span> <span class="ruby-identifier">keyword</span>
-<span class="line-num">126</span>           <span class="ruby-comment"># Complexity of handling keyword arguments using define_method is too high,</span>
-<span class="line-num">127</span>           <span class="ruby-comment"># Fallback to instance_exec in this case.</span>
-<span class="line-num">128</span>           <span class="ruby-identifier">b</span> = <span class="ruby-identifier">block</span>
-<span class="line-num">129</span>           <span class="ruby-identifier">block</span> = <span class="ruby-keyword">if</span> <span class="ruby-constant">RUBY_VERSION</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-string">&#39;2.7&#39;</span>
-<span class="line-num">130</span>             <span class="ruby-identifier">eval</span>(<span class="ruby-string">&#39;lambda{|*a, **kw| instance_exec(*a, **kw, &amp;b)}&#39;</span>, <span class="ruby-keyword">nil</span>, <span class="ruby-keyword">__FILE__</span>, <span class="ruby-keyword">__LINE__</span>) <span class="ruby-comment"># Keyword arguments fallback</span>
-<span class="line-num">131</span>           <span class="ruby-keyword">else</span>
-<span class="line-num">132</span>             <span class="ruby-comment"># :nocov:</span>
-<span class="line-num">133</span>             <span class="ruby-identifier">lambda</span>{<span class="ruby-operator">|</span><span class="ruby-operator">*</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span> <span class="ruby-identifier">instance_exec</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">a</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">b</span>)} <span class="ruby-comment"># Keyword arguments fallback</span>
-<span class="line-num">134</span>             <span class="ruby-comment"># :nocov:</span>
-<span class="line-num">135</span>           <span class="ruby-keyword">end</span>
-<span class="line-num">136</span>         <span class="ruby-keyword">else</span>
-<span class="line-num">137</span>           <span class="ruby-identifier">arity_meth</span> = <span class="ruby-identifier">meth</span>
-<span class="line-num">138</span>           <span class="ruby-identifier">meth</span> = <span class="ruby-value">:&quot;#{meth}_arity&quot;</span>
-<span class="line-num">139</span>         <span class="ruby-keyword">end</span>
-<span class="line-num">140</span>       <span class="ruby-keyword">end</span>
-<span class="line-num">141</span>     <span class="ruby-keyword">else</span>
-<span class="line-num">142</span>       <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-node">&quot;unexpected arity passed to define_roda_method: #{expected_arity.inspect}&quot;</span>
-<span class="line-num">143</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">144</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">145</span> 
-<span class="line-num">146</span>   <span class="ruby-identifier">define_method</span>(<span class="ruby-identifier">meth</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">147</span>   <span class="ruby-identifier">private</span> <span class="ruby-identifier">meth</span>
-<span class="line-num">148</span>   <span class="ruby-identifier">alias_method</span> <span class="ruby-identifier">meth</span>, <span class="ruby-identifier">meth</span>
+<span class="line-num"> 91</span>   <span class="ruby-comment"># RODA4: Switch to false # :warn in last Roda 3 version</span>
+<span class="line-num"> 92</span>   <span class="ruby-keyword">if</span> (<span class="ruby-identifier">check_arity</span> = <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-value">:check_arity</span>, <span class="ruby-keyword">true</span>)) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">block</span>.<span class="ruby-identifier">lambda?</span>
+<span class="line-num"> 93</span>     <span class="ruby-identifier">required_args</span>, <span class="ruby-identifier">optional_args</span>, <span class="ruby-identifier">rest</span>, <span class="ruby-identifier">keyword</span> = <span class="ruby-identifier">_define_roda_method_arg_numbers</span>(<span class="ruby-identifier">block</span>)
+<span class="line-num"> 94</span> 
+<span class="line-num"> 95</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">keyword</span> <span class="ruby-operator">==</span> <span class="ruby-value">:required</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">expected_arity</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">expected_arity</span> <span class="ruby-operator">==</span> <span class="ruby-value">1</span>)
+<span class="line-num"> 96</span>       <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-node">&quot;cannot use block with required keyword arguments when calling define_roda_method with expected arity #{expected_arity}&quot;</span>
+<span class="line-num"> 97</span>     <span class="ruby-keyword">end</span>
+<span class="line-num"> 98</span> 
+<span class="line-num"> 99</span>     <span class="ruby-keyword">case</span> <span class="ruby-identifier">expected_arity</span>
+<span class="line-num">100</span>     <span class="ruby-keyword">when</span> <span class="ruby-value">0</span>
+<span class="line-num">101</span>       <span class="ruby-keyword">unless</span> <span class="ruby-identifier">required_args</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span>
+<span class="line-num">102</span>         <span class="ruby-keyword">if</span> <span class="ruby-identifier">check_arity</span> <span class="ruby-operator">==</span> <span class="ruby-value">:warn</span>
+<span class="line-num">103</span>           <span class="ruby-constant">RodaPlugins</span>.<span class="ruby-identifier">warn</span> <span class="ruby-node">&quot;Arity mismatch in block passed to define_roda_method. Expected Arity 0, but arguments required for #{block.inspect}&quot;</span>
+<span class="line-num">104</span>         <span class="ruby-keyword">end</span>
+<span class="line-num">105</span>         <span class="ruby-identifier">b</span> = <span class="ruby-identifier">block</span>
+<span class="line-num">106</span>         <span class="ruby-identifier">block</span> = <span class="ruby-identifier">lambda</span>{<span class="ruby-identifier">instance_exec</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">b</span>)} <span class="ruby-comment"># Fallback</span>
+<span class="line-num">107</span>       <span class="ruby-keyword">end</span>
+<span class="line-num">108</span>     <span class="ruby-keyword">when</span> <span class="ruby-value">1</span>
+<span class="line-num">109</span>       <span class="ruby-keyword">if</span> <span class="ruby-identifier">required_args</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">optional_args</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">rest</span>
+<span class="line-num">110</span>         <span class="ruby-keyword">if</span> <span class="ruby-identifier">check_arity</span> <span class="ruby-operator">==</span> <span class="ruby-value">:warn</span>
+<span class="line-num">111</span>           <span class="ruby-constant">RodaPlugins</span>.<span class="ruby-identifier">warn</span> <span class="ruby-node">&quot;Arity mismatch in block passed to define_roda_method. Expected Arity 1, but no arguments accepted for #{block.inspect}&quot;</span>
+<span class="line-num">112</span>         <span class="ruby-keyword">end</span>
+<span class="line-num">113</span>         <span class="ruby-identifier">temp_method</span> = <span class="ruby-identifier">roda_method_name</span>(<span class="ruby-string">&quot;temp&quot;</span>)
+<span class="line-num">114</span>         <span class="ruby-identifier">class_eval</span>(<span class="ruby-node">&quot;def #{temp_method}(_) #{meth =~ /\A\w+\z/ ? &quot;#{meth}_arity&quot; : &quot;send(:\&quot;#{meth}_arity\&quot;)&quot;} end&quot;</span>, <span class="ruby-keyword">__FILE__</span>, <span class="ruby-keyword">__LINE__</span>)
+<span class="line-num">115</span>         <span class="ruby-identifier">alias_method</span> <span class="ruby-identifier">meth</span>, <span class="ruby-identifier">temp_method</span>
+<span class="line-num">116</span>         <span class="ruby-identifier">undef_method</span> <span class="ruby-identifier">temp_method</span>
+<span class="line-num">117</span>         <span class="ruby-identifier">private</span> <span class="ruby-identifier">meth</span>
+<span class="line-num">118</span>         <span class="ruby-identifier">alias_method</span> <span class="ruby-identifier">meth</span>, <span class="ruby-identifier">meth</span>
+<span class="line-num">119</span>         <span class="ruby-identifier">meth</span> = <span class="ruby-value">:&quot;#{meth}_arity&quot;</span>
+<span class="line-num">120</span>       <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">required_args</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span>
+<span class="line-num">121</span>         <span class="ruby-keyword">if</span> <span class="ruby-identifier">check_arity</span> <span class="ruby-operator">==</span> <span class="ruby-value">:warn</span>
+<span class="line-num">122</span>           <span class="ruby-constant">RodaPlugins</span>.<span class="ruby-identifier">warn</span> <span class="ruby-node">&quot;Arity mismatch in block passed to define_roda_method. Expected Arity 1, but multiple arguments required for #{block.inspect}&quot;</span>
+<span class="line-num">123</span>         <span class="ruby-keyword">end</span>
+<span class="line-num">124</span>         <span class="ruby-identifier">b</span> = <span class="ruby-identifier">block</span>
+<span class="line-num">125</span>         <span class="ruby-identifier">block</span> = <span class="ruby-identifier">lambda</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span> <span class="ruby-identifier">instance_exec</span>(<span class="ruby-identifier">r</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">b</span>)} <span class="ruby-comment"># Fallback</span>
+<span class="line-num">126</span>       <span class="ruby-keyword">end</span>
+<span class="line-num">127</span>     <span class="ruby-keyword">when</span> <span class="ruby-value">:any</span>
+<span class="line-num">128</span>       <span class="ruby-keyword">if</span> <span class="ruby-identifier">check_dynamic_arity</span> = <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-value">:check_dynamic_arity</span>, <span class="ruby-identifier">check_arity</span>)
+<span class="line-num">129</span>         <span class="ruby-keyword">if</span> <span class="ruby-identifier">keyword</span>
+<span class="line-num">130</span>           <span class="ruby-comment"># Complexity of handling keyword arguments using define_method is too high,</span>
+<span class="line-num">131</span>           <span class="ruby-comment"># Fallback to instance_exec in this case.</span>
+<span class="line-num">132</span>           <span class="ruby-identifier">b</span> = <span class="ruby-identifier">block</span>
+<span class="line-num">133</span>           <span class="ruby-identifier">block</span> = <span class="ruby-keyword">if</span> <span class="ruby-constant">RUBY_VERSION</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-string">&#39;2.7&#39;</span>
+<span class="line-num">134</span>             <span class="ruby-identifier">eval</span>(<span class="ruby-string">&#39;lambda{|*a, **kw| instance_exec(*a, **kw, &amp;b)}&#39;</span>, <span class="ruby-keyword">nil</span>, <span class="ruby-keyword">__FILE__</span>, <span class="ruby-keyword">__LINE__</span>) <span class="ruby-comment"># Keyword arguments fallback</span>
+<span class="line-num">135</span>           <span class="ruby-keyword">else</span>
+<span class="line-num">136</span>             <span class="ruby-comment"># :nocov:</span>
+<span class="line-num">137</span>             <span class="ruby-identifier">lambda</span>{<span class="ruby-operator">|</span><span class="ruby-operator">*</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span> <span class="ruby-identifier">instance_exec</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">a</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">b</span>)} <span class="ruby-comment"># Keyword arguments fallback</span>
+<span class="line-num">138</span>             <span class="ruby-comment"># :nocov:</span>
+<span class="line-num">139</span>           <span class="ruby-keyword">end</span>
+<span class="line-num">140</span>         <span class="ruby-keyword">else</span>
+<span class="line-num">141</span>           <span class="ruby-identifier">arity_meth</span> = <span class="ruby-identifier">meth</span>
+<span class="line-num">142</span>           <span class="ruby-identifier">meth</span> = <span class="ruby-value">:&quot;#{meth}_arity&quot;</span>
+<span class="line-num">143</span>         <span class="ruby-keyword">end</span>
+<span class="line-num">144</span>       <span class="ruby-keyword">end</span>
+<span class="line-num">145</span>     <span class="ruby-keyword">else</span>
+<span class="line-num">146</span>       <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-node">&quot;unexpected arity passed to define_roda_method: #{expected_arity.inspect}&quot;</span>
+<span class="line-num">147</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">148</span>   <span class="ruby-keyword">end</span>
 <span class="line-num">149</span> 
-<span class="line-num">150</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">arity_meth</span>
-<span class="line-num">151</span>     <span class="ruby-identifier">required_args</span>, <span class="ruby-identifier">optional_args</span>, <span class="ruby-identifier">rest</span>, <span class="ruby-identifier">keyword</span> = <span class="ruby-identifier">_define_roda_method_arg_numbers</span>(<span class="ruby-identifier">instance_method</span>(<span class="ruby-identifier">meth</span>))
-<span class="line-num">152</span>     <span class="ruby-identifier">max_args</span> = <span class="ruby-identifier">required_args</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">optional_args</span>
-<span class="line-num">153</span>     <span class="ruby-identifier">define_method</span>(<span class="ruby-identifier">arity_meth</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-operator">*</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span>
-<span class="line-num">154</span>       <span class="ruby-identifier">arity</span> = <span class="ruby-identifier">a</span>.<span class="ruby-identifier">length</span>
-<span class="line-num">155</span>       <span class="ruby-keyword">if</span> <span class="ruby-identifier">arity</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">required_args</span>
-<span class="line-num">156</span>         <span class="ruby-keyword">if</span> <span class="ruby-identifier">arity</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">max_args</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">rest</span>
-<span class="line-num">157</span>           <span class="ruby-keyword">if</span> <span class="ruby-identifier">check_dynamic_arity</span> <span class="ruby-operator">==</span> <span class="ruby-value">:warn</span>
-<span class="line-num">158</span>             <span class="ruby-constant">RodaPlugins</span>.<span class="ruby-identifier">warn</span> <span class="ruby-node">&quot;Dynamic arity mismatch in block passed to define_roda_method. At most #{max_args} arguments accepted, but #{arity} arguments given for #{block.inspect}&quot;</span>
-<span class="line-num">159</span>           <span class="ruby-keyword">end</span>
-<span class="line-num">160</span>           <span class="ruby-identifier">a</span> = <span class="ruby-identifier">a</span>.<span class="ruby-identifier">slice</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">max_args</span>)
-<span class="line-num">161</span>         <span class="ruby-keyword">end</span>
-<span class="line-num">162</span>       <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">arity</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">required_args</span>
-<span class="line-num">163</span>         <span class="ruby-keyword">if</span> <span class="ruby-identifier">check_dynamic_arity</span> <span class="ruby-operator">==</span> <span class="ruby-value">:warn</span>
-<span class="line-num">164</span>           <span class="ruby-constant">RodaPlugins</span>.<span class="ruby-identifier">warn</span> <span class="ruby-node">&quot;Dynamic arity mismatch in block passed to define_roda_method. #{required_args} args required, but #{arity} arguments given for #{block.inspect}&quot;</span>
+<span class="line-num">150</span>   <span class="ruby-identifier">define_method</span>(<span class="ruby-identifier">meth</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">151</span>   <span class="ruby-identifier">private</span> <span class="ruby-identifier">meth</span>
+<span class="line-num">152</span>   <span class="ruby-identifier">alias_method</span> <span class="ruby-identifier">meth</span>, <span class="ruby-identifier">meth</span>
+<span class="line-num">153</span> 
+<span class="line-num">154</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">arity_meth</span>
+<span class="line-num">155</span>     <span class="ruby-identifier">required_args</span>, <span class="ruby-identifier">optional_args</span>, <span class="ruby-identifier">rest</span>, <span class="ruby-identifier">keyword</span> = <span class="ruby-identifier">_define_roda_method_arg_numbers</span>(<span class="ruby-identifier">instance_method</span>(<span class="ruby-identifier">meth</span>))
+<span class="line-num">156</span>     <span class="ruby-identifier">max_args</span> = <span class="ruby-identifier">required_args</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">optional_args</span>
+<span class="line-num">157</span>     <span class="ruby-identifier">define_method</span>(<span class="ruby-identifier">arity_meth</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-operator">*</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span>
+<span class="line-num">158</span>       <span class="ruby-identifier">arity</span> = <span class="ruby-identifier">a</span>.<span class="ruby-identifier">length</span>
+<span class="line-num">159</span>       <span class="ruby-keyword">if</span> <span class="ruby-identifier">arity</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">required_args</span>
+<span class="line-num">160</span>         <span class="ruby-keyword">if</span> <span class="ruby-identifier">arity</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">max_args</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">rest</span>
+<span class="line-num">161</span>           <span class="ruby-keyword">if</span> <span class="ruby-identifier">check_dynamic_arity</span> <span class="ruby-operator">==</span> <span class="ruby-value">:warn</span>
+<span class="line-num">162</span>             <span class="ruby-constant">RodaPlugins</span>.<span class="ruby-identifier">warn</span> <span class="ruby-node">&quot;Dynamic arity mismatch in block passed to define_roda_method. At most #{max_args} arguments accepted, but #{arity} arguments given for #{block.inspect}&quot;</span>
+<span class="line-num">163</span>           <span class="ruby-keyword">end</span>
+<span class="line-num">164</span>           <span class="ruby-identifier">a</span> = <span class="ruby-identifier">a</span>.<span class="ruby-identifier">slice</span>(<span class="ruby-value">0</span>, <span class="ruby-identifier">max_args</span>)
 <span class="line-num">165</span>         <span class="ruby-keyword">end</span>
-<span class="line-num">166</span>         <span class="ruby-identifier">a</span>.<span class="ruby-identifier">concat</span>([<span class="ruby-keyword">nil</span>] <span class="ruby-operator">*</span> (<span class="ruby-identifier">required_args</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">arity</span>))
-<span class="line-num">167</span>       <span class="ruby-keyword">end</span>
-<span class="line-num">168</span> 
-<span class="line-num">169</span>       <span class="ruby-identifier">send</span>(<span class="ruby-identifier">meth</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">a</span>)
-<span class="line-num">170</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">171</span>     <span class="ruby-identifier">private</span> <span class="ruby-identifier">arity_meth</span>
-<span class="line-num">172</span>     <span class="ruby-identifier">alias_method</span> <span class="ruby-identifier">arity_meth</span>, <span class="ruby-identifier">arity_meth</span>
-<span class="line-num">173</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">174</span> 
-<span class="line-num">175</span>   <span class="ruby-identifier">call_meth</span>
-<span class="line-num">176</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">166</span>       <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">arity</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">required_args</span>
+<span class="line-num">167</span>         <span class="ruby-keyword">if</span> <span class="ruby-identifier">check_dynamic_arity</span> <span class="ruby-operator">==</span> <span class="ruby-value">:warn</span>
+<span class="line-num">168</span>           <span class="ruby-constant">RodaPlugins</span>.<span class="ruby-identifier">warn</span> <span class="ruby-node">&quot;Dynamic arity mismatch in block passed to define_roda_method. #{required_args} args required, but #{arity} arguments given for #{block.inspect}&quot;</span>
+<span class="line-num">169</span>         <span class="ruby-keyword">end</span>
+<span class="line-num">170</span>         <span class="ruby-identifier">a</span>.<span class="ruby-identifier">concat</span>([<span class="ruby-keyword">nil</span>] <span class="ruby-operator">*</span> (<span class="ruby-identifier">required_args</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">arity</span>))
+<span class="line-num">171</span>       <span class="ruby-keyword">end</span>
+<span class="line-num">172</span> 
+<span class="line-num">173</span>       <span class="ruby-identifier">send</span>(<span class="ruby-identifier">meth</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">a</span>)
+<span class="line-num">174</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">175</span>     <span class="ruby-identifier">private</span> <span class="ruby-identifier">arity_meth</span>
+<span class="line-num">176</span>     <span class="ruby-identifier">alias_method</span> <span class="ruby-identifier">arity_meth</span>, <span class="ruby-identifier">arity_meth</span>
+<span class="line-num">177</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">178</span> 
+<span class="line-num">179</span>   <span class="ruby-identifier">call_meth</span>
+<span class="line-num">180</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-expand_path'>
@@ -296,9 +300,9 @@ Roda::RodaPlugins::Base::ClassMethods
 [show source]
 </a>
 <pre id='method-i-expand_path-source'>    <span class="ruby-comment"># File lib/roda.rb</span>
-<span class="line-num">179</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">expand_path</span>(<span class="ruby-identifier">path</span>, <span class="ruby-identifier">root</span>=<span class="ruby-identifier">opts</span>[<span class="ruby-value">:root</span>])
-<span class="line-num">180</span>   <span class="ruby-operator">::</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">expand_path</span>(<span class="ruby-identifier">path</span>, <span class="ruby-identifier">root</span>)
-<span class="line-num">181</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">183</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">expand_path</span>(<span class="ruby-identifier">path</span>, <span class="ruby-identifier">root</span>=<span class="ruby-identifier">opts</span>[<span class="ruby-value">:root</span>])
+<span class="line-num">184</span>   <span class="ruby-operator">::</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">expand_path</span>(<span class="ruby-identifier">path</span>, <span class="ruby-identifier">root</span>)
+<span class="line-num">185</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-freeze'>
@@ -319,43 +323,43 @@ Roda::RodaPlugins::Base::ClassMethods
 [show source]
 </a>
 <pre id='method-i-freeze-source'>    <span class="ruby-comment"># File lib/roda.rb</span>
-<span class="line-num">190</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">freeze</span>
-<span class="line-num">191</span>   <span class="ruby-keyword">return</span> <span class="ruby-keyword">self</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">frozen?</span>
-<span class="line-num">192</span> 
-<span class="line-num">193</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:subclassed</span>]
-<span class="line-num">194</span>     <span class="ruby-comment"># If the _roda_run_main_route instance method has not been overridden,</span>
-<span class="line-num">195</span>     <span class="ruby-comment"># make it an alias to _roda_main_route for performance</span>
-<span class="line-num">196</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">instance_method</span>(<span class="ruby-value">:_roda_run_main_route</span>).<span class="ruby-identifier">owner</span> <span class="ruby-operator">==</span> <span class="ruby-constant">InstanceMethods</span>
-<span class="line-num">197</span>       <span class="ruby-identifier">class_eval</span>(<span class="ruby-string">&quot;alias _roda_run_main_route _roda_main_route&quot;</span>)
-<span class="line-num">198</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">199</span>     <span class="ruby-keyword">self</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaResponse</span>.<span class="ruby-identifier">class_eval</span> <span class="ruby-keyword">do</span>
-<span class="line-num">200</span>       <span class="ruby-keyword">if</span> <span class="ruby-identifier">instance_method</span>(<span class="ruby-value">:set_default_headers</span>).<span class="ruby-identifier">owner</span> <span class="ruby-operator">==</span> <span class="ruby-constant">ResponseMethods</span> <span class="ruby-operator">&amp;&amp;</span>
-<span class="line-num">201</span>          <span class="ruby-identifier">instance_method</span>(<span class="ruby-value">:default_headers</span>).<span class="ruby-identifier">owner</span> <span class="ruby-operator">==</span> <span class="ruby-constant">ResponseMethods</span>
-<span class="line-num">202</span> 
-<span class="line-num">203</span>         <span class="ruby-identifier">private</span>
-<span class="line-num">204</span> 
-<span class="line-num">205</span>         <span class="ruby-keyword">alias</span> <span class="ruby-identifier">set_default_headers</span> <span class="ruby-identifier">set_default_headers</span>
-<span class="line-num">206</span>         <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">set_default_headers</span>
-<span class="line-num">207</span>           <span class="ruby-ivar">@headers</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_TYPE</span>] <span class="ruby-operator">||=</span> <span class="ruby-string">&#39;text/html&#39;</span>
-<span class="line-num">208</span>         <span class="ruby-keyword">end</span>
-<span class="line-num">209</span>       <span class="ruby-keyword">end</span>
-<span class="line-num">210</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">211</span> 
-<span class="line-num">212</span>     <span class="ruby-keyword">if</span> <span class="ruby-ivar">@middleware</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">use_new_dispatch_api?</span>
-<span class="line-num">213</span>       <span class="ruby-identifier">plugin</span> <span class="ruby-value">:direct_call</span>
+<span class="line-num">194</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">freeze</span>
+<span class="line-num">195</span>   <span class="ruby-keyword">return</span> <span class="ruby-keyword">self</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">frozen?</span>
+<span class="line-num">196</span> 
+<span class="line-num">197</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:subclassed</span>]
+<span class="line-num">198</span>     <span class="ruby-comment"># If the _roda_run_main_route instance method has not been overridden,</span>
+<span class="line-num">199</span>     <span class="ruby-comment"># make it an alias to _roda_main_route for performance</span>
+<span class="line-num">200</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">instance_method</span>(<span class="ruby-value">:_roda_run_main_route</span>).<span class="ruby-identifier">owner</span> <span class="ruby-operator">==</span> <span class="ruby-constant">InstanceMethods</span>
+<span class="line-num">201</span>       <span class="ruby-identifier">class_eval</span>(<span class="ruby-string">&quot;alias _roda_run_main_route _roda_main_route&quot;</span>)
+<span class="line-num">202</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">203</span>     <span class="ruby-keyword">self</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaResponse</span>.<span class="ruby-identifier">class_eval</span> <span class="ruby-keyword">do</span>
+<span class="line-num">204</span>       <span class="ruby-keyword">if</span> <span class="ruby-identifier">instance_method</span>(<span class="ruby-value">:set_default_headers</span>).<span class="ruby-identifier">owner</span> <span class="ruby-operator">==</span> <span class="ruby-constant">ResponseMethods</span> <span class="ruby-operator">&amp;&amp;</span>
+<span class="line-num">205</span>          <span class="ruby-identifier">instance_method</span>(<span class="ruby-value">:default_headers</span>).<span class="ruby-identifier">owner</span> <span class="ruby-operator">==</span> <span class="ruby-constant">ResponseMethods</span>
+<span class="line-num">206</span> 
+<span class="line-num">207</span>         <span class="ruby-identifier">private</span>
+<span class="line-num">208</span> 
+<span class="line-num">209</span>         <span class="ruby-keyword">alias</span> <span class="ruby-identifier">set_default_headers</span> <span class="ruby-identifier">set_default_headers</span>
+<span class="line-num">210</span>         <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">set_default_headers</span>
+<span class="line-num">211</span>           <span class="ruby-ivar">@headers</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_TYPE</span>] <span class="ruby-operator">||=</span> <span class="ruby-string">&#39;text/html&#39;</span>
+<span class="line-num">212</span>         <span class="ruby-keyword">end</span>
+<span class="line-num">213</span>       <span class="ruby-keyword">end</span>
 <span class="line-num">214</span>     <span class="ruby-keyword">end</span>
 <span class="line-num">215</span> 
-<span class="line-num">216</span>     <span class="ruby-keyword">if</span> ([<span class="ruby-value">:on</span>, <span class="ruby-value">:is</span>, <span class="ruby-value">:_verb</span>, <span class="ruby-value">:_match_class_String</span>, <span class="ruby-value">:_match_class_Integer</span>, <span class="ruby-value">:_match_string</span>, <span class="ruby-value">:_match_regexp</span>, <span class="ruby-value">:empty_path?</span>, <span class="ruby-value">:if_match</span>, <span class="ruby-value">:match</span>, <span class="ruby-value">:_match_class</span>]).<span class="ruby-identifier">all?</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">m</span><span class="ruby-operator">|</span> <span class="ruby-keyword">self</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>.<span class="ruby-identifier">instance_method</span>(<span class="ruby-identifier">m</span>).<span class="ruby-identifier">owner</span> <span class="ruby-operator">==</span> <span class="ruby-constant">RequestMethods</span>}
-<span class="line-num">217</span>       <span class="ruby-identifier">plugin</span> <span class="ruby-value">:_optimized_matching</span>
+<span class="line-num">216</span>     <span class="ruby-keyword">if</span> <span class="ruby-ivar">@middleware</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">use_new_dispatch_api?</span>
+<span class="line-num">217</span>       <span class="ruby-identifier">plugin</span> <span class="ruby-value">:direct_call</span>
 <span class="line-num">218</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">219</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">220</span> 
-<span class="line-num">221</span>   <span class="ruby-identifier">build_rack_app</span>
-<span class="line-num">222</span>   <span class="ruby-ivar">@opts</span>.<span class="ruby-identifier">freeze</span>
-<span class="line-num">223</span>   <span class="ruby-ivar">@middleware</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">219</span> 
+<span class="line-num">220</span>     <span class="ruby-keyword">if</span> ([<span class="ruby-value">:on</span>, <span class="ruby-value">:is</span>, <span class="ruby-value">:_verb</span>, <span class="ruby-value">:_match_class_String</span>, <span class="ruby-value">:_match_class_Integer</span>, <span class="ruby-value">:_match_string</span>, <span class="ruby-value">:_match_regexp</span>, <span class="ruby-value">:empty_path?</span>, <span class="ruby-value">:if_match</span>, <span class="ruby-value">:match</span>, <span class="ruby-value">:_match_class</span>]).<span class="ruby-identifier">all?</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">m</span><span class="ruby-operator">|</span> <span class="ruby-keyword">self</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>.<span class="ruby-identifier">instance_method</span>(<span class="ruby-identifier">m</span>).<span class="ruby-identifier">owner</span> <span class="ruby-operator">==</span> <span class="ruby-constant">RequestMethods</span>}
+<span class="line-num">221</span>       <span class="ruby-identifier">plugin</span> <span class="ruby-value">:_optimized_matching</span>
+<span class="line-num">222</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">223</span>   <span class="ruby-keyword">end</span>
 <span class="line-num">224</span> 
-<span class="line-num">225</span>   <span class="ruby-keyword">super</span>
-<span class="line-num">226</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">225</span>   <span class="ruby-identifier">build_rack_app</span>
+<span class="line-num">226</span>   <span class="ruby-ivar">@opts</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">227</span>   <span class="ruby-ivar">@middleware</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">228</span> 
+<span class="line-num">229</span>   <span class="ruby-keyword">super</span>
+<span class="line-num">230</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-include'>
@@ -374,12 +378,12 @@ Roda::RodaPlugins::Base::ClassMethods
 [show source]
 </a>
 <pre id='method-i-include-source'>    <span class="ruby-comment"># File lib/roda.rb</span>
-<span class="line-num">230</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">include</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">a</span>)
-<span class="line-num">231</span>   <span class="ruby-identifier">res</span> = <span class="ruby-keyword">super</span>
-<span class="line-num">232</span>   <span class="ruby-identifier">def_roda_before</span>
-<span class="line-num">233</span>   <span class="ruby-identifier">def_roda_after</span>
-<span class="line-num">234</span>   <span class="ruby-identifier">res</span>
-<span class="line-num">235</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">234</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">include</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">a</span>)
+<span class="line-num">235</span>   <span class="ruby-identifier">res</span> = <span class="ruby-keyword">super</span>
+<span class="line-num">236</span>   <span class="ruby-identifier">def_roda_before</span>
+<span class="line-num">237</span>   <span class="ruby-identifier">def_roda_after</span>
+<span class="line-num">238</span>   <span class="ruby-identifier">res</span>
+<span class="line-num">239</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-inherited'>
@@ -398,36 +402,36 @@ Roda::RodaPlugins::Base::ClassMethods
 [show source]
 </a>
 <pre id='method-i-inherited-source'>    <span class="ruby-comment"># File lib/roda.rb</span>
-<span class="line-num">239</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">inherited</span>(<span class="ruby-identifier">subclass</span>)
-<span class="line-num">240</span>   <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;Cannot subclass a frozen Roda class&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">frozen?</span>
-<span class="line-num">241</span> 
-<span class="line-num">242</span>   <span class="ruby-comment"># Mark current class as having been subclassed, as some optimizations</span>
-<span class="line-num">243</span>   <span class="ruby-comment"># depend on the class not being subclassed</span>
-<span class="line-num">244</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:subclassed</span>] = <span class="ruby-keyword">true</span>
+<span class="line-num">243</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">inherited</span>(<span class="ruby-identifier">subclass</span>)
+<span class="line-num">244</span>   <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;Cannot subclass a frozen Roda class&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">frozen?</span>
 <span class="line-num">245</span> 
-<span class="line-num">246</span>   <span class="ruby-keyword">super</span>
-<span class="line-num">247</span>   <span class="ruby-identifier">subclass</span>.<span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-value">:@inherit_middleware</span>, <span class="ruby-ivar">@inherit_middleware</span>)
-<span class="line-num">248</span>   <span class="ruby-identifier">subclass</span>.<span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-value">:@middleware</span>, <span class="ruby-ivar">@inherit_middleware</span> <span class="ruby-operator">?</span> <span class="ruby-ivar">@middleware</span>.<span class="ruby-identifier">dup</span> <span class="ruby-operator">:</span> [])
-<span class="line-num">249</span>   <span class="ruby-identifier">subclass</span>.<span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-value">:@opts</span>, <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">dup</span>)
-<span class="line-num">250</span>   <span class="ruby-identifier">subclass</span>.<span class="ruby-identifier">opts</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:subclassed</span>)
-<span class="line-num">251</span>   <span class="ruby-identifier">subclass</span>.<span class="ruby-identifier">opts</span>.<span class="ruby-identifier">to_a</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">k</span>,<span class="ruby-identifier">v</span><span class="ruby-operator">|</span>
-<span class="line-num">252</span>     <span class="ruby-keyword">if</span> (<span class="ruby-identifier">v</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">v</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Hash</span>)) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">v</span>.<span class="ruby-identifier">frozen?</span>
-<span class="line-num">253</span>       <span class="ruby-identifier">subclass</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-identifier">k</span>] = <span class="ruby-identifier">v</span>.<span class="ruby-identifier">dup</span>
-<span class="line-num">254</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">255</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">256</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span> = <span class="ruby-ivar">@raw_route_block</span>
-<span class="line-num">257</span>     <span class="ruby-identifier">subclass</span>.<span class="ruby-identifier">route</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">258</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">259</span>   
-<span class="line-num">260</span>   <span class="ruby-identifier">request_class</span> = <span class="ruby-constant">Class</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword">self</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>)
-<span class="line-num">261</span>   <span class="ruby-identifier">request_class</span>.<span class="ruby-identifier">roda_class</span> = <span class="ruby-identifier">subclass</span>
-<span class="line-num">262</span>   <span class="ruby-identifier">request_class</span>.<span class="ruby-identifier">match_pattern_cache</span> = <span class="ruby-constant">RodaCache</span>.<span class="ruby-identifier">new</span>
-<span class="line-num">263</span>   <span class="ruby-identifier">subclass</span>.<span class="ruby-identifier">const_set</span>(<span class="ruby-value">:RodaRequest</span>, <span class="ruby-identifier">request_class</span>)
-<span class="line-num">264</span> 
-<span class="line-num">265</span>   <span class="ruby-identifier">response_class</span> = <span class="ruby-constant">Class</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword">self</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaResponse</span>)
-<span class="line-num">266</span>   <span class="ruby-identifier">response_class</span>.<span class="ruby-identifier">roda_class</span> = <span class="ruby-identifier">subclass</span>
-<span class="line-num">267</span>   <span class="ruby-identifier">subclass</span>.<span class="ruby-identifier">const_set</span>(<span class="ruby-value">:RodaResponse</span>, <span class="ruby-identifier">response_class</span>)
-<span class="line-num">268</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">246</span>   <span class="ruby-comment"># Mark current class as having been subclassed, as some optimizations</span>
+<span class="line-num">247</span>   <span class="ruby-comment"># depend on the class not being subclassed</span>
+<span class="line-num">248</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:subclassed</span>] = <span class="ruby-keyword">true</span>
+<span class="line-num">249</span> 
+<span class="line-num">250</span>   <span class="ruby-keyword">super</span>
+<span class="line-num">251</span>   <span class="ruby-identifier">subclass</span>.<span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-value">:@inherit_middleware</span>, <span class="ruby-ivar">@inherit_middleware</span>)
+<span class="line-num">252</span>   <span class="ruby-identifier">subclass</span>.<span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-value">:@middleware</span>, <span class="ruby-ivar">@inherit_middleware</span> <span class="ruby-operator">?</span> <span class="ruby-ivar">@middleware</span>.<span class="ruby-identifier">dup</span> <span class="ruby-operator">:</span> [])
+<span class="line-num">253</span>   <span class="ruby-identifier">subclass</span>.<span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-value">:@opts</span>, <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">dup</span>)
+<span class="line-num">254</span>   <span class="ruby-identifier">subclass</span>.<span class="ruby-identifier">opts</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:subclassed</span>)
+<span class="line-num">255</span>   <span class="ruby-identifier">subclass</span>.<span class="ruby-identifier">opts</span>.<span class="ruby-identifier">to_a</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">k</span>,<span class="ruby-identifier">v</span><span class="ruby-operator">|</span>
+<span class="line-num">256</span>     <span class="ruby-keyword">if</span> (<span class="ruby-identifier">v</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">v</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Hash</span>)) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">v</span>.<span class="ruby-identifier">frozen?</span>
+<span class="line-num">257</span>       <span class="ruby-identifier">subclass</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-identifier">k</span>] = <span class="ruby-identifier">v</span>.<span class="ruby-identifier">dup</span>
+<span class="line-num">258</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">259</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">260</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span> = <span class="ruby-ivar">@raw_route_block</span>
+<span class="line-num">261</span>     <span class="ruby-identifier">subclass</span>.<span class="ruby-identifier">route</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">262</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">263</span>   
+<span class="line-num">264</span>   <span class="ruby-identifier">request_class</span> = <span class="ruby-constant">Class</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword">self</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>)
+<span class="line-num">265</span>   <span class="ruby-identifier">request_class</span>.<span class="ruby-identifier">roda_class</span> = <span class="ruby-identifier">subclass</span>
+<span class="line-num">266</span>   <span class="ruby-identifier">request_class</span>.<span class="ruby-identifier">match_pattern_cache</span> = <span class="ruby-constant">RodaCache</span>.<span class="ruby-identifier">new</span>
+<span class="line-num">267</span>   <span class="ruby-identifier">subclass</span>.<span class="ruby-identifier">const_set</span>(<span class="ruby-value">:RodaRequest</span>, <span class="ruby-identifier">request_class</span>)
+<span class="line-num">268</span> 
+<span class="line-num">269</span>   <span class="ruby-identifier">response_class</span> = <span class="ruby-constant">Class</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword">self</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaResponse</span>)
+<span class="line-num">270</span>   <span class="ruby-identifier">response_class</span>.<span class="ruby-identifier">roda_class</span> = <span class="ruby-identifier">subclass</span>
+<span class="line-num">271</span>   <span class="ruby-identifier">subclass</span>.<span class="ruby-identifier">const_set</span>(<span class="ruby-value">:RodaResponse</span>, <span class="ruby-identifier">response_class</span>)
+<span class="line-num">272</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-plugin'>
@@ -452,26 +456,26 @@ Roda::RodaPlugins::Base::ClassMethods
 [show source]
 </a>
 <pre id='method-i-plugin-source'>    <span class="ruby-comment"># File lib/roda.rb</span>
-<span class="line-num">279</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">plugin</span>(<span class="ruby-identifier">plugin</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">280</span>   <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;Cannot add a plugin to a frozen Roda class&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">frozen?</span>
-<span class="line-num">281</span>   <span class="ruby-identifier">plugin</span> = <span class="ruby-constant">RodaPlugins</span>.<span class="ruby-identifier">load_plugin</span>(<span class="ruby-identifier">plugin</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">plugin</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Symbol</span>)
-<span class="line-num">282</span>   <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-node">&quot;Invalid plugin type: #{plugin.class.inspect}&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">plugin</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Module</span>)
-<span class="line-num">283</span> 
-<span class="line-num">284</span>   <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">plugin</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:load_dependencies</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">plugin</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:configure</span>) <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-operator">!</span><span class="ruby-identifier">args</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">block</span>)
-<span class="line-num">285</span>     <span class="ruby-comment"># RODA4: switch from warning to error</span>
-<span class="line-num">286</span>     <span class="ruby-constant">RodaPlugins</span>.<span class="ruby-identifier">warn</span>(<span class="ruby-node">&quot;Plugin #{plugin} does not accept arguments or a block, but arguments or a block was passed when loading this. This will raise an error in Roda 4.&quot;</span>)
-<span class="line-num">287</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">288</span> 
-<span class="line-num">289</span>   <span class="ruby-identifier">plugin</span>.<span class="ruby-identifier">load_dependencies</span>(<span class="ruby-keyword">self</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">plugin</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:load_dependencies</span>)
-<span class="line-num">290</span>   <span class="ruby-identifier">include</span>(<span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">InstanceMethods</span>) <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">InstanceMethods</span>)
-<span class="line-num">291</span>   <span class="ruby-identifier">extend</span>(<span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">ClassMethods</span>) <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">ClassMethods</span>)
-<span class="line-num">292</span>   <span class="ruby-keyword">self</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:include</span>, <span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">RequestMethods</span>) <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">RequestMethods</span>)
-<span class="line-num">293</span>   <span class="ruby-keyword">self</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>.<span class="ruby-identifier">extend</span>(<span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">RequestClassMethods</span>) <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">RequestClassMethods</span>)
-<span class="line-num">294</span>   <span class="ruby-keyword">self</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaResponse</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:include</span>, <span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">ResponseMethods</span>) <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">ResponseMethods</span>)
-<span class="line-num">295</span>   <span class="ruby-keyword">self</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaResponse</span>.<span class="ruby-identifier">extend</span>(<span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">ResponseClassMethods</span>) <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">ResponseClassMethods</span>)
-<span class="line-num">296</span>   <span class="ruby-identifier">plugin</span>.<span class="ruby-identifier">configure</span>(<span class="ruby-keyword">self</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">plugin</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:configure</span>)
-<span class="line-num">297</span>   <span class="ruby-ivar">@app</span> = <span class="ruby-keyword">nil</span>
-<span class="line-num">298</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">283</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">plugin</span>(<span class="ruby-identifier">plugin</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">284</span>   <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;Cannot add a plugin to a frozen Roda class&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">frozen?</span>
+<span class="line-num">285</span>   <span class="ruby-identifier">plugin</span> = <span class="ruby-constant">RodaPlugins</span>.<span class="ruby-identifier">load_plugin</span>(<span class="ruby-identifier">plugin</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">plugin</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Symbol</span>)
+<span class="line-num">286</span>   <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-node">&quot;Invalid plugin type: #{plugin.class.inspect}&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">plugin</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Module</span>)
+<span class="line-num">287</span> 
+<span class="line-num">288</span>   <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">plugin</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:load_dependencies</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">plugin</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:configure</span>) <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-operator">!</span><span class="ruby-identifier">args</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">block</span>)
+<span class="line-num">289</span>     <span class="ruby-comment"># RODA4: switch from warning to error</span>
+<span class="line-num">290</span>     <span class="ruby-constant">RodaPlugins</span>.<span class="ruby-identifier">warn</span>(<span class="ruby-node">&quot;Plugin #{plugin} does not accept arguments or a block, but arguments or a block was passed when loading this. This will raise an error in Roda 4.&quot;</span>)
+<span class="line-num">291</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">292</span> 
+<span class="line-num">293</span>   <span class="ruby-identifier">plugin</span>.<span class="ruby-identifier">load_dependencies</span>(<span class="ruby-keyword">self</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">plugin</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:load_dependencies</span>)
+<span class="line-num">294</span>   <span class="ruby-identifier">include</span>(<span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">InstanceMethods</span>) <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">InstanceMethods</span>)
+<span class="line-num">295</span>   <span class="ruby-identifier">extend</span>(<span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">ClassMethods</span>) <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">ClassMethods</span>)
+<span class="line-num">296</span>   <span class="ruby-keyword">self</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:include</span>, <span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">RequestMethods</span>) <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">RequestMethods</span>)
+<span class="line-num">297</span>   <span class="ruby-keyword">self</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>.<span class="ruby-identifier">extend</span>(<span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">RequestClassMethods</span>) <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">RequestClassMethods</span>)
+<span class="line-num">298</span>   <span class="ruby-keyword">self</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaResponse</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:include</span>, <span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">ResponseMethods</span>) <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">ResponseMethods</span>)
+<span class="line-num">299</span>   <span class="ruby-keyword">self</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaResponse</span>.<span class="ruby-identifier">extend</span>(<span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">ResponseClassMethods</span>) <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">ResponseClassMethods</span>)
+<span class="line-num">300</span>   <span class="ruby-identifier">plugin</span>.<span class="ruby-identifier">configure</span>(<span class="ruby-keyword">self</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">plugin</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:configure</span>)
+<span class="line-num">301</span>   <span class="ruby-ivar">@app</span> = <span class="ruby-keyword">nil</span>
+<span class="line-num">302</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-route'>
@@ -499,18 +503,18 @@ Roda::RodaPlugins::Base::ClassMethods
 [show source]
 </a>
 <pre id='method-i-route-source'>    <span class="ruby-comment"># File lib/roda.rb</span>
-<span class="line-num">316</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">route</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">317</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">block</span>
-<span class="line-num">318</span>     <span class="ruby-constant">RodaPlugins</span>.<span class="ruby-identifier">warn</span> <span class="ruby-string">&quot;no block passed to Roda.route&quot;</span>
-<span class="line-num">319</span>     <span class="ruby-keyword">return</span>
-<span class="line-num">320</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">321</span> 
-<span class="line-num">322</span>   <span class="ruby-ivar">@raw_route_block</span> = <span class="ruby-identifier">block</span>
-<span class="line-num">323</span>   <span class="ruby-ivar">@route_block</span> = <span class="ruby-identifier">block</span> = <span class="ruby-identifier">convert_route_block</span>(<span class="ruby-identifier">block</span>)
-<span class="line-num">324</span>   <span class="ruby-ivar">@rack_app_route_block</span> = <span class="ruby-identifier">block</span> = <span class="ruby-identifier">rack_app_route_block</span>(<span class="ruby-identifier">block</span>)
-<span class="line-num">325</span>   <span class="ruby-identifier">public</span> <span class="ruby-identifier">define_roda_method</span>(<span class="ruby-value">:_roda_main_route</span>, <span class="ruby-value">1</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">326</span>   <span class="ruby-ivar">@app</span> = <span class="ruby-keyword">nil</span>
-<span class="line-num">327</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">320</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">route</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">321</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">block</span>
+<span class="line-num">322</span>     <span class="ruby-constant">RodaPlugins</span>.<span class="ruby-identifier">warn</span> <span class="ruby-string">&quot;no block passed to Roda.route&quot;</span>
+<span class="line-num">323</span>     <span class="ruby-keyword">return</span>
+<span class="line-num">324</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">325</span> 
+<span class="line-num">326</span>   <span class="ruby-ivar">@raw_route_block</span> = <span class="ruby-identifier">block</span>
+<span class="line-num">327</span>   <span class="ruby-ivar">@route_block</span> = <span class="ruby-identifier">block</span> = <span class="ruby-identifier">convert_route_block</span>(<span class="ruby-identifier">block</span>)
+<span class="line-num">328</span>   <span class="ruby-ivar">@rack_app_route_block</span> = <span class="ruby-identifier">block</span> = <span class="ruby-identifier">rack_app_route_block</span>(<span class="ruby-identifier">block</span>)
+<span class="line-num">329</span>   <span class="ruby-identifier">public</span> <span class="ruby-identifier">define_roda_method</span>(<span class="ruby-value">:_roda_main_route</span>, <span class="ruby-value">1</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">330</span>   <span class="ruby-ivar">@app</span> = <span class="ruby-keyword">nil</span>
+<span class="line-num">331</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-set_default_headers'>
@@ -527,9 +531,9 @@ Roda::RodaPlugins::Base::ClassMethods
 [show source]
 </a>
 <pre id='method-i-set_default_headers-source'>    <span class="ruby-comment"># File lib/roda.rb</span>
-<span class="line-num">206</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">set_default_headers</span>
-<span class="line-num">207</span>   <span class="ruby-ivar">@headers</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_TYPE</span>] <span class="ruby-operator">||=</span> <span class="ruby-string">&#39;text/html&#39;</span>
-<span class="line-num">208</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">210</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">set_default_headers</span>
+<span class="line-num">211</span>   <span class="ruby-ivar">@headers</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_TYPE</span>] <span class="ruby-operator">||=</span> <span class="ruby-string">&#39;text/html&#39;</span>
+<span class="line-num">212</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-use'>
@@ -551,10 +555,10 @@ Roda::RodaPlugins::Base::ClassMethods
 [show source]
 </a>
 <pre id='method-i-use-source'>    <span class="ruby-comment"># File lib/roda.rb</span>
-<span class="line-num">333</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">use</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">334</span>   <span class="ruby-ivar">@middleware</span> <span class="ruby-operator">&lt;&lt;</span> [<span class="ruby-identifier">args</span>, <span class="ruby-identifier">block</span>].<span class="ruby-identifier">freeze</span>
-<span class="line-num">335</span>   <span class="ruby-ivar">@app</span> = <span class="ruby-keyword">nil</span>
-<span class="line-num">336</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">337</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">use</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">338</span>   <span class="ruby-ivar">@middleware</span> <span class="ruby-operator">&lt;&lt;</span> [<span class="ruby-identifier">args</span>, <span class="ruby-identifier">block</span>].<span class="ruby-identifier">freeze</span>
+<span class="line-num">339</span>   <span class="ruby-ivar">@app</span> = <span class="ruby-keyword">nil</span>
+<span class="line-num">340</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

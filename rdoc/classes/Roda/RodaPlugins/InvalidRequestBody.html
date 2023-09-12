@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+<head>
+<title>Roda::RodaPlugins::InvalidRequestBody</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<link href='../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<script type='text/javascript'>
+  function popupCode(url) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+  
+  function toggleCode(id) {
+    var code = document.getElementById(id)
+  
+    code.style.display = code.style.display != 'block' ? 'block' : 'none'
+    return true
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+</script>
+</head>
+<body class='page'>
+<div class='class' id='wrapper'>
+<div class='header'>
+<h1 class='name'><span class='type'>module</span>
+Roda::RodaPlugins::InvalidRequestBody
+</h1>
+<ol class='paths'>
+<li>
+<a href="../../../files/lib/roda/plugins/invalid_request_body_rb.html">lib/roda/plugins/invalid_request_body.rb</a>
+</li>
+</ol>
+</div>
+<div id='content'>
+<div id='text'>
+<div id='description'>
+<p>The invalid_request_body plugin allows for custom handling of invalid request bodies.  <a href="../../Roda.html"><code>Roda</code></a> uses Rack for parsing request bodies, so by default, any invalid request bodies would result in Rack raising an exception, and the exception could change for different reasons the request body is invalid. This plugin overrides RodaRequest#POST (which parses parameters from request bodies), and if parsing raises an exception, it allows for custom behavior.</p>
+
+<p>If you want to treat an invalid request body as the submission of no parameters, you can use the :empty_hash argument when loading the plugin:</p>
+
+<pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:invalid_request_body</span>, <span class="ruby-value">:empty_hash</span>
+</pre>
+
+<p>If you want to return a empty 400 (Bad Request) response if an invalid request body is submitted, you can use the :empty_400 argument when loading the plugin:</p>
+
+<pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:invalid_request_body</span>, <span class="ruby-value">:empty_400</span>
+</pre>
+
+<p>If you want to raise a <a href="InvalidRequestBody.html#Error"><code>Roda::RodaPlugins::InvalidRequestBody::Error</code></a> exception if an invalid request body is submitted (which makes it easier to handle these exceptions when using the error_handler plugin), you can use the :raise argument when loading the plugin:</p>
+
+<pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:invalid_request_body</span>, <span class="ruby-value">:raise</span>
+</pre>
+
+<p>For custom behavior, you can pass a block when loading the plugin.  The block is called with the exception Rack raised when parsing the body. The block will be used to define a method in the application’s <a href="../RodaRequest.html"><code>RodaRequest</code></a> class.  It can either return a hash of parameters, or you can raise a different exception, or you can halt processing and return a response:</p>
+
+<pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:invalid_request_body</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">exception</span><span class="ruby-operator">|</span>
+  <span class="ruby-comment"># To treat the exception raised as a submitted parameter</span>
+  {<span class="ruby-value">body_error:</span> <span class="ruby-identifier">exception</span>}
+<span class="ruby-keyword">end</span>
+</pre>
+</div>
+<div id='method-list'>
+<h2>Methods</h2>
+<h3>Public Class</h3>
+<ol>
+<li><a href="#method-c-configure">configure</a></li>
+</ol>
+</div>
+<div id='context'>
+</div>
+<div id='class-list'>
+<h2>Classes and Modules</h2>
+<ol>
+<li><a href="InvalidRequestBody/RequestMethods.html">Roda::RodaPlugins::InvalidRequestBody::RequestMethods</a></li>
+</ol>
+</div>
+<div id='section'>
+<div id='constants-list'>
+<h2>Constants</h2>
+<div class='name-list'>
+<table summary='Constants'>
+<tr class='top-aligned-row context-row'>
+<td class='context-item-name'>Error</td>
+<td>=</td>
+<td class='context-item-value'>Class.new(RodaError)</td>
+<td>&nbsp;</td>
+<td class='context-item-desc'>
+<p>Exception class raised for invalid request bodies.</p>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div id='methods'>
+<h2>Public Class methods</h2>
+<div class='method public-class' id='method-method-c-configure'>
+<a name='method-c-configure'></a>
+<div class='synopsis'>
+<span class='name'>configure</span><span class='arguments'>(app, action=nil, &block)</span>
+
+</div>
+<div class='description'>
+
+<p>Set the action to use (:empty_400, :empty_hash, :raise) for invalid request bodies, or use a block for custom behavior.</p>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-configure-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/invalid_request_body.rb</span>
+<span class="line-num">46</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">action</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">47</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">action</span>
+<span class="line-num">48</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span>
+<span class="line-num">49</span>       <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;cannot provide both block and action when loading invalid_request_body plugin&quot;</span>
+<span class="line-num">50</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">51</span> 
+<span class="line-num">52</span>     <span class="ruby-identifier">method</span> = <span class="ruby-value">:&quot;handle_invalid_request_body_#{action}&quot;</span>
+<span class="line-num">53</span>     <span class="ruby-keyword">unless</span> <span class="ruby-constant">RequestMethods</span>.<span class="ruby-identifier">private_method_defined?</span>(<span class="ruby-identifier">method</span>)
+<span class="line-num">54</span>       <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-node">&quot;invalid invalid_request_body action provided: #{action}&quot;</span>
+<span class="line-num">55</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">56</span> 
+<span class="line-num">57</span>     <span class="ruby-identifier">app</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:alias_method</span>, <span class="ruby-value">:handle_invalid_request_body</span>, <span class="ruby-identifier">method</span>)
+<span class="line-num">58</span>   <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">block</span>
+<span class="line-num">59</span>     <span class="ruby-identifier">app</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>.<span class="ruby-identifier">class_eval</span> <span class="ruby-keyword">do</span>
+<span class="line-num">60</span>       <span class="ruby-identifier">define_method</span>(<span class="ruby-value">:handle_invalid_request_body</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">61</span>       <span class="ruby-keyword">alias</span> <span class="ruby-identifier">handle_invalid_request_body</span> <span class="ruby-identifier">handle_invalid_request_body</span>
+<span class="line-num">62</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">63</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">64</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;must provide block or action when loading invalid_request_body plugin&quot;</span>
+<span class="line-num">65</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">66</span> 
+<span class="line-num">67</span>   <span class="ruby-identifier">app</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:private</span>, <span class="ruby-value">:handle_invalid_request_body</span>)
+<span class="line-num">68</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div id='footer-push'></div>
+</div>
+<div id='footer'>
+<a href="https://github.com/jeremyevans/hanna"><strong>Hanna</strong> RDoc template</a>
+</div>
+</body>
+</html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang='en'>
 <head>
-<title>Roda::RodaPlugins::MatchHook::InstanceMethods</title>
+<title>Roda::RodaPlugins::InvalidRequestBody::RequestMethods</title>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
 <link href='../../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
@@ -25,11 +25,11 @@
 <div class='class' id='wrapper'>
 <div class='header'>
 <h1 class='name'><span class='type'>module</span>
-Roda::RodaPlugins::MatchHook::InstanceMethods
+Roda::RodaPlugins::InvalidRequestBody::RequestMethods
 </h1>
 <ol class='paths'>
 <li>
-<a href="../../../../files/lib/roda/plugins/match_hook_rb.html">lib/roda/plugins/match_hook.rb</a>
+<a href="../../../../files/lib/roda/plugins/invalid_request_body_rb.html">lib/roda/plugins/invalid_request_body.rb</a>
 </li>
 </ol>
 </div>
@@ -40,7 +40,7 @@ Roda::RodaPlugins::MatchHook::InstanceMethods
 <h2>Methods</h2>
 <h3>Public Instance</h3>
 <ol>
-<li><a href="#method-i-_match_hook">_match_hook</a></li>
+<li><a href="#method-i-POST">POST</a></li>
 </ol>
 </div>
 <div id='context'>
@@ -48,24 +48,27 @@ Roda::RodaPlugins::MatchHook::InstanceMethods
 <div id='section'>
 <div id='methods'>
 <h2>Public Instance methods</h2>
-<div class='method public-instance' id='method-method-i-_match_hook'>
-<a name='method-i-_match_hook'></a>
+<div class='method public-instance' id='method-method-i-POST'>
+<a name='method-i-POST'></a>
 <div class='synopsis'>
-<span class='name'>_match_hook</span><span class='arguments'>()</span>
+<span class='name'>POST</span><span class='arguments'>()</span>
 
 </div>
 <div class='description'>
 
-<p>Default empty method if no match hooks are defined.</p>
+<p>Handle invalid request bodies as configured if the default behavior raises an exception.</p>
 
 </div>
 <div class='source'>
-<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-_match_hook-source&#39;); return false'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-POST-source&#39;); return false'>
 [show source]
 </a>
-<pre id='method-i-_match_hook-source'>   <span class="ruby-comment"># File lib/roda/plugins/match_hook.rb</span>
-<span class="line-num">46</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">_match_hook</span>
-<span class="line-num">47</span> <span class="ruby-keyword">end</span></pre>
+<pre id='method-i-POST-source'>   <span class="ruby-comment"># File lib/roda/plugins/invalid_request_body.rb</span>
+<span class="line-num">73</span> <span class="ruby-keyword">def</span> <span class="ruby-constant">POST</span>
+<span class="line-num">74</span>   <span class="ruby-keyword">super</span>
+<span class="line-num">75</span> <span class="ruby-keyword">rescue</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier ruby-title">e</span> 
+<span class="line-num">76</span>   <span class="ruby-identifier">handle_invalid_request_body</span>(<span class="ruby-identifier">e</span>)
+<span class="line-num">77</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>
