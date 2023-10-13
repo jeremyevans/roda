@@ -63,6 +63,37 @@ Roda::RodaPlugins::Middleware
 <span class="ruby-identifier">run</span> <span class="ruby-constant">App</span>
 </pre>
 
+<p>By default, when the app is used as middleware and handles the request at all, it does not forward the request to the next middleware.  For the following setup:</p>
+
+<pre class="ruby"><span class="ruby-keyword">class</span> <span class="ruby-constant">Mid</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Roda</span>
+  <span class="ruby-identifier">plugin</span> <span class="ruby-value">:middleware</span>
+
+  <span class="ruby-identifier">route</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">r</span>.<span class="ruby-identifier">on</span> <span class="ruby-string">&quot;foo&quot;</span> <span class="ruby-keyword">do</span>
+      <span class="ruby-identifier">r</span>.<span class="ruby-identifier">is</span> <span class="ruby-string">&quot;mid&quot;</span> <span class="ruby-keyword">do</span>
+        <span class="ruby-string">&quot;Mid&quot;</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span>
+
+<span class="ruby-keyword">class</span> <span class="ruby-constant">App</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Roda</span>
+  <span class="ruby-identifier">use</span> <span class="ruby-constant">Mid</span>
+
+  <span class="ruby-identifier">route</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">r</span>.<span class="ruby-identifier">on</span> <span class="ruby-string">&quot;foo&quot;</span> <span class="ruby-keyword">do</span>
+      <span class="ruby-identifier">r</span>.<span class="ruby-identifier">is</span> <span class="ruby-string">&quot;app&quot;</span> <span class="ruby-keyword">do</span>
+        <span class="ruby-string">&quot;App&quot;</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span>
+
+<span class="ruby-identifier">run</span> <span class="ruby-constant">App</span>
+</pre>
+
+<p>Requests for +/foo/mid will+ return <code>Mid</code>, but requests for <code>/foo/app</code> will return an empty 404 response, because the middleware handles the <code>/foo/app</code> request in the <code>r.on &quot;foo&quot; do</code> block, but does not have the block return a result, which <a href="../../Roda.html"><code>Roda</code></a> treats as an empty 404 response. If you would like the middleware to forward <code>/foo/app</code> request to the application, you should use the <code>:next_if_not_found</code> plugin option.</p>
+
 <p>It is possible to use the <a href="../../Roda.html"><code>Roda</code></a> app as a regular app even when using the middleware plugin.  Using an app as middleware automatically creates a subclass of the app for the middleware.  Because a subclass is automatically created when the app is used as middleware, any configuration of the app should be done before using it as middleware instead of after.</p>
 
 <p>You can support configurable middleware by passing a block when loading the plugin:</p>
@@ -126,6 +157,8 @@ Roda::RodaPlugins::Middleware
 <p>Callable object that will be called with request environment and rack response for all requests passing through the middleware, after either the middleware or next app handles the request and returns a response.</p>
 </td></tr><tr><td class='label'>:forward_response_headers </td><td>
 <p>Whether changes to the response headers made inside the middleware’s route block should be applied to the final response when the request is forwarded to the app. Defaults to false.</p>
+</td></tr><tr><td class='label'>:next_if_not_found </td><td>
+<p>If the middleware handles the request but returns a not found result (404 with no body), forward the result to the next middleware.</p>
 </td></tr></tbody></table>
 
 </div>
@@ -133,14 +166,15 @@ Roda::RodaPlugins::Middleware
 <a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-configure-source&#39;); return false'>
 [show source]
 </a>
-<pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/middleware.rb</span>
-<span class="line-num">80</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>={}, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">81</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:middleware_env_var</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:env_var</span>] <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:env_var</span>)
-<span class="line-num">82</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:middleware_env_var</span>] <span class="ruby-operator">||=</span> <span class="ruby-string">&#39;roda.forward_next&#39;</span>
-<span class="line-num">83</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:middleware_configure</span>] = <span class="ruby-identifier">block</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span>
-<span class="line-num">84</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:middleware_handle_result</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:handle_result</span>]
-<span class="line-num">85</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:middleware_forward_response_headers</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:forward_response_headers</span>]
-<span class="line-num">86</span> <span class="ruby-keyword">end</span></pre>
+<pre id='method-c-configure-source'>    <span class="ruby-comment"># File lib/roda/plugins/middleware.rb</span>
+<span class="line-num">122</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>={}, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">123</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:middleware_env_var</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:env_var</span>] <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:env_var</span>)
+<span class="line-num">124</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:middleware_env_var</span>] <span class="ruby-operator">||=</span> <span class="ruby-string">&#39;roda.forward_next&#39;</span>
+<span class="line-num">125</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:middleware_configure</span>] = <span class="ruby-identifier">block</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span>
+<span class="line-num">126</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:middleware_handle_result</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:handle_result</span>]
+<span class="line-num">127</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:middleware_forward_response_headers</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:forward_response_headers</span>]
+<span class="line-num">128</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:middleware_next_if_not_found</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:next_if_not_found</span>]
+<span class="line-num">129</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>
