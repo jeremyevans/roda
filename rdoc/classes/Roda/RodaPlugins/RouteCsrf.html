@@ -40,7 +40,7 @@ Roda::RodaPlugins::RouteCsrf
 
 <p>By default, the plugin requires tokens be specific to the request method and request path, so a CSRF token generated for one form will not be usable to submit a different form.</p>
 
-<p>This plugin also takes care to not expose the underlying CSRF key (except in the session), so that it is not possible for an attacker to generate valid CSRF tokens specific to an arbitrary request method and request path even if they have access to a token that is not specific to request method and request path.  To get this security benefit, you must ensure an attacker does not have access to the session.  Rack::Session::Cookie uses signed sessions, not encrypted sessions, so if the attacker has the ability to read cookie data and you are using Rack::Session::Cookie, it will still be possible for an attacker to generate valid CSRF tokens specific to arbitrary request method and request path.  Roda’s session plugin uses encrypted sessions and therefore is safe even if the attacker can read cookie data.</p>
+<p>This plugin also takes care to not expose the underlying CSRF key (except in the session), so that it is not possible for an attacker to generate valid CSRF tokens specific to an arbitrary request method and request path even if they have access to a token that is not specific to request method and request path.  To get this security benefit, you must ensure an attacker does not have access to the session.  Rack::Session::Cookie versions shipped with Rack before Rack 3 use signed sessions, not encrypted sessions, so if the attacker has the ability to read cookie data and you are using one of those Rack::Session::Cookie versions, it will still be possible for an attacker to generate valid CSRF tokens specific to arbitrary request method and request path.  Roda’s session plugin uses encrypted sessions and therefore is safe even if the attacker can read cookie data.</p>
 
 <h2 id="module-Roda::RodaPlugins::RouteCsrf-label-Usage">Usage<span><a href="#module-Roda::RodaPlugins::RouteCsrf-label-Usage">&para;</a> <a href="#top">&uarr;</a></span></h2>
 
@@ -188,19 +188,19 @@ Roda::RodaPlugins::RouteCsrf
 [show source]
 </a>
 <pre id='method-c-configure-source'>    <span class="ruby-comment"># File lib/roda/plugins/route_csrf.rb</span>
-<span class="line-num">169</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">170</span>   <span class="ruby-identifier">options</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:route_csrf</span>] = (<span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:route_csrf</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">DEFAULTS</span>).<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">opts</span>)
-<span class="line-num">171</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:csrf_failure</span>].<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Proc</span>)
-<span class="line-num">172</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:csrf_failure</span>]
-<span class="line-num">173</span>       <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;Cannot specify both route_csrf plugin block and :csrf_failure option&quot;</span>
-<span class="line-num">174</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">175</span>     <span class="ruby-identifier">block</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:csrf_failure</span>]
-<span class="line-num">176</span>     <span class="ruby-identifier">options</span>[<span class="ruby-value">:csrf_failure</span>] = <span class="ruby-value">:csrf_failure_method</span>
-<span class="line-num">177</span>     <span class="ruby-identifier">app</span>.<span class="ruby-identifier">define_roda_method</span>(<span class="ruby-value">:_roda_route_csrf_failure</span>, <span class="ruby-value">1</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">app</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:convert_route_block</span>, <span class="ruby-identifier">block</span>))
-<span class="line-num">178</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">179</span>   <span class="ruby-identifier">options</span>[<span class="ruby-value">:env_header</span>] = <span class="ruby-node">&quot;HTTP_#{options[:header].to_s.gsub(&#39;-&#39;, &#39;_&#39;).upcase}&quot;</span>.<span class="ruby-identifier">freeze</span>
-<span class="line-num">180</span>   <span class="ruby-identifier">options</span>.<span class="ruby-identifier">freeze</span>
-<span class="line-num">181</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">171</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">172</span>   <span class="ruby-identifier">options</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:route_csrf</span>] = (<span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:route_csrf</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">DEFAULTS</span>).<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">opts</span>)
+<span class="line-num">173</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:csrf_failure</span>].<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Proc</span>)
+<span class="line-num">174</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:csrf_failure</span>]
+<span class="line-num">175</span>       <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;Cannot specify both route_csrf plugin block and :csrf_failure option&quot;</span>
+<span class="line-num">176</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">177</span>     <span class="ruby-identifier">block</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:csrf_failure</span>]
+<span class="line-num">178</span>     <span class="ruby-identifier">options</span>[<span class="ruby-value">:csrf_failure</span>] = <span class="ruby-value">:csrf_failure_method</span>
+<span class="line-num">179</span>     <span class="ruby-identifier">app</span>.<span class="ruby-identifier">define_roda_method</span>(<span class="ruby-value">:_roda_route_csrf_failure</span>, <span class="ruby-value">1</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">app</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:convert_route_block</span>, <span class="ruby-identifier">block</span>))
+<span class="line-num">180</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">181</span>   <span class="ruby-identifier">options</span>[<span class="ruby-value">:env_header</span>] = <span class="ruby-node">&quot;HTTP_#{options[:header].to_s.gsub(&#39;-&#39;, &#39;_&#39;).upcase}&quot;</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">182</span>   <span class="ruby-identifier">options</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">183</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-class' id='method-method-c-load_dependencies'>
@@ -217,9 +217,9 @@ Roda::RodaPlugins::RouteCsrf
 [show source]
 </a>
 <pre id='method-c-load_dependencies-source'>    <span class="ruby-comment"># File lib/roda/plugins/route_csrf.rb</span>
-<span class="line-num">165</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">load_dependencies</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
-<span class="line-num">166</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:_base64</span>
-<span class="line-num">167</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">167</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">load_dependencies</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
+<span class="line-num">168</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:_base64</span>
+<span class="line-num">169</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

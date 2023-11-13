@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+<head>
+<title>Roda::RodaPlugins::RedirectHttpToHttps</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<link href='../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<script type='text/javascript'>
+  function popupCode(url) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+  
+  function toggleCode(id) {
+    var code = document.getElementById(id)
+  
+    code.style.display = code.style.display != 'block' ? 'block' : 'none'
+    return true
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+</script>
+</head>
+<body class='page'>
+<div class='class' id='wrapper'>
+<div class='header'>
+<h1 class='name'><span class='type'>module</span>
+Roda::RodaPlugins::RedirectHttpToHttps
+</h1>
+<ol class='paths'>
+<li>
+<a href="../../../files/lib/roda/plugins/redirect_http_to_https_rb.html">lib/roda/plugins/redirect_http_to_https.rb</a>
+</li>
+</ol>
+</div>
+<div id='content'>
+<div id='text'>
+<div id='description'>
+<p>The redirect_http_to_https plugin exposes a <code>redirect_http_to_https</code> request method that redirects HTTP requests to HTTPS, helping to ensure that future requests by the same browser will be submitted securely.</p>
+
+<p>You should use this plugin if you have an application that can receive requests using both HTTP and HTTPS, and you want to make sure that all or a subset of routes are only handled for HTTPS requests.</p>
+
+<p>The reason this exposes a request method is so that you can choose where in your routing tree to do the redirection:</p>
+
+<pre class="ruby"><span class="ruby-identifier">route</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span>
+  <span class="ruby-comment"># routes available via both HTTP and HTTPS</span>
+  <span class="ruby-identifier">r</span>.<span class="ruby-identifier">redirect_http_to_https</span>
+  <span class="ruby-comment"># routes available only via HTTPS</span>
+<span class="ruby-keyword">end</span>
+</pre>
+
+<p>If you want to redirect to HTTPS for all routes in the routing tree, you can have this as the very first method call in the routing tree.  Note that in <a href="../../Roda.html"><code>Roda</code></a> it is possible to handle routing before the normal routing tree using before hooks.  The static_routing and heartbeat plugins use this feature. If you would like to handle routes before the normal routing tree, you can setup a before hook:</p>
+
+<pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:hooks</span>
+
+<span class="ruby-identifier">before</span> <span class="ruby-keyword">do</span>
+  <span class="ruby-identifier">request</span>.<span class="ruby-identifier">redirect_http_to_https</span>
+<span class="ruby-keyword">end</span>
+</pre>
+</div>
+<div id='method-list'>
+<h2>Methods</h2>
+<h3>Public Class</h3>
+<ol>
+<li><a href="#method-c-configure">configure</a></li>
+</ol>
+</div>
+<div id='context'>
+</div>
+<div id='class-list'>
+<h2>Classes and Modules</h2>
+<ol>
+<li><a href="RedirectHttpToHttps/RequestMethods.html">Roda::RodaPlugins::RedirectHttpToHttps::RequestMethods</a></li>
+</ol>
+</div>
+<div id='section'>
+<div id='methods'>
+<h2>Public Class methods</h2>
+<div class='method public-class' id='method-method-c-configure'>
+<a name='method-c-configure'></a>
+<div class='synopsis'>
+<span class='name'>configure</span><span class='arguments'>(app, opts=OPTS)</span>
+
+</div>
+<div class='description'>
+
+<p>Configures redirection from HTTP to HTTPS.  Available options:</p>
+<table class="rdoc-list note-list"><tbody><tr><td class='label'>:body </td><td>
+<p>The body used in the redirect.  If not set, uses an empty body.</p>
+</td></tr><tr><td class='label'>:headers </td><td>
+<p>Any additional headers used in the redirect response. By default, no additional headers are set, the only header used is the Location header.</p>
+</td></tr><tr><td class='label'>:host </td><td>
+<p>The host to redirect to.  If not set, redirects to the same host as the HTTP requested to.  It is highly recommended that you set this if requests with arbitrary Host headers can be submitted to the application.</p>
+</td></tr><tr><td class='label'>:port </td><td>
+<p>The port to use in the redirect.  By default, will not set an explicit port, so that it will implicitly use the HTTPS default port of 443.</p>
+</td></tr><tr><td class='label'>:status_map </td><td>
+<p>A hash mapping request methods to response status codes.  By default, uses a hash that redirects GET and HEAD requests with a 301 status, and other request methods with a 307 status.</p>
+</td></tr></tbody></table>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-configure-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/redirect_http_to_https.rb</span>
+<span class="line-num">55</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
+<span class="line-num">56</span>   <span class="ruby-identifier">previous</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:redirect_http_to_https</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">DEFAULTS</span>
+<span class="line-num">57</span>   <span class="ruby-identifier">opts</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:redirect_http_to_https</span>] = <span class="ruby-identifier">previous</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">opts</span>)
+<span class="line-num">58</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:port_string</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:port</span>] <span class="ruby-operator">?</span> <span class="ruby-node">&quot;:#{opts[:port]}&quot;</span>.<span class="ruby-identifier">freeze</span> <span class="ruby-operator">:</span> <span class="ruby-string">&quot;&quot;</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">59</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:prefix</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:host</span>] <span class="ruby-operator">?</span> <span class="ruby-node">&quot;https://#{opts[:host]}#{opts[:port_string]}&quot;</span>.<span class="ruby-identifier">freeze</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>
+<span class="line-num">60</span>   <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">61</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div id='footer-push'></div>
+</div>
+<div id='footer'>
+<a href="https://github.com/jeremyevans/hanna"><strong>Hanna</strong> RDoc template</a>
+</div>
+</body>
+</html>
