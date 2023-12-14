@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+<head>
+<title>Roda::RodaPlugins::CookieFlags</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<link href='../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<script type='text/javascript'>
+  function popupCode(url) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+  
+  function toggleCode(id) {
+    var code = document.getElementById(id)
+  
+    code.style.display = code.style.display != 'block' ? 'block' : 'none'
+    return true
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+</script>
+</head>
+<body class='page'>
+<div class='class' id='wrapper'>
+<div class='header'>
+<h1 class='name'><span class='type'>module</span>
+Roda::RodaPlugins::CookieFlags
+</h1>
+<ol class='paths'>
+<li>
+<a href="../../../files/lib/roda/plugins/cookie_flags_rb.html">lib/roda/plugins/cookie_flags.rb</a>
+</li>
+</ol>
+</div>
+<div id='content'>
+<div id='text'>
+<div id='description'>
+<p>The cookie_flags plugin allows users to force specific cookie flags for all cookies set by the application.  It can also be used to warn or raise for unexpected cookie flags.</p>
+
+<p>The cookie_flags plugin deals with the following cookie flags:</p>
+<table class="rdoc-list note-list"><tbody><tr><td class='label'>httponly </td><td>
+<p>Disallows access to the cookie from client-side scripts.</p>
+</td></tr><tr><td class='label'>samesite </td><td>
+<p>Restricts to which domains the cookie is sent.</p>
+</td></tr><tr><td class='label'>secure </td><td>
+<p>Instructs the browser to only transmit the cookie over HTTPS.</p>
+</td></tr></tbody></table>
+
+<p>This plugin ships in secure-by-default mode, where it enforces secure, httponly, samesite=strict cookies. You can disable enforcing specific flags using the following options:</p>
+<table class="rdoc-list note-list"><tbody><tr><td class='label'>:httponly </td><td>
+<p>Set to false to not enforce httponly flag.</p>
+</td></tr><tr><td class='label'>:same_site </td><td>
+<p>Set to symbol or string to enforce a different samesite setting, or false to not enforce a specific samesite setting.</p>
+</td></tr><tr><td class='label'>:secure </td><td>
+<p>Set to false to not enforce secure flag.</p>
+</td></tr></tbody></table>
+
+<p>For example, to enforce secure cookies and enforce samesite=lax, but not enforce an httponly flag:</p>
+
+<pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:cookie_flags</span>, <span class="ruby-value">httponly:</span> <span class="ruby-keyword">false</span>, <span class="ruby-value">same_site:</span> <span class="ruby-string">&#39;lax&#39;</span>
+</pre>
+
+<p>In general, overriding cookie flags using this plugin should be considered a stop-gap solution.  Instead of overriding cookie flags, it’s better to fix whatever is setting the cookie flags incorrectly.  You can use the :action option to modify the behavior:</p>
+
+<pre class="ruby"><span class="ruby-comment"># Issue warnings when modifying cookie flags</span>
+<span class="ruby-identifier">plugin</span> <span class="ruby-value">:cookie_flags</span>, <span class="ruby-value">action:</span> <span class="ruby-value">:warn_and_modify</span>
+
+<span class="ruby-comment"># Issue warnings for incorrect cookie flags without modifying cookie flags</span>
+<span class="ruby-identifier">plugin</span> <span class="ruby-value">:cookie_flags</span>, <span class="ruby-value">action:</span> <span class="ruby-value">:warn</span>
+
+<span class="ruby-comment"># Raise errors for incorrect cookie flags</span>
+<span class="ruby-identifier">plugin</span> <span class="ruby-value">:cookie_flags</span>, <span class="ruby-value">action:</span> <span class="ruby-value">:raise</span>
+</pre>
+
+<p>The recommended way to use the plugin is to use it only during testing with <code>action: :raise</code>.  Then as long as you have fully covering tests, you can be sure the cookies set by your application use the correct flags.</p>
+
+<p>Note that this plugin only affects cookies set by the application, and does not affect cookies set by middleware the application is using.</p>
+</div>
+<div id='method-list'>
+<h2>Methods</h2>
+<h3>Public Class</h3>
+<ol>
+<li><a href="#method-c-configure">configure</a></li>
+</ol>
+</div>
+<div id='context'>
+</div>
+<div id='class-list'>
+<h2>Classes and Modules</h2>
+<ol>
+<li><a href="CookieFlags/InstanceMethods.html">Roda::RodaPlugins::CookieFlags::InstanceMethods</a></li>
+<li><a href="CookieFlags/Error.html">Roda::RodaPlugins::CookieFlags::Error</a></li>
+</ol>
+</div>
+<div id='section'>
+<div id='methods'>
+<h2>Public Class methods</h2>
+<div class='method public-class' id='method-method-c-configure'>
+<a name='method-c-configure'></a>
+<div class='synopsis'>
+<span class='name'>configure</span><span class='arguments'>(app, opts=OPTS)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-configure-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/cookie_flags.rb</span>
+<span class="line-num">63</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
+<span class="line-num">64</span>   <span class="ruby-identifier">previous</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:cookie_flags</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">DEFAULTS</span>
+<span class="line-num">65</span>   <span class="ruby-identifier">opts</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:cookie_flags</span>] = <span class="ruby-identifier">previous</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">opts</span>)
+<span class="line-num">66</span> 
+<span class="line-num">67</span>   <span class="ruby-keyword">case</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:same_site</span>]
+<span class="line-num">68</span>   <span class="ruby-keyword">when</span> <span class="ruby-constant">String</span>, <span class="ruby-constant">Symbol</span>
+<span class="line-num">69</span>     <span class="ruby-identifier">opts</span>[<span class="ruby-value">:same_site</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:same_site</span>].<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">downcase</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">70</span>     <span class="ruby-identifier">opts</span>[<span class="ruby-value">:same_site_string</span>] = <span class="ruby-node">&quot;; samesite=#{opts[:same_site]}&quot;</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">71</span>     <span class="ruby-identifier">opts</span>[<span class="ruby-value">:secure</span>] = <span class="ruby-keyword">true</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:same_site</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&#39;none&#39;</span>
+<span class="line-num">72</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">73</span> 
+<span class="line-num">74</span>   <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">75</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div id='footer-push'></div>
+</div>
+<div id='footer'>
+<a href="https://github.com/jeremyevans/hanna"><strong>Hanna</strong> RDoc template</a>
+</div>
+</body>
+</html>
