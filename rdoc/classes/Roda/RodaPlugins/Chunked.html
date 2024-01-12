@@ -130,7 +130,7 @@ Roda::RodaPlugins::Chunked
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:chunked</span>, <span class="ruby-value">headers:</span> {<span class="ruby-string">&#39;X-Accel-Buffering&#39;</span><span class="ruby-operator">=&gt;</span><span class="ruby-string">&#39;no&#39;</span>}
 </pre>
 
-<p>By default, this plugin does not use Transfer-Encoding: chunked, it only returns a body that will stream the response in chunks.  If you would like to force the use of Transfer-Encoding: chunked, you can use the :force_chunked_encoding plugin option.  If using the :force_chunked_encoding plugin option, chunking will only be used for  HTTP/1.1 requests since Transfer-Encoding: chunked is only supported in HTTP/1.1 (non-HTTP/1.1 requests will have behavior similar to calling no_chunk!).</p>
+<p>By default, this plugin does not use Transfer-Encoding: chunked, it only returns a body that will stream the response in chunks.  If you would like to force the use of Transfer-Encoding: chunked, you can use the :force_chunked_encoding plugin option.  If using the :force_chunked_encoding plugin option, chunking will only be used for HTTP/1.1 requests since Transfer-Encoding: chunked is only supported in HTTP/1.1 (non-HTTP/1.1 requests will have behavior similar to calling no_chunk!).</p>
 
 <p>The chunked plugin requires the render plugin, and only works for template engines that store their template output variable in @_out_buf.  Also, it only works if the content template is directly injected into the layout template without modification.</p>
 

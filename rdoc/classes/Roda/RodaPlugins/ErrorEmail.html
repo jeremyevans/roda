@@ -48,7 +48,9 @@ Roda::RodaPlugins::ErrorEmail
 <p>It is similar to the error_mail plugin, except that it uses net/smtp directly instead of using the mail library.  If you are not already using the mail library in your application, it makes sense to use error_email instead of error_mail.</p>
 
 <p>Options:</p>
-<table class="rdoc-list note-list"><tbody><tr><td class='label'>:from </td><td>
+<table class="rdoc-list note-list"><tbody><tr><td class='label'>:filter </td><td>
+<p>Callable called with the key and value for each parameter, environment variable, and session value.  If it returns true, the value of the parameter is filtered in the email.</p>
+</td></tr><tr><td class='label'>:from </td><td>
 <p>The From address to use in the email (required)</p>
 </td></tr><tr><td class='label'>:headers </td><td>
 <p>A hash of additional headers to use in the email (default: empty hash)</p>
@@ -88,6 +90,7 @@ Roda::RodaPlugins::ErrorEmail
 <td class='context-item-name'>DEFAULTS</td>
 <td>=</td>
 <td class='context-item-value'>{
+:filter=>lambda{|k,v| false},
 :headers=>OPTS,
 :host=>'localhost',
 # :nocov:
@@ -102,7 +105,12 @@ end
 {'From'=>h[:from], 'To'=>h[:to], 'Subject'=>"#{h[:prefix]}#{subject}"}
 end,
 :body=>lambda do |s, e|
-format = lambda{|h| h.map{|k, v| "#{k.inspect} => #{v.inspect}"}.sort.join("\n")}
+filter = s.opts[:error_email][:filter]
+format = lambda do |h|
+h = h.map{|k, v| "#{k.inspect} => #{filter.call(k, v) ? 'FILTERED' : v.inspect}"}
+h.sort!
+h.join("\n")
+end 
 
 begin
 params = s.request.params
@@ -175,17 +183,17 @@ end
 [show source]
 </a>
 <pre id='method-c-configure-source'>    <span class="ruby-comment"># File lib/roda/plugins/error_email.rb</span>
-<span class="line-num">106</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
-<span class="line-num">107</span>   <span class="ruby-identifier">email_opts</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:error_email</span>] <span class="ruby-operator">||=</span> <span class="ruby-constant">DEFAULTS</span>
-<span class="line-num">108</span>   <span class="ruby-identifier">email_opts</span> = <span class="ruby-identifier">email_opts</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">opts</span>)
-<span class="line-num">109</span>   <span class="ruby-identifier">email_opts</span>[<span class="ruby-value">:headers</span>] = <span class="ruby-identifier">email_opts</span>[<span class="ruby-value">:headers</span>].<span class="ruby-identifier">dup</span>
-<span class="line-num">110</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">email_opts</span>[<span class="ruby-value">:to</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">email_opts</span>[<span class="ruby-value">:from</span>]
-<span class="line-num">111</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;must provide :to and :from options to error_email plugin&quot;</span>
-<span class="line-num">112</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">113</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:error_email</span>] = <span class="ruby-identifier">email_opts</span>
-<span class="line-num">114</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:error_email</span>][<span class="ruby-value">:headers</span>].<span class="ruby-identifier">freeze</span>
-<span class="line-num">115</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:error_email</span>].<span class="ruby-identifier">freeze</span>
-<span class="line-num">116</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">115</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
+<span class="line-num">116</span>   <span class="ruby-identifier">email_opts</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:error_email</span>] <span class="ruby-operator">||=</span> <span class="ruby-constant">DEFAULTS</span>
+<span class="line-num">117</span>   <span class="ruby-identifier">email_opts</span> = <span class="ruby-identifier">email_opts</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">opts</span>)
+<span class="line-num">118</span>   <span class="ruby-identifier">email_opts</span>[<span class="ruby-value">:headers</span>] = <span class="ruby-identifier">email_opts</span>[<span class="ruby-value">:headers</span>].<span class="ruby-identifier">dup</span>
+<span class="line-num">119</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">email_opts</span>[<span class="ruby-value">:to</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">email_opts</span>[<span class="ruby-value">:from</span>]
+<span class="line-num">120</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;must provide :to and :from options to error_email plugin&quot;</span>
+<span class="line-num">121</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">122</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:error_email</span>] = <span class="ruby-identifier">email_opts</span>
+<span class="line-num">123</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:error_email</span>][<span class="ruby-value">:headers</span>].<span class="ruby-identifier">freeze</span>
+<span class="line-num">124</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:error_email</span>].<span class="ruby-identifier">freeze</span>
+<span class="line-num">125</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

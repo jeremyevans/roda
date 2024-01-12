@@ -109,12 +109,12 @@ Roda::RodaPlugins::RouteCsrf
 
 <p>route_csrf uses HMAC-SHA-256 to generate all CSRF tokens.  It generates a random 32-byte secret, which is stored base64 encoded in the session.  For each CSRF token, it generates 31 bytes of random data.</p>
 
-<p>For request-specific CSRF tokens, this pseudocode generates the HMAC: </p>
+<p>For request-specific CSRF tokens, this pseudocode generates the HMAC:</p>
 
 <pre class="ruby"><span class="ruby-identifier">hmac</span> = <span class="ruby-constant">HMAC</span>(<span class="ruby-identifier">secret</span>, <span class="ruby-identifier">method</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">path</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">random_data</span>)
 </pre>
 
-<p>For CSRF tokens not specific to a request, this pseudocode generates the HMAC: </p>
+<p>For CSRF tokens not specific to a request, this pseudocode generates the HMAC:</p>
 
 <pre class="ruby"><span class="ruby-identifier">hmac</span> = <span class="ruby-constant">HMAC</span>(<span class="ruby-identifier">secret</span>, <span class="ruby-identifier">random_data</span>)
 </pre>

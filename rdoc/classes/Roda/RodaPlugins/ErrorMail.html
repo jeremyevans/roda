@@ -48,7 +48,9 @@ Roda::RodaPlugins::ErrorMail
 <p>It is similar to the error_email plugin, except that it uses the mail library instead of net/smtp directly.  If you are already using the mail library in your application, it makes sense to use error_mail instead of error_email.</p>
 
 <p>Options:</p>
-<table class="rdoc-list note-list"><tbody><tr><td class='label'>:from </td><td>
+<table class="rdoc-list note-list"><tbody><tr><td class='label'>:filter </td><td>
+<p>Callable called with the key and value for each parameter, environment variable, and session value.  If it returns true, the value of the parameter is filtered in the email.</p>
+</td></tr><tr><td class='label'>:from </td><td>
 <p>The From address to use in the email (required)</p>
 </td></tr><tr><td class='label'>:headers </td><td>
 <p>A hash of additional headers to use in the email (default: empty hash)</p>
@@ -96,12 +98,12 @@ Roda::RodaPlugins::ErrorMail
 [show source]
 </a>
 <pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/error_mail.rb</span>
-<span class="line-num">40</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
-<span class="line-num">41</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:error_mail</span>] = <span class="ruby-identifier">email_opts</span> = (<span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:error_mail</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">OPTS</span>).<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">opts</span>).<span class="ruby-identifier">freeze</span>
-<span class="line-num">42</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">email_opts</span>[<span class="ruby-value">:to</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">email_opts</span>[<span class="ruby-value">:from</span>]
-<span class="line-num">43</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;must provide :to and :from options to error_mail plugin&quot;</span>
-<span class="line-num">44</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">45</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">46</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
+<span class="line-num">47</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:error_mail</span>] = <span class="ruby-identifier">email_opts</span> = (<span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:error_mail</span>] <span class="ruby-operator">||</span> {<span class="ruby-value">:filter</span><span class="ruby-operator">=&gt;</span><span class="ruby-constant">DEFAULT_FILTER</span>}).<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">opts</span>).<span class="ruby-identifier">freeze</span>
+<span class="line-num">48</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">email_opts</span>[<span class="ruby-value">:to</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">email_opts</span>[<span class="ruby-value">:from</span>]
+<span class="line-num">49</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;must provide :to and :from options to error_mail plugin&quot;</span>
+<span class="line-num">50</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">51</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

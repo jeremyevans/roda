@@ -134,7 +134,7 @@ Last Update:
 
 <h3 id="label-Performance">Performance<span><a href="#label-Performance">&para;</a> <a href="#top">&uarr;</a></span></h3>
 
-<p><a href="../classes/Roda.html"><code>Roda</code></a> has low per-request overhead, and the use of a routing tree and intelligent caching of internal datastructures makes it  significantly faster than other popular ruby web frameworks.</p>
+<p><a href="../classes/Roda.html"><code>Roda</code></a> has low per-request overhead, and the use of a routing tree and intelligent caching of internal datastructures makes it significantly faster than other popular ruby web frameworks.</p>
 
 <h2 id="label-Usage">Usage<span><a href="#label-Usage">&para;</a> <a href="#top">&uarr;</a></span></h2>
 
@@ -182,7 +182,7 @@ Last Update:
 
 <p>Here’s a breakdown of what is going on in the block above:</p>
 
-<p>The <code>route</code> block is called whenever a new request comes in.  It is yielded an instance of a subclass of <code>Rack::Request</code> with some additional methods for matching routes. By convention, this argument should be named <code>r</code>.</p>
+<p>The <code>route</code> block is called whenever a new request comes in. It is yielded an instance of a subclass of <code>Rack::Request</code> with some additional methods for matching routes. By convention, this argument should be named <code>r</code>.</p>
 
 <p>The primary way routes are matched in <a href="../classes/Roda.html"><code>Roda</code></a> is by calling <code>r.on</code>, <code>r.is</code>, <code>r.root</code>, <code>r.get</code>, or <code>r.post</code>. Each of these “routing methods” takes a “match block”.</p>
 
@@ -834,7 +834,7 @@ Last Update:
 
 <h3 id="label-Unexpected+Parameter+Types">Unexpected Parameter Types<span><a href="#label-Unexpected+Parameter+Types">&para;</a> <a href="#top">&uarr;</a></span></h3>
 
-<p>Rack converts submitted parameters into a hash of strings, arrays, and nested hashes.  Since the user controls the submission of parameters, you should treat any submission of parameters with caution, and should be explicitly checking and/or converting types before using any submitted  parameters.  One way to do this is explicitly after accessing them:</p>
+<p>Rack converts submitted parameters into a hash of strings, arrays, and nested hashes.  Since the user controls the submission of parameters, you should treat any submission of parameters with caution, and should be explicitly checking and/or converting types before using any submitted parameters.  One way to do this is explicitly after accessing them:</p>
 
 <pre class="ruby"><span class="ruby-comment"># Convert foo_id parameter to an integer</span>
 <span class="ruby-identifier">request</span>.<span class="ruby-identifier">params</span>[<span class="ruby-string">&#39;foo_id&#39;</span>].<span class="ruby-identifier">to_i</span>
@@ -977,7 +977,7 @@ Last Update:
 
 <p>To avoid namespace pollution, you should avoid creating your module directly in the <code>Roda</code> namespace. Additionally, any instance variables created inside <code>InstanceMethods</code> should be prefixed with an underscore (e.g., <code>@_variable</code>) to avoid polluting the scope.  Finally, do not add any constants inside the InstanceMethods module, add constants to the plugin module itself (<code>Markdown</code> in the above example).</p>
 
-<p>If you are planning on shipping your plugin in an external gem, it is recommended that you follow  <a target="_top" href="http://guides.rubygems.org/name-your-gem/">standard gem naming conventions for extensions</a>. So if your plugin module is named <code>FooBar</code>, your gem name should be <code>roda-foo_bar</code>.</p>
+<p>If you are planning on shipping your plugin in an external gem, it is recommended that you follow <a target="_top" href="http://guides.rubygems.org/name-your-gem/">standard gem naming conventions for extensions</a>. So if your plugin module is named <code>FooBar</code>, your gem name should be <code>roda-foo_bar</code>.</p>
 
 <h2 id="label-No+Introspection">No Introspection<span><a href="#label-No+Introspection">&para;</a> <a href="#top">&uarr;</a></span></h2>
 

@@ -65,11 +65,11 @@ Roda::RodaPlugins::ErrorEmail::InstanceMethods
 [show source]
 </a>
 <pre id='method-i-error_email-source'>    <span class="ruby-comment"># File lib/roda/plugins/error_email.rb</span>
-<span class="line-num">122</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">error_email</span>(<span class="ruby-identifier">exception</span>)
-<span class="line-num">123</span>   <span class="ruby-identifier">email_opts</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:error_email</span>].<span class="ruby-identifier">dup</span>
-<span class="line-num">124</span>   <span class="ruby-identifier">email_opts</span>[<span class="ruby-value">:message</span>] = <span class="ruby-identifier">error_email_content</span>(<span class="ruby-identifier">exception</span>)
-<span class="line-num">125</span>   <span class="ruby-identifier">email_opts</span>[<span class="ruby-value">:emailer</span>].<span class="ruby-identifier">call</span>(<span class="ruby-identifier">email_opts</span>)
-<span class="line-num">126</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">131</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">error_email</span>(<span class="ruby-identifier">exception</span>)
+<span class="line-num">132</span>   <span class="ruby-identifier">email_opts</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:error_email</span>].<span class="ruby-identifier">dup</span>
+<span class="line-num">133</span>   <span class="ruby-identifier">email_opts</span>[<span class="ruby-value">:message</span>] = <span class="ruby-identifier">error_email_content</span>(<span class="ruby-identifier">exception</span>)
+<span class="line-num">134</span>   <span class="ruby-identifier">email_opts</span>[<span class="ruby-value">:emailer</span>].<span class="ruby-identifier">call</span>(<span class="ruby-identifier">email_opts</span>)
+<span class="line-num">135</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-error_email_content'>
@@ -88,14 +88,14 @@ Roda::RodaPlugins::ErrorEmail::InstanceMethods
 [show source]
 </a>
 <pre id='method-i-error_email_content-source'>    <span class="ruby-comment"># File lib/roda/plugins/error_email.rb</span>
-<span class="line-num">130</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">error_email_content</span>(<span class="ruby-identifier">exception</span>)
-<span class="line-num">131</span>   <span class="ruby-identifier">email_opts</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:error_email</span>]
-<span class="line-num">132</span>   <span class="ruby-identifier">headers</span> = <span class="ruby-identifier">email_opts</span>[<span class="ruby-value">:default_headers</span>].<span class="ruby-identifier">call</span>(<span class="ruby-identifier">email_opts</span>, <span class="ruby-identifier">exception</span>)
-<span class="line-num">133</span>   <span class="ruby-identifier">headers</span> = <span class="ruby-identifier">headers</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">email_opts</span>[<span class="ruby-value">:headers</span>])
-<span class="line-num">134</span>   <span class="ruby-identifier">headers</span> = <span class="ruby-identifier">headers</span>.<span class="ruby-identifier">map</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">k</span>,<span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-node">&quot;#{k}: #{v.gsub(/\r?\n/m, &quot;\r\n &quot;)}&quot;</span>}.<span class="ruby-identifier">sort</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&quot;\r\n&quot;</span>)
-<span class="line-num">135</span>   <span class="ruby-identifier">body</span> = <span class="ruby-identifier">email_opts</span>[<span class="ruby-value">:body</span>].<span class="ruby-identifier">call</span>(<span class="ruby-keyword">self</span>, <span class="ruby-identifier">exception</span>)
-<span class="line-num">136</span>   <span class="ruby-node">&quot;#{headers}\r\n\r\n#{body}&quot;</span>
-<span class="line-num">137</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">139</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">error_email_content</span>(<span class="ruby-identifier">exception</span>)
+<span class="line-num">140</span>   <span class="ruby-identifier">email_opts</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:error_email</span>]
+<span class="line-num">141</span>   <span class="ruby-identifier">headers</span> = <span class="ruby-identifier">email_opts</span>[<span class="ruby-value">:default_headers</span>].<span class="ruby-identifier">call</span>(<span class="ruby-identifier">email_opts</span>, <span class="ruby-identifier">exception</span>)
+<span class="line-num">142</span>   <span class="ruby-identifier">headers</span> = <span class="ruby-identifier">headers</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">email_opts</span>[<span class="ruby-value">:headers</span>])
+<span class="line-num">143</span>   <span class="ruby-identifier">headers</span> = <span class="ruby-identifier">headers</span>.<span class="ruby-identifier">map</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">k</span>,<span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-node">&quot;#{k}: #{v.gsub(/\r?\n/m, &quot;\r\n &quot;)}&quot;</span>}.<span class="ruby-identifier">sort</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&quot;\r\n&quot;</span>)
+<span class="line-num">144</span>   <span class="ruby-identifier">body</span> = <span class="ruby-identifier">email_opts</span>[<span class="ruby-value">:body</span>].<span class="ruby-identifier">call</span>(<span class="ruby-keyword">self</span>, <span class="ruby-identifier">exception</span>)
+<span class="line-num">145</span>   <span class="ruby-node">&quot;#{headers}\r\n\r\n#{body}&quot;</span>
+<span class="line-num">146</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

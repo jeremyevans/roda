@@ -63,7 +63,7 @@ Roda::RodaPlugins::TypecastParams
 
 <p>These ! methods raise an error instead of returning <code>nil</code>, and do not allow defaults.</p>
 
-<p>The errors raised by this plugin use a specific exception class, <code>Roda::RodaPlugins::TypecastParams::Error</code>.  This allows you to handle this specific exception class globally and return an appropriate 4xx response to the client.  You can use the <a href="TypecastParams/Error.html#method-i-param_name"><code>Error#param_name</code></a> and <a href="TypecastParams/Error.html#attribute-i-reason"><code>Error#reason</code></a>  methods to get more information about the error.</p>
+<p>The errors raised by this plugin use a specific exception class, <code>Roda::RodaPlugins::TypecastParams::Error</code>.  This allows you to handle this specific exception class globally and return an appropriate 4xx response to the client.  You can use the <a href="TypecastParams/Error.html#method-i-param_name"><code>Error#param_name</code></a> and <a href="TypecastParams/Error.html#attribute-i-reason"><code>Error#reason</code></a> methods to get more information about the error.</p>
 
 <p>To make it easy to handle cases where many parameters need the same conversion done, you can pass an array of keys to a conversion method, and it will return an array of converted values:</p>
 
@@ -249,7 +249,7 @@ Roda::RodaPlugins::TypecastParams
 
 <p>Using the <code>:symbolize</code> option makes it simpler to transition from untrusted external data (string keys), to semitrusted data that can be used internally (trusted in the sense that the expected types are used, not that you trust the values).</p>
 
-<p>Note that if there are multiple conversion errors raised inside a <code>convert!</code> or <code>convert_each!</code>  block, they are recorded and a single <a href="TypecastParams/Error.html"><code>TypecastParams::Error</code></a> instance is raised after processing the block.  <a href="TypecastParams/Error.html#method-i-param_names"><code>TypecastParams::Error#param_names</code></a> can be called on the exception to get an array of all parameter names with conversion issues, and <a href="TypecastParams/Error.html#method-i-all_errors"><code>TypecastParams::Error#all_errors</code></a> can be used to get an array of all <a href="TypecastParams/Error.html"><code>Error</code></a> instances.</p>
+<p>Note that if there are multiple conversion errors raised inside a <code>convert!</code> or <code>convert_each!</code> block, they are recorded and a single <a href="TypecastParams/Error.html"><code>TypecastParams::Error</code></a> instance is raised after processing the block.  <a href="TypecastParams/Error.html#method-i-param_names"><code>TypecastParams::Error#param_names</code></a> can be called on the exception to get an array of all parameter names with conversion issues, and <a href="TypecastParams/Error.html#method-i-all_errors"><code>TypecastParams::Error#all_errors</code></a> can be used to get an array of all <a href="TypecastParams/Error.html"><code>Error</code></a> instances.</p>
 
 <p>Because of how <code>convert!</code> and <code>convert_each!</code> work, you should avoid calling <a href="TypecastParams/Params.html#method-i-5B-5D"><code>TypecastParams::Params#[]</code></a> inside the block you pass to these methods, because if the [] call fails, it will skip the reminder of the block.</p>
 

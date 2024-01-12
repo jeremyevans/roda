@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang='en'>
 <head>
-<title>version.rb</title>
+<title>3.76.0.txt</title>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
 <link href='../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
@@ -24,10 +24,10 @@
 <body class='page'>
 <div class='file' id='wrapper'>
 <div class='header'>
-<h1 class='name'>version.rb
+<h1 class='name'>3.76.0.txt
 </h1>
 <div class='paths'>
-lib/roda/version.rb
+doc/release_notes/3.76.0.txt
 </div>
 <div class='last-update'>
 Last Update:
@@ -36,7 +36,19 @@ Last Update:
 </div>
 <div id='content'>
 <div id='text'>
-<div id='description'></div>
+<div id='description'>
+<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<ul><li>
+<p>A break plugin has been added, allowing you to use break from inside a routing block and continue routing after the block.  This offers the same feature as the pass plugin, but using the standard break keyword instead of the r.pass method.</p>
+</li><li>
+<p>The error_mail and error_email features now both accept a :filter plugin option.  The value should respond to call with two arguments. The first arguments is the key, and the second is the value, and should return a truthy value if the value should be filtered.  This will be used for filtering parameter values, ENV values, and session values in the generated emails.</p>
+</li></ul>
+
+<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<ul><li>
+<p>On Ruby 3.3+, the middleware plugin sets a temporary class name for the created middleware, based on the class name of the <a href="../../../classes/Roda.html"><code>Roda</code></a> app.</p>
+</li></ul>
+</div>
 <div id='context'>
 </div>
 
