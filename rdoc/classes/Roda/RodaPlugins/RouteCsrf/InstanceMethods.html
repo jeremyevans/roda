@@ -42,6 +42,7 @@ Roda::RodaPlugins::RouteCsrf::InstanceMethods
 <ol>
 <li><a href="#method-i-check_csrf-21">check_csrf!</a></li>
 <li><a href="#method-i-csrf_field">csrf_field</a></li>
+<li><a href="#method-i-csrf_formaction_tag">csrf_formaction_tag</a></li>
 <li><a href="#method-i-csrf_header">csrf_header</a></li>
 <li><a href="#method-i-csrf_metatag">csrf_metatag</a></li>
 <li><a href="#method-i-csrf_path">csrf_path</a></li>
@@ -72,34 +73,34 @@ Roda::RodaPlugins::RouteCsrf::InstanceMethods
 [show source]
 </a>
 <pre id='method-i-check_csrf-21-source'>    <span class="ruby-comment"># File lib/roda/plugins/route_csrf.rb</span>
-<span class="line-num">190</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">check_csrf!</span>(<span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">191</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">msg</span> = <span class="ruby-identifier">csrf_invalid_message</span>(<span class="ruby-identifier">opts</span>)
-<span class="line-num">192</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span>
-<span class="line-num">193</span>       <span class="ruby-ivar">@_request</span>.<span class="ruby-identifier">on</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">194</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">195</span>     
-<span class="line-num">196</span>     <span class="ruby-keyword">case</span> <span class="ruby-identifier">failure_action</span> = <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-value">:csrf_failure</span>, <span class="ruby-identifier">csrf_options</span>[<span class="ruby-value">:csrf_failure</span>])
-<span class="line-num">197</span>     <span class="ruby-keyword">when</span> <span class="ruby-value">:raise</span>
-<span class="line-num">198</span>       <span class="ruby-identifier">raise</span> <span class="ruby-constant">InvalidToken</span>, <span class="ruby-identifier">msg</span>
-<span class="line-num">199</span>     <span class="ruby-keyword">when</span> <span class="ruby-value">:empty_403</span>
-<span class="line-num">200</span>       <span class="ruby-ivar">@_response</span>.<span class="ruby-identifier">status</span> = <span class="ruby-value">403</span>
-<span class="line-num">201</span>       <span class="ruby-identifier">headers</span> = <span class="ruby-ivar">@_response</span>.<span class="ruby-identifier">headers</span>
-<span class="line-num">202</span>       <span class="ruby-identifier">headers</span>.<span class="ruby-identifier">clear</span>
-<span class="line-num">203</span>       <span class="ruby-identifier">headers</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_TYPE</span>] = <span class="ruby-string">&#39;text/html&#39;</span>
-<span class="line-num">204</span>       <span class="ruby-identifier">headers</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_LENGTH</span>] =<span class="ruby-string">&#39;0&#39;</span>
-<span class="line-num">205</span>       <span class="ruby-identifier">throw</span> <span class="ruby-value">:halt</span>, <span class="ruby-ivar">@_response</span>.<span class="ruby-identifier">finish_with_body</span>([])
-<span class="line-num">206</span>     <span class="ruby-keyword">when</span> <span class="ruby-value">:clear_session</span>
-<span class="line-num">207</span>       <span class="ruby-identifier">session</span>.<span class="ruby-identifier">clear</span>
-<span class="line-num">208</span>     <span class="ruby-keyword">when</span> <span class="ruby-value">:csrf_failure_method</span>
-<span class="line-num">209</span>       <span class="ruby-ivar">@_request</span>.<span class="ruby-identifier">on</span>{<span class="ruby-identifier">_roda_route_csrf_failure</span>(<span class="ruby-ivar">@_request</span>)}
-<span class="line-num">210</span>     <span class="ruby-keyword">when</span> <span class="ruby-constant">Proc</span>
-<span class="line-num">211</span>       <span class="ruby-constant">RodaPlugins</span>.<span class="ruby-identifier">warn</span> <span class="ruby-string">&quot;Passing a Proc as the :csrf_failure option value to check_csrf! is deprecated&quot;</span>
-<span class="line-num">212</span>       <span class="ruby-ivar">@_request</span>.<span class="ruby-identifier">on</span>{<span class="ruby-identifier">instance_exec</span>(<span class="ruby-ivar">@_request</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">failure_action</span>)} <span class="ruby-comment"># Deprecated</span>
-<span class="line-num">213</span>     <span class="ruby-keyword">else</span>
-<span class="line-num">214</span>       <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-node">&quot;Unsupported :csrf_failure option: #{failure_action.inspect}&quot;</span>
-<span class="line-num">215</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">216</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">217</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">198</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">check_csrf!</span>(<span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">199</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">msg</span> = <span class="ruby-identifier">csrf_invalid_message</span>(<span class="ruby-identifier">opts</span>)
+<span class="line-num">200</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span>
+<span class="line-num">201</span>       <span class="ruby-ivar">@_request</span>.<span class="ruby-identifier">on</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">202</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">203</span>     
+<span class="line-num">204</span>     <span class="ruby-keyword">case</span> <span class="ruby-identifier">failure_action</span> = <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-value">:csrf_failure</span>, <span class="ruby-identifier">csrf_options</span>[<span class="ruby-value">:csrf_failure</span>])
+<span class="line-num">205</span>     <span class="ruby-keyword">when</span> <span class="ruby-value">:raise</span>
+<span class="line-num">206</span>       <span class="ruby-identifier">raise</span> <span class="ruby-constant">InvalidToken</span>, <span class="ruby-identifier">msg</span>
+<span class="line-num">207</span>     <span class="ruby-keyword">when</span> <span class="ruby-value">:empty_403</span>
+<span class="line-num">208</span>       <span class="ruby-ivar">@_response</span>.<span class="ruby-identifier">status</span> = <span class="ruby-value">403</span>
+<span class="line-num">209</span>       <span class="ruby-identifier">headers</span> = <span class="ruby-ivar">@_response</span>.<span class="ruby-identifier">headers</span>
+<span class="line-num">210</span>       <span class="ruby-identifier">headers</span>.<span class="ruby-identifier">clear</span>
+<span class="line-num">211</span>       <span class="ruby-identifier">headers</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_TYPE</span>] = <span class="ruby-string">&#39;text/html&#39;</span>
+<span class="line-num">212</span>       <span class="ruby-identifier">headers</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_LENGTH</span>] =<span class="ruby-string">&#39;0&#39;</span>
+<span class="line-num">213</span>       <span class="ruby-identifier">throw</span> <span class="ruby-value">:halt</span>, <span class="ruby-ivar">@_response</span>.<span class="ruby-identifier">finish_with_body</span>([])
+<span class="line-num">214</span>     <span class="ruby-keyword">when</span> <span class="ruby-value">:clear_session</span>
+<span class="line-num">215</span>       <span class="ruby-identifier">session</span>.<span class="ruby-identifier">clear</span>
+<span class="line-num">216</span>     <span class="ruby-keyword">when</span> <span class="ruby-value">:csrf_failure_method</span>
+<span class="line-num">217</span>       <span class="ruby-ivar">@_request</span>.<span class="ruby-identifier">on</span>{<span class="ruby-identifier">_roda_route_csrf_failure</span>(<span class="ruby-ivar">@_request</span>)}
+<span class="line-num">218</span>     <span class="ruby-keyword">when</span> <span class="ruby-constant">Proc</span>
+<span class="line-num">219</span>       <span class="ruby-constant">RodaPlugins</span>.<span class="ruby-identifier">warn</span> <span class="ruby-string">&quot;Passing a Proc as the :csrf_failure option value to check_csrf! is deprecated&quot;</span>
+<span class="line-num">220</span>       <span class="ruby-ivar">@_request</span>.<span class="ruby-identifier">on</span>{<span class="ruby-identifier">instance_exec</span>(<span class="ruby-ivar">@_request</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">failure_action</span>)} <span class="ruby-comment"># Deprecated</span>
+<span class="line-num">221</span>     <span class="ruby-keyword">else</span>
+<span class="line-num">222</span>       <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-node">&quot;Unsupported :csrf_failure option: #{failure_action.inspect}&quot;</span>
+<span class="line-num">223</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">224</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">225</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-csrf_field'>
@@ -118,9 +119,30 @@ Roda::RodaPlugins::RouteCsrf::InstanceMethods
 [show source]
 </a>
 <pre id='method-i-csrf_field-source'>    <span class="ruby-comment"># File lib/roda/plugins/route_csrf.rb</span>
-<span class="line-num">221</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">csrf_field</span>
-<span class="line-num">222</span>   <span class="ruby-identifier">csrf_options</span>[<span class="ruby-value">:field</span>]
-<span class="line-num">223</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">229</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">csrf_field</span>
+<span class="line-num">230</span>   <span class="ruby-identifier">csrf_options</span>[<span class="ruby-value">:field</span>]
+<span class="line-num">231</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-csrf_formaction_tag'>
+<a name='method-i-csrf_formaction_tag'></a>
+<div class='synopsis'>
+<span class='name'>csrf_formaction_tag</span><span class='arguments'>(path, *args)</span>
+
+</div>
+<div class='description'>
+
+<p>An HTML hidden input tag string containing the CSRF token, used for inputs with formaction, so the same form can be used to submit to multiple endpoints depending on which button was clicked.  See <a href="InstanceMethods.html#method-i-csrf_token"><code>csrf_token</code></a> for arguments, but the path argument is required.</p>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-csrf_formaction_tag-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-csrf_formaction_tag-source'>    <span class="ruby-comment"># File lib/roda/plugins/route_csrf.rb</span>
+<span class="line-num">267</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">csrf_formaction_tag</span>(<span class="ruby-identifier">path</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
+<span class="line-num">268</span>   <span class="ruby-node">&quot;&lt;input type=\&quot;hidden\&quot; name=\&quot;#{csrf_options[:formaction_field]}[#{Rack::Utils.escape_html(path)}]\&quot; value=\&quot;#{csrf_token(path, *args)}\&quot; \/&gt;&quot;</span>
+<span class="line-num">269</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-csrf_header'>
@@ -139,9 +161,9 @@ Roda::RodaPlugins::RouteCsrf::InstanceMethods
 [show source]
 </a>
 <pre id='method-i-csrf_header-source'>    <span class="ruby-comment"># File lib/roda/plugins/route_csrf.rb</span>
-<span class="line-num">227</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">csrf_header</span>
-<span class="line-num">228</span>   <span class="ruby-identifier">csrf_options</span>[<span class="ruby-value">:header</span>]
-<span class="line-num">229</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">235</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">csrf_header</span>
+<span class="line-num">236</span>   <span class="ruby-identifier">csrf_options</span>[<span class="ruby-value">:header</span>]
+<span class="line-num">237</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-csrf_metatag'>
@@ -160,9 +182,9 @@ Roda::RodaPlugins::RouteCsrf::InstanceMethods
 [show source]
 </a>
 <pre id='method-i-csrf_metatag-source'>    <span class="ruby-comment"># File lib/roda/plugins/route_csrf.rb</span>
-<span class="line-num">233</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">csrf_metatag</span>
-<span class="line-num">234</span>   <span class="ruby-node">&quot;&lt;meta name=\&quot;#{csrf_field}\&quot; content=\&quot;#{csrf_token}\&quot; \/&gt;&quot;</span>
-<span class="line-num">235</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">241</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">csrf_metatag</span>
+<span class="line-num">242</span>   <span class="ruby-node">&quot;&lt;meta name=\&quot;#{csrf_field}\&quot; content=\&quot;#{csrf_token}\&quot; \/&gt;&quot;</span>
+<span class="line-num">243</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-csrf_path'>
@@ -181,19 +203,19 @@ Roda::RodaPlugins::RouteCsrf::InstanceMethods
 [show source]
 </a>
 <pre id='method-i-csrf_path-source'>    <span class="ruby-comment"># File lib/roda/plugins/route_csrf.rb</span>
-<span class="line-num">241</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">csrf_path</span>(<span class="ruby-identifier">action</span>)
-<span class="line-num">242</span>   <span class="ruby-keyword">case</span> <span class="ruby-identifier">action</span>
-<span class="line-num">243</span>   <span class="ruby-keyword">when</span> <span class="ruby-keyword">nil</span>, <span class="ruby-string">&#39;&#39;</span>, <span class="ruby-regexp">/\A[#?]/</span>
-<span class="line-num">244</span>     <span class="ruby-comment"># use current path</span>
-<span class="line-num">245</span>     <span class="ruby-identifier">request</span>.<span class="ruby-identifier">path</span>
-<span class="line-num">246</span>   <span class="ruby-keyword">when</span> <span class="ruby-regexp">/\A(?:https?:\/)?\//</span>
-<span class="line-num">247</span>     <span class="ruby-comment"># Either full URI or absolute path, extract just the path</span>
-<span class="line-num">248</span>     <span class="ruby-constant">URI</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">action</span>).<span class="ruby-identifier">path</span>
-<span class="line-num">249</span>   <span class="ruby-keyword">else</span>
-<span class="line-num">250</span>     <span class="ruby-comment"># relative path, join to current path</span>
-<span class="line-num">251</span>     <span class="ruby-constant">URI</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">request</span>.<span class="ruby-identifier">url</span>, <span class="ruby-identifier">action</span>).<span class="ruby-identifier">path</span>
-<span class="line-num">252</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">253</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">249</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">csrf_path</span>(<span class="ruby-identifier">action</span>)
+<span class="line-num">250</span>   <span class="ruby-keyword">case</span> <span class="ruby-identifier">action</span>
+<span class="line-num">251</span>   <span class="ruby-keyword">when</span> <span class="ruby-keyword">nil</span>, <span class="ruby-string">&#39;&#39;</span>, <span class="ruby-regexp">/\A[#?]/</span>
+<span class="line-num">252</span>     <span class="ruby-comment"># use current path</span>
+<span class="line-num">253</span>     <span class="ruby-identifier">request</span>.<span class="ruby-identifier">path</span>
+<span class="line-num">254</span>   <span class="ruby-keyword">when</span> <span class="ruby-regexp">/\A(?:https?:\/)?\//</span>
+<span class="line-num">255</span>     <span class="ruby-comment"># Either full URI or absolute path, extract just the path</span>
+<span class="line-num">256</span>     <span class="ruby-constant">URI</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">action</span>).<span class="ruby-identifier">path</span>
+<span class="line-num">257</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">258</span>     <span class="ruby-comment"># relative path, join to current path</span>
+<span class="line-num">259</span>     <span class="ruby-constant">URI</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">request</span>.<span class="ruby-identifier">url</span>, <span class="ruby-identifier">action</span>).<span class="ruby-identifier">path</span>
+<span class="line-num">260</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">261</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-csrf_tag'>
@@ -212,9 +234,9 @@ Roda::RodaPlugins::RouteCsrf::InstanceMethods
 [show source]
 </a>
 <pre id='method-i-csrf_tag-source'>    <span class="ruby-comment"># File lib/roda/plugins/route_csrf.rb</span>
-<span class="line-num">257</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">csrf_tag</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
-<span class="line-num">258</span>   <span class="ruby-node">&quot;&lt;input type=\&quot;hidden\&quot; name=\&quot;#{csrf_field}\&quot; value=\&quot;#{csrf_token(*args)}\&quot; \/&gt;&quot;</span>
-<span class="line-num">259</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">273</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">csrf_tag</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
+<span class="line-num">274</span>   <span class="ruby-node">&quot;&lt;input type=\&quot;hidden\&quot; name=\&quot;#{csrf_field}\&quot; value=\&quot;#{csrf_token(*args)}\&quot; \/&gt;&quot;</span>
+<span class="line-num">275</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-csrf_token'>
@@ -233,11 +255,11 @@ Roda::RodaPlugins::RouteCsrf::InstanceMethods
 [show source]
 </a>
 <pre id='method-i-csrf_token-source'>    <span class="ruby-comment"># File lib/roda/plugins/route_csrf.rb</span>
-<span class="line-num">265</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">csrf_token</span>(<span class="ruby-identifier">path</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-identifier">method</span>=(<span class="ruby-string">&#39;POST&#39;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">path</span>))
-<span class="line-num">266</span>   <span class="ruby-identifier">token</span> = <span class="ruby-constant">SecureRandom</span>.<span class="ruby-identifier">random_bytes</span>(<span class="ruby-value">31</span>)
-<span class="line-num">267</span>   <span class="ruby-identifier">token</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">csrf_hmac</span>(<span class="ruby-identifier">token</span>, <span class="ruby-identifier">method</span>, <span class="ruby-identifier">path</span>)
-<span class="line-num">268</span>   [<span class="ruby-identifier">token</span>].<span class="ruby-identifier">pack</span>(<span class="ruby-string">&quot;m0&quot;</span>)
-<span class="line-num">269</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">281</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">csrf_token</span>(<span class="ruby-identifier">path</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-identifier">method</span>=(<span class="ruby-string">&#39;POST&#39;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">path</span>))
+<span class="line-num">282</span>   <span class="ruby-identifier">token</span> = <span class="ruby-constant">SecureRandom</span>.<span class="ruby-identifier">random_bytes</span>(<span class="ruby-value">31</span>)
+<span class="line-num">283</span>   <span class="ruby-identifier">token</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">csrf_hmac</span>(<span class="ruby-identifier">token</span>, <span class="ruby-identifier">method</span>, <span class="ruby-identifier">path</span>)
+<span class="line-num">284</span>   [<span class="ruby-identifier">token</span>].<span class="ruby-identifier">pack</span>(<span class="ruby-string">&quot;m0&quot;</span>)
+<span class="line-num">285</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-use_request_specific_csrf_tokens-3F'>
@@ -256,9 +278,9 @@ Roda::RodaPlugins::RouteCsrf::InstanceMethods
 [show source]
 </a>
 <pre id='method-i-use_request_specific_csrf_tokens-3F-source'>    <span class="ruby-comment"># File lib/roda/plugins/route_csrf.rb</span>
-<span class="line-num">272</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">use_request_specific_csrf_tokens?</span>
-<span class="line-num">273</span>   <span class="ruby-identifier">csrf_options</span>[<span class="ruby-value">:require_request_specific_tokens</span>]
-<span class="line-num">274</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">288</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">use_request_specific_csrf_tokens?</span>
+<span class="line-num">289</span>   <span class="ruby-identifier">csrf_options</span>[<span class="ruby-value">:require_request_specific_tokens</span>]
+<span class="line-num">290</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-valid_csrf-3F'>
@@ -277,9 +299,9 @@ Roda::RodaPlugins::RouteCsrf::InstanceMethods
 [show source]
 </a>
 <pre id='method-i-valid_csrf-3F-source'>    <span class="ruby-comment"># File lib/roda/plugins/route_csrf.rb</span>
-<span class="line-num">278</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">valid_csrf?</span>(<span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
-<span class="line-num">279</span>   <span class="ruby-identifier">csrf_invalid_message</span>(<span class="ruby-identifier">opts</span>).<span class="ruby-identifier">nil?</span>
-<span class="line-num">280</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">294</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">valid_csrf?</span>(<span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
+<span class="line-num">295</span>   <span class="ruby-identifier">csrf_invalid_message</span>(<span class="ruby-identifier">opts</span>).<span class="ruby-identifier">nil?</span>
+<span class="line-num">296</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>
