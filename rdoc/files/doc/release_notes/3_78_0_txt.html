@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+<head>
+<title>3.78.0.txt</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<link href='../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<script type='text/javascript'>
+  function popupCode(url) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+  
+  function toggleCode(id) {
+    var code = document.getElementById(id)
+  
+    code.style.display = code.style.display != 'block' ? 'block' : 'none'
+    return true
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+</script>
+</head>
+<body class='page'>
+<div class='file' id='wrapper'>
+<div class='header'>
+<h1 class='name'>3.78.0.txt
+</h1>
+<div class='paths'>
+doc/release_notes/3.78.0.txt
+</div>
+<div class='last-update'>
+Last Update:
+<span class='datetime'>2024-03-13 10:26:39 -0700</span>
+</div>
+</div>
+<div id='content'>
+<div id='text'>
+<div id='description'>
+<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<ul><li>
+<p>A permissions_policy plugin has been added that allows you to easily set a Permissions-Policy header for the application, which browsers can use to determine whether to allow specific functionality on the returned page (mainly related to which JavaScript APIs the page is allowed to use).</p>
+
+<p>You would generally call the plugin with a block to set the default policy:</p>
+
+<pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:permissions_policy</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">pp</span><span class="ruby-operator">|</span>
+  <span class="ruby-identifier">pp</span>.<span class="ruby-identifier">camera</span> <span class="ruby-value">:none</span>
+  <span class="ruby-identifier">pp</span>.<span class="ruby-identifier">fullscreen</span> <span class="ruby-value">:self</span>
+  <span class="ruby-identifier">pp</span>.<span class="ruby-identifier">clipboard_read</span> <span class="ruby-value">:self</span>, <span class="ruby-string">&#39;https://example.com&#39;</span>
+<span class="ruby-keyword">end</span>
+</pre>
+
+<p>Then, anywhere in the routing tree, you can customize the policy for just that branch or action using the same block syntax:</p>
+
+<pre class="ruby"><span class="ruby-identifier">r</span>.<span class="ruby-identifier">get</span> <span class="ruby-string">&#39;foo&#39;</span> <span class="ruby-keyword">do</span>
+  <span class="ruby-identifier">permissions_policy</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">pp</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">pp</span>.<span class="ruby-identifier">camera</span> <span class="ruby-value">:self</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-comment"># ...</span>
+<span class="ruby-keyword">end</span>
+</pre>
+
+<p>In addition to using a block, you can also call methods on the object returned by the method:</p>
+
+<pre class="ruby"><span class="ruby-identifier">r</span>.<span class="ruby-identifier">get</span> <span class="ruby-string">&#39;foo&#39;</span> <span class="ruby-keyword">do</span>
+  <span class="ruby-identifier">permissions_policy</span>.<span class="ruby-identifier">camera</span> <span class="ruby-value">:self</span>
+  <span class="ruby-comment"># ...</span>
+<span class="ruby-keyword">end</span>
+</pre>
+
+<p>You can use the :default plugin option to set the default for all settings. For example, to disallow all access for each setting by default:</p>
+
+<pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:permissions_policy</span>, <span class="ruby-value">default:</span> <span class="ruby-value">:none</span>
+</pre>
+
+<p>The following methods are available for configuring the permissions policy, which specify the setting (substituting _ with -):</p>
+<ul><li>
+<p>accelerometer</p>
+</li><li>
+<p>ambient_light_sensor</p>
+</li><li>
+<p>autoplay</p>
+</li><li>
+<p>bluetooth</p>
+</li><li>
+<p>camera</p>
+</li><li>
+<p>clipboard_read</p>
+</li><li>
+<p>clipboard_write</p>
+</li><li>
+<p>display_capture</p>
+</li><li>
+<p>encrypted_media</p>
+</li><li>
+<p>fullscreen</p>
+</li><li>
+<p>geolocation</p>
+</li><li>
+<p>gyroscope</p>
+</li><li>
+<p>hid</p>
+</li><li>
+<p>idle_detection</p>
+</li><li>
+<p>keyboard_map</p>
+</li><li>
+<p>magnetometer</p>
+</li><li>
+<p>microphone</p>
+</li><li>
+<p>midi</p>
+</li><li>
+<p>payment</p>
+</li><li>
+<p>picture_in_picture</p>
+</li><li>
+<p>publickey_credentials_get</p>
+</li><li>
+<p>screen_wake_lock</p>
+</li><li>
+<p>serial</p>
+</li><li>
+<p>sync_xhr</p>
+</li><li>
+<p>usb</p>
+</li><li>
+<p>web_share</p>
+</li><li>
+<p>window_management</p>
+</li></ul>
+
+<p>All of these methods support any number of arguments, and each argument should be one of the following values:</p>
+<table class="rdoc-list note-list"><tbody><tr><td class='label'>:all </td><td>
+<p>Grants permission to all domains (must be only argument)</p>
+</td></tr><tr><td class='label'>:none </td><td>
+<p>Does not allow permission at all (must be only argument)</p>
+</td></tr><tr><td class='label'>:self </td><td>
+<p>Allows feature in current document and any nested browsing contexts that use the same domain as the current document.</p>
+</td></tr><tr><td class='label'>:src </td><td>
+<p>Allows feature in current document and any nested browsing contexts that use the same domain as the src of the iframe.</p>
+</td></tr><tr><td class='label'>String </td><td>
+<p>Specifies origin domain where access is allowed</p>
+</td></tr></tbody></table>
+
+<p>When calling a method with no arguments, the setting is removed from the policy instead of being left empty, since all of these setting require at least one value.  Likewise, if the policy does not have any settings, the header will not be added.</p>
+
+<p>Calling the method overrides any previous setting.  Each of the methods has <code>add_*</code> and <code>get_*</code> methods defined. The <code>add_*</code> method appends to any existing setting, and the <code>get_*</code> method returns the current value for the setting (this will be <code>:all</code> if all domains are allowed, or any array of strings/:self/:src).</p>
+
+<pre class="ruby"><span class="ruby-identifier">permissions_policy</span>.<span class="ruby-identifier">fullscreen</span> <span class="ruby-value">:self</span>, <span class="ruby-string">&#39;https://example.com&#39;</span>
+<span class="ruby-comment"># fullscreen (self &quot;https://example.com&quot;)</span>
+
+<span class="ruby-identifier">permissions_policy</span>.<span class="ruby-identifier">add_fullscreen</span> <span class="ruby-string">&#39;https://*.example.com&#39;</span>
+<span class="ruby-comment"># fullscreen (self &quot;https://example.com&quot; &quot;https://*.example.com&quot;)</span>
+
+<span class="ruby-identifier">permissions_policy</span>.<span class="ruby-identifier">get_fullscreen</span>
+<span class="ruby-comment"># =&gt; [:self, &quot;https://example.com&quot;, &quot;https://*.example.com&quot;]</span>
+</pre>
+
+<p>The clear method can be used to remove all settings from the policy.</p>
+</li></ul>
+</div>
+<div id='context'>
+</div>
+
+</div>
+</div>
+
+<div id='footer-push'></div>
+</div>
+<div id='footer'>
+<a href="https://github.com/jeremyevans/hanna"><strong>Hanna</strong> RDoc template</a>
+</div>
+</body>
+</html>

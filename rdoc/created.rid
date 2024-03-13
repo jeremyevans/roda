@@ -1,6 +1,6 @@
-Mon, 12 Feb 2024 09:32:00 -0800
+Wed, 13 Mar 2024 10:31:18 -0700
 README.rdoc	Wed, 18 Oct 2023 15:53:01 -0700
-CHANGELOG	Mon, 12 Feb 2024 09:15:48 -0800
+CHANGELOG	Wed, 13 Mar 2024 10:26:39 -0700
 doc/CHANGELOG.old	Fri, 11 Mar 2022 10:33:07 -0800
 MIT-LICENSE	Thu, 12 Jan 2023 07:50:45 -0800
 lib/roda.rb	Mon, 14 Aug 2023 09:53:11 -0700
@@ -29,7 +29,7 @@ lib/roda/plugins/class_level_routing.rb	Mon, 22 Jun 2020 15:56:02 -0700
 lib/roda/plugins/class_matchers.rb	Tue, 23 May 2023 09:08:39 -0700
 lib/roda/plugins/common_logger.rb	Mon, 19 Jun 2023 16:20:51 -0700
 lib/roda/plugins/content_for.rb	Tue, 02 Nov 2021 13:25:06 -0700
-lib/roda/plugins/content_security_policy.rb	Mon, 19 Jun 2023 16:20:51 -0700
+lib/roda/plugins/content_security_policy.rb	Fri, 23 Feb 2024 16:31:57 -0800
 lib/roda/plugins/cookie_flags.rb	Tue, 21 Nov 2023 12:22:29 -0800
 lib/roda/plugins/cookies.rb	Wed, 20 Apr 2022 11:42:37 -0700
 lib/roda/plugins/csrf.rb	Wed, 23 May 2018 10:59:22 -0700
@@ -98,6 +98,7 @@ lib/roda/plugins/pass.rb	Fri, 20 Jan 2017 09:06:43 -0800
 lib/roda/plugins/path.rb	Fri, 13 Jan 2023 14:19:00 -0800
 lib/roda/plugins/path_matchers.rb	Wed, 16 Aug 2017 08:44:25 -0700
 lib/roda/plugins/path_rewriter.rb	Wed, 16 Aug 2017 08:44:25 -0700
+lib/roda/plugins/permissions_policy.rb	Tue, 12 Mar 2024 10:38:13 -0700
 lib/roda/plugins/placeholder_string_matchers.rb	Thu, 16 Apr 2020 13:01:43 -0700
 lib/roda/plugins/plain_hash_response_headers.rb	Mon, 19 Jun 2023 16:20:51 -0700
 lib/roda/plugins/precompile_templates.rb	Wed, 13 Jan 2021 12:42:16 -0800
@@ -138,9 +139,9 @@ lib/roda/plugins/typecast_params_sized_integers.rb	Tue, 08 Nov 2022 08:49:54 -08
 lib/roda/plugins/unescape_path.rb	Mon, 17 Oct 2022 09:28:16 -0700
 lib/roda/plugins/view_options.rb	Mon, 12 Sep 2022 13:47:50 -0700
 lib/roda/request.rb	Fri, 17 Mar 2023 08:33:20 -0700
-lib/roda/response.rb	Tue, 17 Oct 2023 17:08:27 -0700
+lib/roda/response.rb	Fri, 23 Feb 2024 14:44:14 -0800
 lib/roda/session_middleware.rb	Sun, 04 Aug 2019 14:34:46 -0700
-lib/roda/version.rb	Mon, 12 Feb 2024 09:15:48 -0800
+lib/roda/version.rb	Wed, 13 Mar 2024 10:26:39 -0700
 doc/conventions.rdoc	Mon, 16 Oct 2023 12:10:05 -0700
 doc/release_notes/1.0.0.txt	Tue, 19 Aug 2014 09:04:25 -0700
 doc/release_notes/1.1.0.txt	Tue, 11 Nov 2014 11:35:26 -0800
@@ -254,5 +255,6 @@ doc/release_notes/3.74.0.txt	Mon, 13 Nov 2023 09:07:15 -0800
 doc/release_notes/3.75.0.txt	Thu, 14 Dec 2023 14:42:40 -0800
 doc/release_notes/3.76.0.txt	Fri, 12 Jan 2024 07:49:35 -0800
 doc/release_notes/3.77.0.txt	Mon, 12 Feb 2024 09:15:48 -0800
+doc/release_notes/3.78.0.txt	Wed, 13 Mar 2024 10:26:39 -0700
 doc/release_notes/3.8.0.txt	Thu, 17 May 2018 13:49:47 -0700
 doc/release_notes/3.9.0.txt	Mon, 11 Jun 2018 12:33:07 -0700

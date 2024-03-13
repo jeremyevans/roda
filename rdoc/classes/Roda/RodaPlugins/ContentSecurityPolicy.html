@@ -138,7 +138,7 @@ Roda::RodaPlugins::ContentSecurityPolicy
 <span class="ruby-identifier">content_security_policy</span>.<span class="ruby-identifier">add_script_src</span> <span class="ruby-string">&#39;example.com&#39;</span>, [<span class="ruby-value">:nonce</span>, <span class="ruby-string">&#39;foobarbaz&#39;</span>]
 <span class="ruby-comment"># script-src &#39;self&#39; &#39;unsafe-eval&#39; example.com &#39;nonce-foobarbaz&#39;;</span>
 
-<span class="ruby-identifier">content_security_policy</span>.<span class="ruby-identifier">get_script_src</span> <span class="ruby-string">&#39;example.com&#39;</span>, [<span class="ruby-value">:nonce</span>, <span class="ruby-string">&#39;foobarbaz&#39;</span>]
+<span class="ruby-identifier">content_security_policy</span>.<span class="ruby-identifier">get_script_src</span>
 <span class="ruby-comment"># =&gt; [:self, :unsafe_eval, &#39;example.com&#39;, [:nonce, &#39;foobarbaz&#39;]]</span>
 </pre>
 
