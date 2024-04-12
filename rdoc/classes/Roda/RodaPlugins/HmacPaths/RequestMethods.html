@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+<head>
+<title>Roda::RodaPlugins::HmacPaths::RequestMethods</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<link href='../../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<script type='text/javascript'>
+  function popupCode(url) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+  
+  function toggleCode(id) {
+    var code = document.getElementById(id)
+  
+    code.style.display = code.style.display != 'block' ? 'block' : 'none'
+    return true
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+</script>
+</head>
+<body class='page'>
+<div class='class' id='wrapper'>
+<div class='header'>
+<h1 class='name'><span class='type'>module</span>
+Roda::RodaPlugins::HmacPaths::RequestMethods
+</h1>
+<ol class='paths'>
+<li>
+<a href="../../../../files/lib/roda/plugins/hmac_paths_rb.html">lib/roda/plugins/hmac_paths.rb</a>
+</li>
+</ol>
+</div>
+<div id='content'>
+<div id='text'>
+<div id='description'></div>
+<div id='method-list'>
+<h2>Methods</h2>
+<h3>Public Instance</h3>
+<ol>
+<li><a href="#method-i-hmac_path">hmac_path</a></li>
+</ol>
+</div>
+<div id='context'>
+</div>
+<div id='section'>
+<div id='methods'>
+<h2>Public Instance methods</h2>
+<div class='method public-instance' id='method-method-i-hmac_path'>
+<a name='method-i-hmac_path'></a>
+<div class='synopsis'>
+<span class='name'>hmac_path</span><span class='arguments'>(opts=OPTS, &block)</span>
+
+</div>
+<div class='description'>
+
+<p>Looks at the first segment of the remaining path, and if it contains a valid HMAC for the rest of the path considering the flags in the second segment and the given options, the block matches and is yielded to, and the result of the block is returned. Otherwise, the block does not matches and routing continues after the call.</p>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-hmac_path-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-hmac_path-source'>    <span class="ruby-comment"># File lib/roda/plugins/hmac_paths.rb</span>
+<span class="line-num">214</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">hmac_path</span>(<span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">215</span>   <span class="ruby-identifier">orig_path</span> = <span class="ruby-identifier">remaining_path</span>
+<span class="line-num">216</span>   <span class="ruby-identifier">mpath</span> = <span class="ruby-identifier">matched_path</span>
+<span class="line-num">217</span> 
+<span class="line-num">218</span>   <span class="ruby-identifier">on</span> <span class="ruby-constant">String</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">submitted_hmac</span><span class="ruby-operator">|</span>
+<span class="line-num">219</span>     <span class="ruby-identifier">rpath</span> = <span class="ruby-identifier">remaining_path</span>
+<span class="line-num">220</span> 
+<span class="line-num">221</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">submitted_hmac</span>.<span class="ruby-identifier">bytesize</span> <span class="ruby-operator">==</span> <span class="ruby-value">64</span>
+<span class="line-num">222</span>       <span class="ruby-identifier">on</span> <span class="ruby-constant">String</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">flags</span><span class="ruby-operator">|</span>
+<span class="line-num">223</span>         <span class="ruby-keyword">if</span> <span class="ruby-identifier">flags</span>.<span class="ruby-identifier">bytesize</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-value">1</span>
+<span class="line-num">224</span>           <span class="ruby-keyword">if</span> <span class="ruby-identifier">flags</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-string">&#39;m&#39;</span>)
+<span class="line-num">225</span>             <span class="ruby-identifier">rpath</span> = <span class="ruby-node">&quot;#{env[&#39;REQUEST_METHOD&#39;].to_s.upcase}:#{rpath}&quot;</span>
+<span class="line-num">226</span>           <span class="ruby-keyword">end</span>
+<span class="line-num">227</span> 
+<span class="line-num">228</span>           <span class="ruby-keyword">if</span> <span class="ruby-identifier">flags</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-string">&#39;p&#39;</span>)
+<span class="line-num">229</span>             <span class="ruby-identifier">rpath</span> = <span class="ruby-node">&quot;#{rpath}?#{env[&quot;QUERY_STRING&quot;]}&quot;</span>
+<span class="line-num">230</span>           <span class="ruby-keyword">end</span>
+<span class="line-num">231</span> 
+<span class="line-num">232</span>           <span class="ruby-keyword">if</span> <span class="ruby-identifier">hmac_path_valid?</span>(<span class="ruby-identifier">mpath</span>, <span class="ruby-identifier">rpath</span>, <span class="ruby-identifier">submitted_hmac</span>)
+<span class="line-num">233</span>             <span class="ruby-identifier">always</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">234</span>           <span class="ruby-keyword">end</span>
+<span class="line-num">235</span>         <span class="ruby-keyword">end</span>
+<span class="line-num">236</span> 
+<span class="line-num">237</span>         <span class="ruby-comment"># Return from method without matching</span>
+<span class="line-num">238</span>         <span class="ruby-ivar">@remaining_path</span> = <span class="ruby-identifier">orig_path</span>
+<span class="line-num">239</span>         <span class="ruby-keyword">return</span>
+<span class="line-num">240</span>       <span class="ruby-keyword">end</span>
+<span class="line-num">241</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">242</span> 
+<span class="line-num">243</span>     <span class="ruby-comment"># Return from method without matching</span>
+<span class="line-num">244</span>     <span class="ruby-ivar">@remaining_path</span> = <span class="ruby-identifier">orig_path</span>
+<span class="line-num">245</span>     <span class="ruby-keyword">return</span>
+<span class="line-num">246</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">247</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div id='footer-push'></div>
+</div>
+<div id='footer'>
+<a href="https://github.com/jeremyevans/hanna"><strong>Hanna</strong> RDoc template</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+<head>
+<title>Roda::RodaPlugins::HmacPaths::InstanceMethods</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<link href='../../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<script type='text/javascript'>
+  function popupCode(url) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+  
+  function toggleCode(id) {
+    var code = document.getElementById(id)
+  
+    code.style.display = code.style.display != 'block' ? 'block' : 'none'
+    return true
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+</script>
+</head>
+<body class='page'>
+<div class='class' id='wrapper'>
+<div class='header'>
+<h1 class='name'><span class='type'>module</span>
+Roda::RodaPlugins::HmacPaths::InstanceMethods
+</h1>
+<ol class='paths'>
+<li>
+<a href="../../../../files/lib/roda/plugins/hmac_paths_rb.html">lib/roda/plugins/hmac_paths.rb</a>
+</li>
+</ol>
+</div>
+<div id='content'>
+<div id='text'>
+<div id='description'></div>
+<div id='method-list'>
+<h2>Methods</h2>
+<h3>Public Instance</h3>
+<ol>
+<li><a href="#method-i-hmac_path">hmac_path</a></li>
+<li><a href="#method-i-hmac_path_hmac">hmac_path_hmac</a></li>
+</ol>
+</div>
+<div id='context'>
+</div>
+<div id='section'>
+<div id='methods'>
+<h2>Public Instance methods</h2>
+<div class='method public-instance' id='method-method-i-hmac_path'>
+<a name='method-i-hmac_path'></a>
+<div class='synopsis'>
+<span class='name'>hmac_path</span><span class='arguments'>(path, opts=OPTS)</span>
+
+</div>
+<div class='description'>
+
+<p>Return a path with an HMAC.  Designed to be used with r.hmac_path, to make sure users can only request paths that they have been provided by the application (directly or indirectly).  This can prevent users of a site from enumerating valid paths.  The given path should be a string starting with <code>/</code>.  Options:</p>
+<table class="rdoc-list note-list"><tbody><tr><td class='label'>:method </td><td>
+<p>Limits the returned path to only be valid for the given request method.</p>
+</td></tr><tr><td class='label'>:params </td><td>
+<p>Includes parameters in the query string of the returned path, and limits the returned path to only be valid for that exact query string.</p>
+</td></tr><tr><td class='label'>:root </td><td>
+<p>Should be an empty string or string starting with <code>/</code>. This will be the already matched path of the routing tree using r.hmac_path. Defaults to the empty string, which will returns paths valid for r.hmac_path at the top level of the routing tree.</p>
+</td></tr></tbody></table>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-hmac_path-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-hmac_path-source'>    <span class="ruby-comment"># File lib/roda/plugins/hmac_paths.rb</span>
+<span class="line-num">161</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">hmac_path</span>(<span class="ruby-identifier">path</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
+<span class="line-num">162</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">path</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">path</span>.<span class="ruby-identifier">getbyte</span>(<span class="ruby-value">0</span>) <span class="ruby-operator">==</span> <span class="ruby-value">47</span>
+<span class="line-num">163</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;path must be a string starting with /&quot;</span>
+<span class="line-num">164</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">165</span> 
+<span class="line-num">166</span>   <span class="ruby-identifier">root</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:root</span>] <span class="ruby-operator">||</span> <span class="ruby-string">&#39;&#39;</span>
+<span class="line-num">167</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">root</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>) <span class="ruby-operator">&amp;&amp;</span> ((<span class="ruby-identifier">root_byte</span> = <span class="ruby-identifier">root</span>.<span class="ruby-identifier">getbyte</span>(<span class="ruby-value">0</span>)) <span class="ruby-operator">==</span> <span class="ruby-value">47</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">root_byte</span> <span class="ruby-operator">==</span> <span class="ruby-keyword">nil</span>)
+<span class="line-num">168</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;root must be empty string or string starting with /&quot;</span>
+<span class="line-num">169</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">170</span> 
+<span class="line-num">171</span>   <span class="ruby-identifier">flags</span> = <span class="ruby-constant">String</span>.<span class="ruby-identifier">new</span>
+<span class="line-num">172</span>   <span class="ruby-identifier">path</span> = <span class="ruby-identifier">path</span>.<span class="ruby-identifier">dup</span>
+<span class="line-num">173</span> 
+<span class="line-num">174</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">method</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:method</span>]
+<span class="line-num">175</span>     <span class="ruby-identifier">flags</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">&#39;m&#39;</span>
+<span class="line-num">176</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">177</span> 
+<span class="line-num">178</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:params</span>]
+<span class="line-num">179</span>     <span class="ruby-identifier">flags</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">&#39;p&#39;</span>
+<span class="line-num">180</span>     <span class="ruby-identifier">path</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">&#39;?&#39;</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">Rack</span><span class="ruby-operator">::</span><span class="ruby-constant">Utils</span>.<span class="ruby-identifier">build_query</span>(<span class="ruby-identifier">params</span>)
+<span class="line-num">181</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">182</span> 
+<span class="line-num">183</span>   <span class="ruby-identifier">flags</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">&#39;0&#39;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">flags</span>.<span class="ruby-identifier">empty?</span>
+<span class="line-num">184</span>   
+<span class="line-num">185</span>   <span class="ruby-identifier">hmac_path</span> = <span class="ruby-keyword">if</span> <span class="ruby-identifier">method</span>
+<span class="line-num">186</span>     <span class="ruby-node">&quot;#{method.to_s.upcase}:/#{flags}#{path}&quot;</span>
+<span class="line-num">187</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">188</span>     <span class="ruby-node">&quot;/#{flags}#{path}&quot;</span>
+<span class="line-num">189</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">190</span> 
+<span class="line-num">191</span>   <span class="ruby-node">&quot;#{root}/#{hmac_path_hmac(root, hmac_path)}/#{flags}#{path}&quot;</span>
+<span class="line-num">192</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-hmac_path_hmac'>
+<a name='method-i-hmac_path_hmac'></a>
+<div class='synopsis'>
+<span class='name'>hmac_path_hmac</span><span class='arguments'>(root, path, opts=OPTS)</span>
+
+</div>
+<div class='description'>
+
+<p>The HMAC to use in <a href="InstanceMethods.html#method-i-hmac_path"><code>hmac_path</code></a>, for the given root, path, and options.</p>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-hmac_path_hmac-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-hmac_path_hmac-source'>    <span class="ruby-comment"># File lib/roda/plugins/hmac_paths.rb</span>
+<span class="line-num">195</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">hmac_path_hmac</span>(<span class="ruby-identifier">root</span>, <span class="ruby-identifier">path</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
+<span class="line-num">196</span>   <span class="ruby-constant">OpenSSL</span><span class="ruby-operator">::</span><span class="ruby-constant">HMAC</span>.<span class="ruby-identifier">hexdigest</span>(<span class="ruby-constant">OpenSSL</span><span class="ruby-operator">::</span><span class="ruby-constant">Digest</span><span class="ruby-operator">::</span><span class="ruby-constant">SHA256</span>.<span class="ruby-identifier">new</span>, <span class="ruby-identifier">hmac_path_hmac_secret</span>(<span class="ruby-identifier">root</span>, <span class="ruby-identifier">opts</span>), <span class="ruby-identifier">path</span>)
+<span class="line-num">197</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div id='footer-push'></div>
+</div>
+<div id='footer'>
+<a href="https://github.com/jeremyevans/hanna"><strong>Hanna</strong> RDoc template</a>
+</div>
+</body>
+</html>
