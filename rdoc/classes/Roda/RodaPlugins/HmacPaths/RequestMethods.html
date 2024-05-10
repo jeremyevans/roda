@@ -64,40 +64,47 @@ Roda::RodaPlugins::HmacPaths::RequestMethods
 [show source]
 </a>
 <pre id='method-i-hmac_path-source'>    <span class="ruby-comment"># File lib/roda/plugins/hmac_paths.rb</span>
-<span class="line-num">214</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">hmac_path</span>(<span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">215</span>   <span class="ruby-identifier">orig_path</span> = <span class="ruby-identifier">remaining_path</span>
-<span class="line-num">216</span>   <span class="ruby-identifier">mpath</span> = <span class="ruby-identifier">matched_path</span>
-<span class="line-num">217</span> 
-<span class="line-num">218</span>   <span class="ruby-identifier">on</span> <span class="ruby-constant">String</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">submitted_hmac</span><span class="ruby-operator">|</span>
-<span class="line-num">219</span>     <span class="ruby-identifier">rpath</span> = <span class="ruby-identifier">remaining_path</span>
-<span class="line-num">220</span> 
-<span class="line-num">221</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">submitted_hmac</span>.<span class="ruby-identifier">bytesize</span> <span class="ruby-operator">==</span> <span class="ruby-value">64</span>
-<span class="line-num">222</span>       <span class="ruby-identifier">on</span> <span class="ruby-constant">String</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">flags</span><span class="ruby-operator">|</span>
-<span class="line-num">223</span>         <span class="ruby-keyword">if</span> <span class="ruby-identifier">flags</span>.<span class="ruby-identifier">bytesize</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-value">1</span>
-<span class="line-num">224</span>           <span class="ruby-keyword">if</span> <span class="ruby-identifier">flags</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-string">&#39;m&#39;</span>)
-<span class="line-num">225</span>             <span class="ruby-identifier">rpath</span> = <span class="ruby-node">&quot;#{env[&#39;REQUEST_METHOD&#39;].to_s.upcase}:#{rpath}&quot;</span>
-<span class="line-num">226</span>           <span class="ruby-keyword">end</span>
-<span class="line-num">227</span> 
-<span class="line-num">228</span>           <span class="ruby-keyword">if</span> <span class="ruby-identifier">flags</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-string">&#39;p&#39;</span>)
-<span class="line-num">229</span>             <span class="ruby-identifier">rpath</span> = <span class="ruby-node">&quot;#{rpath}?#{env[&quot;QUERY_STRING&quot;]}&quot;</span>
-<span class="line-num">230</span>           <span class="ruby-keyword">end</span>
-<span class="line-num">231</span> 
-<span class="line-num">232</span>           <span class="ruby-keyword">if</span> <span class="ruby-identifier">hmac_path_valid?</span>(<span class="ruby-identifier">mpath</span>, <span class="ruby-identifier">rpath</span>, <span class="ruby-identifier">submitted_hmac</span>)
-<span class="line-num">233</span>             <span class="ruby-identifier">always</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">234</span>           <span class="ruby-keyword">end</span>
-<span class="line-num">235</span>         <span class="ruby-keyword">end</span>
-<span class="line-num">236</span> 
-<span class="line-num">237</span>         <span class="ruby-comment"># Return from method without matching</span>
-<span class="line-num">238</span>         <span class="ruby-ivar">@remaining_path</span> = <span class="ruby-identifier">orig_path</span>
-<span class="line-num">239</span>         <span class="ruby-keyword">return</span>
-<span class="line-num">240</span>       <span class="ruby-keyword">end</span>
-<span class="line-num">241</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">242</span> 
-<span class="line-num">243</span>     <span class="ruby-comment"># Return from method without matching</span>
-<span class="line-num">244</span>     <span class="ruby-ivar">@remaining_path</span> = <span class="ruby-identifier">orig_path</span>
-<span class="line-num">245</span>     <span class="ruby-keyword">return</span>
-<span class="line-num">246</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">247</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">312</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">hmac_path</span>(<span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">313</span>   <span class="ruby-identifier">orig_path</span> = <span class="ruby-identifier">remaining_path</span>
+<span class="line-num">314</span>   <span class="ruby-identifier">mpath</span> = <span class="ruby-identifier">matched_path</span>
+<span class="line-num">315</span> 
+<span class="line-num">316</span>   <span class="ruby-identifier">on</span> <span class="ruby-constant">String</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">submitted_hmac</span><span class="ruby-operator">|</span>
+<span class="line-num">317</span>     <span class="ruby-identifier">rpath</span> = <span class="ruby-identifier">remaining_path</span>
+<span class="line-num">318</span> 
+<span class="line-num">319</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">submitted_hmac</span>.<span class="ruby-identifier">bytesize</span> <span class="ruby-operator">==</span> <span class="ruby-value">64</span>
+<span class="line-num">320</span>       <span class="ruby-identifier">on</span> <span class="ruby-constant">String</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">flags</span><span class="ruby-operator">|</span>
+<span class="line-num">321</span>         <span class="ruby-keyword">if</span> <span class="ruby-identifier">flags</span>.<span class="ruby-identifier">bytesize</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-value">1</span>
+<span class="line-num">322</span>           <span class="ruby-keyword">if</span> <span class="ruby-identifier">flags</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-string">&#39;n&#39;</span>) <span class="ruby-operator">^</span> <span class="ruby-operator">!</span><span class="ruby-identifier">scope</span>.<span class="ruby-identifier">hmac_path_namespace</span>(<span class="ruby-identifier">opts</span>).<span class="ruby-identifier">nil?</span>
+<span class="line-num">323</span>             <span class="ruby-comment"># Namespace required and not provided, or provided and not required.</span>
+<span class="line-num">324</span>             <span class="ruby-comment"># Bail early to avoid unnecessary HMAC calculation.</span>
+<span class="line-num">325</span>             <span class="ruby-ivar">@remaining_path</span> = <span class="ruby-identifier">orig_path</span>
+<span class="line-num">326</span>             <span class="ruby-keyword">return</span>
+<span class="line-num">327</span>           <span class="ruby-keyword">end</span>
+<span class="line-num">328</span> 
+<span class="line-num">329</span>           <span class="ruby-keyword">if</span> <span class="ruby-identifier">flags</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-string">&#39;m&#39;</span>)
+<span class="line-num">330</span>             <span class="ruby-identifier">rpath</span> = <span class="ruby-node">&quot;#{env[&#39;REQUEST_METHOD&#39;].to_s.upcase}:#{rpath}&quot;</span>
+<span class="line-num">331</span>           <span class="ruby-keyword">end</span>
+<span class="line-num">332</span> 
+<span class="line-num">333</span>           <span class="ruby-keyword">if</span> <span class="ruby-identifier">flags</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-string">&#39;p&#39;</span>)
+<span class="line-num">334</span>             <span class="ruby-identifier">rpath</span> = <span class="ruby-node">&quot;#{rpath}?#{env[&quot;QUERY_STRING&quot;]}&quot;</span>
+<span class="line-num">335</span>           <span class="ruby-keyword">end</span>
+<span class="line-num">336</span> 
+<span class="line-num">337</span>           <span class="ruby-keyword">if</span> <span class="ruby-identifier">hmac_path_valid?</span>(<span class="ruby-identifier">mpath</span>, <span class="ruby-identifier">rpath</span>, <span class="ruby-identifier">submitted_hmac</span>, <span class="ruby-identifier">opts</span>)
+<span class="line-num">338</span>             <span class="ruby-identifier">always</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">339</span>           <span class="ruby-keyword">end</span>
+<span class="line-num">340</span>         <span class="ruby-keyword">end</span>
+<span class="line-num">341</span> 
+<span class="line-num">342</span>         <span class="ruby-comment"># Return from method without matching</span>
+<span class="line-num">343</span>         <span class="ruby-ivar">@remaining_path</span> = <span class="ruby-identifier">orig_path</span>
+<span class="line-num">344</span>         <span class="ruby-keyword">return</span>
+<span class="line-num">345</span>       <span class="ruby-keyword">end</span>
+<span class="line-num">346</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">347</span> 
+<span class="line-num">348</span>     <span class="ruby-comment"># Return from method without matching</span>
+<span class="line-num">349</span>     <span class="ruby-ivar">@remaining_path</span> = <span class="ruby-identifier">orig_path</span>
+<span class="line-num">350</span>     <span class="ruby-keyword">return</span>
+<span class="line-num">351</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">352</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

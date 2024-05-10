@@ -1,6 +1,6 @@
-Fri, 12 Apr 2024 08:38:22 -0700
+Fri, 10 May 2024 08:40:47 -0700
 README.rdoc	Wed, 18 Oct 2023 15:53:01 -0700
-CHANGELOG	Fri, 12 Apr 2024 07:38:02 -0700
+CHANGELOG	Fri, 10 May 2024 08:34:52 -0700
 doc/CHANGELOG.old	Fri, 11 Mar 2022 10:33:07 -0800
 MIT-LICENSE	Thu, 12 Jan 2023 07:50:45 -0800
 lib/roda.rb	Mon, 14 Aug 2023 09:53:11 -0700
@@ -63,7 +63,7 @@ lib/roda/plugins/hash_routes.rb	Mon, 13 Jun 2022 13:28:17 -0700
 lib/roda/plugins/head.rb	Fri, 08 Feb 2019 09:07:06 -0800
 lib/roda/plugins/header_matchers.rb	Mon, 19 Jun 2023 16:20:51 -0700
 lib/roda/plugins/heartbeat.rb	Mon, 19 Jun 2023 16:20:51 -0700
-lib/roda/plugins/hmac_paths.rb	Fri, 12 Apr 2024 07:38:02 -0700
+lib/roda/plugins/hmac_paths.rb	Thu, 18 Apr 2024 10:07:22 -0700
 lib/roda/plugins/hooks.rb	Sat, 06 Apr 2019 23:21:10 -0700
 lib/roda/plugins/host_authorization.rb	Mon, 12 Apr 2021 11:05:35 -0700
 lib/roda/plugins/indifferent_params.rb	Thu, 02 Feb 2023 11:13:09 -0800
@@ -142,7 +142,7 @@ lib/roda/plugins/view_options.rb	Mon, 12 Sep 2022 13:47:50 -0700
 lib/roda/request.rb	Fri, 17 Mar 2023 08:33:20 -0700
 lib/roda/response.rb	Fri, 23 Feb 2024 14:44:14 -0800
 lib/roda/session_middleware.rb	Sun, 04 Aug 2019 14:34:46 -0700
-lib/roda/version.rb	Fri, 12 Apr 2024 07:38:02 -0700
+lib/roda/version.rb	Fri, 10 May 2024 08:34:52 -0700
 doc/conventions.rdoc	Mon, 16 Oct 2023 12:10:05 -0700
 doc/release_notes/1.0.0.txt	Tue, 19 Aug 2014 09:04:25 -0700
 doc/release_notes/1.1.0.txt	Tue, 11 Nov 2014 11:35:26 -0800
@@ -259,4 +259,5 @@ doc/release_notes/3.77.0.txt	Mon, 12 Feb 2024 09:15:48 -0800
 doc/release_notes/3.78.0.txt	Wed, 13 Mar 2024 10:26:39 -0700
 doc/release_notes/3.79.0.txt	Fri, 12 Apr 2024 07:38:02 -0700
 doc/release_notes/3.8.0.txt	Thu, 17 May 2018 13:49:47 -0700
+doc/release_notes/3.80.0.txt	Fri, 10 May 2024 08:34:52 -0700
 doc/release_notes/3.9.0.txt	Mon, 11 Jun 2018 12:33:07 -0700

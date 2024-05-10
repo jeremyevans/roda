@@ -42,6 +42,7 @@ Roda::RodaPlugins::HmacPaths::InstanceMethods
 <ol>
 <li><a href="#method-i-hmac_path">hmac_path</a></li>
 <li><a href="#method-i-hmac_path_hmac">hmac_path_hmac</a></li>
+<li><a href="#method-i-hmac_path_namespace">hmac_path_namespace</a></li>
 </ol>
 </div>
 <div id='context'>
@@ -60,6 +61,8 @@ Roda::RodaPlugins::HmacPaths::InstanceMethods
 <p>Return a path with an HMAC.  Designed to be used with r.hmac_path, to make sure users can only request paths that they have been provided by the application (directly or indirectly).  This can prevent users of a site from enumerating valid paths.  The given path should be a string starting with <code>/</code>.  Options:</p>
 <table class="rdoc-list note-list"><tbody><tr><td class='label'>:method </td><td>
 <p>Limits the returned path to only be valid for the given request method.</p>
+</td></tr><tr><td class='label'>:namespace </td><td>
+<p>Make the HMAC value depend on the given namespace. If this is not provided, the default namespace is used.  To explicitly not use a namespace when there is a default namespace, pass a nil value.</p>
 </td></tr><tr><td class='label'>:params </td><td>
 <p>Includes parameters in the query string of the returned path, and limits the returned path to only be valid for that exact query string.</p>
 </td></tr><tr><td class='label'>:root </td><td>
@@ -72,38 +75,42 @@ Roda::RodaPlugins::HmacPaths::InstanceMethods
 [show source]
 </a>
 <pre id='method-i-hmac_path-source'>    <span class="ruby-comment"># File lib/roda/plugins/hmac_paths.rb</span>
-<span class="line-num">161</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">hmac_path</span>(<span class="ruby-identifier">path</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
-<span class="line-num">162</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">path</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">path</span>.<span class="ruby-identifier">getbyte</span>(<span class="ruby-value">0</span>) <span class="ruby-operator">==</span> <span class="ruby-value">47</span>
-<span class="line-num">163</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;path must be a string starting with /&quot;</span>
-<span class="line-num">164</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">165</span> 
-<span class="line-num">166</span>   <span class="ruby-identifier">root</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:root</span>] <span class="ruby-operator">||</span> <span class="ruby-string">&#39;&#39;</span>
-<span class="line-num">167</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">root</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>) <span class="ruby-operator">&amp;&amp;</span> ((<span class="ruby-identifier">root_byte</span> = <span class="ruby-identifier">root</span>.<span class="ruby-identifier">getbyte</span>(<span class="ruby-value">0</span>)) <span class="ruby-operator">==</span> <span class="ruby-value">47</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">root_byte</span> <span class="ruby-operator">==</span> <span class="ruby-keyword">nil</span>)
-<span class="line-num">168</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;root must be empty string or string starting with /&quot;</span>
-<span class="line-num">169</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">170</span> 
-<span class="line-num">171</span>   <span class="ruby-identifier">flags</span> = <span class="ruby-constant">String</span>.<span class="ruby-identifier">new</span>
-<span class="line-num">172</span>   <span class="ruby-identifier">path</span> = <span class="ruby-identifier">path</span>.<span class="ruby-identifier">dup</span>
-<span class="line-num">173</span> 
-<span class="line-num">174</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">method</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:method</span>]
-<span class="line-num">175</span>     <span class="ruby-identifier">flags</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">&#39;m&#39;</span>
-<span class="line-num">176</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">177</span> 
-<span class="line-num">178</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:params</span>]
-<span class="line-num">179</span>     <span class="ruby-identifier">flags</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">&#39;p&#39;</span>
-<span class="line-num">180</span>     <span class="ruby-identifier">path</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">&#39;?&#39;</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">Rack</span><span class="ruby-operator">::</span><span class="ruby-constant">Utils</span>.<span class="ruby-identifier">build_query</span>(<span class="ruby-identifier">params</span>)
-<span class="line-num">181</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">182</span> 
-<span class="line-num">183</span>   <span class="ruby-identifier">flags</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">&#39;0&#39;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">flags</span>.<span class="ruby-identifier">empty?</span>
-<span class="line-num">184</span>   
-<span class="line-num">185</span>   <span class="ruby-identifier">hmac_path</span> = <span class="ruby-keyword">if</span> <span class="ruby-identifier">method</span>
-<span class="line-num">186</span>     <span class="ruby-node">&quot;#{method.to_s.upcase}:/#{flags}#{path}&quot;</span>
-<span class="line-num">187</span>   <span class="ruby-keyword">else</span>
-<span class="line-num">188</span>     <span class="ruby-node">&quot;/#{flags}#{path}&quot;</span>
-<span class="line-num">189</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">190</span> 
-<span class="line-num">191</span>   <span class="ruby-node">&quot;#{root}/#{hmac_path_hmac(root, hmac_path)}/#{flags}#{path}&quot;</span>
-<span class="line-num">192</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">235</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">hmac_path</span>(<span class="ruby-identifier">path</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
+<span class="line-num">236</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">path</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">path</span>.<span class="ruby-identifier">getbyte</span>(<span class="ruby-value">0</span>) <span class="ruby-operator">==</span> <span class="ruby-value">47</span>
+<span class="line-num">237</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;path must be a string starting with /&quot;</span>
+<span class="line-num">238</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">239</span> 
+<span class="line-num">240</span>   <span class="ruby-identifier">root</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:root</span>] <span class="ruby-operator">||</span> <span class="ruby-string">&#39;&#39;</span>
+<span class="line-num">241</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">root</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>) <span class="ruby-operator">&amp;&amp;</span> ((<span class="ruby-identifier">root_byte</span> = <span class="ruby-identifier">root</span>.<span class="ruby-identifier">getbyte</span>(<span class="ruby-value">0</span>)) <span class="ruby-operator">==</span> <span class="ruby-value">47</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">root_byte</span> <span class="ruby-operator">==</span> <span class="ruby-keyword">nil</span>)
+<span class="line-num">242</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;root must be empty string or string starting with /&quot;</span>
+<span class="line-num">243</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">244</span> 
+<span class="line-num">245</span>   <span class="ruby-identifier">flags</span> = <span class="ruby-constant">String</span>.<span class="ruby-identifier">new</span>
+<span class="line-num">246</span>   <span class="ruby-identifier">path</span> = <span class="ruby-identifier">path</span>.<span class="ruby-identifier">dup</span>
+<span class="line-num">247</span> 
+<span class="line-num">248</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">method</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:method</span>]
+<span class="line-num">249</span>     <span class="ruby-identifier">flags</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">&#39;m&#39;</span>
+<span class="line-num">250</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">251</span> 
+<span class="line-num">252</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:params</span>]
+<span class="line-num">253</span>     <span class="ruby-identifier">flags</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">&#39;p&#39;</span>
+<span class="line-num">254</span>     <span class="ruby-identifier">path</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">&#39;?&#39;</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">Rack</span><span class="ruby-operator">::</span><span class="ruby-constant">Utils</span>.<span class="ruby-identifier">build_query</span>(<span class="ruby-identifier">params</span>)
+<span class="line-num">255</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">256</span> 
+<span class="line-num">257</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">hmac_path_namespace</span>(<span class="ruby-identifier">opts</span>)
+<span class="line-num">258</span>     <span class="ruby-identifier">flags</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">&#39;n&#39;</span>
+<span class="line-num">259</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">260</span> 
+<span class="line-num">261</span>   <span class="ruby-identifier">flags</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">&#39;0&#39;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">flags</span>.<span class="ruby-identifier">empty?</span>
+<span class="line-num">262</span>   
+<span class="line-num">263</span>   <span class="ruby-identifier">hmac_path</span> = <span class="ruby-keyword">if</span> <span class="ruby-identifier">method</span>
+<span class="line-num">264</span>     <span class="ruby-node">&quot;#{method.to_s.upcase}:/#{flags}#{path}&quot;</span>
+<span class="line-num">265</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">266</span>     <span class="ruby-node">&quot;/#{flags}#{path}&quot;</span>
+<span class="line-num">267</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">268</span> 
+<span class="line-num">269</span>   <span class="ruby-node">&quot;#{root}/#{hmac_path_hmac(root, hmac_path, opts)}/#{flags}#{path}&quot;</span>
+<span class="line-num">270</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-hmac_path_hmac'>
@@ -122,9 +129,30 @@ Roda::RodaPlugins::HmacPaths::InstanceMethods
 [show source]
 </a>
 <pre id='method-i-hmac_path_hmac-source'>    <span class="ruby-comment"># File lib/roda/plugins/hmac_paths.rb</span>
-<span class="line-num">195</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">hmac_path_hmac</span>(<span class="ruby-identifier">root</span>, <span class="ruby-identifier">path</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
-<span class="line-num">196</span>   <span class="ruby-constant">OpenSSL</span><span class="ruby-operator">::</span><span class="ruby-constant">HMAC</span>.<span class="ruby-identifier">hexdigest</span>(<span class="ruby-constant">OpenSSL</span><span class="ruby-operator">::</span><span class="ruby-constant">Digest</span><span class="ruby-operator">::</span><span class="ruby-constant">SHA256</span>.<span class="ruby-identifier">new</span>, <span class="ruby-identifier">hmac_path_hmac_secret</span>(<span class="ruby-identifier">root</span>, <span class="ruby-identifier">opts</span>), <span class="ruby-identifier">path</span>)
-<span class="line-num">197</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">273</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">hmac_path_hmac</span>(<span class="ruby-identifier">root</span>, <span class="ruby-identifier">path</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
+<span class="line-num">274</span>   <span class="ruby-constant">OpenSSL</span><span class="ruby-operator">::</span><span class="ruby-constant">HMAC</span>.<span class="ruby-identifier">hexdigest</span>(<span class="ruby-constant">OpenSSL</span><span class="ruby-operator">::</span><span class="ruby-constant">Digest</span><span class="ruby-operator">::</span><span class="ruby-constant">SHA256</span>.<span class="ruby-identifier">new</span>, <span class="ruby-identifier">hmac_path_hmac_secret</span>(<span class="ruby-identifier">root</span>, <span class="ruby-identifier">opts</span>), <span class="ruby-identifier">path</span>)
+<span class="line-num">275</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-hmac_path_namespace'>
+<a name='method-i-hmac_path_namespace'></a>
+<div class='synopsis'>
+<span class='name'>hmac_path_namespace</span><span class='arguments'>(opts=OPTS)</span>
+
+</div>
+<div class='description'>
+
+<p>The namespace to use for the hmac path.  If a :namespace option is not provided, and a :namespace_session_key option was provided, this will use the value of the related session key, if present.</p>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-hmac_path_namespace-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-hmac_path_namespace-source'>    <span class="ruby-comment"># File lib/roda/plugins/hmac_paths.rb</span>
+<span class="line-num">280</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">hmac_path_namespace</span>(<span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
+<span class="line-num">281</span>   <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-value">:namespace</span>){<span class="ruby-identifier">hmac_path_default_namespace</span>}
+<span class="line-num">282</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>
