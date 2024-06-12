@@ -95,7 +95,7 @@ Roda::RodaPlugins::FilterCommonLogger
 <div class='method public-class' id='method-method-c-load_dependencies'>
 <a name='method-c-load_dependencies'></a>
 <div class='synopsis'>
-<span class='name'>load_dependencies</span><span class='arguments'>(app)</span>
+<span class='name'>load_dependencies</span><span class='arguments'>(app, &_)</span>
 
 </div>
 <div class='description'>
@@ -106,7 +106,7 @@ Roda::RodaPlugins::FilterCommonLogger
 [show source]
 </a>
 <pre id='method-c-load_dependencies-source'>   <span class="ruby-comment"># File lib/roda/plugins/filter_common_logger.rb</span>
-<span class="line-num">24</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">load_dependencies</span>(<span class="ruby-identifier">app</span>)
+<span class="line-num">24</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">load_dependencies</span>(<span class="ruby-identifier">app</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">_</span>)
 <span class="line-num">25</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:common_logger</span>
 <span class="line-num">26</span> <span class="ruby-keyword">end</span></pre>
 </div>

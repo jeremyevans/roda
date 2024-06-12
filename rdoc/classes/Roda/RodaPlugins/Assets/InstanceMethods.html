@@ -95,10 +95,12 @@ Roda::RodaPlugins::Assets::InstanceMethods
 <span class="line-num">736</span>   <span class="ruby-identifier">paths</span> = <span class="ruby-identifier">assets_paths</span>(<span class="ruby-identifier">type</span>)
 <span class="line-num">737</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">o</span>[<span class="ruby-value">:early_hints</span>]
 <span class="line-num">738</span>     <span class="ruby-identifier">early_hint_as</span> = <span class="ruby-identifier">ltype</span> <span class="ruby-operator">==</span> <span class="ruby-value">:js</span> <span class="ruby-operator">?</span> <span class="ruby-string">&#39;script&#39;</span> <span class="ruby-operator">:</span> <span class="ruby-string">&#39;style&#39;</span>
-<span class="line-num">739</span>     <span class="ruby-identifier">send_early_hints</span>(<span class="ruby-string">&#39;Link&#39;</span><span class="ruby-operator">=&gt;</span><span class="ruby-identifier">paths</span>.<span class="ruby-identifier">map</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">p</span><span class="ruby-operator">|</span> <span class="ruby-node">&quot;&lt;#{p}&gt;; rel=preload; as=#{early_hint_as}&quot;</span>}.<span class="ruby-identifier">join</span>(<span class="ruby-string">&quot;\n&quot;</span>))
-<span class="line-num">740</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">741</span>   <span class="ruby-identifier">paths</span>.<span class="ruby-identifier">map</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">p</span><span class="ruby-operator">|</span> <span class="ruby-node">&quot;#{tag_start}#{h(p)}#{tag_end}&quot;</span>}.<span class="ruby-identifier">join</span>(<span class="ruby-string">&quot;\n&quot;</span>)
-<span class="line-num">742</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">739</span>     <span class="ruby-identifier">early_hints</span> = <span class="ruby-identifier">paths</span>.<span class="ruby-identifier">map</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">p</span><span class="ruby-operator">|</span> <span class="ruby-node">&quot;&lt;#{p}&gt;; rel=preload; as=#{early_hint_as}&quot;</span>}
+<span class="line-num">740</span>     <span class="ruby-identifier">early_hints</span> = <span class="ruby-identifier">early_hints</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&quot;\n&quot;</span>) <span class="ruby-keyword">if</span> <span class="ruby-constant">Rack</span>.<span class="ruby-identifier">release</span> <span class="ruby-operator">&lt;</span> <span class="ruby-string">&#39;3&#39;</span>
+<span class="line-num">741</span>     <span class="ruby-identifier">send_early_hints</span>(<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">LINK</span><span class="ruby-operator">=&gt;</span><span class="ruby-identifier">early_hints</span>)
+<span class="line-num">742</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">743</span>   <span class="ruby-identifier">paths</span>.<span class="ruby-identifier">map</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">p</span><span class="ruby-operator">|</span> <span class="ruby-node">&quot;#{tag_start}#{h(p)}#{tag_end}&quot;</span>}.<span class="ruby-identifier">join</span>(<span class="ruby-string">&quot;\n&quot;</span>)
+<span class="line-num">744</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-assets_paths'>
@@ -177,17 +179,17 @@ Roda::RodaPlugins::Assets::InstanceMethods
 [show source]
 </a>
 <pre id='method-i-read_asset_file-source'>    <span class="ruby-comment"># File lib/roda/plugins/assets.rb</span>
-<span class="line-num">773</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">read_asset_file</span>(<span class="ruby-identifier">file</span>, <span class="ruby-identifier">type</span>)
-<span class="line-num">774</span>   <span class="ruby-identifier">o</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">assets_opts</span>
-<span class="line-num">775</span> 
-<span class="line-num">776</span>   <span class="ruby-identifier">content</span> = <span class="ruby-keyword">if</span> <span class="ruby-identifier">file</span>.<span class="ruby-identifier">end_with?</span>(<span class="ruby-node">&quot;.#{type}&quot;</span>)
-<span class="line-num">777</span>     <span class="ruby-operator">::</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">read</span>(<span class="ruby-identifier">file</span>)
-<span class="line-num">778</span>   <span class="ruby-keyword">else</span>
-<span class="line-num">779</span>     <span class="ruby-identifier">render_asset_file</span>(<span class="ruby-identifier">file</span>, <span class="ruby-value">:template_opts</span><span class="ruby-operator">=&gt;</span><span class="ruby-identifier">o</span>[<span class="ruby-value">:&quot;#{type}_opts&quot;</span>], <span class="ruby-value">:dependencies</span><span class="ruby-operator">=&gt;</span><span class="ruby-identifier">o</span>[<span class="ruby-value">:expanded_dependencies</span>][<span class="ruby-identifier">file</span>])
-<span class="line-num">780</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">781</span> 
-<span class="line-num">782</span>   <span class="ruby-identifier">o</span>[<span class="ruby-value">:postprocessor</span>] <span class="ruby-operator">?</span> <span class="ruby-identifier">o</span>[<span class="ruby-value">:postprocessor</span>].<span class="ruby-identifier">call</span>(<span class="ruby-identifier">file</span>, <span class="ruby-identifier">type</span>, <span class="ruby-identifier">content</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">content</span>
-<span class="line-num">783</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">775</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">read_asset_file</span>(<span class="ruby-identifier">file</span>, <span class="ruby-identifier">type</span>)
+<span class="line-num">776</span>   <span class="ruby-identifier">o</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">assets_opts</span>
+<span class="line-num">777</span> 
+<span class="line-num">778</span>   <span class="ruby-identifier">content</span> = <span class="ruby-keyword">if</span> <span class="ruby-identifier">file</span>.<span class="ruby-identifier">end_with?</span>(<span class="ruby-node">&quot;.#{type}&quot;</span>)
+<span class="line-num">779</span>     <span class="ruby-operator">::</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">read</span>(<span class="ruby-identifier">file</span>)
+<span class="line-num">780</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">781</span>     <span class="ruby-identifier">render_asset_file</span>(<span class="ruby-identifier">file</span>, <span class="ruby-value">:template_opts</span><span class="ruby-operator">=&gt;</span><span class="ruby-identifier">o</span>[<span class="ruby-value">:&quot;#{type}_opts&quot;</span>], <span class="ruby-value">:dependencies</span><span class="ruby-operator">=&gt;</span><span class="ruby-identifier">o</span>[<span class="ruby-value">:expanded_dependencies</span>][<span class="ruby-identifier">file</span>])
+<span class="line-num">782</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">783</span> 
+<span class="line-num">784</span>   <span class="ruby-identifier">o</span>[<span class="ruby-value">:postprocessor</span>] <span class="ruby-operator">?</span> <span class="ruby-identifier">o</span>[<span class="ruby-value">:postprocessor</span>].<span class="ruby-identifier">call</span>(<span class="ruby-identifier">file</span>, <span class="ruby-identifier">type</span>, <span class="ruby-identifier">content</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">content</span>
+<span class="line-num">785</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-render_asset'>
@@ -206,24 +208,24 @@ Roda::RodaPlugins::Assets::InstanceMethods
 [show source]
 </a>
 <pre id='method-i-render_asset-source'>    <span class="ruby-comment"># File lib/roda/plugins/assets.rb</span>
-<span class="line-num">751</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">render_asset</span>(<span class="ruby-identifier">file</span>, <span class="ruby-identifier">type</span>)
-<span class="line-num">752</span>   <span class="ruby-identifier">o</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">assets_opts</span>
-<span class="line-num">753</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">o</span>[<span class="ruby-value">:compiled</span>]
-<span class="line-num">754</span>     <span class="ruby-identifier">file</span> = <span class="ruby-node">&quot;#{o[:&quot;compiled_#{type}_path&quot;]}#{file}&quot;</span>
-<span class="line-num">755</span> 
-<span class="line-num">756</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">o</span>[<span class="ruby-value">:gzip</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">env</span>[<span class="ruby-string">&#39;HTTP_ACCEPT_ENCODING&#39;</span>] <span class="ruby-operator">=~</span> <span class="ruby-regexp">/\bgzip\b/</span>
-<span class="line-num">757</span>       <span class="ruby-ivar">@_response</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_ENCODING</span>] = <span class="ruby-string">&#39;gzip&#39;</span>
-<span class="line-num">758</span>       <span class="ruby-identifier">file</span> <span class="ruby-operator">+=</span> <span class="ruby-string">&#39;.gz&#39;</span>
-<span class="line-num">759</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">760</span> 
-<span class="line-num">761</span>     <span class="ruby-identifier">check_asset_request</span>(<span class="ruby-identifier">file</span>, <span class="ruby-identifier">type</span>, <span class="ruby-operator">::</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">stat</span>(<span class="ruby-identifier">file</span>).<span class="ruby-identifier">mtime</span>)
-<span class="line-num">762</span>     <span class="ruby-operator">::</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">read</span>(<span class="ruby-identifier">file</span>)
-<span class="line-num">763</span>   <span class="ruby-keyword">else</span>
-<span class="line-num">764</span>     <span class="ruby-identifier">file</span> = <span class="ruby-node">&quot;#{o[:&quot;#{type}_path&quot;]}#{file}&quot;</span>
-<span class="line-num">765</span>     <span class="ruby-identifier">check_asset_request</span>(<span class="ruby-identifier">file</span>, <span class="ruby-identifier">type</span>, <span class="ruby-identifier">asset_last_modified</span>(<span class="ruby-identifier">file</span>))
-<span class="line-num">766</span>     <span class="ruby-identifier">read_asset_file</span>(<span class="ruby-identifier">file</span>, <span class="ruby-identifier">type</span>)
-<span class="line-num">767</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">768</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">753</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">render_asset</span>(<span class="ruby-identifier">file</span>, <span class="ruby-identifier">type</span>)
+<span class="line-num">754</span>   <span class="ruby-identifier">o</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">assets_opts</span>
+<span class="line-num">755</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">o</span>[<span class="ruby-value">:compiled</span>]
+<span class="line-num">756</span>     <span class="ruby-identifier">file</span> = <span class="ruby-node">&quot;#{o[:&quot;compiled_#{type}_path&quot;]}#{file}&quot;</span>
+<span class="line-num">757</span> 
+<span class="line-num">758</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">o</span>[<span class="ruby-value">:gzip</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">env</span>[<span class="ruby-string">&#39;HTTP_ACCEPT_ENCODING&#39;</span>] <span class="ruby-operator">=~</span> <span class="ruby-regexp">/\bgzip\b/</span>
+<span class="line-num">759</span>       <span class="ruby-ivar">@_response</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_ENCODING</span>] = <span class="ruby-string">&#39;gzip&#39;</span>
+<span class="line-num">760</span>       <span class="ruby-identifier">file</span> <span class="ruby-operator">+=</span> <span class="ruby-string">&#39;.gz&#39;</span>
+<span class="line-num">761</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">762</span> 
+<span class="line-num">763</span>     <span class="ruby-identifier">check_asset_request</span>(<span class="ruby-identifier">file</span>, <span class="ruby-identifier">type</span>, <span class="ruby-operator">::</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">stat</span>(<span class="ruby-identifier">file</span>).<span class="ruby-identifier">mtime</span>)
+<span class="line-num">764</span>     <span class="ruby-operator">::</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">read</span>(<span class="ruby-identifier">file</span>)
+<span class="line-num">765</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">766</span>     <span class="ruby-identifier">file</span> = <span class="ruby-node">&quot;#{o[:&quot;#{type}_path&quot;]}#{file}&quot;</span>
+<span class="line-num">767</span>     <span class="ruby-identifier">check_asset_request</span>(<span class="ruby-identifier">file</span>, <span class="ruby-identifier">type</span>, <span class="ruby-identifier">asset_last_modified</span>(<span class="ruby-identifier">file</span>))
+<span class="line-num">768</span>     <span class="ruby-identifier">read_asset_file</span>(<span class="ruby-identifier">file</span>, <span class="ruby-identifier">type</span>)
+<span class="line-num">769</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">770</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

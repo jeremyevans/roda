@@ -116,6 +116,15 @@ Roda::RodaPlugins::HmacPaths
 
 <p>For GET requests, which cannot have request bodies, that is sufficient to ensure that the submitted params are exactly as specified. However, POST requests can have request bodies, and request body params override query string params in <code>r.params</code>.  So if you are using this for POST requests (or other HTTP verbs that can have request bodies), use <code>r.GET</code> instead of <code>r.params</code> to specifically check query string parameters.</p>
 
+<p>The generated paths can be timestamped, so that they are only valid until a given time or for a given number of seconds after they are generated, using the :until or :seconds options:</p>
+
+<pre class="ruby"><span class="ruby-identifier">hmac_path</span>(<span class="ruby-string">&#39;/widget/1&#39;</span>, <span class="ruby-value">until:</span> <span class="ruby-constant">Time</span>.<span class="ruby-identifier">utc</span>(<span class="ruby-value">2100</span>))
+<span class="ruby-comment"># =&gt;  &quot;/dc8b6e56e4cbe7815df7880d42f0e02956b2e4c49881b6060ceb0e49745a540d/t/4102444800/widget/1&quot;</span>
+
+<span class="ruby-identifier">hmac_path</span>(<span class="ruby-string">&#39;/widget/1&#39;</span>, <span class="ruby-value">seconds:</span> <span class="ruby-constant">Time</span>.<span class="ruby-identifier">utc</span>(<span class="ruby-value">2100</span>).<span class="ruby-identifier">to_i</span> <span class="ruby-operator">-</span> <span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>.<span class="ruby-identifier">to_i</span>)
+<span class="ruby-comment"># =&gt;  &quot;/dc8b6e56e4cbe7815df7880d42f0e02956b2e4c49881b6060ceb0e49745a540d/t/4102444800/widget/1&quot;</span>
+</pre>
+
 <p>The :namespace option, if provided, should be a string, and it modifies the generated HMACs to only match those in the same namespace.  This can be used to provide different paths to different users or groups of users.</p>
 
 <pre class="ruby"><span class="ruby-identifier">hmac_path</span>(<span class="ruby-string">&#39;/widget/1&#39;</span>, <span class="ruby-value">namespace:</span> <span class="ruby-string">&#39;1&#39;</span>)
@@ -188,6 +197,12 @@ Roda::RodaPlugins::HmacPaths
 <span class="ruby-constant">HMAC_hex</span>(<span class="ruby-constant">HMAC_hex</span>(<span class="ruby-identifier">secret</span>, <span class="ruby-string">&#39;&#39;</span>), <span class="ruby-string">&#39;/p/1?k=2&#39;</span>)
 </pre>
 
+<p>The <code>:until</code> and <code>:seconds</code> option include the timestamp in the HMAC:</p>
+
+<pre class="ruby"><span class="ruby-identifier">r</span>.<span class="ruby-identifier">hmac_path</span>(<span class="ruby-string">&#39;/1&#39;</span>, <span class="ruby-value">until:</span> <span class="ruby-constant">Time</span>.<span class="ruby-identifier">utc</span>(<span class="ruby-value">2100</span>))
+<span class="ruby-constant">HMAC_hex</span>(<span class="ruby-constant">HMAC_hex</span>(<span class="ruby-identifier">secret</span>, <span class="ruby-string">&#39;&#39;</span>), <span class="ruby-string">&#39;/t/4102444800/1&#39;</span>)
+</pre>
+
 <p>If a <code>:namespace</code> option is provided, the original secret used before the <code>:root</code> option is an HMAC of the <code>:secret</code> plugin option and the given namespace.</p>
 
 <pre class="ruby"><span class="ruby-identifier">r</span>.<span class="ruby-identifier">hmac_path</span>(<span class="ruby-string">&#39;/1&#39;</span>, <span class="ruby-value">namespace:</span> <span class="ruby-string">&#39;2&#39;</span>)
@@ -227,25 +242,25 @@ Roda::RodaPlugins::HmacPaths
 [show source]
 </a>
 <pre id='method-c-configure-source'>    <span class="ruby-comment"># File lib/roda/plugins/hmac_paths.rb</span>
-<span class="line-num">199</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
-<span class="line-num">200</span>   <span class="ruby-identifier">hmac_secret</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:secret</span>]
-<span class="line-num">201</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">hmac_secret</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">hmac_secret</span>.<span class="ruby-identifier">bytesize</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-value">32</span>
-<span class="line-num">202</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;hmac_paths plugin :secret option must be a string containing at least 32 bytes&quot;</span>
-<span class="line-num">203</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">204</span> 
-<span class="line-num">205</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">hmac_old_secret</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:old_secret</span>]
-<span class="line-num">206</span>     <span class="ruby-keyword">unless</span> <span class="ruby-identifier">hmac_old_secret</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">hmac_old_secret</span>.<span class="ruby-identifier">bytesize</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-value">32</span>
-<span class="line-num">207</span>       <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;hmac_paths plugin :old_secret option must be a string containing at least 32 bytes if present&quot;</span>
-<span class="line-num">208</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">209</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">210</span> 
-<span class="line-num">211</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:hmac_paths_secret</span>] = <span class="ruby-identifier">hmac_secret</span>
-<span class="line-num">212</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:hmac_paths_old_secret</span>] = <span class="ruby-identifier">hmac_old_secret</span>
-<span class="line-num">213</span> 
-<span class="line-num">214</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:namespace_session_key</span>]
-<span class="line-num">215</span>     <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:hmac_paths_namespace_session_key</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:namespace_session_key</span>]
-<span class="line-num">216</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">217</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">214</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
+<span class="line-num">215</span>   <span class="ruby-identifier">hmac_secret</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:secret</span>]
+<span class="line-num">216</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">hmac_secret</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">hmac_secret</span>.<span class="ruby-identifier">bytesize</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-value">32</span>
+<span class="line-num">217</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;hmac_paths plugin :secret option must be a string containing at least 32 bytes&quot;</span>
+<span class="line-num">218</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">219</span> 
+<span class="line-num">220</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">hmac_old_secret</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:old_secret</span>]
+<span class="line-num">221</span>     <span class="ruby-keyword">unless</span> <span class="ruby-identifier">hmac_old_secret</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">hmac_old_secret</span>.<span class="ruby-identifier">bytesize</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-value">32</span>
+<span class="line-num">222</span>       <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;hmac_paths plugin :old_secret option must be a string containing at least 32 bytes if present&quot;</span>
+<span class="line-num">223</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">224</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">225</span> 
+<span class="line-num">226</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:hmac_paths_secret</span>] = <span class="ruby-identifier">hmac_secret</span>
+<span class="line-num">227</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:hmac_paths_old_secret</span>] = <span class="ruby-identifier">hmac_old_secret</span>
+<span class="line-num">228</span> 
+<span class="line-num">229</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:namespace_session_key</span>]
+<span class="line-num">230</span>     <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:hmac_paths_namespace_session_key</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:namespace_session_key</span>]
+<span class="line-num">231</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">232</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

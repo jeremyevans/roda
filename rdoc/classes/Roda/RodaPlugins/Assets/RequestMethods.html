@@ -64,16 +64,16 @@ Roda::RodaPlugins::Assets::RequestMethods
 [show source]
 </a>
 <pre id='method-i-assets-source'>    <span class="ruby-comment"># File lib/roda/plugins/assets.rb</span>
-<span class="line-num">885</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">assets</span>
-<span class="line-num">886</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">is_get?</span>
-<span class="line-num">887</span>     <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">assets_matchers</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">type</span>, <span class="ruby-identifier">matcher</span><span class="ruby-operator">|</span>
-<span class="line-num">888</span>       <span class="ruby-identifier">is</span> <span class="ruby-identifier">matcher</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
-<span class="line-num">889</span>         <span class="ruby-identifier">scope</span>.<span class="ruby-identifier">render_asset</span>(<span class="ruby-identifier">file</span>, <span class="ruby-identifier">type</span>)
-<span class="line-num">890</span>       <span class="ruby-keyword">end</span>
-<span class="line-num">891</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">892</span>     <span class="ruby-keyword">nil</span>
-<span class="line-num">893</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">894</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">887</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">assets</span>
+<span class="line-num">888</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">is_get?</span>
+<span class="line-num">889</span>     <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">assets_matchers</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">type</span>, <span class="ruby-identifier">matcher</span><span class="ruby-operator">|</span>
+<span class="line-num">890</span>       <span class="ruby-identifier">is</span> <span class="ruby-identifier">matcher</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
+<span class="line-num">891</span>         <span class="ruby-identifier">scope</span>.<span class="ruby-identifier">render_asset</span>(<span class="ruby-identifier">file</span>, <span class="ruby-identifier">type</span>)
+<span class="line-num">892</span>       <span class="ruby-keyword">end</span>
+<span class="line-num">893</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">894</span>     <span class="ruby-keyword">nil</span>
+<span class="line-num">895</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">896</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>
