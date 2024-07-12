@@ -51,7 +51,7 @@ Roda::RodaPlugins::CaptureERB::InstanceMethods
 <div class='method public-instance' id='method-method-i-capture_erb'>
 <a name='method-i-capture_erb'></a>
 <div class='synopsis'>
-<span class='name'>capture_erb</span><span class='arguments'>()</span>
+<span class='name'>capture_erb</span><span class='arguments'>(&block)</span>
 
 </div>
 <div class='description'>
@@ -64,14 +64,21 @@ Roda::RodaPlugins::CaptureERB::InstanceMethods
 [show source]
 </a>
 <pre id='method-i-capture_erb-source'>   <span class="ruby-comment"># File lib/roda/plugins/capture_erb.rb</span>
-<span class="line-num">28</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">capture_erb</span>
-<span class="line-num">29</span>   <span class="ruby-identifier">outvar</span> = <span class="ruby-identifier">render_opts</span>[<span class="ruby-value">:template_opts</span>][<span class="ruby-value">:outvar</span>]
-<span class="line-num">30</span>   <span class="ruby-identifier">buf_was</span> = <span class="ruby-identifier">instance_variable_get</span>(<span class="ruby-identifier">outvar</span>)
-<span class="line-num">31</span>   <span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-identifier">outvar</span>, <span class="ruby-constant">String</span>.<span class="ruby-identifier">new</span>)
-<span class="line-num">32</span>   <span class="ruby-keyword">yield</span>.<span class="ruby-identifier">to_s</span>
-<span class="line-num">33</span> <span class="ruby-keyword">ensure</span>
-<span class="line-num">34</span>   <span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-identifier">outvar</span>, <span class="ruby-identifier">buf_was</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">outvar</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">buf_was</span>
-<span class="line-num">35</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">33</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">capture_erb</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">34</span>   <span class="ruby-identifier">outvar</span> = <span class="ruby-identifier">render_opts</span>[<span class="ruby-value">:template_opts</span>][<span class="ruby-value">:outvar</span>]
+<span class="line-num">35</span>   <span class="ruby-identifier">buf_was</span> = <span class="ruby-identifier">instance_variable_get</span>(<span class="ruby-identifier">outvar</span>)
+<span class="line-num">36</span> 
+<span class="line-num">37</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">buf_was</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:capture</span>)
+<span class="line-num">38</span>     <span class="ruby-identifier">buf_was</span>.<span class="ruby-identifier">capture</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">39</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">40</span>     <span class="ruby-keyword">begin</span>
+<span class="line-num">41</span>       <span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-identifier">outvar</span>, <span class="ruby-constant">String</span>.<span class="ruby-identifier">new</span>)
+<span class="line-num">42</span>       <span class="ruby-keyword">yield</span>.<span class="ruby-identifier">to_s</span>
+<span class="line-num">43</span>     <span class="ruby-keyword">ensure</span>
+<span class="line-num">44</span>       <span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-identifier">outvar</span>, <span class="ruby-identifier">buf_was</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">outvar</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">buf_was</span>
+<span class="line-num">45</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">46</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">47</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

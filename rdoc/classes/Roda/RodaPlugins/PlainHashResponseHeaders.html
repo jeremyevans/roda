@@ -36,7 +36,7 @@ Roda::RodaPlugins::PlainHashResponseHeaders
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The response_headers_plain_hash plugin will change <a href="../../Roda.html"><code>Roda</code></a> to use a plain hash for response headers.  This is Roda’s default behavior on Rack 2, but on Rack 3+, <a href="../../Roda.html"><code>Roda</code></a> defaults to using Rack::Headers for response headers for backwards compatibility (Rack::Headers automatically lower cases header keys).</p>
+<p>The plain_hash_response_headers plugin will change <a href="../../Roda.html"><code>Roda</code></a> to use a plain hash for response headers.  This is Roda’s default behavior on Rack 2, but on Rack 3+, <a href="../../Roda.html"><code>Roda</code></a> defaults to using Rack::Headers for response headers for backwards compatibility (Rack::Headers automatically lower cases header keys).</p>
 
 <p>On Rack 3+, you should use this plugin for better performance if you are sure all headers in your application and middleware are already lower case (lower case response header keys are required by the Rack 3 spec).</p>
 </div>

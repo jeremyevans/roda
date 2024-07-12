@@ -164,6 +164,16 @@ Roda::RodaPlugins::Render
 
 <p>In general, these methods are used to wrap the content of the block and inject the content into the output. To get similar behavior with <a href="../../Roda.html"><code>Roda</code></a>, you have a few different options you can use.</p>
 
+<h2 id="module-Roda::RodaPlugins::Render-label-Use+Erubi-3A-3ACaptureBlockEngine">Use Erubi::CaptureBlockEngine<span><a href="#module-Roda::RodaPlugins::Render-label-Use+Erubi-3A-3ACaptureBlockEngine">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p><a href="../../Roda.html"><code>Roda</code></a> defaults to using Erubi for erb template rendering.  Erubi 1.13.0+ includes support for an erb variant that supports blocks in <code>&lt;%=</code> and <code>&lt;%==</code> tags.  To use it:</p>
+
+<pre class="ruby"><span class="ruby-identifier">require</span> <span class="ruby-string">&#39;erubi/capture_block&#39;</span>
+<span class="ruby-identifier">plugin</span> <span class="ruby-value">:render</span>, <span class="ruby-value">template_opts:</span> {<span class="ruby-value">engine_class:</span> <span class="ruby-constant">Erubi</span><span class="ruby-operator">::</span><span class="ruby-constant">CaptureBlockEngine</span>}
+</pre>
+
+<p>See the Erubi documentation for how to capture data inside the block.  Make sure the method call (<code>some_method</code> in the example) returns the output you want added to the rendered body.</p>
+
 <h2 id="module-Roda::RodaPlugins::Render-label-Directly+Inject+Template+Output">Directly Inject Template Output<span><a href="#module-Roda::RodaPlugins::Render-label-Directly+Inject+Template+Output">&para;</a> <a href="#top">&uarr;</a></span></h2>
 
 <p>You can switch from a <code>&lt;%=</code> tag to using a <code>&lt;%</code> tag:</p>
@@ -275,91 +285,91 @@ end %&gt;</pre>
 [show source]
 </a>
 <pre id='method-c-configure-source'>    <span class="ruby-comment"># File lib/roda/plugins/render.rb</span>
-<span class="line-num">232</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
-<span class="line-num">233</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:render</span>]
-<span class="line-num">234</span>     <span class="ruby-identifier">orig_cache</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:render</span>][<span class="ruby-value">:cache</span>]
-<span class="line-num">235</span>     <span class="ruby-identifier">orig_method_cache</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:render</span>][<span class="ruby-value">:template_method_cache</span>]
-<span class="line-num">236</span>     <span class="ruby-identifier">opts</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:render</span>][<span class="ruby-value">:orig_opts</span>].<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">opts</span>)
-<span class="line-num">237</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">238</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:render</span>] = <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">dup</span>
-<span class="line-num">239</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:render</span>][<span class="ruby-value">:orig_opts</span>] = <span class="ruby-identifier">opts</span>
-<span class="line-num">240</span> 
-<span class="line-num">241</span>   <span class="ruby-identifier">opts</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:render</span>]
-<span class="line-num">242</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:engine</span>] = (<span class="ruby-identifier">opts</span>[<span class="ruby-value">:engine</span>] <span class="ruby-operator">||</span> <span class="ruby-string">&quot;erb&quot;</span>).<span class="ruby-identifier">dup</span>.<span class="ruby-identifier">freeze</span>
-<span class="line-num">243</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:views</span>] = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">expand_path</span>(<span class="ruby-identifier">opts</span>[<span class="ruby-value">:views</span>]<span class="ruby-operator">||</span><span class="ruby-string">&quot;views&quot;</span>).<span class="ruby-identifier">freeze</span>
-<span class="line-num">244</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:allowed_paths</span>] <span class="ruby-operator">||=</span> [<span class="ruby-identifier">opts</span>[<span class="ruby-value">:views</span>]].<span class="ruby-identifier">freeze</span>
-<span class="line-num">245</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:allowed_paths</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:allowed_paths</span>].<span class="ruby-identifier">map</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">expand_path</span>(<span class="ruby-identifier">f</span>, <span class="ruby-keyword">nil</span>)}.<span class="ruby-identifier">uniq</span>.<span class="ruby-identifier">freeze</span>
-<span class="line-num">246</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:check_paths</span>] = <span class="ruby-keyword">true</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:check_paths</span>)
-<span class="line-num">247</span> 
-<span class="line-num">248</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:check_template_mtime</span>)
-<span class="line-num">249</span>     <span class="ruby-identifier">opts</span>[<span class="ruby-value">:check_template_mtime</span>] = <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:cache</span>] <span class="ruby-operator">==</span> <span class="ruby-keyword">false</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:explicit_cache</span>]
-<span class="line-num">250</span>       <span class="ruby-keyword">true</span>
-<span class="line-num">251</span>     <span class="ruby-keyword">else</span>
-<span class="line-num">252</span>       <span class="ruby-constant">ENV</span>[<span class="ruby-string">&#39;RACK_ENV&#39;</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&#39;development&#39;</span>
-<span class="line-num">253</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">254</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">255</span> 
-<span class="line-num">256</span>   <span class="ruby-keyword">begin</span>
-<span class="line-num">257</span>     <span class="ruby-identifier">app</span>.<span class="ruby-identifier">const_get</span>(<span class="ruby-value">:RodaCompiledTemplates</span>, <span class="ruby-keyword">false</span>)
-<span class="line-num">258</span>   <span class="ruby-keyword">rescue</span> <span class="ruby-constant">NameError</span>
-<span class="line-num">259</span>     <span class="ruby-identifier">compiled_templates_module</span> = <span class="ruby-constant">Module</span>.<span class="ruby-identifier">new</span>
-<span class="line-num">260</span>     <span class="ruby-identifier">app</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:include</span>, <span class="ruby-identifier">compiled_templates_module</span>)
-<span class="line-num">261</span>     <span class="ruby-identifier">app</span>.<span class="ruby-identifier">const_set</span>(<span class="ruby-value">:RodaCompiledTemplates</span>, <span class="ruby-identifier">compiled_templates_module</span>)
-<span class="line-num">262</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">263</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:template_method_cache</span>] = <span class="ruby-identifier">orig_method_cache</span> <span class="ruby-operator">||</span> (<span class="ruby-identifier">opts</span>[<span class="ruby-value">:cache_class</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">RodaCache</span>).<span class="ruby-identifier">new</span>
-<span class="line-num">264</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:template_method_cache</span>][<span class="ruby-value">:_roda_layout</span>] = <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:template_method_cache</span>][<span class="ruby-value">:_roda_layout</span>]
-<span class="line-num">265</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:cache</span>] = <span class="ruby-identifier">orig_cache</span> <span class="ruby-operator">||</span> (<span class="ruby-identifier">opts</span>[<span class="ruby-value">:cache_class</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">RodaCache</span>).<span class="ruby-identifier">new</span>
-<span class="line-num">266</span> 
-<span class="line-num">267</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:layout_opts</span>] = (<span class="ruby-identifier">opts</span>[<span class="ruby-value">:layout_opts</span>] <span class="ruby-operator">||</span> {}).<span class="ruby-identifier">dup</span>
-<span class="line-num">268</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:layout_opts</span>][<span class="ruby-value">:_is_layout</span>] = <span class="ruby-keyword">true</span>
-<span class="line-num">269</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:layout_opts</span>][<span class="ruby-value">:views</span>]
-<span class="line-num">270</span>     <span class="ruby-identifier">opts</span>[<span class="ruby-value">:layout_opts</span>][<span class="ruby-value">:views</span>] = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">expand_path</span>(<span class="ruby-identifier">opts</span>[<span class="ruby-value">:layout_opts</span>][<span class="ruby-value">:views</span>]).<span class="ruby-identifier">freeze</span>
-<span class="line-num">271</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">272</span> 
-<span class="line-num">273</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">layout</span> = <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-value">:layout</span>, <span class="ruby-keyword">true</span>)
-<span class="line-num">274</span>     <span class="ruby-identifier">opts</span>[<span class="ruby-value">:layout</span>] = <span class="ruby-keyword">true</span>
-<span class="line-num">275</span> 
-<span class="line-num">276</span>     <span class="ruby-keyword">case</span> <span class="ruby-identifier">layout</span>
-<span class="line-num">277</span>     <span class="ruby-keyword">when</span> <span class="ruby-constant">Hash</span>
-<span class="line-num">278</span>       <span class="ruby-identifier">opts</span>[<span class="ruby-value">:layout_opts</span>].<span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">layout</span>)
-<span class="line-num">279</span>     <span class="ruby-keyword">when</span> <span class="ruby-keyword">true</span>
-<span class="line-num">280</span>       <span class="ruby-identifier">opts</span>[<span class="ruby-value">:layout_opts</span>][<span class="ruby-value">:template</span>] <span class="ruby-operator">||=</span> <span class="ruby-string">&#39;layout&#39;</span>
-<span class="line-num">281</span>     <span class="ruby-keyword">else</span>
-<span class="line-num">282</span>       <span class="ruby-identifier">opts</span>[<span class="ruby-value">:layout_opts</span>][<span class="ruby-value">:template</span>] = <span class="ruby-identifier">layout</span>
-<span class="line-num">283</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">284</span> 
-<span class="line-num">285</span>     <span class="ruby-identifier">opts</span>[<span class="ruby-value">:optimize_layout</span>] = (<span class="ruby-identifier">opts</span>[<span class="ruby-value">:layout_opts</span>][<span class="ruby-value">:template</span>] <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:layout_opts</span>].<span class="ruby-identifier">keys</span>.<span class="ruby-identifier">sort</span> <span class="ruby-operator">==</span> [<span class="ruby-value">:_is_layout</span>, <span class="ruby-value">:template</span>])
-<span class="line-num">286</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">287</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:layout_opts</span>].<span class="ruby-identifier">freeze</span>
+<span class="line-num">245</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
+<span class="line-num">246</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:render</span>]
+<span class="line-num">247</span>     <span class="ruby-identifier">orig_cache</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:render</span>][<span class="ruby-value">:cache</span>]
+<span class="line-num">248</span>     <span class="ruby-identifier">orig_method_cache</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:render</span>][<span class="ruby-value">:template_method_cache</span>]
+<span class="line-num">249</span>     <span class="ruby-identifier">opts</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:render</span>][<span class="ruby-value">:orig_opts</span>].<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">opts</span>)
+<span class="line-num">250</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">251</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:render</span>] = <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">dup</span>
+<span class="line-num">252</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:render</span>][<span class="ruby-value">:orig_opts</span>] = <span class="ruby-identifier">opts</span>
+<span class="line-num">253</span> 
+<span class="line-num">254</span>   <span class="ruby-identifier">opts</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:render</span>]
+<span class="line-num">255</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:engine</span>] = (<span class="ruby-identifier">opts</span>[<span class="ruby-value">:engine</span>] <span class="ruby-operator">||</span> <span class="ruby-string">&quot;erb&quot;</span>).<span class="ruby-identifier">dup</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">256</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:views</span>] = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">expand_path</span>(<span class="ruby-identifier">opts</span>[<span class="ruby-value">:views</span>]<span class="ruby-operator">||</span><span class="ruby-string">&quot;views&quot;</span>).<span class="ruby-identifier">freeze</span>
+<span class="line-num">257</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:allowed_paths</span>] <span class="ruby-operator">||=</span> [<span class="ruby-identifier">opts</span>[<span class="ruby-value">:views</span>]].<span class="ruby-identifier">freeze</span>
+<span class="line-num">258</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:allowed_paths</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:allowed_paths</span>].<span class="ruby-identifier">map</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">expand_path</span>(<span class="ruby-identifier">f</span>, <span class="ruby-keyword">nil</span>)}.<span class="ruby-identifier">uniq</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">259</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:check_paths</span>] = <span class="ruby-keyword">true</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:check_paths</span>)
+<span class="line-num">260</span> 
+<span class="line-num">261</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:check_template_mtime</span>)
+<span class="line-num">262</span>     <span class="ruby-identifier">opts</span>[<span class="ruby-value">:check_template_mtime</span>] = <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:cache</span>] <span class="ruby-operator">==</span> <span class="ruby-keyword">false</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:explicit_cache</span>]
+<span class="line-num">263</span>       <span class="ruby-keyword">true</span>
+<span class="line-num">264</span>     <span class="ruby-keyword">else</span>
+<span class="line-num">265</span>       <span class="ruby-constant">ENV</span>[<span class="ruby-string">&#39;RACK_ENV&#39;</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&#39;development&#39;</span>
+<span class="line-num">266</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">267</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">268</span> 
+<span class="line-num">269</span>   <span class="ruby-keyword">begin</span>
+<span class="line-num">270</span>     <span class="ruby-identifier">app</span>.<span class="ruby-identifier">const_get</span>(<span class="ruby-value">:RodaCompiledTemplates</span>, <span class="ruby-keyword">false</span>)
+<span class="line-num">271</span>   <span class="ruby-keyword">rescue</span> <span class="ruby-constant">NameError</span>
+<span class="line-num">272</span>     <span class="ruby-identifier">compiled_templates_module</span> = <span class="ruby-constant">Module</span>.<span class="ruby-identifier">new</span>
+<span class="line-num">273</span>     <span class="ruby-identifier">app</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:include</span>, <span class="ruby-identifier">compiled_templates_module</span>)
+<span class="line-num">274</span>     <span class="ruby-identifier">app</span>.<span class="ruby-identifier">const_set</span>(<span class="ruby-value">:RodaCompiledTemplates</span>, <span class="ruby-identifier">compiled_templates_module</span>)
+<span class="line-num">275</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">276</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:template_method_cache</span>] = <span class="ruby-identifier">orig_method_cache</span> <span class="ruby-operator">||</span> (<span class="ruby-identifier">opts</span>[<span class="ruby-value">:cache_class</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">RodaCache</span>).<span class="ruby-identifier">new</span>
+<span class="line-num">277</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:template_method_cache</span>][<span class="ruby-value">:_roda_layout</span>] = <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:template_method_cache</span>][<span class="ruby-value">:_roda_layout</span>]
+<span class="line-num">278</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:cache</span>] = <span class="ruby-identifier">orig_cache</span> <span class="ruby-operator">||</span> (<span class="ruby-identifier">opts</span>[<span class="ruby-value">:cache_class</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">RodaCache</span>).<span class="ruby-identifier">new</span>
+<span class="line-num">279</span> 
+<span class="line-num">280</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:layout_opts</span>] = (<span class="ruby-identifier">opts</span>[<span class="ruby-value">:layout_opts</span>] <span class="ruby-operator">||</span> {}).<span class="ruby-identifier">dup</span>
+<span class="line-num">281</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:layout_opts</span>][<span class="ruby-value">:_is_layout</span>] = <span class="ruby-keyword">true</span>
+<span class="line-num">282</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:layout_opts</span>][<span class="ruby-value">:views</span>]
+<span class="line-num">283</span>     <span class="ruby-identifier">opts</span>[<span class="ruby-value">:layout_opts</span>][<span class="ruby-value">:views</span>] = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">expand_path</span>(<span class="ruby-identifier">opts</span>[<span class="ruby-value">:layout_opts</span>][<span class="ruby-value">:views</span>]).<span class="ruby-identifier">freeze</span>
+<span class="line-num">284</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">285</span> 
+<span class="line-num">286</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">layout</span> = <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-value">:layout</span>, <span class="ruby-keyword">true</span>)
+<span class="line-num">287</span>     <span class="ruby-identifier">opts</span>[<span class="ruby-value">:layout</span>] = <span class="ruby-keyword">true</span>
 <span class="line-num">288</span> 
-<span class="line-num">289</span>   <span class="ruby-identifier">template_opts</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:template_opts</span>] = (<span class="ruby-identifier">opts</span>[<span class="ruby-value">:template_opts</span>] <span class="ruby-operator">||</span> {}).<span class="ruby-identifier">dup</span>
-<span class="line-num">290</span>   <span class="ruby-identifier">template_opts</span>[<span class="ruby-value">:outvar</span>] <span class="ruby-operator">||=</span> <span class="ruby-string">&#39;@_out_buf&#39;</span>
-<span class="line-num">291</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">template_opts</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:default_encoding</span>)
-<span class="line-num">292</span>     <span class="ruby-identifier">template_opts</span>[<span class="ruby-value">:default_encoding</span>] = <span class="ruby-constant">Encoding</span>.<span class="ruby-identifier">default_external</span>
-<span class="line-num">293</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">294</span> 
-<span class="line-num">295</span>   <span class="ruby-identifier">engine_opts</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:engine_opts</span>] = (<span class="ruby-identifier">opts</span>[<span class="ruby-value">:engine_opts</span>] <span class="ruby-operator">||</span> {}).<span class="ruby-identifier">dup</span>
-<span class="line-num">296</span>   <span class="ruby-identifier">engine_opts</span>.<span class="ruby-identifier">to_a</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">k</span>,<span class="ruby-identifier">v</span><span class="ruby-operator">|</span>
-<span class="line-num">297</span>     <span class="ruby-identifier">engine_opts</span>[<span class="ruby-identifier">k</span>] = <span class="ruby-identifier">v</span>.<span class="ruby-identifier">dup</span>.<span class="ruby-identifier">freeze</span>
-<span class="line-num">298</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">299</span> 
-<span class="line-num">300</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">escape</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:escape</span>]
-<span class="line-num">301</span>     <span class="ruby-identifier">require</span> <span class="ruby-string">&#39;tilt/erubi&#39;</span>
-<span class="line-num">302</span> 
-<span class="line-num">303</span>     <span class="ruby-keyword">case</span> <span class="ruby-identifier">escape</span>
-<span class="line-num">304</span>     <span class="ruby-keyword">when</span> <span class="ruby-constant">String</span>, <span class="ruby-constant">Array</span>
-<span class="line-num">305</span>       <span class="ruby-constant">Array</span>(<span class="ruby-identifier">escape</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">engine</span><span class="ruby-operator">|</span>
-<span class="line-num">306</span>         <span class="ruby-identifier">engine_opts</span>[<span class="ruby-identifier">engine</span>] = (<span class="ruby-identifier">engine_opts</span>[<span class="ruby-identifier">engine</span>] <span class="ruby-operator">||</span> {}).<span class="ruby-identifier">merge</span>(<span class="ruby-value">:escape</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-keyword">true</span>).<span class="ruby-identifier">freeze</span>
-<span class="line-num">307</span>       <span class="ruby-keyword">end</span>
-<span class="line-num">308</span>     <span class="ruby-keyword">else</span>
-<span class="line-num">309</span>       <span class="ruby-identifier">template_opts</span>[<span class="ruby-value">:escape</span>] = <span class="ruby-keyword">true</span>
-<span class="line-num">310</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">289</span>     <span class="ruby-keyword">case</span> <span class="ruby-identifier">layout</span>
+<span class="line-num">290</span>     <span class="ruby-keyword">when</span> <span class="ruby-constant">Hash</span>
+<span class="line-num">291</span>       <span class="ruby-identifier">opts</span>[<span class="ruby-value">:layout_opts</span>].<span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">layout</span>)
+<span class="line-num">292</span>     <span class="ruby-keyword">when</span> <span class="ruby-keyword">true</span>
+<span class="line-num">293</span>       <span class="ruby-identifier">opts</span>[<span class="ruby-value">:layout_opts</span>][<span class="ruby-value">:template</span>] <span class="ruby-operator">||=</span> <span class="ruby-string">&#39;layout&#39;</span>
+<span class="line-num">294</span>     <span class="ruby-keyword">else</span>
+<span class="line-num">295</span>       <span class="ruby-identifier">opts</span>[<span class="ruby-value">:layout_opts</span>][<span class="ruby-value">:template</span>] = <span class="ruby-identifier">layout</span>
+<span class="line-num">296</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">297</span> 
+<span class="line-num">298</span>     <span class="ruby-identifier">opts</span>[<span class="ruby-value">:optimize_layout</span>] = (<span class="ruby-identifier">opts</span>[<span class="ruby-value">:layout_opts</span>][<span class="ruby-value">:template</span>] <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:layout_opts</span>].<span class="ruby-identifier">keys</span>.<span class="ruby-identifier">sort</span> <span class="ruby-operator">==</span> [<span class="ruby-value">:_is_layout</span>, <span class="ruby-value">:template</span>])
+<span class="line-num">299</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">300</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:layout_opts</span>].<span class="ruby-identifier">freeze</span>
+<span class="line-num">301</span> 
+<span class="line-num">302</span>   <span class="ruby-identifier">template_opts</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:template_opts</span>] = (<span class="ruby-identifier">opts</span>[<span class="ruby-value">:template_opts</span>] <span class="ruby-operator">||</span> {}).<span class="ruby-identifier">dup</span>
+<span class="line-num">303</span>   <span class="ruby-identifier">template_opts</span>[<span class="ruby-value">:outvar</span>] <span class="ruby-operator">||=</span> <span class="ruby-string">&#39;@_out_buf&#39;</span>
+<span class="line-num">304</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">template_opts</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:default_encoding</span>)
+<span class="line-num">305</span>     <span class="ruby-identifier">template_opts</span>[<span class="ruby-value">:default_encoding</span>] = <span class="ruby-constant">Encoding</span>.<span class="ruby-identifier">default_external</span>
+<span class="line-num">306</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">307</span> 
+<span class="line-num">308</span>   <span class="ruby-identifier">engine_opts</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:engine_opts</span>] = (<span class="ruby-identifier">opts</span>[<span class="ruby-value">:engine_opts</span>] <span class="ruby-operator">||</span> {}).<span class="ruby-identifier">dup</span>
+<span class="line-num">309</span>   <span class="ruby-identifier">engine_opts</span>.<span class="ruby-identifier">to_a</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">k</span>,<span class="ruby-identifier">v</span><span class="ruby-operator">|</span>
+<span class="line-num">310</span>     <span class="ruby-identifier">engine_opts</span>[<span class="ruby-identifier">k</span>] = <span class="ruby-identifier">v</span>.<span class="ruby-identifier">dup</span>.<span class="ruby-identifier">freeze</span>
 <span class="line-num">311</span>   <span class="ruby-keyword">end</span>
 <span class="line-num">312</span> 
-<span class="line-num">313</span>   <span class="ruby-identifier">template_opts</span>.<span class="ruby-identifier">freeze</span>
-<span class="line-num">314</span>   <span class="ruby-identifier">engine_opts</span>.<span class="ruby-identifier">freeze</span>
-<span class="line-num">315</span>   <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">freeze</span>
-<span class="line-num">316</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">313</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">escape</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:escape</span>]
+<span class="line-num">314</span>     <span class="ruby-identifier">require</span> <span class="ruby-string">&#39;tilt/erubi&#39;</span>
+<span class="line-num">315</span> 
+<span class="line-num">316</span>     <span class="ruby-keyword">case</span> <span class="ruby-identifier">escape</span>
+<span class="line-num">317</span>     <span class="ruby-keyword">when</span> <span class="ruby-constant">String</span>, <span class="ruby-constant">Array</span>
+<span class="line-num">318</span>       <span class="ruby-constant">Array</span>(<span class="ruby-identifier">escape</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">engine</span><span class="ruby-operator">|</span>
+<span class="line-num">319</span>         <span class="ruby-identifier">engine_opts</span>[<span class="ruby-identifier">engine</span>] = (<span class="ruby-identifier">engine_opts</span>[<span class="ruby-identifier">engine</span>] <span class="ruby-operator">||</span> {}).<span class="ruby-identifier">merge</span>(<span class="ruby-value">:escape</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-keyword">true</span>).<span class="ruby-identifier">freeze</span>
+<span class="line-num">320</span>       <span class="ruby-keyword">end</span>
+<span class="line-num">321</span>     <span class="ruby-keyword">else</span>
+<span class="line-num">322</span>       <span class="ruby-identifier">template_opts</span>[<span class="ruby-value">:escape</span>] = <span class="ruby-keyword">true</span>
+<span class="line-num">323</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">324</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">325</span> 
+<span class="line-num">326</span>   <span class="ruby-identifier">template_opts</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">327</span>   <span class="ruby-identifier">engine_opts</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">328</span>   <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">329</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-class' id='method-method-c-tilt_template_compiled_method'>
@@ -376,9 +386,9 @@ end %&gt;</pre>
 [show source]
 </a>
 <pre id='method-c-tilt_template_compiled_method-source'>    <span class="ruby-comment"># File lib/roda/plugins/render.rb</span>
-<span class="line-num">220</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">tilt_template_compiled_method</span>(<span class="ruby-identifier">template</span>, <span class="ruby-identifier">locals_keys</span>, <span class="ruby-identifier">scope_class</span>)
-<span class="line-num">221</span>   <span class="ruby-identifier">template</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:compiled_method</span>, <span class="ruby-identifier">locals_keys</span>, <span class="ruby-identifier">scope_class</span>)
-<span class="line-num">222</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">233</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">tilt_template_compiled_method</span>(<span class="ruby-identifier">template</span>, <span class="ruby-identifier">locals_keys</span>, <span class="ruby-identifier">scope_class</span>)
+<span class="line-num">234</span>   <span class="ruby-identifier">template</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:compiled_method</span>, <span class="ruby-identifier">locals_keys</span>, <span class="ruby-identifier">scope_class</span>)
+<span class="line-num">235</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>
