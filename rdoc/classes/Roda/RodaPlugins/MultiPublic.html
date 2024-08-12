@@ -45,7 +45,7 @@ Roda::RodaPlugins::MultiPublic
   <span class="ruby-value">font:</span> <span class="ruby-string">&#39;assets/fonts&#39;</span>,
   <span class="ruby-value">form:</span> <span class="ruby-string">&#39;static/forms/pdfs&#39;</span>
 
-<span class="ruby-identifier">r</span>.<span class="ruby-identifier">route</span> <span class="ruby-keyword">do</span>
+<span class="ruby-identifier">route</span> <span class="ruby-keyword">do</span>
   <span class="ruby-identifier">r</span>.<span class="ruby-identifier">on</span> <span class="ruby-string">&quot;images&quot;</span> <span class="ruby-keyword">do</span>
     <span class="ruby-identifier">r</span>.<span class="ruby-identifier">multi_public</span>(<span class="ruby-value">:img</span>)
   <span class="ruby-keyword">end</span>
@@ -67,7 +67,7 @@ Roda::RodaPlugins::MultiPublic
   <span class="ruby-string">&#39;fonts&#39;</span>  <span class="ruby-operator">=&gt;</span> <span class="ruby-string">&#39;assets/fonts&#39;</span>,
   <span class="ruby-string">&#39;forms&#39;</span>  <span class="ruby-operator">=&gt;</span> <span class="ruby-string">&#39;static/forms/pdfs&#39;</span>
 
-<span class="ruby-identifier">r</span>.<span class="ruby-identifier">route</span> <span class="ruby-keyword">do</span>
+<span class="ruby-identifier">route</span> <span class="ruby-keyword">do</span>
   <span class="ruby-identifier">r</span>.<span class="ruby-identifier">on</span> <span class="ruby-node">%w&quot;images fonts forms&quot;</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">dir</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">r</span>.<span class="ruby-identifier">multi_public</span>(<span class="ruby-identifier">dir</span>)
   <span class="ruby-keyword">end</span>
@@ -81,7 +81,7 @@ Roda::RodaPlugins::MultiPublic
   <span class="ruby-string">&#39;fonts&#39;</span>  <span class="ruby-operator">=&gt;</span> [<span class="ruby-string">&#39;assets/fonts&#39;</span>, {<span class="ruby-string">&#39;Cache-Control&#39;</span><span class="ruby-operator">=&gt;</span><span class="ruby-string">&#39;max-age=31536000&#39;</span>}, <span class="ruby-string">&#39;font/ttf&#39;</span>],
   <span class="ruby-string">&#39;forms&#39;</span>  <span class="ruby-operator">=&gt;</span> [<span class="ruby-string">&#39;static/forms/pdfs&#39;</span>, <span class="ruby-keyword">nil</span>, <span class="ruby-string">&#39;application/pdf&#39;</span>]
 
-<span class="ruby-identifier">r</span>.<span class="ruby-identifier">route</span> <span class="ruby-keyword">do</span>
+<span class="ruby-identifier">route</span> <span class="ruby-keyword">do</span>
   <span class="ruby-identifier">r</span>.<span class="ruby-identifier">on</span> <span class="ruby-node">%w&quot;images fonts forms&quot;</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">dir</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">r</span>.<span class="ruby-identifier">multi_public</span>(<span class="ruby-identifier">dir</span>)
   <span class="ruby-keyword">end</span>

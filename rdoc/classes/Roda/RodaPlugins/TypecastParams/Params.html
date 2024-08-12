@@ -429,7 +429,7 @@ Superclass:
 
 <p>You can use <code>dig</code> to get access to nested arrays by using <code>:array</code> or <code>:array!</code> as the first argument and providing the type in the second argument:</p>
 
-<pre class="ruby"><span class="ruby-identifier">tp</span>.<span class="ruby-identifier">dig</span>(<span class="ruby-value">:array</span>, <span class="ruby-value">:pos_int</span>, <span class="ruby-string">&#39;foo&#39;</span>, <span class="ruby-string">&#39;bar&#39;</span>, <span class="ruby-string">&#39;baz&#39;</span>)  <span class="ruby-comment"># tp[&#39;foo&#39;][&#39;bar&#39;].array(:int, &#39;baz&#39;)</span>
+<pre class="ruby"><span class="ruby-identifier">tp</span>.<span class="ruby-identifier">dig</span>(<span class="ruby-value">:array</span>, <span class="ruby-value">:pos_int</span>, <span class="ruby-string">&#39;foo&#39;</span>, <span class="ruby-string">&#39;bar&#39;</span>, <span class="ruby-string">&#39;baz&#39;</span>)  <span class="ruby-comment"># tp[&#39;foo&#39;][&#39;bar&#39;].array(:pos_int, &#39;baz&#39;)</span>
 </pre>
 
 </div>
