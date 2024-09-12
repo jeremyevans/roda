@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+<head>
+<title>Roda::RodaPlugins::Hsts</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<link href='../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<script type='text/javascript'>
+  function popupCode(url) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+  
+  function toggleCode(id) {
+    var code = document.getElementById(id)
+  
+    code.style.display = code.style.display != 'block' ? 'block' : 'none'
+    return true
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+</script>
+</head>
+<body class='page'>
+<div class='class' id='wrapper'>
+<div class='header'>
+<h1 class='name'><span class='type'>module</span>
+Roda::RodaPlugins::Hsts
+</h1>
+<ol class='paths'>
+<li>
+<a href="../../../files/lib/roda/plugins/hsts_rb.html">lib/roda/plugins/hsts.rb</a>
+</li>
+</ol>
+</div>
+<div id='content'>
+<div id='text'>
+<div id='description'>
+<p>The hsts plugin allows for easily configuring an appropriate Strict-Transport-Security response header for the application:</p>
+
+<pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:hsts</span>
+<span class="ruby-comment"># Strict-Transport-Security: max-age=63072000; includeSubDomains</span>
+
+<span class="ruby-identifier">plugin</span> <span class="ruby-value">:hsts</span>, <span class="ruby-value">preload:</span> <span class="ruby-keyword">true</span>
+<span class="ruby-comment"># Strict-Transport-Security: max-age=63072000; includeSubDomains; preload</span>
+
+<span class="ruby-identifier">plugin</span> <span class="ruby-value">:hsts</span>, <span class="ruby-value">max_age:</span> <span class="ruby-value">31536000</span>, <span class="ruby-value">subdomains:</span> <span class="ruby-keyword">false</span>
+<span class="ruby-comment"># Strict-Transport-Security: max-age=31536000</span>
+</pre>
+</div>
+<div id='method-list'>
+<h2>Methods</h2>
+<h3>Public Class</h3>
+<ol>
+<li><a href="#method-c-configure">configure</a></li>
+<li><a href="#method-c-load_dependencies">load_dependencies</a></li>
+</ol>
+</div>
+<div id='context'>
+</div>
+<div id='section'>
+<div id='methods'>
+<h2>Public Class methods</h2>
+<div class='method public-class' id='method-method-c-configure'>
+<a name='method-c-configure'></a>
+<div class='synopsis'>
+<span class='name'>configure</span><span class='arguments'>(app, opts=OPTS)</span>
+
+</div>
+<div class='description'>
+
+<p>Configure the Strict-Transport-Security header. Options:</p>
+<table class="rdoc-list note-list"><tbody><tr><td class='label'>:max_age </td><td>
+<p>Set max-age in seconds (default is 63072000, two years)</p>
+</td></tr><tr><td class='label'>:preload </td><td>
+<p>Set preload, so the domain can be included in HSTS preload lists</p>
+</td></tr><tr><td class='label'>:subdomains </td><td>
+<p>Set to false to not set includeSubDomains. By default, includeSubDomains is set to enforce HTTPS for subdomains.</p>
+</td></tr></tbody></table>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-configure-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/hsts.rb</span>
+<span class="line-num">28</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
+<span class="line-num">29</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:default_headers</span>, <span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">STRICT_TRANSPORT_SECURITY</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-node">&quot;max-age=#{opts[:max_age]||63072000}#{&#39;; includeSubDomains&#39; unless opts[:subdomains] == false}#{&#39;; preload&#39; if opts[:preload]}&quot;</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">30</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-class' id='method-method-c-load_dependencies'>
+<a name='method-c-load_dependencies'></a>
+<div class='synopsis'>
+<span class='name'>load_dependencies</span><span class='arguments'>(app, opts=OPTS)</span>
+
+</div>
+<div class='description'>
+
+<p>Ensure default_headers plugin is loaded first</p>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-load_dependencies-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-c-load_dependencies-source'>   <span class="ruby-comment"># File lib/roda/plugins/hsts.rb</span>
+<span class="line-num">19</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">load_dependencies</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
+<span class="line-num">20</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:default_headers</span>
+<span class="line-num">21</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div id='footer-push'></div>
+</div>
+<div id='footer'>
+<a href="https://github.com/jeremyevans/hanna"><strong>Hanna</strong> RDoc template</a>
+</div>
+</body>
+</html>
