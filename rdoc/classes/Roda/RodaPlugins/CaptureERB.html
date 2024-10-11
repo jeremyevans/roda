@@ -44,7 +44,7 @@ Roda::RodaPlugins::CaptureERB
 
 <p><code>capture_erb</code> can be used inside other methods that are called inside templates.  It can be combined with the inject_erb plugin to wrap template blocks with arbitrary output and then inject the wrapped output into the template.</p>
 
-<p>If the output buffer object responds to <code>capture</code> (e.g. when <code>erubi/capture_block</code> is being used as the template engine), this will call <code>capture</code> on the output buffer object, instead of setting the output buffer object temporarily to a new object.</p>
+<p>If the output buffer object responds to <code>capture</code> and is not an instance of String (e.g. when <code>erubi/capture_block</code> is being used as the template engine), this will call <code>capture</code> on the output buffer object, instead of setting the output buffer object temporarily to a new object.</p>
 </div>
 <div id='method-list'>
 <h2>Methods</h2>
@@ -78,9 +78,9 @@ Roda::RodaPlugins::CaptureERB
 [show source]
 </a>
 <pre id='method-c-load_dependencies-source'>   <span class="ruby-comment"># File lib/roda/plugins/capture_erb.rb</span>
-<span class="line-num">24</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">load_dependencies</span>(<span class="ruby-identifier">app</span>)
-<span class="line-num">25</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:render</span>
-<span class="line-num">26</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">25</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">load_dependencies</span>(<span class="ruby-identifier">app</span>)
+<span class="line-num">26</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:render</span>
+<span class="line-num">27</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

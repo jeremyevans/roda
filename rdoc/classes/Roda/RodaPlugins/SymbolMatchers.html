@@ -57,7 +57,7 @@ Roda::RodaPlugins::SymbolMatchers
 </td></tr><tr><td class='label'>:rest </td><td>
 <p><code>/(.*)/</code>, all remaining characters, if any</p>
 </td></tr><tr><td class='label'>:w </td><td>
-<p><code>/(\w+)/</code>, a alphanumeric segment</p>
+<p><code>/(\w+)/</code>, an alphanumeric segment</p>
 </td></tr></tbody></table>
 
 <p>If the placeholder_string_matchers plugin is loaded, this feature also applies to placeholders in strings, so the following:</p>
@@ -71,10 +71,10 @@ Roda::RodaPlugins::SymbolMatchers
 
 <p>If using this plugin with the params_capturing plugin, this plugin should be loaded first.</p>
 
-<p>You can provide a block when calling <code>symbol_matcher</code>, and it will be called for all matches to allow for type conversion.  The block must return an array:</p>
+<p>You can provide a block when calling <code>symbol_matcher</code>, and it will be called for all matches to allow for type conversion:</p>
 
 <pre class="ruby"><span class="ruby-identifier">symbol_matcher</span>(<span class="ruby-value">:date</span>, <span class="ruby-regexp">/(\d\d\d\d)-(\d\d)-(\d\d)/</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">y</span>, <span class="ruby-identifier">m</span>, <span class="ruby-identifier">d</span><span class="ruby-operator">|</span>
-  [<span class="ruby-constant">Date</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">y</span>.<span class="ruby-identifier">to_i</span>, <span class="ruby-identifier">m</span>.<span class="ruby-identifier">to_i</span>, <span class="ruby-identifier">d</span>.<span class="ruby-identifier">to_i</span>)]
+  <span class="ruby-constant">Date</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">y</span>.<span class="ruby-identifier">to_i</span>, <span class="ruby-identifier">m</span>.<span class="ruby-identifier">to_i</span>, <span class="ruby-identifier">d</span>.<span class="ruby-identifier">to_i</span>)
 <span class="ruby-keyword">end</span>
 
 <span class="ruby-identifier">route</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span>
@@ -90,11 +90,34 @@ Roda::RodaPlugins::SymbolMatchers
   <span class="ruby-identifier">y</span> = <span class="ruby-identifier">y</span>.<span class="ruby-identifier">to_i</span>
   <span class="ruby-identifier">m</span> = <span class="ruby-identifier">m</span>.<span class="ruby-identifier">to_i</span>
   <span class="ruby-identifier">d</span> = <span class="ruby-identifier">d</span>.<span class="ruby-identifier">to_i</span>
-  [<span class="ruby-constant">Date</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">y</span>, <span class="ruby-identifier">m</span>, <span class="ruby-identifier">d</span>)] <span class="ruby-keyword">if</span> <span class="ruby-constant">Date</span>.<span class="ruby-identifier">valid_date?</span>(<span class="ruby-identifier">y</span>, <span class="ruby-identifier">m</span>, <span class="ruby-identifier">d</span>)
+  <span class="ruby-constant">Date</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">y</span>, <span class="ruby-identifier">m</span>, <span class="ruby-identifier">d</span>) <span class="ruby-keyword">if</span> <span class="ruby-constant">Date</span>.<span class="ruby-identifier">valid_date?</span>(<span class="ruby-identifier">y</span>, <span class="ruby-identifier">m</span>, <span class="ruby-identifier">d</span>)
 <span class="ruby-keyword">end</span>
 </pre>
 
-<p>However, if providing a block to the symbol_matchers plugin, the symbol may not work with the params_capturing plugin.</p>
+<p>You can have the block return an array to yield multiple captures.</p>
+
+<p>The second argument to symbol_matcher can be a symbol already registered as a symbol matcher. This can DRY up code that wants a conversion performed by an existing class matcher or to use the same regexp:</p>
+
+<pre class="ruby"><span class="ruby-identifier">symbol_matcher</span> <span class="ruby-value">:employee_id</span>, <span class="ruby-value">:d</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">id</span><span class="ruby-operator">|</span>
+  <span class="ruby-identifier">id</span>.<span class="ruby-identifier">to_i</span>
+<span class="ruby-keyword">end</span>
+<span class="ruby-identifier">symbol_matcher</span> <span class="ruby-value">:employee</span>, <span class="ruby-value">:employee_id</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">id</span><span class="ruby-operator">|</span>
+  <span class="ruby-constant">Employee</span>[<span class="ruby-identifier">id</span>]
+<span class="ruby-keyword">end</span>
+</pre>
+
+<p>With the above example, the :d matcher matches only decimal strings, but yields them as string.  The registered :employee_id matcher converts the decimal string to an integer.  The registered :employee matcher builds on that and uses the integer to lookup the related employee.  If there is no employee with that id, then the :employee matcher will not match.</p>
+
+<p>If using the class_matchers plugin, you can provide a recognized class matcher as the second argument to symbol_matcher, and it will work in a similar manner:</p>
+
+<pre class="ruby"><span class="ruby-identifier">symbol_matcher</span> <span class="ruby-value">:employee</span>, <span class="ruby-constant">Integer</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">id</span><span class="ruby-operator">|</span>
+  <span class="ruby-constant">Employee</span>[<span class="ruby-identifier">id</span>]
+<span class="ruby-keyword">end</span>
+</pre>
+
+<p>Blocks passed to the symbol matchers plugin are evaluated in route block context.</p>
+
+<p>If providing a block to the symbol_matchers plugin, the symbol may not work with the params_capturing plugin. Note that the use of symbol matchers inside strings when using the placeholder_string_matchers plugin only uses the regexp, it does not respect the conversion blocks registered with the symbols.</p>
 </div>
 <div id='method-list'>
 <h2>Methods</h2>
@@ -129,12 +152,13 @@ Roda::RodaPlugins::SymbolMatchers
 <a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-configure-source&#39;); return false'>
 [show source]
 </a>
-<pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/symbol_matchers.rb</span>
-<span class="line-num">74</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>)
-<span class="line-num">75</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">symbol_matcher</span>(<span class="ruby-value">:d</span>, <span class="ruby-regexp">/(\d+)/</span>)
-<span class="line-num">76</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">symbol_matcher</span>(<span class="ruby-value">:w</span>, <span class="ruby-regexp">/(\w+)/</span>)
-<span class="line-num">77</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">symbol_matcher</span>(<span class="ruby-value">:rest</span>, <span class="ruby-regexp">/(.*)/</span>)
-<span class="line-num">78</span> <span class="ruby-keyword">end</span></pre>
+<pre id='method-c-configure-source'>    <span class="ruby-comment"># File lib/roda/plugins/symbol_matchers.rb</span>
+<span class="line-num">107</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>)
+<span class="line-num">108</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:symbol_matchers</span>] <span class="ruby-operator">||=</span> {}
+<span class="line-num">109</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">symbol_matcher</span>(<span class="ruby-value">:d</span>, <span class="ruby-regexp">/(\d+)/</span>)
+<span class="line-num">110</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">symbol_matcher</span>(<span class="ruby-value">:w</span>, <span class="ruby-regexp">/(\w+)/</span>)
+<span class="line-num">111</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">symbol_matcher</span>(<span class="ruby-value">:rest</span>, <span class="ruby-regexp">/(.*)/</span>)
+<span class="line-num">112</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-class' id='method-method-c-load_dependencies'>
@@ -150,10 +174,11 @@ Roda::RodaPlugins::SymbolMatchers
 <a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-load_dependencies-source&#39;); return false'>
 [show source]
 </a>
-<pre id='method-c-load_dependencies-source'>   <span class="ruby-comment"># File lib/roda/plugins/symbol_matchers.rb</span>
-<span class="line-num">70</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">load_dependencies</span>(<span class="ruby-identifier">app</span>)
-<span class="line-num">71</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:_symbol_regexp_matchers</span>
-<span class="line-num">72</span> <span class="ruby-keyword">end</span></pre>
+<pre id='method-c-load_dependencies-source'>    <span class="ruby-comment"># File lib/roda/plugins/symbol_matchers.rb</span>
+<span class="line-num">102</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">load_dependencies</span>(<span class="ruby-identifier">app</span>)
+<span class="line-num">103</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:_symbol_regexp_matchers</span>
+<span class="line-num">104</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:_symbol_class_matchers</span>
+<span class="line-num">105</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

@@ -64,7 +64,7 @@ Roda::RodaPlugins::IntegerMatcherMax
 <div id='class-list'>
 <h2>Classes and Modules</h2>
 <ol>
-<li><a href="IntegerMatcherMax/RequestMethods.html">Roda::RodaPlugins::IntegerMatcherMax::RequestMethods</a></li>
+<li><a href="IntegerMatcherMax/InstanceMethods.html">Roda::RodaPlugins::IntegerMatcherMax::InstanceMethods</a></li>
 </ol>
 </div>
 <div id='section'>
@@ -86,13 +86,14 @@ Roda::RodaPlugins::IntegerMatcherMax
 <pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/Integer_matcher_max.rb</span>
 <span class="line-num">24</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">max</span>=<span class="ruby-keyword">nil</span>)
 <span class="line-num">25</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">max</span>
-<span class="line-num">26</span>     <span class="ruby-identifier">app</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>.<span class="ruby-identifier">class_eval</span> <span class="ruby-keyword">do</span>
-<span class="line-num">27</span>       <span class="ruby-identifier">define_method</span>(<span class="ruby-value">:_match_class_max_Integer</span>){<span class="ruby-identifier">max</span>}
-<span class="line-num">28</span>       <span class="ruby-identifier">alias_method</span> <span class="ruby-value">:_match_class_max_Integer</span>, <span class="ruby-value">:_match_class_max_Integer</span>
-<span class="line-num">29</span>       <span class="ruby-identifier">private</span> <span class="ruby-value">:_match_class_max_Integer</span>
-<span class="line-num">30</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">31</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">32</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">26</span>     <span class="ruby-identifier">app</span>.<span class="ruby-identifier">class_eval</span> <span class="ruby-keyword">do</span>
+<span class="line-num">27</span>       <span class="ruby-identifier">meth</span> = <span class="ruby-value">:_max_value_convert_class_Integer</span>
+<span class="line-num">28</span>       <span class="ruby-identifier">define_method</span>(<span class="ruby-identifier">meth</span>){<span class="ruby-identifier">max</span>}
+<span class="line-num">29</span>       <span class="ruby-identifier">alias_method</span> <span class="ruby-identifier">meth</span>, <span class="ruby-identifier">meth</span>
+<span class="line-num">30</span>       <span class="ruby-identifier">private</span> <span class="ruby-identifier">meth</span>
+<span class="line-num">31</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">32</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">33</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

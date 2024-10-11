@@ -40,6 +40,7 @@ Roda::RodaPlugins::SymbolMatchers::ClassMethods
 <h2>Methods</h2>
 <h3>Public Instance</h3>
 <ol>
+<li><a href="#method-i-freeze">freeze</a></li>
 <li><a href="#method-i-symbol_matcher">symbol_matcher</a></li>
 </ol>
 </div>
@@ -48,28 +49,53 @@ Roda::RodaPlugins::SymbolMatchers::ClassMethods
 <div id='section'>
 <div id='methods'>
 <h2>Public Instance methods</h2>
-<div class='method public-instance' id='method-method-i-symbol_matcher'>
-<a name='method-i-symbol_matcher'></a>
+<div class='method public-instance' id='method-method-i-freeze'>
+<a name='method-i-freeze'></a>
 <div class='synopsis'>
-<span class='name'>symbol_matcher</span><span class='arguments'>(s, re, &block)</span>
+<span class='name'>freeze</span><span class='arguments'>()</span>
 
 </div>
 <div class='description'>
 
-<p>Set the regexp to use for the given symbol, instead of the default.</p>
+<p>Freeze the class_matchers hash when freezing the app.</p>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-freeze-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-freeze-source'>    <span class="ruby-comment"># File lib/roda/plugins/symbol_matchers.rb</span>
+<span class="line-num">134</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">freeze</span>
+<span class="line-num">135</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:symbol_matchers</span>].<span class="ruby-identifier">freeze</span>
+<span class="line-num">136</span>   <span class="ruby-keyword">super</span>
+<span class="line-num">137</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-symbol_matcher'>
+<a name='method-i-symbol_matcher'></a>
+<div class='synopsis'>
+<span class='name'>symbol_matcher</span><span class='arguments'>(s, matcher, &block)</span>
+
+</div>
+<div class='description'>
+
+<p>Set the matcher and block to use for the given class. The matcher can be a regexp, registered symbol matcher, or registered class matcher (if using the class_matchers plugin).</p>
+
+<p>If providing a regexp, the block given will be called with all regexp captures. If providing a registered symbol or class, the block will be called with the captures returned by the block for the registered symbol or class, or the regexp captures if no block was registered with the symbol or class. In either case, if a block is given, it should return an array with the captures to yield to the match block.</p>
 
 </div>
 <div class='source'>
 <a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-symbol_matcher-source&#39;); return false'>
 [show source]
 </a>
-<pre id='method-i-symbol_matcher-source'>   <span class="ruby-comment"># File lib/roda/plugins/symbol_matchers.rb</span>
-<span class="line-num">82</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">symbol_matcher</span>(<span class="ruby-identifier">s</span>, <span class="ruby-identifier">re</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">83</span>   <span class="ruby-identifier">meth</span> = <span class="ruby-value">:&quot;match_symbol_#{s}&quot;</span>
-<span class="line-num">84</span>   <span class="ruby-identifier">array</span> = [<span class="ruby-identifier">re</span>, <span class="ruby-identifier">block</span>].<span class="ruby-identifier">freeze</span>
-<span class="line-num">85</span>   <span class="ruby-keyword">self</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:define_method</span>, <span class="ruby-identifier">meth</span>){<span class="ruby-identifier">array</span>}
-<span class="line-num">86</span>   <span class="ruby-keyword">self</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:private</span>, <span class="ruby-identifier">meth</span>)
-<span class="line-num">87</span> <span class="ruby-keyword">end</span></pre>
+<pre id='method-i-symbol_matcher-source'>    <span class="ruby-comment"># File lib/roda/plugins/symbol_matchers.rb</span>
+<span class="line-num">125</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">symbol_matcher</span>(<span class="ruby-identifier">s</span>, <span class="ruby-identifier">matcher</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">126</span>   <span class="ruby-identifier">_symbol_class_matcher</span>(<span class="ruby-constant">Symbol</span>, <span class="ruby-identifier">s</span>, <span class="ruby-identifier">matcher</span>, <span class="ruby-identifier">block</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">meth</span>, <span class="ruby-identifier">array</span><span class="ruby-operator">|</span>
+<span class="line-num">127</span>     <span class="ruby-identifier">define_method</span>(<span class="ruby-identifier">meth</span>){<span class="ruby-identifier">array</span>}
+<span class="line-num">128</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">129</span> 
+<span class="line-num">130</span>   <span class="ruby-keyword">nil</span>
+<span class="line-num">131</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

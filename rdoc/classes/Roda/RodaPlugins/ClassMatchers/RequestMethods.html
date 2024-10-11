@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+<head>
+<title>Roda::RodaPlugins::ClassMatchers::RequestMethods</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<link href='../../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<script type='text/javascript'>
+  function popupCode(url) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+  
+  function toggleCode(id) {
+    var code = document.getElementById(id)
+  
+    code.style.display = code.style.display != 'block' ? 'block' : 'none'
+    return true
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+</script>
+</head>
+<body class='page'>
+<div class='class' id='wrapper'>
+<div class='header'>
+<h1 class='name'><span class='type'>module</span>
+Roda::RodaPlugins::ClassMatchers::RequestMethods
+</h1>
+<ol class='paths'>
+<li>
+<a href="../../../../files/lib/roda/plugins/class_matchers_rb.html">lib/roda/plugins/class_matchers.rb</a>
+</li>
+</ol>
+</div>
+<div id='content'>
+<div id='text'>
+<div id='description'></div>
+<div id='method-list'>
+<h2>Methods</h2>
+<h3>Public Instance</h3>
+<ol>
+<li><a href="#method-i-_consume_segment">_consume_segment</a></li>
+</ol>
+</div>
+<div id='context'>
+</div>
+<div id='section'>
+<div id='methods'>
+<h2>Public Instance methods</h2>
+<div class='method public-instance' id='method-method-i-_consume_segment'>
+<a name='method-i-_consume_segment'></a>
+<div class='synopsis'>
+<span class='name'>_consume_segment</span><span class='arguments'>(convert_meth)</span>
+
+</div>
+<div class='description'>
+
+<p>Use faster approach for segment matching.  This is used for matchers based on the String class matcher, and avoids the use of regular expressions for scanning.</p>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-_consume_segment-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-_consume_segment-source'>    <span class="ruby-comment"># File lib/roda/plugins/class_matchers.rb</span>
+<span class="line-num">116</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">_consume_segment</span>(<span class="ruby-identifier">convert_meth</span>)
+<span class="line-num">117</span>   <span class="ruby-identifier">rp</span> = <span class="ruby-ivar">@remaining_path</span>
+<span class="line-num">118</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">_match_class_String</span>
+<span class="line-num">119</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">convert_meth</span>
+<span class="line-num">120</span>       <span class="ruby-keyword">if</span> <span class="ruby-identifier">captures</span> = <span class="ruby-identifier">scope</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">convert_meth</span>, <span class="ruby-ivar">@captures</span>.<span class="ruby-identifier">pop</span>)
+<span class="line-num">121</span>         <span class="ruby-keyword">if</span> <span class="ruby-identifier">captures</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>)
+<span class="line-num">122</span>           <span class="ruby-ivar">@captures</span>.<span class="ruby-identifier">concat</span>(<span class="ruby-identifier">captures</span>)
+<span class="line-num">123</span>         <span class="ruby-keyword">else</span>
+<span class="line-num">124</span>           <span class="ruby-ivar">@captures</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">captures</span>
+<span class="line-num">125</span>         <span class="ruby-keyword">end</span>
+<span class="line-num">126</span>       <span class="ruby-keyword">else</span>
+<span class="line-num">127</span>         <span class="ruby-ivar">@remaining_path</span> = <span class="ruby-identifier">rp</span>
+<span class="line-num">128</span>         <span class="ruby-keyword">nil</span>
+<span class="line-num">129</span>       <span class="ruby-keyword">end</span>
+<span class="line-num">130</span>     <span class="ruby-keyword">else</span>
+<span class="line-num">131</span>       <span class="ruby-keyword">true</span>
+<span class="line-num">132</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">133</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">134</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div id='footer-push'></div>
+</div>
+<div id='footer'>
+<a href="https://github.com/jeremyevans/hanna"><strong>Hanna</strong> RDoc template</a>
+</div>
+</body>
+</html>

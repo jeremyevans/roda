@@ -100,16 +100,16 @@ Roda::RodaPlugins::Public
 <td>=</td>
 <td class='context-item-value'>RUBY_VERSION >= '2.4' ? :match? : :match</td>
 <td>&nbsp;</td>
-<td class='context-item-desc'>
-<p>:nocov:</p>
-</td>
+<td class='context-item-desc'></td>
 </tr>
 <tr class='top-aligned-row context-row'>
 <td class='context-item-name'>PARSER</td>
 <td>=</td>
-<td class='context-item-value'>URI::DEFAULT_PARSER</td>
+<td class='context-item-value'>defined?(::URI::RFC2396_PARSER) ? ::URI::RFC2396_PARSER : ::URI::DEFAULT_PARSER</td>
 <td>&nbsp;</td>
-<td class='context-item-desc'></td>
+<td class='context-item-desc'>
+<p>:nocov:</p>
+</td>
 </tr>
 <tr class='top-aligned-row context-row'>
 <td class='context-item-name'>RACK_FILES</td>

@@ -44,10 +44,10 @@ Roda::RodaPlugins::ClassMatchers
 <span class="ruby-keyword">end</span>
 </pre>
 
-<p>You can register a Date class matcher for that regexp (note that the block must return an array):</p>
+<p>You can register a Date class matcher for that regexp:</p>
 
 <pre class="ruby"><span class="ruby-identifier">class_matcher</span>(<span class="ruby-constant">Date</span>, <span class="ruby-regexp">/(\d\d\d\d)-(\d\d)-(\d\d)/</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">y</span>, <span class="ruby-identifier">m</span>, <span class="ruby-identifier">d</span><span class="ruby-operator">|</span>
-  [<span class="ruby-constant">Date</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">y</span>.<span class="ruby-identifier">to_i</span>, <span class="ruby-identifier">m</span>.<span class="ruby-identifier">to_i</span>, <span class="ruby-identifier">d</span>.<span class="ruby-identifier">to_i</span>)]
+  <span class="ruby-constant">Date</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">y</span>.<span class="ruby-identifier">to_i</span>, <span class="ruby-identifier">m</span>.<span class="ruby-identifier">to_i</span>, <span class="ruby-identifier">d</span>.<span class="ruby-identifier">to_i</span>)
 <span class="ruby-keyword">end</span>
 </pre>
 
@@ -58,7 +58,7 @@ Roda::RodaPlugins::ClassMatchers
 <span class="ruby-keyword">end</span>
 </pre>
 
-<p>This is useful to DRY up code if you are using the same type of pattern and type conversion in multiple places in your application.</p>
+<p>This is useful to DRY up code if you are using the same type of pattern and type conversion in multiple places in your application. You can have the block return an array to yield multiple captures.</p>
 
 <p>If you have a segment match the passed regexp, but decide during block processing that you do not want to treat it as a match, you can have the block return nil or false.  This is useful if you want to make sure you are using valid data:</p>
 
@@ -66,11 +66,40 @@ Roda::RodaPlugins::ClassMatchers
   <span class="ruby-identifier">y</span> = <span class="ruby-identifier">y</span>.<span class="ruby-identifier">to_i</span>
   <span class="ruby-identifier">m</span> = <span class="ruby-identifier">m</span>.<span class="ruby-identifier">to_i</span>
   <span class="ruby-identifier">d</span> = <span class="ruby-identifier">d</span>.<span class="ruby-identifier">to_i</span>
-  [<span class="ruby-constant">Date</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">y</span>, <span class="ruby-identifier">m</span>, <span class="ruby-identifier">d</span>)] <span class="ruby-keyword">if</span> <span class="ruby-constant">Date</span>.<span class="ruby-identifier">valid_date?</span>(<span class="ruby-identifier">y</span>, <span class="ruby-identifier">m</span>, <span class="ruby-identifier">d</span>)
+  <span class="ruby-constant">Date</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">y</span>, <span class="ruby-identifier">m</span>, <span class="ruby-identifier">d</span>) <span class="ruby-keyword">if</span> <span class="ruby-constant">Date</span>.<span class="ruby-identifier">valid_date?</span>(<span class="ruby-identifier">y</span>, <span class="ruby-identifier">m</span>, <span class="ruby-identifier">d</span>)
 <span class="ruby-keyword">end</span>
 </pre>
 
+<p>The second argument to class_matcher can be a class already registered as a class matcher. This can DRY up code that wants a conversion performed by an existing class matcher:</p>
+
+<pre class="ruby"><span class="ruby-identifier">class_matcher</span> <span class="ruby-constant">Employee</span>, <span class="ruby-constant">Integer</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">id</span><span class="ruby-operator">|</span>
+  <span class="ruby-constant">Employee</span>[<span class="ruby-identifier">id</span>]
+<span class="ruby-keyword">end</span>
+</pre>
+
+<p>With the above example, the Integer matcher performs the conversion to integer, so <code>id</code> is yielded as an integer.  The block then looks up the employee with that id.  If there is no employee with that id, then the Employee matcher will not match.</p>
+
+<p>If using the symbol_matchers plugin, you can provide a recognized symbol matcher as the second argument to class_matcher, and it will work in a similar manner:</p>
+
+<pre class="ruby"><span class="ruby-identifier">symbol_matcher</span>(<span class="ruby-value">:employee_id</span>, <span class="ruby-regexp">/E-(\d{6})/</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">employee_id</span><span class="ruby-operator">|</span>
+  <span class="ruby-identifier">employee_id</span>.<span class="ruby-identifier">to_i</span>
+<span class="ruby-keyword">end</span>
+<span class="ruby-identifier">class_matcher</span> <span class="ruby-constant">Employee</span>, <span class="ruby-value">:employee_id</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">id</span><span class="ruby-operator">|</span>
+  <span class="ruby-constant">Employee</span>[<span class="ruby-identifier">id</span>]
+<span class="ruby-keyword">end</span>
+</pre>
+
+<p>Blocks passed to the class_matchers plugin are evaluated in route block context.</p>
+
 <p>This plugin does not work with the params_capturing plugin, as it does not offer the ability to associate block arguments with named keys.</p>
+</div>
+<div id='method-list'>
+<h2>Methods</h2>
+<h3>Public Class</h3>
+<ol>
+<li><a href="#method-c-configure">configure</a></li>
+<li><a href="#method-c-load_dependencies">load_dependencies</a></li>
+</ol>
 </div>
 <div id='context'>
 </div>
@@ -78,9 +107,54 @@ Roda::RodaPlugins::ClassMatchers
 <h2>Classes and Modules</h2>
 <ol>
 <li><a href="ClassMatchers/ClassMethods.html">Roda::RodaPlugins::ClassMatchers::ClassMethods</a></li>
+<li><a href="ClassMatchers/RequestMethods.html">Roda::RodaPlugins::ClassMatchers::RequestMethods</a></li>
 </ol>
 </div>
 <div id='section'>
+<div id='methods'>
+<h2>Public Class methods</h2>
+<div class='method public-class' id='method-method-c-configure'>
+<a name='method-c-configure'></a>
+<div class='synopsis'>
+<span class='name'>configure</span><span class='arguments'>(app)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-configure-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/class_matchers.rb</span>
+<span class="line-num">77</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>)
+<span class="line-num">78</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:class_matchers</span>] <span class="ruby-operator">||=</span> {
+<span class="line-num">79</span>     <span class="ruby-constant">Integer</span><span class="ruby-operator">=&gt;</span>[<span class="ruby-regexp">/(\d{1,100})/</span>, <span class="ruby-regexp">/\A\/(\d{1,100})(?=\/|\z)/</span>, <span class="ruby-value">:_convert_class_Integer</span>].<span class="ruby-identifier">freeze</span>,
+<span class="line-num">80</span>     <span class="ruby-constant">String</span><span class="ruby-operator">=&gt;</span>[<span class="ruby-regexp">/([^\/]+)/</span>, <span class="ruby-keyword">nil</span>, <span class="ruby-keyword">nil</span>].<span class="ruby-identifier">freeze</span>
+<span class="line-num">81</span>   }
+<span class="line-num">82</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-class' id='method-method-c-load_dependencies'>
+<a name='method-c-load_dependencies'></a>
+<div class='synopsis'>
+<span class='name'>load_dependencies</span><span class='arguments'>(app)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-load_dependencies-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-c-load_dependencies-source'>   <span class="ruby-comment"># File lib/roda/plugins/class_matchers.rb</span>
+<span class="line-num">73</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">load_dependencies</span>(<span class="ruby-identifier">app</span>)
+<span class="line-num">74</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:_symbol_class_matchers</span>
+<span class="line-num">75</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+</div>
 </div>
 
 </div>

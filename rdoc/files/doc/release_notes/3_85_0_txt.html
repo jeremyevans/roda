@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+<head>
+<title>3.85.0.txt</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<link href='../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<script type='text/javascript'>
+  function popupCode(url) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+  
+  function toggleCode(id) {
+    var code = document.getElementById(id)
+  
+    code.style.display = code.style.display != 'block' ? 'block' : 'none'
+    return true
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+</script>
+</head>
+<body class='page'>
+<div class='file' id='wrapper'>
+<div class='header'>
+<h1 class='name'>3.85.0.txt
+</h1>
+<div class='paths'>
+doc/release_notes/3.85.0.txt
+</div>
+<div class='last-update'>
+Last Update:
+<span class='datetime'>2024-10-11 07:02:10 -0700</span>
+</div>
+</div>
+<div id='content'>
+<div id='text'>
+<div id='description'>
+<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<ul><li>
+<p>The class_matchers and symbol_matchers plugins now allow building on top of existing class and symbol matchers.  This allows you to simplify code such as:</p>
+
+<pre class="ruby"><span class="ruby-identifier">r</span>.<span class="ruby-identifier">on</span> <span class="ruby-string">&quot;employee&quot;</span>, <span class="ruby-constant">Integer</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">emp_id</span><span class="ruby-operator">|</span>
+  <span class="ruby-keyword">next</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">employee</span> = <span class="ruby-constant">Employee</span>[<span class="ruby-identifier">emp_id</span>]
+  <span class="ruby-comment"># ...</span>
+<span class="ruby-keyword">end</span>
+</pre>
+
+<p>by defining an appropriate class matcher:</p>
+
+<pre class="ruby"><span class="ruby-identifier">class_matcher</span> <span class="ruby-constant">Employee</span>, <span class="ruby-constant">Integer</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">emp_id</span><span class="ruby-operator">|</span>
+  <span class="ruby-constant">Employee</span>[<span class="ruby-identifier">emp_id</span>]
+<span class="ruby-keyword">end</span>
+</pre>
+
+<p>and then changing the matcher in the route code:</p>
+
+<pre class="ruby"><span class="ruby-identifier">r</span>.<span class="ruby-identifier">on</span> <span class="ruby-string">&quot;employee&quot;</span>, <span class="ruby-constant">Employee</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">employee</span><span class="ruby-operator">|</span>
+  <span class="ruby-comment"># ...</span>
+<span class="ruby-keyword">end</span>
+</pre>
+
+<p>This avoids the need to check for a valid employee in each route, by having the check in the class_matcher block.  If a request comes in with a valid integer segment, but there is no employee assigned with that integer, then the Employee matcher will not match.</p>
+
+<p>Symbol matchers can build upon class matchers (and vice-versa):</p>
+
+<pre>symbol_matcher :ActiveEmployee, Employee |employee|
+  employee if employee.active?
+end</pre>
+
+<p>With the above :ActiveEmployee matcher, segments will only match if they are an integer that is related to an employee, and that employee is active.</p>
+</li></ul>
+
+<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<ul><li>
+<p>As shown in the above examples, class_matcher and symbol_matcher blocks can now return non-arrays.  This can reduce the number of unnecessary allocations, and result in simpler code.</p>
+</li><li>
+<p>The blocks passed to class_matcher and symbol_matcher are now evaluated in route block context.  That allows you to have the matchers depend on request or session specific state. For example, a Post class matcher such as:</p>
+
+<pre class="ruby"><span class="ruby-identifier">class_matcher</span> <span class="ruby-constant">Post</span>, <span class="ruby-constant">Integer</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">id</span><span class="ruby-operator">|</span>
+  <span class="ruby-constant">Post</span>.<span class="ruby-identifier">where</span>(<span class="ruby-value">user_id:</span> <span class="ruby-identifier">session</span>[<span class="ruby-string">&#39;user_id&#39;</span>]).<span class="ruby-identifier">with_pk</span>(<span class="ruby-identifier">id</span>)
+<span class="ruby-keyword">end</span>
+</pre>
+
+<p>will only match if the user for the related Post matches the logged in user.</p>
+</li><li>
+<p>Symbol matchers based on regexps are now faster by caching the regexp at a higher level, avoiding the need to look up the cached regexp for every request.</p>
+</li><li>
+<p>The public plugin now avoids a deprecation warning when using Ruby 3.4.0-preview2.</p>
+</li><li>
+<p>The capture_erb plugin no longer breaks if ActiveSupport 4 is loaded.  ActiveSupport 4 defines Kernel#capture, which broke the capture_erb plugin’s assumption that calling capture was safe if the method was defined. capture_erb does not call capture on the buffer object if the buffer object is a String instance. The use of capture is designed for usage with erubi/capture_block, which does not use a String instance as a buffer object.</p>
+</li></ul>
+
+<h1 id="label-Backwards+Compatibility">Backwards Compatibility<span><a href="#label-Backwards+Compatibility">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<ul><li>
+<p>Changing the class_matcher and symbol_matcher blocks to be evaluated in route block context can break code that assumes they were evaluated in the context in which they were called. Generally, that context is application class context. For example, the following type of code would break:</p>
+
+<pre class="ruby"><span class="ruby-keyword">class</span> <span class="ruby-constant">App</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Roda</span>
+  <span class="ruby-identifier">plugin</span> <span class="ruby-value">:class_matchers</span>
+
+  <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">get_class</span>(<span class="ruby-identifier">klass</span>)
+    <span class="ruby-identifier">const_get</span>(<span class="ruby-identifier">klass</span>)
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">class_matcher</span> <span class="ruby-constant">Employee</span>, <span class="ruby-constant">Integer</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">emp_id</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">get_class</span>(<span class="ruby-value">:Employee</span>)[<span class="ruby-identifier">emp_id</span>]
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span>
+</pre>
+
+<p>This worked previously, because get_class was defined as a class method, and the block was evaluated in class context, as that is the context in which it was defined. You would have to define a get_class instance method to allow the example to continue to work.</p>
+</li><li>
+<p>The internals of the Integer_matcher_max plugin have been updated, to integrate with the class_matchers and symbol_matchers changes.  The _match_class_convert_Integer and _match_class_max_Integer private request methods have been removed.</p>
+</li></ul>
+</div>
+<div id='context'>
+</div>
+
+</div>
+</div>
+
+<div id='footer-push'></div>
+</div>
+<div id='footer'>
+<a href="https://github.com/jeremyevans/hanna"><strong>Hanna</strong> RDoc template</a>
+</div>
+</body>
+</html>

@@ -52,6 +52,8 @@ end</pre>
 <pre class="ruby"><span class="ruby-identifier">r</span>.<span class="ruby-identifier">is</span> <span class="ruby-string">&quot;foo&quot;</span>, <span class="ruby-constant">String</span>
 <span class="ruby-identifier">r</span>.<span class="ruby-identifier">is</span> <span class="ruby-string">&quot;foo&quot;</span>, <span class="ruby-value">:bar</span>
 </pre>
+
+<p>If used with the symbol_matchers plugin, this plugin respects the regexps for the registered symbols, but it does not perform the conversions, the captures for the regexp are used directly as the captures for the match method.</p>
 </div>
 <div id='method-list'>
 <h2>Methods</h2>
@@ -85,9 +87,9 @@ end</pre>
 [show source]
 </a>
 <pre id='method-c-load_dependencies-source'>   <span class="ruby-comment"># File lib/roda/plugins/placeholder_string_matchers.rb</span>
-<span class="line-num">25</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">load_dependencies</span>(<span class="ruby-identifier">app</span>)
-<span class="line-num">26</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:_symbol_regexp_matchers</span>
-<span class="line-num">27</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">29</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">load_dependencies</span>(<span class="ruby-identifier">app</span>)
+<span class="line-num">30</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:_symbol_regexp_matchers</span>
+<span class="line-num">31</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

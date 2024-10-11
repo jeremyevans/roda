@@ -86,7 +86,7 @@ Roda::RodaPlugins::Render
 <table class="rdoc-list note-list"><tbody><tr><td class='label'>:allowed_paths </td><td>
 <p>Set the template paths to allow.  Attempts to render paths outside of these paths will raise an error.  Defaults to the <code>:views</code> directory.</p>
 </td></tr><tr><td class='label'>:cache </td><td>
-<p>nil/false to explicitly disable premanent template caching.  By default, permanent template caching is disabled by default if RACK_ENV is development.  When permanent template caching is disabled, for templates with paths in the file system, the modification time of the file will be checked on every render, and if it has changed, a new template will be created for the current content of the file.</p>
+<p>nil/false to explicitly disable permanent template caching.  By default, permanent template caching is disabled by default if RACK_ENV is development.  When permanent template caching is disabled, for templates with paths in the file system, the modification time of the file will be checked on every render, and if it has changed, a new template will be created for the current content of the file.</p>
 </td></tr><tr><td class='label'>:cache_class </td><td>
 <p>A class to use as the template cache instead of the default.</p>
 </td></tr><tr><td class='label'>:check_paths </td><td>
