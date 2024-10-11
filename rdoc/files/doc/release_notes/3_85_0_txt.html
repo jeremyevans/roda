@@ -31,7 +31,7 @@ doc/release_notes/3.85.0.txt
 </div>
 <div class='last-update'>
 Last Update:
-<span class='datetime'>2024-10-11 07:02:10 -0700</span>
+<span class='datetime'>2024-10-11 07:13:49 -0700</span>
 </div>
 </div>
 <div id='content'>
@@ -65,9 +65,10 @@ Last Update:
 
 <p>Symbol matchers can build upon class matchers (and vice-versa):</p>
 
-<pre>symbol_matcher :ActiveEmployee, Employee |employee|
-  employee if employee.active?
-end</pre>
+<pre class="ruby"><span class="ruby-identifier">symbol_matcher</span> <span class="ruby-value">:ActiveEmployee</span>, <span class="ruby-constant">Employee</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">employee</span><span class="ruby-operator">|</span>
+  <span class="ruby-identifier">employee</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">employee</span>.<span class="ruby-identifier">active?</span>
+<span class="ruby-keyword">end</span>
+</pre>
 
 <p>With the above :ActiveEmployee matcher, segments will only match if they are an integer that is related to an employee, and that employee is active.</p>
 </li></ul>
