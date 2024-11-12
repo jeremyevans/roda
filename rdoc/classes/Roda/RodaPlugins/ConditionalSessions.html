@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+<head>
+<title>Roda::RodaPlugins::ConditionalSessions</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<link href='../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<script type='text/javascript'>
+  function popupCode(url) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+  
+  function toggleCode(id) {
+    var code = document.getElementById(id)
+  
+    code.style.display = code.style.display != 'block' ? 'block' : 'none'
+    return true
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+</script>
+</head>
+<body class='page'>
+<div class='class' id='wrapper'>
+<div class='header'>
+<h1 class='name'><span class='type'>module</span>
+Roda::RodaPlugins::ConditionalSessions
+</h1>
+<ol class='paths'>
+<li>
+<a href="../../../files/lib/roda/plugins/conditional_sessions_rb.html">lib/roda/plugins/conditional_sessions.rb</a>
+</li>
+</ol>
+</div>
+<div id='content'>
+<div id='text'>
+<div id='description'>
+<p>The conditional_sessions plugin loads the sessions plugin.  However, it only allows sessions if the block passed to the plugin returns truthy.  The block is evaluated in request context. This is designed for use in applications that want to use sessions for some requests, and want to be sure that sessions are not used for other requests. For example, if you want to make sure that sessions are not used for requests with paths starting with /static, you could do:</p>
+
+<pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:conditional_sessions</span>, <span class="ruby-value">secret:</span> <span class="ruby-constant">ENV</span>[<span class="ruby-string">&quot;SECRET&quot;</span>] <span class="ruby-keyword">do</span>
+  <span class="ruby-operator">!</span><span class="ruby-identifier">path_info</span>.<span class="ruby-identifier">start_with?</span>(<span class="ruby-string">&#39;/static&#39;</span>)
+<span class="ruby-keyword">end</span>
+</pre>
+
+<p>The the request session, session_created_at, and session_updated_at methods raise a <a href="../RodaError.html"><code>RodaError</code></a> exception when sessions are not allowed.  The request persist_session and route scope clear_session methods do nothing when sessions are not allowed.</p>
+</div>
+<div id='method-list'>
+<h2>Methods</h2>
+<h3>Public Class</h3>
+<ol>
+<li><a href="#method-c-load_dependencies">load_dependencies</a></li>
+</ol>
+</div>
+<div id='context'>
+</div>
+<div id='class-list'>
+<h2>Classes and Modules</h2>
+<ol>
+<li><a href="ConditionalSessions/InstanceMethods.html">Roda::RodaPlugins::ConditionalSessions::InstanceMethods</a></li>
+<li><a href="ConditionalSessions/RequestMethods.html">Roda::RodaPlugins::ConditionalSessions::RequestMethods</a></li>
+</ol>
+</div>
+<div id='section'>
+<div id='methods'>
+<h2>Public Class methods</h2>
+<div class='method public-class' id='method-method-c-load_dependencies'>
+<a name='method-c-load_dependencies'></a>
+<div class='synopsis'>
+<span class='name'>load_dependencies</span><span class='arguments'>(app, opts=OPTS, &block)</span>
+
+</div>
+<div class='description'>
+
+<p><a href="Pass.html"><code>Pass</code></a> all options to the sessions block, and use the block to define a request method for whether sessions are allowed.</p>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-load_dependencies-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-c-load_dependencies-source'>   <span class="ruby-comment"># File lib/roda/plugins/conditional_sessions.rb</span>
+<span class="line-num">24</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">load_dependencies</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">25</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:sessions</span>, <span class="ruby-identifier">opts</span>
+<span class="line-num">26</span>   <span class="ruby-identifier">app</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>.<span class="ruby-identifier">class_eval</span> <span class="ruby-keyword">do</span>
+<span class="line-num">27</span>     <span class="ruby-identifier">define_method</span>(<span class="ruby-value">:use_sessions?</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">28</span>     <span class="ruby-keyword">alias</span> <span class="ruby-identifier">use_sessions?</span> <span class="ruby-identifier">use_sessions?</span>
+<span class="line-num">29</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">30</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div id='footer-push'></div>
+</div>
+<div id='footer'>
+<a href="https://github.com/jeremyevans/hanna"><strong>Hanna</strong> RDoc template</a>
+</div>
+</body>
+</html>

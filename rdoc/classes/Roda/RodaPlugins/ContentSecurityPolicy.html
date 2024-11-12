@@ -142,7 +142,7 @@ Roda::RodaPlugins::ContentSecurityPolicy
 <span class="ruby-comment"># =&gt; [:self, :unsafe_eval, &#39;example.com&#39;, [:nonce, &#39;foobarbaz&#39;]]</span>
 </pre>
 
-<p>The clear method can be used to remove all settings from the policy.</p>
+<p>The clear method can be used to remove all settings from the policy. Empty policies do not set any headers. You can use <code>response.skip_content_security_policy!</code> to skip setting a policy.  This is faster than calling <code>content_security_policy.clear</code>, since it does not duplicate the default policy.</p>
 
 <p>The following methods to set boolean settings are also defined:</p>
 <ul><li>
@@ -191,16 +191,16 @@ Roda::RodaPlugins::ContentSecurityPolicy
 [show source]
 </a>
 <pre id='method-c-configure-source'>    <span class="ruby-comment"># File lib/roda/plugins/content_security_policy.rb</span>
-<span class="line-num">274</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>)
-<span class="line-num">275</span>   <span class="ruby-identifier">policy</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:content_security_policy</span>] = <span class="ruby-keyword">if</span> <span class="ruby-identifier">policy</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:content_security_policy</span>]
-<span class="line-num">276</span>     <span class="ruby-identifier">policy</span>.<span class="ruby-identifier">dup</span>
-<span class="line-num">277</span>   <span class="ruby-keyword">else</span>
-<span class="line-num">278</span>     <span class="ruby-constant">Policy</span>.<span class="ruby-identifier">new</span>
-<span class="line-num">279</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">280</span> 
-<span class="line-num">281</span>   <span class="ruby-keyword">yield</span> <span class="ruby-identifier">policy</span> <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-keyword">yield</span>)
-<span class="line-num">282</span>   <span class="ruby-identifier">policy</span>.<span class="ruby-identifier">freeze</span>
-<span class="line-num">283</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">277</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>)
+<span class="line-num">278</span>   <span class="ruby-identifier">policy</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:content_security_policy</span>] = <span class="ruby-keyword">if</span> <span class="ruby-identifier">policy</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:content_security_policy</span>]
+<span class="line-num">279</span>     <span class="ruby-identifier">policy</span>.<span class="ruby-identifier">dup</span>
+<span class="line-num">280</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">281</span>     <span class="ruby-constant">Policy</span>.<span class="ruby-identifier">new</span>
+<span class="line-num">282</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">283</span> 
+<span class="line-num">284</span>   <span class="ruby-keyword">yield</span> <span class="ruby-identifier">policy</span> <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-keyword">yield</span>)
+<span class="line-num">285</span>   <span class="ruby-identifier">policy</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">286</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

@@ -64,11 +64,11 @@ Roda::RodaPlugins::EarlyHints::InstanceMethods
 [show source]
 </a>
 <pre id='method-i-send_early_hints-source'>   <span class="ruby-comment"># File lib/roda/plugins/early_hints.rb</span>
-<span class="line-num">16</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">send_early_hints</span>(<span class="ruby-identifier">hash</span>)
-<span class="line-num">17</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">eh_proc</span> = <span class="ruby-identifier">env</span>[<span class="ruby-string">&#39;rack.early_hints&#39;</span>]
-<span class="line-num">18</span>     <span class="ruby-identifier">eh_proc</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">hash</span>)
-<span class="line-num">19</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">20</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">15</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">send_early_hints</span>(<span class="ruby-identifier">hash</span>)
+<span class="line-num">16</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">eh_proc</span> = <span class="ruby-identifier">env</span>[<span class="ruby-string">&#39;rack.early_hints&#39;</span>]
+<span class="line-num">17</span>     <span class="ruby-identifier">eh_proc</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">hash</span>)
+<span class="line-num">18</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">19</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

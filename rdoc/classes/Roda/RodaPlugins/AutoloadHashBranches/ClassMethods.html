@@ -125,7 +125,7 @@ Roda::RodaPlugins::AutoloadHashBranches::ClassMethods
 </a>
 <pre id='method-i-freeze-source'>   <span class="ruby-comment"># File lib/roda/plugins/autoload_hash_branches.rb</span>
 <span class="line-num">70</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">freeze</span>
-<span class="line-num">71</span>   <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:autoload_hash_branch_files</span>).<span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span> <span class="ruby-identifier">require</span> <span class="ruby-identifier">file</span>}
+<span class="line-num">71</span>   <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:autoload_hash_branch_files</span>).<span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span> <span class="ruby-identifier">require</span> <span class="ruby-identifier">file</span>} <span class="ruby-keyword">unless</span> <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">frozen?</span>
 <span class="line-num">72</span>   <span class="ruby-keyword">super</span>
 <span class="line-num">73</span> <span class="ruby-keyword">end</span></pre>
 </div>
