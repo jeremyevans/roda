@@ -21,7 +21,7 @@
       </nav>
     
     <div class="content"><div class="contain">    
-  <h1>Documentation for Roda (v3.86.0)</h1>
+  <h1>Documentation for Roda (v3.87.0)</h1>
 
   <h2><a href="rdoc/files/README_rdoc.html">README</a> <small>(Introduction to Roda, start here if new)</small></h2>
 
@@ -64,6 +64,7 @@
       <li><a href="rdoc/classes/Roda/RodaPlugins/Head.html">head</a>: Treat HEAD requests like GET requests with an empty response body.</li>
       <li><a href="rdoc/classes/Roda/RodaPlugins/HmacPaths.html">hmac_paths</a>: Prevent path enumeration and support access control using HMACs in paths.</li>
       <li><a href="rdoc/classes/Roda/RodaPlugins/Hooks.html">hooks</a>: Adds before/after hook methods.</li>
+      <li><a href="rdoc/classes/Roda/RodaPlugins/HostRouting.html">host_routing</a>: Adds support for routing based on the host header.</li>
       <li><a href="rdoc/classes/Roda/RodaPlugins/MatchHook.html">match_hook</a>: Adds a hook method which is called when a path segment is matched.</li>
       <li><a href="rdoc/classes/Roda/RodaPlugins/MatchHookArgs.html">match_hook_args</a>: Similar to match_hook plugin, but supports passing matchers and block args to hooks.</li>
       <li><a href="rdoc/classes/Roda/RodaPlugins/MultiRoute.html">multi_route</a>: Allows dispatching to multiple named route blocks in a single call.</li>
@@ -201,9 +202,9 @@
   <h3 id="guides">Guides</h3>
   <ul>
     <li><a href="https://github.com/badosu/Yogurt/wiki/Example:-Adding-authentication">Adding Authentication</a></li>
-    <li><a href="http://mrcook.uk/static-websites-with-roda-framework">Up and Going in Roda: Static Ruby Websites</a></li>
-    <li><a href="http://mrcook.uk/simple-roda-blog-tutorial">Up and Going in Roda: A Simple Ruby Blog</a></li>
-    <li><a href="http://web.archive.org/web/20160426101033/http://watabelabs.com/blog/view/digging-ruby-from-roda-a-rack-based-web-framework">Digging ruby from Roda</a></li>
+    <li><a href="https://mrcook.uk/static-websites-with-roda-framework">Up and Going in Roda: Static Ruby Websites</a></li>
+    <li><a href="https://mrcook.uk/simple-roda-blog-tutorial">Up and Going in Roda: A Simple Ruby Blog</a></li>
+    <li><a href="https://web.archive.org/web/20160426101033/http://watabelabs.com/blog/view/digging-ruby-from-roda-a-rack-based-web-framework">Digging ruby from Roda</a></li>
   </ul>
 
   <h3>Plugins</h3>
@@ -255,7 +256,7 @@
     
         
           <li>
-            <a href='rdoc/files/doc/release_notes/3_86_0_txt.html'>3.86</a> | <a href='rdoc/files/doc/release_notes/3_85_0_txt.html'>3.85</a> | <a href='rdoc/files/doc/release_notes/3_84_0_txt.html'>3.84</a> | <a href='rdoc/files/doc/release_notes/3_83_0_txt.html'>3.83</a> | <a href='rdoc/files/doc/release_notes/3_82_0_txt.html'>3.82</a> | <a href='rdoc/files/doc/release_notes/3_81_0_txt.html'>3.81</a> | <a href='rdoc/files/doc/release_notes/3_80_0_txt.html'>3.80</a>
+            <a href='rdoc/files/doc/release_notes/3_87_0_txt.html'>3.87</a> | <a href='rdoc/files/doc/release_notes/3_86_0_txt.html'>3.86</a> | <a href='rdoc/files/doc/release_notes/3_85_0_txt.html'>3.85</a> | <a href='rdoc/files/doc/release_notes/3_84_0_txt.html'>3.84</a> | <a href='rdoc/files/doc/release_notes/3_83_0_txt.html'>3.83</a> | <a href='rdoc/files/doc/release_notes/3_82_0_txt.html'>3.82</a> | <a href='rdoc/files/doc/release_notes/3_81_0_txt.html'>3.81</a> | <a href='rdoc/files/doc/release_notes/3_80_0_txt.html'>3.80</a>
           </li>
         
           <li>
@@ -322,8 +323,8 @@
   <ul>
     <li><a href='https://www.contentfor.dev/2095003/12788637-010-advanced-ruby-with-jeremy-evans'>content_for :devs 010: Advanced Ruby with Jeremy Evans</a></li>
     <li><a href='https://www.rubberduckdevshow.com/episodes/83-all-about-roda-with-jeremy-evans'>Rubber Duck Dev Show 83: All About Roda with Jeremy Evans</a></li>
-    <li><a href='https://devchat.tv/ruby-rogues/building-with-just-what-you-need-using-roda-with-jeremy-evans-ruby-507/'>Ruby Rogues 507: Building with Just What You Need Using Roda with Jeremy Evans</a></li>
-    <li><a href='http://devchat.tv/ruby-rogues/210-rr-roda-and-routing-trees-with-jeremy-evans'>Ruby Rogues 210: Roda and Routing Trees with Jeremy Evans</a></li>
+    <li><a href='https://topenddevs.com/podcasts/ruby-rogues/episodes/building-with-just-what-you-need-using-roda-with-jeremy-evans-ruby-507'>Ruby Rogues 507: Building with Just What You Need Using Roda with Jeremy Evans</a></li>
+    <li><a href='https://topenddevs.com/podcasts/ruby-rogues/episodes/210-rr-roda-and-routing-trees-with-jeremy-evans'>Ruby Rogues 210: Roda and Routing Trees with Jeremy Evans</a></li>
   </ul>
   
   <h2 id="books">Books</h2>
@@ -336,12 +337,14 @@
   <h2 id="presentations">Presentations</h2>
 
   <ul>
-    <li><a href="http://code.jeremyevans.net/presentations/rubyconfth2022/index.html">&quot;Roda: Simplicity, Reliability, Extensibility, Performance&quot; Presentation at RubyConf Thailand 2022</a> (<a href="https://www.youtube.com/watch?v=9fukis_VHl4">Video</a>)</li>
-    <li><a href="http://code.jeremyevans.net/presentations/rubyconfpk2022/index.html">&quot;Roda: Simplicity, Reliability, Extensibility, Performance&quot; Presentation at RubyConf Pakistan March 2022</a> (<a href="https://www.youtube.com/watch?v=6lEAKMBs_tY">Video</a>)</li>
+    <li><a href="https://code.jeremyevans.net/presentations/sf-ruby-meetup-2024-11/index.html">&quot;The first 10 years of Roda&quot; Presentation at November 2024 SF Bay Area Ruby Meetup</a> (<a href="https://www.youtube.com/watch?v=emg8KhSKXzI&t=5100s">Video</a>)</li>
+    <li><a href="https://code.jeremyevans.net/presentations/rubyconf2024/index.html">&quot;10 Years of Roda&quot; Presentation at RubyConf 2024</a> (<a href="https://www.youtube.com/watch?v=GrYlZjbXeP8">Video</a>)</li>
+    <li><a href="https://code.jeremyevans.net/presentations/rubyconfth2022/index.html">&quot;Roda: Simplicity, Reliability, Extensibility, Performance&quot; Presentation at RubyConf Thailand 2022</a> (<a href="https://www.youtube.com/watch?v=9fukis_VHl4">Video</a>)</li>
+    <li><a href="https://code.jeremyevans.net/presentations/rubyconfpk2022/index.html">&quot;Roda: Simplicity, Reliability, Extensibility, Performance&quot; Presentation at RubyConf Pakistan March 2022</a> (<a href="https://www.youtube.com/watch?v=6lEAKMBs_tY">Video</a>)</li>
     <li><a href="https://speakerdeck.com/janko_m/dynamic-routing-in-ruby">&quot;Dynamic routing in Ruby&quot;</a></li>
-    <li><a href="http://code.jeremyevans.net/presentations/railsconf2015/index.html">&quot;Roda&quot; Lightning Talk at RailsConf 2015</a> (<a href="http://code.jeremyevans.net/presentations/railsconf2015b/index.html">4x3 version</a>)  (<a href="http://confreaks.tv/videos/railsconf2015-lightning-talks">Video</a>, starts about 33:16)</li>
-    <li><a href="http://code.jeremyevans.net/presentations/mwrc2015/index.html">&quot;Better Routing Through Trees&quot; Presentation at MountainWest RubyConf 2015</a> (<a href="http://code.jeremyevans.net/presentations/mwrc2015b/index.html">4x3 version</a> (<a href="http://confreaks.tv/videos/mwrc2015-better-routing-through-trees">Video</a>)</li>
-    <li><a href="http://code.jeremyevans.net/presentations/rubyconf2014/index.html">&quot;Roda: The Routing Tree Web Framework&quot; Presentation at RubyConf 2014</a> (<a href="http://code.jeremyevans.net/presentations/sacruby201411/index.html">4x3 Version</a>) (<a href="http://www.confreaks.com/videos/4833-RubyConf2014-roda-the-routing-tree-web-framework">Video</a>)</li>
+    <li><a href="https://code.jeremyevans.net/presentations/railsconf2015/index.html">&quot;Roda&quot; Lightning Talk at RailsConf 2015</a> (<a href="https://code.jeremyevans.net/presentations/railsconf2015b/index.html">4x3 version</a>)  (<a href="https://www.youtube.com/watch?v=N92aD4mNUFA&amp;t=1996s">Video</a>)</li>
+    <li><a href="https://code.jeremyevans.net/presentations/mwrc2015/index.html">&quot;Better Routing Through Trees&quot; Presentation at MountainWest RubyConf 2015</a> (<a href="https://code.jeremyevans.net/presentations/mwrc2015b/index.html">4x3 version</a>) (<a href="https://www.youtube.com/watch?v=PjnlsIJYkn0">Video</a>)</li>
+    <li><a href="https://code.jeremyevans.net/presentations/rubyconf2014/index.html">&quot;Roda: The Routing Tree Web Framework&quot; Presentation at RubyConf 2014</a> (<a href="https://code.jeremyevans.net/presentations/sacruby201411/index.html">4x3 Version</a>) (<a href="https://www.youtube.com/watch?v=W8zglFFFRMM">Video</a>)</li>
   </ul>
 
   <h2 id="apps">Applications Using Roda</h2>

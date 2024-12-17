@@ -53,7 +53,9 @@ Roda::RodaPlugins::CustomBlockResults
 
 <p>The expected use case for this is to customize behavior by class, but matching uses ===, so it is possible to use non-class objects that respond to === appropriately.</p>
 
-<p>Note that custom block result handling only occurs if the types are not handled by <a href="../../Roda.html"><code>Roda</code></a> itself.  You cannot use this to modify the handling of nil, false, or string results.</p>
+<p>Note that custom block result handling only occurs if the types are not handled by <a href="../../Roda.html"><code>Roda</code></a> itself.  You cannot use this to modify the handling of nil, false, or string results.  Additionally, if the response body has already been written to before the the route block exits, then the result of the block is ignored, and the related <code>handle_block_result</code> block will not be called (this is standard <a href="../../Roda.html"><code>Roda</code></a> behavior).</p>
+
+<p>The return value of the <code>handle_block_result</code> block is written to the body if the block return value is a String, similar to standard <a href="../../Roda.html"><code>Roda</code></a> handling of block results.  Non-String return values are ignored.</p>
 </div>
 <div id='method-list'>
 <h2>Methods</h2>
@@ -88,9 +90,9 @@ Roda::RodaPlugins::CustomBlockResults
 [show source]
 </a>
 <pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/custom_block_results.rb</span>
-<span class="line-num">33</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>)
-<span class="line-num">34</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:custom_block_results</span>] <span class="ruby-operator">||=</span> {}
-<span class="line-num">35</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">42</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>)
+<span class="line-num">43</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:custom_block_results</span>] <span class="ruby-operator">||=</span> {}
+<span class="line-num">44</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

@@ -65,10 +65,10 @@ Roda::RodaPlugins::CustomBlockResults::ClassMethods
 [show source]
 </a>
 <pre id='method-i-freeze-source'>   <span class="ruby-comment"># File lib/roda/plugins/custom_block_results.rb</span>
-<span class="line-num">39</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">freeze</span>
-<span class="line-num">40</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:custom_block_results</span>].<span class="ruby-identifier">freeze</span>
-<span class="line-num">41</span>   <span class="ruby-keyword">super</span>
-<span class="line-num">42</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">48</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">freeze</span>
+<span class="line-num">49</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:custom_block_results</span>].<span class="ruby-identifier">freeze</span>
+<span class="line-num">50</span>   <span class="ruby-keyword">super</span>
+<span class="line-num">51</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-handle_block_result'>
@@ -87,9 +87,9 @@ Roda::RodaPlugins::CustomBlockResults::ClassMethods
 [show source]
 </a>
 <pre id='method-i-handle_block_result-source'>   <span class="ruby-comment"># File lib/roda/plugins/custom_block_results.rb</span>
-<span class="line-num">46</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">handle_block_result</span>(<span class="ruby-identifier">klass</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">47</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:custom_block_results</span>][<span class="ruby-identifier">klass</span>] = <span class="ruby-identifier">define_roda_method</span>(<span class="ruby-identifier">opts</span>[<span class="ruby-value">:custom_block_results</span>][<span class="ruby-identifier">klass</span>] <span class="ruby-operator">||</span> <span class="ruby-node">&quot;custom_block_result_#{klass}&quot;</span>, <span class="ruby-value">1</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">48</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">55</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">handle_block_result</span>(<span class="ruby-identifier">klass</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">56</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:custom_block_results</span>][<span class="ruby-identifier">klass</span>] = <span class="ruby-identifier">define_roda_method</span>(<span class="ruby-identifier">opts</span>[<span class="ruby-value">:custom_block_results</span>][<span class="ruby-identifier">klass</span>] <span class="ruby-operator">||</span> <span class="ruby-node">&quot;custom_block_result_#{klass}&quot;</span>, <span class="ruby-value">1</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">57</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

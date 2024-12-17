@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+<head>
+<title>Roda::RodaPlugins::HostRouting::DSL</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<link href='../../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<script type='text/javascript'>
+  function popupCode(url) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+  
+  function toggleCode(id) {
+    var code = document.getElementById(id)
+  
+    code.style.display = code.style.display != 'block' ? 'block' : 'none'
+    return true
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+</script>
+</head>
+<body class='page'>
+<div class='class' id='wrapper'>
+<div class='header'>
+<h1 class='name'><span class='type'>class</span>
+Roda::RodaPlugins::HostRouting::DSL
+</h1>
+<ol class='paths'>
+<li>
+<a href="../../../../files/lib/roda/plugins/host_routing_rb.html">lib/roda/plugins/host_routing.rb</a>
+</li>
+</ol>
+<div class='parent'>
+Superclass:
+<strong>Object</strong>
+</div>
+</div>
+<div id='content'>
+<div id='text'>
+<div id='description'></div>
+<div id='method-list'>
+<h2>Methods</h2>
+<h3>Public Class</h3>
+<ol>
+<li><a href="#method-c-new">new</a></li>
+</ol>
+<h3>Public Instance</h3>
+<ol>
+<li><a href="#method-i-default">default</a></li>
+<li><a href="#method-i-process">process</a></li>
+<li><a href="#method-i-register">register</a></li>
+<li><a href="#method-i-to">to</a></li>
+</ol>
+</div>
+<div id='context'>
+</div>
+<div id='section'>
+<div id='methods'>
+<h2>Public Class methods</h2>
+<div class='method public-class' id='method-method-c-new'>
+<a name='method-c-new'></a>
+<div class='synopsis'>
+<span class='name'>new</span><span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-new-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-c-new-source'>    <span class="ruby-comment"># File lib/roda/plugins/host_routing.rb</span>
+<span class="line-num">110</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>
+<span class="line-num">111</span>   <span class="ruby-ivar">@hosts</span> = []
+<span class="line-num">112</span>   <span class="ruby-ivar">@host_hash</span> = {}
+<span class="line-num">113</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<h2>Public Instance methods</h2>
+<div class='method public-instance' id='method-method-i-default'>
+<a name='method-i-default'></a>
+<div class='synopsis'>
+<span class='name'>default</span><span class='arguments'>(hostname, &block)</span>
+
+</div>
+<div class='description'>
+
+<p>Register the default hostname.  If a block is provided, it is called with the host if there is no match for one of the hostnames provided to <code>to</code>.  If the block returns nil/false, the hostname given to this method is used.</p>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-default-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-default-source'>    <span class="ruby-comment"># File lib/roda/plugins/host_routing.rb</span>
+<span class="line-num">147</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">default</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">148</span>   <span class="ruby-ivar">@default_host</span> = <span class="ruby-identifier">hostname</span>
+<span class="line-num">149</span>   <span class="ruby-ivar">@default_block</span> = <span class="ruby-identifier">block</span>
+<span class="line-num">150</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-process'>
+<a name='method-i-process'></a>
+<div class='synopsis'>
+<span class='name'>process</span><span class='arguments'>(&block)</span>
+
+</div>
+<div class='description'>
+
+<p>Run the <a href="DSL.html"><code>DSL</code></a> for the given block.</p>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-process-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-process-source'>    <span class="ruby-comment"># File lib/roda/plugins/host_routing.rb</span>
+<span class="line-num">116</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">process</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">117</span>   <span class="ruby-identifier">instance_exec</span>(<span class="ruby-keyword">self</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">118</span> 
+<span class="line-num">119</span>   <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@default_host</span>
+<span class="line-num">120</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;must call default method inside host_routing plugin block to set default host&quot;</span>
+<span class="line-num">121</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">122</span> 
+<span class="line-num">123</span>   <span class="ruby-ivar">@hosts</span>.<span class="ruby-identifier">concat</span>(<span class="ruby-ivar">@host_hash</span>.<span class="ruby-identifier">values</span>)
+<span class="line-num">124</span>   <span class="ruby-ivar">@hosts</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-ivar">@default_host</span>
+<span class="line-num">125</span>   <span class="ruby-ivar">@hosts</span>.<span class="ruby-identifier">uniq!</span>
+<span class="line-num">126</span>   [<span class="ruby-ivar">@hosts</span>.<span class="ruby-identifier">freeze</span>, <span class="ruby-ivar">@host_hash</span>.<span class="ruby-identifier">freeze</span>, <span class="ruby-ivar">@default_block</span>, <span class="ruby-ivar">@default_host</span>].<span class="ruby-identifier">freeze</span>
+<span class="line-num">127</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-register'>
+<a name='method-i-register'></a>
+<div class='synopsis'>
+<span class='name'>register</span><span class='arguments'>(*hosts)</span>
+
+</div>
+<div class='description'>
+
+<p>Register hosts that can be returned.  This is only needed if calling register with a block, where the block can return a value that doesn’t match a host given to <code>to</code> or <code>default</code>.</p>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-register-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-register-source'>    <span class="ruby-comment"># File lib/roda/plugins/host_routing.rb</span>
+<span class="line-num">132</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">register</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">hosts</span>)
+<span class="line-num">133</span>   <span class="ruby-ivar">@hosts</span> = <span class="ruby-identifier">hosts</span>
+<span class="line-num">134</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-to'>
+<a name='method-i-to'></a>
+<div class='synopsis'>
+<span class='name'>to</span><span class='arguments'>(host, *hostnames)</span>
+
+</div>
+<div class='description'>
+
+<p>Treat all given hostnames as routing to the give host.</p>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-to-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-to-source'>    <span class="ruby-comment"># File lib/roda/plugins/host_routing.rb</span>
+<span class="line-num">137</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">to</span>(<span class="ruby-identifier">host</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">hostnames</span>)
+<span class="line-num">138</span>   <span class="ruby-identifier">hostnames</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">hostname</span><span class="ruby-operator">|</span>
+<span class="line-num">139</span>     <span class="ruby-ivar">@host_hash</span>[<span class="ruby-identifier">hostname</span>] = <span class="ruby-identifier">host</span>
+<span class="line-num">140</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">141</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div id='footer-push'></div>
+</div>
+<div id='footer'>
+<a href="https://github.com/jeremyevans/hanna"><strong>Hanna</strong> RDoc template</a>
+</div>
+</body>
+</html>
