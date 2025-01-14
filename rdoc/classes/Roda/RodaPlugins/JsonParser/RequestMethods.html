@@ -66,28 +66,29 @@ Roda::RodaPlugins::JsonParser::RequestMethods
 <pre id='method-i-POST-source'>   <span class="ruby-comment"># File lib/roda/plugins/json_parser.rb</span>
 <span class="line-num">54</span> <span class="ruby-keyword">def</span> <span class="ruby-constant">POST</span>
 <span class="line-num">55</span>   <span class="ruby-identifier ruby-title">env</span> = <span class="ruby-ivar">@env</span>
-<span class="line-num">56</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">post_params</span> = (<span class="ruby-identifier">env</span>[<span class="ruby-string">&quot;roda.json_params&quot;</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">env</span>[<span class="ruby-string">&quot;rack.request.form_hash&quot;</span>])
-<span class="line-num">57</span>     <span class="ruby-identifier">post_params</span>
-<span class="line-num">58</span>   <span class="ruby-keyword">elsif</span> (<span class="ruby-identifier">input</span> = <span class="ruby-identifier">env</span>[<span class="ruby-string">&quot;rack.input&quot;</span>]) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">content_type</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">/json/</span>
-<span class="line-num">59</span>     <span class="ruby-identifier">str</span> = <span class="ruby-identifier">_read_json_input</span>(<span class="ruby-identifier">input</span>)
-<span class="line-num">60</span>     <span class="ruby-keyword">return</span> <span class="ruby-keyword">super</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">str</span>.<span class="ruby-identifier">empty?</span>
-<span class="line-num">61</span>     <span class="ruby-keyword">begin</span>
-<span class="line-num">62</span>       <span class="ruby-identifier">json_params</span> = <span class="ruby-identifier">parse_json</span>(<span class="ruby-identifier">str</span>)
-<span class="line-num">63</span>     <span class="ruby-keyword">rescue</span>
-<span class="line-num">64</span>       <span class="ruby-identifier">roda_class</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_parser_error_handler</span>].<span class="ruby-identifier">call</span>(<span class="ruby-keyword">self</span>)
-<span class="line-num">65</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">66</span> 
-<span class="line-num">67</span>     <span class="ruby-identifier">wrap</span> = <span class="ruby-identifier">roda_class</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_parser_wrap</span>]
-<span class="line-num">68</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">wrap</span> <span class="ruby-operator">==</span> <span class="ruby-value">:always</span> <span class="ruby-operator">||</span> (<span class="ruby-identifier">wrap</span> <span class="ruby-operator">==</span> <span class="ruby-value">:unless_hash</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">json_params</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Hash</span>))
-<span class="line-num">69</span>       <span class="ruby-identifier">json_params</span> = {<span class="ruby-string">&quot;_json&quot;</span><span class="ruby-operator">=&gt;</span><span class="ruby-identifier">json_params</span>}
-<span class="line-num">70</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">71</span>     <span class="ruby-identifier">env</span>[<span class="ruby-string">&quot;roda.json_params&quot;</span>] = <span class="ruby-identifier">json_params</span>
-<span class="line-num">72</span>     <span class="ruby-identifier">env</span>[<span class="ruby-string">&quot;rack.request.form_input&quot;</span>] = <span class="ruby-identifier">input</span>
-<span class="line-num">73</span>     <span class="ruby-identifier">json_params</span>
-<span class="line-num">74</span>   <span class="ruby-keyword">else</span>
-<span class="line-num">75</span>     <span class="ruby-keyword">super</span>
-<span class="line-num">76</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">77</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">56</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">post_params</span> = <span class="ruby-identifier">env</span>[<span class="ruby-string">&quot;roda.json_params&quot;</span>]
+<span class="line-num">57</span>     <span class="ruby-keyword">return</span> <span class="ruby-identifier">post_params</span>
+<span class="line-num">58</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">59</span> 
+<span class="line-num">60</span>   <span class="ruby-keyword">unless</span> (<span class="ruby-identifier">input</span> = <span class="ruby-identifier">env</span>[<span class="ruby-string">&quot;rack.input&quot;</span>]) <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">content_type</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">content_type</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">content_type</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-string">&#39;json&#39;</span>)
+<span class="line-num">61</span>     <span class="ruby-keyword">return</span> <span class="ruby-keyword">super</span>
+<span class="line-num">62</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">63</span> 
+<span class="line-num">64</span>   <span class="ruby-identifier">str</span> = <span class="ruby-identifier">_read_json_input</span>(<span class="ruby-identifier">input</span>)
+<span class="line-num">65</span>   <span class="ruby-keyword">return</span> <span class="ruby-keyword">super</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">str</span>.<span class="ruby-identifier">empty?</span>
+<span class="line-num">66</span>   <span class="ruby-keyword">begin</span>
+<span class="line-num">67</span>     <span class="ruby-identifier">json_params</span> = <span class="ruby-identifier">parse_json</span>(<span class="ruby-identifier">str</span>)
+<span class="line-num">68</span>   <span class="ruby-keyword">rescue</span>
+<span class="line-num">69</span>     <span class="ruby-identifier">roda_class</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_parser_error_handler</span>].<span class="ruby-identifier">call</span>(<span class="ruby-keyword">self</span>)
+<span class="line-num">70</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">71</span> 
+<span class="line-num">72</span>   <span class="ruby-identifier">wrap</span> = <span class="ruby-identifier">roda_class</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_parser_wrap</span>]
+<span class="line-num">73</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">wrap</span> <span class="ruby-operator">==</span> <span class="ruby-value">:always</span> <span class="ruby-operator">||</span> (<span class="ruby-identifier">wrap</span> <span class="ruby-operator">==</span> <span class="ruby-value">:unless_hash</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">json_params</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Hash</span>))
+<span class="line-num">74</span>     <span class="ruby-identifier">json_params</span> = {<span class="ruby-string">&quot;_json&quot;</span><span class="ruby-operator">=&gt;</span><span class="ruby-identifier">json_params</span>}
+<span class="line-num">75</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">76</span>   <span class="ruby-identifier">env</span>[<span class="ruby-string">&quot;roda.json_params&quot;</span>] = <span class="ruby-identifier">json_params</span>
+<span class="line-num">77</span>   <span class="ruby-identifier">json_params</span>
+<span class="line-num">78</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

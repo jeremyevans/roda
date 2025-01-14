@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+<head>
+<title>3.88.0.txt</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<link href='../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<script type='text/javascript'>
+  function popupCode(url) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+  
+  function toggleCode(id) {
+    var code = document.getElementById(id)
+  
+    code.style.display = code.style.display != 'block' ? 'block' : 'none'
+    return true
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+</script>
+</head>
+<body class='page'>
+<div class='file' id='wrapper'>
+<div class='header'>
+<h1 class='name'>3.88.0.txt
+</h1>
+<div class='paths'>
+doc/release_notes/3.88.0.txt
+</div>
+<div class='last-update'>
+Last Update:
+<span class='datetime'>2025-01-14 09:14:11 -0800</span>
+</div>
+</div>
+<div id='content'>
+<div id='text'>
+<div id='description'>
+<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<ul><li>
+<p>Fixed locals are now supported in templates when using Tilt 2.6+. Without fixed locals, templates that support local variables can be called with any locals, and a separate template method is compiled for each combination of local variable names.  This causes multiple issues:</p>
+<ul><li>
+<p>It is inefficient, especially for large templates that are called with many combinations of locals.</p>
+</li><li>
+<p>It hides issues if unused local variable names are passed to the template</p>
+</li><li>
+<p>It does not support default values for local variables</p>
+</li><li>
+<p>It does not support required local variables</p>
+</li><li>
+<p>It does not support cases where you want to pass values via a keyword splat</p>
+</li><li>
+<p>It does not support named blocks</p>
+</li></ul>
+
+<p>Fixed locals solve these problems by having the compiled methods use keyword arguments instead of a single positional hash argument.  This allows you to use required keyword arguments, provide default values for optional keyword arguments, and use keyword splats and named blocks. See <a target="_top" href="https://github.com/jeremyevans/tilt#fixed-locals">github.com/jeremyevans/tilt#fixed-locals</a> for details.</p>
+
+<p>You can enable embedded fixed locals in templates using the ‘:extract_fixed_locals` template option.  The recommended template options when creating new <a href="../../../classes/Roda.html"><code>Roda</code></a> applications that use the render plugin are now:</p>
+
+<pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:render</span>, <span class="ruby-value">template_opts:</span> {
+    <span class="ruby-value">scope_class:</span> <span class="ruby-keyword">self</span>,          <span class="ruby-comment"># Always uses current class as scope class for compiled templates</span>
+    <span class="ruby-value">freeze:</span> <span class="ruby-keyword">true</span>,               <span class="ruby-comment"># Freeze string literals in templates</span>
+    <span class="ruby-value">extract_fixed_locals:</span> <span class="ruby-keyword">true</span>, <span class="ruby-comment"># Support embedded fixed locals in templates</span>
+    <span class="ruby-value">default_fixed_locals:</span> <span class="ruby-string">&#39;()&#39;</span>, <span class="ruby-comment"># Default to templates not supporting local variables</span>
+    <span class="ruby-value">escape:</span> <span class="ruby-keyword">true</span>,               <span class="ruby-comment"># For Erubi templates, escapes &lt;%= by default (use &lt;%== for unescaped</span>
+    <span class="ruby-value">chain_appends:</span> <span class="ruby-keyword">true</span>,        <span class="ruby-comment"># For Erubi templates, improves performance</span>
+    <span class="ruby-value">skip_compiled_encoding_detection:</span> <span class="ruby-keyword">true</span>, <span class="ruby-comment"># Unless you need encodings explicitly specified</span>
+  }
+</pre>
+</li></ul>
+
+<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<ul><li>
+<p>The json_parser plugin now handles the case where Rack::Request#POST has already been called on the env hash, when using Rack 3+.</p>
+</li><li>
+<p>The default_headers plugin now handles a mixed/upper case Content-Type header, when using Rack 3+ (which requires lower case headers).</p>
+</li><li>
+<p>The render_coverage plugin now handles the case where both :scope_class template option and fixed locals are used.</p>
+</li><li>
+<p><a href="../../../classes/Roda.html"><code>Roda</code></a> now avoids warnings when the -W:strict_unused_block Ruby option is used.</p>
+</li></ul>
+</div>
+<div id='context'>
+</div>
+
+</div>
+</div>
+
+<div id='footer-push'></div>
+</div>
+<div id='footer'>
+<a href="https://github.com/jeremyevans/hanna"><strong>Hanna</strong> RDoc template</a>
+</div>
+</body>
+</html>

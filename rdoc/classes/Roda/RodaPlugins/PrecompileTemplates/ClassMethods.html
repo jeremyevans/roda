@@ -89,7 +89,7 @@ Roda::RodaPlugins::PrecompileTemplates::ClassMethods
 
 <p>Precompile the templates using the given options.  Note that this doesn’t handle optimized template methods supported in newer versions of <a href="../../../Roda.html"><code>Roda</code></a>, but there are still cases where makes sense to use it.</p>
 
-<p>You can call <code>precompile_templates</code> with the pattern of templates you would like to precompile:</p>
+<p>You can call <a href="ClassMethods.html#method-i-precompile_templates"><code>precompile_templates</code></a> with the pattern of templates you would like to precompile:</p>
 
 <pre class="ruby"><span class="ruby-identifier">precompile_templates</span> <span class="ruby-string">&quot;views/**/*.erb&quot;</span>
 </pre>
@@ -101,9 +101,9 @@ Roda::RodaPlugins::PrecompileTemplates::ClassMethods
 <pre class="ruby"><span class="ruby-identifier">precompile_templates</span> <span class="ruby-string">&#39;views/users/_*.erb&#39;</span>, <span class="ruby-value">locals:</span> [<span class="ruby-value">:user</span>]
 </pre>
 
-<p>You can specify other render options when calling <code>precompile_templates</code>, including <code>:cache_key</code>, <code>:template_class</code>, and <code>:template_opts</code>.  If you are passing any of those options to render/view for the template, you should pass the same options when precompiling the template.</p>
+<p>You can specify other render options when calling <a href="ClassMethods.html#method-i-precompile_templates"><code>precompile_templates</code></a>, including <code>:cache_key</code>, <code>:template_class</code>, and <code>:template_opts</code>.  If you are passing any of those options to render/view for the template, you should pass the same options when precompiling the template.</p>
 
-<p>To compile inline templates, just pass a single hash containing an :inline to <code>precompile_templates</code>:</p>
+<p>To compile inline templates, just pass a single hash containing an :inline to <a href="ClassMethods.html#method-i-precompile_templates"><code>precompile_templates</code></a>:</p>
 
 <pre class="ruby"><span class="ruby-identifier">precompile_templates</span> <span class="ruby-value">inline:</span> <span class="ruby-identifier">some_template_string</span>
 </pre>

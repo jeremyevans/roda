@@ -89,7 +89,7 @@ Roda::RodaPlugins::Sessions
 
 <p>Unlike some other approaches to sessions, the sessions plugin does not use a rack middleware, so session information is not available to other rack middleware, only to the application itself, with the session not being loaded from the cookie until the <code>session</code> method is called.</p>
 
-<p>If you need rack middleware to access the session information, then <code>require &#39;roda/session_middleware&#39;</code> and <code>use RodaSessionMiddleware</code>. <code>RodaSessionMiddleware</code> passes the options given to this plugin.</p>
+<p>If you need rack middleware to access the session information, then <code>require &#39;roda/session_middleware&#39;</code> and <code>use RodaSessionMiddleware</code>. <a href="../../RodaSessionMiddleware.html"><code>RodaSessionMiddleware</code></a> passes the options given to this plugin.</p>
 
 <h1 id="module-Roda::RodaPlugins::Sessions-label-Session+Cookie+Cryptography-2FFormat">Session Cookie Cryptography/Format<span><a href="#module-Roda::RodaPlugins::Sessions-label-Session+Cookie+Cryptography-2FFormat">&para;</a> <a href="#top">&uarr;</a></span></h1>
 

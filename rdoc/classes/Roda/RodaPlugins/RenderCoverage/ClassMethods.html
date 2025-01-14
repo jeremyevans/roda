@@ -65,19 +65,38 @@ Roda::RodaPlugins::RenderCoverage::ClassMethods
 </a>
 <pre id='method-i-create_template-source'>   <span class="ruby-comment"># File lib/roda/plugins/render_coverage.rb</span>
 <span class="line-num">52</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">create_template</span>(<span class="ruby-identifier">opts</span>, <span class="ruby-identifier">template_opts</span>)
-<span class="line-num">53</span>   <span class="ruby-identifier">template</span> = <span class="ruby-keyword">super</span>
-<span class="line-num">54</span>   <span class="ruby-keyword">return</span> <span class="ruby-identifier">template</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:template_block</span>]
-<span class="line-num">55</span> 
-<span class="line-num">56</span>   <span class="ruby-identifier">path</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">expand_path</span>(<span class="ruby-identifier">opts</span>[<span class="ruby-value">:path</span>])
+<span class="line-num">53</span>   <span class="ruby-keyword">return</span> <span class="ruby-keyword">super</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:template_block</span>]
+<span class="line-num">54</span> 
+<span class="line-num">55</span>   <span class="ruby-identifier">path</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">expand_path</span>(<span class="ruby-identifier">opts</span>[<span class="ruby-value">:path</span>])
+<span class="line-num">56</span>   <span class="ruby-identifier">compiled_path</span> = <span class="ruby-keyword">nil</span>
 <span class="line-num">57</span>   (<span class="ruby-keyword">self</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:render_coverage_strip_paths</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">render_opts</span>[<span class="ruby-value">:allowed_paths</span>]).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">dir</span><span class="ruby-operator">|</span>
 <span class="line-num">58</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">path</span>.<span class="ruby-identifier">start_with?</span>(<span class="ruby-identifier">dir</span> <span class="ruby-operator">+</span> <span class="ruby-string">&#39;/&#39;</span>)
-<span class="line-num">59</span>       <span class="ruby-identifier">template</span>.<span class="ruby-identifier">compiled_path</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:render_coverage_dir</span>], <span class="ruby-identifier">path</span>[<span class="ruby-identifier">dir</span>.<span class="ruby-identifier">length</span><span class="ruby-value">+1</span>, <span class="ruby-value">10000000</span>].<span class="ruby-identifier">gsub</span>(<span class="ruby-string">&#39;/&#39;</span>, <span class="ruby-string">&#39;-&#39;</span>))
+<span class="line-num">59</span>       <span class="ruby-identifier">compiled_path</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:render_coverage_dir</span>], <span class="ruby-identifier">path</span>[<span class="ruby-identifier">dir</span>.<span class="ruby-identifier">length</span><span class="ruby-value">+1</span>, <span class="ruby-value">10000000</span>].<span class="ruby-identifier">gsub</span>(<span class="ruby-string">&#39;/&#39;</span>, <span class="ruby-string">&#39;-&#39;</span>))
 <span class="line-num">60</span>       <span class="ruby-keyword">break</span>
 <span class="line-num">61</span>     <span class="ruby-keyword">end</span>
 <span class="line-num">62</span>   <span class="ruby-keyword">end</span>
 <span class="line-num">63</span> 
-<span class="line-num">64</span>   <span class="ruby-identifier">template</span>
-<span class="line-num">65</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">64</span>   <span class="ruby-comment"># For Tilt 2.6+, when using :scope_class and fixed locals, must provide</span>
+<span class="line-num">65</span>   <span class="ruby-comment"># compiled path as option, since compilation happens during initalization</span>
+<span class="line-num">66</span>   <span class="ruby-comment"># in that case. This option should be ignored if the template does not</span>
+<span class="line-num">67</span>   <span class="ruby-comment"># support it, but some template class may break if the option is not</span>
+<span class="line-num">68</span>   <span class="ruby-comment"># handled, so for compatibility, only set the method if Tilt::Template</span>
+<span class="line-num">69</span>   <span class="ruby-comment"># will handle it.</span>
+<span class="line-num">70</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">compiled_path</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">Tilt</span><span class="ruby-operator">::</span><span class="ruby-constant">Template</span>.<span class="ruby-identifier">method_defined?</span>(<span class="ruby-value">:fixed_locals?</span>)
+<span class="line-num">71</span>     <span class="ruby-identifier">template_opts</span> = <span class="ruby-identifier">template_opts</span>.<span class="ruby-identifier">dup</span>
+<span class="line-num">72</span>     <span class="ruby-identifier">template_opts</span>[<span class="ruby-value">:compiled_path</span>] = <span class="ruby-identifier">compiled_path</span>
+<span class="line-num">73</span>     <span class="ruby-identifier">compiled_path</span> = <span class="ruby-keyword">nil</span>
+<span class="line-num">74</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">75</span> 
+<span class="line-num">76</span>   <span class="ruby-identifier">template</span> = <span class="ruby-keyword">super</span>
+<span class="line-num">77</span> 
+<span class="line-num">78</span>   <span class="ruby-comment"># Set compiled path for template when using older tilt versions.</span>
+<span class="line-num">79</span>   <span class="ruby-comment"># :nocov:</span>
+<span class="line-num">80</span>   <span class="ruby-identifier">template</span>.<span class="ruby-identifier">compiled_path</span> = <span class="ruby-identifier">compiled_path</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">compiled_path</span>
+<span class="line-num">81</span>   <span class="ruby-comment"># :nocov:</span>
+<span class="line-num">82</span> 
+<span class="line-num">83</span>   <span class="ruby-identifier">template</span>
+<span class="line-num">84</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

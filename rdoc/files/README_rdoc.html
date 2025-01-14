@@ -627,7 +627,7 @@ Last Update:
 </li><li>
 <p>The main methods defined, beyond the default methods for <code>Object</code>, are <code>env</code>, <code>opts</code>, <code>request</code>, <code>response</code>, and <code>session</code>.  <code>call</code> and <code>_call</code> are also defined, but are deprecated.  All other methods defined are prefixed with <code><em>roda</em></code></p>
 </li><li>
-<p>Constants inside the <a href="../classes/Roda.html"><code>Roda</code></a> namespace are all prefixed with <code>Roda</code> (e.g., <code>Roda::RodaRequest</code>).</p>
+<p>Constants inside the <a href="../classes/Roda.html"><code>Roda</code></a> namespace are all prefixed with <a href="../classes/Roda.html"><code>Roda</code></a> (e.g., <a href="../classes/Roda/RodaRequest.html"><code>Roda::RodaRequest</code></a>).</p>
 </li></ul>
 
 <h2 id="label-Composition">Composition<span><a href="#label-Composition">&para;</a> <a href="#top">&uarr;</a></span></h2>
@@ -790,7 +790,7 @@ Last Update:
 
 <p>The <code>:secret</code> option should be a randomly generated string of at least 64 bytes.</p>
 
-<p>If you have middleware that need access to sessions, then use the <code>RodaSessionMiddleware</code> that ships with Roda:</p>
+<p>If you have middleware that need access to sessions, then use the <a href="../classes/RodaSessionMiddleware.html"><code>RodaSessionMiddleware</code></a> that ships with Roda:</p>
 
 <pre class="ruby"><span class="ruby-identifier">require</span> <span class="ruby-string">&#39;roda&#39;</span>
 <span class="ruby-identifier">require</span> <span class="ruby-string">&#39;roda/session_middleware&#39;</span>
@@ -958,7 +958,7 @@ Last Update:
 
 <h3 id="label-Registering+plugins">Registering plugins<span><a href="#label-Registering+plugins">&para;</a> <a href="#top">&uarr;</a></span></h3>
 
-<p>If you want to ship a <a href="../classes/Roda.html"><code>Roda</code></a> plugin in a gem, but still have <a href="../classes/Roda.html"><code>Roda</code></a> load it automatically via <code>Roda.plugin :plugin_name</code>, you should place it where it can be required via <code>roda/plugins/plugin_name</code> and then have the file register it as a plugin via <code>Roda::RodaPlugins.register_plugin</code>. It’s recommended, but not required, that you store your plugin module in the <code>Roda::RodaPlugins</code> namespace:</p>
+<p>If you want to ship a <a href="../classes/Roda.html"><code>Roda</code></a> plugin in a gem, but still have <a href="../classes/Roda.html"><code>Roda</code></a> load it automatically via <code>Roda.plugin :plugin_name</code>, you should place it where it can be required via <code>roda/plugins/plugin_name</code> and then have the file register it as a plugin via <a href="../classes/Roda/RodaPlugins.html#method-c-register_plugin"><code>Roda::RodaPlugins.register_plugin</code></a>. It’s recommended, but not required, that you store your plugin module in the <a href="../classes/Roda/RodaPlugins.html"><code>Roda::RodaPlugins</code></a> namespace:</p>
 
 <pre class="ruby"><span class="ruby-keyword">class</span> <span class="ruby-constant">Roda</span>
   <span class="ruby-keyword">module</span> <span class="ruby-constant">RodaPlugins</span>
@@ -975,7 +975,7 @@ Last Update:
 <span class="ruby-keyword">end</span>
 </pre>
 
-<p>To avoid namespace pollution, you should avoid creating your module directly in the <code>Roda</code> namespace. Additionally, any instance variables created inside <code>InstanceMethods</code> should be prefixed with an underscore (e.g., <code>@_variable</code>) to avoid polluting the scope.  Finally, do not add any constants inside the InstanceMethods module, add constants to the plugin module itself (<code>Markdown</code> in the above example).</p>
+<p>To avoid namespace pollution, you should avoid creating your module directly in the <a href="../classes/Roda.html"><code>Roda</code></a> namespace. Additionally, any instance variables created inside <code>InstanceMethods</code> should be prefixed with an underscore (e.g., <code>@_variable</code>) to avoid polluting the scope.  Finally, do not add any constants inside the InstanceMethods module, add constants to the plugin module itself (<code>Markdown</code> in the above example).</p>
 
 <p>If you are planning on shipping your plugin in an external gem, it is recommended that you follow <a target="_top" href="http://guides.rubygems.org/name-your-gem/">standard gem naming conventions for extensions</a>. So if your plugin module is named <code>FooBar</code>, your gem name should be <code>roda-foo_bar</code>.</p>
 
