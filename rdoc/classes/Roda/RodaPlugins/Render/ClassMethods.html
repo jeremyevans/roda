@@ -48,6 +48,12 @@ Roda::RodaPlugins::Render::ClassMethods
 </ol>
 </div>
 <div id='context'>
+<div id='includes'>
+<h2>Included modules</h2>
+<ol>
+<li><a href="AssumeFixedLocalsInstanceMethods.html">AssumeFixedLocalsInstanceMethods</a></li>
+</ol>
+</div>
 </div>
 <div id='section'>
 <div id='methods'>
@@ -68,9 +74,9 @@ Roda::RodaPlugins::Render::ClassMethods
 [show source]
 </a>
 <pre id='method-i-create_template-source'>    <span class="ruby-comment"># File lib/roda/plugins/render.rb</span>
-<span class="line-num">539</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">create_template</span>(<span class="ruby-identifier">opts</span>, <span class="ruby-identifier">template_opts</span>)
-<span class="line-num">540</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:template_class</span>].<span class="ruby-identifier">new</span>(<span class="ruby-identifier">opts</span>[<span class="ruby-value">:path</span>], <span class="ruby-value">1</span>, <span class="ruby-identifier">template_opts</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">opts</span>[<span class="ruby-value">:template_block</span>])
-<span class="line-num">541</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">556</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">create_template</span>(<span class="ruby-identifier">opts</span>, <span class="ruby-identifier">template_opts</span>)
+<span class="line-num">557</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:template_class</span>].<span class="ruby-identifier">new</span>(<span class="ruby-identifier">opts</span>[<span class="ruby-value">:path</span>], <span class="ruby-value">1</span>, <span class="ruby-identifier">template_opts</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">opts</span>[<span class="ruby-value">:template_block</span>])
+<span class="line-num">558</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-freeze'>
@@ -89,18 +95,24 @@ Roda::RodaPlugins::Render::ClassMethods
 [show source]
 </a>
 <pre id='method-i-freeze-source'>    <span class="ruby-comment"># File lib/roda/plugins/render.rb</span>
-<span class="line-num">524</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">freeze</span>
-<span class="line-num">525</span>   <span class="ruby-keyword">begin</span>
-<span class="line-num">526</span>     <span class="ruby-identifier">_freeze_layout_method</span>
-<span class="line-num">527</span>   <span class="ruby-keyword">rescue</span>
-<span class="line-num">528</span>     <span class="ruby-comment"># This is only for optimization, if any errors occur, they can be ignored.</span>
-<span class="line-num">529</span>     <span class="ruby-comment"># One possibility for error is the app doesn&#39;t use a layout, but doesn&#39;t</span>
-<span class="line-num">530</span>     <span class="ruby-comment"># specifically set the :layout=&gt;false plugin option.</span>
-<span class="line-num">531</span>     <span class="ruby-keyword">nil</span>
-<span class="line-num">532</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">533</span> 
-<span class="line-num">534</span>   <span class="ruby-keyword">super</span>
-<span class="line-num">535</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">535</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">freeze</span>
+<span class="line-num">536</span>   <span class="ruby-keyword">begin</span>
+<span class="line-num">537</span>     <span class="ruby-identifier">_freeze_layout_method</span>
+<span class="line-num">538</span>   <span class="ruby-keyword">rescue</span>
+<span class="line-num">539</span>     <span class="ruby-comment"># This is only for optimization, if any errors occur, they can be ignored.</span>
+<span class="line-num">540</span>     <span class="ruby-comment"># One possibility for error is the app doesn&#39;t use a layout, but doesn&#39;t</span>
+<span class="line-num">541</span>     <span class="ruby-comment"># specifically set the :layout=&gt;false plugin option.</span>
+<span class="line-num">542</span>     <span class="ruby-keyword">nil</span>
+<span class="line-num">543</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">544</span> 
+<span class="line-num">545</span>   <span class="ruby-comment"># Optimize _call_optimized_template_method if you know all templates</span>
+<span class="line-num">546</span>   <span class="ruby-comment"># are going to be using fixed locals.</span>
+<span class="line-num">547</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">render_opts</span>[<span class="ruby-value">:assume_fixed_locals</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">render_opts</span>[<span class="ruby-value">:check_template_mtime</span>]
+<span class="line-num">548</span>     <span class="ruby-identifier">include</span> <span class="ruby-constant">AssumeFixedLocalsInstanceMethods</span>
+<span class="line-num">549</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">550</span> 
+<span class="line-num">551</span>   <span class="ruby-keyword">super</span>
+<span class="line-num">552</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-inherited'>
@@ -119,15 +131,15 @@ Roda::RodaPlugins::Render::ClassMethods
 [show source]
 </a>
 <pre id='method-i-inherited-source'>    <span class="ruby-comment"># File lib/roda/plugins/render.rb</span>
-<span class="line-num">552</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">inherited</span>(<span class="ruby-identifier">subclass</span>)
-<span class="line-num">553</span>   <span class="ruby-keyword">super</span>
-<span class="line-num">554</span>   <span class="ruby-identifier">opts</span> = <span class="ruby-identifier">subclass</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:render</span>] = <span class="ruby-identifier">subclass</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:render</span>].<span class="ruby-identifier">dup</span>
-<span class="line-num">555</span>   <span class="ruby-keyword">if</span> <span class="ruby-constant">COMPILED_METHOD_SUPPORT</span>
-<span class="line-num">556</span>     <span class="ruby-identifier">opts</span>[<span class="ruby-value">:template_method_cache</span>] = (<span class="ruby-identifier">opts</span>[<span class="ruby-value">:cache_class</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">RodaCache</span>).<span class="ruby-identifier">new</span>
-<span class="line-num">557</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">558</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:cache</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:cache</span>].<span class="ruby-identifier">dup</span>
-<span class="line-num">559</span>   <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">freeze</span>
-<span class="line-num">560</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">569</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">inherited</span>(<span class="ruby-identifier">subclass</span>)
+<span class="line-num">570</span>   <span class="ruby-keyword">super</span>
+<span class="line-num">571</span>   <span class="ruby-identifier">opts</span> = <span class="ruby-identifier">subclass</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:render</span>] = <span class="ruby-identifier">subclass</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:render</span>].<span class="ruby-identifier">dup</span>
+<span class="line-num">572</span>   <span class="ruby-keyword">if</span> <span class="ruby-constant">COMPILED_METHOD_SUPPORT</span>
+<span class="line-num">573</span>     <span class="ruby-identifier">opts</span>[<span class="ruby-value">:template_method_cache</span>] = (<span class="ruby-identifier">opts</span>[<span class="ruby-value">:cache_class</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">RodaCache</span>).<span class="ruby-identifier">new</span>
+<span class="line-num">574</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">575</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:cache</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:cache</span>].<span class="ruby-identifier">dup</span>
+<span class="line-num">576</span>   <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">577</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-inline_template_block'>
@@ -146,9 +158,9 @@ Roda::RodaPlugins::Render::ClassMethods
 [show source]
 </a>
 <pre id='method-i-inline_template_block-source'>    <span class="ruby-comment"># File lib/roda/plugins/render.rb</span>
-<span class="line-num">545</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">inline_template_block</span>(<span class="ruby-identifier">content</span>)
-<span class="line-num">546</span>   <span class="ruby-constant">Proc</span>.<span class="ruby-identifier">new</span>{<span class="ruby-identifier">content</span>}
-<span class="line-num">547</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">562</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">inline_template_block</span>(<span class="ruby-identifier">content</span>)
+<span class="line-num">563</span>   <span class="ruby-constant">Proc</span>.<span class="ruby-identifier">new</span>{<span class="ruby-identifier">content</span>}
+<span class="line-num">564</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-render_opts'>
@@ -167,9 +179,9 @@ Roda::RodaPlugins::Render::ClassMethods
 [show source]
 </a>
 <pre id='method-i-render_opts-source'>    <span class="ruby-comment"># File lib/roda/plugins/render.rb</span>
-<span class="line-num">563</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">render_opts</span>
-<span class="line-num">564</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:render</span>]
-<span class="line-num">565</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">580</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">render_opts</span>
+<span class="line-num">581</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:render</span>]
+<span class="line-num">582</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

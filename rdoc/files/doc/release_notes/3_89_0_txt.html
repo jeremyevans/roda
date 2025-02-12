@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+<head>
+<title>3.89.0.txt</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<link href='../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<script type='text/javascript'>
+  function popupCode(url) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+  
+  function toggleCode(id) {
+    var code = document.getElementById(id)
+  
+    code.style.display = code.style.display != 'block' ? 'block' : 'none'
+    return true
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+</script>
+</head>
+<body class='page'>
+<div class='file' id='wrapper'>
+<div class='header'>
+<h1 class='name'>3.89.0.txt
+</h1>
+<div class='paths'>
+doc/release_notes/3.89.0.txt
+</div>
+<div class='last-update'>
+Last Update:
+<span class='datetime'>2025-02-12 08:51:19 -0800</span>
+</div>
+</div>
+<div id='content'>
+<div id='text'>
+<div id='description'>
+<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<ul><li>
+<p>The render plugin now supports an :assume_fixed_locals option, which allows for better caching when all templates use fixed locals, by using a simplified cache key, and avoiding duplicate cache entries for templates rendered both with and without locals.</p>
+
+<p>Additionally, when this plugin option is set, calling template methods is now faster if the following are true:</p>
+<ul><li>
+<p>The application is frozen</p>
+</li><li>
+<p>Template caching is enabled</p>
+</li><li>
+<p>Ruby version is 3+</p>
+</li></ul>
+</li><li>
+<p>A part plugin has been added, which simplifies rendering a template with locals:</p>
+
+<pre class="ruby"><span class="ruby-comment"># render plugin</span>
+<span class="ruby-identifier">render</span>(<span class="ruby-value">:template</span>, <span class="ruby-value">locals:</span> {<span class="ruby-value">foo:</span> <span class="ruby-string">&#39;bar&#39;</span>})
+
+<span class="ruby-comment"># part plugin</span>
+<span class="ruby-identifier">part</span>(<span class="ruby-value">:template</span>, <span class="ruby-value">foo:</span> <span class="ruby-string">&#39;bar&#39;</span>)
+</pre>
+
+<p>In addition to offering a nicer API if you only need to provide locals, the part method can also be faster if all of the following are true:</p>
+<ul><li>
+<p>The application is frozen</p>
+</li><li>
+<p>The :assume_fixed_locals render plugin option is set</p>
+</li><li>
+<p>Template caching is enabled</p>
+</li><li>
+<p>Ruby version is 3+ (even faster on Ruby 3.4+)</p>
+</li></ul>
+</li></ul>
+
+<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<ul><li>
+<p>The mailer plugin’s mail and sendmail class methods now support keyword arguments and pass them as keywords to the r.mail blocks in the routing tree.</p>
+</li></ul>
+</div>
+<div id='context'>
+</div>
+
+</div>
+</div>
+
+<div id='footer-push'></div>
+</div>
+<div id='footer'>
+<a href="https://github.com/jeremyevans/hanna"><strong>Hanna</strong> RDoc template</a>
+</div>
+</body>
+</html>

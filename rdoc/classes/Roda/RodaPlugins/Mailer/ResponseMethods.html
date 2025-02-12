@@ -82,35 +82,35 @@ Roda::RodaPlugins::Mailer::ResponseMethods
 [show source]
 </a>
 <pre id='method-i-finish-source'>    <span class="ruby-comment"># File lib/roda/plugins/mailer.rb</span>
-<span class="line-num">187</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">finish</span>
-<span class="line-num">188</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">m</span> = <span class="ruby-identifier">mail</span>
-<span class="line-num">189</span>     <span class="ruby-identifier">header_content_type</span> = <span class="ruby-ivar">@headers</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_TYPE</span>)
-<span class="line-num">190</span>     <span class="ruby-identifier">m</span>.<span class="ruby-identifier">headers</span>(<span class="ruby-ivar">@headers</span>)
-<span class="line-num">191</span>     <span class="ruby-identifier">m</span>.<span class="ruby-identifier">body</span>(<span class="ruby-ivar">@body</span>.<span class="ruby-identifier">join</span>) <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@body</span>.<span class="ruby-identifier">empty?</span>
-<span class="line-num">192</span>     <span class="ruby-identifier">mail_attachments</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">a</span>, <span class="ruby-identifier">block</span><span class="ruby-operator">|</span>
-<span class="line-num">193</span>       <span class="ruby-identifier">m</span>.<span class="ruby-identifier">add_file</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">a</span>)
-<span class="line-num">194</span>       <span class="ruby-identifier">block</span>.<span class="ruby-identifier">call</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span>
-<span class="line-num">195</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">196</span> 
-<span class="line-num">197</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">content_type</span> = <span class="ruby-identifier">header_content_type</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">roda_class</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:mailer</span>][<span class="ruby-value">:content_type</span>]
-<span class="line-num">198</span>       <span class="ruby-keyword">if</span> <span class="ruby-identifier">mail</span>.<span class="ruby-identifier">multipart?</span>
-<span class="line-num">199</span>         <span class="ruby-keyword">if</span> <span class="ruby-regexp">/multipart\/mixed/</span> <span class="ruby-operator">=~</span> <span class="ruby-identifier">mail</span>.<span class="ruby-identifier">content_type</span> <span class="ruby-operator">&amp;&amp;</span>
-<span class="line-num">200</span>            <span class="ruby-identifier">mail</span>.<span class="ruby-identifier">parts</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-value">2</span> <span class="ruby-operator">&amp;&amp;</span>
-<span class="line-num">201</span>            (<span class="ruby-identifier">part</span> = <span class="ruby-identifier">mail</span>.<span class="ruby-identifier">parts</span>.<span class="ruby-identifier">find</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">p</span><span class="ruby-operator">|</span> <span class="ruby-operator">!</span><span class="ruby-identifier">p</span>.<span class="ruby-identifier">attachment</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">p</span>.<span class="ruby-identifier">encoded</span>; <span class="ruby-regexp">/text\/plain/</span> <span class="ruby-operator">=~</span> <span class="ruby-identifier">p</span>.<span class="ruby-identifier">content_type</span>)})
-<span class="line-num">202</span>           <span class="ruby-identifier">part</span>.<span class="ruby-identifier">content_type</span> = <span class="ruby-identifier">content_type</span>
-<span class="line-num">203</span>         <span class="ruby-keyword">end</span>
-<span class="line-num">204</span>       <span class="ruby-keyword">else</span>
-<span class="line-num">205</span>         <span class="ruby-identifier">mail</span>.<span class="ruby-identifier">content_type</span> = <span class="ruby-identifier">content_type</span>
-<span class="line-num">206</span>       <span class="ruby-keyword">end</span>
-<span class="line-num">207</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">208</span> 
-<span class="line-num">209</span>     <span class="ruby-keyword">unless</span> <span class="ruby-identifier">m</span>.<span class="ruby-identifier">body</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">m</span>.<span class="ruby-identifier">parts</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@body</span>.<span class="ruby-identifier">empty?</span>
-<span class="line-num">210</span>       <span class="ruby-identifier">m</span>
-<span class="line-num">211</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">212</span>   <span class="ruby-keyword">else</span>
-<span class="line-num">213</span>     <span class="ruby-keyword">super</span>
-<span class="line-num">214</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">215</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">193</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">finish</span>
+<span class="line-num">194</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">m</span> = <span class="ruby-identifier">mail</span>
+<span class="line-num">195</span>     <span class="ruby-identifier">header_content_type</span> = <span class="ruby-ivar">@headers</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_TYPE</span>)
+<span class="line-num">196</span>     <span class="ruby-identifier">m</span>.<span class="ruby-identifier">headers</span>(<span class="ruby-ivar">@headers</span>)
+<span class="line-num">197</span>     <span class="ruby-identifier">m</span>.<span class="ruby-identifier">body</span>(<span class="ruby-ivar">@body</span>.<span class="ruby-identifier">join</span>) <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@body</span>.<span class="ruby-identifier">empty?</span>
+<span class="line-num">198</span>     <span class="ruby-identifier">mail_attachments</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">a</span>, <span class="ruby-identifier">block</span><span class="ruby-operator">|</span>
+<span class="line-num">199</span>       <span class="ruby-identifier">m</span>.<span class="ruby-identifier">add_file</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">a</span>)
+<span class="line-num">200</span>       <span class="ruby-identifier">block</span>.<span class="ruby-identifier">call</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span>
+<span class="line-num">201</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">202</span> 
+<span class="line-num">203</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">content_type</span> = <span class="ruby-identifier">header_content_type</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">roda_class</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:mailer</span>][<span class="ruby-value">:content_type</span>]
+<span class="line-num">204</span>       <span class="ruby-keyword">if</span> <span class="ruby-identifier">mail</span>.<span class="ruby-identifier">multipart?</span>
+<span class="line-num">205</span>         <span class="ruby-keyword">if</span> <span class="ruby-regexp">/multipart\/mixed/</span> <span class="ruby-operator">=~</span> <span class="ruby-identifier">mail</span>.<span class="ruby-identifier">content_type</span> <span class="ruby-operator">&amp;&amp;</span>
+<span class="line-num">206</span>            <span class="ruby-identifier">mail</span>.<span class="ruby-identifier">parts</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-value">2</span> <span class="ruby-operator">&amp;&amp;</span>
+<span class="line-num">207</span>            (<span class="ruby-identifier">part</span> = <span class="ruby-identifier">mail</span>.<span class="ruby-identifier">parts</span>.<span class="ruby-identifier">find</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">p</span><span class="ruby-operator">|</span> <span class="ruby-operator">!</span><span class="ruby-identifier">p</span>.<span class="ruby-identifier">attachment</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">p</span>.<span class="ruby-identifier">encoded</span>; <span class="ruby-regexp">/text\/plain/</span> <span class="ruby-operator">=~</span> <span class="ruby-identifier">p</span>.<span class="ruby-identifier">content_type</span>)})
+<span class="line-num">208</span>           <span class="ruby-identifier">part</span>.<span class="ruby-identifier">content_type</span> = <span class="ruby-identifier">content_type</span>
+<span class="line-num">209</span>         <span class="ruby-keyword">end</span>
+<span class="line-num">210</span>       <span class="ruby-keyword">else</span>
+<span class="line-num">211</span>         <span class="ruby-identifier">mail</span>.<span class="ruby-identifier">content_type</span> = <span class="ruby-identifier">content_type</span>
+<span class="line-num">212</span>       <span class="ruby-keyword">end</span>
+<span class="line-num">213</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">214</span> 
+<span class="line-num">215</span>     <span class="ruby-keyword">unless</span> <span class="ruby-identifier">m</span>.<span class="ruby-identifier">body</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">m</span>.<span class="ruby-identifier">parts</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@body</span>.<span class="ruby-identifier">empty?</span>
+<span class="line-num">216</span>       <span class="ruby-identifier">m</span>
+<span class="line-num">217</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">218</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">219</span>     <span class="ruby-keyword">super</span>
+<span class="line-num">220</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">221</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-mail_attachments'>
@@ -129,9 +129,9 @@ Roda::RodaPlugins::Mailer::ResponseMethods
 [show source]
 </a>
 <pre id='method-i-mail_attachments-source'>    <span class="ruby-comment"># File lib/roda/plugins/mailer.rb</span>
-<span class="line-num">218</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">mail_attachments</span>
-<span class="line-num">219</span>   <span class="ruby-ivar">@mail_attachments</span> <span class="ruby-operator">||=</span> []
-<span class="line-num">220</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">224</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">mail_attachments</span>
+<span class="line-num">225</span>   <span class="ruby-ivar">@mail_attachments</span> <span class="ruby-operator">||=</span> []
+<span class="line-num">226</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

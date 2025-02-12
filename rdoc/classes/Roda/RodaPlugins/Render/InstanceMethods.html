@@ -66,16 +66,16 @@ Roda::RodaPlugins::Render::InstanceMethods
 [show source]
 </a>
 <pre id='method-i-render-source'>    <span class="ruby-comment"># File lib/roda/plugins/render.rb</span>
-<span class="line-num">591</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">render</span>(<span class="ruby-identifier">template</span>, <span class="ruby-identifier">opts</span> = (<span class="ruby-identifier">no_opts</span> = <span class="ruby-keyword">true</span>; <span class="ruby-identifier">optimized_template</span> = <span class="ruby-identifier">_cached_template_method</span>(<span class="ruby-identifier">template</span>); <span class="ruby-constant">OPTS</span>), <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">592</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">optimized_template</span>
-<span class="line-num">593</span>     <span class="ruby-identifier">_call_optimized_template_method</span>(<span class="ruby-identifier">optimized_template</span>, <span class="ruby-constant">OPTS</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">594</span>   <span class="ruby-keyword">elsif</span> <span class="ruby-operator">!</span><span class="ruby-identifier">no_opts</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-value">1</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">locals</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:locals</span>]) <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">optimized_template</span> = <span class="ruby-identifier">_optimized_render_method_for_locals</span>(<span class="ruby-identifier">template</span>, <span class="ruby-identifier">locals</span>))
-<span class="line-num">595</span>     <span class="ruby-identifier">_call_optimized_template_method</span>(<span class="ruby-identifier">optimized_template</span>, <span class="ruby-identifier">locals</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">596</span>   <span class="ruby-keyword">else</span>
-<span class="line-num">597</span>     <span class="ruby-identifier">opts</span> = <span class="ruby-identifier">render_template_opts</span>(<span class="ruby-identifier">template</span>, <span class="ruby-identifier">opts</span>)
-<span class="line-num">598</span>     <span class="ruby-identifier">retrieve_template</span>(<span class="ruby-identifier">opts</span>).<span class="ruby-identifier">render</span>((<span class="ruby-identifier">opts</span>[<span class="ruby-value">:scope</span>]<span class="ruby-operator">||</span><span class="ruby-keyword">self</span>), (<span class="ruby-identifier">opts</span>[<span class="ruby-value">:locals</span>]<span class="ruby-operator">||</span><span class="ruby-constant">OPTS</span>), <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">599</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">600</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">608</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">render</span>(<span class="ruby-identifier">template</span>, <span class="ruby-identifier">opts</span> = (<span class="ruby-identifier">no_opts</span> = <span class="ruby-keyword">true</span>; <span class="ruby-identifier">optimized_template</span> = <span class="ruby-identifier">_cached_template_method</span>(<span class="ruby-identifier">template</span>); <span class="ruby-constant">OPTS</span>), <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">609</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">optimized_template</span>
+<span class="line-num">610</span>     <span class="ruby-identifier">_call_optimized_template_method</span>(<span class="ruby-identifier">optimized_template</span>, <span class="ruby-constant">OPTS</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">611</span>   <span class="ruby-keyword">elsif</span> <span class="ruby-operator">!</span><span class="ruby-identifier">no_opts</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-value">1</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">locals</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:locals</span>]) <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">optimized_template</span> = <span class="ruby-identifier">_optimized_render_method_for_locals</span>(<span class="ruby-identifier">template</span>, <span class="ruby-identifier">locals</span>))
+<span class="line-num">612</span>     <span class="ruby-identifier">_call_optimized_template_method</span>(<span class="ruby-identifier">optimized_template</span>, <span class="ruby-identifier">locals</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">613</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">614</span>     <span class="ruby-identifier">opts</span> = <span class="ruby-identifier">render_template_opts</span>(<span class="ruby-identifier">template</span>, <span class="ruby-identifier">opts</span>)
+<span class="line-num">615</span>     <span class="ruby-identifier">retrieve_template</span>(<span class="ruby-identifier">opts</span>).<span class="ruby-identifier">render</span>((<span class="ruby-identifier">opts</span>[<span class="ruby-value">:scope</span>]<span class="ruby-operator">||</span><span class="ruby-keyword">self</span>), (<span class="ruby-identifier">opts</span>[<span class="ruby-value">:locals</span>]<span class="ruby-operator">||</span><span class="ruby-constant">OPTS</span>), <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">616</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">617</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-render_opts'>
@@ -94,9 +94,9 @@ Roda::RodaPlugins::Render::InstanceMethods
 [show source]
 </a>
 <pre id='method-i-render_opts-source'>    <span class="ruby-comment"># File lib/roda/plugins/render.rb</span>
-<span class="line-num">603</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">render_opts</span>
-<span class="line-num">604</span>   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">render_opts</span>
-<span class="line-num">605</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">620</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">render_opts</span>
+<span class="line-num">621</span>   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">render_opts</span>
+<span class="line-num">622</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-view'>
@@ -115,35 +115,35 @@ Roda::RodaPlugins::Render::InstanceMethods
 [show source]
 </a>
 <pre id='method-i-view-source'>    <span class="ruby-comment"># File lib/roda/plugins/render.rb</span>
-<span class="line-num">612</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">view</span>(<span class="ruby-identifier">template</span>, <span class="ruby-identifier">opts</span> = (<span class="ruby-identifier">content</span> = <span class="ruby-identifier">_optimized_view_content</span>(<span class="ruby-identifier">template</span>) <span class="ruby-keyword">unless</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-keyword">yield</span>); <span class="ruby-constant">OPTS</span>), <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">613</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">content</span>
-<span class="line-num">614</span>     <span class="ruby-comment"># First, check if the optimized layout method has already been created,</span>
-<span class="line-num">615</span>     <span class="ruby-comment"># and use it if so.  This way avoids the extra conditional and local variable</span>
-<span class="line-num">616</span>     <span class="ruby-comment"># assignments in the next section.</span>
-<span class="line-num">617</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">layout_method</span> = <span class="ruby-identifier">_layout_method</span>
-<span class="line-num">618</span>       <span class="ruby-keyword">return</span> <span class="ruby-identifier">_call_optimized_template_method</span>(<span class="ruby-identifier">layout_method</span>, <span class="ruby-constant">OPTS</span>){<span class="ruby-identifier">content</span>}
-<span class="line-num">619</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">620</span> 
-<span class="line-num">621</span>     <span class="ruby-comment"># If we have an optimized template method but no optimized layout method, create the</span>
-<span class="line-num">622</span>     <span class="ruby-comment"># optimized layout method if possible and use it.  If you can&#39;t create the optimized</span>
-<span class="line-num">623</span>     <span class="ruby-comment"># layout method, fall through to the slower approach.</span>
-<span class="line-num">624</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">layout_template</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:render</span>][<span class="ruby-value">:optimize_layout</span>]
-<span class="line-num">625</span>       <span class="ruby-identifier">retrieve_template</span>(<span class="ruby-value">:template</span><span class="ruby-operator">=&gt;</span><span class="ruby-identifier">layout_template</span>, <span class="ruby-value">:cache_key</span><span class="ruby-operator">=&gt;</span><span class="ruby-keyword">nil</span>, <span class="ruby-value">:template_method_cache_key</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-value">:_roda_layout</span>)
-<span class="line-num">626</span>       <span class="ruby-keyword">if</span> <span class="ruby-identifier">layout_method</span> = <span class="ruby-identifier">_layout_method</span>
-<span class="line-num">627</span>         <span class="ruby-keyword">return</span> <span class="ruby-identifier">_call_optimized_template_method</span>(<span class="ruby-identifier">layout_method</span>, <span class="ruby-constant">OPTS</span>){<span class="ruby-identifier">content</span>}
-<span class="line-num">628</span>       <span class="ruby-keyword">end</span>
-<span class="line-num">629</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">630</span>   <span class="ruby-keyword">else</span>
-<span class="line-num">631</span>     <span class="ruby-identifier">opts</span> = <span class="ruby-identifier">parse_template_opts</span>(<span class="ruby-identifier">template</span>, <span class="ruby-identifier">opts</span>)
-<span class="line-num">632</span>     <span class="ruby-identifier">content</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:content</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">render_template</span>(<span class="ruby-identifier">opts</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">633</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">634</span> 
-<span class="line-num">635</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">layout_opts</span>  = <span class="ruby-identifier">view_layout_opts</span>(<span class="ruby-identifier">opts</span>)
-<span class="line-num">636</span>     <span class="ruby-identifier">content</span> = <span class="ruby-identifier">render_template</span>(<span class="ruby-identifier">layout_opts</span>){<span class="ruby-identifier">content</span>}
-<span class="line-num">637</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">638</span> 
-<span class="line-num">639</span>   <span class="ruby-identifier">content</span>
-<span class="line-num">640</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">629</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">view</span>(<span class="ruby-identifier">template</span>, <span class="ruby-identifier">opts</span> = (<span class="ruby-identifier">content</span> = <span class="ruby-identifier">_optimized_view_content</span>(<span class="ruby-identifier">template</span>) <span class="ruby-keyword">unless</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-keyword">yield</span>); <span class="ruby-constant">OPTS</span>), <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">630</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">content</span>
+<span class="line-num">631</span>     <span class="ruby-comment"># First, check if the optimized layout method has already been created,</span>
+<span class="line-num">632</span>     <span class="ruby-comment"># and use it if so.  This way avoids the extra conditional and local variable</span>
+<span class="line-num">633</span>     <span class="ruby-comment"># assignments in the next section.</span>
+<span class="line-num">634</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">layout_method</span> = <span class="ruby-identifier">_layout_method</span>
+<span class="line-num">635</span>       <span class="ruby-keyword">return</span> <span class="ruby-identifier">_call_optimized_template_method</span>(<span class="ruby-identifier">layout_method</span>, <span class="ruby-constant">OPTS</span>){<span class="ruby-identifier">content</span>}
+<span class="line-num">636</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">637</span> 
+<span class="line-num">638</span>     <span class="ruby-comment"># If we have an optimized template method but no optimized layout method, create the</span>
+<span class="line-num">639</span>     <span class="ruby-comment"># optimized layout method if possible and use it.  If you can&#39;t create the optimized</span>
+<span class="line-num">640</span>     <span class="ruby-comment"># layout method, fall through to the slower approach.</span>
+<span class="line-num">641</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">layout_template</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:render</span>][<span class="ruby-value">:optimize_layout</span>]
+<span class="line-num">642</span>       <span class="ruby-identifier">retrieve_template</span>(<span class="ruby-value">:template</span><span class="ruby-operator">=&gt;</span><span class="ruby-identifier">layout_template</span>, <span class="ruby-value">:cache_key</span><span class="ruby-operator">=&gt;</span><span class="ruby-keyword">nil</span>, <span class="ruby-value">:template_method_cache_key</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-value">:_roda_layout</span>)
+<span class="line-num">643</span>       <span class="ruby-keyword">if</span> <span class="ruby-identifier">layout_method</span> = <span class="ruby-identifier">_layout_method</span>
+<span class="line-num">644</span>         <span class="ruby-keyword">return</span> <span class="ruby-identifier">_call_optimized_template_method</span>(<span class="ruby-identifier">layout_method</span>, <span class="ruby-constant">OPTS</span>){<span class="ruby-identifier">content</span>}
+<span class="line-num">645</span>       <span class="ruby-keyword">end</span>
+<span class="line-num">646</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">647</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">648</span>     <span class="ruby-identifier">opts</span> = <span class="ruby-identifier">parse_template_opts</span>(<span class="ruby-identifier">template</span>, <span class="ruby-identifier">opts</span>)
+<span class="line-num">649</span>     <span class="ruby-identifier">content</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:content</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">render_template</span>(<span class="ruby-identifier">opts</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">650</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">651</span> 
+<span class="line-num">652</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">layout_opts</span>  = <span class="ruby-identifier">view_layout_opts</span>(<span class="ruby-identifier">opts</span>)
+<span class="line-num">653</span>     <span class="ruby-identifier">content</span> = <span class="ruby-identifier">render_template</span>(<span class="ruby-identifier">layout_opts</span>){<span class="ruby-identifier">content</span>}
+<span class="line-num">654</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">655</span> 
+<span class="line-num">656</span>   <span class="ruby-identifier">content</span>
+<span class="line-num">657</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

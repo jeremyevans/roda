@@ -64,14 +64,14 @@ Roda::RodaPlugins::Mailer::RequestMethods
 [show source]
 </a>
 <pre id='method-i-mail-source'>    <span class="ruby-comment"># File lib/roda/plugins/mailer.rb</span>
-<span class="line-num">169</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">mail</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
-<span class="line-num">170</span>   <span class="ruby-keyword">if</span> <span class="ruby-ivar">@env</span>[<span class="ruby-string">&quot;REQUEST_METHOD&quot;</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;MAIL&quot;</span>
-<span class="line-num">171</span>     <span class="ruby-comment"># RODA4: Make terminal match the default</span>
-<span class="line-num">172</span>     <span class="ruby-identifier">send</span>(<span class="ruby-identifier">roda_class</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:mailer</span>][<span class="ruby-value">:terminal</span>] <span class="ruby-operator">?</span> <span class="ruby-value">:_verb</span> <span class="ruby-operator">:</span> <span class="ruby-value">:if_match</span>, <span class="ruby-identifier">args</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-operator">*</span><span class="ruby-identifier">vs</span><span class="ruby-operator">|</span>
-<span class="line-num">173</span>       <span class="ruby-keyword">yield</span>(<span class="ruby-operator">*</span>(<span class="ruby-identifier">vs</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@env</span>[<span class="ruby-string">&#39;roda.mail_args&#39;</span>]))
-<span class="line-num">174</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">175</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">176</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">175</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">mail</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
+<span class="line-num">176</span>   <span class="ruby-keyword">if</span> <span class="ruby-ivar">@env</span>[<span class="ruby-string">&quot;REQUEST_METHOD&quot;</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;MAIL&quot;</span>
+<span class="line-num">177</span>     <span class="ruby-comment"># RODA4: Make terminal match the default</span>
+<span class="line-num">178</span>     <span class="ruby-identifier">send</span>(<span class="ruby-identifier">roda_class</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:mailer</span>][<span class="ruby-value">:terminal</span>] <span class="ruby-operator">?</span> <span class="ruby-value">:_verb</span> <span class="ruby-operator">:</span> <span class="ruby-value">:if_match</span>, <span class="ruby-identifier">args</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-operator">*</span><span class="ruby-identifier">vs</span><span class="ruby-operator">|</span>
+<span class="line-num">179</span>       <span class="ruby-keyword">yield</span>(<span class="ruby-operator">*</span>(<span class="ruby-identifier">vs</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@env</span>[<span class="ruby-string">&#39;roda.mail_args&#39;</span>]))
+<span class="line-num">180</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">181</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">182</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>
