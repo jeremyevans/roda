@@ -83,11 +83,12 @@ Superclass:
 <pre id='method-c-new-source'>    <span class="ruby-comment"># File lib/roda/session_middleware.rb</span>
 <span class="line-num">160</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>)
 <span class="line-num">161</span>   <span class="ruby-identifier">mid</span> = <span class="ruby-constant">Class</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">Roda</span>)
-<span class="line-num">162</span>   <span class="ruby-identifier">mid</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:sessions</span>, <span class="ruby-identifier">opts</span>
-<span class="line-num">163</span>   <span class="ruby-ivar">@req_class</span> = <span class="ruby-identifier">mid</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>
-<span class="line-num">164</span>   <span class="ruby-ivar">@req_class</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:include</span>, <span class="ruby-constant">RequestMethods</span>)
-<span class="line-num">165</span>   <span class="ruby-ivar">@app</span> = <span class="ruby-identifier">app</span>
-<span class="line-num">166</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">162</span>   <span class="ruby-constant">Roda</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaPlugins</span>.<span class="ruby-identifier">set_temp_name</span>(<span class="ruby-identifier">mid</span>){<span class="ruby-string">&quot;RodaSessionMiddleware::_RodaSubclass&quot;</span>}
+<span class="line-num">163</span>   <span class="ruby-identifier">mid</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:sessions</span>, <span class="ruby-identifier">opts</span>
+<span class="line-num">164</span>   <span class="ruby-ivar">@req_class</span> = <span class="ruby-identifier">mid</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>
+<span class="line-num">165</span>   <span class="ruby-ivar">@req_class</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:include</span>, <span class="ruby-constant">RequestMethods</span>)
+<span class="line-num">166</span>   <span class="ruby-ivar">@app</span> = <span class="ruby-identifier">app</span>
+<span class="line-num">167</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <h2>Public Instance methods</h2>
@@ -107,17 +108,17 @@ Superclass:
 [show source]
 </a>
 <pre id='method-i-call-source'>    <span class="ruby-comment"># File lib/roda/session_middleware.rb</span>
-<span class="line-num">171</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">call</span>(<span class="ruby-identifier">env</span>)
-<span class="line-num">172</span>   <span class="ruby-identifier">session</span> = <span class="ruby-identifier">env</span>[<span class="ruby-string">&#39;rack.session&#39;</span>] = <span class="ruby-constant">SessionHash</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@req_class</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword">nil</span>, <span class="ruby-identifier">env</span>))
-<span class="line-num">173</span> 
-<span class="line-num">174</span>   <span class="ruby-identifier">res</span> = <span class="ruby-ivar">@app</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">env</span>)
-<span class="line-num">175</span> 
-<span class="line-num">176</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">session</span>.<span class="ruby-identifier">loaded?</span>
-<span class="line-num">177</span>     <span class="ruby-identifier">session</span>.<span class="ruby-identifier">req</span>.<span class="ruby-identifier">persist_session</span>(<span class="ruby-identifier">res</span>[<span class="ruby-value">1</span>], <span class="ruby-identifier">session</span>.<span class="ruby-identifier">data</span>)
-<span class="line-num">178</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">179</span> 
-<span class="line-num">180</span>   <span class="ruby-identifier">res</span>
-<span class="line-num">181</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">172</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">call</span>(<span class="ruby-identifier">env</span>)
+<span class="line-num">173</span>   <span class="ruby-identifier">session</span> = <span class="ruby-identifier">env</span>[<span class="ruby-string">&#39;rack.session&#39;</span>] = <span class="ruby-constant">SessionHash</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@req_class</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword">nil</span>, <span class="ruby-identifier">env</span>))
+<span class="line-num">174</span> 
+<span class="line-num">175</span>   <span class="ruby-identifier">res</span> = <span class="ruby-ivar">@app</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">env</span>)
+<span class="line-num">176</span> 
+<span class="line-num">177</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">session</span>.<span class="ruby-identifier">loaded?</span>
+<span class="line-num">178</span>     <span class="ruby-identifier">session</span>.<span class="ruby-identifier">req</span>.<span class="ruby-identifier">persist_session</span>(<span class="ruby-identifier">res</span>[<span class="ruby-value">1</span>], <span class="ruby-identifier">session</span>.<span class="ruby-identifier">data</span>)
+<span class="line-num">179</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">180</span> 
+<span class="line-num">181</span>   <span class="ruby-identifier">res</span>
+<span class="line-num">182</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

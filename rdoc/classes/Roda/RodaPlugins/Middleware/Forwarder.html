@@ -76,19 +76,17 @@ Superclass:
 <pre id='method-c-new-source'>    <span class="ruby-comment"># File lib/roda/plugins/middleware.rb</span>
 <span class="line-num">135</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-identifier">mid</span>, <span class="ruby-identifier">app</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
 <span class="line-num">136</span>   <span class="ruby-ivar">@mid</span> = <span class="ruby-constant">Class</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">mid</span>)
-<span class="line-num">137</span>   <span class="ruby-comment"># :nocov:</span>
-<span class="line-num">138</span>   <span class="ruby-ivar">@mid</span>.<span class="ruby-identifier">set_temporary_name</span>(<span class="ruby-node">&quot;#{mid.name}(middleware)&quot;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">mid</span>.<span class="ruby-identifier">name</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">RUBY_VERSION</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-string">&quot;3.3&quot;</span>
-<span class="line-num">139</span>   <span class="ruby-comment"># :nocov:</span>
-<span class="line-num">140</span>   <span class="ruby-keyword">if</span> <span class="ruby-ivar">@mid</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:middleware_next_if_not_found</span>]
-<span class="line-num">141</span>     <span class="ruby-ivar">@mid</span>.<span class="ruby-identifier">plugin</span>(<span class="ruby-value">:not_found</span>, <span class="ruby-operator">&amp;</span><span class="ruby-constant">NEXT_PROC</span>)
-<span class="line-num">142</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">143</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">configure</span> = <span class="ruby-ivar">@mid</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:middleware_configure</span>]
-<span class="line-num">144</span>     <span class="ruby-identifier">configure</span>.<span class="ruby-identifier">call</span>(<span class="ruby-ivar">@mid</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">145</span>   <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">block</span> <span class="ruby-operator">||</span> <span class="ruby-operator">!</span><span class="ruby-identifier">args</span>.<span class="ruby-identifier">empty?</span>
-<span class="line-num">146</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;cannot provide middleware args or block unless loading middleware plugin with a block&quot;</span>
-<span class="line-num">147</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">148</span>   <span class="ruby-ivar">@app</span> = <span class="ruby-identifier">app</span>
-<span class="line-num">149</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">137</span>   <span class="ruby-constant">RodaPlugins</span>.<span class="ruby-identifier">set_temp_name</span>(<span class="ruby-ivar">@mid</span>){<span class="ruby-node">&quot;#{mid}::middleware_subclass&quot;</span>}
+<span class="line-num">138</span>   <span class="ruby-keyword">if</span> <span class="ruby-ivar">@mid</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:middleware_next_if_not_found</span>]
+<span class="line-num">139</span>     <span class="ruby-ivar">@mid</span>.<span class="ruby-identifier">plugin</span>(<span class="ruby-value">:not_found</span>, <span class="ruby-operator">&amp;</span><span class="ruby-constant">NEXT_PROC</span>)
+<span class="line-num">140</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">141</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">configure</span> = <span class="ruby-ivar">@mid</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:middleware_configure</span>]
+<span class="line-num">142</span>     <span class="ruby-identifier">configure</span>.<span class="ruby-identifier">call</span>(<span class="ruby-ivar">@mid</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">143</span>   <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">block</span> <span class="ruby-operator">||</span> <span class="ruby-operator">!</span><span class="ruby-identifier">args</span>.<span class="ruby-identifier">empty?</span>
+<span class="line-num">144</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;cannot provide middleware args or block unless loading middleware plugin with a block&quot;</span>
+<span class="line-num">145</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">146</span>   <span class="ruby-ivar">@app</span> = <span class="ruby-identifier">app</span>
+<span class="line-num">147</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <h2>Public Instance methods</h2>
@@ -108,29 +106,29 @@ Superclass:
 [show source]
 </a>
 <pre id='method-i-call-source'>    <span class="ruby-comment"># File lib/roda/plugins/middleware.rb</span>
-<span class="line-num">154</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">call</span>(<span class="ruby-identifier">env</span>)
-<span class="line-num">155</span>   <span class="ruby-identifier">res</span> = <span class="ruby-keyword">nil</span>
-<span class="line-num">156</span> 
-<span class="line-num">157</span>   <span class="ruby-identifier">call_next</span> = <span class="ruby-identifier">catch</span>(<span class="ruby-value">:next</span>) <span class="ruby-keyword">do</span>
-<span class="line-num">158</span>     <span class="ruby-identifier">env</span>[<span class="ruby-ivar">@mid</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:middleware_env_var</span>]] = <span class="ruby-keyword">true</span>
-<span class="line-num">159</span>     <span class="ruby-identifier">res</span> = <span class="ruby-ivar">@mid</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">env</span>)
-<span class="line-num">160</span>     <span class="ruby-keyword">false</span>
-<span class="line-num">161</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">162</span> 
-<span class="line-num">163</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">call_next</span>
-<span class="line-num">164</span>     <span class="ruby-identifier">res</span> = <span class="ruby-ivar">@app</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">env</span>)
-<span class="line-num">165</span> 
-<span class="line-num">166</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">modified_headers</span> = <span class="ruby-identifier">env</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-string">&#39;roda.response_headers&#39;</span>)
-<span class="line-num">167</span>       <span class="ruby-identifier">res</span>[<span class="ruby-value">1</span>] = <span class="ruby-identifier">modified_headers</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">res</span>[<span class="ruby-value">1</span>])
-<span class="line-num">168</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">169</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">170</span> 
-<span class="line-num">171</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">handle_result</span> = <span class="ruby-ivar">@mid</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:middleware_handle_result</span>]
-<span class="line-num">172</span>     <span class="ruby-identifier">handle_result</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">env</span>, <span class="ruby-identifier">res</span>)
-<span class="line-num">173</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">174</span> 
-<span class="line-num">175</span>   <span class="ruby-identifier">res</span>
-<span class="line-num">176</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">152</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">call</span>(<span class="ruby-identifier">env</span>)
+<span class="line-num">153</span>   <span class="ruby-identifier">res</span> = <span class="ruby-keyword">nil</span>
+<span class="line-num">154</span> 
+<span class="line-num">155</span>   <span class="ruby-identifier">call_next</span> = <span class="ruby-identifier">catch</span>(<span class="ruby-value">:next</span>) <span class="ruby-keyword">do</span>
+<span class="line-num">156</span>     <span class="ruby-identifier">env</span>[<span class="ruby-ivar">@mid</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:middleware_env_var</span>]] = <span class="ruby-keyword">true</span>
+<span class="line-num">157</span>     <span class="ruby-identifier">res</span> = <span class="ruby-ivar">@mid</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">env</span>)
+<span class="line-num">158</span>     <span class="ruby-keyword">false</span>
+<span class="line-num">159</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">160</span> 
+<span class="line-num">161</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">call_next</span>
+<span class="line-num">162</span>     <span class="ruby-identifier">res</span> = <span class="ruby-ivar">@app</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">env</span>)
+<span class="line-num">163</span> 
+<span class="line-num">164</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">modified_headers</span> = <span class="ruby-identifier">env</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-string">&#39;roda.response_headers&#39;</span>)
+<span class="line-num">165</span>       <span class="ruby-identifier">res</span>[<span class="ruby-value">1</span>] = <span class="ruby-identifier">modified_headers</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">res</span>[<span class="ruby-value">1</span>])
+<span class="line-num">166</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">167</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">168</span> 
+<span class="line-num">169</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">handle_result</span> = <span class="ruby-ivar">@mid</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:middleware_handle_result</span>]
+<span class="line-num">170</span>     <span class="ruby-identifier">handle_result</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">env</span>, <span class="ruby-identifier">res</span>)
+<span class="line-num">171</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">172</span> 
+<span class="line-num">173</span>   <span class="ruby-identifier">res</span>
+<span class="line-num">174</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

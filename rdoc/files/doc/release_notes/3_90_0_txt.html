@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang='en'>
 <head>
-<title>session_middleware.rb</title>
+<title>3.90.0.txt</title>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
 <link href='../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
@@ -24,19 +24,28 @@
 <body class='page'>
 <div class='file' id='wrapper'>
 <div class='header'>
-<h1 class='name'>session_middleware.rb
+<h1 class='name'>3.90.0.txt
 </h1>
 <div class='paths'>
-lib/roda/session_middleware.rb
+doc/release_notes/3.90.0.txt
 </div>
 <div class='last-update'>
 Last Update:
-<span class='datetime'>2025-03-06 16:45:04 -0800</span>
+<span class='datetime'>2025-03-11 08:42:03 -0700</span>
 </div>
 </div>
 <div id='content'>
 <div id='text'>
-<div id='description'></div>
+<div id='description'>
+<h1 id="label-Improvements">Improvements<span><a href="#label-Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<ul><li>
+<p>The send_file method in the sinatra_helpers plugin now returns a response body that implements to_path.</p>
+</li><li>
+<p><a href="../../../classes/Roda.html"><code>Roda</code></a> now sets a temporary name for the remaining anonymous modules and classes on Ruby 3.3+.</p>
+</li><li>
+<p>The common_logger plugin now escapes embedded newlines.  These should only be present if the server is broken and including newlines in things it shouldn’t.</p>
+</li></ul>
+</div>
 <div id='context'>
 </div>
 

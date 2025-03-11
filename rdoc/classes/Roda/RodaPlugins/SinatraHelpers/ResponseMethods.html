@@ -77,36 +77,36 @@ Roda::RodaPlugins::SinatraHelpers::ResponseMethods
 [show source]
 </a>
 <pre id='method-i-attachment-source'>    <span class="ruby-comment"># File lib/roda/plugins/sinatra_helpers.rb</span>
-<span class="line-num">445</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">attachment</span>(<span class="ruby-identifier">filename</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">disposition</span>=<span class="ruby-string">&#39;attachment&#39;</span>)
-<span class="line-num">446</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">filename</span>
-<span class="line-num">447</span>     <span class="ruby-identifier">param_filename</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">basename</span>(<span class="ruby-identifier">filename</span>)
-<span class="line-num">448</span>     <span class="ruby-identifier">encoding</span> = <span class="ruby-identifier">param_filename</span>.<span class="ruby-identifier">encoding</span>
-<span class="line-num">449</span> 
-<span class="line-num">450</span>     <span class="ruby-identifier">needs_encoding</span> = <span class="ruby-identifier">param_filename</span>.<span class="ruby-identifier">gsub!</span>(<span class="ruby-regexp">/[^ 0-9a-zA-Z!\#$&amp;\+\.\^_`\|~]+/</span>, <span class="ruby-string">&#39;-&#39;</span>)
-<span class="line-num">451</span>     <span class="ruby-identifier">params</span> = <span class="ruby-node">&quot;; filename=#{param_filename.inspect}&quot;</span>
-<span class="line-num">452</span> 
-<span class="line-num">453</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">needs_encoding</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">encoding</span> <span class="ruby-operator">==</span> <span class="ruby-constant">UTF8_ENCODING</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">encoding</span> <span class="ruby-operator">==</span> <span class="ruby-constant">ISO88591_ENCODING</span>)
-<span class="line-num">454</span>       <span class="ruby-comment"># File name contains non attr-char characters from RFC 5987 Section 3.2.1</span>
-<span class="line-num">455</span> 
-<span class="line-num">456</span>       <span class="ruby-identifier">encoded_filename</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">basename</span>(<span class="ruby-identifier">filename</span>).<span class="ruby-identifier">force_encoding</span>(<span class="ruby-constant">BINARY_ENCODING</span>)
-<span class="line-num">457</span>       <span class="ruby-comment"># Similar regexp as above, but treat each byte separately, and encode</span>
-<span class="line-num">458</span>       <span class="ruby-comment"># space characters, since those aren&#39;t allowed in attr-char</span>
-<span class="line-num">459</span>       <span class="ruby-identifier">encoded_filename</span>.<span class="ruby-identifier">gsub!</span>(<span class="ruby-regexp">/[^0-9a-zA-Z!\#$&amp;\+\.\^_`\|~]/</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span>
-<span class="line-num">460</span>         <span class="ruby-string">&quot;%%%X&quot;</span> <span class="ruby-operator">%</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">ord</span>
-<span class="line-num">461</span>       <span class="ruby-keyword">end</span>
-<span class="line-num">462</span> 
-<span class="line-num">463</span>       <span class="ruby-identifier">encoded_params</span> = <span class="ruby-node">&quot;; filename*=#{encoding.to_s}&#39;&#39;#{encoded_filename}&quot;</span>
-<span class="line-num">464</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">465</span> 
-<span class="line-num">466</span>     <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@headers</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_TYPE</span>]
-<span class="line-num">467</span>       <span class="ruby-identifier">ext</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">extname</span>(<span class="ruby-identifier">filename</span>)
-<span class="line-num">468</span>       <span class="ruby-keyword">unless</span> <span class="ruby-identifier">ext</span>.<span class="ruby-identifier">empty?</span>
-<span class="line-num">469</span>         <span class="ruby-identifier">content_type</span>(<span class="ruby-identifier">ext</span>)
-<span class="line-num">470</span>       <span class="ruby-keyword">end</span>
-<span class="line-num">471</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">472</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">473</span>   <span class="ruby-ivar">@headers</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_DISPOSITION</span>] = <span class="ruby-node">&quot;#{disposition}#{params}#{encoded_params}&quot;</span>
-<span class="line-num">474</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">443</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">attachment</span>(<span class="ruby-identifier">filename</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">disposition</span>=<span class="ruby-string">&#39;attachment&#39;</span>)
+<span class="line-num">444</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">filename</span>
+<span class="line-num">445</span>     <span class="ruby-identifier">param_filename</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">basename</span>(<span class="ruby-identifier">filename</span>)
+<span class="line-num">446</span>     <span class="ruby-identifier">encoding</span> = <span class="ruby-identifier">param_filename</span>.<span class="ruby-identifier">encoding</span>
+<span class="line-num">447</span> 
+<span class="line-num">448</span>     <span class="ruby-identifier">needs_encoding</span> = <span class="ruby-identifier">param_filename</span>.<span class="ruby-identifier">gsub!</span>(<span class="ruby-regexp">/[^ 0-9a-zA-Z!\#$&amp;\+\.\^_`\|~]+/</span>, <span class="ruby-string">&#39;-&#39;</span>)
+<span class="line-num">449</span>     <span class="ruby-identifier">params</span> = <span class="ruby-node">&quot;; filename=#{param_filename.inspect}&quot;</span>
+<span class="line-num">450</span> 
+<span class="line-num">451</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">needs_encoding</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">encoding</span> <span class="ruby-operator">==</span> <span class="ruby-constant">UTF8_ENCODING</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">encoding</span> <span class="ruby-operator">==</span> <span class="ruby-constant">ISO88591_ENCODING</span>)
+<span class="line-num">452</span>       <span class="ruby-comment"># File name contains non attr-char characters from RFC 5987 Section 3.2.1</span>
+<span class="line-num">453</span> 
+<span class="line-num">454</span>       <span class="ruby-identifier">encoded_filename</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">basename</span>(<span class="ruby-identifier">filename</span>).<span class="ruby-identifier">force_encoding</span>(<span class="ruby-constant">BINARY_ENCODING</span>)
+<span class="line-num">455</span>       <span class="ruby-comment"># Similar regexp as above, but treat each byte separately, and encode</span>
+<span class="line-num">456</span>       <span class="ruby-comment"># space characters, since those aren&#39;t allowed in attr-char</span>
+<span class="line-num">457</span>       <span class="ruby-identifier">encoded_filename</span>.<span class="ruby-identifier">gsub!</span>(<span class="ruby-regexp">/[^0-9a-zA-Z!\#$&amp;\+\.\^_`\|~]/</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span>
+<span class="line-num">458</span>         <span class="ruby-string">&quot;%%%X&quot;</span> <span class="ruby-operator">%</span> <span class="ruby-identifier">c</span>.<span class="ruby-identifier">ord</span>
+<span class="line-num">459</span>       <span class="ruby-keyword">end</span>
+<span class="line-num">460</span> 
+<span class="line-num">461</span>       <span class="ruby-identifier">encoded_params</span> = <span class="ruby-node">&quot;; filename*=#{encoding.to_s}&#39;&#39;#{encoded_filename}&quot;</span>
+<span class="line-num">462</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">463</span> 
+<span class="line-num">464</span>     <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@headers</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_TYPE</span>]
+<span class="line-num">465</span>       <span class="ruby-identifier">ext</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">extname</span>(<span class="ruby-identifier">filename</span>)
+<span class="line-num">466</span>       <span class="ruby-keyword">unless</span> <span class="ruby-identifier">ext</span>.<span class="ruby-identifier">empty?</span>
+<span class="line-num">467</span>         <span class="ruby-identifier">content_type</span>(<span class="ruby-identifier">ext</span>)
+<span class="line-num">468</span>       <span class="ruby-keyword">end</span>
+<span class="line-num">469</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">470</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">471</span>   <span class="ruby-ivar">@headers</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_DISPOSITION</span>] = <span class="ruby-node">&quot;#{disposition}#{params}#{encoded_params}&quot;</span>
+<span class="line-num">472</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-body'>
@@ -125,13 +125,13 @@ Roda::RodaPlugins::SinatraHelpers::ResponseMethods
 [show source]
 </a>
 <pre id='method-i-body-source'>    <span class="ruby-comment"># File lib/roda/plugins/sinatra_helpers.rb</span>
-<span class="line-num">395</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">body</span>(<span class="ruby-identifier">value</span> = (<span class="ruby-keyword">return</span> <span class="ruby-ivar">@body</span> <span class="ruby-keyword">unless</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-keyword">yield</span>); <span class="ruby-keyword">nil</span>), <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">396</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span>
-<span class="line-num">397</span>     <span class="ruby-ivar">@body</span> = <span class="ruby-constant">DelayedBody</span>.<span class="ruby-identifier">new</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">398</span>   <span class="ruby-keyword">else</span>
-<span class="line-num">399</span>     <span class="ruby-keyword">self</span>.<span class="ruby-identifier">body</span> = <span class="ruby-identifier">value</span>
-<span class="line-num">400</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">401</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">393</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">body</span>(<span class="ruby-identifier">value</span> = (<span class="ruby-keyword">return</span> <span class="ruby-ivar">@body</span> <span class="ruby-keyword">unless</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-keyword">yield</span>); <span class="ruby-keyword">nil</span>), <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">394</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span>
+<span class="line-num">395</span>     <span class="ruby-ivar">@body</span> = <span class="ruby-constant">DelayedBody</span>.<span class="ruby-identifier">new</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">396</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">397</span>     <span class="ruby-keyword">self</span>.<span class="ruby-identifier">body</span> = <span class="ruby-identifier">value</span>
+<span class="line-num">398</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">399</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-body-3D'>
@@ -150,9 +150,9 @@ Roda::RodaPlugins::SinatraHelpers::ResponseMethods
 [show source]
 </a>
 <pre id='method-i-body-3D-source'>    <span class="ruby-comment"># File lib/roda/plugins/sinatra_helpers.rb</span>
-<span class="line-num">404</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">body=</span>(<span class="ruby-identifier">body</span>)
-<span class="line-num">405</span>   <span class="ruby-ivar">@body</span> = <span class="ruby-constant">DelayedBody</span>.<span class="ruby-identifier">new</span>{<span class="ruby-identifier">body</span>}
-<span class="line-num">406</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">402</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">body=</span>(<span class="ruby-identifier">body</span>)
+<span class="line-num">403</span>   <span class="ruby-ivar">@body</span> = <span class="ruby-constant">DelayedBody</span>.<span class="ruby-identifier">new</span>{<span class="ruby-identifier">body</span>}
+<span class="line-num">404</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-client_error-3F'>
@@ -171,9 +171,9 @@ Roda::RodaPlugins::SinatraHelpers::ResponseMethods
 [show source]
 </a>
 <pre id='method-i-client_error-3F-source'>    <span class="ruby-comment"># File lib/roda/plugins/sinatra_helpers.rb</span>
-<span class="line-num">492</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">client_error?</span>
-<span class="line-num">493</span>   <span class="ruby-ivar">@status</span>.<span class="ruby-identifier">between?</span>(<span class="ruby-value">400</span>, <span class="ruby-value">499</span>) <span class="ruby-keyword">if</span> <span class="ruby-ivar">@status</span>
-<span class="line-num">494</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">490</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">client_error?</span>
+<span class="line-num">491</span>   <span class="ruby-ivar">@status</span>.<span class="ruby-identifier">between?</span>(<span class="ruby-value">400</span>, <span class="ruby-value">499</span>) <span class="ruby-keyword">if</span> <span class="ruby-ivar">@status</span>
+<span class="line-num">492</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-content_type'>
@@ -192,21 +192,21 @@ Roda::RodaPlugins::SinatraHelpers::ResponseMethods
 [show source]
 </a>
 <pre id='method-i-content_type-source'>    <span class="ruby-comment"># File lib/roda/plugins/sinatra_helpers.rb</span>
-<span class="line-num">427</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">content_type</span>(<span class="ruby-identifier">type</span> = <span class="ruby-keyword">nil</span> <span class="ruby-operator">||</span> (<span class="ruby-keyword">return</span> <span class="ruby-ivar">@headers</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_TYPE</span>]), <span class="ruby-identifier">opts</span> = <span class="ruby-constant">OPTS</span>)
-<span class="line-num">428</span>   <span class="ruby-keyword">unless</span> (<span class="ruby-identifier">mime_type</span> = <span class="ruby-identifier">mime_type</span>(<span class="ruby-identifier">type</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:default</span>])
-<span class="line-num">429</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-node">&quot;Unknown media type: #{type}&quot;</span>
-<span class="line-num">430</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">431</span> 
-<span class="line-num">432</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">empty?</span>
-<span class="line-num">433</span>     <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">val</span><span class="ruby-operator">|</span>
-<span class="line-num">434</span>       <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">key</span> <span class="ruby-operator">==</span> <span class="ruby-value">:default</span> <span class="ruby-operator">||</span> (<span class="ruby-identifier">key</span> <span class="ruby-operator">==</span> <span class="ruby-value">:charset</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">mime_type</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-string">&#39;charset&#39;</span>))
-<span class="line-num">435</span>       <span class="ruby-identifier">val</span> = <span class="ruby-identifier">val</span>.<span class="ruby-identifier">inspect</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">val</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">/[&quot;;,]/</span>
-<span class="line-num">436</span>       <span class="ruby-identifier">mime_type</span> <span class="ruby-operator">+=</span> <span class="ruby-node">&quot;#{mime_type.include?(&#39;;&#39;) ? &#39;, &#39; : &#39;;&#39;}#{key}=#{val}&quot;</span>
-<span class="line-num">437</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">438</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">439</span> 
-<span class="line-num">440</span>   <span class="ruby-ivar">@headers</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_TYPE</span>] = <span class="ruby-identifier">mime_type</span>
-<span class="line-num">441</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">425</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">content_type</span>(<span class="ruby-identifier">type</span> = <span class="ruby-keyword">nil</span> <span class="ruby-operator">||</span> (<span class="ruby-keyword">return</span> <span class="ruby-ivar">@headers</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_TYPE</span>]), <span class="ruby-identifier">opts</span> = <span class="ruby-constant">OPTS</span>)
+<span class="line-num">426</span>   <span class="ruby-keyword">unless</span> (<span class="ruby-identifier">mime_type</span> = <span class="ruby-identifier">mime_type</span>(<span class="ruby-identifier">type</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:default</span>])
+<span class="line-num">427</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-node">&quot;Unknown media type: #{type}&quot;</span>
+<span class="line-num">428</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">429</span> 
+<span class="line-num">430</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">empty?</span>
+<span class="line-num">431</span>     <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">val</span><span class="ruby-operator">|</span>
+<span class="line-num">432</span>       <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">key</span> <span class="ruby-operator">==</span> <span class="ruby-value">:default</span> <span class="ruby-operator">||</span> (<span class="ruby-identifier">key</span> <span class="ruby-operator">==</span> <span class="ruby-value">:charset</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">mime_type</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-string">&#39;charset&#39;</span>))
+<span class="line-num">433</span>       <span class="ruby-identifier">val</span> = <span class="ruby-identifier">val</span>.<span class="ruby-identifier">inspect</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">val</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">/[&quot;;,]/</span>
+<span class="line-num">434</span>       <span class="ruby-identifier">mime_type</span> <span class="ruby-operator">+=</span> <span class="ruby-node">&quot;#{mime_type.include?(&#39;;&#39;) ? &#39;, &#39; : &#39;;&#39;}#{key}=#{val}&quot;</span>
+<span class="line-num">435</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">436</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">437</span> 
+<span class="line-num">438</span>   <span class="ruby-ivar">@headers</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_TYPE</span>] = <span class="ruby-identifier">mime_type</span>
+<span class="line-num">439</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-finish'>
@@ -225,10 +225,10 @@ Roda::RodaPlugins::SinatraHelpers::ResponseMethods
 [show source]
 </a>
 <pre id='method-i-finish-source'>    <span class="ruby-comment"># File lib/roda/plugins/sinatra_helpers.rb</span>
-<span class="line-num">409</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">finish</span>
-<span class="line-num">410</span>   <span class="ruby-ivar">@length</span> = <span class="ruby-ivar">@body</span>.<span class="ruby-identifier">length</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@body</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">DelayedBody</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@headers</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_LENGTH</span>]
-<span class="line-num">411</span>   <span class="ruby-keyword">super</span>
-<span class="line-num">412</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">407</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">finish</span>
+<span class="line-num">408</span>   <span class="ruby-ivar">@length</span> = <span class="ruby-ivar">@body</span>.<span class="ruby-identifier">length</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@body</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">DelayedBody</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@headers</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_LENGTH</span>]
+<span class="line-num">409</span>   <span class="ruby-keyword">super</span>
+<span class="line-num">410</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-headers'>
@@ -247,9 +247,9 @@ Roda::RodaPlugins::SinatraHelpers::ResponseMethods
 [show source]
 </a>
 <pre id='method-i-headers-source'>    <span class="ruby-comment"># File lib/roda/plugins/sinatra_helpers.rb</span>
-<span class="line-num">416</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">headers</span>(<span class="ruby-identifier">hash</span> = <span class="ruby-keyword">nil</span> <span class="ruby-operator">||</span> (<span class="ruby-keyword">return</span> <span class="ruby-ivar">@headers</span>))
-<span class="line-num">417</span>   <span class="ruby-ivar">@headers</span>.<span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">hash</span>)
-<span class="line-num">418</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">414</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">headers</span>(<span class="ruby-identifier">hash</span> = <span class="ruby-keyword">nil</span> <span class="ruby-operator">||</span> (<span class="ruby-keyword">return</span> <span class="ruby-ivar">@headers</span>))
+<span class="line-num">415</span>   <span class="ruby-ivar">@headers</span>.<span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">hash</span>)
+<span class="line-num">416</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-informational-3F'>
@@ -268,9 +268,9 @@ Roda::RodaPlugins::SinatraHelpers::ResponseMethods
 [show source]
 </a>
 <pre id='method-i-informational-3F-source'>    <span class="ruby-comment"># File lib/roda/plugins/sinatra_helpers.rb</span>
-<span class="line-num">477</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">informational?</span>
-<span class="line-num">478</span>   <span class="ruby-ivar">@status</span>.<span class="ruby-identifier">between?</span>(<span class="ruby-value">100</span>, <span class="ruby-value">199</span>) <span class="ruby-keyword">if</span> <span class="ruby-ivar">@status</span>
-<span class="line-num">479</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">475</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">informational?</span>
+<span class="line-num">476</span>   <span class="ruby-ivar">@status</span>.<span class="ruby-identifier">between?</span>(<span class="ruby-value">100</span>, <span class="ruby-value">199</span>) <span class="ruby-keyword">if</span> <span class="ruby-ivar">@status</span>
+<span class="line-num">477</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-mime_type'>
@@ -289,9 +289,9 @@ Roda::RodaPlugins::SinatraHelpers::ResponseMethods
 [show source]
 </a>
 <pre id='method-i-mime_type-source'>    <span class="ruby-comment"># File lib/roda/plugins/sinatra_helpers.rb</span>
-<span class="line-num">421</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">mime_type</span>(<span class="ruby-identifier">type</span>)
-<span class="line-num">422</span>   <span class="ruby-identifier">roda_class</span>.<span class="ruby-identifier">mime_type</span>(<span class="ruby-identifier">type</span>)
-<span class="line-num">423</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">419</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">mime_type</span>(<span class="ruby-identifier">type</span>)
+<span class="line-num">420</span>   <span class="ruby-identifier">roda_class</span>.<span class="ruby-identifier">mime_type</span>(<span class="ruby-identifier">type</span>)
+<span class="line-num">421</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-not_found-3F'>
@@ -310,9 +310,9 @@ Roda::RodaPlugins::SinatraHelpers::ResponseMethods
 [show source]
 </a>
 <pre id='method-i-not_found-3F-source'>    <span class="ruby-comment"># File lib/roda/plugins/sinatra_helpers.rb</span>
-<span class="line-num">502</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">not_found?</span>
-<span class="line-num">503</span>   <span class="ruby-ivar">@status</span> <span class="ruby-operator">==</span> <span class="ruby-value">404</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@status</span>
-<span class="line-num">504</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">500</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">not_found?</span>
+<span class="line-num">501</span>   <span class="ruby-ivar">@status</span> <span class="ruby-operator">==</span> <span class="ruby-value">404</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@status</span>
+<span class="line-num">502</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-redirect-3F'>
@@ -331,9 +331,9 @@ Roda::RodaPlugins::SinatraHelpers::ResponseMethods
 [show source]
 </a>
 <pre id='method-i-redirect-3F-source'>    <span class="ruby-comment"># File lib/roda/plugins/sinatra_helpers.rb</span>
-<span class="line-num">487</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">redirect?</span>
-<span class="line-num">488</span>   <span class="ruby-ivar">@status</span>.<span class="ruby-identifier">between?</span>(<span class="ruby-value">300</span>, <span class="ruby-value">399</span>) <span class="ruby-keyword">if</span> <span class="ruby-ivar">@status</span>
-<span class="line-num">489</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">485</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">redirect?</span>
+<span class="line-num">486</span>   <span class="ruby-ivar">@status</span>.<span class="ruby-identifier">between?</span>(<span class="ruby-value">300</span>, <span class="ruby-value">399</span>) <span class="ruby-keyword">if</span> <span class="ruby-ivar">@status</span>
+<span class="line-num">487</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-server_error-3F'>
@@ -352,9 +352,9 @@ Roda::RodaPlugins::SinatraHelpers::ResponseMethods
 [show source]
 </a>
 <pre id='method-i-server_error-3F-source'>    <span class="ruby-comment"># File lib/roda/plugins/sinatra_helpers.rb</span>
-<span class="line-num">497</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">server_error?</span>
-<span class="line-num">498</span>   <span class="ruby-ivar">@status</span>.<span class="ruby-identifier">between?</span>(<span class="ruby-value">500</span>, <span class="ruby-value">599</span>) <span class="ruby-keyword">if</span> <span class="ruby-ivar">@status</span>
-<span class="line-num">499</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">495</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">server_error?</span>
+<span class="line-num">496</span>   <span class="ruby-ivar">@status</span>.<span class="ruby-identifier">between?</span>(<span class="ruby-value">500</span>, <span class="ruby-value">599</span>) <span class="ruby-keyword">if</span> <span class="ruby-ivar">@status</span>
+<span class="line-num">497</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-status'>
@@ -373,9 +373,9 @@ Roda::RodaPlugins::SinatraHelpers::ResponseMethods
 [show source]
 </a>
 <pre id='method-i-status-source'>    <span class="ruby-comment"># File lib/roda/plugins/sinatra_helpers.rb</span>
-<span class="line-num">389</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">status</span>(<span class="ruby-identifier">value</span> = <span class="ruby-keyword">nil</span> <span class="ruby-operator">||</span> (<span class="ruby-keyword">return</span> <span class="ruby-ivar">@status</span>))
-<span class="line-num">390</span>   <span class="ruby-ivar">@status</span> = <span class="ruby-identifier">value</span>
-<span class="line-num">391</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">387</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">status</span>(<span class="ruby-identifier">value</span> = <span class="ruby-keyword">nil</span> <span class="ruby-operator">||</span> (<span class="ruby-keyword">return</span> <span class="ruby-ivar">@status</span>))
+<span class="line-num">388</span>   <span class="ruby-ivar">@status</span> = <span class="ruby-identifier">value</span>
+<span class="line-num">389</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-success-3F'>
@@ -394,9 +394,9 @@ Roda::RodaPlugins::SinatraHelpers::ResponseMethods
 [show source]
 </a>
 <pre id='method-i-success-3F-source'>    <span class="ruby-comment"># File lib/roda/plugins/sinatra_helpers.rb</span>
-<span class="line-num">482</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">success?</span>
-<span class="line-num">483</span>   <span class="ruby-ivar">@status</span>.<span class="ruby-identifier">between?</span>(<span class="ruby-value">200</span>, <span class="ruby-value">299</span>) <span class="ruby-keyword">if</span> <span class="ruby-ivar">@status</span>
-<span class="line-num">484</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">480</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">success?</span>
+<span class="line-num">481</span>   <span class="ruby-ivar">@status</span>.<span class="ruby-identifier">between?</span>(<span class="ruby-value">200</span>, <span class="ruby-value">299</span>) <span class="ruby-keyword">if</span> <span class="ruby-ivar">@status</span>
+<span class="line-num">482</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

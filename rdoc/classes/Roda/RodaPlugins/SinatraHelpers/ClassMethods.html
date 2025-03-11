@@ -64,15 +64,15 @@ Roda::RodaPlugins::SinatraHelpers::ClassMethods
 [show source]
 </a>
 <pre id='method-i-mime_type-source'>    <span class="ruby-comment"># File lib/roda/plugins/sinatra_helpers.rb</span>
-<span class="line-num">511</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">mime_type</span>(<span class="ruby-identifier">type</span>=<span class="ruby-keyword">nil</span> <span class="ruby-operator">||</span> (<span class="ruby-keyword">return</span>), <span class="ruby-identifier">value</span> = <span class="ruby-keyword">nil</span>)
-<span class="line-num">512</span>   <span class="ruby-keyword">return</span> <span class="ruby-identifier">type</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">type</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-string">&#39;/&#39;</span>)
-<span class="line-num">513</span>   <span class="ruby-identifier">type</span> = <span class="ruby-node">&quot;.#{type}&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">type</span>.<span class="ruby-identifier">to_s</span>[<span class="ruby-value">0</span>] <span class="ruby-operator">==</span> <span class="ruby-value">?.</span>
-<span class="line-num">514</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">value</span>
-<span class="line-num">515</span>     <span class="ruby-constant">Rack</span><span class="ruby-operator">::</span><span class="ruby-constant">Mime</span><span class="ruby-operator">::</span><span class="ruby-constant">MIME_TYPES</span>[<span class="ruby-identifier">type</span>] = <span class="ruby-identifier">value</span>
-<span class="line-num">516</span>   <span class="ruby-keyword">else</span>
-<span class="line-num">517</span>     <span class="ruby-constant">Rack</span><span class="ruby-operator">::</span><span class="ruby-constant">Mime</span>.<span class="ruby-identifier">mime_type</span>(<span class="ruby-identifier">type</span>, <span class="ruby-keyword">nil</span>)
-<span class="line-num">518</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">519</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">509</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">mime_type</span>(<span class="ruby-identifier">type</span>=<span class="ruby-keyword">nil</span> <span class="ruby-operator">||</span> (<span class="ruby-keyword">return</span>), <span class="ruby-identifier">value</span> = <span class="ruby-keyword">nil</span>)
+<span class="line-num">510</span>   <span class="ruby-keyword">return</span> <span class="ruby-identifier">type</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">type</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-string">&#39;/&#39;</span>)
+<span class="line-num">511</span>   <span class="ruby-identifier">type</span> = <span class="ruby-node">&quot;.#{type}&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">type</span>.<span class="ruby-identifier">to_s</span>[<span class="ruby-value">0</span>] <span class="ruby-operator">==</span> <span class="ruby-value">?.</span>
+<span class="line-num">512</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">value</span>
+<span class="line-num">513</span>     <span class="ruby-constant">Rack</span><span class="ruby-operator">::</span><span class="ruby-constant">Mime</span><span class="ruby-operator">::</span><span class="ruby-constant">MIME_TYPES</span>[<span class="ruby-identifier">type</span>] = <span class="ruby-identifier">value</span>
+<span class="line-num">514</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">515</span>     <span class="ruby-constant">Rack</span><span class="ruby-operator">::</span><span class="ruby-constant">Mime</span>.<span class="ruby-identifier">mime_type</span>(<span class="ruby-identifier">type</span>, <span class="ruby-keyword">nil</span>)
+<span class="line-num">516</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">517</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

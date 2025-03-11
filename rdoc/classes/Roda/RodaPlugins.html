@@ -474,6 +474,7 @@ Roda::RodaPlugins
 <li><a href="#method-c-deprecate_constant">deprecate_constant</a></li>
 <li><a href="#method-c-load_plugin">load_plugin</a></li>
 <li><a href="#method-c-register_plugin">register_plugin</a></li>
+<li><a href="#method-c-set_temp_name">set_temp_name</a></li>
 </ol>
 </div>
 <div id='context'>
@@ -719,6 +720,28 @@ Roda::RodaPlugins
 <span class="line-num">39</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">register_plugin</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">mod</span>)
 <span class="line-num">40</span>   <span class="ruby-ivar">@plugins</span>[<span class="ruby-identifier">name</span>] = <span class="ruby-identifier">mod</span>
 <span class="line-num">41</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-class' id='method-method-c-set_temp_name'>
+<a name='method-c-set_temp_name'></a>
+<div class='synopsis'>
+<span class='name'>set_temp_name</span><span class='arguments'>(mod)</span>
+
+</div>
+<div class='description'>
+
+<p>Create a new module using the block, and set the temporary name on it using the given a containing module and name.</p>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-set_temp_name-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-c-set_temp_name-source'>   <span class="ruby-comment"># File lib/roda/plugins.rb</span>
+<span class="line-num">56</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">set_temp_name</span>(<span class="ruby-identifier">mod</span>)
+<span class="line-num">57</span>   <span class="ruby-identifier">mod</span>.<span class="ruby-identifier">set_temporary_name</span>(<span class="ruby-keyword">yield</span>)
+<span class="line-num">58</span>   <span class="ruby-identifier">mod</span>
+<span class="line-num">59</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>
