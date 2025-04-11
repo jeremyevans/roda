@@ -43,6 +43,30 @@ Roda::RodaPlugins::RenderEach
 
 <p>will render the <code>foo</code> template 3 times.  Each time the template is rendered, the local variable <code>foo</code> will contain the given value (e.g. on the first rendering <code>foo</code> is 1).</p>
 
+<p>If you provide a block when calling the method, it will yield each rendering instead of returning a concatentation of the renderings. This is useful if you want to wrap each rendering in something else.  For example, instead of calling <code>render</code> multiple times in a loop:</p>
+
+<pre>&lt;% [1,2,3].each do |v| %&gt;
+  &lt;p&gt;&lt;%= render(:foo, locals: {foo: v}) %&gt;&lt;/p&gt;
+&lt;% end %&gt;</pre>
+
+<p>You can use <code>render_each</code>, allowing for simpler and more optimized code:</p>
+
+<pre>&lt;% render_each([1,2,3], :foo) do |text| %&gt;
+  &lt;p&gt;&lt;%= text %&gt;&lt;/p&gt;
+&lt;% end %&gt;</pre>
+
+<p>You can also provide a block to avoid excess memory usage.  For example, if you are calling the method inside an erb template, instead of doing:</p>
+
+<pre>&lt;%= render_each([1,2,3], :foo) %&gt;</pre>
+
+<p>You can do:</p>
+
+<pre>&lt;% render_each([1,2,3], :foo) %&gt;&lt;%= body %&gt;&lt;% end %&gt;</pre>
+
+<p>This results in the same behavior, but avoids building a large intermediate string just to concatenate to the template result.</p>
+
+<p>When passing a block, <code>render_each</code> returns <code>nil</code>.</p>
+
 <p>You can pass additional render options via an options hash:</p>
 
 <pre class="ruby"><span class="ruby-identifier">render_each</span>([<span class="ruby-value">1</span>,<span class="ruby-value">2</span>,<span class="ruby-value">3</span>], <span class="ruby-value">:foo</span>, <span class="ruby-value">views:</span> <span class="ruby-string">&#39;partials&#39;</span>)
@@ -103,9 +127,9 @@ Roda::RodaPlugins::RenderEach
 [show source]
 </a>
 <pre id='method-c-load_dependencies-source'>   <span class="ruby-comment"># File lib/roda/plugins/render_each.rb</span>
-<span class="line-num">35</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">load_dependencies</span>(<span class="ruby-identifier">app</span>)
-<span class="line-num">36</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:render</span>
-<span class="line-num">37</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">67</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">load_dependencies</span>(<span class="ruby-identifier">app</span>)
+<span class="line-num">68</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:render</span>
+<span class="line-num">69</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

@@ -45,11 +45,23 @@ Roda::RodaPlugins::CaptureERB
 <p><code>capture_erb</code> can be used inside other methods that are called inside templates.  It can be combined with the inject_erb plugin to wrap template blocks with arbitrary output and then inject the wrapped output into the template.</p>
 
 <p>If the output buffer object responds to <code>capture</code> and is not an instance of String (e.g. when <code>erubi/capture_block</code> is being used as the template engine), this will call <code>capture</code> on the output buffer object, instead of setting the output buffer object temporarily to a new object.</p>
+
+<p>By default, capture_erb returns the value of the block, converted to a string.  However, that can cause issues with code such as:</p>
+
+<pre>&lt;% value = capture_erb do %&gt;
+  Some content here.
+  &lt;% if something %&gt;
+    Some more content here.
+  &lt;% end %&gt;
+&lt;% end %&gt;</pre>
+
+<p>In this case, the block may return nil, instead of the content of the template.  To handle this case, you can provide the <code>returns: :buffer</code> option when calling the method (to handle that specific call, or when loading the plugin (to default to that behavior). Note that if the output buffer object responds to <code>capture</code> and is not an instance of String, the <code>returns: :buffer</code> behavior is the default and cannot be changed.</p>
 </div>
 <div id='method-list'>
 <h2>Methods</h2>
 <h3>Public Class</h3>
 <ol>
+<li><a href="#method-c-configure">configure</a></li>
 <li><a href="#method-c-load_dependencies">load_dependencies</a></li>
 </ol>
 </div>
@@ -64,10 +76,32 @@ Roda::RodaPlugins::CaptureERB
 <div id='section'>
 <div id='methods'>
 <h2>Public Class methods</h2>
+<div class='method public-class' id='method-method-c-configure'>
+<a name='method-c-configure'></a>
+<div class='synopsis'>
+<span class='name'>configure</span><span class='arguments'>(app, opts=OPTS)</span>
+
+</div>
+<div class='description'>
+
+<p>Support <code>returns: :buffer</code> to default to returning buffer object.</p>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-configure-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/capture_erb.rb</span>
+<span class="line-num">49</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
+<span class="line-num">50</span>   <span class="ruby-comment"># RODA4: make returns: :buffer the default behavior</span>
+<span class="line-num">51</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:capture_erb_returns</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:returns</span>] <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:returns</span>)
+<span class="line-num">52</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
 <div class='method public-class' id='method-method-c-load_dependencies'>
 <a name='method-c-load_dependencies'></a>
 <div class='synopsis'>
-<span class='name'>load_dependencies</span><span class='arguments'>(app)</span>
+<span class='name'>load_dependencies</span><span class='arguments'>(app, opts=OPTS)</span>
 
 </div>
 <div class='description'>
@@ -78,9 +112,9 @@ Roda::RodaPlugins::CaptureERB
 [show source]
 </a>
 <pre id='method-c-load_dependencies-source'>   <span class="ruby-comment"># File lib/roda/plugins/capture_erb.rb</span>
-<span class="line-num">25</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">load_dependencies</span>(<span class="ruby-identifier">app</span>)
-<span class="line-num">26</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:render</span>
-<span class="line-num">27</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">43</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">load_dependencies</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
+<span class="line-num">44</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:render</span>
+<span class="line-num">45</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>
