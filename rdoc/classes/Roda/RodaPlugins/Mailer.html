@@ -131,7 +131,7 @@ Roda::RodaPlugins::Mailer
 
 <pre class="ruby"><span class="ruby-constant">Mailer</span>.<span class="ruby-identifier">sendmail</span>(<span class="ruby-string">&#39;/welcome/1&#39;</span>, <span class="ruby-string">&#39;foo@example.com&#39;</span>)
 
-<span class="ruby-identifier">r</span>.<span class="ruby-identifier">mail</span> <span class="ruby-string">&#39;welcome&#39;</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">user_id</span>, <span class="ruby-identifier">mail_from</span><span class="ruby-operator">|</span> 
+<span class="ruby-identifier">r</span>.<span class="ruby-identifier">mail</span> <span class="ruby-string">&#39;welcome&#39;</span>, <span class="ruby-constant">Integer</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">user_id</span>, <span class="ruby-identifier">mail_from</span><span class="ruby-operator">|</span> 
   <span class="ruby-identifier">from</span> <span class="ruby-identifier">mail_from</span>
   <span class="ruby-identifier">to</span> <span class="ruby-constant">User</span>[<span class="ruby-identifier">user_id</span>].<span class="ruby-identifier">email</span>
   <span class="ruby-comment"># ...</span>

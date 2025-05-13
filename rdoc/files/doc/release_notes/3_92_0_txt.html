@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+<head>
+<title>3.92.0.txt</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<link href='../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<script type='text/javascript'>
+  function popupCode(url) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+  
+  function toggleCode(id) {
+    var code = document.getElementById(id)
+  
+    code.style.display = code.style.display != 'block' ? 'block' : 'none'
+    return true
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+</script>
+</head>
+<body class='page'>
+<div class='file' id='wrapper'>
+<div class='header'>
+<h1 class='name'>3.92.0.txt
+</h1>
+<div class='paths'>
+doc/release_notes/3.92.0.txt
+</div>
+<div class='last-update'>
+Last Update:
+<span class='datetime'>2025-05-13 10:05:18 -0700</span>
+</div>
+</div>
+<div id='content'>
+<div id='text'>
+<div id='description'>
+<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<ul><li>
+<p>An each_part plugin has been added, offering a simpler method for using render_each with locals:</p>
+
+<pre class="ruby"><span class="ruby-comment"># With render_each:</span>
+<span class="ruby-identifier">render_each</span>(<span class="ruby-identifier">array_of_foos</span>, <span class="ruby-value">:foo</span>, <span class="ruby-value">locals:</span> {<span class="ruby-value">bar:</span> <span class="ruby-value">1</span>})
+
+<span class="ruby-comment"># With each_part:</span>
+<span class="ruby-identifier">each_part</span>(<span class="ruby-identifier">array_of_foos</span>, <span class="ruby-value">:foo</span>, <span class="ruby-value">bar:</span> <span class="ruby-value">1</span>)
+</pre>
+
+<p>The each_part provides similar benefits to the render_each plugin that the part plugin provides to the render plugin.  The each_part method has been optimized to work with the render plugin’s :assume_fixed_locals option.</p>
+</li></ul>
+
+<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<ul><li>
+<p>The render_each plugin has been optimized to work with the render plugin’s :assume_fixed_locals option.</p>
+</li></ul>
+</div>
+<div id='context'>
+</div>
+
+</div>
+</div>
+
+<div id='footer-push'></div>
+</div>
+<div id='footer'>
+<a href="https://github.com/jeremyevans/hanna"><strong>Hanna</strong> RDoc template</a>
+</div>
+</body>
+</html>

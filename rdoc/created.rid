@@ -1,11 +1,9 @@
-Fri, 11 Apr 2025 07:17:22 -0700
+Tue, 13 May 2025 10:09:53 -0700
 README.rdoc	Wed, 18 Oct 2023 15:53:01 -0700
-CHANGELOG	Fri, 11 Apr 2025 07:12:13 -0700
+CHANGELOG	Tue, 13 May 2025 10:05:18 -0700
 doc/CHANGELOG.old	Fri, 11 Mar 2022 10:33:07 -0800
 MIT-LICENSE	Thu, 12 Jan 2023 07:50:45 -0800
-lib/roda.rb	Tue, 17 Sep 2024 11:54:43 -0700
 lib/roda/cache.rb	Tue, 12 Jan 2021 15:49:31 -0800
-lib/roda/plugins.rb	Thu, 06 Mar 2025 16:45:46 -0800
 lib/roda/plugins/Integer_matcher_max.rb	Tue, 17 Sep 2024 11:54:43 -0700
 lib/roda/plugins/_after_hook.rb	Mon, 04 Mar 2019 16:26:49 -0800
 lib/roda/plugins/_base64.rb	Wed, 20 Sep 2023 16:52:49 -0700
@@ -16,7 +14,7 @@ lib/roda/plugins/_symbol_regexp_matchers.rb	Thu, 16 Apr 2020 13:01:43 -0700
 lib/roda/plugins/additional_render_engines.rb	Thu, 28 Jul 2022 11:20:46 -0700
 lib/roda/plugins/additional_view_directories.rb	Wed, 16 Feb 2022 13:32:47 -0800
 lib/roda/plugins/all_verbs.rb	Mon, 12 Sep 2022 13:47:50 -0700
-lib/roda/plugins/assets.rb	Tue, 04 Jun 2024 09:27:59 -0700
+lib/roda/plugins/assets.rb	Sun, 27 Apr 2025 22:35:27 -0700
 lib/roda/plugins/assets_preloading.rb	Wed, 16 Aug 2017 08:44:25 -0700
 lib/roda/plugins/assume_ssl.rb	Fri, 12 Jul 2024 18:14:45 -0700
 lib/roda/plugins/autoload_hash_branches.rb	Fri, 01 Nov 2024 14:58:11 -0700
@@ -46,6 +44,7 @@ lib/roda/plugins/delete_empty_headers.rb	Fri, 15 Jul 2022 09:54:42 -0700
 lib/roda/plugins/direct_call.rb	Mon, 04 Mar 2019 16:26:49 -0800
 lib/roda/plugins/disallow_file_uploads.rb	Mon, 12 Sep 2022 13:47:50 -0700
 lib/roda/plugins/drop_body.rb	Mon, 19 Jun 2023 16:20:51 -0700
+lib/roda/plugins/each_part.rb	Mon, 14 Apr 2025 23:49:17 -0700
 lib/roda/plugins/early_hints.rb	Sat, 02 Nov 2024 12:01:48 -0700
 lib/roda/plugins/empty_root.rb	Sat, 06 Apr 2019 23:21:10 -0700
 lib/roda/plugins/environments.rb	Sun, 31 Jan 2016 11:53:17 -0800
@@ -78,7 +77,7 @@ lib/roda/plugins/json.rb	Tue, 08 Aug 2023 07:33:24 -0700
 lib/roda/plugins/json_parser.rb	Wed, 18 Dec 2024 12:11:36 -0800
 lib/roda/plugins/link_to.rb	Fri, 26 Aug 2022 13:01:46 -0700
 lib/roda/plugins/mail_processor.rb	Sat, 15 Jul 2023 08:02:19 -0700
-lib/roda/plugins/mailer.rb	Fri, 31 Jan 2025 15:56:28 -0800
+lib/roda/plugins/mailer.rb	Fri, 11 Apr 2025 16:33:31 -0700
 lib/roda/plugins/match_affix.rb	Mon, 22 Jun 2020 15:56:02 -0700
 lib/roda/plugins/match_hook.rb	Mon, 14 Aug 2023 09:50:32 -0700
 lib/roda/plugins/match_hook_args.rb	Mon, 14 Aug 2023 08:54:23 -0700
@@ -116,7 +115,7 @@ lib/roda/plugins/redirect_http_to_https.rb	Wed, 18 Oct 2023 14:59:20 -0700
 lib/roda/plugins/relative_path.rb	Mon, 14 Dec 2020 12:59:45 -0800
 lib/roda/plugins/render.rb	Fri, 31 Jan 2025 14:36:04 -0800
 lib/roda/plugins/render_coverage.rb	Tue, 07 Jan 2025 14:40:12 -0800
-lib/roda/plugins/render_each.rb	Fri, 14 Mar 2025 18:43:26 -0700
+lib/roda/plugins/render_each.rb	Mon, 14 Apr 2025 23:49:17 -0700
 lib/roda/plugins/render_locals.rb	Mon, 12 Sep 2022 13:47:50 -0700
 lib/roda/plugins/request_aref.rb	Mon, 12 Feb 2018 17:16:16 -0800
 lib/roda/plugins/request_headers.rb	Wed, 16 Aug 2017 08:44:25 -0700
@@ -145,10 +144,12 @@ lib/roda/plugins/typecast_params.rb	Wed, 31 Jul 2024 14:25:36 -0700
 lib/roda/plugins/typecast_params_sized_integers.rb	Tue, 08 Nov 2022 08:49:54 -0800
 lib/roda/plugins/unescape_path.rb	Mon, 17 Oct 2022 09:28:16 -0700
 lib/roda/plugins/view_options.rb	Thu, 30 Jan 2025 17:16:17 -0800
+lib/roda/plugins.rb	Thu, 06 Mar 2025 16:45:46 -0800
 lib/roda/request.rb	Tue, 17 Sep 2024 11:54:43 -0700
 lib/roda/response.rb	Thu, 19 Dec 2024 12:51:26 -0800
 lib/roda/session_middleware.rb	Thu, 06 Mar 2025 16:45:04 -0800
-lib/roda/version.rb	Fri, 11 Apr 2025 07:12:13 -0700
+lib/roda/version.rb	Tue, 13 May 2025 10:05:18 -0700
+lib/roda.rb	Tue, 17 Sep 2024 11:54:43 -0700
 doc/conventions.rdoc	Mon, 16 Oct 2023 12:10:05 -0700
 doc/release_notes/1.0.0.txt	Tue, 19 Aug 2014 09:04:25 -0700
 doc/release_notes/1.1.0.txt	Tue, 11 Nov 2014 11:35:26 -0800
@@ -278,3 +279,4 @@ doc/release_notes/3.89.0.txt	Wed, 12 Feb 2025 08:51:19 -0800
 doc/release_notes/3.9.0.txt	Mon, 11 Jun 2018 12:33:07 -0700
 doc/release_notes/3.90.0.txt	Tue, 11 Mar 2025 08:42:03 -0700
 doc/release_notes/3.91.0.txt	Fri, 11 Apr 2025 07:12:13 -0700
+doc/release_notes/3.92.0.txt	Tue, 13 May 2025 10:05:18 -0700
