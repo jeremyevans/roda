@@ -79,7 +79,7 @@ Roda::RodaPlugins::StripPathPrefix
 </a>
 <pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/strip_path_prefix.rb</span>
 <span class="line-num">18</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">prefix</span>=<span class="ruby-constant">Dir</span>.<span class="ruby-identifier">pwd</span>)
-<span class="line-num">19</span>   <span class="ruby-identifier">prefix</span> <span class="ruby-operator">+=</span> <span class="ruby-string">&#39;/&#39;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">prefix</span><span class="ruby-operator">=~</span> <span class="ruby-regexp">/\/\z/</span>
+<span class="line-num">19</span>   <span class="ruby-identifier">prefix</span> <span class="ruby-operator">+=</span> <span class="ruby-string">&#39;/&#39;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">prefix</span>.<span class="ruby-identifier">end_with?</span>(<span class="ruby-string">&quot;/&quot;</span>)
 <span class="line-num">20</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:strip_path_prefix</span>] = <span class="ruby-regexp">/\A#{Regexp.escape(prefix)}/</span>
 <span class="line-num">21</span> <span class="ruby-keyword">end</span></pre>
 </div>

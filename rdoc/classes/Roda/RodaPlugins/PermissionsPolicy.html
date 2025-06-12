@@ -201,7 +201,7 @@ Roda::RodaPlugins::PermissionsPolicy
 <span class="line-num">284</span> 
 <span class="line-num">285</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">default</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:default</span>]
 <span class="line-num">286</span>     <span class="ruby-constant">SUPPORTED_SETTINGS</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">setting</span><span class="ruby-operator">|</span>
-<span class="line-num">287</span>       <span class="ruby-identifier">policy</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">setting</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-string">&#39;-&#39;</span>, <span class="ruby-string">&#39;_&#39;</span>), <span class="ruby-operator">*</span><span class="ruby-identifier">default</span>)
+<span class="line-num">287</span>       <span class="ruby-identifier">policy</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">setting</span>.<span class="ruby-identifier">tr</span>(<span class="ruby-string">&#39;-&#39;</span>, <span class="ruby-string">&#39;_&#39;</span>), <span class="ruby-operator">*</span><span class="ruby-identifier">default</span>)
 <span class="line-num">288</span>     <span class="ruby-keyword">end</span>
 <span class="line-num">289</span>   <span class="ruby-keyword">end</span>
 <span class="line-num">290</span> 

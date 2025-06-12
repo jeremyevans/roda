@@ -255,15 +255,24 @@ Roda::RodaPlugins::TypecastParams
 
 <p>Be aware that when you use <code>convert!</code> and <code>convert_each!</code>, the conversion methods called inside the block may return nil if there is a error raised, and nested calls to <code>convert!</code> and <code>convert_each!</code> may not return values.</p>
 
-<p>When loading the typecast_params plugin, a subclass of <a href="TypecastParams/Params.html"><code>TypecastParams::Params</code></a> is created specific to the <a href="../../Roda.html"><code>Roda</code></a> application.  You can add support for custom types by passing a block when loading the typecast_params plugin.  This block is executed in the context of the subclass, and calling <code>handle_type</code> in the block can be used to add conversion methods. <code>handle_type</code> accepts a type name, an options hash, and the block used to convert the type. The only currently supported option is <code>:max_input_bytesize</code>, specifying the maximum bytesize of string input.  You can also override the max input bytesize of an existing type using the <code>max_input_bytesize</code> method.</p>
+<p>When loading the typecast_params plugin, a subclass of <a href="TypecastParams/Params.html"><code>TypecastParams::Params</code></a> is created specific to the <a href="../../Roda.html"><code>Roda</code></a> application.  You can add support for custom types by passing a block when loading the typecast_params plugin.  This block is executed in the context of the subclass, and calling <code>handle_type</code> in the block can be used to add conversion methods. <code>handle_type</code> accepts a type name, an options hash, and the block used to convert the type. Supported options are:</p>
+<table class="rdoc-list note-list"><tbody><tr><td class='label'><code>:invalid_value_message</code> </td><td>
+<p>The message to use for type conversions that result in a nil value (a space and the parameter name is appended to this).</p>
+</td></tr><tr><td class='label'><code>:max_input_bytesize</code> </td><td>
+<p>The maximum bytesize of string input.</p>
+</td></tr></tbody></table>
+
+<p>You can override the invalid value message of an existing type using the <code>invalid_value_message</code> method.  You can also override the max input bytesize of an existing type using the <code>max_input_bytesize</code> method.</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:typecast_params</span> <span class="ruby-keyword">do</span>
-  <span class="ruby-identifier">handle_type</span>(<span class="ruby-value">:album</span>, <span class="ruby-value">max_input_bytesize:</span> <span class="ruby-value">100</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
+  <span class="ruby-identifier">handle_type</span>(<span class="ruby-value">:album</span>, <span class="ruby-value">max_input_bytesize:</span> <span class="ruby-value">100</span>,
+              <span class="ruby-value">invalid_value_message:</span> <span class="ruby-string">&quot;invalid album id in parameter&quot;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
     <span class="ruby-keyword">if</span> <span class="ruby-identifier">id</span> = <span class="ruby-identifier">convert_pos_int</span>(<span class="ruby-identifier">val</span>)
       <span class="ruby-constant">Album</span>[<span class="ruby-identifier">id</span>]
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
   <span class="ruby-identifier">max_input_bytesize</span>(<span class="ruby-value">:date</span>, <span class="ruby-value">256</span>)
+  <span class="ruby-identifier">invalid_value_message</span>(<span class="ruby-value">:pos_int</span>, <span class="ruby-string">&quot;value must be greater than 0 for parameter&quot;</span>)
 <span class="ruby-keyword">end</span>
 </pre>
 
@@ -356,27 +365,27 @@ Roda::RodaPlugins::TypecastParams
 [show source]
 </a>
 <pre id='method-c-configure-source'>     <span class="ruby-comment"># File lib/roda/plugins/typecast_params.rb</span>
-<span class="line-num">1091</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">1092</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">const_set</span>(<span class="ruby-value">:TypecastParams</span>, <span class="ruby-constant">Class</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">RodaPlugins</span><span class="ruby-operator">::</span><span class="ruby-constant">TypecastParams</span><span class="ruby-operator">::</span><span class="ruby-constant">Params</span>)) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">const_defined?</span>(<span class="ruby-value">:TypecastParams</span>)
-<span class="line-num">1093</span>   <span class="ruby-identifier">app</span><span class="ruby-operator">::</span><span class="ruby-constant">TypecastParams</span>.<span class="ruby-identifier">class_eval</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span>
-<span class="line-num">1094</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:strip</span>] <span class="ruby-operator">==</span> <span class="ruby-value">:all</span>
-<span class="line-num">1095</span>     <span class="ruby-identifier">app</span><span class="ruby-operator">::</span><span class="ruby-constant">TypecastParams</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:include</span>, <span class="ruby-constant">StringStripper</span>)
-<span class="line-num">1096</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">1097</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:allow_null_bytes</span>]
-<span class="line-num">1098</span>     <span class="ruby-identifier">app</span><span class="ruby-operator">::</span><span class="ruby-constant">TypecastParams</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:include</span>, <span class="ruby-constant">AllowNullByte</span>)
-<span class="line-num">1099</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">1100</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:skip_bytesize_checking</span>]
-<span class="line-num">1101</span>     <span class="ruby-identifier">app</span><span class="ruby-operator">::</span><span class="ruby-constant">TypecastParams</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:include</span>, <span class="ruby-constant">SkipBytesizeChecking</span>)
-<span class="line-num">1102</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">1103</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:date_parse_input_handler</span>]
-<span class="line-num">1104</span>     <span class="ruby-identifier">app</span><span class="ruby-operator">::</span><span class="ruby-constant">TypecastParams</span>.<span class="ruby-identifier">class_eval</span> <span class="ruby-keyword">do</span>
-<span class="line-num">1105</span>       <span class="ruby-identifier">include</span> <span class="ruby-constant">DateParseInputHandler</span>
-<span class="line-num">1106</span>       <span class="ruby-identifier">define_method</span>(<span class="ruby-value">:handle_date_parse_input</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">opts</span>[<span class="ruby-value">:date_parse_input_handler</span>])
-<span class="line-num">1107</span>       <span class="ruby-identifier">private</span> <span class="ruby-value">:handle_date_parse_input</span>
-<span class="line-num">1108</span>       <span class="ruby-keyword">alias</span> <span class="ruby-identifier">handle_date_parse_input</span> <span class="ruby-identifier">handle_date_parse_input</span>
-<span class="line-num">1109</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">1110</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">1111</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">1121</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">1122</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">const_set</span>(<span class="ruby-value">:TypecastParams</span>, <span class="ruby-constant">Class</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">RodaPlugins</span><span class="ruby-operator">::</span><span class="ruby-constant">TypecastParams</span><span class="ruby-operator">::</span><span class="ruby-constant">Params</span>)) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">const_defined?</span>(<span class="ruby-value">:TypecastParams</span>)
+<span class="line-num">1123</span>   <span class="ruby-identifier">app</span><span class="ruby-operator">::</span><span class="ruby-constant">TypecastParams</span>.<span class="ruby-identifier">class_eval</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span>
+<span class="line-num">1124</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:strip</span>] <span class="ruby-operator">==</span> <span class="ruby-value">:all</span>
+<span class="line-num">1125</span>     <span class="ruby-identifier">app</span><span class="ruby-operator">::</span><span class="ruby-constant">TypecastParams</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:include</span>, <span class="ruby-constant">StringStripper</span>)
+<span class="line-num">1126</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">1127</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:allow_null_bytes</span>]
+<span class="line-num">1128</span>     <span class="ruby-identifier">app</span><span class="ruby-operator">::</span><span class="ruby-constant">TypecastParams</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:include</span>, <span class="ruby-constant">AllowNullByte</span>)
+<span class="line-num">1129</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">1130</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:skip_bytesize_checking</span>]
+<span class="line-num">1131</span>     <span class="ruby-identifier">app</span><span class="ruby-operator">::</span><span class="ruby-constant">TypecastParams</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:include</span>, <span class="ruby-constant">SkipBytesizeChecking</span>)
+<span class="line-num">1132</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">1133</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:date_parse_input_handler</span>]
+<span class="line-num">1134</span>     <span class="ruby-identifier">app</span><span class="ruby-operator">::</span><span class="ruby-constant">TypecastParams</span>.<span class="ruby-identifier">class_eval</span> <span class="ruby-keyword">do</span>
+<span class="line-num">1135</span>       <span class="ruby-identifier">include</span> <span class="ruby-constant">DateParseInputHandler</span>
+<span class="line-num">1136</span>       <span class="ruby-identifier">define_method</span>(<span class="ruby-value">:handle_date_parse_input</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">opts</span>[<span class="ruby-value">:date_parse_input_handler</span>])
+<span class="line-num">1137</span>       <span class="ruby-identifier">private</span> <span class="ruby-value">:handle_date_parse_input</span>
+<span class="line-num">1138</span>       <span class="ruby-keyword">alias</span> <span class="ruby-identifier">handle_date_parse_input</span> <span class="ruby-identifier">handle_date_parse_input</span>
+<span class="line-num">1139</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">1140</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">1141</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

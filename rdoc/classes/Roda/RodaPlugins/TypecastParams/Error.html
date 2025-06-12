@@ -115,20 +115,20 @@ Superclass:
 [show source]
 </a>
 <pre id='method-c-create-source'>    <span class="ruby-comment"># File lib/roda/plugins/typecast_params.rb</span>
-<span class="line-num">316</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">create</span>(<span class="ruby-identifier">keys</span>, <span class="ruby-identifier">reason</span>, <span class="ruby-identifier">e</span>)
-<span class="line-num">317</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-keyword">self</span>)
-<span class="line-num">318</span>     <span class="ruby-identifier">e</span>.<span class="ruby-identifier">keys</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">keys</span>
-<span class="line-num">319</span>     <span class="ruby-identifier">e</span>.<span class="ruby-identifier">reason</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">reason</span>
-<span class="line-num">320</span>     <span class="ruby-identifier">e</span>
-<span class="line-num">321</span>   <span class="ruby-keyword">else</span>
-<span class="line-num">322</span>     <span class="ruby-identifier">backtrace</span> = <span class="ruby-identifier">e</span>.<span class="ruby-identifier">backtrace</span>
-<span class="line-num">323</span>     <span class="ruby-identifier">e</span> = <span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;#{e.class}: #{e.message}&quot;</span>)
-<span class="line-num">324</span>     <span class="ruby-identifier">e</span>.<span class="ruby-identifier">keys</span> = <span class="ruby-identifier">keys</span>
-<span class="line-num">325</span>     <span class="ruby-identifier">e</span>.<span class="ruby-identifier">reason</span> = <span class="ruby-identifier">reason</span>
-<span class="line-num">326</span>     <span class="ruby-identifier">e</span>.<span class="ruby-identifier">set_backtrace</span>(<span class="ruby-identifier">backtrace</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">backtrace</span>
+<span class="line-num">323</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">create</span>(<span class="ruby-identifier">keys</span>, <span class="ruby-identifier">reason</span>, <span class="ruby-identifier">e</span>)
+<span class="line-num">324</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-keyword">self</span>)
+<span class="line-num">325</span>     <span class="ruby-identifier">e</span>.<span class="ruby-identifier">keys</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">keys</span>
+<span class="line-num">326</span>     <span class="ruby-identifier">e</span>.<span class="ruby-identifier">reason</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">reason</span>
 <span class="line-num">327</span>     <span class="ruby-identifier">e</span>
-<span class="line-num">328</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">329</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">328</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">329</span>     <span class="ruby-identifier">backtrace</span> = <span class="ruby-identifier">e</span>.<span class="ruby-identifier">backtrace</span>
+<span class="line-num">330</span>     <span class="ruby-identifier">e</span> = <span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;#{e.class}: #{e.message}&quot;</span>)
+<span class="line-num">331</span>     <span class="ruby-identifier">e</span>.<span class="ruby-identifier">keys</span> = <span class="ruby-identifier">keys</span>
+<span class="line-num">332</span>     <span class="ruby-identifier">e</span>.<span class="ruby-identifier">reason</span> = <span class="ruby-identifier">reason</span>
+<span class="line-num">333</span>     <span class="ruby-identifier">e</span>.<span class="ruby-identifier">set_backtrace</span>(<span class="ruby-identifier">backtrace</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">backtrace</span>
+<span class="line-num">334</span>     <span class="ruby-identifier">e</span>
+<span class="line-num">335</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">336</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <h2>Public Instance methods</h2>
@@ -146,9 +146,9 @@ Superclass:
 [show source]
 </a>
 <pre id='method-i-all_errors-source'>    <span class="ruby-comment"># File lib/roda/plugins/typecast_params.rb</span>
-<span class="line-num">344</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">all_errors</span>
-<span class="line-num">345</span>   <span class="ruby-ivar">@all_errors</span> <span class="ruby-operator">||=</span> [<span class="ruby-keyword">self</span>]
-<span class="line-num">346</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">351</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">all_errors</span>
+<span class="line-num">352</span>   <span class="ruby-ivar">@all_errors</span> <span class="ruby-operator">||=</span> [<span class="ruby-keyword">self</span>]
+<span class="line-num">353</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-param_name'>
@@ -179,20 +179,20 @@ Superclass:
 [show source]
 </a>
 <pre id='method-i-param_name-source'>    <span class="ruby-comment"># File lib/roda/plugins/typecast_params.rb</span>
-<span class="line-num">371</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">param_name</span>
-<span class="line-num">372</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">keys</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span>
-<span class="line-num">373</span>     <span class="ruby-identifier">first</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">rest</span> = <span class="ruby-identifier">keys</span>
-<span class="line-num">374</span>     <span class="ruby-identifier">v</span> = <span class="ruby-identifier">first</span>.<span class="ruby-identifier">dup</span>
-<span class="line-num">375</span>     <span class="ruby-identifier">rest</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">param</span><span class="ruby-operator">|</span>
-<span class="line-num">376</span>       <span class="ruby-identifier">v</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">&quot;[&quot;</span>
-<span class="line-num">377</span>       <span class="ruby-identifier">v</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">param</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">param</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Integer</span>)
-<span class="line-num">378</span>       <span class="ruby-identifier">v</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">&quot;]&quot;</span>
-<span class="line-num">379</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">380</span>     <span class="ruby-identifier">v</span>
-<span class="line-num">381</span>   <span class="ruby-keyword">else</span>
-<span class="line-num">382</span>     <span class="ruby-identifier">keys</span>.<span class="ruby-identifier">first</span>
-<span class="line-num">383</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">384</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">378</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">param_name</span>
+<span class="line-num">379</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">keys</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span>
+<span class="line-num">380</span>     <span class="ruby-identifier">first</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">rest</span> = <span class="ruby-identifier">keys</span>
+<span class="line-num">381</span>     <span class="ruby-identifier">v</span> = <span class="ruby-identifier">first</span>.<span class="ruby-identifier">dup</span>
+<span class="line-num">382</span>     <span class="ruby-identifier">rest</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">param</span><span class="ruby-operator">|</span>
+<span class="line-num">383</span>       <span class="ruby-identifier">v</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">&quot;[&quot;</span>
+<span class="line-num">384</span>       <span class="ruby-identifier">v</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">param</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">param</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Integer</span>)
+<span class="line-num">385</span>       <span class="ruby-identifier">v</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">&quot;]&quot;</span>
+<span class="line-num">386</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">387</span>     <span class="ruby-identifier">v</span>
+<span class="line-num">388</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">389</span>     <span class="ruby-identifier">keys</span>.<span class="ruby-identifier">first</span>
+<span class="line-num">390</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">391</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-param_names'>
@@ -211,9 +211,9 @@ Superclass:
 [show source]
 </a>
 <pre id='method-i-param_names-source'>    <span class="ruby-comment"># File lib/roda/plugins/typecast_params.rb</span>
-<span class="line-num">391</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">param_names</span>
-<span class="line-num">392</span>   <span class="ruby-identifier">all_errors</span>.<span class="ruby-identifier">map</span>(<span class="ruby-operator">&amp;</span><span class="ruby-value">:param_name</span>)
-<span class="line-num">393</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">398</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">param_names</span>
+<span class="line-num">399</span>   <span class="ruby-identifier">all_errors</span>.<span class="ruby-identifier">map</span>(<span class="ruby-operator">&amp;</span><span class="ruby-value">:param_name</span>)
+<span class="line-num">400</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>
