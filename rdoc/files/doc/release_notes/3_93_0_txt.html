@@ -31,7 +31,7 @@ doc/release_notes/3.93.0.txt
 </div>
 <div class='last-update'>
 Last Update:
-<span class='datetime'>2025-06-12 12:29:30 -0700</span>
+<span class='datetime'>2025-06-12 12:37:49 -0700</span>
 </div>
 </div>
 <div id='content'>
@@ -39,7 +39,7 @@ Last Update:
 <div id='description'>
 <h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
 <ul><li>
-<p>The typecast_params plugin handle_type method now supports an :invalid_value_message argument, for a custom error message per type, explaining why the input is invalid.  This error message is used when there is a parameter given, but it cannot be converted to the desired type:</p>
+<p>The typecast_params plugin handle_type method now supports an :invalid_value_message option, for a custom error message for the type, explaining why the input is invalid.  This error message is used when there is a parameter given, but it cannot be converted to the desired type:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:typecast_params</span> <span class="ruby-keyword">do</span>
   <span class="ruby-identifier">handle_type</span>(<span class="ruby-value">:single_char</span>, <span class="ruby-value">invalid_value_message:</span> \

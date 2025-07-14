@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang='en'>
 <head>
-<title>version.rb</title>
+<title>3.94.0.txt</title>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
 <link href='../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
@@ -24,10 +24,10 @@
 <body class='page'>
 <div class='file' id='wrapper'>
 <div class='header'>
-<h1 class='name'>version.rb
+<h1 class='name'>3.94.0.txt
 </h1>
 <div class='paths'>
-lib/roda/version.rb
+doc/release_notes/3.94.0.txt
 </div>
 <div class='last-update'>
 Last Update:
@@ -36,7 +36,19 @@ Last Update:
 </div>
 <div id='content'>
 <div id='text'>
-<div id='description'></div>
+<div id='description'>
+<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<ul><li>
+<p>A view_subdir_leading_slash plugin has been added, for using the current view subdirectory for all templates that do not start with a slash.  The default behavior when using view subdirectories remains to use the current view subdirectory unless the template name includes a slash.  This makes it easier to use nested view subdirectories, at the expense of making it slightly more difficult to use templates outside the current view subdirectory.</p>
+</li></ul>
+
+<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<ul><li>
+<p>The render_each and each_part plugin template selection code is now more optimized when the application is frozen and using the :assume_fixed_locals render plugin option.</p>
+</li><li>
+<p>The render_each and each_part plugin default local generation is now more optimized on Ruby 3+.</p>
+</li></ul>
+</div>
 <div id='context'>
 </div>
 
