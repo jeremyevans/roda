@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+<head>
+<title>Roda::RodaPlugins::ResponseContentType::ResponseMethods</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<link href='../../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<script type='text/javascript'>
+  function popupCode(url) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+  
+  function toggleCode(id) {
+    var code = document.getElementById(id)
+  
+    code.style.display = code.style.display != 'block' ? 'block' : 'none'
+    return true
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+</script>
+</head>
+<body class='page'>
+<div class='class' id='wrapper'>
+<div class='header'>
+<h1 class='name'><span class='type'>module</span>
+Roda::RodaPlugins::ResponseContentType::ResponseMethods
+</h1>
+<ol class='paths'>
+<li>
+<a href="../../../../files/lib/roda/plugins/response_content_type_rb.html">lib/roda/plugins/response_content_type.rb</a>
+</li>
+</ol>
+</div>
+<div id='content'>
+<div id='text'>
+<div id='description'></div>
+<div id='method-list'>
+<h2>Methods</h2>
+<h3>Public Instance</h3>
+<ol>
+<li><a href="#method-i-content_type">content_type</a></li>
+<li><a href="#method-i-content_type-3D">content_type=</a></li>
+</ol>
+</div>
+<div id='context'>
+</div>
+<div id='section'>
+<div id='methods'>
+<h2>Public Instance methods</h2>
+<div class='method public-instance' id='method-method-i-content_type'>
+<a name='method-i-content_type'></a>
+<div class='synopsis'>
+<span class='name'>content_type</span><span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+<p>Return the content-type of the response. Will be nil if it has not yet been explicitly set.</p>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-content_type-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-content_type-source'>   <span class="ruby-comment"># File lib/roda/plugins/response_content_type.rb</span>
+<span class="line-num">62</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">content_type</span>
+<span class="line-num">63</span>   <span class="ruby-ivar">@headers</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_TYPE</span>]
+<span class="line-num">64</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-content_type-3D'>
+<a name='method-i-content_type-3D'></a>
+<div class='synopsis'>
+<span class='name'>content_type=</span><span class='arguments'>(mime_type)</span>
+
+</div>
+<div class='description'>
+
+<p>Set the content-type of the response. If given a string, it is used directly. If given a symbol, looks up the mime type with the given file extension. If the symbol is not a recognized mime type, raises KeyError.</p>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-content_type-3D-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-content_type-3D-source'>   <span class="ruby-comment"># File lib/roda/plugins/response_content_type.rb</span>
+<span class="line-num">70</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">content_type=</span>(<span class="ruby-identifier">mime_type</span>)
+<span class="line-num">71</span>   <span class="ruby-identifier">mime_type</span> = <span class="ruby-identifier">roda_class</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:repsonse_content_types</span>].<span class="ruby-identifier">fetch</span>(<span class="ruby-identifier">mime_type</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">mime_type</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Symbol</span>)
+<span class="line-num">72</span>   <span class="ruby-ivar">@headers</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_TYPE</span>] = <span class="ruby-identifier">mime_type</span>
+<span class="line-num">73</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div id='footer-push'></div>
+</div>
+<div id='footer'>
+<a href="https://github.com/jeremyevans/hanna"><strong>Hanna</strong> RDoc template</a>
+</div>
+</body>
+</html>

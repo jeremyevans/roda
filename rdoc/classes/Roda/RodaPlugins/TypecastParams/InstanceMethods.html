@@ -40,7 +40,9 @@ Roda::RodaPlugins::TypecastParams::InstanceMethods
 <h2>Methods</h2>
 <h3>Public Instance</h3>
 <ol>
+<li><a href="#method-i-typecast_body_params">typecast_body_params</a></li>
 <li><a href="#method-i-typecast_params">typecast_params</a></li>
+<li><a href="#method-i-typecast_query_params">typecast_query_params</a></li>
 </ol>
 </div>
 <div id='context'>
@@ -48,6 +50,27 @@ Roda::RodaPlugins::TypecastParams::InstanceMethods
 <div id='section'>
 <div id='methods'>
 <h2>Public Instance methods</h2>
+<div class='method public-instance' id='method-method-i-typecast_body_params'>
+<a name='method-i-typecast_body_params'></a>
+<div class='synopsis'>
+<span class='name'>typecast_body_params</span><span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+<p>Return and cache the instance of the <a href="../TypecastParams.html"><code>TypecastParams</code></a> class wrapping access to parameters in the request’s body. Type conversion methods will be called on the result of this method.</p>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-typecast_body_params-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-typecast_body_params-source'>     <span class="ruby-comment"># File lib/roda/plugins/typecast_params.rb</span>
+<span class="line-num">1175</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">typecast_body_params</span>
+<span class="line-num">1176</span>   <span class="ruby-ivar">@_typecast_body_params</span> <span class="ruby-operator">||=</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span><span class="ruby-operator">::</span><span class="ruby-constant">TypecastParams</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@_request</span>.<span class="ruby-constant">POST</span>)
+<span class="line-num">1177</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
 <div class='method public-instance' id='method-method-i-typecast_params'>
 <a name='method-i-typecast_params'></a>
 <div class='synopsis'>
@@ -56,7 +79,7 @@ Roda::RodaPlugins::TypecastParams::InstanceMethods
 </div>
 <div class='description'>
 
-<p>Return and cache the instance of the <a href="Params.html"><code>Params</code></a> class for the current request. Type conversion methods will be called on the result of this method.</p>
+<p>Return and cache the instance of the <a href="../TypecastParams.html"><code>TypecastParams</code></a> class wrapping access to the request’s params (merging query string params and body params). Type conversion methods will be called on the result of this method.</p>
 
 </div>
 <div class='source'>
@@ -64,9 +87,30 @@ Roda::RodaPlugins::TypecastParams::InstanceMethods
 [show source]
 </a>
 <pre id='method-i-typecast_params-source'>     <span class="ruby-comment"># File lib/roda/plugins/typecast_params.rb</span>
-<span class="line-num">1160</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">typecast_params</span>
-<span class="line-num">1161</span>   <span class="ruby-ivar">@_typecast_params</span> <span class="ruby-operator">||=</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span><span class="ruby-operator">::</span><span class="ruby-constant">TypecastParams</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@_request</span>.<span class="ruby-identifier">params</span>)
-<span class="line-num">1162</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">1161</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">typecast_params</span>
+<span class="line-num">1162</span>   <span class="ruby-ivar">@_typecast_params</span> <span class="ruby-operator">||=</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span><span class="ruby-operator">::</span><span class="ruby-constant">TypecastParams</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@_request</span>.<span class="ruby-identifier">params</span>)
+<span class="line-num">1163</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-typecast_query_params'>
+<a name='method-i-typecast_query_params'></a>
+<div class='synopsis'>
+<span class='name'>typecast_query_params</span><span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+<p>Return and cache the instance of the <a href="../TypecastParams.html"><code>TypecastParams</code></a> class wrapping access to parameters in the request’s query string. Type conversion methods will be called on the result of this method.</p>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-typecast_query_params-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-typecast_query_params-source'>     <span class="ruby-comment"># File lib/roda/plugins/typecast_params.rb</span>
+<span class="line-num">1168</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">typecast_query_params</span>
+<span class="line-num">1169</span>   <span class="ruby-ivar">@_typecast_query_params</span> <span class="ruby-operator">||=</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span><span class="ruby-operator">::</span><span class="ruby-constant">TypecastParams</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@_request</span>.<span class="ruby-constant">GET</span>)
+<span class="line-num">1170</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

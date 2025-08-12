@@ -1,6 +1,6 @@
-Mon, 14 Jul 2025 09:09:04 -0700
+Mon, 11 Aug 2025 22:58:43 -0700
 README.rdoc	Wed, 18 Oct 2023 15:53:01 -0700
-CHANGELOG	Mon, 14 Jul 2025 09:03:32 -0700
+CHANGELOG	Fri, 08 Aug 2025 09:25:01 -0700
 doc/CHANGELOG.old	Fri, 11 Mar 2022 10:33:07 -0800
 MIT-LICENSE	Thu, 12 Jan 2023 07:50:45 -0800
 lib/roda/cache.rb	Tue, 12 Jan 2021 15:49:31 -0800
@@ -119,13 +119,14 @@ lib/roda/plugins/render_each.rb	Sun, 29 Jun 2025 19:11:56 -0700
 lib/roda/plugins/render_locals.rb	Mon, 12 Sep 2022 13:47:50 -0700
 lib/roda/plugins/request_aref.rb	Mon, 12 Feb 2018 17:16:16 -0800
 lib/roda/plugins/request_headers.rb	Wed, 16 Aug 2017 08:44:25 -0700
+lib/roda/plugins/response_content_type.rb	Fri, 08 Aug 2025 09:29:35 -0700
 lib/roda/plugins/response_request.rb	Sun, 31 Jan 2016 11:54:39 -0800
 lib/roda/plugins/route_block_args.rb	Mon, 04 Mar 2019 16:26:49 -0800
 lib/roda/plugins/route_csrf.rb	Tue, 03 Jun 2025 09:12:22 -0700
 lib/roda/plugins/run_append_slash.rb	Fri, 15 Apr 2022 16:31:38 -0700
 lib/roda/plugins/run_handler.rb	Tue, 01 Mar 2022 12:28:22 -0800
 lib/roda/plugins/run_require_slash.rb	Fri, 15 Apr 2022 16:31:38 -0700
-lib/roda/plugins/sessions.rb	Fri, 07 Jun 2024 13:16:55 -0700
+lib/roda/plugins/sessions.rb	Sat, 19 Jul 2025 21:01:25 -0700
 lib/roda/plugins/shared_vars.rb	Tue, 21 Sep 2021 14:23:42 -0700
 lib/roda/plugins/sinatra_helpers.rb	Mon, 17 Feb 2025 15:26:23 -0800
 lib/roda/plugins/slash_path_empty.rb	Wed, 16 Aug 2017 08:44:25 -0700
@@ -140,7 +141,7 @@ lib/roda/plugins/symbol_status.rb	Wed, 20 Apr 2022 11:42:37 -0700
 lib/roda/plugins/symbol_views.rb	Thu, 30 Jan 2025 17:16:17 -0800
 lib/roda/plugins/timestamp_public.rb	Thu, 25 Jul 2024 11:07:58 -0700
 lib/roda/plugins/type_routing.rb	Mon, 19 Jun 2023 16:20:51 -0700
-lib/roda/plugins/typecast_params.rb	Fri, 16 May 2025 13:42:20 -0700
+lib/roda/plugins/typecast_params.rb	Fri, 01 Aug 2025 12:26:32 -0700
 lib/roda/plugins/typecast_params_sized_integers.rb	Tue, 03 Jun 2025 09:12:22 -0700
 lib/roda/plugins/unescape_path.rb	Mon, 17 Oct 2022 09:28:16 -0700
 lib/roda/plugins/view_options.rb	Mon, 30 Jun 2025 18:55:52 -0700
@@ -149,7 +150,7 @@ lib/roda/plugins.rb	Thu, 06 Mar 2025 16:45:46 -0800
 lib/roda/request.rb	Tue, 17 Sep 2024 11:54:43 -0700
 lib/roda/response.rb	Tue, 03 Jun 2025 09:12:22 -0700
 lib/roda/session_middleware.rb	Thu, 06 Mar 2025 16:45:04 -0800
-lib/roda/version.rb	Mon, 14 Jul 2025 09:03:32 -0700
+lib/roda/version.rb	Fri, 08 Aug 2025 09:24:45 -0700
 lib/roda.rb	Tue, 17 Sep 2024 11:54:43 -0700
 doc/conventions.rdoc	Mon, 16 Oct 2023 12:10:05 -0700
 doc/release_notes/1.0.0.txt	Tue, 19 Aug 2014 09:04:25 -0700
@@ -283,3 +284,4 @@ doc/release_notes/3.91.0.txt	Fri, 11 Apr 2025 07:12:13 -0700
 doc/release_notes/3.92.0.txt	Tue, 13 May 2025 10:05:18 -0700
 doc/release_notes/3.93.0.txt	Thu, 12 Jun 2025 12:37:49 -0700
 doc/release_notes/3.94.0.txt	Mon, 14 Jul 2025 09:03:32 -0700
+doc/release_notes/3.95.0.txt	Fri, 08 Aug 2025 09:34:06 -0700

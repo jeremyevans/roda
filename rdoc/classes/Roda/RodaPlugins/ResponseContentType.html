@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+<head>
+<title>Roda::RodaPlugins::ResponseContentType</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<link href='../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<script type='text/javascript'>
+  function popupCode(url) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+  
+  function toggleCode(id) {
+    var code = document.getElementById(id)
+  
+    code.style.display = code.style.display != 'block' ? 'block' : 'none'
+    return true
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+</script>
+</head>
+<body class='page'>
+<div class='class' id='wrapper'>
+<div class='header'>
+<h1 class='name'><span class='type'>module</span>
+Roda::RodaPlugins::ResponseContentType
+</h1>
+<ol class='paths'>
+<li>
+<a href="../../../files/lib/roda/plugins/response_content_type_rb.html">lib/roda/plugins/response_content_type.rb</a>
+</li>
+</ol>
+</div>
+<div id='content'>
+<div id='text'>
+<div id='description'>
+<p>The response_content_type extension adds response.content_type and response.content_type= methods for getting and setting the response content-type.</p>
+
+<p>When setting the content-type, you can pass either a string, which is used directly:</p>
+
+<pre class="ruby"><span class="ruby-identifier">response</span>.<span class="ruby-identifier">content_type</span> = <span class="ruby-string">&quot;text/html&quot;</span>
+</pre>
+
+<p>Or, if you have registered mime types when loading the plugin:</p>
+
+<pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:response_content_type</span>, <span class="ruby-value">mime_types:</span> {
+  <span class="ruby-value">plain:</span> <span class="ruby-string">&quot;text/plain&quot;</span>,
+  <span class="ruby-value">html:</span> <span class="ruby-string">&quot;text/html&quot;</span>,
+  <span class="ruby-value">pdf:</span> <span class="ruby-string">&quot;application/pdf&quot;</span>
+}
+</pre>
+
+<p>You can use a symbol:</p>
+
+<pre class="ruby"><span class="ruby-identifier">response</span>.<span class="ruby-identifier">content_type</span> = <span class="ruby-value">:html</span>
+</pre>
+
+<p>If you would like to load all mime types supported by rack/mime, you can use the <code>mime_types: :from_rack_mime</code> option:</p>
+
+<pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:response_content_type</span>, <span class="ruby-value">mime_types:</span> <span class="ruby-value">:from_rack_mime</span>
+</pre>
+
+<p>Note that you are unlikely to be using all of these mime types, so doing this will likely result in unnecessary memory usage. It is recommended to use a hash with only the mime types your application actually uses.</p>
+
+<p>To prevent silent failures, if you attempt to set the response type with a symbol, and the symbol is not recognized, a KeyError is raised.</p>
+</div>
+<div id='method-list'>
+<h2>Methods</h2>
+<h3>Public Class</h3>
+<ol>
+<li><a href="#method-c-configure">configure</a></li>
+</ol>
+</div>
+<div id='context'>
+</div>
+<div id='class-list'>
+<h2>Classes and Modules</h2>
+<ol>
+<li><a href="ResponseContentType/ResponseMethods.html">Roda::RodaPlugins::ResponseContentType::ResponseMethods</a></li>
+</ol>
+</div>
+<div id='section'>
+<div id='methods'>
+<h2>Public Class methods</h2>
+<div class='method public-class' id='method-method-c-configure'>
+<a name='method-c-configure'></a>
+<div class='synopsis'>
+<span class='name'>configure</span><span class='arguments'>(app, opts=OPTS)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-configure-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/response_content_type.rb</span>
+<span class="line-num">41</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
+<span class="line-num">42</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">mime_types</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:mime_types</span>]
+<span class="line-num">43</span>     <span class="ruby-identifier">mime_types</span> = <span class="ruby-keyword">if</span> <span class="ruby-identifier">mime_types</span> <span class="ruby-operator">==</span> <span class="ruby-value">:from_rack_mime</span>
+<span class="line-num">44</span>       <span class="ruby-identifier">require</span> <span class="ruby-string">&quot;rack/mime&quot;</span>
+<span class="line-num">45</span>       <span class="ruby-identifier">h</span> = {}
+<span class="line-num">46</span>       <span class="ruby-constant">Rack</span><span class="ruby-operator">::</span><span class="ruby-constant">Mime</span><span class="ruby-operator">::</span><span class="ruby-constant">MIME_TYPES</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span>
+<span class="line-num">47</span>         <span class="ruby-identifier">h</span>[<span class="ruby-identifier">k</span>.<span class="ruby-identifier">slice</span>(<span class="ruby-value">1</span>,<span class="ruby-value">100</span>).<span class="ruby-identifier">to_sym</span>] = <span class="ruby-identifier">v</span>
+<span class="line-num">48</span>       <span class="ruby-keyword">end</span>
+<span class="line-num">49</span>       <span class="ruby-identifier">h</span>
+<span class="line-num">50</span>     <span class="ruby-keyword">else</span>
+<span class="line-num">51</span>       <span class="ruby-identifier">mime_types</span>.<span class="ruby-identifier">dup</span>
+<span class="line-num">52</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">53</span>     <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:repsonse_content_types</span>] = <span class="ruby-identifier">mime_types</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">54</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">55</span>     <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:repsonse_content_types</span>] <span class="ruby-operator">||=</span> {}
+<span class="line-num">56</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">57</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div id='footer-push'></div>
+</div>
+<div id='footer'>
+<a href="https://github.com/jeremyevans/hanna"><strong>Hanna</strong> RDoc template</a>
+</div>
+</body>
+</html>

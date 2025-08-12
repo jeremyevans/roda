@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+<head>
+<title>3.95.0.txt</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<link href='../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<script type='text/javascript'>
+  function popupCode(url) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+  
+  function toggleCode(id) {
+    var code = document.getElementById(id)
+  
+    code.style.display = code.style.display != 'block' ? 'block' : 'none'
+    return true
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+</script>
+</head>
+<body class='page'>
+<div class='file' id='wrapper'>
+<div class='header'>
+<h1 class='name'>3.95.0.txt
+</h1>
+<div class='paths'>
+doc/release_notes/3.95.0.txt
+</div>
+</div>
+<div id='content'>
+<div id='text'>
+<div id='description'>
+<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<ul><li>
+<p>A response_content_type plugin has been added for more easily setting the content type of responses:</p>
+
+<p>When setting the content-type, you can pass either a string, which is used directly:</p>
+
+<pre class="ruby"><span class="ruby-identifier">response</span>.<span class="ruby-identifier">content_type</span> = <span class="ruby-string">&quot;text/html&quot;</span>
+</pre>
+
+<p>Or, if you have registered mime types when loading the plugin:</p>
+
+<pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:response_content_type</span>, <span class="ruby-value">mime_types:</span> {
+  <span class="ruby-value">plain:</span> <span class="ruby-string">&quot;text/plain&quot;</span>,
+  <span class="ruby-value">html:</span> <span class="ruby-string">&quot;text/html&quot;</span>,
+  <span class="ruby-value">pdf:</span> <span class="ruby-string">&quot;application/pdf&quot;</span>
+}
+</pre>
+
+<p>You can use a symbol:</p>
+
+<pre class="ruby"><span class="ruby-identifier">response</span>.<span class="ruby-identifier">content_type</span> = <span class="ruby-value">:html</span>
+</pre>
+
+<p>If you would like to load all mime types supported by rack/mime, you can use the <code>mime_types: :from_rack_mime</code> option:</p>
+
+<pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:response_content_type</span>, <span class="ruby-value">mime_types:</span> <span class="ruby-value">:from_rack_mime</span>
+</pre>
+
+<p>Note that you are unlikely to be using all of these mime types, so doing this will likely result in unnecessary memory usage. It is recommended to use a hash with only the mime types your application actually uses.</p>
+
+<p>To prevent silent failures, if you attempt to set the response type with a symbol, and the symbol is not recognized, a KeyError is raised.</p>
+</li><li>
+<p>The typecast_params plugin now includes typecast_query_params and typecast_body_params methods in addition to typecast_params. typecast_query_params deals with query string parameters (r.GET), and typecast_body_params deals with request body parameters (r.POST).</p>
+</li></ul>
+
+<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<ul><li>
+<p>The sessions plugin now raises <a href="../../../classes/Roda/RodaPlugins/Sessions/CookieTooLarge.html"><code>Roda::RodaPlugins::Sessions::CookieTooLarge</code></a> if the total cookie size is over 4K. Previously, it only raised the exception if the cookie value was over 4K. Browsers enforce the limit on the total cookie size, not just the value, so this change prevents <a href="../../../classes/Roda.html"><code>Roda</code></a> from setting a cookie that a browser would ignore due to size restrictions.</p>
+</li></ul>
+</div>
+<div id='context'>
+</div>
+
+</div>
+</div>
+
+<div id='footer-push'></div>
+</div>
+<div id='footer'>
+<a href="https://github.com/jeremyevans/hanna"><strong>Hanna</strong> RDoc template</a>
+</div>
+</body>
+</html>
