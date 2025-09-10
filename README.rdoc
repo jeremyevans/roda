@@ -723,7 +723,7 @@ Note that when subclassing, Roda only does a shallow clone of the settings.
 
 If you store nested structures and plan to mutate them in subclasses,
 it is your responsibility to dup the nested structures inside +Roda.inherited+
-(making sure to call +super+).  This should be is done so that modifications
+(making sure to call +super+).  This is done so that modifications
 to the parent class made after subclassing do _not_ affect the subclass, and
 vice-versa.
 
