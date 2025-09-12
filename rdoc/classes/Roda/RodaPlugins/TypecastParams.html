@@ -36,7 +36,7 @@ Roda::RodaPlugins::TypecastParams
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The typecast_params plugin allows for type conversion of submitted parameters. Submitted parameters should be considered untrusted input, and in standard use with browsers, parameters are # submitted as strings (or a hash/array containing strings).  In most # cases it makes sense to explicitly convert the parameter to the desired type.  While this can be done via manual conversion:</p>
+<p>The typecast_params plugin allows for type conversion of submitted parameters. Submitted parameters should be considered untrusted input, and in standard use with browsers, parameters are submitted as strings (or a hash/array containing strings).  In most cases it makes sense to explicitly convert the parameter to the desired type.  While this can be done via manual conversion:</p>
 
 <pre class="ruby"><span class="ruby-identifier">val</span> = <span class="ruby-identifier">request</span>.<span class="ruby-identifier">params</span>[<span class="ruby-string">&#39;key&#39;</span>].<span class="ruby-identifier">to_i</span>
 <span class="ruby-identifier">val</span> = <span class="ruby-keyword">nil</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">val</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>

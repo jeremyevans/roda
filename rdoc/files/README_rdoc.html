@@ -699,7 +699,7 @@ README.rdoc
 
 <p>Feel free to store whatever you find convenient. Note that when subclassing, <a href="../classes/Roda.html"><code>Roda</code></a> only does a shallow clone of the settings.</p>
 
-<p>If you store nested structures and plan to mutate them in subclasses, it is your responsibility to dup the nested structures inside <code>Roda.inherited</code> (making sure to call <code>super</code>).  This should be is done so that modifications to the parent class made after subclassing do <em>not</em> affect the subclass, and vice-versa.</p>
+<p>If you store nested structures and plan to mutate them in subclasses, it is your responsibility to dup the nested structures inside <code>Roda.inherited</code> (making sure to call <code>super</code>).  This should be done so that modifications to the parent class made after subclassing do <em>not</em> affect the subclass, and vice-versa.</p>
 
 <p>The plugins that ship with <a href="../classes/Roda.html"><code>Roda</code></a> freeze their settings and only allow modification to their settings by reloading the plugin, and external plugins are encouraged to follow this approach.</p>
 
