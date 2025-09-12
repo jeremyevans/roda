@@ -1,4 +1,4 @@
-Fri, 12 Sep 2025 07:05:54 -0700
+Fri, 12 Sep 2025 07:11:06 -0700
 README.rdoc	Thu, 11 Sep 2025 09:25:50 -0700
 CHANGELOG	Fri, 12 Sep 2025 07:00:45 -0700
 doc/CHANGELOG.old	Fri, 11 Mar 2022 10:33:07 -0800
@@ -112,7 +112,7 @@ lib/roda/plugins/public.rb	Tue, 08 Oct 2024 07:14:19 -0700
 lib/roda/plugins/r.rb	Thu, 13 Aug 2020 12:32:01 -0700
 lib/roda/plugins/recheck_precompiled_assets.rb	Thu, 18 Feb 2021 14:23:19 -0800
 lib/roda/plugins/redirect_http_to_https.rb	Wed, 18 Oct 2023 14:59:20 -0700
-lib/roda/plugins/redirect_path.rb	Thu, 11 Sep 2025 09:35:29 -0700
+lib/roda/plugins/redirect_path.rb	Fri, 12 Sep 2025 07:10:47 -0700
 lib/roda/plugins/relative_path.rb	Mon, 14 Dec 2020 12:59:45 -0800
 lib/roda/plugins/render.rb	Fri, 31 Jan 2025 14:36:04 -0800
 lib/roda/plugins/render_coverage.rb	Tue, 03 Jun 2025 09:12:22 -0700
@@ -286,4 +286,4 @@ doc/release_notes/3.92.0.txt	Tue, 13 May 2025 10:05:18 -0700
 doc/release_notes/3.93.0.txt	Thu, 12 Jun 2025 12:37:49 -0700
 doc/release_notes/3.94.0.txt	Mon, 14 Jul 2025 09:03:32 -0700
 doc/release_notes/3.95.0.txt	Fri, 08 Aug 2025 09:34:06 -0700
-doc/release_notes/3.96.0.txt	Fri, 12 Sep 2025 07:00:45 -0700
+doc/release_notes/3.96.0.txt	Fri, 12 Sep 2025 07:10:47 -0700

@@ -45,7 +45,7 @@ Roda::RodaPlugins::RedirectPath
 <pre class="ruby"><span class="ruby-constant">Foo</span> = <span class="ruby-constant">Struct</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:id</span>)
 <span class="ruby-identifier">foo</span> = <span class="ruby-constant">Foo</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">1</span>)
 
-<span class="ruby-identifier">plugin</span> <span class="ruby-value">:path</span>
+<span class="ruby-identifier">plugin</span> <span class="ruby-value">:redirect_path</span>
 <span class="ruby-identifier">path</span> <span class="ruby-constant">Foo</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">foo</span><span class="ruby-operator">|</span>
   <span class="ruby-node">&quot;/foo/#{foo.id}&quot;</span>
 <span class="ruby-keyword">end</span>
