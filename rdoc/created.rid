@@ -1,6 +1,6 @@
-Fri, 12 Sep 2025 07:11:06 -0700
+Mon, 13 Oct 2025 09:36:07 -0700
 README.rdoc	Thu, 11 Sep 2025 09:25:50 -0700
-CHANGELOG	Fri, 12 Sep 2025 07:00:45 -0700
+CHANGELOG	Mon, 13 Oct 2025 09:30:15 -0700
 doc/CHANGELOG.old	Fri, 11 Mar 2022 10:33:07 -0800
 MIT-LICENSE	Thu, 12 Jan 2023 07:50:45 -0800
 lib/roda/cache.rb	Tue, 12 Jan 2021 15:49:31 -0800
@@ -59,7 +59,7 @@ lib/roda/plugins/h.rb	Wed, 16 Aug 2017 08:44:25 -0700
 lib/roda/plugins/halt.rb	Thu, 20 Oct 2022 16:00:03 -0700
 lib/roda/plugins/hash_branch_view_subdir.rb	Mon, 13 Jun 2022 13:28:17 -0700
 lib/roda/plugins/hash_branches.rb	Mon, 13 Jun 2022 14:42:04 -0700
-lib/roda/plugins/hash_matcher.rb	Fri, 24 Apr 2020 13:02:49 -0700
+lib/roda/plugins/hash_matcher.rb	Sat, 13 Sep 2025 17:08:19 -0700
 lib/roda/plugins/hash_paths.rb	Mon, 13 Jun 2022 14:42:04 -0700
 lib/roda/plugins/hash_routes.rb	Mon, 13 Jun 2022 13:28:17 -0700
 lib/roda/plugins/head.rb	Tue, 17 Dec 2024 16:28:16 -0800
@@ -78,6 +78,7 @@ lib/roda/plugins/json_parser.rb	Wed, 18 Dec 2024 12:11:36 -0800
 lib/roda/plugins/link_to.rb	Fri, 26 Aug 2022 13:01:46 -0700
 lib/roda/plugins/mail_processor.rb	Tue, 03 Jun 2025 09:12:22 -0700
 lib/roda/plugins/mailer.rb	Fri, 11 Apr 2025 16:33:31 -0700
+lib/roda/plugins/map_matcher.rb	Sat, 13 Sep 2025 17:08:19 -0700
 lib/roda/plugins/match_affix.rb	Mon, 22 Jun 2020 15:56:02 -0700
 lib/roda/plugins/match_hook.rb	Mon, 14 Aug 2023 09:50:32 -0700
 lib/roda/plugins/match_hook_args.rb	Mon, 14 Aug 2023 08:54:23 -0700
@@ -89,7 +90,7 @@ lib/roda/plugins/multi_route.rb	Mon, 13 Jun 2022 14:42:04 -0700
 lib/roda/plugins/multi_run.rb	Fri, 14 Apr 2023 14:50:43 -0700
 lib/roda/plugins/multi_view.rb	Mon, 13 Jun 2022 14:42:04 -0700
 lib/roda/plugins/multibyte_string_matcher.rb	Wed, 27 Nov 2019 13:38:26 -0800
-lib/roda/plugins/named_routes.rb	Wed, 25 May 2022 14:52:33 -0700
+lib/roda/plugins/named_routes.rb	Sat, 27 Sep 2025 13:25:52 -0700
 lib/roda/plugins/named_templates.rb	Mon, 04 Mar 2019 16:26:49 -0800
 lib/roda/plugins/not_allowed.rb	Mon, 19 Jun 2023 16:20:51 -0700
 lib/roda/plugins/not_found.rb	Tue, 21 May 2024 14:47:10 -0700
@@ -151,7 +152,7 @@ lib/roda/plugins.rb	Thu, 06 Mar 2025 16:45:46 -0800
 lib/roda/request.rb	Tue, 17 Sep 2024 11:54:43 -0700
 lib/roda/response.rb	Tue, 03 Jun 2025 09:12:22 -0700
 lib/roda/session_middleware.rb	Thu, 06 Mar 2025 16:45:04 -0800
-lib/roda/version.rb	Fri, 12 Sep 2025 07:00:45 -0700
+lib/roda/version.rb	Mon, 13 Oct 2025 09:30:15 -0700
 lib/roda.rb	Tue, 17 Sep 2024 11:54:43 -0700
 doc/conventions.rdoc	Mon, 16 Oct 2023 12:10:05 -0700
 doc/release_notes/1.0.0.txt	Tue, 19 Aug 2014 09:04:25 -0700
@@ -287,3 +288,4 @@ doc/release_notes/3.93.0.txt	Thu, 12 Jun 2025 12:37:49 -0700
 doc/release_notes/3.94.0.txt	Mon, 14 Jul 2025 09:03:32 -0700
 doc/release_notes/3.95.0.txt	Fri, 08 Aug 2025 09:34:06 -0700
 doc/release_notes/3.96.0.txt	Fri, 12 Sep 2025 07:10:47 -0700
+doc/release_notes/3.97.0.txt	Mon, 13 Oct 2025 09:30:15 -0700

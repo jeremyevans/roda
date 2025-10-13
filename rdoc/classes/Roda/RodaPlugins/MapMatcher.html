@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang='en'>
 <head>
-<title>Roda::RodaPlugins::HashMatcher</title>
+<title>Roda::RodaPlugins::MapMatcher</title>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
 <link href='../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
@@ -25,29 +25,29 @@
 <div class='class' id='wrapper'>
 <div class='header'>
 <h1 class='name'><span class='type'>module</span>
-Roda::RodaPlugins::HashMatcher
+Roda::RodaPlugins::MapMatcher
 </h1>
 <ol class='paths'>
 <li>
-<a href="../../../files/lib/roda/plugins/hash_matcher_rb.html">lib/roda/plugins/hash_matcher.rb</a>
+<a href="../../../files/lib/roda/plugins/map_matcher_rb.html">lib/roda/plugins/map_matcher.rb</a>
 </li>
 </ol>
 </div>
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The hash_matcher plugin adds the hash_matcher class method, which allows for easily defining hash matchers:</p>
+<p>The map_matcher plugin allows you to provide a string-keyed hash during route matching, and match any of the keys in the hash as the next segment in the request path, yielding the corresponding value in the hash:</p>
 
 <pre class="ruby"><span class="ruby-keyword">class</span> <span class="ruby-constant">App</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Roda</span>
-  <span class="ruby-identifier">plugin</span> <span class="ruby-value">:hash_matcher</span>
+  <span class="ruby-identifier">plugin</span> <span class="ruby-value">:map_matcher</span>
 
-  <span class="ruby-identifier">hash_matcher</span>(<span class="ruby-value">:foo</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">v</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">params</span>[<span class="ruby-string">&#39;foo&#39;</span>] <span class="ruby-operator">==</span> <span class="ruby-identifier">v</span>
-  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">map</span> = { <span class="ruby-string">&quot;foo&quot;</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-string">&quot;bar&quot;</span>, <span class="ruby-string">&quot;baz&quot;</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-string">&quot;quux&quot;</span> }.<span class="ruby-identifier">freeze</span>
 
   <span class="ruby-identifier">route</span> <span class="ruby-keyword">do</span>
-    <span class="ruby-identifier">r</span>.<span class="ruby-identifier">on</span> <span class="ruby-value">foo:</span> <span class="ruby-string">&#39;bar&#39;</span> <span class="ruby-keyword">do</span>
-      <span class="ruby-comment"># matches when param foo has value bar</span>
+    <span class="ruby-identifier">r</span>.<span class="ruby-identifier">get</span> <span class="ruby-value">map:</span> <span class="ruby-identifier">map</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">v</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">v</span>
+      <span class="ruby-comment"># GET /foo =&gt; bar</span>
+      <span class="ruby-comment"># GET /baz =&gt; quux</span>
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span>
@@ -58,7 +58,7 @@ Roda::RodaPlugins::HashMatcher
 <div id='class-list'>
 <h2>Classes and Modules</h2>
 <ol>
-<li><a href="HashMatcher/ClassMethods.html">Roda::RodaPlugins::HashMatcher::ClassMethods</a></li>
+<li><a href="MapMatcher/RequestMethods.html">Roda::RodaPlugins::MapMatcher::RequestMethods</a></li>
 </ol>
 </div>
 <div id='section'>

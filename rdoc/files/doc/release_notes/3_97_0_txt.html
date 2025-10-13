@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+<head>
+<title>3.97.0.txt</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<link href='../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<script type='text/javascript'>
+  function popupCode(url) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+  
+  function toggleCode(id) {
+    var code = document.getElementById(id)
+  
+    code.style.display = code.style.display != 'block' ? 'block' : 'none'
+    return true
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+</script>
+</head>
+<body class='page'>
+<div class='file' id='wrapper'>
+<div class='header'>
+<h1 class='name'>3.97.0.txt
+</h1>
+<div class='paths'>
+doc/release_notes/3.97.0.txt
+</div>
+</div>
+<div id='content'>
+<div id='text'>
+<div id='description'>
+<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<ul><li>
+<p>A map_matcher plugin has been added, for matching the next segment in the request path to a hash key, yielding the hash value.  This allows for a better approach for metaprogramming routes.</p>
+
+<p>When dealing with many similar routes, it is common to use a hash keyed by route segment, and then match against an array of the keys:</p>
+
+<pre class="ruby"><span class="ruby-identifier">map</span> = {
+  <span class="ruby-string">&#39;album&#39;</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-constant">Album</span>,
+  <span class="ruby-string">&#39;artist&#39;</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-constant">Artist</span>,
+  <span class="ruby-comment"># ...</span>
+}.<span class="ruby-identifier">freeze</span>
+
+<span class="ruby-identifier">keys</span> = <span class="ruby-identifier">map</span>.<span class="ruby-identifier">keys</span>.<span class="ruby-identifier">freeze</span>
+
+<span class="ruby-identifier">route</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span>
+  <span class="ruby-identifier">r</span>.<span class="ruby-identifier">on</span> <span class="ruby-string">&quot;type&quot;</span>, <span class="ruby-identifier">keys</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">value</span> = <span class="ruby-identifier">map</span>[<span class="ruby-identifier">key</span>]
+    <span class="ruby-comment"># ...</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span>
+</pre>
+
+<p>For large maps, this approach is suboptimal, since the array matcher will iterate over each element in the array, checking whether it matches.</p>
+
+<p>The map_matcher plugin allows for:</p>
+
+<pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:map_matcher</span>
+
+<span class="ruby-identifier">route</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span>
+  <span class="ruby-identifier">r</span>.<span class="ruby-identifier">on</span> <span class="ruby-string">&quot;type&quot;</span>, <span class="ruby-value">map:</span> <span class="ruby-identifier">map</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
+    <span class="ruby-comment"># ...</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span>
+</pre>
+
+<p>This gets the next route segment and checks whether it is a key in the map, instead of iterating over an array of hash keys, so it is more efficient for large maps. It also results in simpler code.</p>
+</li></ul>
+</div>
+<div id='context'>
+</div>
+
+</div>
+</div>
+
+<div id='footer-push'></div>
+</div>
+<div id='footer'>
+<a href="https://github.com/jeremyevans/hanna"><strong>Hanna</strong> RDoc template</a>
+</div>
+</body>
+</html>
