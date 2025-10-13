@@ -4,7 +4,7 @@ class Roda
   RodaMajorVersion = 3
 
   # The minor version of Roda, updated for new feature releases of Roda.
-  RodaMinorVersion = 96
+  RodaMinorVersion = 97
 
   # The patch version of Roda, updated only for bug fixes from the last
   # feature release.

@@ -1,0 +1,41 @@
+= New Features
+
+* A map_matcher plugin has been added, for matching the next segment
+  in the request path to a hash key, yielding the hash value.  This
+  allows for a better approach for metaprogramming routes.
+
+  When dealing with many similar routes, it is common to use a hash
+  keyed by route segment, and then match against an array of the keys:
+    
+    map = {
+      'album' => Album,
+      'artist' => Artist,
+      # ...
+    }.freeze
+    
+    keys = map.keys.freeze
+    
+    route do |r|
+      r.on "type", keys do |key|
+        value = map[key]
+        # ...
+      end
+    end
+
+  For large maps, this approach is suboptimal, since the array matcher
+  will iterate over each element in the array, checking whether it
+  matches.
+
+  The map_matcher plugin allows for:
+    
+    plugin :map_matcher
+
+    route do |r|
+      r.on "type", map: map do |value|
+        # ...
+      end
+    end
+    
+  This gets the next route segment and checks whether it is a key in 
+  the map, instead of iterating over an array of hash keys, so it is
+  more efficient for large maps. It also results in simpler code.
