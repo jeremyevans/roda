@@ -65,6 +65,8 @@ class Roda
     #                    that.  If the +:secure+ option is not present in the hash, then
     #                    <tt>secure: true</tt> is also set if the request is made over HTTPS.  If this option is
     #                    given, it will be merged into the default cookie options.
+    # :env_key :: The key in `env` where the session should be located. Defaults to <tt>"rack.session"</tt>, the
+    #             default key for sessions in Rack.
     # :gzip_over :: For session data over this many bytes, compress it with the deflate algorithm (default: nil,
     #               so never compress).  Note that compression should not be enabled if you are storing data in
     #               the session derived from user input and also storing sensitive data in the session.
@@ -148,7 +150,7 @@ class Roda
     #                    deflate compression, this contains the deflate compressed data.
     module Sessions
       DEFAULT_COOKIE_OPTIONS = {:httponly=>true, :path=>'/'.freeze, :same_site=>:lax}.freeze
-      DEFAULT_OPTIONS = {:key => 'roda.session'.freeze, :max_seconds=>86400*30, :max_idle_seconds=>86400*7, :pad_size=>32, :gzip_over=>nil, :skip_within=>3600}.freeze
+      DEFAULT_OPTIONS = {:key => 'roda.session'.freeze, :max_seconds=>86400*30, :max_idle_seconds=>86400*7, :pad_size=>32, :gzip_over=>nil, :skip_within=>3600, :env_key=>'rack.session'}.freeze
       DEFLATE_BIT  = 0x1000
       PADDING_MASK = 0x0fff
       SESSION_CREATED_AT = 'roda.session.created_at'.freeze
@@ -226,7 +228,7 @@ class Roda
         # update the rack response headers to set the session cookie in
         # the response.
         def _roda_after_50__sessions(res)
-          if res && (session = env['rack.session'])
+          if res && (session = env[self.class.opts[:sessions][:env_key]])
             @_request.persist_session(res[1], session)
           end
         end
@@ -240,7 +242,7 @@ class Roda
         # this method stores the session in 'rack.session' in the request environment,
         # but that does not happen until this method is called.
         def session
-          @env['rack.session'] ||= _load_session
+          @env[roda_class.opts[:sessions][:env_key]] ||= _load_session
         end
 
         # The time the session was originally created. nil if there is no active session.

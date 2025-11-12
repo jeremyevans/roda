@@ -1,3 +1,7 @@
+=== master
+
+* Add support for the :env_key option to the sessions plugin (jeremyevans) (#403)
+
 === 3.97.0 (2025-10-13)
 
 * Add map_matcher plugin, for matching next segment in request path to a hash key, yielding hash value (jeremyevans)

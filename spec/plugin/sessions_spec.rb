@@ -36,6 +36,7 @@ if RUBY_VERSION >= '2'
             session[k] = v
           end
           r.get('g',  String){|k| session[k].to_s}
+          r.get('e', String){|k| session; env[k].to_a.join('-')}
           r.get('sct'){|i| session; env['roda.session.created_at'].to_s}
           r.get('ssct', Integer){|i| session; (env['roda.session.created_at'] -= i).to_s}
           r.get('ssct2', Integer, String, String){|i, k, v| session[k] = v; (env['roda.session.created_at'] -= i).to_s}
@@ -66,6 +67,17 @@ if RUBY_VERSION >= '2'
       body("/g/foo").must_equal "\u1234"
 
       errors.must_equal []
+    end
+
+    it "supports :env_key for the env key to use for the session" do
+      body('/s/foo/bar').must_equal 'bar'
+      body('/e/rack.session').must_equal 'foo-bar'
+      body('/e/roda.session').must_equal ''
+      @app.plugin(:sessions, :env_key=>'roda.session')
+      body('/e/rack.session').must_equal ''
+      body('/e/roda.session').must_equal 'foo-bar'
+      body('/s/foo/baz').must_equal 'baz'
+      body('/e/roda.session').must_equal 'foo-baz'
     end
 
     it "supports loading sessions created when per_cookie_cipher_secret: #{!per_cookie_cipher_secret} " do
