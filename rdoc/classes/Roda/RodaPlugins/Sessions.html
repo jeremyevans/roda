@@ -57,6 +57,8 @@ Roda::RodaPlugins::Sessions
 <h1 id="module-Roda::RodaPlugins::Sessions-label-Other+Options">Other Options<span><a href="#module-Roda::RodaPlugins::Sessions-label-Other+Options">&para;</a> <a href="#top">&uarr;</a></span></h1>
 <table class="rdoc-list note-list"><tbody><tr><td class='label'>:cookie_options </td><td>
 <p>Any cookie options to set on the session cookie. By default, uses <code>httponly: true, path: &#39;/&#39;, same_site: :lax</code> so that the cookie is not accessible to javascript, allowed for all paths, and will not be used for cross-site non-GET requests that.  If the <code>:secure</code> option is not present in the hash, then <code>secure: true</code> is also set if the request is made over HTTPS.  If this option is given, it will be merged into the default cookie options.</p>
+</td></tr><tr><td class='label'>:env_key </td><td>
+<p>The key in ‘env` where the session should be located. Defaults to <code>&quot;rack.session&quot;</code>, the default key for sessions in Rack.</p>
 </td></tr><tr><td class='label'>:gzip_over </td><td>
 <p>For session data over this many bytes, compress it with the deflate algorithm (default: nil, so never compress).  Note that compression should not be enabled if you are storing data in the session derived from user input and also storing sensitive data in the session.</p>
 </td></tr><tr><td class='label'>:key </td><td>
@@ -165,7 +167,7 @@ Roda::RodaPlugins::Sessions
 <tr class='top-aligned-row context-row'>
 <td class='context-item-name'>DEFAULT_OPTIONS</td>
 <td>=</td>
-<td class='context-item-value'>{:key => 'roda.session'.freeze, :max_seconds=>86400*30, :max_idle_seconds=>86400*7, :pad_size=>32, :gzip_over=>nil, :skip_within=>3600}.freeze</td>
+<td class='context-item-value'>{:key => 'roda.session'.freeze, :max_seconds=>86400*30, :max_idle_seconds=>86400*7, :pad_size=>32, :gzip_over=>nil, :skip_within=>3600, :env_key=>'rack.session'}.freeze</td>
 <td>&nbsp;</td>
 <td class='context-item-desc'></td>
 </tr>
@@ -239,38 +241,38 @@ Roda::RodaPlugins::Sessions
 [show source]
 </a>
 <pre id='method-c-configure-source'>    <span class="ruby-comment"># File lib/roda/plugins/sessions.rb</span>
-<span class="line-num">179</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
-<span class="line-num">180</span>   <span class="ruby-identifier">opts</span> = (<span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:sessions</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">DEFAULT_OPTIONS</span>).<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">opts</span>)
-<span class="line-num">181</span>   <span class="ruby-identifier">co</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:cookie_options</span>] = <span class="ruby-constant">DEFAULT_COOKIE_OPTIONS</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">opts</span>[<span class="ruby-value">:cookie_options</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">OPTS</span>).<span class="ruby-identifier">freeze</span>
-<span class="line-num">182</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:remove_cookie_options</span>] = <span class="ruby-identifier">co</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-value">:max_age</span><span class="ruby-operator">=&gt;</span><span class="ruby-string">&#39;0&#39;</span>, <span class="ruby-value">:expires</span><span class="ruby-operator">=&gt;</span><span class="ruby-constant">Time</span>.<span class="ruby-identifier">at</span>(<span class="ruby-value">0</span>))
-<span class="line-num">183</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:parser</span>] <span class="ruby-operator">||=</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_parser</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">method</span>(<span class="ruby-value">:parse</span>)
-<span class="line-num">184</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:serializer</span>] <span class="ruby-operator">||=</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_serializer</span>] <span class="ruby-operator">||</span> <span class="ruby-value">:to_json</span>.<span class="ruby-identifier">to_proc</span>
-<span class="line-num">185</span> 
-<span class="line-num">186</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:per_cookie_cipher_secret</span>] = <span class="ruby-keyword">true</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:per_cookie_cipher_secret</span>)
-<span class="line-num">187</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:session_version_num</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:per_cookie_cipher_secret</span>] <span class="ruby-operator">?</span> <span class="ruby-value">1</span> <span class="ruby-operator">:</span> <span class="ruby-value">0</span>
-<span class="line-num">188</span> 
-<span class="line-num">189</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:upgrade_from_rack_session_cookie_secret</span>]
-<span class="line-num">190</span>     <span class="ruby-identifier">opts</span>[<span class="ruby-value">:upgrade_from_rack_session_cookie_key</span>] <span class="ruby-operator">||=</span> <span class="ruby-string">&#39;rack.session&#39;</span>
-<span class="line-num">191</span>     <span class="ruby-identifier">rsco</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:upgrade_from_rack_session_cookie_options</span>] = <span class="ruby-constant">Hash</span>[<span class="ruby-identifier">opts</span>[<span class="ruby-value">:upgrade_from_rack_session_cookie_options</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">OPTS</span>]
-<span class="line-num">192</span>     <span class="ruby-identifier">rsco</span>[<span class="ruby-value">:path</span>] <span class="ruby-operator">||=</span> <span class="ruby-identifier">co</span>[<span class="ruby-value">:path</span>]
-<span class="line-num">193</span>     <span class="ruby-identifier">rsco</span>[<span class="ruby-value">:domain</span>] <span class="ruby-operator">||=</span> <span class="ruby-identifier">co</span>[<span class="ruby-value">:domain</span>]
-<span class="line-num">194</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">195</span> 
-<span class="line-num">196</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:cipher_secret</span>], <span class="ruby-identifier">opts</span>[<span class="ruby-value">:hmac_secret</span>] = <span class="ruby-identifier">split_secret</span>(<span class="ruby-value">:secret</span>, <span class="ruby-identifier">opts</span>[<span class="ruby-value">:secret</span>])
-<span class="line-num">197</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:old_cipher_secret</span>], <span class="ruby-identifier">opts</span>[<span class="ruby-value">:old_hmac_secret</span>] = (<span class="ruby-identifier">split_secret</span>(<span class="ruby-value">:old_secret</span>, <span class="ruby-identifier">opts</span>[<span class="ruby-value">:old_secret</span>]) <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:old_secret</span>])
-<span class="line-num">198</span> 
-<span class="line-num">199</span>   <span class="ruby-keyword">case</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:pad_size</span>]
-<span class="line-num">200</span>   <span class="ruby-keyword">when</span> <span class="ruby-keyword">nil</span>
-<span class="line-num">201</span>     <span class="ruby-comment"># no changes</span>
-<span class="line-num">202</span>   <span class="ruby-keyword">when</span> <span class="ruby-constant">Integer</span>
-<span class="line-num">203</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-node">&quot;invalid :pad_size: #{opts[:pad_size]}, must be &gt;=2, &lt; 4096&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:pad_size</span>] <span class="ruby-operator">&gt;=</span> <span class="ruby-value">2</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:pad_size</span>] <span class="ruby-operator">&lt;</span> <span class="ruby-value">4096</span>
-<span class="line-num">204</span>   <span class="ruby-keyword">else</span>
-<span class="line-num">205</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-node">&quot;invalid :pad_size option: #{opts[:pad_size].inspect}, must be Integer or nil&quot;</span>
-<span class="line-num">206</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">207</span>   
-<span class="line-num">208</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:sessions</span>] = <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">freeze</span>
-<span class="line-num">209</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:sessions_convert_symbols</span>] = <span class="ruby-keyword">true</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:sessions_convert_symbols</span>)
-<span class="line-num">210</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">181</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
+<span class="line-num">182</span>   <span class="ruby-identifier">opts</span> = (<span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:sessions</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">DEFAULT_OPTIONS</span>).<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">opts</span>)
+<span class="line-num">183</span>   <span class="ruby-identifier">co</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:cookie_options</span>] = <span class="ruby-constant">DEFAULT_COOKIE_OPTIONS</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">opts</span>[<span class="ruby-value">:cookie_options</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">OPTS</span>).<span class="ruby-identifier">freeze</span>
+<span class="line-num">184</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:remove_cookie_options</span>] = <span class="ruby-identifier">co</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-value">:max_age</span><span class="ruby-operator">=&gt;</span><span class="ruby-string">&#39;0&#39;</span>, <span class="ruby-value">:expires</span><span class="ruby-operator">=&gt;</span><span class="ruby-constant">Time</span>.<span class="ruby-identifier">at</span>(<span class="ruby-value">0</span>))
+<span class="line-num">185</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:parser</span>] <span class="ruby-operator">||=</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_parser</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">method</span>(<span class="ruby-value">:parse</span>)
+<span class="line-num">186</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:serializer</span>] <span class="ruby-operator">||=</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_serializer</span>] <span class="ruby-operator">||</span> <span class="ruby-value">:to_json</span>.<span class="ruby-identifier">to_proc</span>
+<span class="line-num">187</span> 
+<span class="line-num">188</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:per_cookie_cipher_secret</span>] = <span class="ruby-keyword">true</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:per_cookie_cipher_secret</span>)
+<span class="line-num">189</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:session_version_num</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:per_cookie_cipher_secret</span>] <span class="ruby-operator">?</span> <span class="ruby-value">1</span> <span class="ruby-operator">:</span> <span class="ruby-value">0</span>
+<span class="line-num">190</span> 
+<span class="line-num">191</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:upgrade_from_rack_session_cookie_secret</span>]
+<span class="line-num">192</span>     <span class="ruby-identifier">opts</span>[<span class="ruby-value">:upgrade_from_rack_session_cookie_key</span>] <span class="ruby-operator">||=</span> <span class="ruby-string">&#39;rack.session&#39;</span>
+<span class="line-num">193</span>     <span class="ruby-identifier">rsco</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:upgrade_from_rack_session_cookie_options</span>] = <span class="ruby-constant">Hash</span>[<span class="ruby-identifier">opts</span>[<span class="ruby-value">:upgrade_from_rack_session_cookie_options</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">OPTS</span>]
+<span class="line-num">194</span>     <span class="ruby-identifier">rsco</span>[<span class="ruby-value">:path</span>] <span class="ruby-operator">||=</span> <span class="ruby-identifier">co</span>[<span class="ruby-value">:path</span>]
+<span class="line-num">195</span>     <span class="ruby-identifier">rsco</span>[<span class="ruby-value">:domain</span>] <span class="ruby-operator">||=</span> <span class="ruby-identifier">co</span>[<span class="ruby-value">:domain</span>]
+<span class="line-num">196</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">197</span> 
+<span class="line-num">198</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:cipher_secret</span>], <span class="ruby-identifier">opts</span>[<span class="ruby-value">:hmac_secret</span>] = <span class="ruby-identifier">split_secret</span>(<span class="ruby-value">:secret</span>, <span class="ruby-identifier">opts</span>[<span class="ruby-value">:secret</span>])
+<span class="line-num">199</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:old_cipher_secret</span>], <span class="ruby-identifier">opts</span>[<span class="ruby-value">:old_hmac_secret</span>] = (<span class="ruby-identifier">split_secret</span>(<span class="ruby-value">:old_secret</span>, <span class="ruby-identifier">opts</span>[<span class="ruby-value">:old_secret</span>]) <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:old_secret</span>])
+<span class="line-num">200</span> 
+<span class="line-num">201</span>   <span class="ruby-keyword">case</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:pad_size</span>]
+<span class="line-num">202</span>   <span class="ruby-keyword">when</span> <span class="ruby-keyword">nil</span>
+<span class="line-num">203</span>     <span class="ruby-comment"># no changes</span>
+<span class="line-num">204</span>   <span class="ruby-keyword">when</span> <span class="ruby-constant">Integer</span>
+<span class="line-num">205</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-node">&quot;invalid :pad_size: #{opts[:pad_size]}, must be &gt;=2, &lt; 4096&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:pad_size</span>] <span class="ruby-operator">&gt;=</span> <span class="ruby-value">2</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:pad_size</span>] <span class="ruby-operator">&lt;</span> <span class="ruby-value">4096</span>
+<span class="line-num">206</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">207</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-node">&quot;invalid :pad_size option: #{opts[:pad_size].inspect}, must be Integer or nil&quot;</span>
+<span class="line-num">208</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">209</span>   
+<span class="line-num">210</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:sessions</span>] = <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">211</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:sessions_convert_symbols</span>] = <span class="ruby-keyword">true</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:sessions_convert_symbols</span>)
+<span class="line-num">212</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-class' id='method-method-c-load_dependencies'>
@@ -287,9 +289,9 @@ Roda::RodaPlugins::Sessions
 [show source]
 </a>
 <pre id='method-c-load_dependencies-source'>    <span class="ruby-comment"># File lib/roda/plugins/sessions.rb</span>
-<span class="line-num">174</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">load_dependencies</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
-<span class="line-num">175</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:_base64</span>
-<span class="line-num">176</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">176</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">load_dependencies</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
+<span class="line-num">177</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:_base64</span>
+<span class="line-num">178</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-class' id='method-method-c-split_secret'>
@@ -308,13 +310,13 @@ Roda::RodaPlugins::Sessions
 [show source]
 </a>
 <pre id='method-c-split_secret-source'>    <span class="ruby-comment"># File lib/roda/plugins/sessions.rb</span>
-<span class="line-num">166</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">split_secret</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">secret</span>)
-<span class="line-num">167</span>   <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-node">&quot;sessions plugin :#{name} option must be a String&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">secret</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>)
-<span class="line-num">168</span>   <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-node">&quot;invalid sessions plugin :#{name} option length: #{secret.bytesize}, must be &gt;=64&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">secret</span>.<span class="ruby-identifier">bytesize</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-value">64</span>
-<span class="line-num">169</span>   <span class="ruby-identifier">hmac_secret</span> = <span class="ruby-identifier">secret</span> = <span class="ruby-identifier">secret</span>.<span class="ruby-identifier">dup</span>.<span class="ruby-identifier">force_encoding</span>(<span class="ruby-string">&#39;BINARY&#39;</span>)
-<span class="line-num">170</span>   <span class="ruby-identifier">cipher_secret</span> = <span class="ruby-identifier">secret</span>.<span class="ruby-identifier">slice!</span>(<span class="ruby-value">0</span>, <span class="ruby-value">32</span>)
-<span class="line-num">171</span>   [<span class="ruby-identifier">cipher_secret</span>.<span class="ruby-identifier">freeze</span>, <span class="ruby-identifier">hmac_secret</span>.<span class="ruby-identifier">freeze</span>]
-<span class="line-num">172</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">168</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">split_secret</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">secret</span>)
+<span class="line-num">169</span>   <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-node">&quot;sessions plugin :#{name} option must be a String&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">secret</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>)
+<span class="line-num">170</span>   <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-node">&quot;invalid sessions plugin :#{name} option length: #{secret.bytesize}, must be &gt;=64&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">secret</span>.<span class="ruby-identifier">bytesize</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-value">64</span>
+<span class="line-num">171</span>   <span class="ruby-identifier">hmac_secret</span> = <span class="ruby-identifier">secret</span> = <span class="ruby-identifier">secret</span>.<span class="ruby-identifier">dup</span>.<span class="ruby-identifier">force_encoding</span>(<span class="ruby-string">&#39;BINARY&#39;</span>)
+<span class="line-num">172</span>   <span class="ruby-identifier">cipher_secret</span> = <span class="ruby-identifier">secret</span>.<span class="ruby-identifier">slice!</span>(<span class="ruby-value">0</span>, <span class="ruby-value">32</span>)
+<span class="line-num">173</span>   [<span class="ruby-identifier">cipher_secret</span>.<span class="ruby-identifier">freeze</span>, <span class="ruby-identifier">hmac_secret</span>.<span class="ruby-identifier">freeze</span>]
+<span class="line-num">174</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+<head>
+<title>3.98.0.txt</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<link href='../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<script type='text/javascript'>
+  function popupCode(url) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+  
+  function toggleCode(id) {
+    var code = document.getElementById(id)
+  
+    code.style.display = code.style.display != 'block' ? 'block' : 'none'
+    return true
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+</script>
+</head>
+<body class='page'>
+<div class='file' id='wrapper'>
+<div class='header'>
+<h1 class='name'>3.98.0.txt
+</h1>
+<div class='paths'>
+doc/release_notes/3.98.0.txt
+</div>
+</div>
+<div id='content'>
+<div id='text'>
+<div id='description'>
+<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<ul><li>
+<p>The sessions plugin now supports an :env_key option, which allows the use of a non-default env key. This allows you to maintain the session for the <a href="../../../classes/Roda.html"><code>Roda</code></a> application separately from the default Rack session.  This can be useful in all of the following cases when you want to have the <a href="../../../classes/Roda.html"><code>Roda</code></a> application use a separate session from other applications or middleware:</p>
+<ul><li>
+<p>Using middleware in the <a href="../../../classes/Roda.html"><code>Roda</code></a> application.</p>
+</li><li>
+<p>Using the <a href="../../../classes/Roda.html"><code>Roda</code></a> application as middleware in another Rack application.</p>
+</li><li>
+<p>Using r.run in the <a href="../../../classes/Roda.html"><code>Roda</code></a> application to call another Rack application.</p>
+</li><li>
+<p>Calling the <a href="../../../classes/Roda.html"><code>Roda</code></a> application from another Rack application using the same env hash.</p>
+</li></ul>
+</li></ul>
+</div>
+<div id='context'>
+</div>
+
+</div>
+</div>
+
+<div id='footer-push'></div>
+</div>
+<div id='footer'>
+<a href="https://github.com/jeremyevans/hanna"><strong>Hanna</strong> RDoc template</a>
+</div>
+</body>
+</html>
