@@ -1,4 +1,4 @@
-=== master
+=== 3.98.0 (2025-11-13)
 
 * Add support for the :env_key option to the sessions plugin (jeremyevans) (#403)
 
