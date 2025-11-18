@@ -1,3 +1,7 @@
+=== master
+
+* Add support for set matchers by default, as Set will be a core class in Ruby 4 (jeremyevans)
+
 === 3.98.0 (2025-11-13)
 
 * Add support for the :env_key option to the sessions plugin (jeremyevans) (#403)

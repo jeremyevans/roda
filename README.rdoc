@@ -391,6 +391,19 @@ This makes it easy to handle multiple strings without a Regexp:
   ['page1', 'page2'] # matches "/page1", "/page2"
   []                 # does not match anything
 
+=== Sets
+
+Sets match if the next segment in the request path matches one of the
+elements in the set (non-String elements in the set are ignored). The matched
+element is yielded.
+
+  Set['page1', 'page2'] # matches "/page1", "/page2"
+  Set[]                 # does not match anything
+
+In general, a Set matcher has the same behavior as an Array matcher 
+containing only the set's string elements, but will perform better for
+when there are a large number of elements in the set.
+
 === Hash
 
 Hashes allow easily calling specialized match methods on the request.

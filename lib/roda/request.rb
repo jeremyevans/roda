@@ -12,6 +12,7 @@ else
   end
 end
 
+require 'set'
 require_relative "cache"
 
 class Roda
@@ -489,6 +490,21 @@ class Roda
           end
         end
 
+        # Match only if the next segment in the path is one of the
+        # set's elements, and yield the next segment.
+        def _match_set(set)
+          rp = @remaining_path
+          if key = _match_class_String
+            if set.include?(@captures[-1])
+              true
+            else
+              @remaining_path = rp
+              @captures.pop
+              false
+            end
+          end
+        end
+
         # Match the given symbol if any segment matches.
         def _match_symbol(sym=nil)
           rp = @remaining_path
@@ -629,6 +645,8 @@ class Roda
             _match_array(matcher)
           when Hash
             _match_hash(matcher)
+          when Set
+            _match_set(matcher)
           when Symbol
             _match_symbol(matcher)
           when false, nil

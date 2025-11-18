@@ -322,6 +322,18 @@ describe "matchers" do
     body('/q').must_equal 'q'
     status('/r').must_equal 404
   end
+
+  it "should have set return next segment if one of the set's elements" do
+    app do |r|
+      r.on Set['p', 'q'] do |id|
+        id
+      end
+    end
+
+    body('/p').must_equal 'p'
+    body('/q').must_equal 'q'
+    status('/r').must_equal 404
+  end
 end
 
 describe "r.on" do 
