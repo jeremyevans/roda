@@ -43,16 +43,37 @@ Alternate Discussion Forum (Google Group) :: http://groups.google.com/group/ruby
 
 == Goals
 
+Roda is designed with the following SUPER goals in mind:
+
 * Simplicity
-* Reliability
-* Extensibility
+* Understandability
 * Performance
+* Extensibility
+* Reliability
 
 === Simplicity
 
 Roda is designed to be simple, both internally and externally.
 It uses a routing tree to enable you to write simpler and DRYer
 code.
+
+=== Understandability
+
+Roda is designed to avoid hidden control flow, so it is easy to
+follow the control flow you write in your routing tree to see
+the application's entire handling process for a given request.
+
+=== Performance
+
+Roda has low per-request overhead, and the use of a routing tree
+and intelligent caching of internal datastructures makes it 
+significantly faster than other popular ruby web frameworks.
+
+=== Extensibility
+
+Roda is built completely out of plugins, which makes it very
+extensible.  You can override any part of Roda and call super
+to get the default behavior.
 
 === Reliability
 
@@ -61,18 +82,6 @@ to be frozen in production, which eliminates possible thread safety issues.
 Additionally, Roda limits the instance variables, constants, and
 methods that it uses, so that they do not conflict with the ones
 you use for your application.
-
-=== Extensibility
-
-Roda is built completely out of plugins, which makes it very
-extensible.  You can override any part of Roda and call super
-to get the default behavior.
-
-=== Performance
-
-Roda has low per-request overhead, and the use of a routing tree
-and intelligent caching of internal datastructures makes it 
-significantly faster than other popular ruby web frameworks.
 
 == Usage
 
