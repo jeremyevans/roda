@@ -9,7 +9,7 @@ class Roda
     # dispatching to the application with an environment that would violate the
     # Rack SPEC.
     #
-    # You are unlikely to want to use this plugin unless when consuming partial
+    # You are unlikely to want to use this plugin unless you are consuming partial
     # segments of the request path, or using the match_affix plugin to change
     # how routing is done:
     #
@@ -23,7 +23,7 @@ class Roda
     #   end
     #
     #   # with run_require_slash: 
-    #   # GET /a/b/e => App not dispatched to application
+    #   # GET /a/b/e => Not dispatched to application
     #   # GET /a/b => App gets "" as PATH_INFO
     #
     #   # without run_require_slash: 
