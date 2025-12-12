@@ -1,0 +1,9 @@
+= New Features
+
+* Set instances are now supported as matchers by default, as Set
+  will be a core class in Ruby 4.0. A Set matcher operates
+  similarly to an array matcher if all of the array elements are
+  strings, with the difference that the Set matcher will perform
+  better for large numbers of elements, since it will look for
+  a matching entry in the set, instead of iterating over the
+  elements of the set.
