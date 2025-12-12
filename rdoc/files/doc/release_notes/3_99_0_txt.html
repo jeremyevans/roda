@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang='en'>
 <head>
-<title>request.rb</title>
+<title>3.99.0.txt</title>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
 <link href='../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
@@ -24,26 +24,21 @@
 <body class='page'>
 <div class='file' id='wrapper'>
 <div class='header'>
-<h1 class='name'>request.rb
+<h1 class='name'>3.99.0.txt
 </h1>
 <div class='paths'>
-lib/roda/request.rb
+doc/release_notes/3.99.0.txt
 </div>
 </div>
 <div id='content'>
 <div id='text'>
-<div id='description'></div>
-<div id='context'>
-<div id='requires'>
-<h2>Required files</h2>
-<ol>
-<li>rack/version</li>
-<li>rack</li>
-<li>rack/request</li>
-<li>rack</li>
-<li>set</li>
-</ol>
+<div id='description'>
+<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<ul><li>
+<p>Set instances are now supported as matchers by default, as Set will be a core class in Ruby 4.0. A Set matcher operates similarly to an array matcher if all of the array elements are strings, with the difference that the Set matcher will perform better for large numbers of elements, since it will look for a matching entry in the set, instead of iterating over the elements of the set.</p>
+</li></ul>
 </div>
+<div id='context'>
 </div>
 
 </div>

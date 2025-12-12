@@ -94,15 +94,15 @@ Roda::RodaPlugins::Base::RequestClassMethods
 [show source]
 </a>
 <pre id='method-i-cached_matcher-source'>   <span class="ruby-comment"># File lib/roda/request.rb</span>
-<span class="line-num">39</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">cached_matcher</span>(<span class="ruby-identifier">obj</span>)
-<span class="line-num">40</span>   <span class="ruby-identifier">cache</span> = <span class="ruby-ivar">@match_pattern_cache</span>
-<span class="line-num">41</span> 
-<span class="line-num">42</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">pattern</span> = <span class="ruby-identifier">cache</span>[<span class="ruby-identifier">obj</span>]
-<span class="line-num">43</span>     <span class="ruby-identifier">pattern</span> = <span class="ruby-identifier">cache</span>[<span class="ruby-identifier">obj</span>] = <span class="ruby-identifier">consume_pattern</span>(<span class="ruby-keyword">yield</span>)
-<span class="line-num">44</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">45</span> 
-<span class="line-num">46</span>   <span class="ruby-identifier">pattern</span>
-<span class="line-num">47</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">40</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">cached_matcher</span>(<span class="ruby-identifier">obj</span>)
+<span class="line-num">41</span>   <span class="ruby-identifier">cache</span> = <span class="ruby-ivar">@match_pattern_cache</span>
+<span class="line-num">42</span> 
+<span class="line-num">43</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">pattern</span> = <span class="ruby-identifier">cache</span>[<span class="ruby-identifier">obj</span>]
+<span class="line-num">44</span>     <span class="ruby-identifier">pattern</span> = <span class="ruby-identifier">cache</span>[<span class="ruby-identifier">obj</span>] = <span class="ruby-identifier">consume_pattern</span>(<span class="ruby-keyword">yield</span>)
+<span class="line-num">45</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">46</span> 
+<span class="line-num">47</span>   <span class="ruby-identifier">pattern</span>
+<span class="line-num">48</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-inspect'>
@@ -121,9 +121,9 @@ Roda::RodaPlugins::Base::RequestClassMethods
 [show source]
 </a>
 <pre id='method-i-inspect-source'>   <span class="ruby-comment"># File lib/roda/request.rb</span>
-<span class="line-num">52</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">inspect</span>
-<span class="line-num">53</span>   <span class="ruby-node">&quot;#{roda_class.inspect}::RodaRequest&quot;</span>
-<span class="line-num">54</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">53</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">inspect</span>
+<span class="line-num">54</span>   <span class="ruby-node">&quot;#{roda_class.inspect}::RodaRequest&quot;</span>
+<span class="line-num">55</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

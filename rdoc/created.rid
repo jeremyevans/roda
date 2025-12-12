@@ -1,6 +1,6 @@
-Thu, 13 Nov 2025 11:52:31 -0800
-README.rdoc	Thu, 11 Sep 2025 09:25:50 -0700
-CHANGELOG	Thu, 13 Nov 2025 11:46:18 -0800
+Fri, 12 Dec 2025 07:00:41 -0800
+README.rdoc	Sun, 07 Dec 2025 10:15:29 -0800
+CHANGELOG	Fri, 12 Dec 2025 06:53:05 -0800
 doc/CHANGELOG.old	Fri, 11 Mar 2022 10:33:07 -0800
 MIT-LICENSE	Thu, 12 Jan 2023 07:50:45 -0800
 lib/roda/cache.rb	Tue, 12 Jan 2021 15:49:31 -0800
@@ -127,7 +127,7 @@ lib/roda/plugins/route_block_args.rb	Mon, 04 Mar 2019 16:26:49 -0800
 lib/roda/plugins/route_csrf.rb	Tue, 03 Jun 2025 09:12:22 -0700
 lib/roda/plugins/run_append_slash.rb	Fri, 15 Apr 2022 16:31:38 -0700
 lib/roda/plugins/run_handler.rb	Tue, 01 Mar 2022 12:28:22 -0800
-lib/roda/plugins/run_require_slash.rb	Fri, 15 Apr 2022 16:31:38 -0700
+lib/roda/plugins/run_require_slash.rb	Wed, 10 Dec 2025 10:22:22 -0800
 lib/roda/plugins/sessions.rb	Wed, 12 Nov 2025 08:51:26 -0800
 lib/roda/plugins/shared_vars.rb	Tue, 21 Sep 2021 14:23:42 -0700
 lib/roda/plugins/sinatra_helpers.rb	Mon, 17 Feb 2025 15:26:23 -0800
@@ -149,10 +149,10 @@ lib/roda/plugins/unescape_path.rb	Mon, 17 Oct 2022 09:28:16 -0700
 lib/roda/plugins/view_options.rb	Mon, 30 Jun 2025 18:55:52 -0700
 lib/roda/plugins/view_subdir_leading_slash.rb	Mon, 30 Jun 2025 18:55:52 -0700
 lib/roda/plugins.rb	Thu, 06 Mar 2025 16:45:46 -0800
-lib/roda/request.rb	Tue, 17 Sep 2024 11:54:43 -0700
+lib/roda/request.rb	Mon, 17 Nov 2025 20:32:04 -0800
 lib/roda/response.rb	Tue, 03 Jun 2025 09:12:22 -0700
 lib/roda/session_middleware.rb	Thu, 06 Mar 2025 16:45:04 -0800
-lib/roda/version.rb	Thu, 13 Nov 2025 11:46:18 -0800
+lib/roda/version.rb	Fri, 12 Dec 2025 06:53:05 -0800
 lib/roda.rb	Tue, 17 Sep 2024 11:54:43 -0700
 doc/conventions.rdoc	Mon, 16 Oct 2023 12:10:05 -0700
 doc/release_notes/1.0.0.txt	Tue, 19 Aug 2014 09:04:25 -0700
@@ -290,3 +290,4 @@ doc/release_notes/3.95.0.txt	Fri, 08 Aug 2025 09:34:06 -0700
 doc/release_notes/3.96.0.txt	Fri, 12 Sep 2025 07:10:47 -0700
 doc/release_notes/3.97.0.txt	Mon, 13 Oct 2025 09:30:15 -0700
 doc/release_notes/3.98.0.txt	Thu, 13 Nov 2025 11:46:18 -0800
+doc/release_notes/3.99.0.txt	Fri, 12 Dec 2025 06:53:05 -0800

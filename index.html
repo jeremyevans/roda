@@ -12,8 +12,8 @@
   <body class="index">
     
     <div class="content"><section id="intro" class="row bg-graydark">
-  <div class="contain row">
-    <aside class="col 40">
+  <div id="intro-top" class="contain row">
+    <aside>
       <a id="logo" href="/"><img src="images/roda-logo.svg" alt="Roda"></a>
       <small class='gray'>The Routing Tree Web Toolkit</small>
       <nav>
@@ -25,13 +25,19 @@
       <h2 class='aqua'>Simplicity</h2>
       <p>Roda is designed to be simple, both internally and externally, reducing cognitive overhead.</p>
 
-      <h2 class='aqua'>Usability</h2>
-      <p>Roda uses a routing tree. At any point during routing, it allows you to operate on the current request.</p>
+      <h2 class='aqua'>Understandability</h2>
+      <p>Roda avoids hidden control flow, allowing you to easily see how requests are handled.</p>
 
-      <h2 class='aqua'>Productivity</h2>
-      <p>Roda makes it easy to develop applications quickly.</p>
+      <h2 class='aqua'>Performance</h2>
+      <p>Roda is significantly faster than other popular ruby web frameworks.</p>
+
+      <h2 class='aqua'>Extensibility</h2>
+      <p>Roda is built completely out of plugins.</p>
+
+      <h2 class='aqua'>Reliability</h2>
+      <p>Roda supports and encourages immutability, and limits namespace pollution for instance variables, constants, and methods.</p>
     </aside>
-    <div class="col 60">
+    <div>
       <pre>
         <code class="language-ruby">
 # cat config.ru
@@ -104,7 +110,7 @@ run App.freeze.app
         <li>
           <svg class="feature" viewBox="0 0 41 41"><circle cx="20.5" cy="20.5" r="19.5"/><polyline points="10.88 22.78 15.31 27.21 28.93 13.59"/></svg>
           <strong>Simple, Reliable API</strong>
-          <p class="graylight">Currently at version 3.98.0</p>
+          <p class="graylight">Currently at version 3.99.0</p>
         </li>
       
         <li>
@@ -125,29 +131,23 @@ run App.freeze.app
 
 <section id="videos" class="bg-cream">
   <div class="contain">
-    <h2 class="aqua center">Learn Roda. It's Easy!</h2>   
+    <h2 class="aqua center">Stable for 10+ years, and constantly improving!</h2>   
     <div class="video row">
       <div class="col 40">
         <iframe src='https://www.youtube.com/embed/W8zglFFFRMM?showinfo=0"' frameborder='0' allow='autoplay;encrypted-media' allowfullscreen></iframe>
       </div>
       <div class="col 60">
-        <h3><a href="https://www.youtube.com/watch?v=W8zglFFFRMM" target="_blank">RubyConf 2014 - Roda: The Routing Tree Web Framework by Jeremy Evans</a></h3>
-        <p>Watch Roda's lead developer guide you through design philosophy and basic functions. Get up and running in no time!</p>
+        <h3><a href="https://www.youtube.com/watch?v=GrYlZjbXeP8" target="_blank">RubyConf 2024 - 10 Years of Roda</a></h3>
+        <p>Watch Roda's lead developer discuss the history of Roda, and the improvements made in Roda's first 10 years.</p>
       </div>
     </div>
   </div>
 </section>
 
-<section id="ecosystem" class="bg-green white center">
-  <strong>
-    <svg class="like" viewBox="0 0 39.87 37.41"><path d="M12.38,19.53s1.37.25,2.74-3.25,4-7,4-10.52-.2-4.6,1.8-5,4.79,2.75,4.79,5.88a31.57,31.57,0,0,1-1.5,7.7H35.63c3.75,0,4.77,4.11,1.49,5.59,3.28,1.77,2.19,5.43-.87,5.79,3,1.79,1.55,5.63-.83,5.59a2.7,2.7,0,0,1-1.67,5H19.44c-2.13,0-5.32-.29-6.82-2"/><rect x="0.75" y="17.41" width="11.88" height="19.25" rx="1" ry="1"/></svg>
-    Roda is the fastest Ruby web framework,<br>
-    as measured by the <a href="https://github.com/jeremyevans/r10k">r10k benchmark</a>.
-  </strong>
-</section>
-
 <section id="performance" class="bg-aqua">
   <h2 class="white center">Comparison to Popular Ruby Web Frameworks</h2>
+
+  <p class="benchmark-data benchmark-info white center">Compared to other popular Ruby web frameworks, Roda has the highest performance (note log10 scale in request per second graph) and uses the least memory.</p>
 
   <div class="benchmark-images">
     <img src="images/popular/rps.png">
@@ -157,18 +157,6 @@ run App.freeze.app
   <p class="benchmark-data white center">Data:
     <a class="white" href="data/popular/rps.txt">Requests/Second</a> |
     <a class="white" href="data/popular/memory.txt">Initial Memory Usage</a>
-  </p>
-
-  <h2 class="white center">Comparison to Other Ruby Web Frameworks</h2>
-
-  <div class="benchmark-images">
-    <img src="images/other/rps.png">
-    <img src="images/other/memory.png">
-  </div>
-
-  <p class="benchmark-data white center">Data:
-    <a class="white" href="data/other/rps.txt">Requests/Second</a> |
-    <a class="white" href="data/other/memory.txt">Initial Memory Usage</a>
   </p>
 </section>
 

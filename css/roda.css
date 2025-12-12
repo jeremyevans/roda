@@ -72,6 +72,7 @@ svg.like * {fill:none;stroke:#00a79d; stroke-width:1.5px; stroke-linejoin:round;
 
 /* Home Page */
 a#logo {width: 290px; display: block; margin-top: 40px;}
+#intro-top {display: flex; align-items: center; gap: 20px; padding: 0;}
 #intro nav {background-color: transparent;}
 #intro .contain { background-image: url('../images/circuits.svg'); background-position: right bottom; background-repeat: no-repeat; 
   background-size: 57%; padding-top: 10px; padding-bottom: 10px; }
@@ -101,21 +102,27 @@ a#logo {width: 290px; display: block; margin-top: 40px;}
 .compare {padding-left: 220px;}
 .compare.sinatra {background: url(../images/sinatra.png) no-repeat left center;}
 
+#intro-top h2 { padding-top: 0; margin-top: 15px;}
+#intro-top p { padding-bottom: 0; margin-bottom: 15px;}
+#intro-top pre.language-ruby { max-width: 550px;}
 
 /* Home Page Mobile*/
 @media all and (max-width: 907px) {nav a {font-size: 0.9em;}}
 @media all and (max-width: 827px) {nav a {font-size: 0.8em;}}
 
-@media all and (max-width: 799px) {
+@media all and (max-width: 899px) {
   nav a {font-size: 1em;}
   #intro #logo {margin: 0 auto; max-width: 300px;}
   #intro nav, #intro small {width: 100%; text-align: center;}
   #intro #logo {margin-top: 20px;}
+  #intro-top {flex-direction: column;}
   #intro h2,p {text-align: center;}
   #intro p {max-width: 600px; margin: 0 auto; padding-left: 20px; padding-right: 20px;}
   #intro pre {margin-top: 40px;}
   #features strong {font-size: 1.1em;}
   #features p {text-align: left;}
+  #features ul {display: flex; flex-direction: column; justify-content: center; align-content: center; max-width: 500px; margin: auto;}
+  #features li { width: auto; display: inline;}
   .score {width: 100%; position: relative; padding-top: 7px; }
   .score .bar {height: 32px; }
   .score .value {position: absolute; top:35px; left: 0; right: 0; color: #000;}
@@ -127,6 +134,9 @@ a#logo {width: 290px; display: block; margin-top: 40px;}
 @media all and (max-width: 684px) {
   #features li {width:100%;}
 }
+@media all and (max-width: 554px) {
+  #intro-top code.language-ruby { font-size: 12px; line-height: 16px }
+}
 
 /* Documentation */
 nav.main { width: 100%; }
@@ -137,12 +147,11 @@ body.documentation li strong { display: block; margin: 20px 0; }
 https://prismjs.com/download.html#themes=prism-okaidia&languages=clike+ruby */
 code[class*="language-"], pre[class*="language-"] {
   color: #f8f8f2; background: none; text-align: left;
-  font-family: Consolas, Monaco, monospace; font-size: 12px; line-height: 15px; 
+  font-family: Consolas, Monaco, monospace; font-size: 16px; line-height: 20px; 
   white-space: pre; word-spacing: normal; word-break: normal; word-wrap: normal;
   -moz-tab-size: 4; -o-tab-size: 4; tab-size: 4; -webkit-hyphens: none; -moz-hyphens: none; -ms-hyphens: none; hyphens: none;
 }
-pre[class*="language-"] { padding: 2em; margin: .2em 0; overflow: auto; border-radius: 0.3em; }
-body.index pre[class*="language-"] {padding: 0 2em;}
+pre[class*="language-"] { padding: 1em; margin: .2em 0; overflow: auto; border-radius: 0.3em; }
 :not(pre) > code[class*="language-"], pre[class*="language-"] {background: #000;}
 body.index :not(pre) > code[class*="language-"], body.index pre[class*="language-"] {background: rgba(0,0,0,0.7);}
 :not(pre) > code[class*="language-"] {padding: .1em;border-radius: .3em;white-space: normal;}
@@ -172,6 +181,7 @@ div.benchmark-images img {
   max-width: min(95%, 600px);
   margin: 10px;
 }
+p.benchmark-info { max-width: 1000px; margin: auto;}
 p.benchmark-data {
   margin-top: 0;
   margin-bottom: 0;

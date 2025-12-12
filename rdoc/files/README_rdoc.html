@@ -106,31 +106,39 @@ README.rdoc
 </td></tr></tbody></table>
 
 <h2 id="label-Goals">Goals<span><a href="#label-Goals">&para;</a> <a href="#top">&uarr;</a></span></h2>
+
+<p><a href="../classes/Roda.html"><code>Roda</code></a> is designed with the following SUPER goals in mind:</p>
 <ul><li>
 <p>Simplicity</p>
 </li><li>
-<p>Reliability</p>
+<p>Understandability</p>
+</li><li>
+<p>Performance</p>
 </li><li>
 <p>Extensibility</p>
 </li><li>
-<p>Performance</p>
+<p>Reliability</p>
 </li></ul>
 
 <h3 id="label-Simplicity">Simplicity<span><a href="#label-Simplicity">&para;</a> <a href="#top">&uarr;</a></span></h3>
 
 <p><a href="../classes/Roda.html"><code>Roda</code></a> is designed to be simple, both internally and externally. It uses a routing tree to enable you to write simpler and DRYer code.</p>
 
-<h3 id="label-Reliability">Reliability<span><a href="#label-Reliability">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-Understandability">Understandability<span><a href="#label-Understandability">&para;</a> <a href="#top">&uarr;</a></span></h3>
 
-<p><a href="../classes/Roda.html"><code>Roda</code></a> supports and encourages immutability.  <a href="../classes/Roda.html"><code>Roda</code></a> apps are designed to be frozen in production, which eliminates possible thread safety issues. Additionally, <a href="../classes/Roda.html"><code>Roda</code></a> limits the instance variables, constants, and methods that it uses, so that they do not conflict with the ones you use for your application.</p>
+<p><a href="../classes/Roda.html"><code>Roda</code></a> is designed to avoid hidden control flow, so it is easy to follow the control flow you write in your routing tree to see the application’s entire handling process for a given request.</p>
+
+<h3 id="label-Performance">Performance<span><a href="#label-Performance">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p><a href="../classes/Roda.html"><code>Roda</code></a> has low per-request overhead, and the use of a routing tree and intelligent caching of internal datastructures makes it significantly faster than other popular ruby web frameworks.</p>
 
 <h3 id="label-Extensibility">Extensibility<span><a href="#label-Extensibility">&para;</a> <a href="#top">&uarr;</a></span></h3>
 
 <p><a href="../classes/Roda.html"><code>Roda</code></a> is built completely out of plugins, which makes it very extensible.  You can override any part of <a href="../classes/Roda.html"><code>Roda</code></a> and call super to get the default behavior.</p>
 
-<h3 id="label-Performance">Performance<span><a href="#label-Performance">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-Reliability">Reliability<span><a href="#label-Reliability">&para;</a> <a href="#top">&uarr;</a></span></h3>
 
-<p><a href="../classes/Roda.html"><code>Roda</code></a> has low per-request overhead, and the use of a routing tree and intelligent caching of internal datastructures makes it significantly faster than other popular ruby web frameworks.</p>
+<p><a href="../classes/Roda.html"><code>Roda</code></a> supports and encourages immutability.  <a href="../classes/Roda.html"><code>Roda</code></a> apps are designed to be frozen in production, which eliminates possible thread safety issues. Additionally, <a href="../classes/Roda.html"><code>Roda</code></a> limits the instance variables, constants, and methods that it uses, so that they do not conflict with the ones you use for your application.</p>
 
 <h2 id="label-Usage">Usage<span><a href="#label-Usage">&para;</a> <a href="#top">&uarr;</a></span></h2>
 
@@ -414,6 +422,16 @@ README.rdoc
 <pre class="ruby">[<span class="ruby-string">&#39;page1&#39;</span>, <span class="ruby-string">&#39;page2&#39;</span>] <span class="ruby-comment"># matches &quot;/page1&quot;, &quot;/page2&quot;</span>
 []                 <span class="ruby-comment"># does not match anything</span>
 </pre>
+
+<h3 id="label-Sets">Sets<span><a href="#label-Sets">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>Sets match if the next segment in the request path matches one of the elements in the set (non-String elements in the set are ignored). The matched element is yielded.</p>
+
+<pre class="ruby"><span class="ruby-constant">Set</span>[<span class="ruby-string">&#39;page1&#39;</span>, <span class="ruby-string">&#39;page2&#39;</span>] <span class="ruby-comment"># matches &quot;/page1&quot;, &quot;/page2&quot;</span>
+<span class="ruby-constant">Set</span>[]                 <span class="ruby-comment"># does not match anything</span>
+</pre>
+
+<p>In general, a Set matcher has the same behavior as an Array matcher containing only the set’s string elements, but will perform better for when there are a large number of elements in the set.</p>
 
 <h3 id="label-Hash">Hash<span><a href="#label-Hash">&para;</a> <a href="#top">&uarr;</a></span></h3>
 

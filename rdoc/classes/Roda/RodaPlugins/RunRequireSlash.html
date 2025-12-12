@@ -38,7 +38,7 @@ Roda::RodaPlugins::RunRequireSlash
 <div id='description'>
 <p>The run_require_slash plugin makes <code>r.run</code> a no-op if the remaining path is not empty and does not start with <code>/</code>. The Rack SPEC requires that <code>PATH_INFO</code> start with a slash if not empty, so this plugin prevents dispatching to the application with an environment that would violate the Rack SPEC.</p>
 
-<p>You are unlikely to want to use this plugin unless are consuming partial segments of the request path, or using the match_affix plugin to change how routing is done:</p>
+<p>You are unlikely to want to use this plugin unless you are consuming partial segments of the request path, or using the match_affix plugin to change how routing is done:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:match_affix</span>, <span class="ruby-string">&quot;&quot;</span>, <span class="ruby-regexp">/(\/|\z)/</span>
 <span class="ruby-identifier">route</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span>
@@ -50,10 +50,10 @@ Roda::RodaPlugins::RunRequireSlash
 <span class="ruby-keyword">end</span>
 
 <span class="ruby-comment"># with run_require_slash:</span>
-<span class="ruby-comment"># GET /a/b/e =&gt; App not dispatched to</span>
+<span class="ruby-comment"># GET /a/b/e =&gt; Not dispatched to application</span>
 <span class="ruby-comment"># GET /a/b =&gt; App gets &quot;&quot; as PATH_INFO</span>
 
-<span class="ruby-comment"># with run_require_slash:</span>
+<span class="ruby-comment"># without run_require_slash:</span>
 <span class="ruby-comment"># GET /a/b/e =&gt; App gets &quot;e&quot; as PATH_INFO, violating rack SPEC</span>
 <span class="ruby-comment"># GET /a/b =&gt; App gets &quot;&quot; as PATH_INFO</span>
 </pre>
