@@ -1,3 +1,7 @@
+=== master
+
+* Add sec_fetch_site_csrf plugin, for CSRF protection using Sec-Fetch-Site header (jeremyevans)
+
 === 3.99.0 (2025-12-12)
 
 * Add support for set matchers by default, as Set will be a core class in Ruby 4 (jeremyevans)
