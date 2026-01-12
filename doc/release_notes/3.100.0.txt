@@ -1,0 +1,30 @@
+= New Features
+
+* A sec_fetch_site_csrf plugin has been implemented, which implements
+  CSRF protection using the Sec-Fetch-Site header. This offers weaker
+  CSRF protection than the route_csrf plugin, but doesn't require CSRF
+  tokens in forms.  Other caveats when using the plugin:
+
+  * Not all browsers set the Sec-Fetch-Site header. Some popular
+    browsers did not add support until 2023.
+
+  * Sec-Fetch-Site is only set on HTTPS requests, not on HTTP
+    requests, so if you need to support HTTP requests, you cannot
+    rely on it.
+
+  * There is no support for cross-site secure CSRF protection by
+    sharing the token used.
+
+  Like the route_csrf plugin, the sec_fetch_site_csrf plugin exposes
+  a method (check_sec_fetch_site!) that you can call at the
+  appropriate point in your routing tree to enforce the CSRF
+  protection.
+
+  By default, only same-origin requests are allowed by default. Using
+  plugin options, you can support same-site or none requests, or
+  support requests where the header is not present.
+
+  For CSRF violations, the default is to raise an exception. You can
+  use plugin options to either return a blank 403 page or clear the
+  current session. You can also pass a block to either the plugin or
+  to the check_sec_fetch_site! method for custom handling.

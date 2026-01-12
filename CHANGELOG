@@ -1,4 +1,4 @@
-=== master
+=== 3.100.0 (2026-01-12)
 
 * Add sec_fetch_site_csrf plugin, for CSRF protection using Sec-Fetch-Site header (jeremyevans)
 
