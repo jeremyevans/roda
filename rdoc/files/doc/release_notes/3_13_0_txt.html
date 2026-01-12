@@ -33,11 +33,11 @@ doc/release_notes/3.13.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>An exception_page plugin has been added for displaying debugging information for a given exception.  It is based on Rack::ShowExceptions, with the following differences:</p>
+<p>An <a href="../../lib/roda/plugins/exception_page_rb.html">exception_page</a> plugin has been added for displaying debugging information for a given exception.  It is based on Rack::ShowExceptions, with the following differences:</p>
 <ul><li>
-<p>Not a middleware, so it doesn’t handle exceptions itself, and has no effect on the callstack unless the exception_page method is called.</p>
+<p>Not a middleware, so it doesn’t handle exceptions itself, and has no effect on the callstack unless the <a href="../../lib/roda/plugins/exception_page_rb.html">exception_page</a> method is called.</p>
 </li><li>
 <p>Supports external javascript and stylesheets, allowing context toggling to work in applications that use a content security policy to restrict inline javascript and stylesheets (:assets, :css_file, and :js_file options).</p>
 </li><li>
@@ -53,12 +53,12 @@ doc/release_notes/3.13.0.txt
 <p>Because this plugin just adds a method you can call, you can selectively choose when to display a debugging page and when not to, as well as customize the debugging parameters on a per-call basis (such as returning JSON formatted debugging information for JSON requests, and HTML formatted debugging information for normal requests).</p>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
-<p>The common_logger plugin now correctly handles cases where an exception is being raised and there is no rack response to introspect.</p>
+<p>The <a href="../../lib/roda/plugins/common_logger_rb.html">common_logger</a> plugin now correctly handles cases where an exception is being raised and there is no rack response to introspect.</p>
 </li></ul>
 
-<h1 id="label-Backwards+Compatibility">Backwards Compatibility<span><a href="#label-Backwards+Compatibility">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Backwards+Compatibility"><a href="#label-Backwards+Compatibility">Backwards Compatibility</a></h1>
 <ul><li>
 <p>Stream#write in the streaming plugin now returns the number of bytes written instead of self, so it works with IO.copy_stream.</p>
 </li></ul>

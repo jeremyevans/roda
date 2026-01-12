@@ -33,9 +33,9 @@ doc/release_notes/3.85.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>The class_matchers and symbol_matchers plugins now allow building on top of existing class and symbol matchers.  This allows you to simplify code such as:</p>
+<p>The <a href="../../lib/roda/plugins/class_matchers_rb.html">class_matchers</a> and <a href="../../lib/roda/plugins/symbol_matchers_rb.html">symbol_matchers</a> plugins now allow building on top of existing class and symbol matchers.  This allows you to simplify code such as:</p>
 
 <pre class="ruby"><span class="ruby-identifier">r</span>.<span class="ruby-identifier">on</span> <span class="ruby-string">&quot;employee&quot;</span>, <span class="ruby-constant">Integer</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">emp_id</span><span class="ruby-operator">|</span>
   <span class="ruby-keyword">next</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">employee</span> = <span class="ruby-constant">Employee</span>[<span class="ruby-identifier">emp_id</span>]
@@ -69,7 +69,7 @@ doc/release_notes/3.85.0.txt
 <p>With the above :ActiveEmployee matcher, segments will only match if they are an integer that is related to an employee, and that employee is active.</p>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
 <p>As shown in the above examples, class_matcher and symbol_matcher blocks can now return non-arrays.  This can reduce the number of unnecessary allocations, and result in simpler code.</p>
 </li><li>
@@ -86,10 +86,10 @@ doc/release_notes/3.85.0.txt
 </li><li>
 <p>The public plugin now avoids a deprecation warning when using Ruby 3.4.0-preview2.</p>
 </li><li>
-<p>The capture_erb plugin no longer breaks if ActiveSupport 4 is loaded.  ActiveSupport 4 defines Kernel#capture, which broke the capture_erb plugin’s assumption that calling capture was safe if the method was defined. capture_erb does not call capture on the buffer object if the buffer object is a String instance. The use of capture is designed for usage with erubi/capture_block, which does not use a String instance as a buffer object.</p>
+<p>The <a href="../../lib/roda/plugins/capture_erb_rb.html">capture_erb</a> plugin no longer breaks if ActiveSupport 4 is loaded.  ActiveSupport 4 defines Kernel#capture, which broke the <a href="../../lib/roda/plugins/capture_erb_rb.html">capture_erb</a> plugin’s assumption that calling capture was safe if the method was defined. <a href="../../lib/roda/plugins/capture_erb_rb.html">capture_erb</a> does not call capture on the buffer object if the buffer object is a String instance. The use of capture is designed for usage with erubi/capture_block, which does not use a String instance as a buffer object.</p>
 </li></ul>
 
-<h1 id="label-Backwards+Compatibility">Backwards Compatibility<span><a href="#label-Backwards+Compatibility">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Backwards+Compatibility"><a href="#label-Backwards+Compatibility">Backwards Compatibility</a></h1>
 <ul><li>
 <p>Changing the class_matcher and symbol_matcher blocks to be evaluated in route block context can break code that assumes they were evaluated in the context in which they were called. Generally, that context is application class context. For example, the following type of code would break:</p>
 
@@ -108,7 +108,7 @@ doc/release_notes/3.85.0.txt
 
 <p>This worked previously, because get_class was defined as a class method, and the block was evaluated in class context, as that is the context in which it was defined. You would have to define a get_class instance method to allow the example to continue to work.</p>
 </li><li>
-<p>The internals of the Integer_matcher_max plugin have been updated, to integrate with the class_matchers and symbol_matchers changes.  The _match_class_convert_Integer and _match_class_max_Integer private request methods have been removed.</p>
+<p>The internals of the <a href="../../lib/roda/plugins/Integer_matcher_max_rb.html">Integer_matcher_max</a> plugin have been updated, to integrate with the <a href="../../lib/roda/plugins/class_matchers_rb.html">class_matchers</a> and <a href="../../lib/roda/plugins/symbol_matchers_rb.html">symbol_matchers</a> changes.  The _match_class_convert_Integer and _match_class_max_Integer private request methods have been removed.</p>
 </li></ul>
 </div>
 <div id='context'>

@@ -33,7 +33,7 @@ doc/release_notes/1.2.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Plugins">New Plugins<span><a href="#label-New+Plugins">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Plugins"><a href="#label-New+Plugins">New Plugins</a></h1>
 <ul><li>
 <p>A static_path_info plugin has been added, which doesn’t modify SCRIPT_NAME/PATH_INFO during routing, only before dispatching the request to another rack application via r.run.  This is faster and avoids problems caused by changing SCRIPT_NAME/PATH_INFO during routing, such as methods that return paths that depend on SCRIPT_NAME.  This behavior will become Roda’s default starting in <a href="../../../classes/Roda.html"><code>Roda</code></a> 2, and it is recommended that all <a href="../../../classes/Roda.html"><code>Roda</code></a> apps use it.</p>
 </li><li>
@@ -108,7 +108,7 @@ doc/release_notes/1.2.0.txt
 <span class="ruby-keyword">end</span>
 </pre>
 </li><li>
-<p>A class_level_routing plugin has been added, allowing you to define your routes at the class level if desired.  The routes defined at the class level can still use a routing tree for further routing. Example:</p>
+<p>A <a href="../../lib/roda/plugins/class_level_routing_rb.html">class_level_routing</a> plugin has been added, allowing you to define your routes at the class level if desired.  The routes defined at the class level can still use a routing tree for further routing. Example:</p>
 
 <pre class="ruby"><span class="ruby-keyword">class</span> <span class="ruby-constant">App</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Roda</span>
   <span class="ruby-identifier">plugin</span> <span class="ruby-value">:class_level_routing</span>
@@ -134,7 +134,7 @@ doc/release_notes/1.2.0.txt
 <span class="ruby-keyword">end</span>
 </pre>
 </li><li>
-<p>A named_templates plugin has been added, for creating inline templates associated with a given name, that are used by the render plugin’s render/view method in preference to templates stored in the filesystem.  This makes it simpler to ship single-file <a href="../../../classes/Roda.html"><code>Roda</code></a> applications that use templates. Example:</p>
+<p>A <a href="../../lib/roda/plugins/named_templates_rb.html">named_templates</a> plugin has been added, for creating inline templates associated with a given name, that are used by the render plugin’s render/view method in preference to templates stored in the filesystem.  This makes it simpler to ship single-file <a href="../../../classes/Roda.html"><code>Roda</code></a> applications that use templates. Example:</p>
 
 <pre class="ruby"><span class="ruby-keyword">class</span> <span class="ruby-constant">App</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Roda</span>
   <span class="ruby-identifier">plugin</span> <span class="ruby-value">:named_templates</span>
@@ -154,9 +154,9 @@ doc/release_notes/1.2.0.txt
 <span class="ruby-keyword">end</span>
 </pre>
 </li><li>
-<p>A multi_run plugin has been added, for dispatching to multiple rack applications based on the request path prefix.  This provides a similar API as the multi_route plugin, but allows you to separate your applications per routing subtree, as opposed to multi_route which uses the same application for all routing subtrees.</p>
+<p>A <a href="../../lib/roda/plugins/multi_run_rb.html">multi_run</a> plugin has been added, for dispatching to multiple rack applications based on the request path prefix.  This provides a similar API as the <a href="../../lib/roda/plugins/multi_route_rb.html">multi_route</a> plugin, but allows you to separate your applications per routing subtree, as opposed to <a href="../../lib/roda/plugins/multi_route_rb.html">multi_route</a> which uses the same application for all routing subtrees.</p>
 
-<p>With the multi_run plugin, you call the class level run method with the routing prefix and the rack application to use, and you call r.multi_run to dispatch to all of the applications based on the prefix.</p>
+<p>With the <a href="../../lib/roda/plugins/multi_run_rb.html">multi_run</a> plugin, you call the class level run method with the routing prefix and the rack application to use, and you call r.multi_run to dispatch to all of the applications based on the prefix.</p>
 
 <pre class="ruby"><span class="ruby-keyword">class</span> <span class="ruby-constant">App</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Roda</span>
   <span class="ruby-identifier">plugin</span> <span class="ruby-value">:multi_run</span>
@@ -173,15 +173,15 @@ doc/release_notes/1.2.0.txt
 
 <p>In this case, Foo, Bar, and Baz, can be subclasses of App, which allows them to share methods that should be shared, but still define methods themselves that are not shared by the other applications.</p>
 </li><li>
-<p>A sinatra_helpers plugin has been added, that ports over most of the Sinatra::Helpers methods that haven’t already been added by other plugins.  All of the methods are added either to the request or response class as appropriate.  By default, delegate methods are also added to the route block scope, but you can turn this off by passing a :delegate=&gt;false option when loading the plugin, which avoids polluting the route block namespace.</p>
+<p>A <a href="../../lib/roda/plugins/sinatra_helpers_rb.html">sinatra_helpers</a> plugin has been added, that ports over most of the Sinatra::Helpers methods that haven’t already been added by other plugins.  All of the methods are added either to the request or response class as appropriate.  By default, delegate methods are also added to the route block scope, but you can turn this off by passing a :delegate=&gt;false option when loading the plugin, which avoids polluting the route block namespace.</p>
 
-<p>The sinatra_helpers plugin adds the following request methods:</p>
+<p>The <a href="../../lib/roda/plugins/sinatra_helpers_rb.html">sinatra_helpers</a> plugin adds the following request methods:</p>
 <ul><li>
 <p>back</p>
 </li><li>
 <p>error</p>
 </li><li>
-<p>not_found</p>
+<p><a href="../../lib/roda/plugins/not_found_rb.html">not_found</a></p>
 </li><li>
 <p>uri</p>
 </li><li>
@@ -212,12 +212,12 @@ doc/release_notes/1.2.0.txt
 </li><li>
 <p>client_error?</p>
 </li><li>
-<p>not_found?</p>
+<p><a href="../../lib/roda/plugins/not_found_rb.html">not_found</a>?</p>
 </li><li>
 <p>server_error?</p>
 </li></ul>
 </li><li>
-<p>A slash_path_empty plugin has been added, which changes <a href="../../../classes/Roda.html"><code>Roda</code></a> so that “/” is considered an empty path when doing a terminal match via r.is or r.get/r.post with a path.</p>
+<p>A <a href="../../lib/roda/plugins/slash_path_empty_rb.html">slash_path_empty</a> plugin has been added, which changes <a href="../../../classes/Roda.html"><code>Roda</code></a> so that “/” is considered an empty path when doing a terminal match via r.is or r.get/r.post with a path.</p>
 
 <pre class="ruby"><span class="ruby-keyword">class</span> <span class="ruby-constant">App</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Roda</span>
   <span class="ruby-identifier">plugin</span> <span class="ruby-value">:slash_path_empty</span>
@@ -230,7 +230,7 @@ doc/release_notes/1.2.0.txt
 <span class="ruby-keyword">end</span>
 </pre>
 </li><li>
-<p>An empty_root plugin has been added, which makes r.root match the empty string, in addition to /.  This can be useful in cases where a partial match on the patch has been completed.</p>
+<p>An <a href="../../lib/roda/plugins/empty_root_rb.html">empty_root</a> plugin has been added, which makes r.root match the empty string, in addition to /.  This can be useful in cases where a partial match on the patch has been completed.</p>
 
 <pre class="ruby"><span class="ruby-keyword">class</span> <span class="ruby-constant">App</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Roda</span>
   <span class="ruby-identifier">plugin</span> <span class="ruby-value">:empty_root</span>
@@ -245,7 +245,7 @@ doc/release_notes/1.2.0.txt
 <span class="ruby-keyword">end</span>
 </pre>
 </li><li>
-<p>A match_affix plugin has been added, for overriding the default prefix/suffix used in match patterns.  For example, if you want to require that a leading / be specified in your routes. and you want to consume any trailing slash:</p>
+<p>A <a href="../../lib/roda/plugins/match_affix_rb.html">match_affix</a> plugin has been added, for overriding the default prefix/suffix used in match patterns.  For example, if you want to require that a leading / be specified in your routes. and you want to consume any trailing slash:</p>
 
 <pre class="ruby"><span class="ruby-keyword">class</span> <span class="ruby-constant">App</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Roda</span>
   <span class="ruby-identifier">plugin</span> <span class="ruby-value">:match_affix</span>, <span class="ruby-string">&quot;&quot;</span>, <span class="ruby-regexp">/(\/|\z)/</span>
@@ -287,12 +287,12 @@ doc/release_notes/1.2.0.txt
 <span class="ruby-keyword">end</span>
 </pre>
 </li><li>
-<p>A drop_body plugin has been added, which automatically drops the body, Content-Type header, and Content-Length header when the response status indicates no body (100-102, 204, 205, 304).</p>
+<p>A <a href="../../lib/roda/plugins/drop_body_rb.html">drop_body</a> plugin has been added, which automatically drops the body, Content-Type header, and Content-Length header when the response status indicates no body (100-102, 204, 205, 304).</p>
 </li><li>
-<p>A delay_build plugin has been added, which delays building the rack application until Roda.app is called, and only rebuilds the rack application if build! is called.  This removes O(n^2) performance in the pathological case of adding a route block and then calling Roda.use many times to add middlewares, though you have to add a few hundred middlewares for the difference to be noticeable.</p>
+<p>A <a href="../../lib/roda/plugins/delay_build_rb.html">delay_build</a> plugin has been added, which delays building the rack application until Roda.app is called, and only rebuilds the rack application if build! is called.  This removes O(n^2) performance in the pathological case of adding a route block and then calling Roda.use many times to add middlewares, though you have to add a few hundred middlewares for the difference to be noticeable.</p>
 </li></ul>
 
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
 <p>r.remaining_path and r.matched_path have been added for returning the remaining path that will be used for matching, and for returning the path already matched.  Currently, these just provide the PATH_INFO and SCRIPT_NAME, but starting in <a href="../../../classes/Roda.html"><code>Roda</code></a> 2 PATH_INFO and SCRIPT_NAME will not be modified during routing, and you’ll need to use these methods if you want to find out the remaining or already matched paths.</p>
 </li><li>
@@ -315,7 +315,7 @@ doc/release_notes/1.2.0.txt
 
 <p>Note that if you plan to use :add_script_name, you should use the static_path_info plugin so that the method created does not return different results depending on where you are in the routing tree.</p>
 </li><li>
-<p>A :user_agent hash matcher has been added to the header_matchers plugin.</p>
+<p>A :user_agent hash matcher has been added to the <a href="../../lib/roda/plugins/header_matchers_rb.html">header_matchers</a> plugin.</p>
 </li><li>
 <p>An inherit_middleware class accessor has been added.  This can be set to false if you do not want subclasses to inherit middleware from the superclass.  This is useful if the superclass dispatches to the subclass via r.run, as otherwise it would have to run the same middleware stack twice.</p>
 </li><li>
@@ -326,7 +326,7 @@ doc/release_notes/1.2.0.txt
 <p>Roda{Request,Response}#roda_class has been added, which returns the <a href="../../../classes/Roda.html"><code>Roda</code></a> class related to the given request/response.</p>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
 <p>The render plugin no longer caches templates by default if RACK_ENV is development.</p>
 </li><li>
@@ -338,14 +338,14 @@ doc/release_notes/1.2.0.txt
 </li><li>
 <p>Roda#session now returns the same object as RodaRequest#session.</p>
 </li><li>
-<p>The view_subdirs, content_for, and render_each plugins now all depend on the render plugin.</p>
+<p>The view_subdirs, <a href="../../lib/roda/plugins/content_for_rb.html">content_for</a>, and <a href="../../lib/roda/plugins/render_each_rb.html">render_each</a> plugins now all depend on the render plugin.</p>
 </li><li>
-<p>The not_allowed plugin now depends on the all_verbs plugin.</p>
+<p>The <a href="../../lib/roda/plugins/not_allowed_rb.html">not_allowed</a> plugin now depends on the <a href="../../lib/roda/plugins/all_verbs_rb.html">all_verbs</a> plugin.</p>
 </li><li>
 <p>Local/instance variables are now used in more places instead of method calls, improving performance.</p>
 </li></ul>
 
-<h1 id="label-Backwards+Compatibility">Backwards Compatibility<span><a href="#label-Backwards+Compatibility">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Backwards+Compatibility"><a href="#label-Backwards+Compatibility">Backwards Compatibility</a></h1>
 <ul><li>
 <p>The render plugin’s render/view methods no longer pass the given hash directly to the underlying template.  To pass options to the template engine, use a separate hash under the :opts key:</p>
 
@@ -364,7 +364,7 @@ doc/release_notes/1.2.0.txt
 </li><li>
 <p>RodaRequest.def_verb_method has been removed.</p>
 </li><li>
-<p>The hooks, default_headers, json, and multi_route plugins all store their class-level metadata in the opts hash instead of separate class instance variables.  This should have no affect unless you were accessing the class instance variables directly.</p>
+<p>The hooks, <a href="../../lib/roda/plugins/default_headers_rb.html">default_headers</a>, json, and <a href="../../lib/roda/plugins/multi_route_rb.html">multi_route</a> plugins all store their class-level metadata in the opts hash instead of separate class instance variables.  This should have no affect unless you were accessing the class instance variables directly.</p>
 </li><li>
 <p>The render plugin internals changed significantly, it now passes internal data using a hash.  This should only affect users that were overriding render plugin methods.</p>
 </li></ul>

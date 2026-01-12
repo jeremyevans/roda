@@ -36,7 +36,7 @@ Roda::RodaPlugins::AutoloadNamedRoutes
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The autoload_named_routes plugin builds on the named_routes plugin and allows for delaying loading of a file containing a named route for an application until there is a request that uses the named route. This can be useful in development to improvement startup time by not loading all named routes up front.  It can also be useful in testing subsets of an application by only loading the named routes being tested.</p>
+<p>The <a href="../../../files/lib/roda/plugins/autoload_named_routes_rb.html">autoload_named_routes</a> plugin builds on the <a href="../../../files/lib/roda/plugins/named_routes_rb.html">named_routes</a> plugin and allows for delaying loading of a file containing a named route for an application until there is a request that uses the named route. This can be useful in development to improvement startup time by not loading all named routes up front.  It can also be useful in testing subsets of an application by only loading the named routes being tested.</p>
 
 <p>You can specify a single hash branch for autoloading:</p>
 
@@ -45,7 +45,7 @@ Roda::RodaPlugins::AutoloadNamedRoutes
 <span class="ruby-identifier">autoload_named_route</span>(<span class="ruby-value">:namespace</span>, <span class="ruby-value">:route_name</span>, <span class="ruby-string">&#39;relative/path/to/file&#39;</span>)
 </pre>
 
-<p>Note that unlike the <code>route</code> method defined by the named_routes plugin, when providing a namespace, the namespace comes before the route name and not after.</p>
+<p>Note that unlike the <code>route</code> method defined by the <a href="../../../files/lib/roda/plugins/named_routes_rb.html">named_routes</a> plugin, when providing a namespace, the namespace comes before the route name and not after.</p>
 
 <p>When the autoloaded file is required, it should redefine the same named route.  If it does not, requests to the named route will be ignored (as if the related named route block was empty).</p>
 

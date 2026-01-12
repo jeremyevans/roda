@@ -36,7 +36,7 @@ Roda::RodaPlugins::NotAllowed
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The not_allowed plugin makes <a href="../../Roda.html"><code>Roda</code></a> attempt to automatically support the 405 Method Not Allowed response status. The plugin changes the <code>r.get</code> and <code>r.post</code> verb methods to automatically return a 405 status if they are called with any arguments, and the arguments match but the request method does not match. So this code:</p>
+<p>The <a href="../../../files/lib/roda/plugins/not_allowed_rb.html">not_allowed</a> plugin makes <a href="../../Roda.html"><code>Roda</code></a> attempt to automatically support the 405 Method Not Allowed response status. The plugin changes the <code>r.get</code> and <code>r.post</code> verb methods to automatically return a 405 status if they are called with any arguments, and the arguments match but the request method does not match. So this code:</p>
 
 <pre class="ruby"><span class="ruby-identifier">r</span>.<span class="ruby-identifier">get</span> <span class="ruby-string">&#39;&#39;</span> <span class="ruby-keyword">do</span>
   <span class="ruby-string">&quot;a&quot;</span>
@@ -88,7 +88,7 @@ Roda::RodaPlugins::NotAllowed
 
 <p>In all cases where it uses a 405 response, it also sets the <code>Allow</code> header in the response to contain the request methods supported.</p>
 
-<p>This plugin depends on the all_verbs plugin.</p>
+<p>This plugin depends on the <a href="../../../files/lib/roda/plugins/all_verbs_rb.html">all_verbs</a> plugin.</p>
 </div>
 <div id='method-list'>
 <h2>Methods</h2>
@@ -116,7 +116,7 @@ Roda::RodaPlugins::NotAllowed
 </div>
 <div class='description'>
 
-<p>Depend on the all_verbs plugin, as this plugin overrides methods defined by it and calls super.</p>
+<p>Depend on the <a href="../../../files/lib/roda/plugins/all_verbs_rb.html">all_verbs</a> plugin, as this plugin overrides methods defined by it and calls super.</p>
 
 </div>
 <div class='source'>

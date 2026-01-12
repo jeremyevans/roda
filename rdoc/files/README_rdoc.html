@@ -37,7 +37,7 @@ README.rdoc
 
 <p>A routing tree web toolkit, designed for building fast and maintainable web applications in Ruby.</p>
 
-<h2 id="label-Table+of+contents">Table of contents<span><a href="#label-Table+of+contents">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="label-Table+of+contents"><a href="#label-Table+of+contents">Table of contents</a></h2>
 <ul><li>
 <p><a href="#label-Installation">Installation</a></p>
 </li><li>
@@ -88,11 +88,11 @@ README.rdoc
 <p><a href="#label-Ruby+Support+Policy">Ruby Support Policy</a></p>
 </li></ul>
 
-<h2 id="label-Installation">Installation<span><a href="#label-Installation">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="label-Installation"><a href="#label-Installation">Installation</a></h2>
 
 <pre>$ gem install roda</pre>
 
-<h2 id="label-Resources">Resources<span><a href="#label-Resources">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="label-Resources"><a href="#label-Resources">Resources</a></h2>
 <table class="rdoc-list note-list"><tbody><tr><td class='label'>Website </td><td>
 <p><a target="_top" href="http://roda.jeremyevans.net">roda.jeremyevans.net</a></p>
 </td></tr><tr><td class='label'>Source </td><td>
@@ -105,7 +105,7 @@ README.rdoc
 <p><a target="_top" href="http://groups.google.com/group/ruby-roda">groups.google.com/group/ruby-roda</a></p>
 </td></tr></tbody></table>
 
-<h2 id="label-Goals">Goals<span><a href="#label-Goals">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="label-Goals"><a href="#label-Goals">Goals</a></h2>
 
 <p><a href="../classes/Roda.html"><code>Roda</code></a> is designed with the following SUPER goals in mind:</p>
 <ul><li>
@@ -120,27 +120,27 @@ README.rdoc
 <p>Reliability</p>
 </li></ul>
 
-<h3 id="label-Simplicity">Simplicity<span><a href="#label-Simplicity">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-Simplicity"><a href="#label-Simplicity">Simplicity</a></h3>
 
 <p><a href="../classes/Roda.html"><code>Roda</code></a> is designed to be simple, both internally and externally. It uses a routing tree to enable you to write simpler and DRYer code.</p>
 
-<h3 id="label-Understandability">Understandability<span><a href="#label-Understandability">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-Understandability"><a href="#label-Understandability">Understandability</a></h3>
 
 <p><a href="../classes/Roda.html"><code>Roda</code></a> is designed to avoid hidden control flow, so it is easy to follow the control flow you write in your routing tree to see the application’s entire handling process for a given request.</p>
 
-<h3 id="label-Performance">Performance<span><a href="#label-Performance">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-Performance"><a href="#label-Performance">Performance</a></h3>
 
 <p><a href="../classes/Roda.html"><code>Roda</code></a> has low per-request overhead, and the use of a routing tree and intelligent caching of internal datastructures makes it significantly faster than other popular ruby web frameworks.</p>
 
-<h3 id="label-Extensibility">Extensibility<span><a href="#label-Extensibility">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-Extensibility"><a href="#label-Extensibility">Extensibility</a></h3>
 
 <p><a href="../classes/Roda.html"><code>Roda</code></a> is built completely out of plugins, which makes it very extensible.  You can override any part of <a href="../classes/Roda.html"><code>Roda</code></a> and call super to get the default behavior.</p>
 
-<h3 id="label-Reliability">Reliability<span><a href="#label-Reliability">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-Reliability"><a href="#label-Reliability">Reliability</a></h3>
 
 <p><a href="../classes/Roda.html"><code>Roda</code></a> supports and encourages immutability.  <a href="../classes/Roda.html"><code>Roda</code></a> apps are designed to be frozen in production, which eliminates possible thread safety issues. Additionally, <a href="../classes/Roda.html"><code>Roda</code></a> limits the instance variables, constants, and methods that it uses, so that they do not conflict with the ones you use for your application.</p>
 
-<h2 id="label-Usage">Usage<span><a href="#label-Usage">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="label-Usage"><a href="#label-Usage">Usage</a></h2>
 
 <p>Here’s a simple application, showing how the routing tree works:</p>
 
@@ -211,13 +211,13 @@ README.rdoc
 
 <p>The <code>.freeze.app</code> at the end is optional.  Freezing the app makes modifying app-level settings raise an error, alerting you to possible thread-safety issues in your application.  It is recommended to freeze the app in production and during testing.  The <code>.app</code> is an optimization, which saves a few method calls for every request.</p>
 
-<h2 id="label-Running+the+Application">Running the Application<span><a href="#label-Running+the+Application">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="label-Running+the+Application"><a href="#label-Running+the+Application">Running the Application</a></h2>
 
 <p>Running a <a href="../classes/Roda.html"><code>Roda</code></a> application is similar to running any other rack-based application that uses a <code>config.ru</code> file.  You can start a basic server using <code>rackup</code>, <code>puma</code>, <code>unicorn</code>, <code>passenger</code>, or any other webserver that can handle <code>config.ru</code> files:</p>
 
 <pre>$ rackup</pre>
 
-<h2 id="label-The+Routing+Tree">The Routing Tree<span><a href="#label-The+Routing+Tree">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="label-The+Routing+Tree"><a href="#label-The+Routing+Tree">The Routing Tree</a></h2>
 
 <p><a href="../classes/Roda.html"><code>Roda</code></a> is called a routing tree web toolkit because the way most sites are structured, routing takes the form of a tree (based on the URL structure of the site). In general:</p>
 <ul><li>
@@ -283,7 +283,7 @@ README.rdoc
 
 <p>Being able to operate on the request at any point during the routing is one of the major advantages of <a href="../classes/Roda.html"><code>Roda</code></a>.</p>
 
-<h2 id="label-Matchers">Matchers<span><a href="#label-Matchers">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="label-Matchers"><a href="#label-Matchers">Matchers</a></h2>
 
 <p>Other than <code>r.root</code>, the routing methods all take arguments called matchers. If all of the matchers match, the routing method yields to the match block. Here’s an example showcasing how different matchers work:</p>
 
@@ -342,7 +342,7 @@ README.rdoc
 
 <p>Here’s a description of the matchers. Note that “segment”, as used here, means one part of the path preceded by a <code>/</code>. So, a path such as <code>/foo/bar//baz</code> has four segments: <code>/foo</code>, <code>/bar</code>, <code>/</code>, and <code>/baz</code>. The <code>/</code> here is considered the empty segment.</p>
 
-<h3 id="label-String">String<span><a href="#label-String">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-String"><a href="#label-String">String</a></h3>
 
 <p>If a string does not contain a slash, it matches a single segment containing the text of the string, preceded by a slash.</p>
 
@@ -357,7 +357,7 @@ README.rdoc
 <span class="ruby-string">&quot;foo/bar&quot;</span> <span class="ruby-comment"># does not match &quot;/foo/bard&quot;</span>
 </pre>
 
-<h3 id="label-Regexp">Regexp<span><a href="#label-Regexp">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-Regexp"><a href="#label-Regexp">Regexp</a></h3>
 
 <p>Regexps match one or more segments by looking for the pattern, preceded by a slash, and followed by a slash or the end of the path:</p>
 
@@ -373,7 +373,7 @@ README.rdoc
 <span class="ruby-regexp">/foo(\w+)/</span> <span class="ruby-comment"># matches &quot;/foobar&quot;, yields &quot;bar&quot;</span>
 </pre>
 
-<h3 id="label-Class">Class<span><a href="#label-Class">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-Class"><a href="#label-Class">Class</a></h3>
 
 <p>There are two classes that are supported as matchers, String and Integer.</p>
 <table class="rdoc-list note-list"><tbody><tr><td class='label'>String </td><td>
@@ -393,7 +393,7 @@ README.rdoc
 <span class="ruby-constant">Integer</span> <span class="ruby-comment"># does not match &quot;/&quot;</span>
 </pre>
 
-<h3 id="label-Symbol">Symbol<span><a href="#label-Symbol">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-Symbol"><a href="#label-Symbol">Symbol</a></h3>
 
 <p>Symbols match any nonempty segment, yielding the segment except for the preceding slash:</p>
 
@@ -403,7 +403,7 @@ README.rdoc
 
 <p>Symbol matchers operate the same as the class String matcher, and is the historical way to do arbitrary segment matching. It is recommended to use the class String matcher in new code as it is a bit more intuitive.</p>
 
-<h3 id="label-Proc">Proc<span><a href="#label-Proc">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-Proc"><a href="#label-Proc">Proc</a></h3>
 
 <p>Procs match unless they return false or nil:</p>
 
@@ -413,7 +413,7 @@ README.rdoc
 
 <p>Procs don’t capture anything by default, but they can do so if you add the captured text to <code>r.captures</code>.</p>
 
-<h3 id="label-Arrays">Arrays<span><a href="#label-Arrays">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-Arrays"><a href="#label-Arrays">Arrays</a></h3>
 
 <p>Arrays match when any of their elements match. If multiple matchers are given to <code>r.on</code>, they all must match (an AND condition). If an array of matchers is given, only one needs to match (an OR condition). Evaluation stops at the first matcher that matches.</p>
 
@@ -423,7 +423,7 @@ README.rdoc
 []                 <span class="ruby-comment"># does not match anything</span>
 </pre>
 
-<h3 id="label-Sets">Sets<span><a href="#label-Sets">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-Sets"><a href="#label-Sets">Sets</a></h3>
 
 <p>Sets match if the next segment in the request path matches one of the elements in the set (non-String elements in the set are ignored). The matched element is yielded.</p>
 
@@ -433,9 +433,9 @@ README.rdoc
 
 <p>In general, a Set matcher has the same behavior as an Array matcher containing only the set’s string elements, but will perform better for when there are a large number of elements in the set.</p>
 
-<h3 id="label-Hash">Hash<span><a href="#label-Hash">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-Hash"><a href="#label-Hash">Hash</a></h3>
 
-<p>Hashes allow easily calling specialized match methods on the request. The default registered matchers included with <a href="../classes/Roda.html"><code>Roda</code></a> are documented below. Some plugins add additional hash matchers, and the hash_matcher plugin allows for easily defining your own:</p>
+<p>Hashes allow easily calling specialized match methods on the request. The default registered matchers included with <a href="../classes/Roda.html"><code>Roda</code></a> are documented below. Some plugins add additional hash matchers, and the <a href="lib/roda/plugins/hash_matcher_rb.html">hash_matcher</a> plugin allows for easily defining your own:</p>
 
 <pre class="ruby"><span class="ruby-keyword">class</span> <span class="ruby-constant">App</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Roda</span>
   <span class="ruby-identifier">plugin</span> <span class="ruby-value">:hash_matcher</span>
@@ -452,7 +452,7 @@ README.rdoc
 <span class="ruby-keyword">end</span>
 </pre>
 
-<h4 id="label-3Aall">:all<span><a href="#label-3Aall">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<h4 id="label-3Aall"><a href="#label-3Aall">:all</a></h4>
 
 <p>The <code>:all</code> matcher matches if all of the entries in the given array match, so</p>
 
@@ -476,7 +476,7 @@ README.rdoc
 
 <p>would match <code>/foo</code> and <code>/foos/10</code>, but not <code>/foos</code>.</p>
 
-<h4 id="label-3Amethod">:method<span><a href="#label-3Amethod">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<h4 id="label-3Amethod"><a href="#label-3Amethod">:method</a></h4>
 
 <p>The <code>:method</code> matcher matches the method of the request. You can provide an array to specify multiple request methods and match on any of them:</p>
 
@@ -484,19 +484,19 @@ README.rdoc
 {<span class="ruby-value">method:</span> [<span class="ruby-string">&#39;post&#39;</span>, <span class="ruby-string">&#39;patch&#39;</span>]} <span class="ruby-comment"># matches POST and PATCH</span>
 </pre>
 
-<h3 id="label-true">true<span><a href="#label-true">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-true"><a href="#label-true">true</a></h3>
 
 <p>If <code>true</code> is given directly as a matcher, it always matches.</p>
 
-<h3 id="label-false-2C+nil">false, nil<span><a href="#label-false-2C+nil">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-false-2C+nil"><a href="#label-false-2C+nil">false, nil</a></h3>
 
 <p>If <code>false</code> or <code>nil</code> is given directly as a matcher, it doesn’t match anything.</p>
 
-<h3 id="label-Everything+else">Everything else<span><a href="#label-Everything+else">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-Everything+else"><a href="#label-Everything+else">Everything else</a></h3>
 
 <p>Everything else raises an error, unless support is specifically added for it (some plugins add support for additional matcher types).</p>
 
-<h2 id="label-Optional+segments">Optional segments<span><a href="#label-Optional+segments">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="label-Optional+segments"><a href="#label-Optional+segments">Optional segments</a></h2>
 
 <p>There are multiple ways you can handle optional segments in <a href="../classes/Roda.html"><code>Roda</code></a>.  For example, let’s say you want to accept both <code>/items/123</code> and <code>/items/123/456</code>, with 123 being the item’s id, and 456 being some optional data.</p>
 
@@ -536,7 +536,7 @@ README.rdoc
 <span class="ruby-keyword">end</span>
 </pre>
 
-<h2 id="label-Match-2FRoute+Block+Return+Values">Match/Route Block Return Values<span><a href="#label-Match-2FRoute+Block+Return+Values">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="label-Match-2FRoute+Block+Return+Values"><a href="#label-Match-2FRoute+Block+Return+Values">Match/Route Block Return Values</a></h2>
 
 <p>If the response body has already been written to by calling <code>response.write</code> directly, then any return value of a match block or route block is ignored.</p>
 
@@ -551,7 +551,7 @@ README.rdoc
 
 <p>Plugins can add support for additional match block and route block return values.  One example of this is the json plugin, which allows returning arrays and hashes in match and route blocks and converts those directly to JSON and uses the JSON as the response body.</p>
 
-<h2 id="label-Status+Codes">Status Codes<span><a href="#label-Status+Codes">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="label-Status+Codes"><a href="#label-Status+Codes">Status Codes</a></h2>
 
 <p>When it comes time to finalize a response, if a status code has not been set manually and anything has been written to the response, the response will use a 200 status code. Otherwise, it will use a 404 status code. This enables the principle of least surprise to work: if you don’t handle an action, a 404 response is assumed.</p>
 
@@ -573,9 +573,9 @@ README.rdoc
 <span class="ruby-keyword">end</span>
 </pre>
 
-<h2 id="label-Verb+Methods">Verb Methods<span><a href="#label-Verb+Methods">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="label-Verb+Methods"><a href="#label-Verb+Methods">Verb Methods</a></h2>
 
-<p>As displayed above, <a href="../classes/Roda.html"><code>Roda</code></a> has <code>r.get</code> and <code>r.post</code> methods for matching based on the HTTP request method.  If you want to match on other HTTP request methods, use the all_verbs plugin.</p>
+<p>As displayed above, <a href="../classes/Roda.html"><code>Roda</code></a> has <code>r.get</code> and <code>r.post</code> methods for matching based on the HTTP request method.  If you want to match on other HTTP request methods, use the <a href="lib/roda/plugins/all_verbs_rb.html">all_verbs</a> plugin.</p>
 
 <p>When called without any arguments, these match as long as the request has the appropriate method, so:</p>
 
@@ -615,25 +615,25 @@ README.rdoc
 <span class="ruby-keyword">end</span>
 </pre>
 
-<h2 id="label-Root+Method">Root Method<span><a href="#label-Root+Method">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="label-Root+Method"><a href="#label-Root+Method">Root Method</a></h2>
 
 <p>As displayed above, you can also use <code>r.root</code> as a match method. This method matches <code>GET</code> requests where the current path is <code>/</code>. <code>r.root</code> is similar to <code>r.get &quot;&quot;</code>, except that it does not consume the <code>/</code> from the path.</p>
 
 <p>Unlike the other matching methods, <code>r.root</code> takes no arguments.</p>
 
-<p>Note that <code>r.root</code> does not match if the path is empty; you should use <code>r.get true</code> for that. If you want to match either the empty path or <code>/</code>, you can use <code>r.get [&quot;&quot;, true]</code>, or use the slash_path_empty plugin.</p>
+<p>Note that <code>r.root</code> does not match if the path is empty; you should use <code>r.get true</code> for that. If you want to match either the empty path or <code>/</code>, you can use <code>r.get [&quot;&quot;, true]</code>, or use the <a href="lib/roda/plugins/slash_path_empty_rb.html">slash_path_empty</a> plugin.</p>
 
 <p>Note that <code>r.root</code> only matches <code>GET</code> requests. So, to handle <code>POST /</code> requests, use <code>r.post &#39;&#39;</code>.</p>
 
-<h2 id="label-Request+and+Response">Request and Response<span><a href="#label-Request+and+Response">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="label-Request+and+Response"><a href="#label-Request+and+Response">Request and Response</a></h2>
 
 <p>While the request object is yielded to the <code>route</code> block, it is also available via the <code>request</code> method. Likewise, the response object is available via the <code>response</code> method.</p>
 
 <p>The request object is an instance of a subclass of <code>Rack::Request</code>, with some additional methods.</p>
 
-<p>If you want to extend the request and response objects with additional modules, you can use the module_include plugin.</p>
+<p>If you want to extend the request and response objects with additional modules, you can use the <a href="lib/roda/plugins/module_include_rb.html">module_include</a> plugin.</p>
 
-<h2 id="label-Pollution">Pollution<span><a href="#label-Pollution">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="label-Pollution"><a href="#label-Pollution">Pollution</a></h2>
 
 <p><a href="../classes/Roda.html"><code>Roda</code></a> tries very hard to avoid polluting the scope of the <code>route</code> block. This should make it unlikely that <a href="../classes/Roda.html"><code>Roda</code></a> will cause namespace issues with your application code.  Some of the things <a href="../classes/Roda.html"><code>Roda</code></a> does:</p>
 <ul><li>
@@ -644,7 +644,7 @@ README.rdoc
 <p>Constants inside the <a href="../classes/Roda.html"><code>Roda</code></a> namespace are all prefixed with <a href="../classes/Roda.html"><code>Roda</code></a> (e.g., <a href="../classes/Roda/RodaRequest.html"><code>Roda::RodaRequest</code></a>).</p>
 </li></ul>
 
-<h2 id="label-Composition">Composition<span><a href="#label-Composition">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="label-Composition"><a href="#label-Composition">Composition</a></h2>
 
 <p>You can mount any Rack app (including another <a href="../classes/Roda.html"><code>Roda</code></a> app), with its own middlewares, inside a <a href="../classes/Roda.html"><code>Roda</code></a> app, using <code>r.run</code>:</p>
 
@@ -671,11 +671,11 @@ README.rdoc
 
 <p>When you use <code>r.run</code>, <a href="../classes/Roda.html"><code>Roda</code></a> calls the given Rack app (<code>API</code> in this case); whatever the Rack app returns will be returned as the response for the current application.</p>
 
-<p>If you have a lot of rack applications that you want to dispatch to, and which one to dispatch to is based on the request path prefix, look into the <code>multi_run</code> plugin.</p>
+<p>If you have a lot of rack applications that you want to dispatch to, and which one to dispatch to is based on the request path prefix, look into the <a href="lib/roda/plugins/multi_run_rb.html">multi_run</a> plugin.</p>
 
-<h3 id="label-hash_branches+plugin">hash_branches plugin<span><a href="#label-hash_branches+plugin">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-hash_branches+plugin"><a href="#label-hash_branches+plugin"><a href="lib/roda/plugins/hash_branches_rb.html">hash_branches</a> plugin</a></h3>
 
-<p>If you are just looking to split up the main route block up by branches, you should use the <code>hash_branches</code> plugin, which keeps the current scope of the <code>route</code> block:</p>
+<p>If you are just looking to split up the main route block up by branches, you should use the <a href="lib/roda/plugins/hash_branches_rb.html">hash_branches</a> plugin, which keeps the current scope of the <code>route</code> block:</p>
 
 <pre class="ruby"><span class="ruby-keyword">class</span> <span class="ruby-constant">App</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Roda</span>
   <span class="ruby-identifier">plugin</span> <span class="ruby-value">:hash_branches</span>
@@ -696,11 +696,11 @@ README.rdoc
 
 <p>This allows you to set instance variables in the main <code>route</code> block and still have access to them inside the <code>api</code> <code>route</code> block.</p>
 
-<h2 id="label-Testing">Testing<span><a href="#label-Testing">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="label-Testing"><a href="#label-Testing">Testing</a></h2>
 
 <p>It is very easy to test <a href="../classes/Roda.html"><code>Roda</code></a> with <a target="_top" href="https://github.com/rack-test/rack-test">Rack::Test</a> or <a target="_top" href="https://github.com/teamcapybara/capybara">Capybara</a>. Roda’s own tests use <a target="_top" href="https://github.com/seattlerb/minitest">minitest/spec</a>. The default Rake task will run the specs for <a href="../classes/Roda.html"><code>Roda</code></a>.</p>
 
-<h2 id="label-Settings">Settings<span><a href="#label-Settings">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="label-Settings"><a href="#label-Settings">Settings</a></h2>
 
 <p>Each <a href="../classes/Roda.html"><code>Roda</code></a> app can store settings in the <code>opts</code> hash. The settings are inherited by subclasses.</p>
 
@@ -742,7 +742,7 @@ README.rdoc
 
 <p>There may be other options supported by individual plugins, if so it will be mentioned in the documentation for the plugin.</p>
 
-<h2 id="label-Rendering">Rendering<span><a href="#label-Rendering">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="label-Rendering"><a href="#label-Rendering">Rendering</a></h2>
 
 <p><a href="../classes/Roda.html"><code>Roda</code></a> ships with a <code>render</code> plugin that provides helpers for rendering templates. It uses <a target="_top" href="https://github.com/rtomayko/tilt">Tilt</a>, a gem that interfaces with many template engines. The <code>erb</code> engine is used by default.</p>
 
@@ -786,11 +786,11 @@ README.rdoc
 <span class="ruby-keyword">end</span>
 </pre>
 
-<h2 id="label-Security">Security<span><a href="#label-Security">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="label-Security"><a href="#label-Security">Security</a></h2>
 
 <p>Web application security is a very large topic, but here are some things you can do with <a href="../classes/Roda.html"><code>Roda</code></a> to prevent some common web application vulnerabilities.</p>
 
-<h3 id="label-Session+Security">Session Security<span><a href="#label-Session+Security">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-Session+Security"><a href="#label-Session+Security">Session Security</a></h3>
 
 <p>By default, <a href="../classes/Roda.html"><code>Roda</code></a> doesn’t turn on sessions, and if you don’t need sessions, you can skip this section.  If you do need sessions, <a href="../classes/Roda.html"><code>Roda</code></a> offers two recommended ways to implement cookie-based sessions.</p>
 
@@ -819,9 +819,9 @@ README.rdoc
 
 <p>For any cookie-based sessions, make sure that the necessary secrets (<code>:secret</code> option) are not disclosed to an attacker.  Knowledge of the secret(s) can allow an attacker to inject arbitrary session values.  In the case of <code>Rack::Session::Cookie</code>, that can also lead remote code execution.</p>
 
-<h3 id="label-Cross+Site+Request+Forgery+-28CSRF-29">Cross Site Request Forgery (CSRF)<span><a href="#label-Cross+Site+Request+Forgery+-28CSRF-29">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-Cross+Site+Request+Forgery+-28CSRF-29"><a href="#label-Cross+Site+Request+Forgery+-28CSRF-29">Cross Site Request Forgery (CSRF)</a></h3>
 
-<p>CSRF can be prevented by using the <code>route_csrf</code> plugin that ships with <a href="../classes/Roda.html"><code>Roda</code></a>. The <code>route_csrf</code> plugin uses modern security practices to create CSRF tokens, requires request-specific tokens by default, and offers control to the user over where in the routing tree that CSRF tokens are checked. For example, if you are using the <code>public</code> plugin to serve static files and the <code>assets</code> plugin to serve assets, you wouldn’t need to check for CSRF tokens for either of those, so you could put the CSRF check after those in the routing tree, but before handling other requests:</p>
+<p>CSRF can be prevented by using the <a href="lib/roda/plugins/route_csrf_rb.html">route_csrf</a> plugin that ships with <a href="../classes/Roda.html"><code>Roda</code></a>. The <a href="lib/roda/plugins/route_csrf_rb.html">route_csrf</a> plugin uses modern security practices to create CSRF tokens, requires request-specific tokens by default, and offers control to the user over where in the routing tree that CSRF tokens are checked. For example, if you are using the <code>public</code> plugin to serve static files and the <code>assets</code> plugin to serve assets, you wouldn’t need to check for CSRF tokens for either of those, so you could put the CSRF check after those in the routing tree, but before handling other requests:</p>
 
 <pre class="ruby"><span class="ruby-identifier">route</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span>
   <span class="ruby-identifier">r</span>.<span class="ruby-identifier">public</span>
@@ -833,7 +833,7 @@ README.rdoc
 <span class="ruby-keyword">end</span>
 </pre>
 
-<h3 id="label-Cross+Site+Scripting+-28XSS-29">Cross Site Scripting (XSS)<span><a href="#label-Cross+Site+Scripting+-28XSS-29">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-Cross+Site+Scripting+-28XSS-29"><a href="#label-Cross+Site+Scripting+-28XSS-29">Cross Site Scripting (XSS)</a></h3>
 
 <p>The easiest way to prevent XSS with <a href="../classes/Roda.html"><code>Roda</code></a> is to use a template library that automatically escapes output by default. The <code>:escape</code> option to the <code>render</code> plugin sets the ERB template processor to escape by default, so that in your templates:</p>
 
@@ -846,7 +846,7 @@ README.rdoc
 
 <p>This support requires <a target="_top" href="https://github.com/jeremyevans/erubi">Erubi</a>.</p>
 
-<h3 id="label-Unexpected+Parameter+Types">Unexpected Parameter Types<span><a href="#label-Unexpected+Parameter+Types">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-Unexpected+Parameter+Types"><a href="#label-Unexpected+Parameter+Types">Unexpected Parameter Types</a></h3>
 
 <p>Rack converts submitted parameters into a hash of strings, arrays, and nested hashes.  Since the user controls the submission of parameters, you should treat any submission of parameters with caution, and should be explicitly checking and/or converting types before using any submitted parameters.  One way to do this is explicitly after accessing them:</p>
 
@@ -861,11 +861,11 @@ README.rdoc
 
 <p>Where <code>some_method</code> supports both a string argument and a hash argument, and you expect the parameter will be submitted as a string, and <code>some_method</code>‘s handling of a hash argument performs an unauthorized action.</p>
 
-<p><a href="../classes/Roda.html"><code>Roda</code></a> ships with a <code>typecast_params</code> plugin that can easily handle the typecasting of submitted parameters, and it is recommended that all <a href="../classes/Roda.html"><code>Roda</code></a> applications that deal with parameters use it or another tool to explicitly convert submitted parameters to the expected types.</p>
+<p><a href="../classes/Roda.html"><code>Roda</code></a> ships with a <a href="lib/roda/plugins/typecast_params_rb.html">typecast_params</a> plugin that can easily handle the typecasting of submitted parameters, and it is recommended that all <a href="../classes/Roda.html"><code>Roda</code></a> applications that deal with parameters use it or another tool to explicitly convert submitted parameters to the expected types.</p>
 
-<h3 id="label-Content+Security+Policy">Content Security Policy<span><a href="#label-Content+Security+Policy">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-Content+Security+Policy"><a href="#label-Content+Security+Policy">Content Security Policy</a></h3>
 
-<p>The Content-Security-Policy HTTP header can be used to instruct the browser on what types of content to allow and where content can be loaded from.  <a href="../classes/Roda.html"><code>Roda</code></a> ships with a <code>content_security_policy</code> plugin that allows for the easy configuration of the content security policy.  Here’s an example of a fairly restrictive content security policy configuration:</p>
+<p>The Content-Security-Policy HTTP header can be used to instruct the browser on what types of content to allow and where content can be loaded from.  <a href="../classes/Roda.html"><code>Roda</code></a> ships with a <a href="lib/roda/plugins/content_security_policy_rb.html">content_security_policy</a> plugin that allows for the easy configuration of the content security policy.  Here’s an example of a fairly restrictive content security policy configuration:</p>
 
 <pre class="ruby"><span class="ruby-keyword">class</span> <span class="ruby-constant">App</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Roda</span>
   <span class="ruby-identifier">plugin</span> <span class="ruby-value">:content_security_policy</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">csp</span><span class="ruby-operator">|</span>
@@ -884,9 +884,9 @@ README.rdoc
 <span class="ruby-keyword">end</span>
 </pre>
 
-<h3 id="label-Other+Security+Related+HTTP+Headers">Other Security Related HTTP Headers<span><a href="#label-Other+Security+Related+HTTP+Headers">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-Other+Security+Related+HTTP+Headers"><a href="#label-Other+Security+Related+HTTP+Headers">Other Security Related HTTP Headers</a></h3>
 
-<p>You may want to look into setting the following HTTP headers, which can be done at the web server level, but can also be done at the application level using using the <code>default_headers</code> plugin:</p>
+<p>You may want to look into setting the following HTTP headers, which can be done at the web server level, but can also be done at the application level using using the <a href="lib/roda/plugins/default_headers_rb.html">default_headers</a> plugin:</p>
 <table class="rdoc-list note-list"><tbody><tr><td class='label'>Strict-Transport-Security </td><td>
 <p>Enforces SSL/TLS Connections to the application.</p>
 </td></tr><tr><td class='label'>X-Content-Type-Options </td><td>
@@ -906,13 +906,13 @@ README.rdoc
 <span class="ruby-keyword">end</span>
 </pre>
 
-<h3 id="label-Rendering+Templates+Derived+From+User+Input">Rendering Templates Derived From User Input<span><a href="#label-Rendering+Templates+Derived+From+User+Input">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-Rendering+Templates+Derived+From+User+Input"><a href="#label-Rendering+Templates+Derived+From+User+Input">Rendering Templates Derived From User Input</a></h3>
 
 <p>Roda’s rendering plugin by default checks that rendered templates are inside the views directory.  This is because rendering templates outside the views directory is not commonly needed, and it prevents a common attack (which is especially severe if there is any location on the file system that users can write files to).</p>
 
 <p>You can specify which directories are allowed using the <code>:allowed_paths</code> render plugin option. If you really want to turn path checking off, you can do so via the <code>check_paths: false</code> render plugin option.</p>
 
-<h2 id="label-Code+Reloading">Code Reloading<span><a href="#label-Code+Reloading">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="label-Code+Reloading"><a href="#label-Code+Reloading">Code Reloading</a></h2>
 
 <p><a href="../classes/Roda.html"><code>Roda</code></a> does not ship with integrated support for code reloading, but there are rack-based reloaders that will work with <a href="../classes/Roda.html"><code>Roda</code></a> apps.</p>
 
@@ -926,7 +926,7 @@ README.rdoc
 
 <p>There is no one reloading solution that is the best for all applications and development approaches.  Consider your needs and the tradeoffs of each of the reloading approaches, and pick the one you think will work best.  If you are unsure where to start, it may be best to start with Zeitwerk, and only consider other options if it does not work well for you.</p>
 
-<h2 id="label-Plugins">Plugins<span><a href="#label-Plugins">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="label-Plugins"><a href="#label-Plugins">Plugins</a></h2>
 
 <p>By design, <a href="../classes/Roda.html"><code>Roda</code></a> has a very small core, providing only the essentials. All nonessential features are added via plugins.</p>
 
@@ -934,7 +934,7 @@ README.rdoc
 
 <p><a target="_top" href="http://roda.jeremyevans.net/documentation.html#included-plugins">Roda ships with a large number of plugins</a>, and <a target="_top" href="http://roda.jeremyevans.net/documentation.html#external">some other libraries ship with support for Roda</a>.</p>
 
-<h3 id="label-How+to+create+plugins">How to create plugins<span><a href="#label-How+to+create+plugins">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-How+to+create+plugins"><a href="#label-How+to+create+plugins">How to create plugins</a></h3>
 
 <p>Authoring your own plugins is pretty straightforward. Plugins are just modules, which may contain any of the following modules:</p>
 <table class="rdoc-list note-list"><tbody><tr><td class='label'>InstanceMethods </td><td>
@@ -970,7 +970,7 @@ README.rdoc
 <span class="ruby-constant">Roda</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-constant">MarkdownHelper</span>
 </pre>
 
-<h3 id="label-Registering+plugins">Registering plugins<span><a href="#label-Registering+plugins">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-Registering+plugins"><a href="#label-Registering+plugins">Registering plugins</a></h3>
 
 <p>If you want to ship a <a href="../classes/Roda.html"><code>Roda</code></a> plugin in a gem, but still have <a href="../classes/Roda.html"><code>Roda</code></a> load it automatically via <code>Roda.plugin :plugin_name</code>, you should place it where it can be required via <code>roda/plugins/plugin_name</code> and then have the file register it as a plugin via <a href="../classes/Roda/RodaPlugins.html#method-c-register_plugin"><code>Roda::RodaPlugins.register_plugin</code></a>. It’s recommended, but not required, that you store your plugin module in the <a href="../classes/Roda/RodaPlugins.html"><code>Roda::RodaPlugins</code></a> namespace:</p>
 
@@ -993,25 +993,25 @@ README.rdoc
 
 <p>If you are planning on shipping your plugin in an external gem, it is recommended that you follow <a target="_top" href="http://guides.rubygems.org/name-your-gem/">standard gem naming conventions for extensions</a>. So if your plugin module is named <code>FooBar</code>, your gem name should be <code>roda-foo_bar</code>.</p>
 
-<h2 id="label-No+Introspection">No Introspection<span><a href="#label-No+Introspection">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="label-No+Introspection"><a href="#label-No+Introspection">No Introspection</a></h2>
 
 <p>Because a routing tree does not store the routes in a data structure, but directly executes the routing tree block, you cannot introspect the routes when using a routing tree.</p>
 
 <p>If you would like to introspect your routes when using <a href="../classes/Roda.html"><code>Roda</code></a>, there is an external plugin named <a target="_top" href="https://github.com/jeremyevans/roda-route_list">roda-route_list</a>, which allows you to add appropriate comments to your routing files, and has a parser that will parse those comments into routing metadata that you can then introspect.</p>
 
-<h2 id="label-Inspiration">Inspiration<span><a href="#label-Inspiration">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="label-Inspiration"><a href="#label-Inspiration">Inspiration</a></h2>
 
 <p><a href="../classes/Roda.html"><code>Roda</code></a> was inspired by <a target="_top" href="http://www.sinatrarb.com">Sinatra</a> and <a target="_top" href="http://cuba.is">Cuba</a>. It started out as a fork of Cuba, from which it borrows the idea of using a routing tree (which Cuba in turn took from <a target="_top" href="https://github.com/chneukirchen/rum">Rum</a>). From Sinatra, it takes the ideas that route blocks should return the request bodies and that routes should be canonical. Roda’s plugin system is based on the plugin system used by <a target="_top" href="http://sequel.jeremyevans.net">Sequel</a>.</p>
 
-<h2 id="label-Ruby+Support+Policy">Ruby Support Policy<span><a href="#label-Ruby+Support+Policy">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="label-Ruby+Support+Policy"><a href="#label-Ruby+Support+Policy">Ruby Support Policy</a></h2>
 
 <p><a href="../classes/Roda.html"><code>Roda</code></a> fully supports the currently supported versions of Ruby (MRI) and JRuby.  It may support unsupported versions of Ruby or JRuby, but such support may be dropped in any minor version if keeping it becomes a support issue.  The minimum Ruby version required to run the current version of <a href="../classes/Roda.html"><code>Roda</code></a> is 1.9.2, and the minimum JRuby version is 9.0.0.0.</p>
 
-<h2 id="label-License">License<span><a href="#label-License">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="label-License"><a href="#label-License">License</a></h2>
 
 <p>MIT</p>
 
-<h2 id="label-Maintainer">Maintainer<span><a href="#label-Maintainer">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="label-Maintainer"><a href="#label-Maintainer">Maintainer</a></h2>
 
 <p>Jeremy Evans &lt;code@jeremyevans.net&gt;</p>
 </div>

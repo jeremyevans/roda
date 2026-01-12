@@ -33,20 +33,20 @@ doc/release_notes/3.42.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>A recheck_precompiled_assets plugin has been added, which allows for checking for updates to the precompiled asset metadata file, and automatically using the updated data.</p>
+<p>A <a href="../../lib/roda/plugins/recheck_precompiled_assets_rb.html">recheck_precompiled_assets</a> plugin has been added, which allows for checking for updates to the precompiled asset metadata file, and automatically using the updated data.</p>
 </li><li>
-<p>The common_logger plugin now supports a :method plugin option to specify the method to call on the logger.</p>
+<p>The <a href="../../lib/roda/plugins/common_logger_rb.html">common_logger</a> plugin now supports a :method plugin option to specify the method to call on the logger.</p>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
 <p>Plugins and middleware that use keyword arguments are now supported in Ruby 3.</p>
 </li><li>
 <p>The compile_assets class method in the assets plugin now uses an atomic approach to writing the precompiled asset metadata file.</p>
 </li><li>
-<p>Minor method visibility issues have been fixed.  The custom_matchers plugin no longer makes the unsupported_matcher request method public, and the render plugin no longer makes the _layout_method public when the application is frozen.</p>
+<p>Minor method visibility issues have been fixed.  The <a href="../../lib/roda/plugins/custom_matchers_rb.html">custom_matchers</a> plugin no longer makes the unsupported_matcher request method public, and the render plugin no longer makes the _layout_method public when the application is frozen.</p>
 </li></ul>
 </div>
 <div id='context'>

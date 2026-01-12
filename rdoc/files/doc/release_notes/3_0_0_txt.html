@@ -33,7 +33,7 @@ doc/release_notes/3.0.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-Major+Changes">Major Changes<span><a href="#label-Major+Changes">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Major+Changes"><a href="#label-Major+Changes">Major Changes</a></h1>
 <ul><li>
 <p>String matchers now match literally by default, for simplicity, understandability, and performance.  Use the String class matcher or a symbol matcher to match arbitrary segments.</p>
 
@@ -49,14 +49,14 @@ doc/release_notes/3.0.0.txt
 <span class="ruby-keyword">end</span>
 </pre>
 
-<p>You can use the placeholder_string_matchers plugin to restore the historical behavior if you don’t want to modify your routes.</p>
+<p>You can use the <a href="../../lib/roda/plugins/placeholder_string_matchers_rb.html">placeholder_string_matchers</a> plugin to restore the historical behavior if you don’t want to modify your routes.</p>
 </li><li>
 <p>Using an unsupported matcher now raises an error, making it more likely to detect using a unexpected value as a matcher (which previously matched everything).</p>
 </li><li>
 <p>Have a route/match block return an unsupported value now raises an error if nothing has been written to the body, making it more likely to detect using an unexpected value as a block result (which previously was ignored).</p>
 </li></ul>
 
-<h1 id="label-Backwards+Compatibility">Backwards Compatibility<span><a href="#label-Backwards+Compatibility">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Backwards+Compatibility"><a href="#label-Backwards+Compatibility">Backwards Compatibility</a></h1>
 <ul><li>
 <p>Deprecated plugins, features, and constants have been removed. Before upgrading to <a href="3_0_0_txt.html">3.0.0</a>, please upgrade to <a href="2_29_0_txt.html">2.29.0</a> first and fix any deprecation warnings.</p>
 </li><li>
@@ -72,21 +72,21 @@ doc/release_notes/3.0.0.txt
 </li><li>
 <p>public_send is now used instead of send internally unless it is expected that private methods will be called.</p>
 </li><li>
-<p>The match methods added by the symbol_matchers and hash_matchers plugins are now private instead of public.</p>
+<p>The match methods added by the <a href="../../lib/roda/plugins/symbol_matchers_rb.html">symbol_matchers</a> and hash_matchers plugins are now private instead of public.</p>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
 <p>The streaming plugin has been greatly simplified, by dropping deprecated compatibility for EventMachine.</p>
 </li><li>
-<p>It is now possible to reset the :include_request option to false in the json and json_parser plugins by loading the plugin a second time with the option set.</p>
+<p>It is now possible to reset the :include_request option to false in the json and <a href="../../lib/roda/plugins/json_parser_rb.html">json_parser</a> plugins by loading the plugin a second time with the option set.</p>
 </li><li>
-<p>The precompile_templates plugin now always sorts locals.  This plugin should now be used with Tilt 2.0.1+ (which also sorts locals), though it will still work with earlier Tilt versions.</p>
+<p>The <a href="../../lib/roda/plugins/precompile_templates_rb.html">precompile_templates</a> plugin now always sorts locals.  This plugin should now be used with Tilt 2.0.1+ (which also sorts locals), though it will still work with earlier Tilt versions.</p>
 </li><li>
-<p>The multi_run plugin now recomputes the regexp when freezing the app.</p>
+<p>The <a href="../../lib/roda/plugins/multi_run_rb.html">multi_run</a> plugin now recomputes the regexp when freezing the app.</p>
 </li></ul>
 
-<h1 id="label-Deprecated+Features">Deprecated Features<span><a href="#label-Deprecated+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Deprecated+Features"><a href="#label-Deprecated+Features">Deprecated Features</a></h1>
 
 <p>These features will be removed in <a href="../../../classes/Roda.html"><code>Roda</code></a> <a href="3_1_0_txt.html">3.1.0</a>:</p>
 <ul><li>

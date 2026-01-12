@@ -33,7 +33,7 @@ doc/release_notes/3.11.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-Improvements">Improvements<span><a href="#label-Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Improvements"><a href="#label-Improvements">Improvements</a></h1>
 <ul><li>
 <p>The order in which internal plugin before and after hooks are run when multiple plugins are loaded is now fixed and does not depend on the order in which the plugins are loaded.  This can prevent some issues in cases the plugins were not loaded in the order previously recommended in the documentation.</p>
 
@@ -43,14 +43,14 @@ doc/release_notes/3.11.0.txt
 </li><li>
 <p>heartbeat</p>
 </li><li>
-<p>static_routing</p>
+<p><a href="../../lib/roda/plugins/static_routing_rb.html">static_routing</a></p>
 </li></ul>
 
 <p>and internal plugin after hooks are now run in the following order:</p>
 <ul><li>
-<p>class_level_routing</p>
+<p><a href="../../lib/roda/plugins/class_level_routing_rb.html">class_level_routing</a></p>
 </li><li>
-<p>status_handler</p>
+<p><a href="../../lib/roda/plugins/status_handler_rb.html">status_handler</a></p>
 </li><li>
 <p>head</p>
 </li><li>
@@ -68,13 +68,13 @@ doc/release_notes/3.11.0.txt
 <p>This does not affect backwards compatibility, as compressed sessions will still be decompressed correctly, unless the size of the session cookie when not using compression is over 4096 bytes.</p>
 </li></ul>
 
-<h1 id="label-Backwards+Compatibility">Backwards Compatibility<span><a href="#label-Backwards+Compatibility">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Backwards+Compatibility"><a href="#label-Backwards+Compatibility">Backwards Compatibility</a></h1>
 <ul><li>
-<p>When using the error_handler plugin, if routing raises an exception that is handled by the error handler, but an exception is raised by a plugin internal after hook after the error handler has been run, the exception will be logged to the rack.errors entry in the environment, but it will be otherwise ignored.</p>
+<p>When using the <a href="../../lib/roda/plugins/error_handler_rb.html">error_handler</a> plugin, if routing raises an exception that is handled by the error handler, but an exception is raised by a plugin internal after hook after the error handler has been run, the exception will be logged to the rack.errors entry in the environment, but it will be otherwise ignored.</p>
 
 <p>Exceptions raised inside the error handler will continue to be be raised to the application’s caller.</p>
 
-<p>Additionally, the error_handler plugin no longers call before hooks during error handling.</p>
+<p>Additionally, the <a href="../../lib/roda/plugins/error_handler_rb.html">error_handler</a> plugin no longers call before hooks during error handling.</p>
 </li><li>
 <p>A private Roda#_call method has been added.  This could potentially cause issues for applications that add their own _call method.</p>
 </li></ul>

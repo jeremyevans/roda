@@ -36,7 +36,7 @@ Roda::RodaPlugins::ErbH
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The erb_h plugin adds an <code>h</code> instance method that will HTML escape the input and return it. This is similar to the h plugin, but it uses erb/escape to implement the HTML escaping, which offers faster performance.</p>
+<p>The <a href="../../../files/lib/roda/plugins/erb_h_rb.html">erb_h</a> plugin adds an <code>h</code> instance method that will HTML escape the input and return it. This is similar to the h plugin, but it uses erb/escape to implement the HTML escaping, which offers faster performance.</p>
 
 <p>To make sure that this speeds up applications using the h plugin, this depends on the h plugin, and overrides the h method.</p>
 
@@ -49,7 +49,7 @@ Roda::RodaPlugins::ErbH
 <span class="ruby-keyword">end</span>
 </pre>
 
-<p>The faster performance offered by the erb_h plugin is due to erb/escape avoiding allocations if not needed (returning the input object if no escaping is needed).  That behavior change can cause problems if you mutate the result of the h method (which can mutate the input), or mutate the input of the h method after calling it (which can mutate the result).</p>
+<p>The faster performance offered by the <a href="../../../files/lib/roda/plugins/erb_h_rb.html">erb_h</a> plugin is due to erb/escape avoiding allocations if not needed (returning the input object if no escaping is needed).  That behavior change can cause problems if you mutate the result of the h method (which can mutate the input), or mutate the input of the h method after calling it (which can mutate the result).</p>
 </div>
 <div id='method-list'>
 <h2>Methods</h2>

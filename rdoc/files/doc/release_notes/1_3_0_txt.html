@@ -33,7 +33,7 @@ doc/release_notes/1.3.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-Preparation+for+Roda+2">Preparation for <a href="../../../classes/Roda.html"><code>Roda</code></a> 2<span><a href="#label-Preparation+for+Roda+2">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Preparation+for+Roda+2"><a href="#label-Preparation+for+Roda+2">Preparation for <a href="../../../classes/Roda.html"><code>Roda</code></a> 2</a></h1>
 <ul><li>
 <p>In <a href="../../../classes/Roda.html"><code>Roda</code></a> 2 (the next version), the PATH_INFO and SCRIPT_NAME env variables will not be modified during routing. Instead, <a href="../../../classes/Roda.html"><code>Roda</code></a> will use the static_path_info plugin behavior by default. Users are strongly encouraged to use the static_path_info plugin to make sure their apps will work with <a href="../../../classes/Roda.html"><code>Roda</code></a> 2.</p>
 </li><li>
@@ -42,28 +42,28 @@ doc/release_notes/1.3.0.txt
 <p>The issues mentioned below should all have deprecation warnings, except where noted.</p>
 </li></ul>
 
-<h2 id="label-New+Plugins+to+Replace+Deprecated+Features">New Plugins to Replace Deprecated Features<span><a href="#label-New+Plugins+to+Replace+Deprecated+Features">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="label-New+Plugins+to+Replace+Deprecated+Features"><a href="#label-New+Plugins+to+Replace+Deprecated+Features">New Plugins to Replace Deprecated Features</a></h2>
 <ul><li>
 <p>RodaResponse#set_cookie and delete_cookie have been moved to the cookies plugin.</p>
 </li><li>
-<p>Roda.request_module and .response_module have been moved to the module_include plugin.</p>
+<p>Roda.request_module and .response_module have been moved to the <a href="../../lib/roda/plugins/module_include_rb.html">module_include</a> plugin.</p>
 </li><li>
-<p>Roda.hash_matcher has been moved to the hash_matcher plugin.</p>
+<p>Roda.hash_matcher has been moved to the <a href="../../lib/roda/plugins/hash_matcher_rb.html">hash_matcher</a> plugin.</p>
 </li><li>
 <p>The :extension hash matcher has been moved to the path_machers plugin.  This plugin also contains new :prefix and :suffix hash matchers.</p>
 </li><li>
-<p>The :param and :param! hash matchers have been moved to the param_matchers plugin.</p>
+<p>The :param and :param! hash matchers have been moved to the <a href="../../lib/roda/plugins/param_matchers_rb.html">param_matchers</a> plugin.</p>
 </li></ul>
 
-<h2 id="label-Other+Deprecation+Issues">Other Deprecation Issues<span><a href="#label-Other+Deprecation+Issues">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="label-Other+Deprecation+Issues"><a href="#label-Other+Deprecation+Issues">Other Deprecation Issues</a></h2>
 <ul><li>
 <p>The :opts render plugin option and :opts option to render and view are now deprecated.  Use the :template_opts option instead.</p>
 </li><li>
 <p>RodaRequest#full_path_info has been deprecated, switch to using path.</p>
 </li><li>
-<p>Mutating plugin option hashes for the chunked, default_headers, error_email, json, and render plugins is now deprecated, these option hashes will be frozen in <a href="../../../classes/Roda.html"><code>Roda</code></a> 2.</p>
+<p>Mutating plugin option hashes for the chunked, <a href="../../lib/roda/plugins/default_headers_rb.html">default_headers</a>, <a href="../../lib/roda/plugins/error_email_rb.html">error_email</a>, json, and render plugins is now deprecated, these option hashes will be frozen in <a href="../../../classes/Roda.html"><code>Roda</code></a> 2.</p>
 </li><li>
-<p>The :header hash matcher in the header_matchers plugin now gives a deprecation warning, because in <a href="../../../classes/Roda.html"><code>Roda</code></a> 2, the matcher will yield the value of the header to the block.  To get the new behavior and silence the deprecation warning, you need to set an option:</p>
+<p>The :header hash matcher in the <a href="../../lib/roda/plugins/header_matchers_rb.html">header_matchers</a> plugin now gives a deprecation warning, because in <a href="../../../classes/Roda.html"><code>Roda</code></a> 2, the matcher will yield the value of the header to the block.  To get the new behavior and silence the deprecation warning, you need to set an option:</p>
 
 <pre class="ruby"><span class="ruby-constant">Roda</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:match_header_yield</span>] = <span class="ruby-keyword">true</span>
 </pre>
@@ -71,33 +71,33 @@ doc/release_notes/1.3.0.txt
 <p>Mutating json_result_classes directly in the json plugin is now deprecated.  You should now pass a :classes option to the plugin specifying the classes to convert, if you want to handle classes other than Array and Hash.  There will not be a deprecation warning if you attempt to mutate json_result_classes.</p>
 </li></ul>
 
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
 <p>The Roda.freeze method now freezes internal datastructures to avoid thread safety issues.  The plugins that ship with <a href="../../../classes/Roda.html"><code>Roda</code></a> will freeze their datastructures when Roda.freeze is called.  It is recommended that production applications call freeze on the application after fully loading it, especially if they are using a threaded webserver and a non-MRI ruby.</p>
 </li><li>
-<p>A delete_empty_headers plugin has been added that automatically deletes headers set to the empty string.  This makes it simpler to delete default headers if they shouldn’t be set for a specific request.</p>
+<p>A <a href="../../lib/roda/plugins/delete_empty_headers_rb.html">delete_empty_headers</a> plugin has been added that automatically deletes headers set to the empty string.  This makes it simpler to delete default headers if they shouldn’t be set for a specific request.</p>
 </li><li>
 <p>A class_delegate method has been added to the delegate plugin. This makes it easier to create instance methods that call class methods.</p>
 </li><li>
 <p>Roda::RodaMajorVersion, RodaMinorVersion, and RodaPatchVersion constants have been added.</p>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
-<p>The error_handler plugin now uses a new response instead of reusing the existing response.  This fixes cases where changing the Content-Type and then raising an exception would result in a error page that used the previously set Content-Type.</p>
+<p>The <a href="../../lib/roda/plugins/error_handler_rb.html">error_handler</a> plugin now uses a new response instead of reusing the existing response.  This fixes cases where changing the Content-Type and then raising an exception would result in a error page that used the previously set Content-Type.</p>
 </li><li>
-<p>The not_found plugin now clears previous set headers before calling not found.  This fixes cases where Content-Type was set previously, and also fixes an incorrect Content-Length being used for the response.</p>
+<p>The <a href="../../lib/roda/plugins/not_found_rb.html">not_found</a> plugin now clears previous set headers before calling not found.  This fixes cases where Content-Type was set previously, and also fixes an incorrect Content-Length being used for the response.</p>
 </li><li>
 <p>The static_path_info plugin now restores the original SCRIPT_NAME and PATH_INFO before returning from r.run, fixing usage with some middleware.</p>
 </li><li>
-<p>The multi_run plugin now works when subclassing the app.</p>
+<p>The <a href="../../lib/roda/plugins/multi_run_rb.html">multi_run</a> plugin now works when subclassing the app.</p>
 </li><li>
-<p>The default_headers plugin is now faster by skipping an unnecessary hash duplication.</p>
+<p>The <a href="../../lib/roda/plugins/default_headers_rb.html">default_headers</a> plugin is now faster by skipping an unnecessary hash duplication.</p>
 </li><li>
 <p>A Gemfile has been added to make development slightly easier.</p>
 </li></ul>
 
-<h1 id="label-Backwards+Compatibility">Backwards Compatibility<span><a href="#label-Backwards+Compatibility">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Backwards+Compatibility"><a href="#label-Backwards+Compatibility">Backwards Compatibility</a></h1>
 <ul><li>
 <p>RodaResponse is no longer a subclass of Rack::Response, it is now a subclass of Object.  This shouldn’t have an effect unless you were calling a method on an instance that was defined by Rack::Response and not RodaResponse, but most of those methods would have raised exceptions.</p>
 </li></ul>

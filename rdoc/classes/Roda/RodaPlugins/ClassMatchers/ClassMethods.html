@@ -57,7 +57,7 @@ Roda::RodaPlugins::ClassMatchers::ClassMethods
 </div>
 <div class='description'>
 
-<p>Set the matcher and block to use for the given class. The matcher can be a regexp, registered class matcher, or registered symbol matcher (if using the symbol_matchers plugin).</p>
+<p>Set the matcher and block to use for the given class. The matcher can be a regexp, registered class matcher, or registered symbol matcher (if using the <a href="../../../../files/lib/roda/plugins/symbol_matchers_rb.html">symbol_matchers</a> plugin).</p>
 
 <p>If providing a regexp, the block given will be called with all regexp captures. If providing a registered class or symbol, the block will be called with the captures returned by the block for the registered class or symbol, or the regexp captures if no block was registered with the class or symbol. In either case, if a block is given, it should return an array with the captures to yield to the match block.</p>
 
@@ -86,7 +86,7 @@ Roda::RodaPlugins::ClassMatchers::ClassMethods
 </div>
 <div class='description'>
 
-<p>Freeze the class_matchers hash when freezing the app.</p>
+<p>Freeze the <a href="../../../../files/lib/roda/plugins/class_matchers_rb.html">class_matchers</a> hash when freezing the app.</p>
 
 </div>
 <div class='source'>

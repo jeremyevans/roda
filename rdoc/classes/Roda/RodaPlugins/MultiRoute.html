@@ -36,9 +36,9 @@ Roda::RodaPlugins::MultiRoute
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The multi_route plugin builds on the named_routes plugin and allows for dispatching to multiple named routes # by calling the <code>r.multi_route</code> method, which will check # if the first segment in the path matches a named route, and dispatch to that named route.</p>
+<p>The <a href="../../../files/lib/roda/plugins/multi_route_rb.html">multi_route</a> plugin builds on the <a href="../../../files/lib/roda/plugins/named_routes_rb.html">named_routes</a> plugin and allows for dispatching to multiple named routes # by calling the <code>r.multi_route</code> method, which will check # if the first segment in the path matches a named route, and dispatch to that named route.</p>
 
-<p>The hash_branches plugin offers a <code>r.hash_branches</code> method that is similar to and performs better than the <code>r.multi_route</code> method, and it is recommended to consider using that instead of this plugin.</p>
+<p>The <a href="../../../files/lib/roda/plugins/hash_branches_rb.html">hash_branches</a> plugin offers a <code>r.hash_branches</code> method that is similar to and performs better than the <code>r.multi_route</code> method, and it is recommended to consider using that instead of this plugin.</p>
 
 <p>Example:</p>
 
@@ -61,7 +61,7 @@ Roda::RodaPlugins::MultiRoute
 <span class="ruby-keyword">end</span>
 </pre>
 
-<p>Note that only named routes with string names will be dispatched to by the <code>r.multi_route</code> method. Named routes with other names can be dispatched to using the named_routes plugin API, but will not be automatically dispatched to by <code>r.multi_route</code>.</p>
+<p>Note that only named routes with string names will be dispatched to by the <code>r.multi_route</code> method. Named routes with other names can be dispatched to using the <a href="../../../files/lib/roda/plugins/named_routes_rb.html">named_routes</a> plugin API, but will not be automatically dispatched to by <code>r.multi_route</code>.</p>
 
 <p>You can provide a block to <code>r.multi_route</code> that is called if the route matches but the named route did not handle the request:</p>
 
@@ -70,11 +70,11 @@ Roda::RodaPlugins::MultiRoute
 <span class="ruby-keyword">end</span>
 </pre>
 
-<p>If a block is not provided to multi_route, the return value of the named route block will be used.</p>
+<p>If a block is not provided to <a href="../../../files/lib/roda/plugins/multi_route_rb.html">multi_route</a>, the return value of the named route block will be used.</p>
 
-<h2 id="module-Roda::RodaPlugins::MultiRoute-label-Namespace+Support">Namespace Support<span><a href="#module-Roda::RodaPlugins::MultiRoute-label-Namespace+Support">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="module-Roda::RodaPlugins::MultiRoute-label-Namespace+Support"><a href="#module-Roda::RodaPlugins::MultiRoute-label-Namespace+Support">Namespace Support</a></h2>
 
-<p>The multi_route plugin also has support for namespaces, allowing you to use <code>r.multi_route</code> at multiple levels in your routing tree.  Example:</p>
+<p>The <a href="../../../files/lib/roda/plugins/multi_route_rb.html">multi_route</a> plugin also has support for namespaces, allowing you to use <code>r.multi_route</code> at multiple levels in your routing tree.  Example:</p>
 
 <pre class="ruby"><span class="ruby-identifier">route</span>(<span class="ruby-string">&#39;foo&#39;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span>
   <span class="ruby-identifier">r</span>.<span class="ruby-identifier">multi_route</span>(<span class="ruby-string">&#39;foo&#39;</span>)

@@ -80,7 +80,7 @@ Roda::RodaPlugins::Halt
 
 <p>Note that there is a difference between providing status, headers, and body as separate arguments and providing them as a single rack response array.  With a rack response array, the values are used directly, while with 3 arguments, the headers given are merged into the existing headers and the given body is written to the existing response body.</p>
 
-<p>If using other plugins that recognize additional types of match block responses, such as <code>symbol_views</code> and <code>json</code>, you can pass those additional types to <code>r.halt</code>:</p>
+<p>If using other plugins that recognize additional types of match block responses, such as <a href="../../../files/lib/roda/plugins/symbol_views_rb.html">symbol_views</a> and <code>json</code>, you can pass those additional types to <code>r.halt</code>:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:halt</span>
 <span class="ruby-identifier">plugin</span> <span class="ruby-value">:symbol_views</span>

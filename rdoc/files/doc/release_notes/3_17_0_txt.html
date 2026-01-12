@@ -33,9 +33,9 @@ doc/release_notes/3.17.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>A route_block_args plugin has been added, allowing you to customize which objects are yielded to the the route block. You call the plugin with a block, which is evaluated in the context of the instance and should return an array of arguments for the instance to yield to the route block.</p>
+<p>A <a href="../../lib/roda/plugins/route_block_args_rb.html">route_block_args</a> plugin has been added, allowing you to customize which objects are yielded to the the route block. You call the plugin with a block, which is evaluated in the context of the instance and should return an array of arguments for the instance to yield to the route block.</p>
 
 <p>To yield both the request and response objects, you can do:</p>
 
@@ -50,23 +50,23 @@ doc/release_notes/3.17.0.txt
 
 <p>In addition to the main route block, using this plugin also affects the arguments passed to routing blocks in the following plugins:</p>
 <ul><li>
-<p>class_level_routing</p>
+<p><a href="../../lib/roda/plugins/class_level_routing_rb.html">class_level_routing</a></p>
 </li><li>
 <p>mailer</p>
 </li><li>
-<p>mail_processor</p>
+<p><a href="../../lib/roda/plugins/mail_processor_rb.html">mail_processor</a></p>
 </li><li>
-<p>multi_route</p>
+<p><a href="../../lib/roda/plugins/multi_route_rb.html">multi_route</a></p>
 </li><li>
-<p>static_routing</p>
+<p><a href="../../lib/roda/plugins/static_routing_rb.html">static_routing</a></p>
 </li></ul>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
-<p>The set_layout_opts method in the view_options plugin can now override the layout template even if the render plugin :layout option is given.</p>
+<p>The set_layout_opts method in the <a href="../../lib/roda/plugins/view_options_rb.html">view_options</a> plugin can now override the layout template even if the render plugin :layout option is given.</p>
 </li><li>
-<p>The mailer and mail_processor plugin now integrate with the hooks plugin to support before/after hooks.</p>
+<p>The mailer and <a href="../../lib/roda/plugins/mail_processor_rb.html">mail_processor</a> plugin now integrate with the hooks plugin to support before/after hooks.</p>
 </li><li>
 <p>Dispatching to the route block and RodaResponse#finish are both slightly faster.</p>
 </li><li>
@@ -75,9 +75,9 @@ doc/release_notes/3.17.0.txt
 <p>The core now recognizes when plugins are using the internal after hook, and automatically loads the internal plugin supporting the after hook.</p>
 </li></ul>
 
-<h1 id="label-Backwards+Compatibility">Backwards Compatibility<span><a href="#label-Backwards+Compatibility">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Backwards+Compatibility"><a href="#label-Backwards+Compatibility">Backwards Compatibility</a></h1>
 <ul><li>
-<p>When using the render plugin with a :layout option, the render_opts :layout option will be set to true if the layout is enabled. Previously, the render_opts :layout option would retain the value given as the plugin option.  Options for the layout (including the template) are still available in the render_opts :layout_opts option.  This change was made to fix the set_layout_opts bug in the view_options plugin.</p>
+<p>When using the render plugin with a :layout option, the render_opts :layout option will be set to true if the layout is enabled. Previously, the render_opts :layout option would retain the value given as the plugin option.  Options for the layout (including the template) are still available in the render_opts :layout_opts option.  This change was made to fix the set_layout_opts bug in the <a href="../../lib/roda/plugins/view_options_rb.html">view_options</a> plugin.</p>
 </li><li>
 <p>RodaResponse#initialize no longer sets the response status to nil if it was already set.</p>
 </li><li>

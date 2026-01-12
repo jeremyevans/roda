@@ -36,7 +36,7 @@ Roda::RodaPlugins::MatchAffix
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The match_affix plugin allows changing the default prefix and suffix used for match patterns.  Roda’s default behavior for a match pattern like <code>&quot;albums&quot;</code> is to use the pattern <code>/\A\/(?:albums)(?=\/|\z)/</code>.  This prefixes the pattern with <code>/</code> and suffixes it with <code>(?=\/|\z)</code>.  With the match_affix plugin, you can change the prefix and suffix to use.  So if you want to be explicit and require a leading <code>/</code> in patterns, you can set the prefix to <code>&quot;&quot;</code>.  If you want to consume a trailing slash instead of leaving it, you can set the suffix to <code>(\/|\z)</code>.</p>
+<p>The <a href="../../../files/lib/roda/plugins/match_affix_rb.html">match_affix</a> plugin allows changing the default prefix and suffix used for match patterns.  Roda’s default behavior for a match pattern like <code>&quot;albums&quot;</code> is to use the pattern <code>/\A\/(?:albums)(?=\/|\z)/</code>.  This prefixes the pattern with <code>/</code> and suffixes it with <code>(?=\/|\z)</code>.  With the <a href="../../../files/lib/roda/plugins/match_affix_rb.html">match_affix</a> plugin, you can change the prefix and suffix to use.  So if you want to be explicit and require a leading <code>/</code> in patterns, you can set the prefix to <code>&quot;&quot;</code>.  If you want to consume a trailing slash instead of leaving it, you can set the suffix to <code>(\/|\z)</code>.</p>
 
 <p>You set the prefix and suffix to use by passing arguments when loading the plugin:</p>
 
@@ -55,7 +55,7 @@ Roda::RodaPlugins::MatchAffix
 
 <p>will not modify the prefix and will change the suffix so that it consumes a trailing slash at the end of the path only.</p>
 
-<p>This plugin automatically loads the placeholder_string_matchers plugin.</p>
+<p>This plugin automatically loads the <a href="../../../files/lib/roda/plugins/placeholder_string_matchers_rb.html">placeholder_string_matchers</a> plugin.</p>
 </div>
 <div id='method-list'>
 <h2>Methods</h2>

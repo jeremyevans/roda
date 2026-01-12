@@ -33,9 +33,9 @@ doc/release_notes/3.16.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>A mail_processor plugin has been added for processing mail using a routing tree. Quick example:</p>
+<p>A <a href="../../lib/roda/plugins/mail_processor_rb.html">mail_processor</a> plugin has been added for processing mail using a routing tree. Quick example:</p>
 
 <pre class="ruby"><span class="ruby-keyword">class</span> <span class="ruby-constant">MailProcessor</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Roda</span>
   <span class="ruby-identifier">plugin</span> <span class="ruby-value">:mail_processor</span>
@@ -60,7 +60,7 @@ doc/release_notes/3.16.0.txt
 <pre class="ruby"><span class="ruby-constant">MailProcessor</span>.<span class="ruby-identifier">process_mail</span>(<span class="ruby-constant">Mail</span>.<span class="ruby-identifier">read</span>(<span class="ruby-string">&#39;/path/to/message.eml&#39;</span>))
 </pre>
 
-<p>The mail_processor routing tree uses routing methods specific to mail:</p>
+<p>The <a href="../../lib/roda/plugins/mail_processor_rb.html">mail_processor</a> routing tree uses routing methods specific to mail:</p>
 <table class="rdoc-list note-list"><tbody><tr><td class='label'>r.from </td><td>
 <p>match on the mail From address</p>
 </td></tr><tr><td class='label'>r.to </td><td>
@@ -81,7 +81,7 @@ doc/release_notes/3.16.0.txt
 
 <p>To mark a mail as having been handled, you call the r.handle method with a block, or one of the above methods prefixed by handle_ (e.g. r.handle_text).</p>
 
-<p>The mail_processor plugin supports hooks that are called for handled mail, unhandled mail, and all mail (for archiving).  It also supports the ability to configure how reply text is parsed out of mail, who to consider as the recipients of the email, and the ability to have separate routing blocks per recipient email address (with O(1) delegation to the appropriate block if the recipient addresses to match is a string).</p>
+<p>The <a href="../../lib/roda/plugins/mail_processor_rb.html">mail_processor</a> plugin supports hooks that are called for handled mail, unhandled mail, and all mail (for archiving).  It also supports the ability to configure how reply text is parsed out of mail, who to consider as the recipients of the email, and the ability to have separate routing blocks per recipient email address (with O(1) delegation to the appropriate block if the recipient addresses to match is a string).</p>
 </li></ul>
 </div>
 <div id='context'>

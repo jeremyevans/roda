@@ -33,9 +33,9 @@ doc/release_notes/3.7.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>A content_security_policy plugin has been added for setting up an appropriate Content-Security-Policy header.  To configure the default policy, load the plugin with a block:</p>
+<p>A <a href="../../lib/roda/plugins/content_security_policy_rb.html">content_security_policy</a> plugin has been added for setting up an appropriate Content-Security-Policy header.  To configure the default policy, load the plugin with a block:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:content_security_policy</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">csp</span><span class="ruby-operator">|</span>
   <span class="ruby-identifier">csp</span>.<span class="ruby-identifier">default_src</span> <span class="ruby-value">:none</span>
@@ -52,7 +52,7 @@ doc/release_notes/3.7.0.txt
 
 <p>It’s recommended that use use a default_src of :none at the top of the policy, then explicitly change other settings (e.g. img_src) when you want to allow content.</p>
 
-<p>Anywhere in the routing tree, you can use the content_security_policy method to override the default policy.  You can pass this method a block:</p>
+<p>Anywhere in the routing tree, you can use the <a href="../../lib/roda/plugins/content_security_policy_rb.html">content_security_policy</a> method to override the default policy.  You can pass this method a block:</p>
 
 <pre class="ruby"><span class="ruby-identifier">r</span>.<span class="ruby-identifier">get</span> <span class="ruby-string">&#39;foo&#39;</span> <span class="ruby-keyword">do</span>
   <span class="ruby-identifier">content_security_policy</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">csp</span><span class="ruby-operator">|</span>
@@ -155,9 +155,9 @@ doc/release_notes/3.7.0.txt
 <p>Likewise there is also a report_only method for turning on report only mode (the default is enforcement mode), or turning off report only mode if a false argument is given.  Also, there is a report_only? method for returning whether report only mode is enabled. In report only mode, the Content-Security-Policy-Report-Only header is used.</p>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
-<p>The response_request plugin now integrates with the error_handler and class_level_routing plugins.  Those plugins now reinitialize the current response object instead of creating a new response object.</p>
+<p>The <a href="../../lib/roda/plugins/response_request_rb.html">response_request</a> plugin now integrates with the <a href="../../lib/roda/plugins/error_handler_rb.html">error_handler</a> and <a href="../../lib/roda/plugins/class_level_routing_rb.html">class_level_routing</a> plugins.  Those plugins now reinitialize the current response object instead of creating a new response object.</p>
 </li></ul>
 </div>
 <div id='context'>

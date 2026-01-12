@@ -36,7 +36,7 @@ Roda::RodaPlugins::ClassMatchers
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The class_matchers plugin allows you do define custom regexps and conversion procs to use for specific classes.  For example, if you have multiple routes similar to:</p>
+<p>The <a href="../../../files/lib/roda/plugins/class_matchers_rb.html">class_matchers</a> plugin allows you do define custom regexps and conversion procs to use for specific classes.  For example, if you have multiple routes similar to:</p>
 
 <pre class="ruby"><span class="ruby-identifier">r</span>.<span class="ruby-identifier">on</span> <span class="ruby-regexp">/(\d\d\d\d)-(\d\d)-(\d\d)/</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">y</span>, <span class="ruby-identifier">m</span>, <span class="ruby-identifier">d</span><span class="ruby-operator">|</span>
   <span class="ruby-identifier">date</span> = <span class="ruby-constant">Date</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">y</span>.<span class="ruby-identifier">to_i</span>, <span class="ruby-identifier">m</span>.<span class="ruby-identifier">to_i</span>, <span class="ruby-identifier">d</span>.<span class="ruby-identifier">to_i</span>)
@@ -79,7 +79,7 @@ Roda::RodaPlugins::ClassMatchers
 
 <p>With the above example, the Integer matcher performs the conversion to integer, so <code>id</code> is yielded as an integer.  The block then looks up the employee with that id.  If there is no employee with that id, then the Employee matcher will not match.</p>
 
-<p>If using the symbol_matchers plugin, you can provide a recognized symbol matcher as the second argument to class_matcher, and it will work in a similar manner:</p>
+<p>If using the <a href="../../../files/lib/roda/plugins/symbol_matchers_rb.html">symbol_matchers</a> plugin, you can provide a recognized symbol matcher as the second argument to class_matcher, and it will work in a similar manner:</p>
 
 <pre class="ruby"><span class="ruby-identifier">symbol_matcher</span>(<span class="ruby-value">:employee_id</span>, <span class="ruby-regexp">/E-(\d{6})/</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">employee_id</span><span class="ruby-operator">|</span>
   <span class="ruby-identifier">employee_id</span>.<span class="ruby-identifier">to_i</span>
@@ -89,9 +89,9 @@ Roda::RodaPlugins::ClassMatchers
 <span class="ruby-keyword">end</span>
 </pre>
 
-<p>Blocks passed to the class_matchers plugin are evaluated in route block context.</p>
+<p>Blocks passed to the <a href="../../../files/lib/roda/plugins/class_matchers_rb.html">class_matchers</a> plugin are evaluated in route block context.</p>
 
-<p>This plugin does not work with the params_capturing plugin, as it does not offer the ability to associate block arguments with named keys.</p>
+<p>This plugin does not work with the <a href="../../../files/lib/roda/plugins/params_capturing_rb.html">params_capturing</a> plugin, as it does not offer the ability to associate block arguments with named keys.</p>
 </div>
 <div id='method-list'>
 <h2>Methods</h2>

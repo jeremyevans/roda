@@ -33,13 +33,13 @@ doc/release_notes/3.24.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-Improvements">Improvements<span><a href="#label-Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Improvements"><a href="#label-Improvements">Improvements</a></h1>
 <ul><li>
-<p>The performance of the render_each plugin has been dramatically improved by calling compiled template methods directly. For a simple template, render_each performance with a single object can be about 2x faster, and render_each performance for 100 objects can be 3x (cache: false) to 9x (cache: true) faster.</p>
+<p>The performance of the <a href="../../lib/roda/plugins/render_each_rb.html">render_each</a> plugin has been dramatically improved by calling compiled template methods directly. For a simple template, <a href="../../lib/roda/plugins/render_each_rb.html">render_each</a> performance with a single object can be about 2x faster, and <a href="../../lib/roda/plugins/render_each_rb.html">render_each</a> performance for 100 objects can be 3x (cache: false) to 9x (cache: true) faster.</p>
 
-<p>This optimization can be used if no options are provided to render_each, or if :local and/or :locals options are provided. Use of other options will disable this optimization.</p>
+<p>This optimization can be used if no options are provided to <a href="../../lib/roda/plugins/render_each_rb.html">render_each</a>, or if :local and/or :locals options are provided. Use of other options will disable this optimization.</p>
 </li><li>
-<p>The module_include plugin no longer calls Proc.new without a block, fixing a warning on Ruby 2.7.</p>
+<p>The <a href="../../lib/roda/plugins/module_include_rb.html">module_include</a> plugin no longer calls Proc.new without a block, fixing a warning on Ruby 2.7.</p>
 </li></ul>
 </div>
 <div id='context'>

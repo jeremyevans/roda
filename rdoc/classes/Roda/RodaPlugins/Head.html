@@ -57,7 +57,7 @@ Roda::RodaPlugins::Head
 
 <p>HEAD requests for <code>/</code>, <code>/a</code>, and <code>/b</code> will all return 200 status with an empty body.</p>
 
-<p>This plugin also works with the not_allowed plugin if it is loaded after the not_allowed plugin.  In that case, if GET is one of Allow header options, then HEAD will be as well.</p>
+<p>This plugin also works with the <a href="../../../files/lib/roda/plugins/not_allowed_rb.html">not_allowed</a> plugin if it is loaded after the <a href="../../../files/lib/roda/plugins/not_allowed_rb.html">not_allowed</a> plugin.  In that case, if GET is one of Allow header options, then HEAD will be as well.</p>
 
 <p>NOTE: if you have a public facing website it is recommended that you enable this plugin, or manually handle HEAD anywhere you would handle GET. Search engines and other bots may send a HEAD request prior to crawling a page with a GET request. Without this plugin those HEAD requests will return a 404 status, which may prevent search engines from crawling your website.</p>
 </div>

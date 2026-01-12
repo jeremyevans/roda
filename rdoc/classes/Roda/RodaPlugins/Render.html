@@ -80,7 +80,7 @@ Roda::RodaPlugins::Render
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:render</span>, <span class="ruby-value">engine:</span> <span class="ruby-string">&#39;haml&#39;</span>, <span class="ruby-value">views:</span> <span class="ruby-string">&#39;admin_views&#39;</span>
 </pre>
 
-<h1 id="module-Roda::RodaPlugins::Render-label-Plugin+Options">Plugin Options<span><a href="#module-Roda::RodaPlugins::Render-label-Plugin+Options">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="module-Roda::RodaPlugins::Render-label-Plugin+Options"><a href="#module-Roda::RodaPlugins::Render-label-Plugin+Options">Plugin Options</a></h1>
 
 <p>The following plugin options are supported:</p>
 <table class="rdoc-list note-list"><tbody><tr><td class='label'>:allowed_paths </td><td>
@@ -102,14 +102,14 @@ Roda::RodaPlugins::Render
 </td></tr><tr><td class='label'>:layout_opts </td><td>
 <p>The options to use when rendering the layout, if different from the default options.</p>
 </td></tr><tr><td class='label'>:template_opts </td><td>
-<p>The tilt options used when rendering all templates. defaults to: _out_buf’, default_encoding: Encoding.default_external} at <code>{outvar: '</code>.</p>
+<p>The tilt options used when rendering all templates. defaults to: <code>{outvar: &#39;@_out_buf&#39;, default_encoding: Encoding.default_external}</code>.</p>
 </td></tr><tr><td class='label'>:engine_opts </td><td>
 <p>The tilt options to use per template engine.  Keys are engine strings, values are hashes of template options.</p>
 </td></tr><tr><td class='label'>:views </td><td>
 <p>The directory holding the view files, defaults to the ‘views’ subdirectory of the application’s :root option (the process’s working directory by default).</p>
 </td></tr></tbody></table>
 
-<h1 id="module-Roda::RodaPlugins::Render-label-Render-2FView+Method+Options">Render/View Method Options<span><a href="#module-Roda::RodaPlugins::Render-label-Render-2FView+Method+Options">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="module-Roda::RodaPlugins::Render-label-Render-2FView+Method+Options"><a href="#module-Roda::RodaPlugins::Render-label-Render-2FView+Method+Options">Render/View Method Options</a></h1>
 
 <p>Most of these options can be overridden at runtime by passing options to the <code>view</code> or <code>render</code> methods:</p>
 
@@ -148,7 +148,7 @@ Roda::RodaPlugins::Render
 
 <p>If you pass a hash as the first argument to <code>view</code> or <code>render</code>, it should have either <code>:template</code>, <code>:inline</code>, <code>:path</code>, or <code>:content</code> (for <code>view</code>) as one of the keys.</p>
 
-<h1 id="module-Roda::RodaPlugins::Render-label-Fixed+Locals+in+Templates">Fixed Locals in Templates<span><a href="#module-Roda::RodaPlugins::Render-label-Fixed+Locals+in+Templates">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="module-Roda::RodaPlugins::Render-label-Fixed+Locals+in+Templates"><a href="#module-Roda::RodaPlugins::Render-label-Fixed+Locals+in+Templates">Fixed Locals in Templates</a></h1>
 
 <p>By default, you can pass any local variables to any templates.  A separate template method is compiled for each combination of locals.  This causes multiple issues:</p>
 <ul><li>
@@ -182,13 +182,13 @@ Roda::RodaPlugins::Render
 
 <p>See Tilt’s documentation for more information regarding fixed locals.</p>
 
-<h1 id="module-Roda::RodaPlugins::Render-label-Speeding+Up+Template+Rendering">Speeding Up Template Rendering<span><a href="#module-Roda::RodaPlugins::Render-label-Speeding+Up+Template+Rendering">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="module-Roda::RodaPlugins::Render-label-Speeding+Up+Template+Rendering"><a href="#module-Roda::RodaPlugins::Render-label-Speeding+Up+Template+Rendering">Speeding Up Template Rendering</a></h1>
 
 <p>The render/view method calls are optimized for usage with a single symbol/string argument specifying the template name.  So for fastest rendering, pass only a symbol/string to render/view.  Next best optimized are template calls with a single :locals option.  Use of other options disables the compiled template method optimizations and can be significantly slower.</p>
 
 <p>If you must pass a hash to render/view, either as a second argument or as the only argument, you can speed things up by specifying a <code>:cache_key</code> option in the hash, making sure the <code>:cache_key</code> is unique to the template you are rendering.</p>
 
-<h1 id="module-Roda::RodaPlugins::Render-label-Recommended+template_opts">Recommended <code>template_opts</code><span><a href="#module-Roda::RodaPlugins::Render-label-Recommended+template_opts">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="module-Roda::RodaPlugins::Render-label-Recommended+template_opts"><a href="#module-Roda::RodaPlugins::Render-label-Recommended+template_opts">Recommended <code>template_opts</code></a></h1>
 
 <p>Here are the recommended values of :template_opts for new applications (a couple are Erubi-specific and can be ignored if you are using other templates engines):</p>
 
@@ -205,7 +205,7 @@ Roda::RodaPlugins::Render
   }
 </pre>
 
-<h1 id="module-Roda::RodaPlugins::Render-label-Accepting+Template+Blocks+in+Methods">Accepting Template Blocks in Methods<span><a href="#module-Roda::RodaPlugins::Render-label-Accepting+Template+Blocks+in+Methods">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="module-Roda::RodaPlugins::Render-label-Accepting+Template+Blocks+in+Methods"><a href="#module-Roda::RodaPlugins::Render-label-Accepting+Template+Blocks+in+Methods">Accepting Template Blocks in Methods</a></h1>
 
 <p>If you are used to Rails, you may be surprised that this type of template code doesn’t work in Roda:</p>
 
@@ -217,7 +217,7 @@ Roda::RodaPlugins::Render
 
 <p>In general, these methods are used to wrap the content of the block and inject the content into the output. To get similar behavior with <a href="../../Roda.html"><code>Roda</code></a>, you have a few different options you can use.</p>
 
-<h2 id="module-Roda::RodaPlugins::Render-label-Use+Erubi-3A-3ACaptureBlockEngine">Use Erubi::CaptureBlockEngine<span><a href="#module-Roda::RodaPlugins::Render-label-Use+Erubi-3A-3ACaptureBlockEngine">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="module-Roda::RodaPlugins::Render-label-Use+Erubi-3A-3ACaptureBlockEngine"><a href="#module-Roda::RodaPlugins::Render-label-Use+Erubi-3A-3ACaptureBlockEngine">Use Erubi::CaptureBlockEngine</a></h2>
 
 <p><a href="../../Roda.html"><code>Roda</code></a> defaults to using Erubi for erb template rendering.  Erubi 1.13.0+ includes support for an erb variant that supports blocks in <code>&lt;%=</code> and <code>&lt;%==</code> tags.  To use it:</p>
 
@@ -227,7 +227,7 @@ Roda::RodaPlugins::Render
 
 <p>See the Erubi documentation for how to capture data inside the block.  Make sure the method call (<code>some_method</code> in the example) returns the output you want added to the rendered body.</p>
 
-<h2 id="module-Roda::RodaPlugins::Render-label-Directly+Inject+Template+Output">Directly Inject Template Output<span><a href="#module-Roda::RodaPlugins::Render-label-Directly+Inject+Template+Output">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="module-Roda::RodaPlugins::Render-label-Directly+Inject+Template+Output"><a href="#module-Roda::RodaPlugins::Render-label-Directly+Inject+Template+Output">Directly Inject Template Output</a></h2>
 
 <p>You can switch from a <code>&lt;%=</code> tag to using a <code>&lt;%</code> tag:</p>
 
@@ -244,7 +244,7 @@ Roda::RodaPlugins::Render
 <span class="ruby-keyword">end</span>
 </pre>
 
-<p>If you need to modify the captured block before injecting it, you can use the capture_erb plugin to capture content from the template block, and modify that content, then use inject_erb to inject it into the template output:</p>
+<p>If you need to modify the captured block before injecting it, you can use the <a href="../../../files/lib/roda/plugins/capture_erb_rb.html">capture_erb</a> plugin to capture content from the template block, and modify that content, then use <a href="../../../files/lib/roda/plugins/inject_erb_rb.html">inject_erb</a> to inject it into the template output:</p>
 
 <pre class="ruby"><span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">some_method</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
   <span class="ruby-identifier">inject_erb</span> <span class="ruby-string">&quot;content before block&quot;</span>
@@ -255,7 +255,7 @@ Roda::RodaPlugins::Render
 
 <p>This is the recommended approach for handling this type of method, if you want to keep the template block in the same template.</p>
 
-<h2 id="module-Roda::RodaPlugins::Render-label-Separate+Block+Output+Into+Separate+Template">Separate Block Output Into Separate Template<span><a href="#module-Roda::RodaPlugins::Render-label-Separate+Block+Output+Into+Separate+Template">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="module-Roda::RodaPlugins::Render-label-Separate+Block+Output+Into+Separate+Template"><a href="#module-Roda::RodaPlugins::Render-label-Separate+Block+Output+Into+Separate+Template">Separate Block Output Into Separate Template</a></h2>
 
 <p>By moving the <code>Some HTML</code> into a separate template, you can render that template inside the block:</p>
 
@@ -270,7 +270,7 @@ end %&gt;</pre>
 
 <p>This approach is useful if it makes sense to separate the template block into its own template. You lose the ability to use local variable from outside the template block inside the template block with this approach.</p>
 
-<h2 id="module-Roda::RodaPlugins::Render-label-Separate+Header+and+Footer">Separate Header and Footer<span><a href="#module-Roda::RodaPlugins::Render-label-Separate+Header+and+Footer">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="module-Roda::RodaPlugins::Render-label-Separate+Header+and+Footer"><a href="#module-Roda::RodaPlugins::Render-label-Separate+Header+and+Footer">Separate Header and Footer</a></h2>
 
 <p>You can define two separate methods, one that outputs the content before the block, and one that outputs the content after the block, and use those instead of a single call:</p>
 

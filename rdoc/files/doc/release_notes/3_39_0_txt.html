@@ -33,11 +33,11 @@ doc/release_notes/3.39.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-Improvements">Improvements<span><a href="#label-Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Improvements"><a href="#label-Improvements">Improvements</a></h1>
 <ul><li>
-<p>The relative_path plugin is now faster if you are calling relative_path or relative_prefix more than once when handling a request.</p>
+<p>The <a href="../../lib/roda/plugins/relative_path_rb.html">relative_path</a> plugin is now faster if you are calling <a href="../../lib/roda/plugins/relative_path_rb.html">relative_path</a> or relative_prefix more than once when handling a request.</p>
 </li><li>
-<p>The typecast_params.convert! method in the typecast_params plugin now handles explicit nil values the same as missing values. Explicit nil values do not generally occur in normal Rack parameter parsing, but they can occur when using the json_parser plugin to parse JSON requests.</p>
+<p>The typecast_params.convert! method in the <a href="../../lib/roda/plugins/typecast_params_rb.html">typecast_params</a> plugin now handles explicit nil values the same as missing values. Explicit nil values do not generally occur in normal Rack parameter parsing, but they can occur when using the <a href="../../lib/roda/plugins/json_parser_rb.html">json_parser</a> plugin to parse JSON requests.</p>
 </li><li>
 <p><a href="../../../classes/Roda.html"><code>Roda</code></a> now avoids method redefinition warnings in verbose mode by using a self alias.  As Ruby 3 is dropping uninitialized instance variable warnings, <a href="../../../classes/Roda.html"><code>Roda</code></a> will be verbose warning free if you are using Ruby 3.</p>
 </li></ul>

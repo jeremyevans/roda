@@ -33,9 +33,9 @@ doc/release_notes/3.86.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>A conditional_sessions plugin has been added.  This allows you to only support sessions for a subset of the application’s requests. You pass a block when loading the plugin, and sessions are only supported if the block returns truthy.  The block is evaluated in request scope.</p>
+<p>A <a href="../../lib/roda/plugins/conditional_sessions_rb.html">conditional_sessions</a> plugin has been added.  This allows you to only support sessions for a subset of the application’s requests. You pass a block when loading the plugin, and sessions are only supported if the block returns truthy.  The block is evaluated in request scope.</p>
 
 <p>As an example, if you do not want to support sessions for request paths starting with /static, you could use:</p>
 
@@ -53,14 +53,14 @@ doc/release_notes/3.86.0.txt
 
 <p>Options passed when loading the plugin are passed to the sessions plugin.</p>
 </li><li>
-<p>In the content_security_policy plugin, you can now call response.skip_content_security_policy! to skip the setting of the response header.</p>
+<p>In the <a href="../../lib/roda/plugins/content_security_policy_rb.html">content_security_policy</a> plugin, you can now call response.skip_content_security_policy! to skip the setting of the response header.</p>
 </li><li>
-<p>In the permissions_policy plugin, you can now call response.skip_permissions_policy! to skip the setting of the response header.</p>
+<p>In the <a href="../../lib/roda/plugins/permissions_policy_rb.html">permissions_policy</a> plugin, you can now call response.skip_permissions_policy! to skip the setting of the response header.</p>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
-<p>When using the autoload_hash_branches and/or autoload_named_routes plugins, Roda.freeze now works correctly if the <a href="../../../classes/Roda.html"><code>Roda</code></a> class is already frozen.</p>
+<p>When using the <a href="../../lib/roda/plugins/autoload_hash_branches_rb.html">autoload_hash_branches</a> and/or <a href="../../lib/roda/plugins/autoload_named_routes_rb.html">autoload_named_routes</a> plugins, Roda.freeze now works correctly if the <a href="../../../classes/Roda.html"><code>Roda</code></a> class is already frozen.</p>
 </li></ul>
 </div>
 <div id='context'>

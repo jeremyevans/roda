@@ -33,17 +33,17 @@ doc/release_notes/3.23.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-Improvements">Improvements<span><a href="#label-Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Improvements"><a href="#label-Improvements">Improvements</a></h1>
 <ul><li>
 <p>The render/view methods in the render plugin, when called with a single string/symbol argument (the most common case), are now up to 2x faster in cache: false mode by directly calling compiled template methods.  This takes the performance increase in <a href="3_22_0_txt.html">3.22.0</a> and applies it to cache: false mode in addition to cache: true mode.  If the template file has changed, the compiled method is removed, and a new compiled method replaces it.</p>
 </li><li>
 <p>Template modification detection in the render plugin now uses a faster check for modification, which also avoids a race condition.</p>
 </li><li>
-<p>The type_routing plugin now handles requests with nothing but the extension in the request path.  This fixes cases when you have one app partially route a request, and send the request to another app, and that app uses the type_routing plugin and has an r.is call at the root level.</p>
+<p>The <a href="../../lib/roda/plugins/type_routing_rb.html">type_routing</a> plugin now handles requests with nothing but the extension in the request path.  This fixes cases when you have one app partially route a request, and send the request to another app, and that app uses the <a href="../../lib/roda/plugins/type_routing_rb.html">type_routing</a> plugin and has an r.is call at the root level.</p>
 </li><li>
-<p>The roda/session_middleware middleware now works correctly if the type_routing plugin is loaded into <a href="../../../classes/Roda.html"><code>Roda</code></a> itself (as opposed to a <a href="../../../classes/Roda.html"><code>Roda</code></a> subclass).</p>
+<p>The roda/session_middleware middleware now works correctly if the <a href="../../lib/roda/plugins/type_routing_rb.html">type_routing</a> plugin is loaded into <a href="../../../classes/Roda.html"><code>Roda</code></a> itself (as opposed to a <a href="../../../classes/Roda.html"><code>Roda</code></a> subclass).</p>
 </li><li>
-<p>The exception_page plugin now always shows the line number for each line.  Previously, it only showed the line number if it was showing the content of the line, which complicated debugging in cases where the content of the line was no longer retrievable due to file system permissions or restrictions (e.g. chroot).</p>
+<p>The <a href="../../lib/roda/plugins/exception_page_rb.html">exception_page</a> plugin now always shows the line number for each line.  Previously, it only showed the line number if it was showing the content of the line, which complicated debugging in cases where the content of the line was no longer retrievable due to file system permissions or restrictions (e.g. chroot).</p>
 </li></ul>
 </div>
 <div id='context'>

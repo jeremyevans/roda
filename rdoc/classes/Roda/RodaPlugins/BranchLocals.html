@@ -36,7 +36,7 @@ Roda::RodaPlugins::BranchLocals
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The branch_locals plugin allows you to override view and layout locals for specific branches and routes.</p>
+<p>The <a href="../../../files/lib/roda/plugins/branch_locals_rb.html">branch_locals</a> plugin allows you to override view and layout locals for specific branches and routes.</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:render</span>
 <span class="ruby-identifier">plugin</span> <span class="ruby-value">:render_locals</span>, <span class="ruby-value">render:</span> {<span class="ruby-value">footer:</span> <span class="ruby-string">&#39;Default&#39;</span>}, <span class="ruby-value">layout:</span> {<span class="ruby-value">title:</span> <span class="ruby-string">&#39;Main&#39;</span>}
@@ -50,7 +50,7 @@ Roda::RodaPlugins::BranchLocals
 <span class="ruby-keyword">end</span>
 </pre>
 
-<p>The locals you specify in the set_layout_locals and set_view_locals methods have higher precedence than the render_locals plugin options, but lower precedence than options you directly pass to the view/render methods.</p>
+<p>The locals you specify in the set_layout_locals and set_view_locals methods have higher precedence than the <a href="../../../files/lib/roda/plugins/render_locals_rb.html">render_locals</a> plugin options, but lower precedence than options you directly pass to the view/render methods.</p>
 </div>
 <div id='method-list'>
 <h2>Methods</h2>
@@ -78,7 +78,7 @@ Roda::RodaPlugins::BranchLocals
 </div>
 <div class='description'>
 
-<p>Load the render_locals plugin before this plugin, since this plugin works by overriding methods in the render_locals plugin.</p>
+<p>Load the <a href="../../../files/lib/roda/plugins/render_locals_rb.html">render_locals</a> plugin before this plugin, since this plugin works by overriding methods in the <a href="../../../files/lib/roda/plugins/render_locals_rb.html">render_locals</a> plugin.</p>
 
 </div>
 <div class='source'>

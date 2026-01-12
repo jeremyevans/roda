@@ -33,9 +33,9 @@ doc/release_notes/3.73.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>The middleware plugin now accepts a :next_if_not_found option. This allows the middleware plugin to pass the request to the next application if the current application handles the request but ends up calling the not_found handler.  With the following middleware:</p>
+<p>The middleware plugin now accepts a :next_if_not_found option. This allows the middleware plugin to pass the request to the next application if the current application handles the request but ends up calling the <a href="../../lib/roda/plugins/not_found_rb.html">not_found</a> handler.  With the following middleware:</p>
 
 <pre class="ruby"><span class="ruby-keyword">class</span> <span class="ruby-constant">Mid</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Roda</span>
   <span class="ruby-identifier">plugin</span> <span class="ruby-value">:middleware</span>
@@ -53,9 +53,9 @@ doc/release_notes/3.73.0.txt
 <p>Requests for /x would be forwarded to the next application, since the application doesn’t handle the request, but requests for /foo/x would not be, because the middleware is partially handling the request in the r.on “foo” block.  With the :next_if_not_found option, only requests for /foo/bar would be handled by the middleware, and all other requests would be forwarded to the next application.</p>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
-<p>The sessions and route_csrf plugins no longer depend on the base64 library. base64 will be removed from Ruby’s standard library starting in Ruby 3.4.</p>
+<p>The sessions and <a href="../../lib/roda/plugins/route_csrf_rb.html">route_csrf</a> plugins no longer depend on the base64 library. base64 will be removed from Ruby’s standard library starting in Ruby 3.4.</p>
 </li></ul>
 </div>
 <div id='context'>

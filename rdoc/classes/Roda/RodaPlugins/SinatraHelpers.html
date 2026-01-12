@@ -36,14 +36,14 @@ Roda::RodaPlugins::SinatraHelpers
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The sinatra_helpers plugin ports most of the helper methods defined in Sinatra::Helpers to <a href="../../Roda.html"><code>Roda</code></a>, other than those helpers that were already covered by other plugins such as caching and streaming.</p>
+<p>The <a href="../../../files/lib/roda/plugins/sinatra_helpers_rb.html">sinatra_helpers</a> plugin ports most of the helper methods defined in Sinatra::Helpers to <a href="../../Roda.html"><code>Roda</code></a>, other than those helpers that were already covered by other plugins such as caching and streaming.</p>
 
 <p>Unlike Sinatra, the helper methods are added to either the request or response classes instead of directly to the scope of the route block.  However, for consistency with Sinatra, delegate methods are added to the scope of the route block that call the methods on the request or response.  If you do not want to pollute the namespace of the route block, you should load the plugin with the <code>delegate: false</code> option:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:sinatra_helpers</span>, <span class="ruby-value">delegate:</span> <span class="ruby-keyword">false</span>
 </pre>
 
-<h2 id="module-Roda::RodaPlugins::SinatraHelpers-label-Class+Methods+Added">Class Methods Added<span><a href="#module-Roda::RodaPlugins::SinatraHelpers-label-Class+Methods+Added">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="module-Roda::RodaPlugins::SinatraHelpers-label-Class+Methods+Added"><a href="#module-Roda::RodaPlugins::SinatraHelpers-label-Class+Methods+Added">Class Methods Added</a></h2>
 
 <p>The only class method added by this plugin is <code>mime_type</code>, which is a shortcut for retrieving or setting MIME types in Rack’s MIME database:</p>
 
@@ -51,20 +51,20 @@ Roda::RodaPlugins::SinatraHelpers
 <span class="ruby-constant">Roda</span>.<span class="ruby-identifier">mime_type</span> <span class="ruby-string">&#39;foobar&#39;</span>, <span class="ruby-string">&#39;application/foobar&#39;</span> <span class="ruby-comment"># set</span>
 </pre>
 
-<h2 id="module-Roda::RodaPlugins::SinatraHelpers-label-Request+Methods+Added+">Request Methods Added <span><a href="#module-Roda::RodaPlugins::SinatraHelpers-label-Request+Methods+Added+">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="module-Roda::RodaPlugins::SinatraHelpers-label-Request+Methods+Added+"><a href="#module-Roda::RodaPlugins::SinatraHelpers-label-Request+Methods+Added+">Request Methods Added </a></h2>
 
 <p>In addition to adding the following methods, this changes <code>redirect</code> to use a 303 response status code by default for HTTP 1.1 non-GET requests, and to automatically use absolute URIs if the <code>:absolute_redirects</code> <a href="../../Roda.html"><code>Roda</code></a> class option is true, and to automatically prefix redirect paths with the script name if the <code>:prefixed_redirects</code> <a href="../../Roda.html"><code>Roda</code></a> class option is true.</p>
 
 <p>When adding delegate methods, a logger method is added to the route block scope that calls the logger method on the request.</p>
 
-<h3 id="module-Roda::RodaPlugins::SinatraHelpers-label-back">back<span><a href="#module-Roda::RodaPlugins::SinatraHelpers-label-back">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="module-Roda::RodaPlugins::SinatraHelpers-label-back"><a href="#module-Roda::RodaPlugins::SinatraHelpers-label-back">back</a></h3>
 
 <p><code>back</code> is an alias to referrer, so you can do:</p>
 
 <pre class="ruby"><span class="ruby-identifier">redirect</span> <span class="ruby-identifier">back</span>
 </pre>
 
-<h3 id="module-Roda::RodaPlugins::SinatraHelpers-label-error">error<span><a href="#module-Roda::RodaPlugins::SinatraHelpers-label-error">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="module-Roda::RodaPlugins::SinatraHelpers-label-error"><a href="#module-Roda::RodaPlugins::SinatraHelpers-label-error">error</a></h3>
 
 <p><code>error</code> sets the response status code to 500 (or a status code you provide), and halts the request.  It takes an optional body:</p>
 
@@ -74,15 +74,15 @@ Roda::RodaPlugins::SinatraHelpers
 <span class="ruby-identifier">error</span> <span class="ruby-value">501</span>, <span class="ruby-string">&#39;b&#39;</span>  <span class="ruby-comment"># 501 response, &#39;b&#39; body</span>
 </pre>
 
-<h3 id="module-Roda::RodaPlugins::SinatraHelpers-label-not_found">not_found<span><a href="#module-Roda::RodaPlugins::SinatraHelpers-label-not_found">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="module-Roda::RodaPlugins::SinatraHelpers-label-not_found"><a href="#module-Roda::RodaPlugins::SinatraHelpers-label-not_found"><a href="../../../files/lib/roda/plugins/not_found_rb.html">not_found</a></a></h3>
 
-<p><code>not_found</code> sets the response status code to 404 and halts the request. It takes an optional body:</p>
+<p><a href="../../../files/lib/roda/plugins/not_found_rb.html">not_found</a> sets the response status code to 404 and halts the request. It takes an optional body:</p>
 
 <pre class="ruby"><span class="ruby-identifier">not_found</span>      <span class="ruby-comment"># 404 response, empty body</span>
 <span class="ruby-identifier">not_found</span> <span class="ruby-string">&#39;b&#39;</span>  <span class="ruby-comment"># 404 response, &#39;b&#39; body</span>
 </pre>
 
-<h3 id="module-Roda::RodaPlugins::SinatraHelpers-label-uri">uri<span><a href="#module-Roda::RodaPlugins::SinatraHelpers-label-uri">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="module-Roda::RodaPlugins::SinatraHelpers-label-uri"><a href="#module-Roda::RodaPlugins::SinatraHelpers-label-uri">uri</a></h3>
 
 <p><code>uri</code> by default returns absolute URIs that are prefixed by the script name:</p>
 
@@ -99,7 +99,7 @@ Roda::RodaPlugins::SinatraHelpers
 
 <p>This method is aliased as <code>url</code> and <code>to</code>.</p>
 
-<h3 id="module-Roda::RodaPlugins::SinatraHelpers-label-send_file">send_file<span><a href="#module-Roda::RodaPlugins::SinatraHelpers-label-send_file">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="module-Roda::RodaPlugins::SinatraHelpers-label-send_file"><a href="#module-Roda::RodaPlugins::SinatraHelpers-label-send_file">send_file</a></h3>
 
 <p>This will serve the file with the given path from the file system:</p>
 
@@ -119,9 +119,9 @@ Roda::RodaPlugins::SinatraHelpers
 <p>Set the Content-Type to use for this response.</p>
 </td></tr></tbody></table>
 
-<h2 id="module-Roda::RodaPlugins::SinatraHelpers-label-Response+Methods+Added">Response Methods Added<span><a href="#module-Roda::RodaPlugins::SinatraHelpers-label-Response+Methods+Added">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="module-Roda::RodaPlugins::SinatraHelpers-label-Response+Methods+Added"><a href="#module-Roda::RodaPlugins::SinatraHelpers-label-Response+Methods+Added">Response Methods Added</a></h2>
 
-<h3 id="module-Roda::RodaPlugins::SinatraHelpers-label-body">body<span><a href="#module-Roda::RodaPlugins::SinatraHelpers-label-body">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="module-Roda::RodaPlugins::SinatraHelpers-label-body"><a href="#module-Roda::RodaPlugins::SinatraHelpers-label-body">body</a></h3>
 
 <p>When called with an argument or block, <code>body</code> sets the body, otherwise it returns the body:</p>
 
@@ -130,7 +130,7 @@ Roda::RodaPlugins::SinatraHelpers
 <span class="ruby-identifier">body</span>{<span class="ruby-string">&#39;b&#39;</span>} <span class="ruby-comment"># set body to &#39;b&#39;, but don&#39;t call until body is needed</span>
 </pre>
 
-<h3 id="module-Roda::RodaPlugins::SinatraHelpers-label-body-3D">body=<span><a href="#module-Roda::RodaPlugins::SinatraHelpers-label-body-3D">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="module-Roda::RodaPlugins::SinatraHelpers-label-body-3D"><a href="#module-Roda::RodaPlugins::SinatraHelpers-label-body-3D">body=</a></h3>
 
 <p><code>body</code> sets the body to the given value:</p>
 
@@ -139,7 +139,7 @@ Roda::RodaPlugins::SinatraHelpers
 
 <p>This method is not delegated to the scope of the route block, call <code>body</code> with an argument to set the value.</p>
 
-<h3 id="module-Roda::RodaPlugins::SinatraHelpers-label-status">status<span><a href="#module-Roda::RodaPlugins::SinatraHelpers-label-status">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="module-Roda::RodaPlugins::SinatraHelpers-label-status"><a href="#module-Roda::RodaPlugins::SinatraHelpers-label-status">status</a></h3>
 
 <p>When called with an argument, <code>status</code> sets the status, otherwise it returns the status:</p>
 
@@ -147,7 +147,7 @@ Roda::RodaPlugins::SinatraHelpers
 <span class="ruby-identifier">status</span>(<span class="ruby-value">301</span>) <span class="ruby-comment"># sets status to 301</span>
 </pre>
 
-<h3 id="module-Roda::RodaPlugins::SinatraHelpers-label-headers">headers<span><a href="#module-Roda::RodaPlugins::SinatraHelpers-label-headers">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="module-Roda::RodaPlugins::SinatraHelpers-label-headers"><a href="#module-Roda::RodaPlugins::SinatraHelpers-label-headers">headers</a></h3>
 
 <p>When called with an argument, <code>headers</code> merges the given headers into the current headers, otherwise it returns the headers:</p>
 
@@ -155,11 +155,11 @@ Roda::RodaPlugins::SinatraHelpers
 <span class="ruby-identifier">headers</span> <span class="ruby-string">&#39;Foo&#39;</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-string">&#39;Bar&#39;</span>
 </pre>
 
-<h3 id="module-Roda::RodaPlugins::SinatraHelpers-label-mime_type">mime_type<span><a href="#module-Roda::RodaPlugins::SinatraHelpers-label-mime_type">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="module-Roda::RodaPlugins::SinatraHelpers-label-mime_type"><a href="#module-Roda::RodaPlugins::SinatraHelpers-label-mime_type">mime_type</a></h3>
 
 <p><code>mime_type</code> just calls the <a href="../../Roda.html"><code>Roda</code></a> class method to get the mime_type.</p>
 
-<h3 id="module-Roda::RodaPlugins::SinatraHelpers-label-content_type">content_type<span><a href="#module-Roda::RodaPlugins::SinatraHelpers-label-content_type">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="module-Roda::RodaPlugins::SinatraHelpers-label-content_type"><a href="#module-Roda::RodaPlugins::SinatraHelpers-label-content_type">content_type</a></h3>
 
 <p>When called with an argument, <code>content_type</code> sets the Content-Type based on the argument, otherwise it returns the Content-Type.</p>
 
@@ -177,7 +177,7 @@ Roda::RodaPlugins::SinatraHelpers
 <p>Uses the given type if the mime type is not known.  If this option is not used and the mime type is not known, an exception will be raised.</p>
 </td></tr></tbody></table>
 
-<h3 id="module-Roda::RodaPlugins::SinatraHelpers-label-attachment">attachment<span><a href="#module-Roda::RodaPlugins::SinatraHelpers-label-attachment">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="module-Roda::RodaPlugins::SinatraHelpers-label-attachment"><a href="#module-Roda::RodaPlugins::SinatraHelpers-label-attachment">attachment</a></h3>
 
 <p>When called with no filename, <code>attachment</code> just sets the Content-Disposition to attachment.  When called with a filename, this sets the Content-Disposition to attachment with the appropriate filename parameter, and if the filename extension is recognized, this also sets the Content-Type to the appropriate MIME type if not already set.</p>
 
@@ -186,7 +186,7 @@ Roda::RodaPlugins::SinatraHelpers
                     <span class="ruby-comment"># also set Content-Type to &#39;text/csv&#39;</span>
 </pre>
 
-<h3 id="module-Roda::RodaPlugins::SinatraHelpers-label-status+predicates">status predicates<span><a href="#module-Roda::RodaPlugins::SinatraHelpers-label-status+predicates">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="module-Roda::RodaPlugins::SinatraHelpers-label-status+predicates"><a href="#module-Roda::RodaPlugins::SinatraHelpers-label-status+predicates">status predicates</a></h3>
 
 <p>This adds the following predicate methods for checking the status:</p>
 
@@ -200,7 +200,7 @@ Roda::RodaPlugins::SinatraHelpers
 
 <p>If the status has not yet been set for the response, these will return <code>nil</code>.</p>
 
-<h2 id="module-Roda::RodaPlugins::SinatraHelpers-label-License">License<span><a href="#module-Roda::RodaPlugins::SinatraHelpers-label-License">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="module-Roda::RodaPlugins::SinatraHelpers-label-License"><a href="#module-Roda::RodaPlugins::SinatraHelpers-label-License">License</a></h2>
 
 <p>The implementation was originally taken from Sinatra, which is also released under the MIT License:</p>
 
@@ -299,7 +299,7 @@ Roda::RodaPlugins::SinatraHelpers
 </div>
 <div class='description'>
 
-<p>Depend on the status_303 plugin.</p>
+<p>Depend on the <a href="../../../files/lib/roda/plugins/status_303_rb.html">status_303</a> plugin.</p>
 
 </div>
 <div class='source'>

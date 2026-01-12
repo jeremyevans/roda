@@ -33,9 +33,9 @@ doc/release_notes/2.6.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>:params and :params! matchers have been added to the param_matchers plugin, allowing you to match multiple params at the same time:</p>
+<p>:params and :params! matchers have been added to the <a href="../../lib/roda/plugins/param_matchers_rb.html">param_matchers</a> plugin, allowing you to match multiple params at the same time:</p>
 
 <pre class="ruby"><span class="ruby-identifier">r</span>.<span class="ruby-identifier">on</span> <span class="ruby-value">:params</span><span class="ruby-operator">=&gt;</span><span class="ruby-node">%w&#39;foo bar&#39;</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">foo</span>, <span class="ruby-identifier">bar</span><span class="ruby-operator">|</span> <span class="ruby-keyword">end</span>
 <span class="ruby-comment"># instead of</span>
@@ -43,7 +43,7 @@ doc/release_notes/2.6.0.txt
 </pre>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
 <p>When loading the csrf plugin multiple times, instead of loading the middleware multiple times with different settings, merge options in later plugin calls into a single middleware option hash, and only load the middleware once.</p>
 

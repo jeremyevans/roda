@@ -36,9 +36,9 @@ Roda::RodaPlugins::MultiView
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The multi_view plugin makes it easy to render multiple views, where the view template is the same as the matched element.  It adds an <code>r.multi_view</code> method, which takes an argument that is passed to <code>r.get</code>, and should capture a single argument, which is treated as the template name to pass to <code>view</code>.  This makes it possible to pass in an array of strings, or a regexp with a single capture.</p>
+<p>The <a href="../../../files/lib/roda/plugins/multi_view_rb.html">multi_view</a> plugin makes it easy to render multiple views, where the view template is the same as the matched element.  It adds an <code>r.multi_view</code> method, which takes an argument that is passed to <code>r.get</code>, and should capture a single argument, which is treated as the template name to pass to <code>view</code>.  This makes it possible to pass in an array of strings, or a regexp with a single capture.</p>
 
-<p>The advantage of using a regexp over an array of strings is that the regexp is generally faster and uses less memory.  However, constructing the regexps is more cumbersome.  To make it easier, the multi_view plugin also offers a <code>multi_view_compile</code> class method that will take an array of view template names and construct a regexp that can be passed to <code>r.multi_view</code>.</p>
+<p>The advantage of using a regexp over an array of strings is that the regexp is generally faster and uses less memory.  However, constructing the regexps is more cumbersome.  To make it easier, the <a href="../../../files/lib/roda/plugins/multi_view_rb.html">multi_view</a> plugin also offers a <code>multi_view_compile</code> class method that will take an array of view template names and construct a regexp that can be passed to <code>r.multi_view</code>.</p>
 
 <p>Example:</p>
 

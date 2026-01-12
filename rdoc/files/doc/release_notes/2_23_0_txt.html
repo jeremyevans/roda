@@ -33,7 +33,7 @@ doc/release_notes/2.23.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
 <p>An :explicit_cache option has been added to the render plugin. This is similar to the :cache=&gt;false option, but instead of disabling caching completely, this disables caching by default but allows for explicit caching of templates by providing the :cache option to view/render.</p>
 
@@ -41,14 +41,14 @@ doc/release_notes/2.23.0.txt
 </li><li>
 <p>An :inherit_cache option has been added to the render plugin, making subclasses of that class start with a dup of the template cache, instead of starting with an empty template cache.  This can result in less memory used.</p>
 </li><li>
-<p>Roda#error_email in the error_email plugin now accepts non-Exception arguments (such as strings).  This can be useful in conditions that are errors you may want to notify about, where an exception hasn’t been raised.</p>
+<p>Roda#error_email in the <a href="../../lib/roda/plugins/error_email_rb.html">error_email</a> plugin now accepts non-Exception arguments (such as strings).  This can be useful in conditions that are errors you may want to notify about, where an exception hasn’t been raised.</p>
 </li><li>
-<p>Roda#error_email_content has been added to the error_email plugin. This can be used to create the email message, which can be delivered via another mechanism, and may make testing easier.</p>
+<p>Roda#error_email_content has been added to the <a href="../../lib/roda/plugins/error_email_rb.html">error_email</a> plugin. This can be used to create the email message, which can be delivered via another mechanism, and may make testing easier.</p>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
-<p>Roda.freeze in the static_routing plugin now returns self, fixing code such as Roda.freeze.app.</p>
+<p>Roda.freeze in the <a href="../../lib/roda/plugins/static_routing_rb.html">static_routing</a> plugin now returns self, fixing code such as Roda.freeze.app.</p>
 </li></ul>
 </div>
 <div id='context'>

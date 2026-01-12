@@ -33,9 +33,9 @@ doc/release_notes/2.1.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Plugins">New Plugins<span><a href="#label-New+Plugins">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Plugins"><a href="#label-New+Plugins">New Plugins</a></h1>
 <ul><li>
-<p>A view_options plugin has been added, for branch/route specific setting of view and layout options and locals.  This allows for DRYer code when you want to change the view or layout settings for an entire routing branch.  Options and locals set at the branch or route level have higher priority than those set at the plugin level, but lower priority than those provided as arguments to the render/view methods. Example:</p>
+<p>A <a href="../../lib/roda/plugins/view_options_rb.html">view_options</a> plugin has been added, for branch/route specific setting of view and layout options and locals.  This allows for DRYer code when you want to change the view or layout settings for an entire routing branch.  Options and locals set at the branch or route level have higher priority than those set at the plugin level, but lower priority than those provided as arguments to the render/view methods. Example:</p>
 
 <pre class="ruby"><span class="ruby-keyword">class</span> <span class="ruby-constant">App</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Roda</span>
   <span class="ruby-identifier">plugin</span> <span class="ruby-value">:view_options</span>
@@ -52,7 +52,7 @@ doc/release_notes/2.1.0.txt
 <span class="ruby-keyword">end</span>
 </pre>
 
-<p>The view_options plugin is also a superset of the previous view_subdirs plugin, and attempts to load view_subdirs will now load view_options.  In addition to set_view_subdir, the view_options plugin now supports append_view_subdir, which will append a subdirectory to an existing subdirectory, which makes it simpler to deal with nested view file hierarchies.</p>
+<p>The <a href="../../lib/roda/plugins/view_options_rb.html">view_options</a> plugin is also a superset of the previous view_subdirs plugin, and attempts to load view_subdirs will now load view_options.  In addition to set_view_subdir, the <a href="../../lib/roda/plugins/view_options_rb.html">view_options</a> plugin now supports append_view_subdir, which will append a subdirectory to an existing subdirectory, which makes it simpler to deal with nested view file hierarchies.</p>
 </li><li>
 <p>A static plugin has been added for easily serving static files using Rack::Static.  Example:</p>
 
@@ -64,7 +64,7 @@ doc/release_notes/2.1.0.txt
 </pre>
 </li></ul>
 
-<h1 id="label-Other+New+Features">Other New Features<span><a href="#label-Other+New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+New+Features"><a href="#label-Other+New+Features">Other New Features</a></h1>
 <ul><li>
 <p><a href="../../../classes/Roda.html"><code>Roda</code></a> now supports a :root option for the application that sets the root directory.  This is useful if the application’s files are not stored in the process’s working directory, which is common for processes containing of multiple <a href="../../../classes/Roda.html"><code>Roda</code></a> applications.</p>
 
@@ -101,7 +101,7 @@ doc/release_notes/2.1.0.txt
 </pre>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
 <p>add_file in the mailer plugin now adds the files after the email body instead of before.  This fixes some issues where the email body would end up empty, due to issues with the mail gem’s API.</p>
 
@@ -112,12 +112,12 @@ doc/release_notes/2.1.0.txt
 <span class="ruby-keyword">end</span>
 </pre>
 </li><li>
-<p>r.multi_route in the multi_route plugin now works if there are no named routes defined.</p>
+<p>r.multi_route in the <a href="../../lib/roda/plugins/multi_route_rb.html">multi_route</a> plugin now works if there are no named routes defined.</p>
 </li><li>
 <p>A render plugin :locals option is now respected, setting defaults to use for locals in views.  Additionally, a :locals option in the :layout_opts option is now respected for setting locals in layouts.  If both the render plugin option is set and :locals is passed to render/view, the two will be merged together. Previously, providing a :locals option to render/view would cause the plugin level option to be ignored.</p>
 </li></ul>
 
-<h1 id="label-Backwards+Compatibility">Backwards Compatibility<span><a href="#label-Backwards+Compatibility">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Backwards+Compatibility"><a href="#label-Backwards+Compatibility">Backwards Compatibility</a></h1>
 <ul><li>
 <p>Using the render plugin :layout=&gt;nil option now removes any layout template set previously using :layout.  Previously, the layout template would still be kept, but it would not be used by default.</p>
 </li><li>

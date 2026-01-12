@@ -33,9 +33,9 @@ doc/release_notes/3.74.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>A redirect_http_to_https plugin has been added, redirecting HTTP requests to the same path on an HTTPS site.  Using the routing tree, you can control where to do the redirection, which allows you to easily have part of your site accessible via HTTP, with sensitive sections requiring HTTPS:</p>
+<p>A <a href="../../lib/roda/plugins/redirect_http_to_https_rb.html">redirect_http_to_https</a> plugin has been added, redirecting HTTP requests to the same path on an HTTPS site.  Using the routing tree, you can control where to do the redirection, which allows you to easily have part of your site accessible via HTTP, with sensitive sections requiring HTTPS:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:redirect_http_to_https</span>
 
@@ -46,7 +46,7 @@ doc/release_notes/3.74.0.txt
 <span class="ruby-keyword">end</span>
 </pre>
 
-<p>If you want to redirect to HTTPS for all routes in the routing tree, you can have r.redirect_http_to_https as the very first method call in the routing tree.  Note that in <a href="../../../classes/Roda.html"><code>Roda</code></a> it is possible to handle routing before the normal routing tree using before hooks.  The static_routing and heartbeat plugins use this feature. If you would like to handle routes before the normal routing tree, you can setup a before hook:</p>
+<p>If you want to redirect to HTTPS for all routes in the routing tree, you can have r.redirect_http_to_https as the very first method call in the routing tree.  Note that in <a href="../../../classes/Roda.html"><code>Roda</code></a> it is possible to handle routing before the normal routing tree using before hooks.  The <a href="../../lib/roda/plugins/static_routing_rb.html">static_routing</a> and heartbeat plugins use this feature. If you would like to handle routes before the normal routing tree, you can setup a before hook:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:hooks</span>
 

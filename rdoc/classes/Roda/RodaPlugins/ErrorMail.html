@@ -36,7 +36,7 @@ Roda::RodaPlugins::ErrorMail
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The error_mail plugin adds an <code>error_mail</code> instance method that send an email related to the exception.  This is most useful if you are also using the error_handler plugin:</p>
+<p>The <a href="../../../files/lib/roda/plugins/error_mail_rb.html">error_mail</a> plugin adds an <a href="../../../files/lib/roda/plugins/error_mail_rb.html">error_mail</a> instance method that send an email related to the exception.  This is most useful if you are also using the <a href="../../../files/lib/roda/plugins/error_handler_rb.html">error_handler</a> plugin:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:error_mail</span>, <span class="ruby-value">to:</span> <span class="ruby-string">&#39;to@example.com&#39;</span>, <span class="ruby-value">from:</span> <span class="ruby-string">&#39;from@example.com&#39;</span>
 <span class="ruby-identifier">plugin</span> <span class="ruby-value">:error_handler</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">e</span><span class="ruby-operator">|</span>
@@ -45,7 +45,7 @@ Roda::RodaPlugins::ErrorMail
 <span class="ruby-keyword">end</span>
 </pre>
 
-<p>It is similar to the error_email plugin, except that it uses the mail library instead of net/smtp directly.  If you are already using the mail library in your application, it makes sense to use error_mail instead of error_email.</p>
+<p>It is similar to the <a href="../../../files/lib/roda/plugins/error_email_rb.html">error_email</a> plugin, except that it uses the mail library instead of net/smtp directly.  If you are already using the mail library in your application, it makes sense to use <a href="../../../files/lib/roda/plugins/error_mail_rb.html">error_mail</a> instead of error_email.</p>
 
 <p>Options:</p>
 <table class="rdoc-list note-list"><tbody><tr><td class='label'>:filter </td><td>
@@ -60,7 +60,7 @@ Roda::RodaPlugins::ErrorMail
 <p>The To address to use in the email (required)</p>
 </td></tr></tbody></table>
 
-<p>The subject of the error email shows the exception class and message. The body of the error email shows the backtrace of the error and the request environment, as well the request params and session variables (if any). You can also call error_mail with a plain string instead of an exception, in which case the string is used as the subject, and no backtrace is included.</p>
+<p>The subject of the error email shows the exception class and message. The body of the error email shows the backtrace of the error and the request environment, as well the request params and session variables (if any). You can also call <a href="../../../files/lib/roda/plugins/error_mail_rb.html">error_mail</a> with a plain string instead of an exception, in which case the string is used as the subject, and no backtrace is included.</p>
 
 <p>Note that emailing on every error as shown above is only appropriate for low traffic web applications.  For high traffic web applications, use an error reporting service instead of this plugin.</p>
 </div>

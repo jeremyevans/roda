@@ -33,7 +33,7 @@ doc/release_notes/2.0.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-Backwards+Compatibility">Backwards Compatibility<span><a href="#label-Backwards+Compatibility">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Backwards+Compatibility"><a href="#label-Backwards+Compatibility">Backwards Compatibility</a></h1>
 <ul><li>
 <p>RodaResponse#set_cookie and delete_cookie have been removed.</p>
 </li><li>
@@ -49,9 +49,9 @@ doc/release_notes/2.0.0.txt
 </li><li>
 <p>The :opts render plugin option is no longer respected, Use the :template_opts option instead.</p>
 </li><li>
-<p>Plugin option hashes for the chunked, default_headers, error_email, and render plugins are now frozen.</p>
+<p>Plugin option hashes for the chunked, <a href="../../lib/roda/plugins/default_headers_rb.html">default_headers</a>, <a href="../../lib/roda/plugins/error_email_rb.html">error_email</a>, and render plugins are now frozen.</p>
 </li><li>
-<p>The :header hash matcher in the header_matchers plugin now yields the header value to the block.</p>
+<p>The :header hash matcher in the <a href="../../lib/roda/plugins/header_matchers_rb.html">header_matchers</a> plugin now yields the header value to the block.</p>
 </li><li>
 <p>Roda.json_result_classes in the json plugin is now frozen.</p>
 </li><li>
@@ -64,25 +64,25 @@ doc/release_notes/2.0.0.txt
 <p>The render plugin’s :layout option is now always set to true or false, specifying whether a layout should be used by default. The template used for a layout is now located as the :template option inside :layout_opts.</p>
 </li></ul>
 
-<h1 id="label-New+Plugins">New Plugins<span><a href="#label-New+Plugins">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Plugins"><a href="#label-New+Plugins">New Plugins</a></h1>
 <ul><li>
-<p>A padrino_render plugin has been added, which adds render/partial methods that work similarly to Padrino’s.</p>
+<p>A <a href="../../lib/roda/plugins/padrino_render_rb.html">padrino_render</a> plugin has been added, which adds render/partial methods that work similarly to Padrino’s.</p>
 </li></ul>
 
-<h1 id="label-Other+New+Features">Other New Features<span><a href="#label-Other+New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+New+Features"><a href="#label-Other+New+Features">Other New Features</a></h1>
 <ul><li>
 <p>A Roda#render_template private method has been added to the render plugin.  All internal users of render should switch to calling render_template.</p>
 </li><li>
-<p>The halt plugin now integrates with the symbol_views and json plugins, allowing things like:</p>
+<p>The halt plugin now integrates with the <a href="../../lib/roda/plugins/symbol_views_rb.html">symbol_views</a> and json plugins, allowing things like:</p>
 
 <pre class="ruby"><span class="ruby-identifier">r</span>.<span class="ruby-identifier">halt</span>(<span class="ruby-value">:template</span>)
 <span class="ruby-identifier">r</span>.<span class="ruby-identifier">halt</span>(<span class="ruby-string">&#39;key&#39;</span><span class="ruby-operator">=&gt;</span><span class="ruby-string">&#39;value&#39;</span>)
 </pre>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
-<p>The error_handler plugin now rescues ScriptError in addition to StandardError.  This handles SyntaxError (raised by ERB), LoadError (raised by require), and NotImplementedError (raised by TSort).</p>
+<p>The <a href="../../lib/roda/plugins/error_handler_rb.html">error_handler</a> plugin now rescues ScriptError in addition to StandardError.  This handles SyntaxError (raised by ERB), LoadError (raised by require), and NotImplementedError (raised by TSort).</p>
 </li><li>
 <p>Using a :layout=&gt;true option to the render plugin’s view method now uses the default layout template, instead of a template named ‘true’.  It can be used to force a layout even if the render plugin has been configured to not use a layout by default.</p>
 </li><li>

@@ -33,9 +33,9 @@ doc/release_notes/2.14.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>A symbol_status plugin has been added for using symbolic status names in response.status=:</p>
+<p>A <a href="../../lib/roda/plugins/symbol_status_rb.html">symbol_status</a> plugin has been added for using symbolic status names in response.status=:</p>
 
 <pre class="ruby"><span class="ruby-keyword">class</span> <span class="ruby-constant">App</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Roda</span>
   <span class="ruby-identifier">plugin</span> <span class="ruby-value">:symbol_status</span>
@@ -48,7 +48,7 @@ doc/release_notes/2.14.0.txt
 </pre>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
 <p>The middleware plugin will now also run the application’s middleware when the application is used as middleware.  For example, if you have the following code in your config.ru file:</p>
 
@@ -66,7 +66,7 @@ doc/release_notes/2.14.0.txt
 <p>Because of this change, if you are nesting roda applications using the middleware plugin, you may need to use the middleware plugin’s :env_var option to specify the environment variable used to indicate to the <a href="../../../classes/Roda.html"><code>Roda</code></a> application that it is being run as middleware.</p>
 </li></ul>
 
-<h1 id="label-Backwards+Compatibility">Backwards Compatibility<span><a href="#label-Backwards+Compatibility">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Backwards+Compatibility"><a href="#label-Backwards+Compatibility">Backwards Compatibility</a></h1>
 <ul><li>
 <p>See above changes to the middleware plugin if you are using middleware inside a <a href="../../../classes/Roda.html"><code>Roda</code></a> application that uses the middleware plugin.</p>
 </li></ul>

@@ -33,9 +33,9 @@ doc/release_notes/2.11.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>A params_capturing plugin has been added, which makes string and symbol matchers update the request params with the value of the captured segments, using the matcher as the key:</p>
+<p>A <a href="../../lib/roda/plugins/params_capturing_rb.html">params_capturing</a> plugin has been added, which makes string and symbol matchers update the request params with the value of the captured segments, using the matcher as the key:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:params_capturing</span>
 
@@ -77,17 +77,17 @@ doc/release_notes/2.11.0.txt
 
 <p>Also note that the param keys are actually stored in r.params as strings and not symbols (r[] converts the argument to a string before looking it up in r.params).</p>
 
-<p>Also note that this plugin will not work correctly if you are using the symbol_matchers plugin with custom symbol matching and are using symbols that capture multiple values or no values.</p>
+<p>Also note that this plugin will not work correctly if you are using the <a href="../../lib/roda/plugins/symbol_matchers_rb.html">symbol_matchers</a> plugin with custom symbol matching and are using symbols that capture multiple values or no values.</p>
 </li><li>
 <p>A :scope option is now supported by render/view in the render plugin, which allows you to specify the object in which context to evaluate the template.</p>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
 <p>The assets plugin’s support for the Minjs javascript minifier now supports the latest version (0.4.1).</p>
 </li></ul>
 
-<h1 id="label-Backwards+Compatibility">Backwards Compatibility<span><a href="#label-Backwards+Compatibility">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Backwards+Compatibility"><a href="#label-Backwards+Compatibility">Backwards Compatibility</a></h1>
 <ul><li>
 <p>Support for Minjs &lt;0.4.0 has been dropped from the assets plugin. Please upgrade Minjs at the same time you upgrade <a href="../../../classes/Roda.html"><code>Roda</code></a> if you are using both of them.</p>
 </li></ul>

@@ -50,11 +50,11 @@ Roda::RodaPlugins::Sessions
 
 <p>If the final cookie is too large (&gt;=4096 bytes), a <a href="Sessions/CookieTooLarge.html"><code>Roda::RodaPlugins::Sessions::CookieTooLarge</code></a> exception will be raised.</p>
 
-<h1 id="module-Roda::RodaPlugins::Sessions-label-Required+Options">Required Options<span><a href="#module-Roda::RodaPlugins::Sessions-label-Required+Options">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="module-Roda::RodaPlugins::Sessions-label-Required+Options"><a href="#module-Roda::RodaPlugins::Sessions-label-Required+Options">Required Options</a></h1>
 
 <p>The session cookies this plugin uses are both encrypted and signed, so two separate secrets are used internally.  However, for ease of use, these secrets are combined into a single <code>:secret</code> option.  The <code>:secret</code> option must be a string of at least 64 bytes and should be randomly generated.  The first 32 bytes are used as the secret for the cipher, any remaining bytes are used for the secret for the HMAC.</p>
 
-<h1 id="module-Roda::RodaPlugins::Sessions-label-Other+Options">Other Options<span><a href="#module-Roda::RodaPlugins::Sessions-label-Other+Options">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="module-Roda::RodaPlugins::Sessions-label-Other+Options"><a href="#module-Roda::RodaPlugins::Sessions-label-Other+Options">Other Options</a></h1>
 <table class="rdoc-list note-list"><tbody><tr><td class='label'>:cookie_options </td><td>
 <p>Any cookie options to set on the session cookie. By default, uses <code>httponly: true, path: &#39;/&#39;, same_site: :lax</code> so that the cookie is not accessible to javascript, allowed for all paths, and will not be used for cross-site non-GET requests that.  If the <code>:secure</code> option is not present in the hash, then <code>secure: true</code> is also set if the request is made over HTTPS.  If this option is given, it will be merged into the default cookie options.</p>
 </td></tr><tr><td class='label'>:env_key </td><td>
@@ -87,13 +87,13 @@ Roda::RodaPlugins::Sessions
 <p>Options to pass when deleting the cookie used by Rack::Session::Cookie after converting it to use the session cookies used by this plugin.</p>
 </td></tr></tbody></table>
 
-<h1 id="module-Roda::RodaPlugins::Sessions-label-Not+a+Rack+Middleware">Not a Rack <a href="Middleware.html"><code>Middleware</code></a><span><a href="#module-Roda::RodaPlugins::Sessions-label-Not+a+Rack+Middleware">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="module-Roda::RodaPlugins::Sessions-label-Not+a+Rack+Middleware"><a href="#module-Roda::RodaPlugins::Sessions-label-Not+a+Rack+Middleware">Not a Rack <a href="Middleware.html"><code>Middleware</code></a></a></h1>
 
 <p>Unlike some other approaches to sessions, the sessions plugin does not use a rack middleware, so session information is not available to other rack middleware, only to the application itself, with the session not being loaded from the cookie until the <code>session</code> method is called.</p>
 
 <p>If you need rack middleware to access the session information, then <code>require &#39;roda/session_middleware&#39;</code> and <code>use RodaSessionMiddleware</code>. <a href="../../RodaSessionMiddleware.html"><code>RodaSessionMiddleware</code></a> passes the options given to this plugin.</p>
 
-<h1 id="module-Roda::RodaPlugins::Sessions-label-Session+Cookie+Cryptography-2FFormat">Session Cookie Cryptography/Format<span><a href="#module-Roda::RodaPlugins::Sessions-label-Session+Cookie+Cryptography-2FFormat">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="module-Roda::RodaPlugins::Sessions-label-Session+Cookie+Cryptography-2FFormat"><a href="#module-Roda::RodaPlugins::Sessions-label-Session+Cookie+Cryptography-2FFormat">Session Cookie Cryptography/Format</a></h1>
 
 <p>Session cookies created by this plugin by default use the following format:</p>
 

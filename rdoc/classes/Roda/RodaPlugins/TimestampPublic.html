@@ -36,7 +36,7 @@ Roda::RodaPlugins::TimestampPublic
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The timestamp_public plugin adds a <code>timestamp_path</code> method for constructing timestamp paths, and a <code>r.timestamp_public</code> routing method to serve static files from a directory (using the public plugin).  This plugin is useful when you want to modify the path to static files when the modify timestamp on the file changes, ensuring that requests for the static file will not be cached.</p>
+<p>The <a href="../../../files/lib/roda/plugins/timestamp_public_rb.html">timestamp_public</a> plugin adds a <code>timestamp_path</code> method for constructing timestamp paths, and a <code>r.timestamp_public</code> routing method to serve static files from a directory (using the public plugin).  This plugin is useful when you want to modify the path to static files when the modify timestamp on the file changes, ensuring that requests for the static file will not be cached.</p>
 
 <p>Note that while this plugin will not serve files outside of the public directory, for performance reasons it does not check the path of the file is inside the public directory when getting the modify timestamp.  If the <code>timestamp_path</code> method is called with untrusted input, it is possible for an attacker to get the modify timestamp for any file on the file system.</p>
 

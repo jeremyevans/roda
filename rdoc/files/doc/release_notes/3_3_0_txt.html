@@ -33,9 +33,9 @@ doc/release_notes/3.3.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>A typecast_params plugin has been added for handling the conversion of params to the expected type.  This plugin is recommended for all applications that deal with submitted parameters.</p>
+<p>A <a href="../../lib/roda/plugins/typecast_params_rb.html">typecast_params</a> plugin has been added for handling the conversion of params to the expected type.  This plugin is recommended for all applications that deal with submitted parameters.</p>
 
 <p>Submitted parameters should be considered untrusted input, and in standard use with browsers, parameters are submitted as strings (or a hash/array containing strings).  In most cases it makes sense to explicitly convert the parameter to the desired type.  While this can be done via manual conversion:</p>
 
@@ -43,23 +43,23 @@ doc/release_notes/3.3.0.txt
 <span class="ruby-identifier">key</span> = <span class="ruby-keyword">nil</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">key</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>
 </pre>
 
-<p>the typecast_params plugin adds a friendlier interface:</p>
+<p>the <a href="../../lib/roda/plugins/typecast_params_rb.html">typecast_params</a> plugin adds a friendlier interface:</p>
 
 <pre class="ruby"><span class="ruby-identifier">key</span> = <span class="ruby-identifier">typecast_params</span>.<span class="ruby-identifier">pos_int</span>(<span class="ruby-string">&#39;key&#39;</span>)
 </pre>
 
-<p>As typecast_params is a fairly long method name, you may want to consider aliasing it to something more terse in your application, such as tp.</p>
+<p>As <a href="../../lib/roda/plugins/typecast_params_rb.html">typecast_params</a> is a fairly long method name, you may want to consider aliasing it to something more terse in your application, such as tp.</p>
 
-<p>One advantage of using typecast_params is that access or conversion errors are raised as a specific exception class (<a href="../../../classes/Roda/RodaPlugins/TypecastParams/Error.html"><code>Roda::RodaPlugins::TypecastParams::Error</code></a>).  This allows you to handle this specific exception class globally and return an appropriate 4xx response to the client.  You can use the Error#param_name and Error#reason methods to get more information about the error.</p>
+<p>One advantage of using <a href="../../lib/roda/plugins/typecast_params_rb.html">typecast_params</a> is that access or conversion errors are raised as a specific exception class (<a href="../../../classes/Roda/RodaPlugins/TypecastParams/Error.html"><code>Roda::RodaPlugins::TypecastParams::Error</code></a>).  This allows you to handle this specific exception class globally and return an appropriate 4xx response to the client.  You can use the Error#param_name and Error#reason methods to get more information about the error.</p>
 
-<p>typecast_params offers support for default values:</p>
+<p><a href="../../lib/roda/plugins/typecast_params_rb.html">typecast_params</a> offers support for default values:</p>
 
 <pre class="ruby"><span class="ruby-identifier">key</span> = <span class="ruby-identifier">typecast_params</span>.<span class="ruby-identifier">pos_int</span>(<span class="ruby-string">&#39;key&#39;</span>, <span class="ruby-value">1</span>)
 </pre>
 
-<p>The default value is only used if no value has been submitted for the parameter, or if the conversion of the value results in nil. Handling defaults for parameter conversion manually is more difficult, since the parameter may not be present at all, or it may be present but an empty string because the user did not enter a value on the related form.  Use of typecast_params for the conversion handles both cases.</p>
+<p>The default value is only used if no value has been submitted for the parameter, or if the conversion of the value results in nil. Handling defaults for parameter conversion manually is more difficult, since the parameter may not be present at all, or it may be present but an empty string because the user did not enter a value on the related form.  Use of <a href="../../lib/roda/plugins/typecast_params_rb.html">typecast_params</a> for the conversion handles both cases.</p>
 
-<p>In many cases, parameters should be required, and if they aren’t submitted, that should be considered an error.  typecast_params handles this with ! methods:</p>
+<p>In many cases, parameters should be required, and if they aren’t submitted, that should be considered an error.  <a href="../../lib/roda/plugins/typecast_params_rb.html">typecast_params</a> handles this with ! methods:</p>
 
 <pre class="ruby"><span class="ruby-identifier">key</span> = <span class="ruby-identifier">typecast_params</span>.<span class="ruby-identifier">pos_int!</span>(<span class="ruby-string">&#39;key&#39;</span>)
 </pre>
@@ -256,7 +256,7 @@ doc/release_notes/3.3.0.txt
 
 <p>Be aware that when you use convert! and convert_each!, the conversion methods called inside the block may return nil if there is a error raised, and nested calls to convert! and convert_each! may not return values.</p>
 
-<p>When loading the typecast_params plugin, a subclass of TypecastParams::Params is created specific to the <a href="../../../classes/Roda.html"><code>Roda</code></a> application. You can add support for custom types by passing a block when loading the typecast_params plugin.  This block is executed in the context of the subclass, and calling handle_type in the block can be used to add conversion methods.  handle_type accepts a type name and the block used to convert the type:</p>
+<p>When loading the <a href="../../lib/roda/plugins/typecast_params_rb.html">typecast_params</a> plugin, a subclass of TypecastParams::Params is created specific to the <a href="../../../classes/Roda.html"><code>Roda</code></a> application. You can add support for custom types by passing a block when loading the <a href="../../lib/roda/plugins/typecast_params_rb.html">typecast_params</a> plugin.  This block is executed in the context of the subclass, and calling handle_type in the block can be used to add conversion methods.  handle_type accepts a type name and the block used to convert the type:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:typecast_params</span> <span class="ruby-keyword">do</span>
   <span class="ruby-identifier">handle_type</span>(<span class="ruby-value">:album</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
@@ -267,9 +267,9 @@ doc/release_notes/3.3.0.txt
 <span class="ruby-keyword">end</span>
 </pre>
 
-<p>By default, the typecast_params conversion procs are passed the parameter value directly from request.params without modification. In some cases, it may be beneficial to strip leading and trailing whitespace from parameter string values before processing, which you can do by passing the strip: :all&gt; option when loading the plugin.</p>
+<p>By default, the <a href="../../lib/roda/plugins/typecast_params_rb.html">typecast_params</a> conversion procs are passed the parameter value directly from request.params without modification. In some cases, it may be beneficial to strip leading and trailing whitespace from parameter string values before processing, which you can do by passing the strip: :all&gt; option when loading the plugin.</p>
 
-<p>By design, typecast_params only deals with string keys, it is not possible to use symbol keys as arguments to the conversion methods and have them converted.</p>
+<p>By design, <a href="../../lib/roda/plugins/typecast_params_rb.html">typecast_params</a> only deals with string keys, it is not possible to use symbol keys as arguments to the conversion methods and have them converted.</p>
 </li></ul>
 </div>
 <div id='context'>

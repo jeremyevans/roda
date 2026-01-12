@@ -33,9 +33,9 @@ doc/release_notes/3.43.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>A host_authorization plugin has been added to verify the requested Host header is authorized.  Using it can prevent DNS rebinding attacks in cases where the application can receive requests for arbitrary hosts.</p>
+<p>A <a href="../../lib/roda/plugins/host_authorization_rb.html">host_authorization</a> plugin has been added to verify the requested Host header is authorized.  Using it can prevent DNS rebinding attacks in cases where the application can receive requests for arbitrary hosts.</p>
 
 <p>To check for authorized hosts in your routing tree, you call the check_host_authorization! method.  For example, if you want to check for authorized hosts after serving requests for public files, you could do:</p>
 

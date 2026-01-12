@@ -36,9 +36,9 @@ Roda::RodaPlugins::PrecompileTemplates
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The precompile_templates plugin adds support for precompiling template code. This can result in a large memory savings for applications that have large templates or a large number of small templates if the application uses a forking webserver.  By default, template compilation is lazy, so all the child processes in a forking webserver will have their own copy of the compiled template.  By using the precompile_templates plugin, you can precompile the templates in the parent process before forking, and then all of the child processes can use the same precompiled templates, which saves memory.</p>
+<p>The <a href="../../../files/lib/roda/plugins/precompile_templates_rb.html">precompile_templates</a> plugin adds support for precompiling template code. This can result in a large memory savings for applications that have large templates or a large number of small templates if the application uses a forking webserver.  By default, template compilation is lazy, so all the child processes in a forking webserver will have their own copy of the compiled template.  By using the <a href="../../../files/lib/roda/plugins/precompile_templates_rb.html">precompile_templates</a> plugin, you can precompile the templates in the parent process before forking, and then all of the child processes can use the same precompiled templates, which saves memory.</p>
 
-<p>Another advantage of the precompile_templates plugin is that after template precompilation, access to the template file in the file system is no longer needed, so this can be used with security features that do not allow access to the template files at runtime.</p>
+<p>Another advantage of the <a href="../../../files/lib/roda/plugins/precompile_templates_rb.html">precompile_templates</a> plugin is that after template precompilation, access to the template file in the file system is no longer needed, so this can be used with security features that do not allow access to the template files at runtime.</p>
 
 <p>After loading the plugin, you should call precompile_views with an array of views to compile, using the same argument you are passing to view or render:</p>
 
@@ -85,7 +85,7 @@ Roda::RodaPlugins::PrecompileTemplates
 </div>
 <div class='description'>
 
-<p>Load the render plugin as precompile_templates depends on it.</p>
+<p>Load the render plugin as <a href="../../../files/lib/roda/plugins/precompile_templates_rb.html">precompile_templates</a> depends on it.</p>
 
 </div>
 <div class='source'>

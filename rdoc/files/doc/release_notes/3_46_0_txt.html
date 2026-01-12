@@ -33,9 +33,9 @@ doc/release_notes/3.46.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-Improvements">Improvements<span><a href="#label-Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Improvements"><a href="#label-Improvements">Improvements</a></h1>
 <ul><li>
-<p>The r.on, r.is, r.get and r.post methods (and other verb methods if using the all_verbs plugin) have now been optimized when using a single string or regexp matcher, or the String or Integer class matcher.  Since those four matchers are the most common types of matchers passed to the methods, this can significantly improve routing performance (about 50% in the r10k benchmark).</p>
+<p>The r.on, r.is, r.get and r.post methods (and other verb methods if using the <a href="../../lib/roda/plugins/all_verbs_rb.html">all_verbs</a> plugin) have now been optimized when using a single string or regexp matcher, or the String or Integer class matcher.  Since those four matchers are the most common types of matchers passed to the methods, this can significantly improve routing performance (about 50% in the r10k benchmark).</p>
 
 <p>This optimization is automatically applied when freezing applications, if the related methods have not been modified by plugins.</p>
 

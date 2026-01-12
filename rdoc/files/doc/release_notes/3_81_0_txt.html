@@ -33,9 +33,9 @@ doc/release_notes/3.81.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>The hmac_paths plugin now supports :until and :seconds options for hmac_path, to create a path that is only valid for a specific amount of time.  :until sets a specific time that the path will be valid until, and :seconds makes the path only valid for the given number of seconds.</p>
+<p>The <a href="../../lib/roda/plugins/hmac_paths_rb.html">hmac_paths</a> plugin now supports :until and :seconds options for hmac_path, to create a path that is only valid for a specific amount of time.  :until sets a specific time that the path will be valid until, and :seconds makes the path only valid for the given number of seconds.</p>
 
 <pre class="ruby"><span class="ruby-identifier">hmac_path</span>(<span class="ruby-string">&#39;/widget/1&#39;</span>, <span class="ruby-value">until:</span> <span class="ruby-constant">Time</span>.<span class="ruby-identifier">utc</span>(<span class="ruby-value">2100</span>))
 <span class="ruby-comment"># =&gt;  &quot;/dc8b6e56e4cbe7815df7880d42f0e02956b2e4c49881b6060ceb0e49745a540d/t/4102444800/widget/1&quot;</span>
@@ -44,11 +44,11 @@ doc/release_notes/3.81.0.txt
 <p>Requests for the path after the given time will not be matched by r.hmac_path.</p>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
-<p>The early_hints plugin now correctly follows the Rack 3 SPEC when using Rack 3.  This was not caught previously because Rack only added official support for early_hints in the last month.</p>
+<p>The <a href="../../lib/roda/plugins/early_hints_rb.html">early_hints</a> plugin now correctly follows the Rack 3 SPEC when using Rack 3.  This was not caught previously because Rack only added official support for <a href="../../lib/roda/plugins/early_hints_rb.html">early_hints</a> in the last month.</p>
 </li><li>
-<p>Ruby 3.4 backtraces are now parsed correctly in the exception_page plugin.</p>
+<p>Ruby 3.4 backtraces are now parsed correctly in the <a href="../../lib/roda/plugins/exception_page_rb.html">exception_page</a> plugin.</p>
 </li><li>
 <p>Some plugins that accept a block no longer issue an unused block warning on Ruby 3.4.</p>
 </li></ul>

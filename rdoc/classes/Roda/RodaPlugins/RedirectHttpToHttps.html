@@ -36,7 +36,7 @@ Roda::RodaPlugins::RedirectHttpToHttps
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The redirect_http_to_https plugin exposes a <code>redirect_http_to_https</code> request method that redirects HTTP requests to HTTPS, helping to ensure that future requests by the same browser will be submitted securely.</p>
+<p>The <a href="../../../files/lib/roda/plugins/redirect_http_to_https_rb.html">redirect_http_to_https</a> plugin exposes a <a href="../../../files/lib/roda/plugins/redirect_http_to_https_rb.html">redirect_http_to_https</a> request method that redirects HTTP requests to HTTPS, helping to ensure that future requests by the same browser will be submitted securely.</p>
 
 <p>You should use this plugin if you have an application that can receive requests using both HTTP and HTTPS, and you want to make sure that all or a subset of routes are only handled for HTTPS requests.</p>
 
@@ -49,7 +49,7 @@ Roda::RodaPlugins::RedirectHttpToHttps
 <span class="ruby-keyword">end</span>
 </pre>
 
-<p>If you want to redirect to HTTPS for all routes in the routing tree, you can have this as the very first method call in the routing tree.  Note that in <a href="../../Roda.html"><code>Roda</code></a> it is possible to handle routing before the normal routing tree using before hooks.  The static_routing and heartbeat plugins use this feature. If you would like to handle routes before the normal routing tree, you can setup a before hook:</p>
+<p>If you want to redirect to HTTPS for all routes in the routing tree, you can have this as the very first method call in the routing tree.  Note that in <a href="../../Roda.html"><code>Roda</code></a> it is possible to handle routing before the normal routing tree using before hooks.  The <a href="../../../files/lib/roda/plugins/static_routing_rb.html">static_routing</a> and heartbeat plugins use this feature. If you would like to handle routes before the normal routing tree, you can setup a before hook:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:hooks</span>
 

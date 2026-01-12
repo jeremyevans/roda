@@ -36,14 +36,14 @@ Roda::RodaPlugins::MultiRun
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The multi_run plugin provides the ability to easily dispatch to other rack applications based on the request path prefix. First, load the plugin:</p>
+<p>The <a href="../../../files/lib/roda/plugins/multi_run_rb.html">multi_run</a> plugin provides the ability to easily dispatch to other rack applications based on the request path prefix. First, load the plugin:</p>
 
 <pre class="ruby"><span class="ruby-keyword">class</span> <span class="ruby-constant">App</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Roda</span>
   <span class="ruby-identifier">plugin</span> <span class="ruby-value">:multi_run</span>
 <span class="ruby-keyword">end</span>
 </pre>
 
-<p>Then, other rack applications can register with the multi_run plugin:</p>
+<p>Then, other rack applications can register with the <a href="../../../files/lib/roda/plugins/multi_run_rb.html">multi_run</a> plugin:</p>
 
 <pre class="ruby"><span class="ruby-constant">App</span>.<span class="ruby-identifier">run</span> <span class="ruby-string">&quot;ra&quot;</span>, <span class="ruby-constant">PlainRackApp</span>
 <span class="ruby-constant">App</span>.<span class="ruby-identifier">run</span> <span class="ruby-string">&quot;ro&quot;</span>, <span class="ruby-constant">OtherRodaApp</span>
@@ -79,7 +79,7 @@ Roda::RodaPlugins::MultiRun
 
 <p>When called with a block, <a href="../../Roda.html"><code>Roda</code></a> will call the block to get the app to dispatch to every time the block is called.  The expected usage is with autoloaded classes, so that the related classes are not loaded until there is a request for the related route.  This can sigficantly speedup startup or testing a subset of the application.  When freezing an application, the blocks are called once to get the app to dispatch to, and that is cached, to ensure the any autoloads are completed before the application is frozen.</p>
 
-<p>The multi_run plugin is similar to the hash_branches and multi_route plugins, with the difference being the hash_branches and multi_route plugins keep all routing subtrees in the same <a href="../../Roda.html"><code>Roda</code></a> app/class, while multi_run dispatches to other rack apps. If you want to isolate your routing subtrees, multi_run is a better approach, but it does not let you set instance variables in the main <a href="../../Roda.html"><code>Roda</code></a> app and have those instance variables usable in the routing subtrees.</p>
+<p>The <a href="../../../files/lib/roda/plugins/multi_run_rb.html">multi_run</a> plugin is similar to the <a href="../../../files/lib/roda/plugins/hash_branches_rb.html">hash_branches</a> and <a href="../../../files/lib/roda/plugins/multi_route_rb.html">multi_route</a> plugins, with the difference being the <a href="../../../files/lib/roda/plugins/hash_branches_rb.html">hash_branches</a> and <a href="../../../files/lib/roda/plugins/multi_route_rb.html">multi_route</a> plugins keep all routing subtrees in the same <a href="../../Roda.html"><code>Roda</code></a> app/class, while <a href="../../../files/lib/roda/plugins/multi_run_rb.html">multi_run</a> dispatches to other rack apps. If you want to isolate your routing subtrees, <a href="../../../files/lib/roda/plugins/multi_run_rb.html">multi_run</a> is a better approach, but it does not let you set instance variables in the main <a href="../../Roda.html"><code>Roda</code></a> app and have those instance variables usable in the routing subtrees.</p>
 
 <p>To handle development environments that reload code, you can call the <code>run</code> class method without an app to remove dispatching for the prefix.</p>
 </div>

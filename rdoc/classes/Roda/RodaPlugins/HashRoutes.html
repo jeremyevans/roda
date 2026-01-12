@@ -36,7 +36,7 @@ Roda::RodaPlugins::HashRoutes
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The hash_routes plugin builds on top of the hash_branches and hash_paths plugins, and adds a <a href="HashRoutes/DSL.html"><code>DSL</code></a> for configuring hash branches and paths. It also adds an <code>r.hash_routes</code> method for first attempting dispatch to the configured hash_paths, then to the configured hash_branches:</p>
+<p>The <a href="../../../files/lib/roda/plugins/hash_routes_rb.html">hash_routes</a> plugin builds on top of the <a href="../../../files/lib/roda/plugins/hash_branches_rb.html">hash_branches</a> and <a href="../../../files/lib/roda/plugins/hash_paths_rb.html">hash_paths</a> plugins, and adds a <a href="HashRoutes/DSL.html"><code>DSL</code></a> for configuring hash branches and paths. It also adds an <code>r.hash_routes</code> method for first attempting dispatch to the configured <a href="../../../files/lib/roda/plugins/hash_paths_rb.html">hash_paths</a>, then to the configured <a href="../../../files/lib/roda/plugins/hash_branches_rb.html">hash_branches</a>:</p>
 
 <pre class="ruby"><span class="ruby-keyword">class</span> <span class="ruby-constant">App</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Roda</span>
   <span class="ruby-identifier">plugin</span> <span class="ruby-value">:hash_routes</span>
@@ -67,7 +67,7 @@ Roda::RodaPlugins::HashRoutes
 
 <p>It is best for performance to explicitly specify the namespace when calling <code>r.hash_routes</code>.</p>
 
-<p>Because specifying routes explicitly using the <code>hash_branch</code> and <code>hash_path</code> class methods can get repetitive, the hash_routes plugin offers a <a href="HashRoutes/DSL.html"><code>DSL</code></a> for DRYing the code up.  This <a href="HashRoutes/DSL.html"><code>DSL</code></a> is used by calling the <code>hash_routes</code> class method.  The <a href="HashRoutes/DSL.html"><code>DSL</code></a> used tries to mirror the standard <a href="../../Roda.html"><code>Roda</code></a> <a href="HashRoutes/DSL.html"><code>DSL</code></a>, but it is not a normal routing tree (it’s not possible to execute arbitrary code between branches during routing).</p>
+<p>Because specifying routes explicitly using the <code>hash_branch</code> and <code>hash_path</code> class methods can get repetitive, the <a href="../../../files/lib/roda/plugins/hash_routes_rb.html">hash_routes</a> plugin offers a <a href="HashRoutes/DSL.html"><code>DSL</code></a> for DRYing the code up.  This <a href="HashRoutes/DSL.html"><code>DSL</code></a> is used by calling the <a href="../../../files/lib/roda/plugins/hash_routes_rb.html">hash_routes</a> class method.  The <a href="HashRoutes/DSL.html"><code>DSL</code></a> used tries to mirror the standard <a href="../../Roda.html"><code>Roda</code></a> <a href="HashRoutes/DSL.html"><code>DSL</code></a>, but it is not a normal routing tree (it’s not possible to execute arbitrary code between branches during routing).</p>
 
 <pre class="ruby"><span class="ruby-keyword">class</span> <span class="ruby-constant">App</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Roda</span>
   <span class="ruby-identifier">plugin</span> <span class="ruby-value">:hash_routes</span>
@@ -115,7 +115,7 @@ Roda::RodaPlugins::HashRoutes
 <span class="ruby-keyword">end</span>
 </pre>
 
-<p>The <code>hash_routes</code> <a href="HashRoutes/DSL.html"><code>DSL</code></a> also offers some additional features to handle additional cases.  It supports verb methods, such as <code>get</code> and <code>post</code>, which operate like <code>is</code>, but are only called if the verb matches (and are not yielded the request). It supports a <code>view</code> method for routes that only render views, as well as a <code>views</code> method for setting up routes for multiple views in a single call, which is a good replacement for the <code>multi_view</code> plugin. <code>is</code>, <code>view</code>, and the verb methods can use a value of <code>true</code> for the empty remaining path (as the empty string specifies the <code>&quot;/&quot;</code> remaining path). It also supports a <code>dispatch_from</code> method, allowing you to setup dispatching to current group of routes from a higher-level namespace. The <code>hash_routes</code> class method will return the <a href="HashRoutes/DSL.html"><code>DSL</code></a> instance, so you are not limited to using it with a block.</p>
+<p>The <a href="../../../files/lib/roda/plugins/hash_routes_rb.html">hash_routes</a> <a href="HashRoutes/DSL.html"><code>DSL</code></a> also offers some additional features to handle additional cases.  It supports verb methods, such as <code>get</code> and <code>post</code>, which operate like <code>is</code>, but are only called if the verb matches (and are not yielded the request). It supports a <code>view</code> method for routes that only render views, as well as a <code>views</code> method for setting up routes for multiple views in a single call, which is a good replacement for the <a href="../../../files/lib/roda/plugins/multi_view_rb.html">multi_view</a> plugin. <code>is</code>, <code>view</code>, and the verb methods can use a value of <code>true</code> for the empty remaining path (as the empty string specifies the <code>&quot;/&quot;</code> remaining path). It also supports a <code>dispatch_from</code> method, allowing you to setup dispatching to current group of routes from a higher-level namespace. The <a href="../../../files/lib/roda/plugins/hash_routes_rb.html">hash_routes</a> class method will return the <a href="HashRoutes/DSL.html"><code>DSL</code></a> instance, so you are not limited to using it with a block.</p>
 
 <p>Here’s the above example modified to use some of these features:</p>
 
@@ -175,7 +175,7 @@ Roda::RodaPlugins::HashRoutes
 
 <p>The <code>view</code> and <code>views</code> method depend on the render plugin being loaded, but this plugin does not load the render plugin.  You must load the render plugin separately if you want to use the <code>view</code> and <code>views</code> methods.</p>
 
-<p>Certain parts of the <code>hash_routes</code> <a href="HashRoutes/DSL.html"><code>DSL</code></a> support do not work with the route_block_args plugin, as doing so would reduce performance.  These are:</p>
+<p>Certain parts of the <a href="../../../files/lib/roda/plugins/hash_routes_rb.html">hash_routes</a> <a href="HashRoutes/DSL.html"><code>DSL</code></a> support do not work with the <a href="../../../files/lib/roda/plugins/route_block_args_rb.html">route_block_args</a> plugin, as doing so would reduce performance.  These are:</p>
 <ul><li>
 <p>dispatch_from</p>
 </li><li>

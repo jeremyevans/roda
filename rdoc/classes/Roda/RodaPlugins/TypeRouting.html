@@ -77,7 +77,7 @@ Roda::RodaPlugins::TypeRouting
 <span class="ruby-keyword">end</span>
 </pre>
 
-<p>This works correctly because Roda’s default Content-Type is text/html. Note that if you use this approach, the type_routing plugin’s :html content type will not be used for html responses, since you aren’t using an <code>r.html</code> block.  Instead, the Content-Type header will be set to Roda’s default (which you can override via the default_headers plugin).</p>
+<p>This works correctly because Roda’s default Content-Type is text/html. Note that if you use this approach, the <a href="../../../files/lib/roda/plugins/type_routing_rb.html">type_routing</a> plugin’s :html content type will not be used for html responses, since you aren’t using an <code>r.html</code> block.  Instead, the Content-Type header will be set to Roda’s default (which you can override via the <a href="../../../files/lib/roda/plugins/default_headers_rb.html">default_headers</a> plugin).</p>
 
 <p>If the type routing is based on the <code>Accept</code> request header and not the file extension, then an appropriate <code>Vary</code> header will be set or appended to, so that HTTP caches do not serve the same result for requests with different <code>Accept</code> headers.</p>
 
@@ -99,7 +99,7 @@ Roda::RodaPlugins::TypeRouting
 <span class="ruby-keyword">end</span>
 </pre>
 
-<h1 id="module-Roda::RodaPlugins::TypeRouting-label-Plugin+options">Plugin options<span><a href="#module-Roda::RodaPlugins::TypeRouting-label-Plugin+options">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="module-Roda::RodaPlugins::TypeRouting-label-Plugin+options"><a href="#module-Roda::RodaPlugins::TypeRouting-label-Plugin+options">Plugin options</a></h1>
 
 <p>The following plugin options are supported:</p>
 <table class="rdoc-list note-list"><tbody><tr><td class='label'>:default_type </td><td>

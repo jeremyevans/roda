@@ -36,7 +36,7 @@ Roda::RodaPlugins::ParamsCapturing
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The params_capturing plugin makes symbol matchers update the request params with the value of the captured segments, using the matcher as the key:</p>
+<p>The <a href="../../../files/lib/roda/plugins/params_capturing_rb.html">params_capturing</a> plugin makes symbol matchers update the request params with the value of the captured segments, using the matcher as the key:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:params_capturing</span>
 
@@ -76,9 +76,9 @@ Roda::RodaPlugins::ParamsCapturing
 
 <p>Note that any existing params captures entry will be overwritten by this plugin.  You can use <code>r.GET</code> or <code>r.POST</code> to get the underlying entry, depending on how it was submitted.</p>
 
-<p>This plugin will also handle string matchers with placeholders if the placeholder_string_matchers plugin is loaded before this plugin.</p>
+<p>This plugin will also handle string matchers with placeholders if the <a href="../../../files/lib/roda/plugins/placeholder_string_matchers_rb.html">placeholder_string_matchers</a> plugin is loaded before this plugin.</p>
 
-<p>Also note that this plugin will not work correctly if you are using the symbol_matchers plugin with custom symbol matching and are using symbols that capture multiple values or no values.</p>
+<p>Also note that this plugin will not work correctly if you are using the <a href="../../../files/lib/roda/plugins/symbol_matchers_rb.html">symbol_matchers</a> plugin with custom symbol matching and are using symbols that capture multiple values or no values.</p>
 </div>
 <div id='context'>
 </div>

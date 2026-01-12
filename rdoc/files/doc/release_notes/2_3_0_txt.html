@@ -33,9 +33,9 @@ doc/release_notes/2.3.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Plugins">New Plugins<span><a href="#label-New+Plugins">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Plugins"><a href="#label-New+Plugins">New Plugins</a></h1>
 <ul><li>
-<p>A json_parser plugin has been added, for parsing request bodies in JSON format.  This is faster than using a middleware to perform the same task.  This plugin supports a :parser option to use a custom JSON parser, an :include_request option to include the request when calling the parser, and a :error_handler option for a proc to call with the request if there is an error when parsing. Example:</p>
+<p>A <a href="../../lib/roda/plugins/json_parser_rb.html">json_parser</a> plugin has been added, for parsing request bodies in JSON format.  This is faster than using a middleware to perform the same task.  This plugin supports a :parser option to use a custom JSON parser, an :include_request option to include the request when calling the parser, and a :error_handler option for a proc to call with the request if there is an error when parsing. Example:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:json_parser</span>,
   <span class="ruby-value">:parser</span><span class="ruby-operator">=&gt;</span><span class="ruby-constant">JSON</span>.<span class="ruby-identifier">method</span>(<span class="ruby-value">:parse</span>),
@@ -43,7 +43,7 @@ doc/release_notes/2.3.0.txt
   <span class="ruby-value">:error_handler</span><span class="ruby-operator">=&gt;</span><span class="ruby-identifier">proc</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span> <span class="ruby-identifier">r</span>.<span class="ruby-identifier">halt</span> [<span class="ruby-value">400</span>, {}, []]}
 </pre>
 </li><li>
-<p>A path_rewriter plugin has been added, allowing for the rewriting of paths before routing.  This allows you to rewrite just the routing path (the default), or PATH_INFO as well as the routing path (if the :path_info option is used).  This is useful if you want to internally treat one path exactly the same as another path.</p>
+<p>A <a href="../../lib/roda/plugins/path_rewriter_rb.html">path_rewriter</a> plugin has been added, allowing for the rewriting of paths before routing.  This allows you to rewrite just the routing path (the default), or PATH_INFO as well as the routing path (if the :path_info option is used).  This is useful if you want to internally treat one path exactly the same as another path.</p>
 
 <p>By default, path rewriting is done on prefixes, so any path that starts with the prefix will be rewritten.  You can pass a Regexp when rewriting the path for more complete control.</p>
 
@@ -72,7 +72,7 @@ doc/release_notes/2.3.0.txt
 </pre>
 </li></ul>
 
-<h1 id="label-Other+New+Features">Other New Features<span><a href="#label-Other+New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+New+Features"><a href="#label-Other+New+Features">Other New Features</a></h1>
 <ul><li>
 <p>The json plugin now supports a :serializer option to use a custom serializer.  Additionally, it now supports a :include_request option to include the request when calling the serializer.</p>
 </li><li>
@@ -85,7 +85,7 @@ doc/release_notes/2.3.0.txt
 <p>In the mailer plugin, a no_mail! method is now supported when mailing, which will skip the current mail.  This makes it easier to delay the decision about actually sending the email till it is time to send the email, which makes it easier to avoid race conditions if you are using a job queue for mailing.</p>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
 <p><a href="../../../classes/Roda.html"><code>Roda</code></a> avoids rehashing hashes at runtime in some places, for a minor speedup.</p>
 </li><li>
@@ -94,7 +94,7 @@ doc/release_notes/2.3.0.txt
 <p><a href="../../../classes/Roda.html"><code>Roda</code></a> now returns a 404 response for unmatched GET requests when using the assets and json plugins where r.assets is the last method called in a route block.</p>
 </li></ul>
 
-<h1 id="label-Backwards+Compatibility">Backwards Compatibility<span><a href="#label-Backwards+Compatibility">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Backwards+Compatibility"><a href="#label-Backwards+Compatibility">Backwards Compatibility</a></h1>
 <ul><li>
 <p>In the render plugin, the :ext option to the plugin and to the render/view methods is now replaced by the :engine option. Previously, :engine was used by default if :ext was not given. In general, there is no need for two separate options, the engine is used as the extension by Tilt.</p>
 

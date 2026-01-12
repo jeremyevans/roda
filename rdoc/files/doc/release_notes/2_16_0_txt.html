@@ -33,9 +33,9 @@ doc/release_notes/2.16.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>A type_routing plugin has been added.  This plugin allows routing based on the requested type, which can be submitted either via a file extension or Accept header:</p>
+<p>A <a href="../../lib/roda/plugins/type_routing_rb.html">type_routing</a> plugin has been added.  This plugin allows routing based on the requested type, which can be submitted either via a file extension or Accept header:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:type_routing</span>
 
@@ -54,17 +54,17 @@ doc/release_notes/2.16.0.txt
 
 <p>The response content type is set appropriately when the r.html, r.json, or r.xml block is yielded to.  Using plugin options, you can add support for custom types, and choose whether to use only file extensions or only Accept headers for type matching.</p>
 </li><li>
-<p>A request_headers plugin has been added. This allows easier access to request headers.  For example, to access a header called X-My-Header, by default you would need to use the CGI mangled name:</p>
+<p>A <a href="../../lib/roda/plugins/request_headers_rb.html">request_headers</a> plugin has been added. This allows easier access to request headers.  For example, to access a header called X-My-Header, by default you would need to use the CGI mangled name:</p>
 
 <pre class="ruby"><span class="ruby-identifier">r</span>.<span class="ruby-identifier">env</span>[<span class="ruby-string">&#39;HTTP_X_MY_HEADER&#39;</span>]
 </pre>
 
-<p>The request_headers plugin allows the easier to use:</p>
+<p>The <a href="../../lib/roda/plugins/request_headers_rb.html">request_headers</a> plugin allows the easier to use:</p>
 
 <pre class="ruby"><span class="ruby-identifier">r</span>.<span class="ruby-identifier">headers</span>[<span class="ruby-string">&#39;X-My-Header&#39;</span>]
 </pre>
 </li><li>
-<p>An unescape_path plugin has been added.  By default, <a href="../../../classes/Roda.html"><code>Roda</code></a> does not unescape a URL-encoded PATH_INFO before routing.  This plugin allows URL-encoded PATH_INFO to work, supporting %2f as well as / as path separators, and having captures return unescaped values:</p>
+<p>An <a href="../../lib/roda/plugins/unescape_path_rb.html">unescape_path</a> plugin has been added.  By default, <a href="../../../classes/Roda.html"><code>Roda</code></a> does not unescape a URL-encoded PATH_INFO before routing.  This plugin allows URL-encoded PATH_INFO to work, supporting %2f as well as / as path separators, and having captures return unescaped values:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:unescape_path</span>
 

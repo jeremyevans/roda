@@ -21,7 +21,7 @@
       </nav>
     
     <div class="content"><div class="contain">    
-  <h1>Documentation for Roda (v3.99.0)</h1>
+  <h1>Documentation for Roda (v3.100.0)</h1>
 
   <h2><a href="rdoc/files/README_rdoc.html">README</a> <small>(Introduction to Roda, start here if new)</small></h2>
 
@@ -182,10 +182,14 @@
       <li><a href="rdoc/classes/Roda/RodaPlugins/Middleware.html">middleware</a>: Allows the Roda app to be used as middleware by another app.</li>
       <li><a href="rdoc/classes/Roda/RodaPlugins/MiddlewareStack.html">middleware_stack</a>: Allows removing middleware and inserting middleware before the end of the stack.</li>
     </ul></li>
+    <li>CSRF Protection: <ul>
+      <li><a href="rdoc/classes/Roda/RodaPlugins/Csrf.html">csrf</a>: Older CSRF plugin for backwards compatibility using <a href="https://github.com/baldowl/rack_csrf">rack_csrf</a>.</li>
+      <li><a href="rdoc/classes/Roda/RodaPlugins/RouteCsrf.html">route_csrf</a>: Recommended CSRF plugin with request-specific tokens and control over where CSRF tokens are checked during routing.</li>
+      <li><a href="rdoc/classes/Roda/RodaPlugins/SecFetchSiteCsrf.html">sec_fetch_site_csrf</a>: Simpler CSRF plugin using the Sec-Fetch-Site used in modern browsers.</li>
+    </ul></li>
     <li>Other: <ul>
       <li><a href="rdoc/classes/Roda/RodaPlugins/CommonLogger.html">common_logger</a>: Adds support for logging in common log format.</li>
       <li><a href="rdoc/classes/Roda/RodaPlugins/ConditionalSessions.html">conditional_sessions</a>: Allows for using the session plugin for a subset of requests.</li>
-      <li><a href="rdoc/classes/Roda/RodaPlugins/Csrf.html">csrf</a>: Older CSRF plugin for backwards compatibility using <a href="https://github.com/baldowl/rack_csrf">rack_csrf</a>.</li>
       <li><a href="rdoc/classes/Roda/RodaPlugins/Environments.html">environments</a>: Adds support for handling different execution environments (development/test/production).</li>
       <li><a href="rdoc/classes/Roda/RodaPlugins/EarlyHints.html">early_hints</a>: Adds support for using 103 Early Hints responses when using a compatible server.</li>
       <li><a href="rdoc/classes/Roda/RodaPlugins/FilterCommonLogger.html">filter_common_logger</a>: Adds support for skipping the logging of certain requests when using the common_logger plugin.</li>
@@ -196,7 +200,6 @@
       <li><a href="rdoc/classes/Roda/RodaPlugins/JsonParser.html">json_parser</a>: Parses request bodies in JSON format.</li>
       <li><a href="rdoc/classes/Roda/RodaPlugins/Path.html">path</a>: Adds support for named paths.</li>
       <li><a href="rdoc/classes/Roda/RodaPlugins/RelativePath.html">relative_path</a>: Adds support for turning absolute paths into paths relative to current request.</li>
-      <li><a href="rdoc/classes/Roda/RodaPlugins/RouteCsrf.html">route_csrf</a>: Recommended CSRF plugin with request-specific tokens and control over where CSRF tokens are checked during routing.</li>
       <li><a href="rdoc/classes/Roda/RodaPlugins/Sessions.html">sessions</a>: Implements support for encrypted sessions.</li>
       <li><a href="rdoc/classes/Roda/RodaPlugins/SharedVars.html">shared_vars</a>: Stores and retrives variables shared between multiple Roda apps.</li>
       <li><a href="rdoc/classes/Roda/RodaPlugins/StripPathPrefix.html">strip_path_prefix</a>: Strips prefixes off internal absolute paths, making them relative paths.</li>
@@ -260,6 +263,10 @@
   <h2 id="release-notes">Release Notes</h2>
   <ul>
     
+        
+          <li>
+            <a href='rdoc/files/doc/release_notes/3_100_0_txt.html'>3.100</a>
+          </li>
         
           <li>
             <a href='rdoc/files/doc/release_notes/3_99_0_txt.html'>3.99</a> | <a href='rdoc/files/doc/release_notes/3_98_0_txt.html'>3.98</a> | <a href='rdoc/files/doc/release_notes/3_97_0_txt.html'>3.97</a> | <a href='rdoc/files/doc/release_notes/3_96_0_txt.html'>3.96</a> | <a href='rdoc/files/doc/release_notes/3_95_0_txt.html'>3.95</a> | <a href='rdoc/files/doc/release_notes/3_94_0_txt.html'>3.94</a> | <a href='rdoc/files/doc/release_notes/3_93_0_txt.html'>3.93</a> | <a href='rdoc/files/doc/release_notes/3_92_0_txt.html'>3.92</a> | <a href='rdoc/files/doc/release_notes/3_91_0_txt.html'>3.91</a> | <a href='rdoc/files/doc/release_notes/3_90_0_txt.html'>3.90</a>

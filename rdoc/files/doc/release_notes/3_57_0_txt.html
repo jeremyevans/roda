@@ -33,27 +33,27 @@ doc/release_notes/3.57.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>hash_branches and hash_paths plugins have been split off from the hash_routes plugin, allowing you to use only those parts instead of all of hash_routes.</p>
+<p><a href="../../lib/roda/plugins/hash_branches_rb.html">hash_branches</a> and <a href="../../lib/roda/plugins/hash_paths_rb.html">hash_paths</a> plugins have been split off from the <a href="../../lib/roda/plugins/hash_routes_rb.html">hash_routes</a> plugin, allowing you to use only those parts instead of all of hash_routes.</p>
 
-<p>The hash_branches plugin supports the hash_branch class method and r.hash_branches routing method.</p>
+<p>The <a href="../../lib/roda/plugins/hash_branches_rb.html">hash_branches</a> plugin supports the hash_branch class method and r.hash_branches routing method.</p>
 
-<p>The hash_paths plugin supports the hash_path class method and r.hash_paths routing method.</p>
+<p>The <a href="../../lib/roda/plugins/hash_paths_rb.html">hash_paths</a> plugin supports the hash_path class method and r.hash_paths routing method.</p>
 
-<p>The hash_routes plugin functions as it did previously by requiring the hash_branches and hash_paths plugins. It adds the hash_routes DSL and r.hash_routes routing method.</p>
+<p>The <a href="../../lib/roda/plugins/hash_routes_rb.html">hash_routes</a> plugin functions as it did previously by requiring the <a href="../../lib/roda/plugins/hash_branches_rb.html">hash_branches</a> and <a href="../../lib/roda/plugins/hash_paths_rb.html">hash_paths</a> plugins. It adds the <a href="../../lib/roda/plugins/hash_routes_rb.html">hash_routes</a> DSL and r.hash_routes routing method.</p>
 </li><li>
-<p>A hash_branch_view_subdir has been added.  It builds on the view_options plugin and new hash_branches plugin, automatically appending a view subdirectory for each successful hash branch. This can DRY up code that uses a separate view subdirectory for each branch.</p>
+<p>A <a href="../../lib/roda/plugins/hash_branch_view_subdir_rb.html">hash_branch_view_subdir</a> has been added.  It builds on the <a href="../../lib/roda/plugins/view_options_rb.html">view_options</a> plugin and new <a href="../../lib/roda/plugins/hash_branches_rb.html">hash_branches</a> plugin, automatically appending a view subdirectory for each successful hash branch. This can DRY up code that uses a separate view subdirectory for each branch.</p>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
-<p>Unprintable characters are now hex escaped in the output of the common_logger plugin.  This can protect users who use software that respects shell escape sequences to view the logs.</p>
+<p>Unprintable characters are now hex escaped in the output of the <a href="../../lib/roda/plugins/common_logger_rb.html">common_logger</a> plugin.  This can protect users who use software that respects shell escape sequences to view the logs.</p>
 </li></ul>
 
-<h1 id="label-Backwards+Compatibility">Backwards Compatibility<span><a href="#label-Backwards+Compatibility">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Backwards+Compatibility"><a href="#label-Backwards+Compatibility">Backwards Compatibility</a></h1>
 <ul><li>
-<p>The static_routing plugin now depends on the hash_paths plugin instead of the hash_routes plugin, so you will need to update your application to explicitly load the hash_routes plugin if you were relying on static_routing to implicitly load it.</p>
+<p>The <a href="../../lib/roda/plugins/static_routing_rb.html">static_routing</a> plugin now depends on the <a href="../../lib/roda/plugins/hash_paths_rb.html">hash_paths</a> plugin instead of the <a href="../../lib/roda/plugins/hash_routes_rb.html">hash_routes</a> plugin, so you will need to update your application to explicitly load the <a href="../../lib/roda/plugins/hash_routes_rb.html">hash_routes</a> plugin if you were relying on <a href="../../lib/roda/plugins/static_routing_rb.html">static_routing</a> to implicitly load it.</p>
 </li></ul>
 </div>
 <div id='context'>

@@ -33,7 +33,7 @@ doc/release_notes/2.24.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
 <p>The middleware plugin now accepts a block that can be used to implement configurable middleware.  This allows you to load the <a href="../../../classes/Roda.html"><code>Roda</code></a> application as middleware in another application, and provide options/block that are passed to the block you passed when loading the middleware plugin.  Example:</p>
 
@@ -58,23 +58,23 @@ doc/release_notes/2.24.0.txt
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:cookies</span>, <span class="ruby-value">:path</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-string">&#39;/foo&#39;</span>, <span class="ruby-value">:domain</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-string">&#39;example.com&#39;</span>
 </pre>
 </li><li>
-<p>A strip_path_prefix plugin has been added, which can be used to strip prefixes from internal paths.  Internally Sequel stores most paths as absolute paths, but there are cases where this doesn’t work well, such as symlink changes and chroot.  This plugin supports those scenarios.</p>
+<p>A <a href="../../lib/roda/plugins/strip_path_prefix_rb.html">strip_path_prefix</a> plugin has been added, which can be used to strip prefixes from internal paths.  Internally Sequel stores most paths as absolute paths, but there are cases where this doesn’t work well, such as symlink changes and chroot.  This plugin supports those scenarios.</p>
 </li><li>
-<p>A disallow_file_uploads plugin has been added, which raises an exception if the user attempts a multipart file upload. More exactly, it makes the application raise an exception if attempting to parse a request body when the user has submitted a multipart file upload.  This is useful if you don’t need to support file uploads in your application, or cases where no paths are writable by the application (due to chroot or system call filtering).</p>
+<p>A <a href="../../lib/roda/plugins/disallow_file_uploads_rb.html">disallow_file_uploads</a> plugin has been added, which raises an exception if the user attempts a multipart file upload. More exactly, it makes the application raise an exception if attempting to parse a request body when the user has submitted a multipart file upload.  This is useful if you don’t need to support file uploads in your application, or cases where no paths are writable by the application (due to chroot or system call filtering).</p>
 </li><li>
 <p>The :freeze_middleware option has been added, which freezes all middleware instances when building the rack application.  This can help find thread safety issues in middleware.</p>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
 <p>The h plugin is now about 6x faster on ruby 2.3+ due to the use of cgi/escape.</p>
 </li><li>
-<p>The static_routing plugin now works with the hooks plugin if the hooks plugin is loaded first.</p>
+<p>The <a href="../../lib/roda/plugins/static_routing_rb.html">static_routing</a> plugin now works with the hooks plugin if the hooks plugin is loaded first.</p>
 </li><li>
 <p>The render plugin’s render cache is no longer cleared when loading the plugin multiple times.</p>
 </li></ul>
 
-<h1 id="label-Backwards+Compatibility">Backwards Compatibility<span><a href="#label-Backwards+Compatibility">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Backwards+Compatibility"><a href="#label-Backwards+Compatibility">Backwards Compatibility</a></h1>
 <ul><li>
 <p>The h plugin now escapes ‘ as &amp;#39; instead of &amp;#x27;.</p>
 </li></ul>

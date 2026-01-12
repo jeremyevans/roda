@@ -33,13 +33,13 @@ doc/release_notes/3.6.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>An early_hints plugin has been added for senting 103 Early Hint responses.  This is currently only supported on puma 3.11+, and can allow for improved performance by letting the requestor know which related files will be needed by the request.</p>
+<p>An <a href="../../lib/roda/plugins/early_hints_rb.html">early_hints</a> plugin has been added for senting 103 Early Hint responses.  This is currently only supported on puma 3.11+, and can allow for improved performance by letting the requestor know which related files will be needed by the request.</p>
 </li><li>
 <p>An :early_hints option has been added to the assets plugin.  If given, calling the assets method will also issue an early hint for the related assets.</p>
 </li><li>
-<p>A :wrap option has been added to the json_parser plugin.  If set to :always, all uploaded json data will be stored using a hash with a “_json” key.  If set to :unless_hash, uploaded json data will only be wrapped in such a matter if it is not already a hash.</p>
+<p>A :wrap option has been added to the <a href="../../lib/roda/plugins/json_parser_rb.html">json_parser</a> plugin.  If set to :always, all uploaded json data will be stored using a hash with a “_json” key.  If set to :unless_hash, uploaded json data will only be wrapped in such a matter if it is not already a hash.</p>
 
 <p>Using the :wrap option can fix problems when using r.params when the uploaded JSON data is an array and not a hash.  However, it does change the behavior of r.POST.  It is possible to handle uploaded JSON array data without the :wrap option by using r.GET and r.POST directly instead of using r.params.</p>
 </li></ul>

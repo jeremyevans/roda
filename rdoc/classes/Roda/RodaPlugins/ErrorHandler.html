@@ -36,7 +36,7 @@ Roda::RodaPlugins::ErrorHandler
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The error_handler plugin adds an error handler to the routing, so that if routing the request raises an error, a nice error message page can be returned to the user.</p>
+<p>The <a href="../../../files/lib/roda/plugins/error_handler_rb.html">error_handler</a> plugin adds an error handler to the routing, so that if routing the request raises an error, a nice error message page can be returned to the user.</p>
 
 <p>You can provide the error handler as a block to the plugin:</p>
 
@@ -56,7 +56,7 @@ Roda::RodaPlugins::ErrorHandler
 
 <p>In both cases, the exception instance is passed into the block, and the block can return the request body via a string.</p>
 
-<p>If an exception is raised, a new response will be used, with the default status set to 500, before executing the error handler. The error handler can change the response status if necessary, as well set headers and/or write to the body, just like a regular request.  After the error handler returns a response, normal after processing of that response occurs, except that an exception during after processing is logged to <code>env[&#39;rack.errors&#39;]</code> but otherwise ignored. This avoids recursive calls into the error_handler.  Note that if the error_handler itself raises an exception, the exception will be raised without normal after processing.  This can cause some after processing to run twice (once before the error_handler is called and once after) if later after processing raises an exception.</p>
+<p>If an exception is raised, a new response will be used, with the default status set to 500, before executing the error handler. The error handler can change the response status if necessary, as well set headers and/or write to the body, just like a regular request.  After the error handler returns a response, normal after processing of that response occurs, except that an exception during after processing is logged to <code>env[&#39;rack.errors&#39;]</code> but otherwise ignored. This avoids recursive calls into the error_handler.  Note that if the <a href="../../../files/lib/roda/plugins/error_handler_rb.html">error_handler</a> itself raises an exception, the exception will be raised without normal after processing.  This can cause some after processing to run twice (once before the <a href="../../../files/lib/roda/plugins/error_handler_rb.html">error_handler</a> is called and once after) if later after processing raises an exception.</p>
 
 <p>By default, this plugin handles StandardError and ScriptError. To override the exception classes it will handle, pass a :classes option to the plugin:</p>
 

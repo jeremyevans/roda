@@ -33,19 +33,19 @@ doc/release_notes/3.66.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>A render_coverage plugin has been added, which will cause compiled template code to be saved to a folder and loaded using load instead of eval. This allows for coverage to work for the compiled template code in Ruby versions before 3.2.  It can also allow for verbose syntax warnings in compiled template code (ignored by eval), and can also be useful for static analysis of compiled template code. This plugin requires tilt 2.1+.</p>
+<p>A <a href="../../lib/roda/plugins/render_coverage_rb.html">render_coverage</a> plugin has been added, which will cause compiled template code to be saved to a folder and loaded using load instead of eval. This allows for coverage to work for the compiled template code in Ruby versions before 3.2.  It can also allow for verbose syntax warnings in compiled template code (ignored by eval), and can also be useful for static analysis of compiled template code. This plugin requires tilt 2.1+.</p>
 </li><li>
-<p>The exception_page plugin now supports exception_page_{css,js} instance methods for overriding the CSS and JavaScript on the generated exception page.</p>
+<p>The <a href="../../lib/roda/plugins/exception_page_rb.html">exception_page</a> plugin now supports exception_page_{css,js} instance methods for overriding the CSS and JavaScript on the generated exception page.</p>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
 <p>Using inline templates (render/view :inline option) no longer keeps a reference to the <a href="../../../classes/Roda.html"><code>Roda</code></a> instance that caches the template.</p>
 </li></ul>
 
-<h1 id="label-Backwards+Compatibility">Backwards Compatibility<span><a href="#label-Backwards+Compatibility">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Backwards+Compatibility"><a href="#label-Backwards+Compatibility">Backwards Compatibility</a></h1>
 <ul><li>
 <p>The Render::TemplateMtimeWrapper API has changed.  Any external use of this class needs to be updated.</p>
 </li></ul>

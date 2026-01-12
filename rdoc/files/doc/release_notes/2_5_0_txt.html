@@ -33,13 +33,13 @@ doc/release_notes/2.5.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
 <p>The assets plugin now supports a :compiled_asset_host option, which specifies a hostname used to serve compiled assets.</p>
 </li><li>
 <p>The render plugin now supports a :cache_class option, which specificies a class to use for the thread-safe template cache. This can be used to setup LRU caching or caching that checks modify times on the underlying template files.</p>
 </li><li>
-<p>r.multi_run in the multi_run plugin now accepts a block, and calls the block before dispatching to the related rack application.  This can be used to modify the environment before dispatching.  Example:</p>
+<p>r.multi_run in the <a href="../../lib/roda/plugins/multi_run_rb.html">multi_run</a> plugin now accepts a block, and calls the block before dispatching to the related rack application.  This can be used to modify the environment before dispatching.  Example:</p>
 
 <pre class="ruby"><span class="ruby-identifier">r</span>.<span class="ruby-identifier">multi_run</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">prefix</span><span class="ruby-operator">|</span>
   <span class="ruby-identifier">env</span>[<span class="ruby-string">&#39;authenticated&#39;</span>] = <span class="ruby-keyword">true</span>
@@ -47,7 +47,7 @@ doc/release_notes/2.5.0.txt
 </pre>
 </li></ul>
 
-<h1 id="label-Backwards+Compatibility">Backwards Compatibility<span><a href="#label-Backwards+Compatibility">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Backwards+Compatibility"><a href="#label-Backwards+Compatibility">Backwards Compatibility</a></h1>
 <ul><li>
 <p>The :by_name option to the path plugin now defaults to true in development mode.  This should only negatively affect applications that register anonymous classes with the path plugin.</p>
 </li></ul>

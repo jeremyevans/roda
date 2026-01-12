@@ -36,17 +36,17 @@ Roda::RodaPlugins::CaptureERB
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The capture_erb plugin allows you to capture the content of a block in an ERB template, and return it as a value, instead of injecting the template block into the template output.</p>
+<p>The <a href="../../../files/lib/roda/plugins/capture_erb_rb.html">capture_erb</a> plugin allows you to capture the content of a block in an ERB template, and return it as a value, instead of injecting the template block into the template output.</p>
 
 <pre>&lt;% value = capture_erb do %&gt;
   Some content here.
 &lt;% end %&gt;</pre>
 
-<p><code>capture_erb</code> can be used inside other methods that are called inside templates.  It can be combined with the inject_erb plugin to wrap template blocks with arbitrary output and then inject the wrapped output into the template.</p>
+<p><a href="../../../files/lib/roda/plugins/capture_erb_rb.html">capture_erb</a> can be used inside other methods that are called inside templates.  It can be combined with the <a href="../../../files/lib/roda/plugins/inject_erb_rb.html">inject_erb</a> plugin to wrap template blocks with arbitrary output and then inject the wrapped output into the template.</p>
 
 <p>If the output buffer object responds to <code>capture</code> and is not an instance of String (e.g. when <code>erubi/capture_block</code> is being used as the template engine), this will call <code>capture</code> on the output buffer object, instead of setting the output buffer object temporarily to a new object.</p>
 
-<p>By default, capture_erb returns the value of the block, converted to a string.  However, that can cause issues with code such as:</p>
+<p>By default, <a href="../../../files/lib/roda/plugins/capture_erb_rb.html">capture_erb</a> returns the value of the block, converted to a string.  However, that can cause issues with code such as:</p>
 
 <pre>&lt;% value = capture_erb do %&gt;
   Some content here.

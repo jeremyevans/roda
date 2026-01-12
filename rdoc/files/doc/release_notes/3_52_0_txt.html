@@ -33,18 +33,18 @@ doc/release_notes/3.52.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>The typecast_params plugin now supports a :date_parse_input_handler option that will be called with all input that will be passed to the date parsing methods.  You can use this option to automatically truncate input, if that is perferable to raising an error (which is how recent versions of Ruby handle too-long input).</p>
+<p>The <a href="../../lib/roda/plugins/typecast_params_rb.html">typecast_params</a> plugin now supports a :date_parse_input_handler option that will be called with all input that will be passed to the date parsing methods.  You can use this option to automatically truncate input, if that is perferable to raising an error (which is how recent versions of Ruby handle too-long input).</p>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
 <p>The path helper methods added by the path plugin now support blocks that use keyword arguments on Ruby 3+.</p>
 </li><li>
 <p>The assets plugin now uses OpenSSL::Digest instead of Digest (if available) for calculating SRI digests.  This is faster on Ruby 3+, where Digest no longer uses the faster OpenSSL::Digest automatically if available.</p>
 </li><li>
-<p>Roda.freeze now returns self when the multi_route plugin is used. This was broken (not returning self) starting in 3.48.0.</p>
+<p>Roda.freeze now returns self when the <a href="../../lib/roda/plugins/multi_route_rb.html">multi_route</a> plugin is used. This was broken (not returning self) starting in 3.48.0.</p>
 </li></ul>
 </div>
 <div id='context'>

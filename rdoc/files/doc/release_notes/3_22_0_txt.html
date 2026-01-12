@@ -33,11 +33,11 @@ doc/release_notes/3.22.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-Improvements">Improvements<span><a href="#label-Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Improvements"><a href="#label-Improvements">Improvements</a></h1>
 <ul><li>
 <p>The render/view methods in the render plugin, when called with a single string/symbol argument (the most common case), are now up to 2.5x/4x faster by directly calling compiled template methods. This works by extracting the UnboundMethod objects that Tilt creates, and defining real methods for them, then calling those methods using send. This avoids most of the overhead of the render and view methods.  The compiled template methods are defined inside a module included in the <a href="../../../classes/Roda.html"><code>Roda</code></a> app’s class, so this support works even if the <a href="../../../classes/Roda.html"><code>Roda</code></a> app itself is frozen.</p>
 
-<p>Some plugins, such as render_locals, do not work with this optimization, and disable the use of it.  The view_options plugin does work with this optimization if you are using set_view_subdir or append_view_subdir, but not if using set_view_options or set_layout_options.</p>
+<p>Some plugins, such as <a href="../../lib/roda/plugins/render_locals_rb.html">render_locals</a>, do not work with this optimization, and disable the use of it.  The <a href="../../lib/roda/plugins/view_options_rb.html">view_options</a> plugin does work with this optimization if you are using set_view_subdir or append_view_subdir, but not if using set_view_options or set_layout_options.</p>
 
 <p>This optimization depends on Ruby 2.3+ and Tilt 1.2+, and will not be used on earlier versions, or if an API change in Tilt is detected.</p>
 </li><li>

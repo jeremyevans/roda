@@ -36,7 +36,7 @@ Roda::RodaPlugins::EmptyRoot
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The empty_root plugin makes <code>r.root</code> match both on <code>/</code> and on the empty string.  This is mostly useful when using multiple rack applications, where the initial PATH_INFO has been moved to SCRIPT_NAME.  For example, if you have the following applications:</p>
+<p>The <a href="../../../files/lib/roda/plugins/empty_root_rb.html">empty_root</a> plugin makes <code>r.root</code> match both on <code>/</code> and on the empty string.  This is mostly useful when using multiple rack applications, where the initial PATH_INFO has been moved to SCRIPT_NAME.  For example, if you have the following applications:</p>
 
 <pre class="ruby"><span class="ruby-keyword">class</span> <span class="ruby-constant">App1</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Roda</span>
   <span class="ruby-identifier">on</span> <span class="ruby-string">&quot;albums&quot;</span> <span class="ruby-keyword">do</span>

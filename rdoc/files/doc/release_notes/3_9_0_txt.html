@@ -33,21 +33,21 @@ doc/release_notes/3.9.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>A route_csrf plugin has been added.  This plugin allows for more control over CSRF protection, since the user can choose where in the routing tree to enforce the protection.  Additionally, the route_csrf plugin offers better security than the CSRF protection used by the csrf plugin (which uses the rack_csrf library).</p>
+<p>A <a href="../../lib/roda/plugins/route_csrf_rb.html">route_csrf</a> plugin has been added.  This plugin allows for more control over CSRF protection, since the user can choose where in the routing tree to enforce the protection.  Additionally, the <a href="../../lib/roda/plugins/route_csrf_rb.html">route_csrf</a> plugin offers better security than the CSRF protection used by the csrf plugin (which uses the rack_csrf library).</p>
 
-<p>The route_csrf plugin defaults to allowing only CSRF tokens specific to a given request method and request path, and not allowing generic CSRF tokens (though it does offer optional support for such tokens).  Both request-specific and generic CSRF tokens are designed to never leak the CSRF secret key, making it more difficult to forge valid CSRF tokens.  Additionally, the plugin offers optional support for accepting rack_csrf tokens, which should only be enabled during a short transition period.</p>
+<p>The <a href="../../lib/roda/plugins/route_csrf_rb.html">route_csrf</a> plugin defaults to allowing only CSRF tokens specific to a given request method and request path, and not allowing generic CSRF tokens (though it does offer optional support for such tokens).  Both request-specific and generic CSRF tokens are designed to never leak the CSRF secret key, making it more difficult to forge valid CSRF tokens.  Additionally, the plugin offers optional support for accepting rack_csrf tokens, which should only be enabled during a short transition period.</p>
 
-<p>Some differences between the route_csrf plugin and the older csrf plugin:</p>
+<p>Some differences between the <a href="../../lib/roda/plugins/route_csrf_rb.html">route_csrf</a> plugin and the older csrf plugin:</p>
 <ul><li>
-<p>route_csrf supports and by default only allows CSRF tokens specific to request method and request path, as mentioned above.  You can use the require_request_specific_tokens: false option to allow generic CSRF tokens.</p>
+<p><a href="../../lib/roda/plugins/route_csrf_rb.html">route_csrf</a> supports and by default only allows CSRF tokens specific to request method and request path, as mentioned above.  You can use the require_request_specific_tokens: false option to allow generic CSRF tokens.</p>
 </li><li>
-<p>route_csrf does not check the HTTP header by default, it only checks the header if the :check_header option is set. The :check_header option can be set to true to check both the parameter and the header, or set to :only to only check the header.</p>
+<p><a href="../../lib/roda/plugins/route_csrf_rb.html">route_csrf</a> does not check the HTTP header by default, it only checks the header if the :check_header option is set. The :check_header option can be set to true to check both the parameter and the header, or set to :only to only check the header.</p>
 </li><li>
-<p>route_csrf raises by default for invalid CSRF tokens.  rack_csrf returns an empty 403 response in that case.  You can use the error_handler plugin to handle the <a href="../../../classes/Roda/RodaPlugins/RouteCsrf/InvalidToken.html"><code>Roda::RodaPlugins::RouteCsrf::InvalidToken</code></a> exceptions, or you can use the csrf_failure: :empty_403 option if you would like the csrf plugin default behavior.  The plugin also accepts a block for configurable failure behavior.</p>
+<p><a href="../../lib/roda/plugins/route_csrf_rb.html">route_csrf</a> raises by default for invalid CSRF tokens.  rack_csrf returns an empty 403 response in that case.  You can use the <a href="../../lib/roda/plugins/error_handler_rb.html">error_handler</a> plugin to handle the <a href="../../../classes/Roda/RodaPlugins/RouteCsrf/InvalidToken.html"><code>Roda::RodaPlugins::RouteCsrf::InvalidToken</code></a> exceptions, or you can use the csrf_failure: :empty_403 option if you would like the csrf plugin default behavior.  The plugin also accepts a block for configurable failure behavior.</p>
 </li><li>
-<p>route_csrf does not use a middleware, as it is designed to give more control. In order to enforce the CSRF protection, you need to call check_csrf! in your routing tree at the appropriate place.  If you are not sure where to add it, add it to the top of the routing tree, after the public or assets routes if you are using those plugins:</p>
+<p><a href="../../lib/roda/plugins/route_csrf_rb.html">route_csrf</a> does not use a middleware, as it is designed to give more control. In order to enforce the CSRF protection, you need to call check_csrf! in your routing tree at the appropriate place.  If you are not sure where to add it, add it to the top of the routing tree, after the public or assets routes if you are using those plugins:</p>
 
 <pre class="ruby"><span class="ruby-identifier">route</span> <span class="ruby-keyword">do</span>
   <span class="ruby-identifier">r</span>.<span class="ruby-identifier">public</span>

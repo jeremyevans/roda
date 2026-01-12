@@ -33,9 +33,9 @@ doc/release_notes/3.93.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>The typecast_params plugin handle_type method now supports an :invalid_value_message option, for a custom error message for the type, explaining why the input is invalid.  This error message is used when there is a parameter given, but it cannot be converted to the desired type:</p>
+<p>The <a href="../../lib/roda/plugins/typecast_params_rb.html">typecast_params</a> plugin handle_type method now supports an :invalid_value_message option, for a custom error message for the type, explaining why the input is invalid.  This error message is used when there is a parameter given, but it cannot be converted to the desired type:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:typecast_params</span> <span class="ruby-keyword">do</span>
   <span class="ruby-identifier">handle_type</span>(<span class="ruby-value">:single_char</span>, <span class="ruby-value">invalid_value_message:</span> \
@@ -47,7 +47,7 @@ doc/release_notes/3.93.0.txt
 
 <p>Previously, the error message in this case was the same as when no parameter was provided, which was misleading.</p>
 
-<p>The types natively supported by the typecast_params and typecast_params_sized_integers plugins now use :invalid_value_message for better error reporting. You can override the invalid value messages for these types using the invalid_value_message method:</p>
+<p>The types natively supported by the <a href="../../lib/roda/plugins/typecast_params_rb.html">typecast_params</a> and <a href="../../lib/roda/plugins/typecast_params_sized_integers_rb.html">typecast_params_sized_integers</a> plugins now use :invalid_value_message for better error reporting. You can override the invalid value messages for these types using the invalid_value_message method:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:typecast_params</span> <span class="ruby-keyword">do</span>
   <span class="ruby-identifier">invalid_value_message</span>(<span class="ruby-value">:pos_int</span>,
@@ -56,7 +56,7 @@ doc/release_notes/3.93.0.txt
 </pre>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
 <p>Many minor performance improvements, mostly from rubocop-performance:</p>
 <ul><li>
@@ -72,9 +72,9 @@ doc/release_notes/3.93.0.txt
 </li></ul>
 </li></ul>
 
-<h1 id="label-Backwards+Compatibility">Backwards Compatibility<span><a href="#label-Backwards+Compatibility">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Backwards+Compatibility"><a href="#label-Backwards+Compatibility">Backwards Compatibility</a></h1>
 <ul><li>
-<p>The fourth parameter in the process and process_arg private methods in the typecast_params plugin has changed from being the max input bytesize of the type, to the type symbol, and is now a required parameter. External callers of these private methods will need to be updated.</p>
+<p>The fourth parameter in the process and process_arg private methods in the <a href="../../lib/roda/plugins/typecast_params_rb.html">typecast_params</a> plugin has changed from being the max input bytesize of the type, to the type symbol, and is now a required parameter. External callers of these private methods will need to be updated.</p>
 </li><li>
 <p>Code rescuing <a href="../../../classes/Roda/RodaPlugins/TypecastParams/Error.html"><code>Roda::RodaPlugins::TypecastParams::Error</code></a> and handling the reason may need to adjust to handling :invalid_value in cases where it was handling :missing.</p>
 </li></ul>

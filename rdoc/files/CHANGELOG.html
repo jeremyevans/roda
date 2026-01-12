@@ -33,75 +33,80 @@ CHANGELOG
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h3 id="label-3.99.0+-282025-12-12-29"><a href="doc/release_notes/3_99_0_txt.html">3.99.0</a> (2025-12-12)<span><a href="#label-3.99.0+-282025-12-12-29">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-3.100.0+-282026-01-12-29"><a href="#label-3.100.0+-282026-01-12-29"><a href="doc/release_notes/3_100_0_txt.html">3.100.0</a> (2026-01-12)</a></h3>
+<ul><li>
+<p>Add <a href="lib/roda/plugins/sec_fetch_site_csrf_rb.html">sec_fetch_site_csrf</a> plugin, for CSRF protection using Sec-Fetch-Site header (jeremyevans)</p>
+</li></ul>
+
+<h3 id="label-3.99.0+-282025-12-12-29"><a href="#label-3.99.0+-282025-12-12-29"><a href="doc/release_notes/3_99_0_txt.html">3.99.0</a> (2025-12-12)</a></h3>
 <ul><li>
 <p>Add support for set matchers by default, as Set will be a core class in Ruby 4 (jeremyevans)</p>
 </li></ul>
 
-<h3 id="label-3.98.0+-282025-11-13-29"><a href="doc/release_notes/3_98_0_txt.html">3.98.0</a> (2025-11-13)<span><a href="#label-3.98.0+-282025-11-13-29">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-3.98.0+-282025-11-13-29"><a href="#label-3.98.0+-282025-11-13-29"><a href="doc/release_notes/3_98_0_txt.html">3.98.0</a> (2025-11-13)</a></h3>
 <ul><li>
 <p>Add support for the :env_key option to the sessions plugin (jeremyevans) (#403)</p>
 </li></ul>
 
-<h3 id="label-3.97.0+-282025-10-13-29"><a href="doc/release_notes/3_97_0_txt.html">3.97.0</a> (2025-10-13)<span><a href="#label-3.97.0+-282025-10-13-29">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-3.97.0+-282025-10-13-29"><a href="#label-3.97.0+-282025-10-13-29"><a href="doc/release_notes/3_97_0_txt.html">3.97.0</a> (2025-10-13)</a></h3>
 <ul><li>
-<p>Add map_matcher plugin, for matching next segment in request path to a hash key, yielding hash value (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/map_matcher_rb.html">map_matcher</a> plugin, for matching next segment in request path to a hash key, yielding hash value (jeremyevans)</p>
 </li></ul>
 
-<h3 id="label-3.96.0+-282025-09-12-29"><a href="doc/release_notes/3_96_0_txt.html">3.96.0</a> (2025-09-12)<span><a href="#label-3.96.0+-282025-09-12-29">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-3.96.0+-282025-09-12-29"><a href="#label-3.96.0+-282025-09-12-29"><a href="doc/release_notes/3_96_0_txt.html">3.96.0</a> (2025-09-12)</a></h3>
 <ul><li>
-<p>Add redirect_path plugin, for automatically calling path with the redirect argument if not given a string (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/redirect_path_rb.html">redirect_path</a> plugin, for automatically calling path with the redirect argument if not given a string (jeremyevans)</p>
 </li></ul>
 
-<h3 id="label-3.95.0+-282025-08-12-29"><a href="doc/release_notes/3_95_0_txt.html">3.95.0</a> (2025-08-12)<span><a href="#label-3.95.0+-282025-08-12-29">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-3.95.0+-282025-08-12-29"><a href="#label-3.95.0+-282025-08-12-29"><a href="doc/release_notes/3_95_0_txt.html">3.95.0</a> (2025-08-12)</a></h3>
 <ul><li>
-<p>Support typecast_query_params and typecast_body_params in typecast_params plugin (jeremyevans)</p>
+<p>Support typecast_query_params and typecast_body_params in <a href="lib/roda/plugins/typecast_params_rb.html">typecast_params</a> plugin (jeremyevans)</p>
 </li><li>
 <p>Raise <a href="../classes/Roda/RodaPlugins/Sessions/CookieTooLarge.html"><code>Roda::RodaPlugins::Sessions::CookieTooLarge</code></a> for cookies where total cookie size is over 4K (not just cookie value) (jeremyevans)</p>
 </li><li>
-<p>Add response_content_type plugin for more easily setting content-type for responses (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/response_content_type_rb.html">response_content_type</a> plugin for more easily setting content-type for responses (jeremyevans)</p>
 </li></ul>
 
-<h3 id="label-3.94.0+-282025-07-14-29"><a href="doc/release_notes/3_94_0_txt.html">3.94.0</a> (2025-07-14)<span><a href="#label-3.94.0+-282025-07-14-29">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-3.94.0+-282025-07-14-29"><a href="#label-3.94.0+-282025-07-14-29"><a href="doc/release_notes/3_94_0_txt.html">3.94.0</a> (2025-07-14)</a></h3>
 <ul><li>
-<p>Add view_subdir_leading_slash plugin for using view subdirectory unless template name starts with slash (jeremyevans) (#395)</p>
+<p>Add <a href="lib/roda/plugins/view_subdir_leading_slash_rb.html">view_subdir_leading_slash</a> plugin for using view subdirectory unless template name starts with slash (jeremyevans) (#395)</p>
 </li><li>
-<p>Optimize render_each and each_part default local selection on Ruby 3+/!Windows (jeremyevans)</p>
+<p>Optimize <a href="lib/roda/plugins/render_each_rb.html">render_each</a> and <a href="lib/roda/plugins/each_part_rb.html">each_part</a> default local selection on Ruby 3+/!Windows (jeremyevans)</p>
 </li><li>
-<p>Optimize render_each and each_part template selection when freezing app with :assume_fixed_locals render plugin option (jeremyevans)</p>
+<p>Optimize <a href="lib/roda/plugins/render_each_rb.html">render_each</a> and <a href="lib/roda/plugins/each_part_rb.html">each_part</a> template selection when freezing app with :assume_fixed_locals render plugin option (jeremyevans)</p>
 </li></ul>
 
-<h3 id="label-3.93.0+-282025-06-12-29"><a href="doc/release_notes/3_93_0_txt.html">3.93.0</a> (2025-06-12)<span><a href="#label-3.93.0+-282025-06-12-29">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-3.93.0+-282025-06-12-29"><a href="#label-3.93.0+-282025-06-12-29"><a href="doc/release_notes/3_93_0_txt.html">3.93.0</a> (2025-06-12)</a></h3>
 <ul><li>
 <p>Numerous minor performance improvements, mostly from rubocop-performance (jeremyevans)</p>
 </li><li>
-<p>Support invalid_value_message for custom invalid value messages per-type in typecast_params plugin (jeremyevans)</p>
+<p>Support invalid_value_message for custom invalid value messages per-type in <a href="lib/roda/plugins/typecast_params_rb.html">typecast_params</a> plugin (jeremyevans)</p>
 </li></ul>
 
-<h3 id="label-3.92.0+-282025-05-13-29"><a href="doc/release_notes/3_92_0_txt.html">3.92.0</a> (2025-05-13)<span><a href="#label-3.92.0+-282025-05-13-29">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-3.92.0+-282025-05-13-29"><a href="#label-3.92.0+-282025-05-13-29"><a href="doc/release_notes/3_92_0_txt.html">3.92.0</a> (2025-05-13)</a></h3>
 <ul><li>
-<p>Add each_part plugin, with a simpler method for using render_each with locals (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/each_part_rb.html">each_part</a> plugin, with a simpler method for using <a href="lib/roda/plugins/render_each_rb.html">render_each</a> with locals (jeremyevans)</p>
 </li><li>
-<p>Support :assume_fixed_locals render option in render_each plugin (jeremyevans)</p>
+<p>Support :assume_fixed_locals render option in <a href="lib/roda/plugins/render_each_rb.html">render_each</a> plugin (jeremyevans)</p>
 </li></ul>
 
-<h3 id="label-3.91.0+-282025-04-11-29"><a href="doc/release_notes/3_91_0_txt.html">3.91.0</a> (2025-04-11)<span><a href="#label-3.91.0+-282025-04-11-29">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-3.91.0+-282025-04-11-29"><a href="#label-3.91.0+-282025-04-11-29"><a href="doc/release_notes/3_91_0_txt.html">3.91.0</a> (2025-04-11)</a></h3>
 <ul><li>
-<p>Support returns: :buffer method and plugin option in capture_erb plugin (jeremyevans)</p>
+<p>Support returns: :buffer method and plugin option in <a href="lib/roda/plugins/capture_erb_rb.html">capture_erb</a> plugin (jeremyevans)</p>
 </li><li>
-<p>Allow render_each to accept a block and yield renderings, instead of returning a concatenation of the renderings (jeremyevans)</p>
+<p>Allow <a href="lib/roda/plugins/render_each_rb.html">render_each</a> to accept a block and yield renderings, instead of returning a concatenation of the renderings (jeremyevans)</p>
 </li></ul>
 
-<h3 id="label-3.90.0+-282025-03-11-29"><a href="doc/release_notes/3_90_0_txt.html">3.90.0</a> (2025-03-11)<span><a href="#label-3.90.0+-282025-03-11-29">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-3.90.0+-282025-03-11-29"><a href="#label-3.90.0+-282025-03-11-29"><a href="doc/release_notes/3_90_0_txt.html">3.90.0</a> (2025-03-11)</a></h3>
 <ul><li>
 <p>Set temporary name on Ruby 3.3+ for remaining anonymous modules and classes (jeremyevans)</p>
 </li><li>
-<p>Make send_file in sinatra_helpers use a response body that implements to_path (jeremyevans) (#379)</p>
+<p>Make send_file in <a href="lib/roda/plugins/sinatra_helpers_rb.html">sinatra_helpers</a> use a response body that implements to_path (jeremyevans) (#379)</p>
 </li><li>
 <p>Escape newlines in common logger lines (jeremyevans)</p>
 </li></ul>
 
-<h3 id="label-3.89.0+-282025-02-12-29"><a href="doc/release_notes/3_89_0_txt.html">3.89.0</a> (2025-02-12)<span><a href="#label-3.89.0+-282025-02-12-29">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-3.89.0+-282025-02-12-29"><a href="#label-3.89.0+-282025-02-12-29"><a href="doc/release_notes/3_89_0_txt.html">3.89.0</a> (2025-02-12)</a></h3>
 <ul><li>
 <p>Support passing keyword arguments to mailer plugin mail/sendmail class methods (jeremyevans)</p>
 </li><li>
@@ -112,36 +117,36 @@ CHANGELOG
 <p>Support :assume_fixed_locals render plugin option for better caching when all templates use fixed locals (jeremyevans)</p>
 </li></ul>
 
-<h3 id="label-3.88.0+-282025-01-14-29"><a href="doc/release_notes/3_88_0_txt.html">3.88.0</a> (2025-01-14)<span><a href="#label-3.88.0+-282025-01-14-29">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-3.88.0+-282025-01-14-29"><a href="#label-3.88.0+-282025-01-14-29"><a href="doc/release_notes/3_88_0_txt.html">3.88.0</a> (2025-01-14)</a></h3>
 <ul><li>
 <p>Support fixed locals in templates when using Tilt 2.6+ (jeremyevans)</p>
 </li><li>
-<p>Make default_headers plugin correctly handle mixed/upper case content-type header on Rack 3 (jeremyevans) (#373)</p>
+<p>Make <a href="lib/roda/plugins/default_headers_rb.html">default_headers</a> plugin correctly handle mixed/upper case content-type header on Rack 3 (jeremyevans) (#373)</p>
 </li><li>
-<p>Make json_parser plugin handle case where Rack::Request#POST is called previously for env on Rack 3 (jeremyevans) (#372)</p>
+<p>Make <a href="lib/roda/plugins/json_parser_rb.html">json_parser</a> plugin handle case where Rack::Request#POST is called previously for env on Rack 3 (jeremyevans) (#372)</p>
 </li><li>
 <p>Fix strict_unused_block warnings when running specs on Ruby 3.4 (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.87.0+-282024-12-17-29"><a href="doc/release_notes/3_87_0_txt.html">3.87.0</a> (2024-12-17)<span><a href="#label-3.87.0+-282024-12-17-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.87.0+-282024-12-17-29"><a href="#label-3.87.0+-282024-12-17-29"><a href="doc/release_notes/3_87_0_txt.html">3.87.0</a> (2024-12-17)</a></h1>
 <ul><li>
-<p>Add host_routing plugin for routing based on request host header (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/host_routing_rb.html">host_routing</a> plugin for routing based on request host header (jeremyevans)</p>
 </li><li>
-<p>Do not write non-String to response body when using custom_block_results plugin (jeremyevans)</p>
+<p>Do not write non-String to response body when using <a href="lib/roda/plugins/custom_block_results_rb.html">custom_block_results</a> plugin (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.86.0+-282024-11-12-29"><a href="doc/release_notes/3_86_0_txt.html">3.86.0</a> (2024-11-12)<span><a href="#label-3.86.0+-282024-11-12-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.86.0+-282024-11-12-29"><a href="#label-3.86.0+-282024-11-12-29"><a href="doc/release_notes/3_86_0_txt.html">3.86.0</a> (2024-11-12)</a></h1>
 <ul><li>
-<p>Add conditional_sessions plugin, for using the sessions plugin for only a subset of requests (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/conditional_sessions_rb.html">conditional_sessions</a> plugin, for using the sessions plugin for only a subset of requests (jeremyevans)</p>
 </li><li>
-<p>In permissions_policy plugin, add response.skip_permissions_policy! to avoid setting header (jeremyevans)</p>
+<p>In <a href="lib/roda/plugins/permissions_policy_rb.html">permissions_policy</a> plugin, add response.skip_permissions_policy! to avoid setting header (jeremyevans)</p>
 </li><li>
 <p>Make Roda.freeze work if already frozen when using the autoload_{hash_branches,named_routes} plugins (jeremyevans)</p>
 </li><li>
-<p>In content_security_policy plugin, add response.skip_content_security_policy! to avoid setting header (jeremyevans)</p>
+<p>In <a href="lib/roda/plugins/content_security_policy_rb.html">content_security_policy</a> plugin, add response.skip_content_security_policy! to avoid setting header (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.85.0+-282024-10-11-29"><a href="doc/release_notes/3_85_0_txt.html">3.85.0</a> (2024-10-11)<span><a href="#label-3.85.0+-282024-10-11-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.85.0+-282024-10-11-29"><a href="#label-3.85.0+-282024-10-11-29"><a href="doc/release_notes/3_85_0_txt.html">3.85.0</a> (2024-10-11)</a></h1>
 <ul><li>
 <p>Avoid deprecation warning in public plugin when using Ruby 3.4.0-preview2 (jeremyevans)</p>
 </li><li>
@@ -151,238 +156,238 @@ CHANGELOG
 </li><li>
 <p>Make class_matcher and symbol_matcher plugin be able to build on top of existing registered matchers (jeremyevans)</p>
 </li><li>
-<p>Make capture_erb plugin not break if String#capture is defined (jeremyevans)</p>
+<p>Make <a href="lib/roda/plugins/capture_erb_rb.html">capture_erb</a> plugin not break if String#capture is defined (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.84.0+-282024-09-12-29"><a href="doc/release_notes/3_84_0_txt.html">3.84.0</a> (2024-09-12)<span><a href="#label-3.84.0+-282024-09-12-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.84.0+-282024-09-12-29"><a href="#label-3.84.0+-282024-09-12-29"><a href="doc/release_notes/3_84_0_txt.html">3.84.0</a> (2024-09-12)</a></h1>
 <ul><li>
 <p>Add hsts plugin for setting Strict-Transport-Security header (jeremyevans)</p>
 </li><li>
 <p>Remove documentation from the gem to reduce gem size by 25% (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.83.0+-282024-08-12-29"><a href="doc/release_notes/3_83_0_txt.html">3.83.0</a> (2024-08-12)<span><a href="#label-3.83.0+-282024-08-12-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.83.0+-282024-08-12-29"><a href="#label-3.83.0+-282024-08-12-29"><a href="doc/release_notes/3_83_0_txt.html">3.83.0</a> (2024-08-12)</a></h1>
 <ul><li>
-<p>Add assume_ssl plugin for making request ssl? method always return true (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/assume_ssl_rb.html">assume_ssl</a> plugin for making request ssl? method always return true (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.82.0+-282024-07-12-29"><a href="doc/release_notes/3_82_0_txt.html">3.82.0</a> (2024-07-12)<span><a href="#label-3.82.0+-282024-07-12-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.82.0+-282024-07-12-29"><a href="#label-3.82.0+-282024-07-12-29"><a href="doc/release_notes/3_82_0_txt.html">3.82.0</a> (2024-07-12)</a></h1>
 <ul><li>
 <p>Add :encodings option to public plugin to support configurable encoding order (jeremyevans)</p>
 </li><li>
 <p>Add :zstd option to public plugin to supplement it to serve zstd-compressed files with .zst extension (jeremyevans)</p>
 </li><li>
-<p>Make capture_erb plugin call integrate better with erubi/capture_block (jeremyevans)</p>
+<p>Make <a href="lib/roda/plugins/capture_erb_rb.html">capture_erb</a> plugin call integrate better with erubi/capture_block (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.81.0+-282024-06-12-29"><a href="doc/release_notes/3_81_0_txt.html">3.81.0</a> (2024-06-12)<span><a href="#label-3.81.0+-282024-06-12-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.81.0+-282024-06-12-29"><a href="#label-3.81.0+-282024-06-12-29"><a href="doc/release_notes/3_81_0_txt.html">3.81.0</a> (2024-06-12)</a></h1>
 <ul><li>
 <p>Make assets plugin :early_hints option follow Rack 3 SPEC if using Rack 3 (jeremyevans)</p>
 </li><li>
-<p>Correctly parse Ruby 3.4 backtraces in exception_page plugin (jeremyevans)</p>
+<p>Correctly parse Ruby 3.4 backtraces in <a href="lib/roda/plugins/exception_page_rb.html">exception_page</a> plugin (jeremyevans)</p>
 </li><li>
-<p>Support :until and :seconds option in hmac_paths plugin, for paths valid only until a specific time (jeremyevans)</p>
+<p>Support :until and :seconds option in <a href="lib/roda/plugins/hmac_paths_rb.html">hmac_paths</a> plugin, for paths valid only until a specific time (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.80.0+-282024-05-10-29"><a href="doc/release_notes/3_80_0_txt.html">3.80.0</a> (2024-05-10)<span><a href="#label-3.80.0+-282024-05-10-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.80.0+-282024-05-10-29"><a href="#label-3.80.0+-282024-05-10-29"><a href="doc/release_notes/3_80_0_txt.html">3.80.0</a> (2024-05-10)</a></h1>
 <ul><li>
-<p>Support :namespace option in hmac_paths plugin, allowing for easy per-user/per-group HMAC paths (jeremyevans)</p>
+<p>Support :namespace option in <a href="lib/roda/plugins/hmac_paths_rb.html">hmac_paths</a> plugin, allowing for easy per-user/per-group HMAC paths (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.79.0+-282024-04-12-29"><a href="doc/release_notes/3_79_0_txt.html">3.79.0</a> (2024-04-12)<span><a href="#label-3.79.0+-282024-04-12-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.79.0+-282024-04-12-29"><a href="#label-3.79.0+-282024-04-12-29"><a href="doc/release_notes/3_79_0_txt.html">3.79.0</a> (2024-04-12)</a></h1>
 <ul><li>
 <p>Do not update template mtime when there is an error reloading templates in the render plugin (jeremyevans)</p>
 </li><li>
-<p>Add hmac_paths plugin for preventing path enumeration and supporting access control (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/hmac_paths_rb.html">hmac_paths</a> plugin for preventing path enumeration and supporting access control (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.78.0+-282024-03-13-29"><a href="doc/release_notes/3_78_0_txt.html">3.78.0</a> (2024-03-13)<span><a href="#label-3.78.0+-282024-03-13-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.78.0+-282024-03-13-29"><a href="#label-3.78.0+-282024-03-13-29"><a href="doc/release_notes/3_78_0_txt.html">3.78.0</a> (2024-03-13)</a></h1>
 <ul><li>
-<p>Add permissions_policy plugin for setting Permissions-Policy header (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/permissions_policy_rb.html">permissions_policy</a> plugin for setting Permissions-Policy header (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.77.0+-282024-02-12-29"><a href="doc/release_notes/3_77_0_txt.html">3.77.0</a> (2024-02-12)<span><a href="#label-3.77.0+-282024-02-12-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.77.0+-282024-02-12-29"><a href="#label-3.77.0+-282024-02-12-29"><a href="doc/release_notes/3_77_0_txt.html">3.77.0</a> (2024-02-12)</a></h1>
 <ul><li>
-<p>Support formaction/formmethod attributes in forms in route_csrf plugin (jeremyevans)</p>
+<p>Support formaction/formmethod attributes in forms in <a href="lib/roda/plugins/route_csrf_rb.html">route_csrf</a> plugin (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.76.0+-282024-01-12-29"><a href="doc/release_notes/3_76_0_txt.html">3.76.0</a> (2024-01-12)<span><a href="#label-3.76.0+-282024-01-12-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.76.0+-282024-01-12-29"><a href="#label-3.76.0+-282024-01-12-29"><a href="doc/release_notes/3_76_0_txt.html">3.76.0</a> (2024-01-12)</a></h1>
 <ul><li>
-<p>Support :filter plugin option in error_mail and error_email for filtering parameters, environment variables, and session values (jeremyevans) (#346)</p>
+<p>Support :filter plugin option in <a href="lib/roda/plugins/error_mail_rb.html">error_mail</a> and <a href="lib/roda/plugins/error_email_rb.html">error_email</a> for filtering parameters, environment variables, and session values (jeremyevans) (#346)</p>
 </li><li>
 <p>Set temporary name on Ruby 3.3 in middleware plugin for middleware class created (janko) (#344)</p>
 </li><li>
 <p>Add break plugin, for using break inside a routing block to return from the block and keep routing (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.75.0+-282023-12-14-29"><a href="doc/release_notes/3_75_0_txt.html">3.75.0</a> (2023-12-14)<span><a href="#label-3.75.0+-282023-12-14-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.75.0+-282023-12-14-29"><a href="#label-3.75.0+-282023-12-14-29"><a href="doc/release_notes/3_75_0_txt.html">3.75.0</a> (2023-12-14)</a></h1>
 <ul><li>
-<p>Add cookie_flags plugin, for overriding, warning, or raising for incorrect cookie flags (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/cookie_flags_rb.html">cookie_flags</a> plugin, for overriding, warning, or raising for incorrect cookie flags (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.74.0+-282023-11-13-29"><a href="doc/release_notes/3_74_0_txt.html">3.74.0</a> (2023-11-13)<span><a href="#label-3.74.0+-282023-11-13-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.74.0+-282023-11-13-29"><a href="#label-3.74.0+-282023-11-13-29"><a href="doc/release_notes/3_74_0_txt.html">3.74.0</a> (2023-11-13)</a></h1>
 <ul><li>
-<p>Add redirect_http_to_https plugin, helping to ensure future requests from the browser are submitted via HTTPS (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/redirect_http_to_https_rb.html">redirect_http_to_https</a> plugin, helping to ensure future requests from the browser are submitted via HTTPS (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.73.0+-282023-10-13-29"><a href="doc/release_notes/3_73_0_txt.html">3.73.0</a> (2023-10-13)<span><a href="#label-3.73.0+-282023-10-13-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.73.0+-282023-10-13-29"><a href="#label-3.73.0+-282023-10-13-29"><a href="doc/release_notes/3_73_0_txt.html">3.73.0</a> (2023-10-13)</a></h1>
 <ul><li>
 <p>Support :next_if_not_found option for middleware plugin (jeremyevans) (#334)</p>
 </li><li>
-<p>Remove dependency on base64 library from sessions and route_csrf plugin, as it will not be part of the standard library in Ruby 3.4+ (jeremyevans)</p>
+<p>Remove dependency on base64 library from sessions and <a href="lib/roda/plugins/route_csrf_rb.html">route_csrf</a> plugin, as it will not be part of the standard library in Ruby 3.4+ (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.72.0+-282023-09-12-29"><a href="doc/release_notes/3_72_0_txt.html">3.72.0</a> (2023-09-12)<span><a href="#label-3.72.0+-282023-09-12-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.72.0+-282023-09-12-29"><a href="#label-3.72.0+-282023-09-12-29"><a href="doc/release_notes/3_72_0_txt.html">3.72.0</a> (2023-09-12)</a></h1>
 <ul><li>
-<p>Add invalid_request_body plugin for custom handling of invalid request bodies (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/invalid_request_body_rb.html">invalid_request_body</a> plugin for custom handling of invalid request bodies (jeremyevans)</p>
 </li><li>
 <p>Warn when defining method that expects 1 argument when block requires multiple arguments when :check_arity option is set to :warn (jeremyevans)</p>
 </li><li>
-<p>Implement the match_hooks plugin using the match_hook_args plugin (jeremyevans)</p>
+<p>Implement the match_hooks plugin using the <a href="lib/roda/plugins/match_hook_args_rb.html">match_hook_args</a> plugin (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.71.0+-282023-08-14-29"><a href="doc/release_notes/3_71_0_txt.html">3.71.0</a> (2023-08-14)<span><a href="#label-3.71.0+-282023-08-14-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.71.0+-282023-08-14-29"><a href="#label-3.71.0+-282023-08-14-29"><a href="doc/release_notes/3_71_0_txt.html">3.71.0</a> (2023-08-14)</a></h1>
 <ul><li>
-<p>Add match_hook_args plugin, similar to match_hooks but support matchers and block args as hook arguments (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/match_hook_args_rb.html">match_hook_args</a> plugin, similar to match_hooks but support matchers and block args as hook arguments (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.70.0+-282023-07-12-29"><a href="doc/release_notes/3_70_0_txt.html">3.70.0</a> (2023-07-12)<span><a href="#label-3.70.0+-282023-07-12-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.70.0+-282023-07-12-29"><a href="#label-3.70.0+-282023-07-12-29"><a href="doc/release_notes/3_70_0_txt.html">3.70.0</a> (2023-07-12)</a></h1>
 <ul><li>
-<p>Add plain_hash_response_headers plugin, using a plain hash for response headers on Rack 3 for much better performance (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/plain_hash_response_headers_rb.html">plain_hash_response_headers</a> plugin, using a plain hash for response headers on Rack 3 for much better performance (jeremyevans)</p>
 </li><li>
 <p>Use lower case response header keys by default on Rack 3, instead of relying on Rack::Headers conversion (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.69.0+-282023-06-13-29"><a href="doc/release_notes/3_69_0_txt.html">3.69.0</a> (2023-06-13)<span><a href="#label-3.69.0+-282023-06-13-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.69.0+-282023-06-13-29"><a href="#label-3.69.0+-282023-06-13-29"><a href="doc/release_notes/3_69_0_txt.html">3.69.0</a> (2023-06-13)</a></h1>
 <ul><li>
-<p>Allow symbol_matcher in symbol_matchers plugin to take a block to allow type conversion (jeremyevans)</p>
+<p>Allow symbol_matcher in <a href="lib/roda/plugins/symbol_matchers_rb.html">symbol_matchers</a> plugin to take a block to allow type conversion (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.68.0+-282023-05-11-29"><a href="doc/release_notes/3_68_0_txt.html">3.68.0</a> (2023-05-11)<span><a href="#label-3.68.0+-282023-05-11-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.68.0+-282023-05-11-29"><a href="#label-3.68.0+-282023-05-11-29"><a href="doc/release_notes/3_68_0_txt.html">3.68.0</a> (2023-05-11)</a></h1>
 <ul><li>
-<p>Make Roda.run in multi_run plugin accept blocks to allow autoloading the apps to dispatch to (jeremyevans)</p>
+<p>Make Roda.run in <a href="lib/roda/plugins/multi_run_rb.html">multi_run</a> plugin accept blocks to allow autoloading the apps to dispatch to (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.67.0+-282023-04-12-29"><a href="doc/release_notes/3_67_0_txt.html">3.67.0</a> (2023-04-12)<span><a href="#label-3.67.0+-282023-04-12-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.67.0+-282023-04-12-29"><a href="#label-3.67.0+-282023-04-12-29"><a href="doc/release_notes/3_67_0_txt.html">3.67.0</a> (2023-04-12)</a></h1>
 <ul><li>
-<p>Add custom_block_results plugin for registering custom block result handlers (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/custom_block_results_rb.html">custom_block_results</a> plugin for registering custom block result handlers (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.66.0+-282023-03-13-29"><a href="doc/release_notes/3_66_0_txt.html">3.66.0</a> (2023-03-13)<span><a href="#label-3.66.0+-282023-03-13-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.66.0+-282023-03-13-29"><a href="#label-3.66.0+-282023-03-13-29"><a href="doc/release_notes/3_66_0_txt.html">3.66.0</a> (2023-03-13)</a></h1>
 <ul><li>
 <p>Support overriding exception page assets via exception_page_{css,js} instance methods (jeremyevans) (#306)</p>
 </li><li>
 <p>Avoid keeping reference to <a href="../classes/Roda.html"><code>Roda</code></a> instance that caches an inline template (jeremyevans)</p>
 </li><li>
-<p>Add render_coverage plugin, using tilt 2.1 features to allow for compiled templates in Ruby &lt;3.2 (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/render_coverage_rb.html">render_coverage</a> plugin, using tilt 2.1 features to allow for compiled templates in Ruby &lt;3.2 (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.65.0+-282023-02-13-29"><a href="doc/release_notes/3_65_0_txt.html">3.65.0</a> (2023-02-13)<span><a href="#label-3.65.0+-282023-02-13-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.65.0+-282023-02-13-29"><a href="#label-3.65.0+-282023-02-13-29"><a href="doc/release_notes/3_65_0_txt.html">3.65.0</a> (2023-02-13)</a></h1>
 <ul><li>
-<p>Make indifferent_params plugin work with changes in rack main branch (jeremyevans)</p>
+<p>Make <a href="lib/roda/plugins/indifferent_params_rb.html">indifferent_params</a> plugin work with changes in rack main branch (jeremyevans)</p>
 </li><li>
-<p>Add autoload_named_routes plugin for autoloading file for a named route when there is a request for that route (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/autoload_named_routes_rb.html">autoload_named_routes</a> plugin for autoloading file for a named route when there is a request for that route (jeremyevans)</p>
 </li><li>
 <p>Make path method in path plugin accept class name string/symbol with :class_name option to register classes without forcing autoloads (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.64.0+-282023-01-12-29"><a href="doc/release_notes/3_64_0_txt.html">3.64.0</a> (2023-01-12)<span><a href="#label-3.64.0+-282023-01-12-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.64.0+-282023-01-12-29"><a href="#label-3.64.0+-282023-01-12-29"><a href="doc/release_notes/3_64_0_txt.html">3.64.0</a> (2023-01-12)</a></h1>
 <ul><li>
-<p>Automatically expand paths for autoload_hash_branches files, so that relative paths work (jeremyevans)</p>
+<p>Automatically expand paths for <a href="lib/roda/plugins/autoload_hash_branches_rb.html">autoload_hash_branches</a> files, so that relative paths work (jeremyevans)</p>
 </li><li>
-<p>Make autoload_hash_branches plugin eagerly load the branches when freezing the application (jeremyevans)</p>
+<p>Make <a href="lib/roda/plugins/autoload_hash_branches_rb.html">autoload_hash_branches</a> plugin eagerly load the branches when freezing the application (jeremyevans)</p>
 </li><li>
-<p>Add erb_h plugin for faster (if slightly less safe) html escaping using erb/escape (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/erb_h_rb.html">erb_h</a> plugin for faster (if slightly less safe) html escaping using erb/escape (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.63.0+-282022-12-16-29"><a href="doc/release_notes/3_63_0_txt.html">3.63.0</a> (2022-12-16)<span><a href="#label-3.63.0+-282022-12-16-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.63.0+-282022-12-16-29"><a href="#label-3.63.0+-282022-12-16-29"><a href="doc/release_notes/3_63_0_txt.html">3.63.0</a> (2022-12-16)</a></h1>
 <ul><li>
 <p>Make mailer plugin set configured content type for body part for emails with attachments when using mail 2.8+ (jeremyevans)</p>
 </li><li>
-<p>Add autoload_hash_branches plugin for autoloading file for a hash branch when there is a request for that branch (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/autoload_hash_branches_rb.html">autoload_hash_branches</a> plugin for autoloading file for a hash branch when there is a request for that branch (jeremyevans)</p>
 </li><li>
 <p>Add mailer plugin :terminal option to make r.mail use a terminal match when provided arguments (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.62.0+-282022-11-14-29"><a href="doc/release_notes/3_62_0_txt.html">3.62.0</a> (2022-11-14)<span><a href="#label-3.62.0+-282022-11-14-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.62.0+-282022-11-14-29"><a href="#label-3.62.0+-282022-11-14-29"><a href="doc/release_notes/3_62_0_txt.html">3.62.0</a> (2022-11-14)</a></h1>
 <ul><li>
-<p>Add typecast_params_sized_integers plugin for converting parameters to sized integers (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/typecast_params_sized_integers_rb.html">typecast_params_sized_integers</a> plugin for converting parameters to sized integers (jeremyevans)</p>
 </li><li>
-<p>Add Integer_matcher_max plugin for setting maximum integer value matched by the Integer matcher (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/Integer_matcher_max_rb.html">Integer_matcher_max</a> plugin for setting maximum integer value matched by the Integer matcher (jeremyevans)</p>
 </li><li>
-<p>Allow class matchers in the class_matchers plugin to skip matching based on regexp match values (jeremyevans)</p>
+<p>Allow class matchers in the <a href="lib/roda/plugins/class_matchers_rb.html">class_matchers</a> plugin to skip matching based on regexp match values (jeremyevans)</p>
 </li><li>
-<p>Fix RodaRequest#matched_path when using unescape_path plugin (jeremyevans) (#286)</p>
+<p>Fix RodaRequest#matched_path when using <a href="lib/roda/plugins/unescape_path_rb.html">unescape_path</a> plugin (jeremyevans) (#286)</p>
 </li></ul>
 
-<h1 id="label-3.61.0+-282022-10-12-29"><a href="doc/release_notes/3_61_0_txt.html">3.61.0</a> (2022-10-12)<span><a href="#label-3.61.0+-282022-10-12-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.61.0+-282022-10-12-29"><a href="#label-3.61.0+-282022-10-12-29"><a href="doc/release_notes/3_61_0_txt.html">3.61.0</a> (2022-10-12)</a></h1>
 <ul><li>
 <p>Make Integer matcher limit integer segments to 100 characters by default (jeremyevans)</p>
 </li><li>
-<p>Limit input bytesize by default for integer, float, and date/time typecasts in typecast_params (jeremyevans)</p>
+<p>Limit input bytesize by default for integer, float, and date/time typecasts in <a href="lib/roda/plugins/typecast_params_rb.html">typecast_params</a> (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.60.0+-282022-09-13-29"><a href="doc/release_notes/3_60_0_txt.html">3.60.0</a> (2022-09-13)<span><a href="#label-3.60.0+-282022-09-13-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.60.0+-282022-09-13-29"><a href="#label-3.60.0+-282022-09-13-29"><a href="doc/release_notes/3_60_0_txt.html">3.60.0</a> (2022-09-13)</a></h1>
 <ul><li>
-<p>Add link_to plugin with link_to method for creating HTML links (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/link_to_rb.html">link_to</a> plugin with <a href="lib/roda/plugins/link_to_rb.html">link_to</a> method for creating HTML links (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.59.0+-282022-08-12-29"><a href="doc/release_notes/3_59_0_txt.html">3.59.0</a> (2022-08-12)<span><a href="#label-3.59.0+-282022-08-12-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.59.0+-282022-08-12-29"><a href="#label-3.59.0+-282022-08-12-29"><a href="doc/release_notes/3_59_0_txt.html">3.59.0</a> (2022-08-12)</a></h1>
 <ul><li>
-<p>Add additional_render_engines plugin, for considering multiple render engines for templates (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/additional_render_engines_rb.html">additional_render_engines</a> plugin, for considering multiple render engines for templates (jeremyevans)</p>
 </li><li>
-<p>Fix typo in private method name in delete_empty_headers plugin (mculpt) (#279)</p>
+<p>Fix typo in private method name in <a href="lib/roda/plugins/delete_empty_headers_rb.html">delete_empty_headers</a> plugin (mculpt) (#279)</p>
 </li></ul>
 
-<h1 id="label-3.58.0+-282022-07-13-29"><a href="doc/release_notes/3_58_0_txt.html">3.58.0</a> (2022-07-13)<span><a href="#label-3.58.0+-282022-07-13-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.58.0+-282022-07-13-29"><a href="#label-3.58.0+-282022-07-13-29"><a href="doc/release_notes/3_58_0_txt.html">3.58.0</a> (2022-07-13)</a></h1>
 <ul><li>
-<p>Add filter_common_logger plugin for skipping the logging of certain requests when using the common_logger plugin (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/filter_common_logger_rb.html">filter_common_logger</a> plugin for skipping the logging of certain requests when using the <a href="lib/roda/plugins/common_logger_rb.html">common_logger</a> plugin (jeremyevans)</p>
 </li><li>
-<p>Make exception_page plugin use Exception#detailed_message on Ruby 3.2+ (jeremyevans)</p>
+<p>Make <a href="lib/roda/plugins/exception_page_rb.html">exception_page</a> plugin use Exception#detailed_message on Ruby 3.2+ (jeremyevans)</p>
 </li><li>
 <p>Make heartbeat plugin compatible with recent changes in the rack master branch (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.57.0+-282022-06-14-29"><a href="doc/release_notes/3_57_0_txt.html">3.57.0</a> (2022-06-14)<span><a href="#label-3.57.0+-282022-06-14-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.57.0+-282022-06-14-29"><a href="#label-3.57.0+-282022-06-14-29"><a href="doc/release_notes/3_57_0_txt.html">3.57.0</a> (2022-06-14)</a></h1>
 <ul><li>
-<p>Make static_routing plugin depend on the hash_paths instead of the hash_routes plugin (jeremyevans)</p>
+<p>Make <a href="lib/roda/plugins/static_routing_rb.html">static_routing</a> plugin depend on the <a href="lib/roda/plugins/hash_paths_rb.html">hash_paths</a> instead of the <a href="lib/roda/plugins/hash_routes_rb.html">hash_routes</a> plugin (jeremyevans)</p>
 </li><li>
-<p>Split hash_branches and hash_paths plugins from hash_routes plugin (jeremyevans)</p>
+<p>Split <a href="lib/roda/plugins/hash_branches_rb.html">hash_branches</a> and <a href="lib/roda/plugins/hash_paths_rb.html">hash_paths</a> plugins from <a href="lib/roda/plugins/hash_routes_rb.html">hash_routes</a> plugin (jeremyevans)</p>
 </li><li>
-<p>Hex escape unprintable characters in common_logger plugin output (jeremyevans)</p>
+<p>Hex escape unprintable characters in <a href="lib/roda/plugins/common_logger_rb.html">common_logger</a> plugin output (jeremyevans)</p>
 </li><li>
-<p>Add hash_branch_view_subdir plugin for automatically appending a view subdirectory on a successful hash branch (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/hash_branch_view_subdir_rb.html">hash_branch_view_subdir</a> plugin for automatically appending a view subdirectory on a successful hash branch (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.56.0+-282022-05-13-29"><a href="doc/release_notes/3_56_0_txt.html">3.56.0</a> (2022-05-13)<span><a href="#label-3.56.0+-282022-05-13-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.56.0+-282022-05-13-29"><a href="#label-3.56.0+-282022-05-13-29"><a href="doc/release_notes/3_56_0_txt.html">3.56.0</a> (2022-05-13)</a></h1>
 <ul><li>
-<p>Make status_303 plugin use 303 responses for HTTP/2 and higher versions (jeremyevans)</p>
+<p>Make <a href="lib/roda/plugins/status_303_rb.html">status_303</a> plugin use 303 responses for HTTP/2 and higher versions (jeremyevans)</p>
 </li><li>
 <p>Add RodaRequest#http_version for determining the HTTP version in use (jeremyevans)</p>
 </li><li>
-<p>Do not set a body for 405 responses when using the verb methods in the not_allowed plugin (jeremyevans) (#267)</p>
+<p>Do not set a body for 405 responses when using the verb methods in the <a href="lib/roda/plugins/not_allowed_rb.html">not_allowed</a> plugin (jeremyevans) (#267)</p>
 </li><li>
-<p>Support status_handler method :keep_headers option in status_handler plugin (jeremyevans) (#267)</p>
+<p>Support <a href="lib/roda/plugins/status_handler_rb.html">status_handler</a> method :keep_headers option in <a href="lib/roda/plugins/status_handler_rb.html">status_handler</a> plugin (jeremyevans) (#267)</p>
 </li><li>
-<p>Make not_allowed plugin have r.root return 405 responses for non-GET requests (jeremyevans) (#266)</p>
+<p>Make <a href="lib/roda/plugins/not_allowed_rb.html">not_allowed</a> plugin have r.root return 405 responses for non-GET requests (jeremyevans) (#266)</p>
 </li><li>
 <p>In Rack 3, only require the parts of rack used by <a href="../classes/Roda.html"><code>Roda</code></a>, instead of requiring rack itself and relying on autoload (jeremyevans)</p>
 </li><li>
-<p>Add run_require_slash plugin, for skipping application dispatch for remaining paths that would violate Rack SPEC (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/run_require_slash_rb.html">run_require_slash</a> plugin, for skipping application dispatch for remaining paths that would violate Rack SPEC (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.55.0+-282022-04-12-29"><a href="doc/release_notes/3_55_0_txt.html">3.55.0</a> (2022-04-12)<span><a href="#label-3.55.0+-282022-04-12-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.55.0+-282022-04-12-29"><a href="#label-3.55.0+-282022-04-12-29"><a href="doc/release_notes/3_55_0_txt.html">3.55.0</a> (2022-04-12)</a></h1>
 <ul><li>
 <p>Allow passing blocks to the view method in the render plugin (jeremyevans) (#262)</p>
 </li><li>
 <p>Add :forward_response_headers middleware plugin option to use app headers as default for response (janko) (#259)</p>
 </li></ul>
 
-<h1 id="label-3.54.0+-282022-03-14-29"><a href="doc/release_notes/3_54_0_txt.html">3.54.0</a> (2022-03-14)<span><a href="#label-3.54.0+-282022-03-14-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.54.0+-282022-03-14-29"><a href="#label-3.54.0+-282022-03-14-29"><a href="doc/release_notes/3_54_0_txt.html">3.54.0</a> (2022-03-14)</a></h1>
 <ul><li>
 <p>Make chunked plugin not use Transfer-Encoding: chunked by default (jeremyevans)</p>
 </li><li>
-<p>Make run_handler plugin close bodies for upstream 404 responses when using not_found: :pass (jeremyevans)</p>
+<p>Make <a href="lib/roda/plugins/run_handler_rb.html">run_handler</a> plugin close bodies for upstream 404 responses when using <a href="lib/roda/plugins/not_found_rb.html">not_found</a>: :pass (jeremyevans)</p>
 </li><li>
 <p>Drop all 1xx bodies in the drop body plugin (jeremyevans)</p>
 </li><li>
@@ -394,19 +399,19 @@ CHANGELOG
 </li><li>
 <p>Allow overriding script tag type attribute returned by assets method in assets plugin (pusewicz) (#250)</p>
 </li><li>
-<p>Make reloading render plugin after additional_view_directories plugin retain :allowed_paths (jeremyevans)</p>
+<p>Make reloading render plugin after <a href="lib/roda/plugins/additional_view_directories_rb.html">additional_view_directories</a> plugin retain :allowed_paths (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.53.0+-282022-02-14-29"><a href="doc/release_notes/3_53_0_txt.html">3.53.0</a> (2022-02-14)<span><a href="#label-3.53.0+-282022-02-14-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.53.0+-282022-02-14-29"><a href="#label-3.53.0+-282022-02-14-29"><a href="doc/release_notes/3_53_0_txt.html">3.53.0</a> (2022-02-14)</a></h1>
 <ul><li>
-<p>Make indifferent_params plugin support rack main branch (jeremyevans)</p>
+<p>Make <a href="lib/roda/plugins/indifferent_params_rb.html">indifferent_params</a> plugin support rack main branch (jeremyevans)</p>
 </li><li>
-<p>Add additional_view_directories plugin, for checking multiple view directories for templates (jeremyevans) (#229)</p>
+<p>Add <a href="lib/roda/plugins/additional_view_directories_rb.html">additional_view_directories</a> plugin, for checking multiple view directories for templates (jeremyevans) (#229)</p>
 </li></ul>
 
-<h1 id="label-3.52.0+-282022-01-14-29"><a href="doc/release_notes/3_52_0_txt.html">3.52.0</a> (2022-01-14)<span><a href="#label-3.52.0+-282022-01-14-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.52.0+-282022-01-14-29"><a href="#label-3.52.0+-282022-01-14-29"><a href="doc/release_notes/3_52_0_txt.html">3.52.0</a> (2022-01-14)</a></h1>
 <ul><li>
-<p>Fix return value of Roda.freeze when multi_route plugin is used (jeremyevans) (#240)</p>
+<p>Fix return value of Roda.freeze when <a href="lib/roda/plugins/multi_route_rb.html">multi_route</a> plugin is used (jeremyevans) (#240)</p>
 </li><li>
 <p>Use faster OpenSSL::Digest instead of Digest for assets plugin SRI support (jeremyevans)</p>
 </li><li>
@@ -414,95 +419,95 @@ CHANGELOG
 </li><li>
 <p>Make the path method in the path plugin handle blocks that accept keyword arguments in Ruby 3+ (adam12) (#227)</p>
 </li><li>
-<p>Support typecast_params :date_parse_input_handler plugin option for handling input to date parsing methods (jeremyevans)</p>
+<p>Support <a href="lib/roda/plugins/typecast_params_rb.html">typecast_params</a> :date_parse_input_handler plugin option for handling input to date parsing methods (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.51.0+-282021-12-15-29"><a href="doc/release_notes/3_51_0_txt.html">3.51.0</a> (2021-12-15)<span><a href="#label-3.51.0+-282021-12-15-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.51.0+-282021-12-15-29"><a href="#label-3.51.0+-282021-12-15-29"><a href="doc/release_notes/3_51_0_txt.html">3.51.0</a> (2021-12-15)</a></h1>
 <ul><li>
-<p>Avoid method redefinition warning in error_handler plugin in verbose warning mode (jeremyevans)</p>
+<p>Avoid method redefinition warning in <a href="lib/roda/plugins/error_handler_rb.html">error_handler</a> plugin in verbose warning mode (jeremyevans)</p>
 </li><li>
-<p>Allow run in multi_run plugin to be called without an app to remove existing handler (jeremyevans)</p>
+<p>Allow run in <a href="lib/roda/plugins/multi_run_rb.html">multi_run</a> plugin to be called without an app to remove existing handler (jeremyevans)</p>
 </li><li>
-<p>Allow route in named_routes plugin to be called without a block to remove existing handler (jeremyevans)</p>
+<p>Allow route in <a href="lib/roda/plugins/named_routes_rb.html">named_routes</a> plugin to be called without a block to remove existing handler (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.50.0+-282021-11-12-29"><a href="doc/release_notes/3_50_0_txt.html">3.50.0</a> (2021-11-12)<span><a href="#label-3.50.0+-282021-11-12-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.50.0+-282021-11-12-29"><a href="#label-3.50.0+-282021-11-12-29"><a href="doc/release_notes/3_50_0_txt.html">3.50.0</a> (2021-11-12)</a></h1>
 <ul><li>
-<p>Add capture_erb plugin for capturing ERB template blocks, instead of injecting them into the template output (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/capture_erb_rb.html">capture_erb</a> plugin for capturing ERB template blocks, instead of injecting them into the template output (jeremyevans)</p>
 </li><li>
-<p>Add inject_erb plugin for injecting content directly into ERB template output (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/inject_erb_rb.html">inject_erb</a> plugin for injecting content directly into ERB template output (jeremyevans)</p>
 </li><li>
-<p>Allow hash_branch and hash_path in hash_routes plugin to be called without a block to remove existing handler (jeremyevans)</p>
+<p>Allow hash_branch and hash_path in <a href="lib/roda/plugins/hash_routes_rb.html">hash_routes</a> plugin to be called without a block to remove existing handler (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.49.0+-282021-10-13-29"><a href="doc/release_notes/3_49_0_txt.html">3.49.0</a> (2021-10-13)<span><a href="#label-3.49.0+-282021-10-13-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.49.0+-282021-10-13-29"><a href="#label-3.49.0+-282021-10-13-29"><a href="doc/release_notes/3_49_0_txt.html">3.49.0</a> (2021-10-13)</a></h1>
 <ul><li>
 <p>Switch block_given? to defined?(yield) (jeremyevans)</p>
 </li><li>
 <p>Automatically optimize remaining r.is/r.get/r.post calls with a single argument (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.48.0+-282021-09-13-29"><a href="doc/release_notes/3_48_0_txt.html">3.48.0</a> (2021-09-13)<span><a href="#label-3.48.0+-282021-09-13-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.48.0+-282021-09-13-29"><a href="#label-3.48.0+-282021-09-13-29"><a href="doc/release_notes/3_48_0_txt.html">3.48.0</a> (2021-09-13)</a></h1>
 <ul><li>
-<p>Extract named_routes plugin from multi_route plugin (jeremyevans)</p>
+<p>Extract <a href="lib/roda/plugins/named_routes_rb.html">named_routes</a> plugin from <a href="lib/roda/plugins/multi_route_rb.html">multi_route</a> plugin (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.47.0+-282021-08-13-29"><a href="doc/release_notes/3_47_0_txt.html">3.47.0</a> (2021-08-13)<span><a href="#label-3.47.0+-282021-08-13-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.47.0+-282021-08-13-29"><a href="#label-3.47.0+-282021-08-13-29"><a href="doc/release_notes/3_47_0_txt.html">3.47.0</a> (2021-08-13)</a></h1>
 <ul><li>
 <p>Automatically optimize remaining r.on calls with a single argument (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.46.0+-282021-07-12-29"><a href="doc/release_notes/3_46_0_txt.html">3.46.0</a> (2021-07-12)<span><a href="#label-3.46.0+-282021-07-12-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.46.0+-282021-07-12-29"><a href="#label-3.46.0+-282021-07-12-29"><a href="doc/release_notes/3_46_0_txt.html">3.46.0</a> (2021-07-12)</a></h1>
 <ul><li>
 <p>Automatically optimize r.on/r.is/r.get/r.post methods with a single string, String, Integer, or regexp argument (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.45.0+-282021-06-14-29"><a href="doc/release_notes/3_45_0_txt.html">3.45.0</a> (2021-06-14)<span><a href="#label-3.45.0+-282021-06-14-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.45.0+-282021-06-14-29"><a href="#label-3.45.0+-282021-06-14-29"><a href="doc/release_notes/3_45_0_txt.html">3.45.0</a> (2021-06-14)</a></h1>
 <ul><li>
-<p>Make typecast_params plugin check for null bytes in strings by default, with :allow_null_bytes option for previous behavior (jeremyevans)</p>
+<p>Make <a href="lib/roda/plugins/typecast_params_rb.html">typecast_params</a> plugin check for null bytes in strings by default, with :allow_null_bytes option for previous behavior (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.44.0+-282021-05-12-29"><a href="doc/release_notes/3_44_0_txt.html">3.44.0</a> (2021-05-12)<span><a href="#label-3.44.0+-282021-05-12-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.44.0+-282021-05-12-29"><a href="#label-3.44.0+-282021-05-12-29"><a href="doc/release_notes/3_44_0_txt.html">3.44.0</a> (2021-05-12)</a></h1>
 <ul><li>
-<p>Add optimized_segment_matchers plugin for optimized matchers for a single String class argument (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/optimized_segment_matchers_rb.html">optimized_segment_matchers</a> plugin for optimized matchers for a single String class argument (jeremyevans)</p>
 </li><li>
-<p>Use RFC 5987 UTF-8 and ISO-8859-1 encoded filenames when using send_file and attachment in the sinatra_helpers plugin (jeremyevans)</p>
+<p>Use RFC 5987 UTF-8 and ISO-8859-1 encoded filenames when using send_file and attachment in the <a href="lib/roda/plugins/sinatra_helpers_rb.html">sinatra_helpers</a> plugin (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.43.1+-282021-04-13-29">3.43.1 (2021-04-13)<span><a href="#label-3.43.1+-282021-04-13-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.43.1+-282021-04-13-29"><a href="#label-3.43.1+-282021-04-13-29">3.43.1 (2021-04-13)</a></h1>
 <ul><li><table class="rdoc-list label-list"><tbody><tr><td class='label'>SECURITY</td><td>
-<p>Fix issue where loading content_security_policy plugin after default_headers plugin had no effect (jeremyevans)</p>
+<p>Fix issue where loading <a href="lib/roda/plugins/content_security_policy_rb.html">content_security_policy</a> plugin after <a href="lib/roda/plugins/default_headers_rb.html">default_headers</a> plugin had no effect (jeremyevans)</p>
 </td></tr></tbody></table>
 </li></ul>
 
-<h1 id="label-3.43.0+-282021-04-12-29"><a href="doc/release_notes/3_43_0_txt.html">3.43.0</a> (2021-04-12)<span><a href="#label-3.43.0+-282021-04-12-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.43.0+-282021-04-12-29"><a href="#label-3.43.0+-282021-04-12-29"><a href="doc/release_notes/3_43_0_txt.html">3.43.0</a> (2021-04-12)</a></h1>
 <ul><li>
-<p>Add host_authorization plugin, for checking that requests are submitted using an approved host (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/host_authorization_rb.html">host_authorization</a> plugin, for checking that requests are submitted using an approved host (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.42.0+-282021-03-12-29"><a href="doc/release_notes/3_42_0_txt.html">3.42.0</a> (2021-03-12)<span><a href="#label-3.42.0+-282021-03-12-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.42.0+-282021-03-12-29"><a href="#label-3.42.0+-282021-03-12-29"><a href="doc/release_notes/3_42_0_txt.html">3.42.0</a> (2021-03-12)</a></h1>
 <ul><li>
 <p>Make Roda.plugin support plugins using keyword arguments in Ruby 3 (jeremyevans)</p>
 </li><li>
 <p>Make Roda.use support middleware using keyword arguments in Ruby 3 (pat) (#207)</p>
 </li><li>
-<p>Support common_logger plugin :method option for specifying the method to call on the logger (fnordfish, jeremyevans) (#206)</p>
+<p>Support <a href="lib/roda/plugins/common_logger_rb.html">common_logger</a> plugin :method option for specifying the method to call on the logger (fnordfish, jeremyevans) (#206)</p>
 </li><li>
-<p>Add recheck_precompiled_assets plugin for checking for updates to the precompiled asset metadata file (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/recheck_precompiled_assets_rb.html">recheck_precompiled_assets</a> plugin for checking for updates to the precompiled asset metadata file (jeremyevans)</p>
 </li><li>
 <p>Make compile_assets class method in assets plugin use an atomic approach to writing precompiled metadata file (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.41.0+-282021-02-17-29"><a href="doc/release_notes/3_41_0_txt.html">3.41.0</a> (2021-02-17)<span><a href="#label-3.41.0+-282021-02-17-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.41.0+-282021-02-17-29"><a href="#label-3.41.0+-282021-02-17-29"><a href="doc/release_notes/3_41_0_txt.html">3.41.0</a> (2021-02-17)</a></h1>
 <ul><li>
 <p>Improve view performance with :content option up to 3x by calling compiled template methods directly (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.40.0+-282021-01-14-29"><a href="doc/release_notes/3_40_0_txt.html">3.40.0</a> (2021-01-14)<span><a href="#label-3.40.0+-282021-01-14-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.40.0+-282021-01-14-29"><a href="#label-3.40.0+-282021-01-14-29"><a href="doc/release_notes/3_40_0_txt.html">3.40.0</a> (2021-01-14)</a></h1>
 <ul><li>
-<p>Add freeze_template_caches! to the precompile_templates plugin, which ensures all templates are precompiled, and speeds up template access (jeremyevans)</p>
+<p>Add freeze_template_caches! to the <a href="lib/roda/plugins/precompile_templates_rb.html">precompile_templates</a> plugin, which ensures all templates are precompiled, and speeds up template access (jeremyevans)</p>
 </li><li>
-<p>Add precompile_views to the precompile_templates plugin, which precompiles the optimized render methods (jeremyevans)</p>
+<p>Add precompile_views to the <a href="lib/roda/plugins/precompile_templates_rb.html">precompile_templates</a> plugin, which precompiles the optimized render methods (jeremyevans)</p>
 </li><li>
 <p>Have RodaCache#freeze return the frozen internal hash (which no longer needs a mutex for thread-safety) (jeremyevans)</p>
 </li><li>
@@ -511,58 +516,58 @@ CHANGELOG
 <p>Speed up the view method in the render plugin when called with a single argument (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.39.0+-282020-12-15-29"><a href="doc/release_notes/3_39_0_txt.html">3.39.0</a> (2020-12-15)<span><a href="#label-3.39.0+-282020-12-15-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.39.0+-282020-12-15-29"><a href="#label-3.39.0+-282020-12-15-29"><a href="doc/release_notes/3_39_0_txt.html">3.39.0</a> (2020-12-15)</a></h1>
 <ul><li>
-<p>Speed up relative_path plugin if relative_path or relative_prefix is called more than once (jeremyevans)</p>
+<p>Speed up <a href="lib/roda/plugins/relative_path_rb.html">relative_path</a> plugin if <a href="lib/roda/plugins/relative_path_rb.html">relative_path</a> or relative_prefix is called more than once (jeremyevans)</p>
 </li><li>
 <p>Avoid method redefinition warnings in verbose warning mode (jeremyevans)</p>
 </li><li>
 <p>Make typecast_params.convert! handle explicit nil values the same as missing values (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.38.0+-282020-11-16-29"><a href="doc/release_notes/3_38_0_txt.html">3.38.0</a> (2020-11-16)<span><a href="#label-3.38.0+-282020-11-16-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.38.0+-282020-11-16-29"><a href="#label-3.38.0+-282020-11-16-29"><a href="doc/release_notes/3_38_0_txt.html">3.38.0</a> (2020-11-16)</a></h1>
 <ul><li>
-<p>Make error_email and error_mail plugins rescue invalid parameter errors when preparing the email body (jeremyevans)</p>
+<p>Make <a href="lib/roda/plugins/error_email_rb.html">error_email</a> and <a href="lib/roda/plugins/error_mail_rb.html">error_mail</a> plugins rescue invalid parameter errors when preparing the email body (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.37.0+-282020-10-16-29"><a href="doc/release_notes/3_37_0_txt.html">3.37.0</a> (2020-10-16)<span><a href="#label-3.37.0+-282020-10-16-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.37.0+-282020-10-16-29"><a href="#label-3.37.0+-282020-10-16-29"><a href="doc/release_notes/3_37_0_txt.html">3.37.0</a> (2020-10-16)</a></h1>
 <ul><li>
-<p>Add custom_matchers plugin, for supporting arbitrary objects as matchers (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/custom_matchers_rb.html">custom_matchers</a> plugin, for supporting arbitrary objects as matchers (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.36.0+-282020-09-14-29"><a href="doc/release_notes/3_36_0_txt.html">3.36.0</a> (2020-09-14)<span><a href="#label-3.36.0+-282020-09-14-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.36.0+-282020-09-14-29"><a href="#label-3.36.0+-282020-09-14-29"><a href="doc/release_notes/3_36_0_txt.html">3.36.0</a> (2020-09-14)</a></h1>
 <ul><li>
-<p>Add multi_public plugin, for serving files from multiple public directories (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/multi_public_rb.html">multi_public</a> plugin, for serving files from multiple public directories (jeremyevans)</p>
 </li><li>
-<p>Support report-to directive in the content_security_policy plugin (jeremyevans)</p>
+<p>Support report-to directive in the <a href="lib/roda/plugins/content_security_policy_rb.html">content_security_policy</a> plugin (jeremyevans)</p>
 </li><li>
-<p>Add Vary response header when using type_routing plugin with Accept request header to prevent caching issues (jeremyevans)</p>
+<p>Add Vary response header when using <a href="lib/roda/plugins/type_routing_rb.html">type_routing</a> plugin with Accept request header to prevent caching issues (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.35.0+-282020-08-14-29"><a href="doc/release_notes/3_35_0_txt.html">3.35.0</a> (2020-08-14)<span><a href="#label-3.35.0+-282020-08-14-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.35.0+-282020-08-14-29"><a href="#label-3.35.0+-282020-08-14-29"><a href="doc/release_notes/3_35_0_txt.html">3.35.0</a> (2020-08-14)</a></h1>
 <ul><li>
 <p>Add r plugin for r method for accessing request, useful when r local variable is not in scope (jeremyevans)</p>
 </li><li>
 <p>Warn when loading a plugin with arguments or a block if the plugin does not accept arguments or block (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.34.0+-282020-07-14-29"><a href="doc/release_notes/3_34_0_txt.html">3.34.0</a> (2020-07-14)<span><a href="#label-3.34.0+-282020-07-14-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.34.0+-282020-07-14-29"><a href="#label-3.34.0+-282020-07-14-29"><a href="doc/release_notes/3_34_0_txt.html">3.34.0</a> (2020-07-14)</a></h1>
 <ul><li>
 <p>Remove unnecessary conditionals (jeremyevans)</p>
 </li><li>
-<p>Allow loading the match_affix plugin with a single argument (jeremyevans)</p>
+<p>Allow loading the <a href="lib/roda/plugins/match_affix_rb.html">match_affix</a> plugin with a single argument (jeremyevans)</p>
 </li><li>
-<p>Do not include pre/post context sections if empty in the exception_page plugin (jeremyevans)</p>
+<p>Do not include pre/post context sections if empty in the <a href="lib/roda/plugins/exception_page_rb.html">exception_page</a> plugin (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.33.0+-282020-06-16-29"><a href="doc/release_notes/3_33_0_txt.html">3.33.0</a> (2020-06-16)<span><a href="#label-3.33.0+-282020-06-16-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.33.0+-282020-06-16-29"><a href="#label-3.33.0+-282020-06-16-29"><a href="doc/release_notes/3_33_0_txt.html">3.33.0</a> (2020-06-16)</a></h1>
 <ul><li>
 <p>Add :brotli option to public plugin to supplement it to serve brotli-compressed files like :gzip does for gzipped files (hmdne) (#194)</p>
 </li><li>
 <p>Add url method to path plugin, similar to path but returning the entire URL (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.32.0+-282020-05-15-29"><a href="doc/release_notes/3_32_0_txt.html">3.32.0</a> (2020-05-15)<span><a href="#label-3.32.0+-282020-05-15-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.32.0+-282020-05-15-29"><a href="#label-3.32.0+-282020-05-15-29"><a href="doc/release_notes/3_32_0_txt.html">3.32.0</a> (2020-05-15)</a></h1>
 <ul><li>
 <p>Make :dependencies option in assets plugin work correctly with render plugin template caching (jeremyevans) (#191)</p>
 </li><li>
@@ -570,26 +575,26 @@ CHANGELOG
 </li><li>
 <p>Add each_partial to the partials plugin for rendering a partial for each element in an enumerable (jeremyevans)</p>
 </li><li>
-<p>Make render_each in render_each plugin handle template names with directories and extensions (jeremyevans)</p>
+<p>Make <a href="lib/roda/plugins/render_each_rb.html">render_each</a> in <a href="lib/roda/plugins/render_each_rb.html">render_each</a> plugin handle template names with directories and extensions (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.31.0+-282020-04-15-29"><a href="doc/release_notes/3_31_0_txt.html">3.31.0</a> (2020-04-15)<span><a href="#label-3.31.0+-282020-04-15-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.31.0+-282020-04-15-29"><a href="#label-3.31.0+-282020-04-15-29"><a href="doc/release_notes/3_31_0_txt.html">3.31.0</a> (2020-04-15)</a></h1>
 <ul><li>
 <p>Add :relative option to path method in path plugin, for generating a method returning relative paths (jeremyevans)</p>
 </li><li>
-<p>Add relative_path plugin, for turning absolute paths to paths relative to the current request (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/relative_path_rb.html">relative_path</a> plugin, for turning absolute paths to paths relative to the current request (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.30.0+-282020-03-13-29"><a href="doc/release_notes/3_30_0_txt.html">3.30.0</a> (2020-03-13)<span><a href="#label-3.30.0+-282020-03-13-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.30.0+-282020-03-13-29"><a href="#label-3.30.0+-282020-03-13-29"><a href="doc/release_notes/3_30_0_txt.html">3.30.0</a> (2020-03-13)</a></h1>
 <ul><li>
 <p>Support :relative_paths assets plugin option to use relative paths for the assets (jeremyevans)</p>
 </li><li>
-<p>Make run_append_slash and run_handler plugins work when used together (janko) (#185)</p>
+<p>Make <a href="lib/roda/plugins/run_append_slash_rb.html">run_append_slash</a> and <a href="lib/roda/plugins/run_handler_rb.html">run_handler</a> plugins work when used together (janko) (#185)</p>
 </li><li>
-<p>Make :header matcher in header_matchers plugin work for Content-Type and Content-Length (jeremyevans) (#184)</p>
+<p>Make :header matcher in <a href="lib/roda/plugins/header_matchers_rb.html">header_matchers</a> plugin work for Content-Type and Content-Length (jeremyevans) (#184)</p>
 </li></ul>
 
-<h1 id="label-3.29.0+-282020-02-14-29"><a href="doc/release_notes/3_29_0_txt.html">3.29.0</a> (2020-02-14)<span><a href="#label-3.29.0+-282020-02-14-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.29.0+-282020-02-14-29"><a href="#label-3.29.0+-282020-02-14-29"><a href="doc/release_notes/3_29_0_txt.html">3.29.0</a> (2020-02-14)</a></h1>
 <ul><li>
 <p>Remove specs and old release notes from the gem to reduce gem size by over 35% (jeremyevans)</p>
 </li><li>
@@ -597,75 +602,75 @@ CHANGELOG
 </li><li>
 <p>Include SCRIPT_NAME when logging in common logger plugin (jeremyevans)</p>
 </li><li>
-<p>Handle invalid POST data when using the exception_page plugin (jeremyevans)</p>
+<p>Handle invalid POST data when using the <a href="lib/roda/plugins/exception_page_rb.html">exception_page</a> plugin (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.28.0+-282020-01-15-29"><a href="doc/release_notes/3_28_0_txt.html">3.28.0</a> (2020-01-15)<span><a href="#label-3.28.0+-282020-01-15-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.28.0+-282020-01-15-29"><a href="#label-3.28.0+-282020-01-15-29"><a href="doc/release_notes/3_28_0_txt.html">3.28.0</a> (2020-01-15)</a></h1>
 <ul><li>
 <p>Add session_created_at and session_updated_at methods to the sessions plugin (jeremyevans)</p>
 </li><li>
 <p>Make upgrading from rack session cookie in sessions plugin work with rack 2.0.8 (jeremyevans)</p>
 </li><li>
-<p>Make json_parser parse request body as json even if request body has already been read (jeremyevans)</p>
+<p>Make <a href="lib/roda/plugins/json_parser_rb.html">json_parser</a> parse request body as json even if request body has already been read (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.27.0+-282019-12-13-29"><a href="doc/release_notes/3_27_0_txt.html">3.27.0</a> (2019-12-13)<span><a href="#label-3.27.0+-282019-12-13-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.27.0+-282019-12-13-29"><a href="#label-3.27.0+-282019-12-13-29"><a href="doc/release_notes/3_27_0_txt.html">3.27.0</a> (2019-12-13)</a></h1>
 <ul><li>
-<p>Allow json_parser return correct result for invalid JSON if the params_capturing plugin is used (jeremyevans) (#180)</p>
+<p>Allow <a href="lib/roda/plugins/json_parser_rb.html">json_parser</a> return correct result for invalid JSON if the <a href="lib/roda/plugins/params_capturing_rb.html">params_capturing</a> plugin is used (jeremyevans) (#180)</p>
 </li><li>
-<p>Add multibyte_string_matcher plugin for matching multibyte characters (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/multibyte_string_matcher_rb.html">multibyte_string_matcher</a> plugin for matching multibyte characters (jeremyevans)</p>
 </li><li>
-<p>Split roda.rb into separate files (janko) (#177)</p>
+<p>Split <a href="lib/roda_rb.html">roda.rb</a> into separate files (janko) (#177)</p>
 </li></ul>
 
-<h1 id="label-3.26.0+-282019-11-18-29"><a href="doc/release_notes/3_26_0_txt.html">3.26.0</a> (2019-11-18)<span><a href="#label-3.26.0+-282019-11-18-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.26.0+-282019-11-18-29"><a href="#label-3.26.0+-282019-11-18-29"><a href="doc/release_notes/3_26_0_txt.html">3.26.0</a> (2019-11-18)</a></h1>
 <ul><li>
 <p>Combine multiple asset files with a newline when compiling them, avoiding corner cases with comments (ameuret) (#176)</p>
 </li><li>
 <p>Add asychronous streaming support to the streaming plugin (janko) (#175)</p>
 </li></ul>
 
-<h1 id="label-3.25.0+-282019-10-15-29"><a href="doc/release_notes/3_25_0_txt.html">3.25.0</a> (2019-10-15)<span><a href="#label-3.25.0+-282019-10-15-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.25.0+-282019-10-15-29"><a href="#label-3.25.0+-282019-10-15-29"><a href="doc/release_notes/3_25_0_txt.html">3.25.0</a> (2019-10-15)</a></h1>
 <ul><li>
 <p>Support change in tilt 2.0.10 private API to continue to support compiled templates, with up to 33% performance improvement (jeremyevans)</p>
 </li><li>
 <p>Improve render performance with :locals option up to 75% by calling compiled template methods directly (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.24.0+-282019-09-13-29"><a href="doc/release_notes/3_24_0_txt.html">3.24.0</a> (2019-09-13)<span><a href="#label-3.24.0+-282019-09-13-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.24.0+-282019-09-13-29"><a href="#label-3.24.0+-282019-09-13-29"><a href="doc/release_notes/3_24_0_txt.html">3.24.0</a> (2019-09-13)</a></h1>
 <ul><li>
-<p>Fix Proc.new warning in module_include plugin on Ruby 2.7+ (jeremyevans)</p>
+<p>Fix Proc.new warning in <a href="lib/roda/plugins/module_include_rb.html">module_include</a> plugin on Ruby 2.7+ (jeremyevans)</p>
 </li><li>
-<p>Improve render_each performance by calling compiled template methods directly (jeremyevans)</p>
+<p>Improve <a href="lib/roda/plugins/render_each_rb.html">render_each</a> performance by calling compiled template methods directly (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.23.0+-282019-08-13-29"><a href="doc/release_notes/3_23_0_txt.html">3.23.0</a> (2019-08-13)<span><a href="#label-3.23.0+-282019-08-13-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.23.0+-282019-08-13-29"><a href="#label-3.23.0+-282019-08-13-29"><a href="doc/release_notes/3_23_0_txt.html">3.23.0</a> (2019-08-13)</a></h1>
 <ul><li>
-<p>Make roda/session_middleware work if type_routing plugin is loaded into <a href="../classes/Roda.html"><code>Roda</code></a> itself (jeremyevans) (#169)</p>
+<p>Make roda/session_middleware work if <a href="lib/roda/plugins/type_routing_rb.html">type_routing</a> plugin is loaded into <a href="../classes/Roda.html"><code>Roda</code></a> itself (jeremyevans) (#169)</p>
 </li><li>
-<p>Handle requests with nothing before extension in the path in the type_routing plugin (jeremyevans) (#168)</p>
+<p>Handle requests with nothing before extension in the path in the <a href="lib/roda/plugins/type_routing_rb.html">type_routing</a> plugin (jeremyevans) (#168)</p>
 </li><li>
-<p>Always show line number in exception_page output in exception_page plugin (jeremyevans)</p>
+<p>Always show line number in <a href="lib/roda/plugins/exception_page_rb.html">exception_page</a> output in <a href="lib/roda/plugins/exception_page_rb.html">exception_page</a> plugin (jeremyevans)</p>
 </li><li>
 <p>Improve render/view performance up to 2x in development mode in the default case by calling compiled template methods directly (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.22.0+-282019-07-12-29"><a href="doc/release_notes/3_22_0_txt.html">3.22.0</a> (2019-07-12)<span><a href="#label-3.22.0+-282019-07-12-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.22.0+-282019-07-12-29"><a href="#label-3.22.0+-282019-07-12-29"><a href="doc/release_notes/3_22_0_txt.html">3.22.0</a> (2019-07-12)</a></h1>
 <ul><li>
 <p>Improve render performance up to 4x in the default case by calling compiled template methods directly (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.21.0+-282019-06-14-29"><a href="doc/release_notes/3_21_0_txt.html">3.21.0</a> (2019-06-14)<span><a href="#label-3.21.0+-282019-06-14-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.21.0+-282019-06-14-29"><a href="#label-3.21.0+-282019-06-14-29"><a href="doc/release_notes/3_21_0_txt.html">3.21.0</a> (2019-06-14)</a></h1>
 <ul><li>
 <p>Cache compiled templates in development mode, until the template files are modified (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.20.0+-282019-05-16-29"><a href="doc/release_notes/3_20_0_txt.html">3.20.0</a> (2019-05-16)<span><a href="#label-3.20.0+-282019-05-16-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.20.0+-282019-05-16-29"><a href="#label-3.20.0+-282019-05-16-29"><a href="doc/release_notes/3_20_0_txt.html">3.20.0</a> (2019-05-16)</a></h1>
 <ul><li>
 <p>Set Content-Length header to 0 for empty 205 responses (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.19.0+-282019-04-12-29"><a href="doc/release_notes/3_19_0_txt.html">3.19.0</a> (2019-04-12)<span><a href="#label-3.19.0+-282019-04-12-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.19.0+-282019-04-12-29"><a href="#label-3.19.0+-282019-04-12-29"><a href="doc/release_notes/3_19_0_txt.html">3.19.0</a> (2019-04-12)</a></h1>
 <ul><li>
 <p>Allow assets plugin :timestamp_paths option to be a string to specify a custom separator (jeremyevans)</p>
 </li><li>
@@ -679,56 +684,56 @@ CHANGELOG
 </li><li>
 <p>Improve string matching by 10-20% (jeremyevans)</p>
 </li><li>
-<p>Automatically load the direct_call plugin when freezing if no middleware is used for better performance (jeremyevans)</p>
+<p>Automatically load the <a href="lib/roda/plugins/direct_call_rb.html">direct_call</a> plugin when freezing if no middleware is used for better performance (jeremyevans)</p>
 </li><li>
 <p>Delay building rack app until Roda.app is called (jeremyevans)</p>
 </li><li>
-<p>Add hash_routes plugin for O(1) route dispatching at any level in the routing tree (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/hash_routes_rb.html">hash_routes</a> plugin for O(1) route dispatching at any level in the routing tree (jeremyevans)</p>
 </li><li>
 <p>Add support for per-cookie cipher secrets in the sessions plugin, and enable them by default (jeremyevans)</p>
 </li><li>
-<p>Add match_hook plugin for calling hooks when there is a successful match block (adam12) (#164)</p>
+<p>Add <a href="lib/roda/plugins/match_hook_rb.html">match_hook</a> plugin for calling hooks when there is a successful match block (adam12) (#164)</p>
 </li></ul>
 
-<h1 id="label-3.18.0+-282019-03-15-29"><a href="doc/release_notes/3_18_0_txt.html">3.18.0</a> (2019-03-15)<span><a href="#label-3.18.0+-282019-03-15-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.18.0+-282019-03-15-29"><a href="#label-3.18.0+-282019-03-15-29"><a href="doc/release_notes/3_18_0_txt.html">3.18.0</a> (2019-03-15)</a></h1>
 <ul><li>
-<p>Add direct_call plugin for making Roda.call skip middleware, allowing more optimization when dispatching routes (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/direct_call_rb.html">direct_call</a> plugin for making Roda.call skip middleware, allowing more optimization when dispatching routes (jeremyevans)</p>
 </li><li>
-<p>Improve performance of default_headers plugin by directly defining set_default_headers (jeremyevans)</p>
+<p>Improve performance of <a href="lib/roda/plugins/default_headers_rb.html">default_headers</a> plugin by directly defining set_default_headers (jeremyevans)</p>
 </li><li>
 <p>Improve performance when freezing app if certain methods have not been overridden (jeremyevans)</p>
 </li><li>
 <p>Support :check_arity and :check_dynamic_arity app options for whether/how to check arity for blocks used to define methods (jeremyevans)</p>
 </li><li>
-<p>Improve performance of the status_handler plugin by using methods instead of instance_exec (jeremyevans)</p>
+<p>Improve performance of the <a href="lib/roda/plugins/status_handler_rb.html">status_handler</a> plugin by using methods instead of instance_exec (jeremyevans)</p>
 </li><li>
-<p>Remove r.static_route method from the static_routing plugin (jeremyevans)</p>
+<p>Remove r.static_route method from the <a href="lib/roda/plugins/static_routing_rb.html">static_routing</a> plugin (jeremyevans)</p>
 </li><li>
-<p>Improve performance of the static_routing plugin by using methods instead of instance_exec (jeremyevans)</p>
+<p>Improve performance of the <a href="lib/roda/plugins/static_routing_rb.html">static_routing</a> plugin by using methods instead of instance_exec (jeremyevans)</p>
 </li><li>
-<p>Add support for the route_block_args plugin to the route_csrf plugin (jeremyevans)</p>
+<p>Add support for the <a href="lib/roda/plugins/route_block_args_rb.html">route_block_args</a> plugin to the <a href="lib/roda/plugins/route_csrf_rb.html">route_csrf</a> plugin (jeremyevans)</p>
 </li><li>
-<p>Improve performance of the route_csrf plugin by using a method instead of instance_exec (jeremyevans)</p>
+<p>Improve performance of the <a href="lib/roda/plugins/route_csrf_rb.html">route_csrf</a> plugin by using a method instead of instance_exec (jeremyevans)</p>
 </li><li>
-<p>Improve performance of the route_block_args plugin by using a method instead of instance_exec (jeremyevans)</p>
+<p>Improve performance of the <a href="lib/roda/plugins/route_block_args_rb.html">route_block_args</a> plugin by using a method instead of instance_exec (jeremyevans)</p>
 </li><li>
 <p>Improve performance of the path plugin by using methods instead of instance_exec (jeremyevans)</p>
 </li><li>
-<p>Improve performance of the named_templates plugin by using methods instead of instance_exec (jeremyevans)</p>
+<p>Improve performance of the <a href="lib/roda/plugins/named_templates_rb.html">named_templates</a> plugin by using methods instead of instance_exec (jeremyevans)</p>
 </li><li>
-<p>Improve performance of the multi_route plugin by using methods instead of instance_exec (jeremyevans)</p>
+<p>Improve performance of the <a href="lib/roda/plugins/multi_route_rb.html">multi_route</a> plugin by using methods instead of instance_exec (jeremyevans)</p>
 </li><li>
 <p>Improve performance of the hooks plugin by using methods instead of instance_exec (jeremyevans)</p>
 </li><li>
-<p>Improve performance of the mail_processor plugin by using methods instead of instance_exec (jeremyevans)</p>
+<p>Improve performance of the <a href="lib/roda/plugins/mail_processor_rb.html">mail_processor</a> plugin by using methods instead of instance_exec (jeremyevans)</p>
 </li><li>
-<p>Improve performance of the default_status plugin by directly defining the default_status method (jeremyevans)</p>
+<p>Improve performance of the <a href="lib/roda/plugins/default_status_rb.html">default_status</a> plugin by directly defining the <a href="lib/roda/plugins/default_status_rb.html">default_status</a> method (jeremyevans)</p>
 </li><li>
-<p>Improve performance of class_level_routing plugin using methods instead of instance_exec (jeremyevans)</p>
+<p>Improve performance of <a href="lib/roda/plugins/class_level_routing_rb.html">class_level_routing</a> plugin using methods instead of instance_exec (jeremyevans)</p>
 </li><li>
-<p>Do not have route_block_args plugin affect class_level_routes plugin (jeremyevans)</p>
+<p>Do not have <a href="lib/roda/plugins/route_block_args_rb.html">route_block_args</a> plugin affect class_level_routes plugin (jeremyevans)</p>
 </li><li>
-<p>Integrate internal after hook with error_handler plugin (jeremyevans)</p>
+<p>Integrate internal after hook with <a href="lib/roda/plugins/error_handler_rb.html">error_handler</a> plugin (jeremyevans)</p>
 </li><li>
 <p>Improve performance of internal before and after hooks (jeremyevans)</p>
 </li><li>
@@ -739,56 +744,56 @@ CHANGELOG
 <p>Include cookie_options when clearing the cookie (#162, #163) (eiko, jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.17.0+-282019-02-15-29"><a href="doc/release_notes/3_17_0_txt.html">3.17.0</a> (2019-02-15)<span><a href="#label-3.17.0+-282019-02-15-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.17.0+-282019-02-15-29"><a href="#label-3.17.0+-282019-02-15-29"><a href="doc/release_notes/3_17_0_txt.html">3.17.0</a> (2019-02-15)</a></h1>
 <ul><li>
 <p>Improve performance in the common case for RodaResponse#finish (jeremyevans)</p>
 </li><li>
-<p>Support before hooks in the hooks plugin in the mailer and mail_processor plugins (jeremyevans)</p>
+<p>Support before hooks in the hooks plugin in the mailer and <a href="lib/roda/plugins/mail_processor_rb.html">mail_processor</a> plugins (jeremyevans)</p>
 </li><li>
-<p>Allow set_layout_opts in view_options plugin to override layout if render plugin :layout option is given (jeremyevans)</p>
+<p>Allow set_layout_opts in <a href="lib/roda/plugins/view_options_rb.html">view_options</a> plugin to override layout if render plugin :layout option is given (jeremyevans)</p>
 </li><li>
-<p>Add route_block_args plugin to control which arguments are yielded to the route block (jeremyevans, chrisfrank) (#159)</p>
+<p>Add <a href="lib/roda/plugins/route_block_args_rb.html">route_block_args</a> plugin to control which arguments are yielded to the route block (jeremyevans, chrisfrank) (#159)</p>
 </li></ul>
 
-<h1 id="label-3.16.0+-282019-01-18-29"><a href="doc/release_notes/3_16_0_txt.html">3.16.0</a> (2019-01-18)<span><a href="#label-3.16.0+-282019-01-18-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.16.0+-282019-01-18-29"><a href="#label-3.16.0+-282019-01-18-29"><a href="doc/release_notes/3_16_0_txt.html">3.16.0</a> (2019-01-18)</a></h1>
 <ul><li>
-<p>Add mail_processor plugin for processing mail using a routing tree (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/mail_processor_rb.html">mail_processor</a> plugin for processing mail using a routing tree (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.15.0+-282018-12-14-29"><a href="doc/release_notes/3_15_0_txt.html">3.15.0</a> (2018-12-14)<span><a href="#label-3.15.0+-282018-12-14-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.15.0+-282018-12-14-29"><a href="#label-3.15.0+-282018-12-14-29"><a href="doc/release_notes/3_15_0_txt.html">3.15.0</a> (2018-12-14)</a></h1>
 <ul><li>
 <p>Support render plugin :escape option to be a string or array of strings and only add :escape option for those template engines (jeremyevans) (#158)</p>
 </li><li>
-<p>Add :skip_missing option to convert!/convert_each! in the typecast_params plugin to support not storing keys not present in params (jeremyevans)</p>
+<p>Add :skip_missing option to convert!/convert_each! in the <a href="lib/roda/plugins/typecast_params_rb.html">typecast_params</a> plugin to support not storing keys not present in params (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.14.1+-282018-11-29-29"><a href="doc/release_notes/3_14_1_txt.html">3.14.1</a> (2018-11-29)<span><a href="#label-3.14.1+-282018-11-29-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.14.1+-282018-11-29-29"><a href="#label-3.14.1+-282018-11-29-29"><a href="doc/release_notes/3_14_1_txt.html">3.14.1</a> (2018-11-29)</a></h1>
 <ul><li>
-<p>SECURITY: content_for plugin no longer post-processes block result with template engine (jeremyevans)</p>
+<p>SECURITY: <a href="lib/roda/plugins/content_for_rb.html">content_for</a> plugin no longer post-processes block result with template engine (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.14.0+-282018-11-16-29"><a href="doc/release_notes/3_14_0_txt.html">3.14.0</a> (2018-11-16)<span><a href="#label-3.14.0+-282018-11-16-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.14.0+-282018-11-16-29"><a href="#label-3.14.0+-282018-11-16-29"><a href="doc/release_notes/3_14_0_txt.html">3.14.0</a> (2018-11-16)</a></h1>
 <ul><li>
-<p>Add :raise option to convert!/convert_each! in the typecast_params plugin to support not raising for missing keys (celsworth) (#153)</p>
+<p>Add :raise option to convert!/convert_each! in the <a href="lib/roda/plugins/typecast_params_rb.html">typecast_params</a> plugin to support not raising for missing keys (celsworth) (#153)</p>
 </li><li>
-<p>Do not persist convert!/convert_each! :symbolize setting in the typecast_params plugin (jeremyevans)</p>
+<p>Do not persist convert!/convert_each! :symbolize setting in the <a href="lib/roda/plugins/typecast_params_rb.html">typecast_params</a> plugin (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.13.0+-282018-10-12-29"><a href="doc/release_notes/3_13_0_txt.html">3.13.0</a> (2018-10-12)<span><a href="#label-3.13.0+-282018-10-12-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.13.0+-282018-10-12-29"><a href="#label-3.13.0+-282018-10-12-29"><a href="doc/release_notes/3_13_0_txt.html">3.13.0</a> (2018-10-12)</a></h1>
 <ul><li>
 <p>Make Stream#write in streaming plugin return number of bytes written instead of self, so it works with IO.copy_stream (jeremyevans)</p>
 </li><li>
-<p>Add exception_page plugin for showing a page with debugging information for a given exception (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/exception_page_rb.html">exception_page</a> plugin for showing a page with debugging information for a given exception (jeremyevans)</p>
 </li><li>
-<p>Make common_logger plugin handle raised errors (jeremyevans)</p>
+<p>Make <a href="lib/roda/plugins/common_logger_rb.html">common_logger</a> plugin handle raised errors (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.12.0+-282018-09-14-29"><a href="doc/release_notes/3_12_0_txt.html">3.12.0</a> (2018-09-14)<span><a href="#label-3.12.0+-282018-09-14-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.12.0+-282018-09-14-29"><a href="#label-3.12.0+-282018-09-14-29"><a href="doc/release_notes/3_12_0_txt.html">3.12.0</a> (2018-09-14)</a></h1>
 <ul><li>
-<p>Add common_logger plugin for common log support (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/common_logger_rb.html">common_logger</a> plugin for common log support (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.11.0+-282018-08-15-29"><a href="doc/release_notes/3_11_0_txt.html">3.11.0</a> (2018-08-15)<span><a href="#label-3.11.0+-282018-08-15-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.11.0+-282018-08-15-29"><a href="#label-3.11.0+-282018-08-15-29"><a href="doc/release_notes/3_11_0_txt.html">3.11.0</a> (2018-08-15)</a></h1>
 <ul><li>
 <p>Disable default compression of sessions over 128 bytes in the sessions plugin (jeremyevans)</p>
 </li><li>
@@ -797,7 +802,7 @@ CHANGELOG
 <p>Modify internal before/after processing to avoid plugin load order issues (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.10.0+-282018-07-18-29"><a href="doc/release_notes/3_10_0_txt.html">3.10.0</a> (2018-07-18)<span><a href="#label-3.10.0+-282018-07-18-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.10.0+-282018-07-18-29"><a href="#label-3.10.0+-282018-07-18-29"><a href="doc/release_notes/3_10_0_txt.html">3.10.0</a> (2018-07-18)</a></h1>
 <ul><li>
 <p>Remove flash key from session if new flash is empty when rotating flash (jeremyevans)</p>
 </li><li>
@@ -813,68 +818,68 @@ CHANGELOG
 </li><li>
 <p>Make the flash plugin work correctly when sessions are serialized with JSON (jeremyevans)</p>
 </li><li>
-<p>Make Integer in typecast_params handle Numeric input, and require that Numeric input not have fractional parts (jeremyevans) (#146)</p>
+<p>Make Integer in <a href="lib/roda/plugins/typecast_params_rb.html">typecast_params</a> handle Numeric input, and require that Numeric input not have fractional parts (jeremyevans) (#146)</p>
 </li></ul>
 
-<h1 id="label-3.9.0+-282018-06-11-29"><a href="doc/release_notes/3_9_0_txt.html">3.9.0</a> (2018-06-11)<span><a href="#label-3.9.0+-282018-06-11-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.9.0+-282018-06-11-29"><a href="#label-3.9.0+-282018-06-11-29"><a href="doc/release_notes/3_9_0_txt.html">3.9.0</a> (2018-06-11)</a></h1>
 <ul><li>
-<p>Add route_csrf plugin for CSRF protection, offering more control, better security, and request-specific tokens compared to rack_csrf (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/route_csrf_rb.html">route_csrf</a> plugin for CSRF protection, offering more control, better security, and request-specific tokens compared to rack_csrf (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.8.0+-282018-05-17-29"><a href="doc/release_notes/3_8_0_txt.html">3.8.0</a> (2018-05-17)<span><a href="#label-3.8.0+-282018-05-17-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.8.0+-282018-05-17-29"><a href="#label-3.8.0+-282018-05-17-29"><a href="doc/release_notes/3_8_0_txt.html">3.8.0</a> (2018-05-17)</a></h1>
 <ul><li>
-<p>Accept convert_each! :keys option that is Proc or Method in typecast_params plugin (jeremyevans)</p>
+<p>Accept convert_each! :keys option that is Proc or Method in <a href="lib/roda/plugins/typecast_params_rb.html">typecast_params</a> plugin (jeremyevans)</p>
 </li><li>
-<p>Make convert_each! in typecast_params plugin handle hashes with ‘0’..‘N’ keys without :keys option (jeremyevans)</p>
+<p>Make convert_each! in <a href="lib/roda/plugins/typecast_params_rb.html">typecast_params</a> plugin handle hashes with ‘0’..‘N’ keys without :keys option (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.7.0+-282018-04-20-29"><a href="doc/release_notes/3_7_0_txt.html">3.7.0</a> (2018-04-20)<span><a href="#label-3.7.0+-282018-04-20-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.7.0+-282018-04-20-29"><a href="#label-3.7.0+-282018-04-20-29"><a href="doc/release_notes/3_7_0_txt.html">3.7.0</a> (2018-04-20)</a></h1>
 <ul><li>
-<p>Make response_request plugin work with error_handler and class_level_routing plugins (jeremyevans)</p>
+<p>Make <a href="lib/roda/plugins/response_request_rb.html">response_request</a> plugin work with <a href="lib/roda/plugins/error_handler_rb.html">error_handler</a> and <a href="lib/roda/plugins/class_level_routing_rb.html">class_level_routing</a> plugins (jeremyevans)</p>
 </li><li>
-<p>Add content_security_policy plugin for setting an appropriate Content-Security-Policy header (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/content_security_policy_rb.html">content_security_policy</a> plugin for setting an appropriate Content-Security-Policy header (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.6.0+-282018-03-26-29"><a href="doc/release_notes/3_6_0_txt.html">3.6.0</a> (2018-03-26)<span><a href="#label-3.6.0+-282018-03-26-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.6.0+-282018-03-26-29"><a href="#label-3.6.0+-282018-03-26-29"><a href="doc/release_notes/3_6_0_txt.html">3.6.0</a> (2018-03-26)</a></h1>
 <ul><li>
-<p>Add :wrap option to json_parser plugin, for whether/how to wrap the uploaded JSON object (jeremyevans) (#142)</p>
+<p>Add :wrap option to <a href="lib/roda/plugins/json_parser_rb.html">json_parser</a> plugin, for whether/how to wrap the uploaded JSON object (jeremyevans) (#142)</p>
 </li><li>
 <p>Add :early_hints option to the assets plugin, for supporting sending early hints for calls to assets (jeremyevans)</p>
 </li><li>
-<p>Add early_hints plugin for sending 103 Early Hint responses, currently only working on puma (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/early_hints_rb.html">early_hints</a> plugin for sending 103 Early Hint responses, currently only working on puma (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.5.0+-282018-02-14-29"><a href="doc/release_notes/3_5_0_txt.html">3.5.0</a> (2018-02-14)<span><a href="#label-3.5.0+-282018-02-14-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.5.0+-282018-02-14-29"><a href="#label-3.5.0+-282018-02-14-29"><a href="doc/release_notes/3_5_0_txt.html">3.5.0</a> (2018-02-14)</a></h1>
 <ul><li>
-<p>Add request_aref plugin for configuring behavior of request [] and []= methods (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/request_aref_rb.html">request_aref</a> plugin for configuring behavior of request [] and []= methods (jeremyevans)</p>
 </li><li>
 <p>Make public plugin not add Content-Type header when serving 304 response for gzipped file (jeremyevans)</p>
 </li><li>
-<p>Make content_for call with block convert block result to string before passing to tilt (jeremyevans) (#135)</p>
+<p>Make <a href="lib/roda/plugins/content_for_rb.html">content_for</a> call with block convert block result to string before passing to tilt (jeremyevans) (#135)</p>
 </li></ul>
 
-<h1 id="label-3.4.0+-282018-01-12-29"><a href="doc/release_notes/3_4_0_txt.html">3.4.0</a> (2018-01-12)<span><a href="#label-3.4.0+-282018-01-12-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.4.0+-282018-01-12-29"><a href="#label-3.4.0+-282018-01-12-29"><a href="doc/release_notes/3_4_0_txt.html">3.4.0</a> (2018-01-12)</a></h1>
 <ul><li>
-<p>Add middleware_stack plugin for removing middleware and inserting middleware before the end of the stack (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/middleware_stack_rb.html">middleware_stack</a> plugin for removing middleware and inserting middleware before the end of the stack (jeremyevans)</p>
 </li><li>
 <p>Make head plugin handle closing existing response bodies if the body responds to close (Eric Wong)</p>
 </li></ul>
 
-<h1 id="label-3.3.0+-282017-12-14-29"><a href="doc/release_notes/3_3_0_txt.html">3.3.0</a> (2017-12-14)<span><a href="#label-3.3.0+-282017-12-14-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.3.0+-282017-12-14-29"><a href="#label-3.3.0+-282017-12-14-29"><a href="doc/release_notes/3_3_0_txt.html">3.3.0</a> (2017-12-14)</a></h1>
 <ul><li>
-<p>Add typecast_params plugin for converting param values to explicit types (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/typecast_params_rb.html">typecast_params</a> plugin for converting param values to explicit types (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.2.0+-282017-11-16-29"><a href="doc/release_notes/3_2_0_txt.html">3.2.0</a> (2017-11-16)<span><a href="#label-3.2.0+-282017-11-16-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.2.0+-282017-11-16-29"><a href="#label-3.2.0+-282017-11-16-29"><a href="doc/release_notes/3_2_0_txt.html">3.2.0</a> (2017-11-16)</a></h1>
 <ul><li>
 <p>Use microseconds in assets plugin :timestamp_paths timestamps (jeremyevans)</p>
 </li><li>
-<p>Add timestamp_public plugin for serving static files with paths that change based on modify timestamp (jeremyevans)</p>
+<p>Add <a href="lib/roda/plugins/timestamp_public_rb.html">timestamp_public</a> plugin for serving static files with paths that change based on modify timestamp (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.1.0+-282017-10-13-29"><a href="doc/release_notes/3_1_0_txt.html">3.1.0</a> (2017-10-13)<span><a href="#label-3.1.0+-282017-10-13-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.1.0+-282017-10-13-29"><a href="#label-3.1.0+-282017-10-13-29"><a href="doc/release_notes/3_1_0_txt.html">3.1.0</a> (2017-10-13)</a></h1>
 <ul><li>
-<p>Make set_layout_locals and set_view_locals in branch_locals plugin work when the other is not called (jeremyevans)</p>
+<p>Make set_layout_locals and set_view_locals in <a href="lib/roda/plugins/branch_locals_rb.html">branch_locals</a> plugin work when the other is not called (jeremyevans)</p>
 </li><li>
 <p>Add :timestamp_paths option to assets plugin to include timestamps in paths in non-compiled mode (jeremyevans)</p>
 </li><li>
@@ -883,17 +888,17 @@ CHANGELOG
 <p>Remove deprecated Roda.thread_safe_cache and RodaRequest#placeholder_string_matcher? methods (jeremyevans)</p>
 </li></ul>
 
-<h1 id="label-3.0.0+-282017-09-15-29"><a href="doc/release_notes/3_0_0_txt.html">3.0.0</a> (2017-09-15)<span><a href="#label-3.0.0+-282017-09-15-29">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-3.0.0+-282017-09-15-29"><a href="#label-3.0.0+-282017-09-15-29"><a href="doc/release_notes/3_0_0_txt.html">3.0.0</a> (2017-09-15)</a></h1>
 <ul><li>
-<p>Make defined symbol_matcher and hash_matcher match methods private (jeremyevans)</p>
+<p>Make defined symbol_matcher and <a href="lib/roda/plugins/hash_matcher_rb.html">hash_matcher</a> match methods private (jeremyevans)</p>
 </li><li>
 <p>Use public_send instead of send unless calling private methods is expected (jeremyevans)</p>
 </li><li>
-<p>Compute multi_run regexp when freezing app to avoid thread safety issues at runtime (jeremyevans)</p>
+<p>Compute <a href="lib/roda/plugins/multi_run_rb.html">multi_run</a> regexp when freezing app to avoid thread safety issues at runtime (jeremyevans)</p>
 </li><li>
-<p>Remove deprecated support for using undefined multi_route namespaces when routing (jeremyevans)</p>
+<p>Remove deprecated support for using undefined <a href="lib/roda/plugins/multi_route_rb.html">multi_route</a> namespaces when routing (jeremyevans)</p>
 </li><li>
-<p>Make it possible to reset :include_request options to false for json and json_parser plugins (jeremyevans)</p>
+<p>Make it possible to reset :include_request options to false for json and <a href="lib/roda/plugins/json_parser_rb.html">json_parser</a> plugins (jeremyevans)</p>
 </li><li>
 <p>Deprecate RodaRequest#placeholder_string_matcher? private method (jeremyevans)</p>
 </li><li>
@@ -907,19 +912,19 @@ CHANGELOG
 </li><li>
 <p>Make :cache=&gt;nil render plugin option still allow caching via :cache render method option (jeremyevans)</p>
 </li><li>
-<p>Make content_for plugin append to existing content by default (jeremyevans)</p>
+<p>Make <a href="lib/roda/plugins/content_for_rb.html">content_for</a> plugin append to existing content by default (jeremyevans)</p>
 </li><li>
-<p>Make :host matcher in the header_matchers plugin always yield captures if given a regexp (jeremyevans)</p>
+<p>Make :host matcher in the <a href="lib/roda/plugins/header_matchers_rb.html">header_matchers</a> plugin always yield captures if given a regexp (jeremyevans)</p>
 </li><li>
-<p>Make :header matcher in the header_matchers plugin now always prefix header with HTTP_ (jeremyevans)</p>
+<p>Make :header matcher in the <a href="lib/roda/plugins/header_matchers_rb.html">header_matchers</a> plugin now always prefix header with HTTP_ (jeremyevans)</p>
 </li><li>
 <p>Remove deprecated support for locals handling at the plugin level in the render plugin (jeremyevans)</p>
 </li><li>
-<p>Remove deprecated support for handling locals in the view_options plugin (jeremyevans)</p>
+<p>Remove deprecated support for handling locals in the <a href="lib/roda/plugins/view_options_rb.html">view_options</a> plugin (jeremyevans)</p>
 </li><li>
 <p>Remove deprecated support for :ext option in render plugin (jeremyevans)</p>
 </li><li>
-<p>Remove deprecated view_subdirs alias for view_options plugin (jeremyevans)</p>
+<p>Remove deprecated view_subdirs alias for <a href="lib/roda/plugins/view_options_rb.html">view_options</a> plugin (jeremyevans)</p>
 </li><li>
 <p>Remove deprecated support for EventMachine and Stream#callback method in the streaming plugin (jeremyevans)</p>
 </li><li>
@@ -929,14 +934,14 @@ CHANGELOG
 </li><li>
 <p>Make having a match/route block return an unsupported value raise error by default (jeremyevans)</p>
 </li><li>
-<p>Remove deprecated :format, :opt, and :optd symbol matchers in symbol_matchers plugin (jeremyevans)</p>
+<p>Remove deprecated :format, :opt, and :optd symbol matchers in <a href="lib/roda/plugins/symbol_matchers_rb.html">symbol_matchers</a> plugin (jeremyevans)</p>
 </li><li>
 <p>Remove deprecated support for placeholders in string matchers (jeremyevans)</p>
 </li><li>
 <p>Remove deprecated constants and plugins (jeremyevans)</p>
 </li></ul>
 
-<h3 id="label-Older">Older<span><a href="#label-Older">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-Older"><a href="#label-Older">Older</a></h3>
 
 <p>See <a href="doc/CHANGELOG_old.html">doc/CHANGELOG.old</a></p>
 </div>

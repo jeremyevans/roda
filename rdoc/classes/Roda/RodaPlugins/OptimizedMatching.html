@@ -36,7 +36,7 @@ Roda::RodaPlugins::OptimizedMatching
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The _optimized_matching plugin is automatically used internally to speed up matching when a single argument String instance, String class, Integer class, or Regexp matcher is passed to <code>r.on</code>, <code>r.is_</code>, or a verb method such as <code>r.get</code> or <code>r.post</code>.</p>
+<p>The <a href="../../../files/lib/roda/plugins/_optimized_matching_rb.html">_optimized_matching</a> plugin is automatically used internally to speed up matching when a single argument String instance, String class, Integer class, or Regexp matcher is passed to <code>r.on</code>, <code>r.is_</code>, or a verb method such as <code>r.get</code> or <code>r.post</code>.</p>
 
 <p>The optimization works by avoiding the <code>if_match</code> method if possible. Instead of clearing the captures array on every call, and having the matching append to the captures, it checks directly for the match, and on succesful match, it yields directly to the block without using the captures array.</p>
 </div>

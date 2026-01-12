@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+<head>
+<title>Roda::RodaPlugins::SecFetchSiteCsrf</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<link href='../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<script type='text/javascript'>
+  function popupCode(url) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+  
+  function toggleCode(id) {
+    var code = document.getElementById(id)
+  
+    code.style.display = code.style.display != 'block' ? 'block' : 'none'
+    return true
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+</script>
+</head>
+<body class='page'>
+<div class='class' id='wrapper'>
+<div class='header'>
+<h1 class='name'><span class='type'>module</span>
+Roda::RodaPlugins::SecFetchSiteCsrf
+</h1>
+<ol class='paths'>
+<li>
+<a href="../../../files/lib/roda/plugins/sec_fetch_site_csrf_rb.html">lib/roda/plugins/sec_fetch_site_csrf.rb</a>
+</li>
+</ol>
+</div>
+<div id='content'>
+<div id='text'>
+<div id='description'>
+<p>The sec_fetch_site plugin allows for CSRF protection using the Sec-Fetch-Site header added in modern browsers. It allows for CSRF protection without the use of CSRF tokens, which can simplify form creation.</p>
+
+<p>The protection offered by the sec_fetch_site plugin is weaker than the protection offered by the <a href="../../../files/lib/roda/plugins/route_csrf_rb.html">route_csrf</a> plugin with default settings, since it doesn’t support per-request tokens. Be aware you are trading security for simplicity when using the sec_fetch_site plugin instead of the <a href="../../../files/lib/roda/plugins/route_csrf_rb.html">route_csrf</a> plugin.  Other caveats in using the sec_fetch_site plugin:</p>
+<ul><li>
+<p>Not all browsers set the Sec-Fetch-Site header. Some browsers didn’t start setting the header until 2023. In these cases, you need to decide how to handle the request. The default is to deny the request, though you can use the :allow_missing option to allow it.</p>
+</li><li>
+<p>Sec-Fetch-Site headers are not set for http requests, only https requests, so this doesn’t offer protection for http requests.</p>
+</li><li>
+<p>It isn’t possible to share a CSRF secret between applications in different origins to allow cross-site requests between the applications.</p>
+</li></ul>
+
+<p>This plugin adds the <code>check_sec_fetch_site!</code> method to the routing block scope. You should call this method at the appropriate place in the routing tree to enforce the CSRF protection. The method can accept a block to override the :csrf_failure plugin option behavior on a per-call basis.</p>
+
+<p>When loading the plugin with no options:</p>
+
+<pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:sec_fetch_site_csrf</span>
+</pre>
+
+<p>Only same-origin requests are allowed by default.</p>
+
+<p>This plugin supports the following options:</p>
+<table class="rdoc-list note-list"><tbody><tr><td class='label'>:allow_missing </td><td>
+<p>Whether to allow requests lacking the Sec-Fetch-Site header (false by default).</p>
+</td></tr><tr><td class='label'>:allow_none </td><td>
+<p>Whether to allow requests where Sec-Fetch-Value is none (false by default).</p>
+</td></tr><tr><td class='label'>:allow_same_site </td><td>
+<p>Whether to allow requests where Sec-Fetch-Value is same-site (false by default)</p>
+</td></tr><tr><td class='label'>:check_request_methods </td><td>
+<p>Which request methods require CSRF protection (default: <code>[&#39;POST&#39;, &#39;DELETE&#39;, &#39;PATCH&#39;, &#39;PUT&#39;]</code>)</p>
+</td></tr><tr><td class='label'>:csrf_failure </td><td>
+<p>The action to taken if a request does not have a valid header (default: :raise).  Options:</p>
+<table class="rdoc-list note-list"><tbody><tr><td class='label'>:raise </td><td>
+<p>raise a <a href="SecFetchSiteCsrf/CsrfFailure.html"><code>Roda::RodaPlugins::SecFetchSiteCsrf::CsrfFailure</code></a> exception</p>
+</td></tr><tr><td class='label'>:empty_403 </td><td>
+<p>return a blank 403 page</p>
+</td></tr><tr><td class='label'>:clear_session </td><td>
+<p>clear the current session</p>
+</td></tr></tbody></table>
+</td></tr></tbody></table>
+
+<p>The plugin also supports a block, in which case failures will call the block as a routing block (the block should accept the request object).</p>
+</div>
+<div id='method-list'>
+<h2>Methods</h2>
+<h3>Public Class</h3>
+<ol>
+<li><a href="#method-c-configure">configure</a></li>
+</ol>
+</div>
+<div id='context'>
+</div>
+<div id='class-list'>
+<h2>Classes and Modules</h2>
+<ol>
+<li><a href="SecFetchSiteCsrf/InstanceMethods.html">Roda::RodaPlugins::SecFetchSiteCsrf::InstanceMethods</a></li>
+<li><a href="SecFetchSiteCsrf/CsrfFailure.html">Roda::RodaPlugins::SecFetchSiteCsrf::CsrfFailure</a></li>
+</ol>
+</div>
+<div id='section'>
+<div id='constants-list'>
+<h2>Constants</h2>
+<div class='name-list'>
+<table summary='Constants'>
+<tr class='top-aligned-row context-row'>
+<td class='context-item-name'>DEFAULTS</td>
+<td>=</td>
+<td class='context-item-value'>{
+:csrf_failure => :raise,
+:check_request_methods => %w'POST DELETE PATCH PUT'.freeze.each(&:freeze)
+}.freeze</td>
+<td>&nbsp;</td>
+<td class='context-item-desc'></td>
+</tr>
+</table>
+</div>
+</div>
+<div id='methods'>
+<h2>Public Class methods</h2>
+<div class='method public-class' id='method-method-c-configure'>
+<a name='method-c-configure'></a>
+<div class='synopsis'>
+<span class='name'>configure</span><span class='arguments'>(app, opts=OPTS, &block)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-configure-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/sec_fetch_site_csrf.rb</span>
+<span class="line-num">71</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">72</span>   <span class="ruby-identifier">options</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:sec_fetch_site_csrf</span>] = (<span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:sec_fetch_site_csrf</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">DEFAULTS</span>).<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">opts</span>)
+<span class="line-num">73</span> 
+<span class="line-num">74</span>   <span class="ruby-identifier">allowed_values</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:allowed_values</span>] = [<span class="ruby-string">&quot;same-origin&quot;</span>]
+<span class="line-num">75</span>   <span class="ruby-identifier">allowed_values</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">&quot;same-site&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:allow_same_site</span>]
+<span class="line-num">76</span>   <span class="ruby-identifier">allowed_values</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">&quot;none&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:allow_none</span>]
+<span class="line-num">77</span>   <span class="ruby-identifier">allowed_values</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:allow_missing</span>]
+<span class="line-num">78</span>   <span class="ruby-identifier">allowed_values</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">79</span> 
+<span class="line-num">80</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span>
+<span class="line-num">81</span>     <span class="ruby-identifier">options</span>[<span class="ruby-value">:csrf_failure</span>] = <span class="ruby-value">:method</span>
+<span class="line-num">82</span>     <span class="ruby-identifier">app</span>.<span class="ruby-identifier">define_roda_method</span>(<span class="ruby-value">:_roda_sec_fetch_site_csrf_failure</span>, <span class="ruby-value">1</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">app</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:convert_route_block</span>, <span class="ruby-identifier">block</span>))
+<span class="line-num">83</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">84</span> 
+<span class="line-num">85</span>   <span class="ruby-keyword">case</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:csrf_failure</span>]
+<span class="line-num">86</span>   <span class="ruby-keyword">when</span> <span class="ruby-value">:raise</span>, <span class="ruby-value">:empty_403</span>, <span class="ruby-value">:clear_session</span>, <span class="ruby-value">:method</span>
+<span class="line-num">87</span>     <span class="ruby-comment"># nothing</span>
+<span class="line-num">88</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">89</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-node">&quot;Unsupported :csrf_failure plugin option: #{options[:csrf_failure].inspect}&quot;</span>
+<span class="line-num">90</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">91</span> 
+<span class="line-num">92</span>   <span class="ruby-identifier">options</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">93</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div id='footer-push'></div>
+</div>
+<div id='footer'>
+<a href="https://github.com/jeremyevans/hanna"><strong>Hanna</strong> RDoc template</a>
+</div>
+</body>
+</html>

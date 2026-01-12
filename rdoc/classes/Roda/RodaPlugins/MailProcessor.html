@@ -36,7 +36,7 @@ Roda::RodaPlugins::MailProcessor
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The mail_processor plugin allows your <a href="../../Roda.html"><code>Roda</code></a> application to process mail using a routing tree. Quick example:</p>
+<p>The <a href="../../../files/lib/roda/plugins/mail_processor_rb.html">mail_processor</a> plugin allows your <a href="../../Roda.html"><code>Roda</code></a> application to process mail using a routing tree. Quick example:</p>
 
 <pre class="ruby"><span class="ruby-keyword">class</span> <span class="ruby-constant">MailProcessor</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Roda</span>
   <span class="ruby-identifier">plugin</span> <span class="ruby-value">:mail_processor</span>
@@ -76,9 +76,9 @@ Roda::RodaPlugins::MailProcessor
 <span class="ruby-keyword">end</span>
 </pre>
 
-<h1 id="module-Roda::RodaPlugins::MailProcessor-label-Processing+Mail">Processing Mail<span><a href="#module-Roda::RodaPlugins::MailProcessor-label-Processing+Mail">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="module-Roda::RodaPlugins::MailProcessor-label-Processing+Mail"><a href="#module-Roda::RodaPlugins::MailProcessor-label-Processing+Mail">Processing Mail</a></h1>
 
-<p>To submit a mail for processing via the mail_processor routing tree, call the <code>process_mail</code> method with a <code>Mail</code> instance:</p>
+<p>To submit a mail for processing via the <a href="../../../files/lib/roda/plugins/mail_processor_rb.html">mail_processor</a> routing tree, call the <code>process_mail</code> method with a <code>Mail</code> instance:</p>
 
 <pre class="ruby"><span class="ruby-constant">MailProcessor</span>.<span class="ruby-identifier">process_mail</span>(<span class="ruby-constant">Mail</span>.<span class="ruby-identifier">new</span> <span class="ruby-keyword">do</span>
   <span class="ruby-comment"># ...</span>
@@ -121,9 +121,9 @@ Roda::RodaPlugins::MailProcessor
 <pre class="ruby"><span class="ruby-constant">MailProcessor</span>.<span class="ruby-identifier">process_mailbox</span>(<span class="ruby-value">retreiver:</span> <span class="ruby-constant">Mail</span><span class="ruby-operator">::</span><span class="ruby-constant">POP3</span>.<span class="ruby-identifier">new</span>)
 </pre>
 
-<h1 id="module-Roda::RodaPlugins::MailProcessor-label-Routing+Mail">Routing Mail<span><a href="#module-Roda::RodaPlugins::MailProcessor-label-Routing+Mail">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="module-Roda::RodaPlugins::MailProcessor-label-Routing+Mail"><a href="#module-Roda::RodaPlugins::MailProcessor-label-Routing+Mail">Routing Mail</a></h1>
 
-<p>The mail_processor plugin handles routing similar to Roda’s default routing for web requests, but because mail processing may not return a result, the mail_processor plugin uses a more explicit approach to consider whether the message has been handled. If the <code>r.handle</code> method is called during routing, the mail is considered handled, otherwise the mail is considered not handled.  The <code>unhandled_mail</code> method can be called at any point to stop routing and consider the mail as not handled (even if inside an <code>r.handle</code> block).</p>
+<p>The <a href="../../../files/lib/roda/plugins/mail_processor_rb.html">mail_processor</a> plugin handles routing similar to Roda’s default routing for web requests, but because mail processing may not return a result, the <a href="../../../files/lib/roda/plugins/mail_processor_rb.html">mail_processor</a> plugin uses a more explicit approach to consider whether the message has been handled. If the <code>r.handle</code> method is called during routing, the mail is considered handled, otherwise the mail is considered not handled.  The <code>unhandled_mail</code> method can be called at any point to stop routing and consider the mail as not handled (even if inside an <code>r.handle</code> block).</p>
 
 <p>Here are the mail routing methods and what they use for matching:</p>
 <table class="rdoc-list note-list"><tbody><tr><td class='label'>from </td><td>
@@ -156,7 +156,7 @@ Roda::RodaPlugins::MailProcessor
 
 <p>In all cases for matchers, if a string is given and matches, the match block is called without arguments.  If an array of strings is given, and one of the strings matches, the match block is called with the matching string argument.  If a regexp is given, the match block is called with the regexp captures.  This is the same behavior for Roda’s general string, array, and regexp matchers.</p>
 
-<h1 id="module-Roda::RodaPlugins::MailProcessor-label-Recipient-Specific+Routing">Recipient-Specific Routing<span><a href="#module-Roda::RodaPlugins::MailProcessor-label-Recipient-Specific+Routing">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="module-Roda::RodaPlugins::MailProcessor-label-Recipient-Specific+Routing"><a href="#module-Roda::RodaPlugins::MailProcessor-label-Recipient-Specific+Routing">Recipient-Specific Routing</a></h1>
 
 <p>To allow splitting up the mail processor routing tree based on recipients, you can use the <code>rcpt</code> class method, which takes any number of string or regexps arguments for recipient addresses, and a block to handle the routing for those addresses instead of using the default routing.</p>
 
@@ -181,11 +181,11 @@ Roda::RodaPlugins::MailProcessor
 
 <p>Matching on strings provided to the <code>rcpt</code> class method is an O(1) operation as the strings are stored lowercase in a hash.  Matching on regexps provided to the <code>rcpt</code> class method is an O(n) operation on the number of regexps.</p>
 
-<p>If you would like to break up the routing tree using something other than the recipient address, you can use the multi_route plugin.</p>
+<p>If you would like to break up the routing tree using something other than the recipient address, you can use the <a href="../../../files/lib/roda/plugins/multi_route_rb.html">multi_route</a> plugin.</p>
 
-<h1 id="module-Roda::RodaPlugins::MailProcessor-label-Hooks"><a href="Hooks.html"><code>Hooks</code></a><span><a href="#module-Roda::RodaPlugins::MailProcessor-label-Hooks">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="module-Roda::RodaPlugins::MailProcessor-label-Hooks"><a href="#module-Roda::RodaPlugins::MailProcessor-label-Hooks"><a href="Hooks.html"><code>Hooks</code></a></a></h1>
 
-<p>The mail_processor plugin offers hooks for processing mail.</p>
+<p>The <a href="../../../files/lib/roda/plugins/mail_processor_rb.html">mail_processor</a> plugin offers hooks for processing mail.</p>
 
 <p>For mail that is handled successfully, you can use the handled_mail hook:</p>
 
@@ -222,11 +222,11 @@ Roda::RodaPlugins::MailProcessor
 
 <p>The after_mail hook is called after the handled_mail or unhandled_mail hook is called, even if routing, the handled_mail hook, or the unhandled_mail hook raises an exception.  The handled_mail and unhandled_mail hooks are not called if an exception is raised during routing (other than for <a href="MailProcessor/UnhandledMail.html"><code>UnhandledMail</code></a> exceptions).</p>
 
-<h1 id="module-Roda::RodaPlugins::MailProcessor-label-Extracting+Text+from+Mail">Extracting Text from Mail<span><a href="#module-Roda::RodaPlugins::MailProcessor-label-Extracting+Text+from+Mail">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="module-Roda::RodaPlugins::MailProcessor-label-Extracting+Text+from+Mail"><a href="#module-Roda::RodaPlugins::MailProcessor-label-Extracting+Text+from+Mail">Extracting Text from Mail</a></h1>
 
-<p>The most common use of the mail_processor plugin is to handle replies to mails sent out by the application, so that recipients can reply to mail to make changes without having to access the application directly.  When handling replies, it is common to want to extract only the text of the reply, and ignore the text of the message that was replied to.  Because there is no consistent way to format replies in mail, there have evolved various approaches to do this, with some gems devoted to extracting the reply text from a message.</p>
+<p>The most common use of the <a href="../../../files/lib/roda/plugins/mail_processor_rb.html">mail_processor</a> plugin is to handle replies to mails sent out by the application, so that recipients can reply to mail to make changes without having to access the application directly.  When handling replies, it is common to want to extract only the text of the reply, and ignore the text of the message that was replied to.  Because there is no consistent way to format replies in mail, there have evolved various approaches to do this, with some gems devoted to extracting the reply text from a message.</p>
 
-<p>The mail_processor plugin does not choose any particular approach for extracting text from mail, but it includes the ability to configure how to do that via the <code>mail_text</code> class method. This method affects the <code>r.text</code> match method, as well as <code>mail_text</code> instance method. By default, the decoded body of the mail is used as the mail text.</p>
+<p>The <a href="../../../files/lib/roda/plugins/mail_processor_rb.html">mail_processor</a> plugin does not choose any particular approach for extracting text from mail, but it includes the ability to configure how to do that via the <code>mail_text</code> class method. This method affects the <code>r.text</code> match method, as well as <code>mail_text</code> instance method. By default, the decoded body of the mail is used as the mail text.</p>
 
 <pre class="ruby"><span class="ruby-constant">MailProcessor</span>.<span class="ruby-identifier">mail_text</span> <span class="ruby-keyword">do</span>
   <span class="ruby-comment"># mail.body.decoded by default</span>
@@ -239,9 +239,9 @@ Roda::RodaPlugins::MailProcessor
 <span class="ruby-keyword">end</span>
 </pre>
 
-<h1 id="module-Roda::RodaPlugins::MailProcessor-label-Security">Security<span><a href="#module-Roda::RodaPlugins::MailProcessor-label-Security">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="module-Roda::RodaPlugins::MailProcessor-label-Security"><a href="#module-Roda::RodaPlugins::MailProcessor-label-Security">Security</a></h1>
 
-<p>Note that due to the way mail delivery works via SMTP, the actual sender and recipient of the mail (the SMTP envelope MAIL FROM and RCPT TO addresses) may not match the sender and receiver embedded in the message.  Because mail_processor routing relies on parsing the mail, it does not have access to the actual sender and recipient used at the SMTP level, unless a mail server adds that information as a header to the mail (and clears any existing header to prevent spoofing).  Keep that in mind when you are setting up your mail routes.  If you have setup your mail server to add the SMTP RCPT TO information to a header, you may want to only consider that header when looking for the recipients of the message, instead of looking at the To and CC headers.  You can override the default behavior for determining the recipients (this will affect the <code>rcpt</code> class method, <code>r.rcpt</code> match method, and <code>mail_recipients</code> instance method):</p>
+<p>Note that due to the way mail delivery works via SMTP, the actual sender and recipient of the mail (the SMTP envelope MAIL FROM and RCPT TO addresses) may not match the sender and receiver embedded in the message.  Because <a href="../../../files/lib/roda/plugins/mail_processor_rb.html">mail_processor</a> routing relies on parsing the mail, it does not have access to the actual sender and recipient used at the SMTP level, unless a mail server adds that information as a header to the mail (and clears any existing header to prevent spoofing).  Keep that in mind when you are setting up your mail routes.  If you have setup your mail server to add the SMTP RCPT TO information to a header, you may want to only consider that header when looking for the recipients of the message, instead of looking at the To and CC headers.  You can override the default behavior for determining the recipients (this will affect the <code>rcpt</code> class method, <code>r.rcpt</code> match method, and <code>mail_recipients</code> instance method):</p>
 
 <pre class="ruby"><span class="ruby-constant">MailProcessor</span>.<span class="ruby-identifier">mail_recipients</span> <span class="ruby-keyword">do</span>
   <span class="ruby-comment"># Assuming the information is in the X-SMTP-To header</span>
@@ -251,7 +251,7 @@ Roda::RodaPlugins::MailProcessor
 
 <p>Also note that unlike when handling web requests where you can rely on storing authentication information in the session, when processing mail, you should manually authenticate each message, as email is trivially forged.  One way to do this is assigning and storing a unique identifier when sending each message, and checking for a matching identifier when receiving a response. Another option is including a computable authentication code (e.g. HMAC) in the message, and then when receiving a response, recomputing the authentication code and seeing if it matches the authentication code in the message.  The unique identifier approach requires storing a large number of identifiers, but allows you to remove the identifier after a reply is received (to ensure only one response is handled).  The authentication code approach does not require additional storage, but does not allow you to ensure only a single response is handled.</p>
 
-<h1 id="module-Roda::RodaPlugins::MailProcessor-label-Avoiding+Mail+Loops">Avoiding Mail Loops<span><a href="#module-Roda::RodaPlugins::MailProcessor-label-Avoiding+Mail+Loops">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="module-Roda::RodaPlugins::MailProcessor-label-Avoiding+Mail+Loops"><a href="#module-Roda::RodaPlugins::MailProcessor-label-Avoiding+Mail+Loops">Avoiding Mail Loops</a></h1>
 
 <p>If processing the mail results in sending out additional mail, be careful not to send a response to the sender of the email, otherwise if the sender of the email has an auto-responder, you can end up with a mail loop, where every mail you send results in a response, which you then process and send out a response to.</p>
 </div>

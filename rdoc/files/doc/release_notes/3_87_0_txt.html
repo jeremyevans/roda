@@ -33,9 +33,9 @@ doc/release_notes/3.87.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>A host_routing plugin has been added, for easier routing based on the request host.  Example:</p>
+<p>A <a href="../../lib/roda/plugins/host_routing_rb.html">host_routing</a> plugin has been added, for easier routing based on the request host.  Example:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:host_routing</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">hosts</span><span class="ruby-operator">|</span>
   <span class="ruby-identifier">hosts</span>.<span class="ruby-identifier">to</span> <span class="ruby-value">:api</span>, <span class="ruby-string">&quot;api.example.com&quot;</span>, <span class="ruby-string">&quot;api2.example.com&quot;</span>
@@ -74,11 +74,11 @@ doc/release_notes/3.87.0.txt
 </pre>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
-<p>In the custom_block_results plugin, if the block passed to handle_block_result returns an object that is not a String, nil, or false, <a href="../../../classes/Roda.html"><code>Roda</code></a> no longer attempts to write it to the response body.  Doing so is undesirable and would be a violation of the rack spec.</p>
+<p>In the <a href="../../lib/roda/plugins/custom_block_results_rb.html">custom_block_results</a> plugin, if the block passed to handle_block_result returns an object that is not a String, nil, or false, <a href="../../../classes/Roda.html"><code>Roda</code></a> no longer attempts to write it to the response body.  Doing so is undesirable and would be a violation of the rack spec.</p>
 </li><li>
-<p>Minor performance improvements have been made to the header_matchers plugin.</p>
+<p>Minor performance improvements have been made to the <a href="../../lib/roda/plugins/header_matchers_rb.html">header_matchers</a> plugin.</p>
 </li></ul>
 </div>
 <div id='context'>

@@ -36,7 +36,7 @@ Roda::RodaPlugins::TypecastParamsSizedIntegers
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The typecast_params_sized_integers plugin adds sized integer conversion methods to typecast_params:</p>
+<p>The <a href="../../../files/lib/roda/plugins/typecast_params_sized_integers_rb.html">typecast_params_sized_integers</a> plugin adds sized integer conversion methods to <a href="../../../files/lib/roda/plugins/typecast_params_rb.html">typecast_params</a>:</p>
 <ul><li>
 <p>int8, uint8, pos_int8, pos_uint8, Integer8, Integeru8</p>
 </li><li>
@@ -47,7 +47,7 @@ Roda::RodaPlugins::TypecastParamsSizedIntegers
 <p>int64, uint64, pos_int64, pos_uint64, Integer64, Integeru64</p>
 </li></ul>
 
-<p>The int*, pos_int*, and Integer* methods operate the same as the standard int, pos_int, and Integer methods in typecast_params, except that they will only handle parameter values in the given range for the signed integer type.  The uint*, pos_int*, and Integeru* methods are similar to the int*, pos_int*, and Integer* methods, except they use the range of the unsigned integer type instead of the range of the signed integer type.</p>
+<p>The int*, pos_int*, and Integer* methods operate the same as the standard int, pos_int, and Integer methods in <a href="../../../files/lib/roda/plugins/typecast_params_rb.html">typecast_params</a>, except that they will only handle parameter values in the given range for the signed integer type.  The uint*, pos_int*, and Integeru* methods are similar to the int*, pos_int*, and Integer* methods, except they use the range of the unsigned integer type instead of the range of the signed integer type.</p>
 
 <p>Here are the signed and unsigned integer type ranges:</p>
 <table class="rdoc-list note-list"><tbody><tr><td class='label'>8 </td><td><table class="rdoc-list label-list"><tbody><tr><td class='label'>-128, 127], [0, 255</td><td></td></tr></tbody></table>
@@ -58,7 +58,7 @@ Roda::RodaPlugins::TypecastParamsSizedIntegers
 
 <p>To only create methods for certain integer sizes, you can pass a :sizes option when loading the plugin, and it will only create methods for the sizes you specify.</p>
 
-<p>You can provide a :default_size option when loading the plugin, in which case the int, uint, pos_int, pos_uint, Integer, and Integeru, typecast_params conversion methods will be aliases to the conversion methods for the given sized type:</p>
+<p>You can provide a :default_size option when loading the plugin, in which case the int, uint, pos_int, pos_uint, Integer, and Integeru, <a href="../../../files/lib/roda/plugins/typecast_params_rb.html">typecast_params</a> conversion methods will be aliases to the conversion methods for the given sized type:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:typecast_params_sized_integers</span>, <span class="ruby-value">default_size:</span> <span class="ruby-value">64</span>
 

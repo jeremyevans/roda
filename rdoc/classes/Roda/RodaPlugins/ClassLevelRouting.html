@@ -36,9 +36,9 @@ Roda::RodaPlugins::ClassLevelRouting
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The class_level_routing plugin adds routing methods at the class level, which can be used instead of or in addition to using the normal <code>route</code> method to start the routing tree.  If a request is not matched by the normal routing tree, the class level routes will be tried.  This offers a more Sinatra-like API, while still allowing you to use a routing tree inside individual actions.</p>
+<p>The <a href="../../../files/lib/roda/plugins/class_level_routing_rb.html">class_level_routing</a> plugin adds routing methods at the class level, which can be used instead of or in addition to using the normal <code>route</code> method to start the routing tree.  If a request is not matched by the normal routing tree, the class level routes will be tried.  This offers a more Sinatra-like API, while still allowing you to use a routing tree inside individual actions.</p>
 
-<p>Here’s the first example from the <a href="../../../files/README_rdoc.html">README</a>, modified to use the class_level_routing plugin:</p>
+<p>Here’s the first example from the <a href="../../../files/README_rdoc.html">README</a>, modified to use the <a href="../../../files/lib/roda/plugins/class_level_routing_rb.html">class_level_routing</a> plugin:</p>
 
 <pre class="ruby"><span class="ruby-keyword">class</span> <span class="ruby-constant">App</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Roda</span>
   <span class="ruby-identifier">plugin</span> <span class="ruby-value">:class_level_routing</span>
@@ -72,7 +72,7 @@ Roda::RodaPlugins::ClassLevelRouting
 <span class="ruby-keyword">end</span>
 </pre>
 
-<p>When using the class_level_routing plugin with nested routes, you may also want to use the delegate plugin to delegate certain instance methods to the request object, so you don’t have to continually use <code>request.</code> in your routing blocks.</p>
+<p>When using the <a href="../../../files/lib/roda/plugins/class_level_routing_rb.html">class_level_routing</a> plugin with nested routes, you may also want to use the delegate plugin to delegate certain instance methods to the request object, so you don’t have to continually use <code>request.</code> in your routing blocks.</p>
 
 <p>Note that class level routing is implemented via a simple array of routes, so routing performance will degrade linearly as the number of routes increases.  For best performance, you should use the normal <code>route</code> class method to define your routing tree.  This plugin does make it simpler to add additional routes after the routing tree has already been defined, though.</p>
 </div>

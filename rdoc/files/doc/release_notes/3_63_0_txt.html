@@ -33,9 +33,9 @@ doc/release_notes/3.63.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>An autoload_hash_branches plugin has been added for autoloading route files for each hash branch, instead of requiring the route files be loaded up front.  For example, to automatically load a route file for a hash branch on the first request to that branch:</p>
+<p>An <a href="../../lib/roda/plugins/autoload_hash_branches_rb.html">autoload_hash_branches</a> plugin has been added for autoloading route files for each hash branch, instead of requiring the route files be loaded up front.  For example, to automatically load a route file for a hash branch on the first request to that branch:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:autoload_hash_branches</span>
 <span class="ruby-identifier">autoload_hash_branch</span>(<span class="ruby-string">&#39;branch_name&#39;</span>, <span class="ruby-string">&#39;/path/to/file&#39;</span>)
@@ -56,7 +56,7 @@ doc/release_notes/3.63.0.txt
 <p>The mailer plugin now supports a :terminal plugin option to make the r.mail method force a terminal match, similar to how r.get and other HTTP verb methods work in standard <a href="../../../classes/Roda.html"><code>Roda</code></a>.  This behavior will become the default in <a href="../../../classes/Roda.html"><code>Roda</code></a> 4.</p>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
 <p>The mailer plugin now correctly sets the content_type of the body for emails with attachments when using mail <a href="2_8_0_txt.html">2.8.0</a>+.</p>
 </li></ul>

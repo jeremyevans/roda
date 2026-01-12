@@ -33,16 +33,16 @@ doc/release_notes/3.94.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>A view_subdir_leading_slash plugin has been added, for using the current view subdirectory for all templates that do not start with a slash.  The default behavior when using view subdirectories remains to use the current view subdirectory unless the template name includes a slash.  This makes it easier to use nested view subdirectories, at the expense of making it slightly more difficult to use templates outside the current view subdirectory.</p>
+<p>A <a href="../../lib/roda/plugins/view_subdir_leading_slash_rb.html">view_subdir_leading_slash</a> plugin has been added, for using the current view subdirectory for all templates that do not start with a slash.  The default behavior when using view subdirectories remains to use the current view subdirectory unless the template name includes a slash.  This makes it easier to use nested view subdirectories, at the expense of making it slightly more difficult to use templates outside the current view subdirectory.</p>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
-<p>The render_each and each_part plugin template selection code is now more optimized when the application is frozen and using the :assume_fixed_locals render plugin option.</p>
+<p>The <a href="../../lib/roda/plugins/render_each_rb.html">render_each</a> and <a href="../../lib/roda/plugins/each_part_rb.html">each_part</a> plugin template selection code is now more optimized when the application is frozen and using the :assume_fixed_locals render plugin option.</p>
 </li><li>
-<p>The render_each and each_part plugin default local generation is now more optimized on Ruby 3+.</p>
+<p>The <a href="../../lib/roda/plugins/render_each_rb.html">render_each</a> and <a href="../../lib/roda/plugins/each_part_rb.html">each_part</a> plugin default local generation is now more optimized on Ruby 3+.</p>
 </li></ul>
 </div>
 <div id='context'>

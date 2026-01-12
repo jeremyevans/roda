@@ -33,11 +33,11 @@ doc/release_notes/1.0.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Plugins">New Plugins<span><a href="#label-New+Plugins">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Plugins"><a href="#label-New+Plugins">New Plugins</a></h1>
 <ul><li>
 <p>A csrf plugin has been added for CSRF prevention, using Rack::Csrf.  It also adds helper methods for views such as csrf_tag.</p>
 </li><li>
-<p>A symbol_matchers plugin has been added, for customizing the regexps used per symbol.  This also affects the use of embedded colons in strings.  This supports the following symbol regexps by default:</p>
+<p>A <a href="../../lib/roda/plugins/symbol_matchers_rb.html">symbol_matchers</a> plugin has been added, for customizing the regexps used per symbol.  This also affects the use of embedded colons in strings.  This supports the following symbol regexps by default:</p>
 <table class="rdoc-list note-list"><tbody><tr><td class='label'>:d </td><td>
 <p>(d+), a decimal segment</p>
 </td></tr><tr><td class='label'>:format </td><td>
@@ -77,7 +77,7 @@ doc/release_notes/1.0.0.txt
 <span class="ruby-keyword">end</span>
 </pre>
 </li><li>
-<p>A symbol_views plugin has been added, which allows match blocks to return symbols, which are interpreted as template names:</p>
+<p>A <a href="../../lib/roda/plugins/symbol_views_rb.html">symbol_views</a> plugin has been added, which allows match blocks to return symbols, which are interpreted as template names:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:symbol_views</span>
 
@@ -116,7 +116,7 @@ doc/release_notes/1.0.0.txt
 <span class="ruby-keyword">end</span>
 </pre>
 </li><li>
-<p>A render_each plugin has been added, for rendering the same template for multiple objects, and returning the concatenation of all of the output:</p>
+<p>A <a href="../../lib/roda/plugins/render_each_rb.html">render_each</a> plugin has been added, for rendering the same template for multiple objects, and returning the concatenation of all of the output:</p>
 
 <pre>&lt;%= render_each([1,2,3], &#39;number&#39;) %&gt;</pre>
 
@@ -124,19 +124,19 @@ doc/release_notes/1.0.0.txt
 
 <pre>&lt;%= render_each([1,2,3], &#39;number&#39;, :local=&gt;:n) %&gt;</pre>
 </li><li>
-<p>A content_for plugin has been added, for storing content in one template and retrieving that content in a different template (such as the layout).  To set content, you call content_for with a block:</p>
+<p>A <a href="../../lib/roda/plugins/content_for_rb.html">content_for</a> plugin has been added, for storing content in one template and retrieving that content in a different template (such as the layout).  To set content, you call <a href="../../lib/roda/plugins/content_for_rb.html">content_for</a> with a block:</p>
 
 <pre>&lt;% content_for :foo do %&gt;
   content for foo
 &lt;% end %&gt;</pre>
 
-<p>To retrieve content, you call content_for without a block:</p>
+<p>To retrieve content, you call <a href="../../lib/roda/plugins/content_for_rb.html">content_for</a> without a block:</p>
 
 <pre>&lt;%= content_for :foo %&gt;</pre>
 
 <p>This plugin probably only works when using erb templates.</p>
 </li><li>
-<p>A not_allowed plugin has been added, for automatically returning 405 Method Not Allowed responses when a route is handled for a different request method than the one used.  For this routing tree:</p>
+<p>A <a href="../../lib/roda/plugins/not_allowed_rb.html">not_allowed</a> plugin has been added, for automatically returning 405 Method Not Allowed responses when a route is handled for a different request method than the one used.  For this routing tree:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:not_allowed</span>
 
@@ -174,7 +174,7 @@ doc/release_notes/1.0.0.txt
 
 <p>A request for HEAD /foo will return a 200 result instead of a 404 error.</p>
 </li><li>
-<p>A backtracking_array plugin has been added, which makes matching backtrack to the next entry in an array if a later matcher fails. For example, the following code does not match /foo/bar by default in Roda:</p>
+<p>A <a href="../../lib/roda/plugins/backtracking_array_rb.html">backtracking_array</a> plugin has been added, which makes matching backtrack to the next entry in an array if a later matcher fails. For example, the following code does not match /foo/bar by default in Roda:</p>
 
 <pre class="ruby"><span class="ruby-identifier">r</span>.<span class="ruby-identifier">is</span> [<span class="ruby-string">&#39;foo&#39;</span>, <span class="ruby-string">&#39;foo/bar&#39;</span>] <span class="ruby-keyword">do</span>
 <span class="ruby-keyword">end</span>
@@ -182,14 +182,14 @@ doc/release_notes/1.0.0.txt
 
 <p>This is because the ‘foo’ entry in the array matches, so the array matches.  However, after the array is matched, the terminal matcher added by r.is fails to match.  That causes the routing method not to match the request, so the match block is not called.</p>
 
-<p>With the backtracking_array plugin, failures of later matchers after an array matcher backtrack so the next entry in the array is tried.</p>
+<p>With the <a href="../../lib/roda/plugins/backtracking_array_rb.html">backtracking_array</a> plugin, failures of later matchers after an array matcher backtrack so the next entry in the array is tried.</p>
 </li><li>
 <p>A per_thread_caching plugin has been added, allowing you to change from a thread-safe shared cache to a per-thread cache, which may be faster on alternative ruby implementations, at the cost of additional memory usage.</p>
 </li></ul>
 
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>The hash_matcher class method has been added to make it easier to define custom hash matchers:</p>
+<p>The <a href="../../lib/roda/plugins/hash_matcher_rb.html">hash_matcher</a> class method has been added to make it easier to define custom hash matchers:</p>
 
 <pre class="ruby"><span class="ruby-identifier">hash_matcher</span>(<span class="ruby-value">:foo</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">v</span><span class="ruby-operator">|</span>
   <span class="ruby-keyword">self</span>[<span class="ruby-string">&#39;foo&#39;</span>] <span class="ruby-operator">==</span> <span class="ruby-identifier">v</span>
@@ -227,7 +227,7 @@ doc/release_notes/1.0.0.txt
 
 <p>Note that similar behavior is available in Erubis by default, using the :opts=&gt;{:escape_html=&gt;true} render option, but that doesn’t handle postfix conditionals in &lt;%= %&gt; tags.</p>
 </li><li>
-<p>The multi_route plugin now has an r.multi_route method, which will attempt to dispatch to one of the named routes based on first segment in the path.  So this routing tree:</p>
+<p>The <a href="../../lib/roda/plugins/multi_route_rb.html">multi_route</a> plugin now has an r.multi_route method, which will attempt to dispatch to one of the named routes based on first segment in the path.  So this routing tree:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:multi_route</span>
 
@@ -252,7 +252,7 @@ doc/release_notes/1.0.0.txt
 <p>Plugins can now override request and response class methods using RequestClassMethods and ResponseClassMethods modules.</p>
 </li></ul>
 
-<h1 id="label-Optimizations">Optimizations<span><a href="#label-Optimizations">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Optimizations"><a href="#label-Optimizations">Optimizations</a></h1>
 <ul><li>
 <p>String, hash, and symbol matchers are now much faster by caching the underlying regexp.</p>
 </li><li>
@@ -271,16 +271,16 @@ doc/release_notes/1.0.0.txt
 <p>Template caching no longer uses a mutex on MRI, since one is not needed for thread safety there.</p>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
 <p>The flash plugin now implements its own flash hash instead of using sinatra-flash.  It is now slightly faster and handles nil keys in keep and discard.</p>
 </li><li>
 <p>Roda’s version is now stored in roda/version.rb so that it can be required without requiring <a href="../../../classes/Roda.html"><code>Roda</code></a> itself.</p>
 </li></ul>
 
-<h1 id="label-Backwards+Compatibility">Backwards Compatibility<span><a href="#label-Backwards+Compatibility">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Backwards+Compatibility"><a href="#label-Backwards+Compatibility">Backwards Compatibility</a></h1>
 <ul><li>
-<p>The multi_route plugin’s route instance method has been changed to a request method.  So the new usage is:</p>
+<p>The <a href="../../lib/roda/plugins/multi_route_rb.html">multi_route</a> plugin’s route instance method has been changed to a request method.  So the new usage is:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:multi_route</span>
 

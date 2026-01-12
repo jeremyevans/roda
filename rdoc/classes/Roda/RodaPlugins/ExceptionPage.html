@@ -36,7 +36,7 @@ Roda::RodaPlugins::ExceptionPage
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The exception_page plugin provides an exception_page method that is designed to be called inside the error handler to provide a page to the developer with debugging information. It should only be used in developer environments with trusted clients, as it can leak source code and other information that may be useful for attackers if used in other environments.</p>
+<p>The <a href="../../../files/lib/roda/plugins/exception_page_rb.html">exception_page</a> plugin provides an <a href="../../../files/lib/roda/plugins/exception_page_rb.html">exception_page</a> method that is designed to be called inside the error handler to provide a page to the developer with debugging information. It should only be used in developer environments with trusted clients, as it can leak source code and other information that may be useful for attackers if used in other environments.</p>
 
 <p>Example:</p>
 
@@ -47,9 +47,9 @@ Roda::RodaPlugins::ExceptionPage
 <span class="ruby-keyword">end</span>
 </pre>
 
-<p>The exception_page plugin is based on Rack::ShowExceptions, with the following differences:</p>
+<p>The <a href="../../../files/lib/roda/plugins/exception_page_rb.html">exception_page</a> plugin is based on Rack::ShowExceptions, with the following differences:</p>
 <ul><li>
-<p>Not a middleware, so it doesn’t handle exceptions itself, and has no effect on the callstack unless the exception_page method is called.</p>
+<p>Not a middleware, so it doesn’t handle exceptions itself, and has no effect on the callstack unless the <a href="../../../files/lib/roda/plugins/exception_page_rb.html">exception_page</a> method is called.</p>
 </li><li>
 <p>Supports external javascript and stylesheets, allowing context toggling to work in applications that use a content security policy to restrict inline javascript and stylesheets (:assets, :css_file, and :js_file options).</p>
 </li><li>
@@ -85,7 +85,7 @@ Roda::RodaPlugins::ExceptionPage
 <span class="ruby-constant">Roda</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaPlugins</span><span class="ruby-operator">::</span><span class="ruby-constant">ExceptionPage</span>.<span class="ruby-identifier">js</span>
 </pre>
 
-<p>As the exception_page plugin is based on Rack::ShowExceptions, it is also under rack’s license:</p>
+<p>As the <a href="../../../files/lib/roda/plugins/exception_page_rb.html">exception_page</a> plugin is based on Rack::ShowExceptions, it is also under rack’s license:</p>
 
 <p>Copyright © 2007-2018 Christian Neukirchen &lt;<a target="_top" href="http://chneukirchen.org/infopage.html">chneukirchen.org/infopage.html</a>&gt;</p>
 

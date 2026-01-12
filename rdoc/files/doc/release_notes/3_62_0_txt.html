@@ -33,29 +33,29 @@ doc/release_notes/3.62.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>An Integer_matcher_max plugin has been added for setting the maximum value matched by the Integer matcher (the minimum is always 0, since the Integer matcher does not match negative integers).  The default maximum value when using the plugin is 2**63-1, the maximum value for a signed 64-bit integer. You can specify a different maximum value by passing an argument when loading the plugin.</p>
+<p>An <a href="../../lib/roda/plugins/Integer_matcher_max_rb.html">Integer_matcher_max</a> plugin has been added for setting the maximum value matched by the Integer matcher (the minimum is always 0, since the Integer matcher does not match negative integers).  The default maximum value when using the plugin is 2**63-1, the maximum value for a signed 64-bit integer. You can specify a different maximum value by passing an argument when loading the plugin.</p>
 </li><li>
-<p>A typecast_params_sized_integers plugin has been added for converting parameters to integers only if the integer is within a specific size.  By default, the plugin supports 8-bit, 16-bit, 32-bit, and 64-bit signed and unsigned integer types, with the following typecast_params methods added by the plugin:</p>
+<p>A <a href="../../lib/roda/plugins/typecast_params_sized_integers_rb.html">typecast_params_sized_integers</a> plugin has been added for converting parameters to integers only if the integer is within a specific size.  By default, the plugin supports 8-bit, 16-bit, 32-bit, and 64-bit signed and unsigned integer types, with the following <a href="../../lib/roda/plugins/typecast_params_rb.html">typecast_params</a> methods added by the plugin:</p>
 
 <pre>* int8, uint8, pos_int8, pos_uint8, Integer8, Integeru8
 * int16, uint16, pos_int16, pos_uint16, Integer16, Integeru16
 * int32, uint32, pos_int32, pos_uint32, Integer32, Integeru32
 * int64, uint64, pos_int64, pos_uint64, Integer64, Integeru64</pre>
 
-<p>You can override what sizes are added by default by using the :sizes option.  You can also specify a :default_size option, in which case the default int, pos_int, and Integer conversions will use the given size.  So if you want to change the default typecast_params integer conversion behavior to only support integer values that can fit in 64-bit signed integers, you can use:</p>
+<p>You can override what sizes are added by default by using the :sizes option.  You can also specify a :default_size option, in which case the default int, pos_int, and Integer conversions will use the given size.  So if you want to change the default <a href="../../lib/roda/plugins/typecast_params_rb.html">typecast_params</a> integer conversion behavior to only support integer values that can fit in 64-bit signed integers, you can use:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:typecast_params_sized_integers</span>, <span class="ruby-value">sizes:</span> [<span class="ruby-value">64</span>],
   <span class="ruby-value">default_size:</span> <span class="ruby-value">64</span>
 </pre>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
-<p>The block passed to the class_matcher method in the class_matchers plugin can now return nil/false to signal that it should not match. This is useful when the regexp argument provided matches segments not valid for the class.</p>
+<p>The block passed to the class_matcher method in the <a href="../../lib/roda/plugins/class_matchers_rb.html">class_matchers</a> plugin can now return nil/false to signal that it should not match. This is useful when the regexp argument provided matches segments not valid for the class.</p>
 </li><li>
-<p>RodaRequest#matched_path now works correctly when using the unescape_path plugin.</p>
+<p>RodaRequest#matched_path now works correctly when using the <a href="../../lib/roda/plugins/unescape_path_rb.html">unescape_path</a> plugin.</p>
 </li></ul>
 </div>
 <div id='context'>

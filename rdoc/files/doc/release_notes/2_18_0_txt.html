@@ -33,9 +33,9 @@ doc/release_notes/2.18.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Plugins+">New Plugins <span><a href="#label-New+Plugins+">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Plugins+"><a href="#label-New+Plugins+">New Plugins </a></h1>
 <ul><li>
-<p>A static_routing plugin has been added, which can give a 3-4x increase in performance for large number of static routes, and makes routing O(1) for static routes.  Static routes are routes that match full paths, with no placeholders, and are checked before using the normal routing tree.</p>
+<p>A <a href="../../lib/roda/plugins/static_routing_rb.html">static_routing</a> plugin has been added, which can give a 3-4x increase in performance for large number of static routes, and makes routing O(1) for static routes.  Static routes are routes that match full paths, with no placeholders, and are checked before using the normal routing tree.</p>
 
 <p>Static routes are defined via class-level static_* routing methods. There is a static_* routing method for each HTTP verb (e.g. static_get), as well as a static_route method, which will work for any HTTP verb, with the verb-specific method taking priority. By using static_route, you can get significantly faster performance while retaining some of the benefits of Roda’s routing tree design (simple shared logic with verb specific behavior). Example:</p>
 
@@ -62,7 +62,7 @@ doc/release_notes/2.18.0.txt
 
 <p>Because static routing routes on the full path instead of by path segment, the methods takes the full path as a string, including the leading slash.</p>
 </li><li>
-<p>An assets_preloading plugin has been added, which makes it simple to generate HTML link tags or a Link header value to tell the browser to preload assets for performance reasons.</p>
+<p>An <a href="../../lib/roda/plugins/assets_preloading_rb.html">assets_preloading</a> plugin has been added, which makes it simple to generate HTML link tags or a Link header value to tell the browser to preload assets for performance reasons.</p>
 
 <pre># In routes, using the Link header:
 response.headers[&#39;Link&#39;] = preload_assets_link_header(:css)
@@ -71,18 +71,18 @@ response.headers[&#39;Link&#39;] = preload_assets_link_header(:css)
 &lt;%= preload_assets_link_tags(:css) %&gt;</pre>
 </li></ul>
 
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
 <p>RodaRequest#real_remaining_path has been added.  This is designed to be overridden by plugins that modify remaining_path for internal routing purposes.  RodaRequest#run now uses real_remaining_path when passing requests to other rack applications.</p>
 </li><li>
 <p>An assets_paths method has been added to the assets plugin.  This is similar to the assets method, but it returns an array of paths to the assets, instead of a HTML link/script tag.</p>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
-<p>The public plugin now works correctly when used with the type_routing plugin, for paths ending in extensions that type_routing is configured to handle.</p>
+<p>The public plugin now works correctly when used with the <a href="../../lib/roda/plugins/type_routing_rb.html">type_routing</a> plugin, for paths ending in extensions that <a href="../../lib/roda/plugins/type_routing_rb.html">type_routing</a> is configured to handle.</p>
 </li><li>
-<p>The head plugin now works with the not_allowed plugin if it is loaded after the not_allowed plugin.</p>
+<p>The head plugin now works with the <a href="../../lib/roda/plugins/not_allowed_rb.html">not_allowed</a> plugin if it is loaded after the <a href="../../lib/roda/plugins/not_allowed_rb.html">not_allowed</a> plugin.</p>
 </li></ul>
 </div>
 <div id='context'>

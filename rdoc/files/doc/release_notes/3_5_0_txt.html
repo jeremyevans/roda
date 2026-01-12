@@ -33,9 +33,9 @@ doc/release_notes/3.5.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>A request_aref plugin has been added for configuring the behavior of the [] and []= request methods.  These methods are deprecated in the current version of Rack, but Rack will only print a deprecation warning in verbose mode.  With this plugin, you can choose to never warn, always warn, or raise an exception:</p>
+<p>A <a href="../../lib/roda/plugins/request_aref_rb.html">request_aref</a> plugin has been added for configuring the behavior of the [] and []= request methods.  These methods are deprecated in the current version of Rack, but Rack will only print a deprecation warning in verbose mode.  With this plugin, you can choose to never warn, always warn, or raise an exception:</p>
 
 <pre class="ruby"><span class="ruby-comment"># Don&#39;t emit a warning, allowing for the historical Rack</span>
 <span class="ruby-comment"># behavior</span>
@@ -49,9 +49,9 @@ doc/release_notes/3.5.0.txt
 </pre>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
-<p>When using the content_for plugin and calling content_for with a block, convert the result of the block to a string before passing the result to Tilt.  This can fix issues when the template class that Tilt uses does not handle non-String input.</p>
+<p>When using the <a href="../../lib/roda/plugins/content_for_rb.html">content_for</a> plugin and calling <a href="../../lib/roda/plugins/content_for_rb.html">content_for</a> with a block, convert the result of the block to a string before passing the result to Tilt.  This can fix issues when the template class that Tilt uses does not handle non-String input.</p>
 </li><li>
 <p>When using the public plugin with the :gzip option, do not add the Content-Type or Content-Encoding headers if a 304 response is returned.</p>
 </li><li>

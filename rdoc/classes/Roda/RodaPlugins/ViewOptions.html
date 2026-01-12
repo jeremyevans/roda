@@ -36,7 +36,7 @@ Roda::RodaPlugins::ViewOptions
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The view_options plugin allows you to override view and layout options for specific branches and routes.</p>
+<p>The <a href="../../../files/lib/roda/plugins/view_options_rb.html">view_options</a> plugin allows you to override view and layout options for specific branches and routes.</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:render</span>
 <span class="ruby-identifier">plugin</span> <span class="ruby-value">:view_options</span>
@@ -53,9 +53,9 @@ Roda::RodaPlugins::ViewOptions
 
 <p>The options you specify via the set_view_options and set_layout_options methods have higher precedence than the render plugin options, but lower precedence than options you directly pass to the view/render methods.</p>
 
-<h1 id="module-Roda::RodaPlugins::ViewOptions-label-View+Subdirectories">View Subdirectories<span><a href="#module-Roda::RodaPlugins::ViewOptions-label-View+Subdirectories">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="module-Roda::RodaPlugins::ViewOptions-label-View+Subdirectories"><a href="#module-Roda::RodaPlugins::ViewOptions-label-View+Subdirectories">View Subdirectories</a></h1>
 
-<p>The view_options plugin also has special support for sites that have outgrown a flat view directory and use subdirectories for views.  It allows you to set the view directory to use, and template names that do not contain a slash will automatically use that view subdirectory.  Example:</p>
+<p>The <a href="../../../files/lib/roda/plugins/view_options_rb.html">view_options</a> plugin also has special support for sites that have outgrown a flat view directory and use subdirectories for views.  It allows you to set the view directory to use, and template names that do not contain a slash will automatically use that view subdirectory.  Example:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:render</span>, <span class="ruby-value">layout:</span> <span class="ruby-string">&#39;./layout&#39;</span>
 <span class="ruby-identifier">plugin</span> <span class="ruby-value">:view_options</span>
@@ -78,7 +78,7 @@ Roda::RodaPlugins::ViewOptions
 
 <p>Note that when a view subdirectory is set, the layout will also be looked up in the subdirectory unless it contains a slash.  So if you want to use a view subdirectory for templates but have a shared layout, you should make sure your layout contains a slash, similar to the example above.</p>
 
-<h1 id="module-Roda::RodaPlugins::ViewOptions-label-Per-branch+HTML+escaping">Per-branch HTML escaping<span><a href="#module-Roda::RodaPlugins::ViewOptions-label-Per-branch+HTML+escaping">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="module-Roda::RodaPlugins::ViewOptions-label-Per-branch+HTML+escaping"><a href="#module-Roda::RodaPlugins::ViewOptions-label-Per-branch+HTML+escaping">Per-branch HTML escaping</a></h1>
 
 <p>If you have an existing <a href="../../Roda.html"><code>Roda</code></a> application that doesn’t use automatic HTML escaping for <code>&lt;%= %&gt;</code> tags via the render plugin’s <code>:escape</code> option, but you want to switch to using the <code>:escape</code> option, you can now do so without making all changes at once.  With set_view_options, you can now specify escaping or not on a per branch basis in the routing tree:</p>
 

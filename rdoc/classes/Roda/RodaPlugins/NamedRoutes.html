@@ -36,7 +36,7 @@ Roda::RodaPlugins::NamedRoutes
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The named_routes plugin allows for multiple named routes, which the main route block can dispatch to by name at any point by calling <code>r.route</code>. If the named route doesn’t handle the request, execution will continue, and if the named route does handle the request, the response returned by the named route will be returned.</p>
+<p>The <a href="../../../files/lib/roda/plugins/named_routes_rb.html">named_routes</a> plugin allows for multiple named routes, which the main route block can dispatch to by name at any point by calling <code>r.route</code>. If the named route doesn’t handle the request, execution will continue, and if the named route does handle the request, the response returned by the named route will be returned.</p>
 
 <p>Example:</p>
 
@@ -69,17 +69,17 @@ Roda::RodaPlugins::NamedRoutes
 
 <p>To handle development environments that reload code, you can call the <code>route</code> class method without a block to remove an existing named route.</p>
 
-<h2 id="module-Roda::RodaPlugins::NamedRoutes-label-Routing+Files">Routing Files<span><a href="#module-Roda::RodaPlugins::NamedRoutes-label-Routing+Files">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="module-Roda::RodaPlugins::NamedRoutes-label-Routing+Files"><a href="#module-Roda::RodaPlugins::NamedRoutes-label-Routing+Files">Routing Files</a></h2>
 
-<p>The convention when using the named_routes plugin is to have a single named route per file, and these routing files should be stored in a routes subdirectory in your application.  So for the above example, you would use the following files:</p>
+<p>The convention when using the <a href="../../../files/lib/roda/plugins/named_routes_rb.html">named_routes</a> plugin is to have a single named route per file, and these routing files should be stored in a routes subdirectory in your application.  So for the above example, you would use the following files:</p>
 
 <pre class="ruby"><span class="ruby-identifier">routes</span><span class="ruby-operator">/</span><span class="ruby-identifier">bar</span>.<span class="ruby-identifier">rb</span>
 <span class="ruby-identifier">routes</span><span class="ruby-operator">/</span><span class="ruby-identifier">foo</span>.<span class="ruby-identifier">rb</span>
 </pre>
 
-<h2 id="module-Roda::RodaPlugins::NamedRoutes-label-Namespace+Support">Namespace Support<span><a href="#module-Roda::RodaPlugins::NamedRoutes-label-Namespace+Support">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="module-Roda::RodaPlugins::NamedRoutes-label-Namespace+Support"><a href="#module-Roda::RodaPlugins::NamedRoutes-label-Namespace+Support">Namespace Support</a></h2>
 
-<p>The named_routes plugin also has support for namespaces, allowing you to use <code>r.route</code> at multiple levels in your routing tree.  Example:</p>
+<p>The <a href="../../../files/lib/roda/plugins/named_routes_rb.html">named_routes</a> plugin also has support for namespaces, allowing you to use <code>r.route</code> at multiple levels in your routing tree.  Example:</p>
 
 <pre class="ruby"><span class="ruby-identifier">route</span>(<span class="ruby-string">&#39;foo&#39;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span>
   <span class="ruby-identifier">r</span>.<span class="ruby-identifier">on</span>(<span class="ruby-string">&quot;baz&quot;</span>){<span class="ruby-identifier">r</span>.<span class="ruby-identifier">route</span>(<span class="ruby-string">&quot;baz&quot;</span>, <span class="ruby-string">&quot;foo&quot;</span>)}
@@ -118,9 +118,9 @@ Roda::RodaPlugins::NamedRoutes
 <span class="ruby-keyword">end</span>
 </pre>
 
-<h3 id="module-Roda::RodaPlugins::NamedRoutes-label-Routing+Files">Routing Files<span><a href="#module-Roda::RodaPlugins::NamedRoutes-label-Routing+Files">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="module-Roda::RodaPlugins::NamedRoutes-label-Routing+Files"><a href="#module-Roda::RodaPlugins::NamedRoutes-label-Routing+Files">Routing Files</a></h3>
 
-<p>The convention when using namespaces with the multi_route plugin is to store the routing files in subdirectories per namespace. So for the above example, you would have the following routing files:</p>
+<p>The convention when using namespaces with the <a href="../../../files/lib/roda/plugins/multi_route_rb.html">multi_route</a> plugin is to store the routing files in subdirectories per namespace. So for the above example, you would have the following routing files:</p>
 
 <pre class="ruby"><span class="ruby-identifier">routes</span><span class="ruby-operator">/</span><span class="ruby-identifier">bar</span>.<span class="ruby-identifier">rb</span>
 <span class="ruby-identifier">routes</span><span class="ruby-operator">/</span><span class="ruby-identifier">bar</span><span class="ruby-operator">/</span><span class="ruby-identifier">baz</span>.<span class="ruby-identifier">rb</span>

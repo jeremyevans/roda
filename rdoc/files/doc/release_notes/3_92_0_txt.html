@@ -33,9 +33,9 @@ doc/release_notes/3.92.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>An each_part plugin has been added, offering a simpler method for using render_each with locals:</p>
+<p>An <a href="../../lib/roda/plugins/each_part_rb.html">each_part</a> plugin has been added, offering a simpler method for using <a href="../../lib/roda/plugins/render_each_rb.html">render_each</a> with locals:</p>
 
 <pre class="ruby"><span class="ruby-comment"># With render_each:</span>
 <span class="ruby-identifier">render_each</span>(<span class="ruby-identifier">array_of_foos</span>, <span class="ruby-value">:foo</span>, <span class="ruby-value">locals:</span> {<span class="ruby-value">bar:</span> <span class="ruby-value">1</span>})
@@ -44,12 +44,12 @@ doc/release_notes/3.92.0.txt
 <span class="ruby-identifier">each_part</span>(<span class="ruby-identifier">array_of_foos</span>, <span class="ruby-value">:foo</span>, <span class="ruby-value">bar:</span> <span class="ruby-value">1</span>)
 </pre>
 
-<p>The each_part provides similar benefits to the render_each plugin that the part plugin provides to the render plugin.  The each_part method has been optimized to work with the render plugin’s :assume_fixed_locals option.</p>
+<p>The <a href="../../lib/roda/plugins/each_part_rb.html">each_part</a> provides similar benefits to the <a href="../../lib/roda/plugins/render_each_rb.html">render_each</a> plugin that the part plugin provides to the render plugin.  The <a href="../../lib/roda/plugins/each_part_rb.html">each_part</a> method has been optimized to work with the render plugin’s :assume_fixed_locals option.</p>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
-<p>The render_each plugin has been optimized to work with the render plugin’s :assume_fixed_locals option.</p>
+<p>The <a href="../../lib/roda/plugins/render_each_rb.html">render_each</a> plugin has been optimized to work with the render plugin’s :assume_fixed_locals option.</p>
 </li></ul>
 </div>
 <div id='context'>

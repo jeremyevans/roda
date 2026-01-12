@@ -33,23 +33,23 @@ doc/release_notes/3.8.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>The convert_each! method in the typecast_params plugin now accepts a Proc or Method value for the :keys option. The proc or method is called with the current array or hash that typecast params is operating on, and should return an array of keys to use for the conversion.</p>
+<p>The convert_each! method in the <a href="../../lib/roda/plugins/typecast_params_rb.html">typecast_params</a> plugin now accepts a Proc or Method value for the :keys option. The proc or method is called with the current array or hash that typecast params is operating on, and should return an array of keys to use for the conversion.</p>
 </li><li>
-<p>The convert_each! method in the typecast_params plugin will now automatically handle hashes with keys from ‘0’..‘N’, without a :keys option being provided.</p>
+<p>The convert_each! method in the <a href="../../lib/roda/plugins/typecast_params_rb.html">typecast_params</a> plugin will now automatically handle hashes with keys from ‘0’..‘N’, without a :keys option being provided.</p>
 
 <p>This makes it possible to handle parameter names such as <a href="0">foo</a>[bar], <a href="0">foo</a>[baz], <a href="1">foo</a>[bar], and <a href="1">foo</a>[baz], if you want to avoid the issues related to rack’s issues when parsing array parameters.</p>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
 <p>The Roda::RodaVersionNumber constant has been added for easier version comparisons.  It is 30080 for version 3.8.0.</p>
 </li></ul>
 
-<h1 id="label-Backwards+Compatibility">Backwards Compatibility<span><a href="#label-Backwards+Compatibility">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Backwards+Compatibility"><a href="#label-Backwards+Compatibility">Backwards Compatibility</a></h1>
 <ul><li>
-<p>When an unsupported type is given as value of the :keys option to the convert_each! method in the typecast_params plugin, a ProgrammerError exception is now raised.</p>
+<p>When an unsupported type is given as value of the :keys option to the convert_each! method in the <a href="../../lib/roda/plugins/typecast_params_rb.html">typecast_params</a> plugin, a ProgrammerError exception is now raised.</p>
 </li></ul>
 </div>
 <div id='context'>

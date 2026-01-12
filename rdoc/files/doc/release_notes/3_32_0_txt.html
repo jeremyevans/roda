@@ -33,9 +33,9 @@ doc/release_notes/3.32.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>render_each in the render_each plugin now automatically handles template names with subdirectories and extensions.  Previously, these caused issues unless the :local option was provided.  So now you can use:</p>
+<p><a href="../../lib/roda/plugins/render_each_rb.html">render_each</a> in the <a href="../../lib/roda/plugins/render_each_rb.html">render_each</a> plugin now automatically handles template names with subdirectories and extensions.  Previously, these caused issues unless the :local option was provided.  So now you can use:</p>
 
 <pre class="ruby"><span class="ruby-identifier">render_each</span>(<span class="ruby-identifier">foos</span>, <span class="ruby-string">&quot;items/foo&quot;</span>)
 </pre>
@@ -45,7 +45,7 @@ doc/release_notes/3.32.0.txt
 <pre class="ruby"><span class="ruby-identifier">render_each</span>(<span class="ruby-identifier">foos</span>, <span class="ruby-string">&quot;items/foo&quot;</span>, <span class="ruby-value">:local</span><span class="ruby-operator">=&gt;</span><span class="ruby-value">:foo</span>)
 </pre>
 </li><li>
-<p>each_partial has been added to the partials plugin.  It operates similarly to render_each, but uses the convention for partial template naming.  So this:</p>
+<p>each_partial has been added to the partials plugin.  It operates similarly to <a href="../../lib/roda/plugins/render_each_rb.html">render_each</a>, but uses the convention for partial template naming.  So this:</p>
 
 <pre class="ruby"><span class="ruby-identifier">each_partial</span>(<span class="ruby-identifier">foos</span>, <span class="ruby-string">&quot;items/foo&quot;</span>)
 </pre>
@@ -56,21 +56,21 @@ doc/release_notes/3.32.0.txt
 </pre>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
 <p>The :dependencies option in the assets plugin now works correctly with compiled templates in the render plugin in uncached mode (the default in development).  Previously, modifying a dependency file would not result in recompiling the asset template when requesting the main file.</p>
 </li><li>
 <p>Method visibility issues in the following plugins have been fixed:</p>
 <ul><li>
-<p>content_security_policy</p>
+<p><a href="../../lib/roda/plugins/content_security_policy_rb.html">content_security_policy</a></p>
 </li><li>
-<p>default_headers</p>
+<p><a href="../../lib/roda/plugins/default_headers_rb.html">default_headers</a></p>
 </li><li>
-<p>indifferent_params</p>
+<p><a href="../../lib/roda/plugins/indifferent_params_rb.html">indifferent_params</a></p>
 </li><li>
-<p>placeholder_string_matchers</p>
+<p><a href="../../lib/roda/plugins/placeholder_string_matchers_rb.html">placeholder_string_matchers</a></p>
 </li><li>
-<p>symbol_matchers</p>
+<p><a href="../../lib/roda/plugins/symbol_matchers_rb.html">symbol_matchers</a></p>
 </li></ul>
 
 <p>Previously, these plugins made private methods public by mistake when overriding them.  Additionally, Roda.freeze no longer changes the visibility of the set_default_headers private method.</p>

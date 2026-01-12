@@ -36,7 +36,7 @@ Roda::RodaPlugins::OptimizedStringMatchers
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The optimized_string_matchers plugin adds two optimized matcher methods, <code>r.on_branch</code> and <code>r.is_exactly</code>.  <code>r.on_branch</code> is an optimized version of <code>r.on</code> that only accepts a single string, and <code>r.is_exactly</code> is an optimized version of <code>r.is</code> that only accepts a single string.</p>
+<p>The <a href="../../../files/lib/roda/plugins/optimized_string_matchers_rb.html">optimized_string_matchers</a> plugin adds two optimized matcher methods, <code>r.on_branch</code> and <code>r.is_exactly</code>.  <code>r.on_branch</code> is an optimized version of <code>r.on</code> that only accepts a single string, and <code>r.is_exactly</code> is an optimized version of <code>r.is</code> that only accepts a single string.</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:optimized_string_matchers</span>
 
@@ -50,7 +50,7 @@ Roda::RodaPlugins::OptimizedStringMatchers
 <span class="ruby-keyword">end</span>
 </pre>
 
-<p>If you are using the placeholder_string_matchers plugin, note that both of these methods only work with plain strings, not with strings with embedded colons for capturing.  Matching will work correctly in such cases, but the captures will not be yielded to the match blocks.</p>
+<p>If you are using the <a href="../../../files/lib/roda/plugins/placeholder_string_matchers_rb.html">placeholder_string_matchers</a> plugin, note that both of these methods only work with plain strings, not with strings with embedded colons for capturing.  Matching will work correctly in such cases, but the captures will not be yielded to the match blocks.</p>
 </div>
 <div id='context'>
 </div>

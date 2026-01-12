@@ -47,7 +47,7 @@ Roda::RodaPlugins::Assets
 
 <p>You can also use opal as a javascript template engine, assuming it is installed.</p>
 
-<h2 id="module-Roda::RodaPlugins::Assets-label-Usage">Usage<span><a href="#module-Roda::RodaPlugins::Assets-label-Usage">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="module-Roda::RodaPlugins::Assets-label-Usage"><a href="#module-Roda::RodaPlugins::Assets-label-Usage">Usage</a></h2>
 
 <p>When loading the plugin, use the :css and :js options to set the source file(s) to use for CSS and javascript assets:</p>
 
@@ -62,7 +62,7 @@ Roda::RodaPlugins::Assets
 
 <p>The values for the :css and :js options can be arrays to load multiple files. If you want to change the paths where asset files are stored, see the Options section below.</p>
 
-<h3 id="module-Roda::RodaPlugins::Assets-label-Serving">Serving<span><a href="#module-Roda::RodaPlugins::Assets-label-Serving">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="module-Roda::RodaPlugins::Assets-label-Serving"><a href="#module-Roda::RodaPlugins::Assets-label-Serving">Serving</a></h3>
 
 <p>In your routes, call the <code>r.assets</code> method to add a route to your assets, which will make your app serve the rendered assets:</p>
 
@@ -73,7 +73,7 @@ Roda::RodaPlugins::Assets
 
 <p>You should generally call <code>r.assets</code> inside the route block itself, and not under any branches of the routing tree.</p>
 
-<h3 id="module-Roda::RodaPlugins::Assets-label-Views">Views<span><a href="#module-Roda::RodaPlugins::Assets-label-Views">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="module-Roda::RodaPlugins::Assets-label-Views"><a href="#module-Roda::RodaPlugins::Assets-label-Views">Views</a></h3>
 
 <p>In your layout view, use the assets method to add links to your CSS and javascript assets:</p>
 
@@ -86,7 +86,7 @@ Roda::RodaPlugins::Assets
 
 <p>The assets method will respect the application’s <code>:add_script_name</code> option, if it is set it will automatically prefix the path with the <code>SCRIPT_NAME</code> for the request.</p>
 
-<h2 id="module-Roda::RodaPlugins::Assets-label-Asset+Paths">Asset Paths<span><a href="#module-Roda::RodaPlugins::Assets-label-Asset+Paths">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="module-Roda::RodaPlugins::Assets-label-Asset+Paths"><a href="#module-Roda::RodaPlugins::Assets-label-Asset+Paths">Asset Paths</a></h2>
 
 <p>If you just want the paths rather than the full tags, you can use assets_paths instead. This will return an array of the sources that the assets function would have put into tags:</p>
 
@@ -100,7 +100,7 @@ Roda::RodaPlugins::Assets
 <span class="ruby-comment"># =&gt; [&quot;/assets/app.5e7b06baa1a514d8473b0eca514b806c201073b9.css&quot;]</span>
 </pre>
 
-<h2 id="module-Roda::RodaPlugins::Assets-label-Asset+Groups">Asset Groups<span><a href="#module-Roda::RodaPlugins::Assets-label-Asset+Groups">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="module-Roda::RodaPlugins::Assets-label-Asset+Groups"><a href="#module-Roda::RodaPlugins::Assets-label-Asset+Groups">Asset Groups</a></h2>
 
 <p>The asset plugin supports groups for the cases where you have different css/js files for your front end and back end.  To use asset groups, you pass a hash for the :css and/or :js options:</p>
 
@@ -120,7 +120,7 @@ Roda::RodaPlugins::Assets
 
 <pre>&lt;%= assets([:css, :frontend]) %&gt;</pre>
 
-<h3 id="module-Roda::RodaPlugins::Assets-label-Nesting">Nesting<span><a href="#module-Roda::RodaPlugins::Assets-label-Nesting">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="module-Roda::RodaPlugins::Assets-label-Nesting"><a href="#module-Roda::RodaPlugins::Assets-label-Nesting">Nesting</a></h3>
 
 <p>Asset groups also support nesting, though that should only be needed in fairly large applications.  You can use a nested hash when loading the plugin:</p>
 
@@ -132,7 +132,7 @@ Roda::RodaPlugins::Assets
 
 <pre>&lt;%= assets([:css, :frontend, :dashboard]) %&gt;</pre>
 
-<h2 id="module-Roda::RodaPlugins::Assets-label-Caching"><a href="Caching.html"><code>Caching</code></a><span><a href="#module-Roda::RodaPlugins::Assets-label-Caching">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="module-Roda::RodaPlugins::Assets-label-Caching"><a href="#module-Roda::RodaPlugins::Assets-label-Caching"><a href="Caching.html"><code>Caching</code></a></a></h2>
 
 <p>The assets plugin uses the caching plugin internally, and will set the Last-Modified header to the modified timestamp of the asset source file when rendering the asset.</p>
 
@@ -142,7 +142,7 @@ Roda::RodaPlugins::Assets
   <span class="ruby-value">dependencies:</span> {<span class="ruby-string">&#39;assets/css/bootstrap.scss&#39;</span><span class="ruby-operator">=&gt;</span><span class="ruby-constant">Dir</span>[<span class="ruby-string">&#39;assets/css/bootstrap/&#39;</span> <span class="ruby-string">&#39;**/*.scss&#39;</span>]}
 </pre>
 
-<h2 id="module-Roda::RodaPlugins::Assets-label-Asset+Compilation">Asset Compilation<span><a href="#module-Roda::RodaPlugins::Assets-label-Asset+Compilation">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="module-Roda::RodaPlugins::Assets-label-Asset+Compilation"><a href="#module-Roda::RodaPlugins::Assets-label-Asset+Compilation">Asset Compilation</a></h2>
 
 <p>In production, you are generally going to want to compile your assets into a single file, with you can do by calling compile_assets after loading the plugin:</p>
 
@@ -152,7 +152,7 @@ Roda::RodaPlugins::Assets
 
 <p>After calling compile_assets, calls to assets in your views will default to a using a single link each to your CSS and javascript compiled asset files.  By default the compiled files are written to the public directory, so that they can be served by the webserver.</p>
 
-<h3 id="module-Roda::RodaPlugins::Assets-label-Asset+Compression">Asset Compression<span><a href="#module-Roda::RodaPlugins::Assets-label-Asset+Compression">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="module-Roda::RodaPlugins::Assets-label-Asset+Compression"><a href="#module-Roda::RodaPlugins::Assets-label-Asset+Compression">Asset Compression</a></h3>
 
 <p>If you have the yuicompressor gem installed and working, it will be used automatically to compress your javascript and css assets.  For javascript assets, if yuicompressor is not available, the plugin will check for closure-compiler, uglifier, and minjs and use the first one that works. If no compressors are available, the assets will just be concatenated together and not compressed during compilation.  You can use the :css_compressor and :js_compressor options to specify the compressor to use.</p>
 
@@ -162,7 +162,7 @@ Roda::RodaPlugins::Assets
   <span class="ruby-value">css_opts:</span> {<span class="ruby-value">style:</span> <span class="ruby-value">:compressed</span>}
 </pre>
 
-<h3 id="module-Roda::RodaPlugins::Assets-label-Source+Maps+-28CSS-29">Source Maps (CSS)<span><a href="#module-Roda::RodaPlugins::Assets-label-Source+Maps+-28CSS-29">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="module-Roda::RodaPlugins::Assets-label-Source+Maps+-28CSS-29"><a href="#module-Roda::RodaPlugins::Assets-label-Source+Maps+-28CSS-29">Source Maps (CSS)</a></h3>
 
 <p>The assets plugin does not have direct support for source maps, so it is recommended you use embedded source maps if supported by the CSS compiler. For sass/sassc, you can use:</p>
 
@@ -170,15 +170,15 @@ Roda::RodaPlugins::Assets
   <span class="ruby-value">css_opts:</span> {<span class="ruby-value">:source_map_embed</span><span class="ruby-operator">=&gt;</span><span class="ruby-keyword">true</span>, <span class="ruby-value">source_map_contents:</span> <span class="ruby-keyword">true</span>, <span class="ruby-value">source_map_file:</span> <span class="ruby-string">&quot;.&quot;</span>}
 </pre>
 
-<h3 id="module-Roda::RodaPlugins::Assets-label-With+Asset+Groups">With Asset Groups<span><a href="#module-Roda::RodaPlugins::Assets-label-With+Asset+Groups">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="module-Roda::RodaPlugins::Assets-label-With+Asset+Groups"><a href="#module-Roda::RodaPlugins::Assets-label-With+Asset+Groups">With Asset Groups</a></h3>
 
 <p>When using asset groups, a separate compiled file will be produced per asset group.</p>
 
-<h3 id="module-Roda::RodaPlugins::Assets-label-Unique+Asset+Names">Unique Asset Names<span><a href="#module-Roda::RodaPlugins::Assets-label-Unique+Asset+Names">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="module-Roda::RodaPlugins::Assets-label-Unique+Asset+Names"><a href="#module-Roda::RodaPlugins::Assets-label-Unique+Asset+Names">Unique Asset Names</a></h3>
 
 <p>When compiling assets, a unique name is given to each asset file, using the a SHA1 hash of the content of the file.  This is done so that clients do not attempt to use cached versions of the assets if the asset has changed.</p>
 
-<h3 id="module-Roda::RodaPlugins::Assets-label-Serving">Serving<span><a href="#module-Roda::RodaPlugins::Assets-label-Serving">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="module-Roda::RodaPlugins::Assets-label-Serving"><a href="#module-Roda::RodaPlugins::Assets-label-Serving">Serving</a></h3>
 
 <p>When compiling assets, <code>r.assets</code> will serve the compiled asset files.  However, it is recommended to have the main webserver (e.g. nginx) serve the compiled files, instead of relying on the application.</p>
 
@@ -191,7 +191,7 @@ Roda::RodaPlugins::Assets
 
 <p>If you do have the application serve the compiled assets, it will use the Last-Modified header to make sure that clients do not redownload compiled assets that haven’t changed.</p>
 
-<h3 id="module-Roda::RodaPlugins::Assets-label-Asset+Precompilation">Asset Precompilation<span><a href="#module-Roda::RodaPlugins::Assets-label-Asset+Precompilation">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="module-Roda::RodaPlugins::Assets-label-Asset+Precompilation"><a href="#module-Roda::RodaPlugins::Assets-label-Asset+Precompilation">Asset Precompilation</a></h3>
 
 <p>If you want to precompile your assets, so they do not need to be compiled every time you boot the application, you can provide a :precompiled option when loading the plugin.  The value of this option should be the filename where the compiled asset metadata is stored.</p>
 
@@ -199,7 +199,7 @@ Roda::RodaPlugins::Assets
 
 <p>If the compiled asset metadata file already exists when the assets plugin is loaded, the plugin will read the file to get the compiled asset metadata, and it will run in compiled mode, assuming that the compiled asset files already exist.</p>
 
-<h4 id="module-Roda::RodaPlugins::Assets-label-On+Heroku">On Heroku<span><a href="#module-Roda::RodaPlugins::Assets-label-On+Heroku">&para;</a> <a href="#top">&uarr;</a></span></h4>
+<h4 id="module-Roda::RodaPlugins::Assets-label-On+Heroku"><a href="#module-Roda::RodaPlugins::Assets-label-On+Heroku">On Heroku</a></h4>
 
 <p>Heroku supports precompiling the assets when using <a href="../../Roda.html"><code>Roda</code></a>.  You just need to add an assets:precompile task, similar to this:</p>
 
@@ -212,7 +212,7 @@ Roda::RodaPlugins::Assets
 <span class="ruby-keyword">end</span>
 </pre>
 
-<h2 id="module-Roda::RodaPlugins::Assets-label-Postprocessing">Postprocessing<span><a href="#module-Roda::RodaPlugins::Assets-label-Postprocessing">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="module-Roda::RodaPlugins::Assets-label-Postprocessing"><a href="#module-Roda::RodaPlugins::Assets-label-Postprocessing">Postprocessing</a></h2>
 
 <p>If you pass a callable object to the :postprocessor option, it will be called before an asset is served. If the assets are to be compiled, the object will be called at compilation time.</p>
 
@@ -230,7 +230,7 @@ Roda::RodaPlugins::Assets
 }
 </pre>
 
-<h2 id="module-Roda::RodaPlugins::Assets-label-External+Assets-2FAssets+from+Gems">External Assets/Assets from Gems<span><a href="#module-Roda::RodaPlugins::Assets-label-External+Assets-2FAssets+from+Gems">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="module-Roda::RodaPlugins::Assets-label-External+Assets-2FAssets+from+Gems"><a href="#module-Roda::RodaPlugins::Assets-label-External+Assets-2FAssets+from+Gems">External Assets/Assets from Gems</a></h2>
 
 <p>The assets plugin only supports loading assets files underneath the assets path.  You cannot pass an absolute path to an asset file and have it work.  If you would like to reference asset files that are outside the assets path, you have the following options:</p>
 <ul><li>
@@ -239,7 +239,7 @@ Roda::RodaPlugins::Assets
 <p>Use tilt-indirect or another method of indirection (such as an erb template that loads the external asset file) so that a file inside the assets path can reference files outside the assets path.</p>
 </li></ul>
 
-<h2 id="module-Roda::RodaPlugins::Assets-label-Plugin+Options">Plugin Options<span><a href="#module-Roda::RodaPlugins::Assets-label-Plugin+Options">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="module-Roda::RodaPlugins::Assets-label-Plugin+Options"><a href="#module-Roda::RodaPlugins::Assets-label-Plugin+Options">Plugin Options</a></h2>
 <table class="rdoc-list note-list"><tbody><tr><td class='label'>:add_suffix </td><td>
 <p>Whether to append a .css or .js extension to asset routes in non-compiled mode (default: false)</p>
 </td></tr><tr><td class='label'>:compiled_asset_host </td><td>
@@ -271,7 +271,7 @@ Roda::RodaPlugins::Assets
 </td></tr><tr><td class='label'>:dependencies </td><td>
 <p>A hash of dependencies for your asset files.  Keys should be paths to asset files, values should be arrays of paths your asset files depends on.  This is used to detect changes in your asset files.</p>
 </td></tr><tr><td class='label'>:early_hints </td><td>
-<p>Automatically send early hints for all assets.  Requires the early_hints plugin.</p>
+<p>Automatically send early hints for all assets.  Requires the <a href="../../../files/lib/roda/plugins/early_hints_rb.html">early_hints</a> plugin.</p>
 </td></tr><tr><td class='label'>:group_subdirs </td><td>
 <p>Whether a hash used in :css and :js options requires the assets for the related group are contained in a subdirectory with the same name (default: true)</p>
 </td></tr><tr><td class='label'>:gzip </td><td>

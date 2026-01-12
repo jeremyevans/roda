@@ -33,9 +33,9 @@ doc/release_notes/3.97.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>A map_matcher plugin has been added, for matching the next segment in the request path to a hash key, yielding the hash value.  This allows for a better approach for metaprogramming routes.</p>
+<p>A <a href="../../lib/roda/plugins/map_matcher_rb.html">map_matcher</a> plugin has been added, for matching the next segment in the request path to a hash key, yielding the hash value.  This allows for a better approach for metaprogramming routes.</p>
 
 <p>When dealing with many similar routes, it is common to use a hash keyed by route segment, and then match against an array of the keys:</p>
 
@@ -57,7 +57,7 @@ doc/release_notes/3.97.0.txt
 
 <p>For large maps, this approach is suboptimal, since the array matcher will iterate over each element in the array, checking whether it matches.</p>
 
-<p>The map_matcher plugin allows for:</p>
+<p>The <a href="../../lib/roda/plugins/map_matcher_rb.html">map_matcher</a> plugin allows for:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:map_matcher</span>
 

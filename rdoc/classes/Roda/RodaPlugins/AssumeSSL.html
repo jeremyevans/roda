@@ -36,9 +36,9 @@ Roda::RodaPlugins::AssumeSSL
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The assume_ssl plugin makes the request ssl? method always return true. This is useful when using an SSL-terminating reverse proxy that doesn’t set the X-Forwarded-Proto or similar header to notify Rack that it is forwarding an SSL request.</p>
+<p>The <a href="../../../files/lib/roda/plugins/assume_ssl_rb.html">assume_ssl</a> plugin makes the request ssl? method always return true. This is useful when using an SSL-terminating reverse proxy that doesn’t set the X-Forwarded-Proto or similar header to notify Rack that it is forwarding an SSL request.</p>
 
-<p>The sessions and sinatra_helpers plugins that ship with <a href="../../Roda.html"><code>Roda</code></a> both use the ssl? method internally and can be affected by use of the plugin.  It’s recommended that you use this plugin if you are using either plugin and an SSL-terminating proxy as described above.</p>
+<p>The sessions and <a href="../../../files/lib/roda/plugins/sinatra_helpers_rb.html">sinatra_helpers</a> plugins that ship with <a href="../../Roda.html"><code>Roda</code></a> both use the ssl? method internally and can be affected by use of the plugin.  It’s recommended that you use this plugin if you are using either plugin and an SSL-terminating proxy as described above.</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:assume_ssl</span>
 </pre>

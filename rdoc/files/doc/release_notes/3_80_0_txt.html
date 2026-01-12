@@ -33,9 +33,9 @@ doc/release_notes/3.80.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>The hmac_paths plugin now supports a :namespace option for both hmac_path and r.hmac_path.  The :namespace option makes the generated HMAC values unique per namespace, allowing easy use of per user/group HMAC paths. This can be useful if the same path will show different information to different users/groups, and you want to prevent path enumeration for each user/group (not allow paths enumerated by one user/group to be valid for a different user/group). Example:</p>
+<p>The <a href="../../lib/roda/plugins/hmac_paths_rb.html">hmac_paths</a> plugin now supports a :namespace option for both hmac_path and r.hmac_path.  The :namespace option makes the generated HMAC values unique per namespace, allowing easy use of per user/group HMAC paths. This can be useful if the same path will show different information to different users/groups, and you want to prevent path enumeration for each user/group (not allow paths enumerated by one user/group to be valid for a different user/group). Example:</p>
 
 <pre class="ruby"><span class="ruby-identifier">hmac_path</span>(<span class="ruby-string">&#39;/widget/1&#39;</span>, <span class="ruby-value">namespace:</span> <span class="ruby-string">&#39;1&#39;</span>)
 <span class="ruby-comment"># =&gt; &quot;/3793ac2a72ea399c40cbd63f154d19f0fe34cdf8d347772134c506a0b756d590/n/widget/1&quot;</span>

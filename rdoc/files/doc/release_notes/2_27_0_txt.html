@@ -33,7 +33,7 @@ doc/release_notes/2.27.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
 <p>String and Integer class matchers have been added.  The String class matches any non-empty segment and yields it as a string.  This is the same as the behavior of the symbol matchers, but without the duplication.  So instead of:</p>
 
@@ -57,9 +57,9 @@ doc/release_notes/2.27.0.txt
 <span class="ruby-keyword">end</span>
 </pre>
 
-<p>Previously, the :d matcher in the symbol_matchers plugin could be used to only match integer segments, but it yielded results as strings and not integers, so you still needed to convert the type manually.  Using Integer is a bit more intuitive than using :d, and it handles the type conversion for you.</p>
+<p>Previously, the :d matcher in the <a href="../../lib/roda/plugins/symbol_matchers_rb.html">symbol_matchers</a> plugin could be used to only match integer segments, but it yielded results as strings and not integers, so you still needed to convert the type manually.  Using Integer is a bit more intuitive than using :d, and it handles the type conversion for you.</p>
 </li><li>
-<p>A class_matchers plugin has been added for matching additional classes, with user-specified regexps and type conversion.  For example, if you want to match YYYY-MM-DD segments and yield them to the match blocks as ruby Date objects, you can do:</p>
+<p>A <a href="../../lib/roda/plugins/class_matchers_rb.html">class_matchers</a> plugin has been added for matching additional classes, with user-specified regexps and type conversion.  For example, if you want to match YYYY-MM-DD segments and yield them to the match blocks as ruby Date objects, you can do:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:class_matchers</span>
 
@@ -77,7 +77,7 @@ doc/release_notes/2.27.0.txt
 </pre>
 </li></ul>
 
-<h1 id="label-Backwards+Compatibility">Backwards Compatibility<span><a href="#label-Backwards+Compatibility">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Backwards+Compatibility"><a href="#label-Backwards+Compatibility">Backwards Compatibility</a></h1>
 <ul><li>
 <p>If you were using the Integer and String classes as matchers before and expected them to always match, you’ll need to change your code to use true instead.</p>
 </li></ul>

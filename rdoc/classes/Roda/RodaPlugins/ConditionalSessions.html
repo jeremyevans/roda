@@ -36,7 +36,7 @@ Roda::RodaPlugins::ConditionalSessions
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The conditional_sessions plugin loads the sessions plugin.  However, it only allows sessions if the block passed to the plugin returns truthy.  The block is evaluated in request context. This is designed for use in applications that want to use sessions for some requests, and want to be sure that sessions are not used for other requests. For example, if you want to make sure that sessions are not used for requests with paths starting with /static, you could do:</p>
+<p>The <a href="../../../files/lib/roda/plugins/conditional_sessions_rb.html">conditional_sessions</a> plugin loads the sessions plugin.  However, it only allows sessions if the block passed to the plugin returns truthy.  The block is evaluated in request context. This is designed for use in applications that want to use sessions for some requests, and want to be sure that sessions are not used for other requests. For example, if you want to make sure that sessions are not used for requests with paths starting with /static, you could do:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:conditional_sessions</span>, <span class="ruby-value">secret:</span> <span class="ruby-constant">ENV</span>[<span class="ruby-string">&quot;SECRET&quot;</span>] <span class="ruby-keyword">do</span>
   <span class="ruby-operator">!</span><span class="ruby-identifier">path_info</span>.<span class="ruby-identifier">start_with?</span>(<span class="ruby-string">&#39;/static&#39;</span>)

@@ -33,7 +33,7 @@ doc/release_notes/2.15.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
 <p>A public plugin has been added.  This adds an r.public method for serving all files in the public directory.  The public plugin can replace usage of the static plugin, and is more flexible.  You can place r.public at any point in the routing tree, and it will use the remaining path to lookup the file in the public directory.  You can also pass the :gzip option when loading the plugin, and it will serve already gzipped files to the client if the client supports gzipped transfer encoding and the file exists with a .gz extension.  Example:</p>
 
@@ -46,7 +46,7 @@ doc/release_notes/2.15.0.txt
 <span class="ruby-keyword">end</span>
 </pre>
 </li><li>
-<p>The :header matcher added by the header_matchers plugin now automatically prefixes the key with HTTP_ when looking it up in the environment, if the :header_matcher_prefix application option is set.  This behavior will probably be the default in <a href="../../../classes/Roda.html"><code>Roda</code></a> 3.</p>
+<p>The :header matcher added by the <a href="../../lib/roda/plugins/header_matchers_rb.html">header_matchers</a> plugin now automatically prefixes the key with HTTP_ when looking it up in the environment, if the :header_matcher_prefix application option is set.  This behavior will probably be the default in <a href="../../../classes/Roda.html"><code>Roda</code></a> 3.</p>
 
 <pre class="ruby"><span class="ruby-comment"># Before</span>
 <span class="ruby-identifier">r</span>.<span class="ruby-identifier">on</span> <span class="ruby-value">:header</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-string">&#39;http_accept&#39;</span>
@@ -55,7 +55,7 @@ doc/release_notes/2.15.0.txt
 <span class="ruby-identifier">r</span>.<span class="ruby-identifier">on</span> <span class="ruby-value">:header</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-string">&#39;accept&#39;</span>
 </pre>
 </li><li>
-<p>The content_for plugin now accepts an :append=&gt;true option to support appending to the existing content instead of overwriting the existing content if called multiple times.  This behavior will probably be the default in <a href="../../../classes/Roda.html"><code>Roda</code></a> 3.</p>
+<p>The <a href="../../lib/roda/plugins/content_for_rb.html">content_for</a> plugin now accepts an :append=&gt;true option to support appending to the existing content instead of overwriting the existing content if called multiple times.  This behavior will probably be the default in <a href="../../../classes/Roda.html"><code>Roda</code></a> 3.</p>
 
 <pre class="ruby"><span class="ruby-comment"># Before</span>
 <span class="ruby-identifier">content_for</span>(<span class="ruby-value">:form</span>, <span class="ruby-string">&#39;a&#39;</span>)
@@ -69,9 +69,9 @@ doc/release_notes/2.15.0.txt
 </pre>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
-<p>The r.send_file method in the sinatra_helpers plugin now works correctly when using rack 2.</p>
+<p>The r.send_file method in the <a href="../../lib/roda/plugins/sinatra_helpers_rb.html">sinatra_helpers</a> plugin now works correctly when using rack 2.</p>
 </li><li>
 <p>The specs now run correctly on Windows.</p>
 </li></ul>

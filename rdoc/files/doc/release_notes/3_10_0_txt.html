@@ -33,7 +33,7 @@ doc/release_notes/3.10.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
 <p>A sessions plugin has been added that supports encrypted and signed sessions. This plugin is now the recommended way to implement sessions, replacing the previously recommended Rack::Session::Cookie middleware.</p>
 
@@ -76,20 +76,20 @@ doc/release_notes/3.10.0.txt
 <p>The :json_parser and :json_serializer application options are now supported.  If set, these options are used for parsing and serializing JSON instead of the default of JSON.parse and .to_json.</p>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
 <p>RodaRequest initialization is now faster by avoiding 1-2 method calls.</p>
 </li><li>
-<p>typecast_params.Integer in the typecast_params plugin now handles numeric input as long the numeric input does not have fractional parts.  This makes it more usable when handling JSON input.</p>
+<p>typecast_params.Integer in the <a href="../../lib/roda/plugins/typecast_params_rb.html">typecast_params</a> plugin now handles numeric input as long the numeric input does not have fractional parts.  This makes it more usable when handling JSON input.</p>
 </li><li>
 <p>If the flash is empty after the request is processed, the flash session key is removed from the session instead of being left as an empty hash.  If addition to making the session smaller, this makes the session appear empty if there are no other keys in the session, which works better with the sessions plugin as empty sessions will remove the session cookie completely.</p>
 </li></ul>
 
-<h1 id="label-Backwards+Compatibility">Backwards Compatibility<span><a href="#label-Backwards+Compatibility">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Backwards+Compatibility"><a href="#label-Backwards+Compatibility">Backwards Compatibility</a></h1>
 <ul><li>
 <p>The flash plugin now uses ‘_flash’ instead of :_flash as the session key.  When using session middleware that uses Rack::Session::Abstract::SessionHash to store the session (e.g. Rack::Session::Cookie), session keys are converted internally to strings, so this change will not affect you unless you are using alternative session support.  Even if your session does treat :_flash different than ‘_flash’ in keys, the plugin will still work because it will try :_flash if there is no value for ‘_flash’.  This change was made to support the sessions plugin, which doesn’t convert keys to strings.</p>
 </li><li>
-<p>This DEFAULT_PARSER and DEFAULT_SERIALIZER constants from the the json_parser and json plugins have been removed.</p>
+<p>This DEFAULT_PARSER and DEFAULT_SERIALIZER constants from the the <a href="../../lib/roda/plugins/json_parser_rb.html">json_parser</a> and json plugins have been removed.</p>
 </li></ul>
 </div>
 <div id='context'>

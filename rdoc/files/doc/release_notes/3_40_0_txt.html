@@ -33,16 +33,16 @@ doc/release_notes/3.40.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>A precompile_views method has been added to the precompile_templates plugin.  This method works with Roda’s optimized compiled view methods, allowing additional memory sharing between parent and child processes.</p>
+<p>A precompile_views method has been added to the <a href="../../lib/roda/plugins/precompile_templates_rb.html">precompile_templates</a> plugin.  This method works with Roda’s optimized compiled view methods, allowing additional memory sharing between parent and child processes.</p>
 </li><li>
-<p>A freeze_template_caches! method has been added to the precompile_templates plugin.  This freezes the template caches, preventing the compilation of additional templates, useful for enforcing that only precompiled templates are used.  Additionally, this speeds up access to the template caches.</p>
+<p>A freeze_template_caches! method has been added to the <a href="../../lib/roda/plugins/precompile_templates_rb.html">precompile_templates</a> plugin.  This freezes the template caches, preventing the compilation of additional templates, useful for enforcing that only precompiled templates are used.  Additionally, this speeds up access to the template caches.</p>
 </li><li>
 <p>RodaCache#freeze now returns the frozen internal hash, which can then be accessed without a mutex. Previously, freeze only froze the receiver and not the internal hash, so it didn’t have the expected effect.</p>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
 <p>The view method in the render plugin is now faster in most cases when a single argument is used.  When freezing the application, an additional optimization is performed to increase the performance of the view method even further.</p>
 </li></ul>

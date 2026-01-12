@@ -33,7 +33,7 @@ doc/release_notes/3.88.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
 <p>Fixed locals are now supported in templates when using Tilt 2.6+. Without fixed locals, templates that support local variables can be called with any locals, and a separate template method is compiled for each combination of local variable names.  This causes multiple issues:</p>
 <ul><li>
@@ -66,13 +66,13 @@ doc/release_notes/3.88.0.txt
 </pre>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
-<p>The json_parser plugin now handles the case where Rack::Request#POST has already been called on the env hash, when using Rack 3+.</p>
+<p>The <a href="../../lib/roda/plugins/json_parser_rb.html">json_parser</a> plugin now handles the case where Rack::Request#POST has already been called on the env hash, when using Rack 3+.</p>
 </li><li>
-<p>The default_headers plugin now handles a mixed/upper case Content-Type header, when using Rack 3+ (which requires lower case headers).</p>
+<p>The <a href="../../lib/roda/plugins/default_headers_rb.html">default_headers</a> plugin now handles a mixed/upper case Content-Type header, when using Rack 3+ (which requires lower case headers).</p>
 </li><li>
-<p>The render_coverage plugin now handles the case where both :scope_class template option and fixed locals are used.</p>
+<p>The <a href="../../lib/roda/plugins/render_coverage_rb.html">render_coverage</a> plugin now handles the case where both :scope_class template option and fixed locals are used.</p>
 </li><li>
 <p><a href="../../../classes/Roda.html"><code>Roda</code></a> now avoids warnings when the -W:strict_unused_block Ruby option is used.</p>
 </li></ul>

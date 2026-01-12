@@ -33,7 +33,7 @@ doc/release_notes/1.1.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Plugins">New Plugins<span><a href="#label-New+Plugins">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Plugins"><a href="#label-New+Plugins">New Plugins</a></h1>
 <ul><li>
 <p>An assets plugin has been added, for rendering your CSS and javascript asset files on the fly in development, and compiling them to a single, compressed file in production.</p>
 
@@ -112,7 +112,7 @@ doc/release_notes/1.1.0.txt
 <span class="ruby-keyword">end</span>
 </pre>
 </li><li>
-<p>An error_email plugin has been added, for easily emailing error notifications for an exception.  This is designed for use with the error_handler plugin, and should only be used in low-traffic environments:</p>
+<p>An <a href="../../lib/roda/plugins/error_email_rb.html">error_email</a> plugin has been added, for easily emailing error notifications for an exception.  This is designed for use with the <a href="../../lib/roda/plugins/error_handler_rb.html">error_handler</a> plugin, and should only be used in low-traffic environments:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:error_email</span>, <span class="ruby-value">:to</span><span class="ruby-operator">=&gt;</span><span class="ruby-string">&#39;to@example.com&#39;</span>,
                      <span class="ruby-value">:from</span><span class="ruby-operator">=&gt;</span><span class="ruby-string">&#39;from@example.com&#39;</span>
@@ -123,9 +123,9 @@ doc/release_notes/1.1.0.txt
 </pre>
 </li></ul>
 
-<h1 id="label-multi_route+Plugin+Improvements">multi_route Plugin Improvements<span><a href="#label-multi_route+Plugin+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-multi_route+Plugin+Improvements"><a href="#label-multi_route+Plugin+Improvements"><a href="../../lib/roda/plugins/multi_route_rb.html">multi_route</a> Plugin Improvements</a></h1>
 <ul><li>
-<p>The multi_route plugin now supports namespaces, allowing it to support routing trees of arbitrary complexity.  Previously, only a single namespace was supported. For example, if you want to store your named routes in a directory tree:</p>
+<p>The <a href="../../lib/roda/plugins/multi_route_rb.html">multi_route</a> plugin now supports namespaces, allowing it to support routing trees of arbitrary complexity.  Previously, only a single namespace was supported. For example, if you want to store your named routes in a directory tree:</p>
 
 <pre>/routes/foo.rb
 /routes/foo/baz.rb
@@ -168,14 +168,14 @@ doc/release_notes/1.1.0.txt
 <p>If you don’t pass a block to r.multi_route, it will use the return value of the named route as the block value to return, instead of always returning nil.</p>
 </li></ul>
 
-<h1 id="label-Optimizations">Optimizations<span><a href="#label-Optimizations">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Optimizations"><a href="#label-Optimizations">Optimizations</a></h1>
 <ul><li>
 <p>Dispatch speed is slightly improved by using allocate instead of new to create new instances.</p>
 </li><li>
 <p>Hash allocations in the render plugin have been reduced.</p>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
 <p>The Roda.route block is now inherited when subclassing, making it possible to subclass a <a href="../../../classes/Roda.html"><code>Roda</code></a> application and have the subclass work without adding a route block.</p>
 </li><li>
@@ -188,7 +188,7 @@ doc/release_notes/1.1.0.txt
 <p>Plugins that ship with <a href="../../../classes/Roda.html"><code>Roda</code></a> no longer set constants inside InstanceMethods.  Instead, the constants are set at the plugin module level.  This is done to avoid polluting the namespace of the application with the constants.  Roda’s policy is that all internal constants inside the <a href="../../../classes/Roda.html"><code>Roda</code></a> namespace are prefixed with <a href="../../../classes/Roda.html"><code>Roda</code></a>, so they don’t pollute the user’s namespace, and setting these constants inside InstanceMethods in plugins violated that policy.</p>
 </li></ul>
 
-<h1 id="label-Backwards+Compatibility">Backwards Compatibility<span><a href="#label-Backwards+Compatibility">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Backwards+Compatibility"><a href="#label-Backwards+Compatibility">Backwards Compatibility</a></h1>
 <ul><li>
 <p>response.write no longer sets a Content-Length header.  Instead, response.finish sets it.  This is faster if you call response.write multiple times, and more correct if you call response.finish without calling response.write.</p>
 </li><li>

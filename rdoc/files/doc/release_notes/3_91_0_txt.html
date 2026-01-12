@@ -33,9 +33,9 @@ doc/release_notes/3.91.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>The render_each method in the render_each plugin now accepts a block.  If passed a block, instead of returning a concatenation of the rendered template output, it yields each rendered template output, and returns nil.  This allows for use in the case where you want to wrap the template output:</p>
+<p>The <a href="../../lib/roda/plugins/render_each_rb.html">render_each</a> method in the <a href="../../lib/roda/plugins/render_each_rb.html">render_each</a> plugin now accepts a block.  If passed a block, instead of returning a concatenation of the rendered template output, it yields each rendered template output, and returns nil.  This allows for use in the case where you want to wrap the template output:</p>
 
 <pre>&lt;% render_each([1,2,3], :foo) do |text| %&gt;
   &lt;p&gt;&lt;%= text %&gt;&lt;/p&gt;
@@ -51,7 +51,7 @@ doc/release_notes/3.91.0.txt
 
 <p>This will avoid building a potentially large unnecessary intermediate string.</p>
 </li><li>
-<p>The capture_erb plugin now supports a returns: :buffer method and plugin option.  When this option is provided, the capture_erb method returns the buffer instead of the return value of the block passed to it.  This better handles cases where the template ends in a conditional:</p>
+<p>The <a href="../../lib/roda/plugins/capture_erb_rb.html">capture_erb</a> plugin now supports a returns: :buffer method and plugin option.  When this option is provided, the <a href="../../lib/roda/plugins/capture_erb_rb.html">capture_erb</a> method returns the buffer instead of the return value of the block passed to it.  This better handles cases where the template ends in a conditional:</p>
 
 <pre>&lt;% value = capture_erb do %&gt;
   Some content here.

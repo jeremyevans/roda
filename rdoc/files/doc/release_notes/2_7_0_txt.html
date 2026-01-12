@@ -33,9 +33,9 @@ doc/release_notes/2.7.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>A default_status plugin has been added for changing the default status for responses.  Previously, the default status was hard coded to 200, this plugin allows you to change it.  The plugin takes a block which is instance_evaled in the context of the response:</p>
+<p>A <a href="../../lib/roda/plugins/default_status_rb.html">default_status</a> plugin has been added for changing the default status for responses.  Previously, the default status was hard coded to 200, this plugin allows you to change it.  The plugin takes a block which is instance_evaled in the context of the response:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:default_status</span> <span class="ruby-keyword">do</span>
   <span class="ruby-identifier">headers</span>[<span class="ruby-string">&#39;Content-Type&#39;</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&#39;foo&#39;</span> <span class="ruby-operator">?</span> <span class="ruby-value">201</span> <span class="ruby-operator">:</span> <span class="ruby-value">200</span>
@@ -44,7 +44,7 @@ doc/release_notes/2.7.0.txt
 
 <p>Note that the default status for empty responses (used when no route handles the response) is still 404, this just changes the default for non-empty responses.</p>
 </li><li>
-<p>A response_request plugin has been added for giving the response instance access to the related request.  This can be useful in conjunction with the default_status plugin, if you want the default status of the response to depend on the request, such as using a different status for different request methods:</p>
+<p>A <a href="../../lib/roda/plugins/response_request_rb.html">response_request</a> plugin has been added for giving the response instance access to the related request.  This can be useful in conjunction with the <a href="../../lib/roda/plugins/default_status_rb.html">default_status</a> plugin, if you want the default status of the response to depend on the request, such as using a different status for different request methods:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:response_request</span>
 <span class="ruby-identifier">plugin</span> <span class="ruby-value">:default_status</span> <span class="ruby-keyword">do</span>
@@ -52,7 +52,7 @@ doc/release_notes/2.7.0.txt
 <span class="ruby-keyword">end</span>
 </pre>
 </li><li>
-<p>A run_handler plugin has been added, for modifying rack response arrays before returning them when using r.run.  Additionally, it allows for continuing with routing if the response returned by r.run is a 404 response, using the :not_found=&gt;:pass option:</p>
+<p>A <a href="../../lib/roda/plugins/run_handler_rb.html">run_handler</a> plugin has been added, for modifying rack response arrays before returning them when using r.run.  Additionally, it allows for continuing with routing if the response returned by r.run is a 404 response, using the :not_found=&gt;:pass option:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:run_handler</span>
 <span class="ruby-identifier">route</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span>
@@ -66,7 +66,7 @@ doc/release_notes/2.7.0.txt
 <span class="ruby-keyword">end</span>
 </pre>
 </li><li>
-<p>Roda.rewite_path in the path_rewriter extension now accepts a block to allow for dynamic replacements. The block is yielded a MatchData instance:</p>
+<p>Roda.rewite_path in the <a href="../../lib/roda/plugins/path_rewriter_rb.html">path_rewriter</a> extension now accepts a block to allow for dynamic replacements. The block is yielded a MatchData instance:</p>
 
 <pre>rewrite_path(/\A\/a/(\w+)/){|match| match[1].capitalize}
 # PATH_INFO &#39;/a/moo&#39; =&gt; remaining_path &#39;/a/Moo&#39;
@@ -76,7 +76,7 @@ rewrite_path(/\A\/a/(\w+)/, :path_info =&gt; true) do |match|
 end
 # PATH_INFO &#39;/a/moo&#39; =&gt; PATH_INFO &#39;/a/Moo&#39;</pre>
 </li><li>
-<p>The :host matcher in the header_matchers plugin will now yield the regexp captures to the block if given a regexp when the :host_matcher_captures application option is set.  This behavior will become the default behavior in <a href="../../../classes/Roda.html"><code>Roda</code></a> 3.  This will allow for code like:</p>
+<p>The :host matcher in the <a href="../../lib/roda/plugins/header_matchers_rb.html">header_matchers</a> plugin will now yield the regexp captures to the block if given a regexp when the :host_matcher_captures application option is set.  This behavior will become the default behavior in <a href="../../../classes/Roda.html"><code>Roda</code></a> 3.  This will allow for code like:</p>
 
 <pre class="ruby"><span class="ruby-identifier">opts</span>[<span class="ruby-value">:host_matcher_captures</span>] = <span class="ruby-keyword">true</span>
 <span class="ruby-identifier">route</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span>
@@ -87,7 +87,7 @@ end
 </pre>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
 <p>RodaCache now uses a mutex to synchronize access on MRI. Previously, it relied on the global interpreter lock, but testing has shown that is not reliable in all cases.  RodaCache has always used a mutex for synchronization on other ruby implementations, this just extends that code to MRI as well.</p>
 </li></ul>

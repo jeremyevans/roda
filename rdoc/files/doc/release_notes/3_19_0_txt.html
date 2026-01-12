@@ -33,9 +33,9 @@ doc/release_notes/3.19.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>A hash_routes plugin has been added for O(1) route dispatching at any level of the routing tree.  By default, <a href="../../../classes/Roda.html"><code>Roda</code></a> uses a linear search of possible branches at each level of the routing tree, which results in roughly O(log(n)) routing behavior in most applications (where n is the total number of routes in the application).</p>
+<p>A <a href="../../lib/roda/plugins/hash_routes_rb.html">hash_routes</a> plugin has been added for O(1) route dispatching at any level of the routing tree.  By default, <a href="../../../classes/Roda.html"><code>Roda</code></a> uses a linear search of possible branches at each level of the routing tree, which results in roughly O(log(n)) routing behavior in most applications (where n is the total number of routes in the application).</p>
 
 <p>Assume you have the following routing tree:</p>
 
@@ -58,7 +58,7 @@ doc/release_notes/3.19.0.txt
 
 <p>With this routing tree, a request for /c will first check /a and /b.  This is not normally a performance issue, but if you have a large number of routes at a particular level, it can be.</p>
 
-<p>The hash_routes plugin allows you to convert this routing tree to:</p>
+<p>The <a href="../../lib/roda/plugins/hash_routes_rb.html">hash_routes</a> plugin allows you to convert this routing tree to:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:hash_routes</span>
 
@@ -83,9 +83,9 @@ doc/release_notes/3.19.0.txt
 <span class="ruby-keyword">end</span>
 </pre>
 
-<p>This routing tree looks similar to Roda’s standard routing tree, and will have the same behavior as the previous example, but dispatching to the routes inside the hash_routes block by the r.hash_routes method will be an O(1) operation, instead of a linear search.  This can significantly improve performance in cases where you have a large number of branches at any point in the routing tree.</p>
+<p>This routing tree looks similar to Roda’s standard routing tree, and will have the same behavior as the previous example, but dispatching to the routes inside the <a href="../../lib/roda/plugins/hash_routes_rb.html">hash_routes</a> block by the r.hash_routes method will be an O(1) operation, instead of a linear search.  This can significantly improve performance in cases where you have a large number of branches at any point in the routing tree.</p>
 
-<p>In order to support O(1) route dispatching at any level of the tree, the hash_routes plugin supports namespaces.  You can use this namespace support to keep the primary advantage of <a href="../../../classes/Roda.html"><code>Roda</code></a> when using the hash_routes plugin, which is the ability to operate on a request at any point during routing.  Assume you have this routing tree:</p>
+<p>In order to support O(1) route dispatching at any level of the tree, the <a href="../../lib/roda/plugins/hash_routes_rb.html">hash_routes</a> plugin supports namespaces.  You can use this namespace support to keep the primary advantage of <a href="../../../classes/Roda.html"><code>Roda</code></a> when using the <a href="../../lib/roda/plugins/hash_routes_rb.html">hash_routes</a> plugin, which is the ability to operate on a request at any point during routing.  Assume you have this routing tree:</p>
 
 <pre class="ruby"><span class="ruby-identifier">hash_routes</span> <span class="ruby-value">:root</span> <span class="ruby-keyword">do</span>
   <span class="ruby-identifier">on</span> <span class="ruby-string">&quot;foo&quot;</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span>
@@ -132,11 +132,11 @@ doc/release_notes/3.19.0.txt
 
 <p>Similarly, a POST /bar/321/edit request would dispatch to the on “bar” block in the :root namespace, will look up the matching bar, then will dispatch to the edit route in the :bar namespace.</p>
 
-<p>The hash_routes plugin can be used as a faster version of the multi_route plugin’s r.multi_route method.  It can also be used as a faster replacement for the multi_view plugin.</p>
+<p>The <a href="../../lib/roda/plugins/hash_routes_rb.html">hash_routes</a> plugin can be used as a faster version of the <a href="../../lib/roda/plugins/multi_route_rb.html">multi_route</a> plugin’s r.multi_route method.  It can also be used as a faster replacement for the <a href="../../lib/roda/plugins/multi_view_rb.html">multi_view</a> plugin.</p>
 
-<p>Please see the hash_routes plugin documentation for additional methods and configuration styles supported by the plugin.</p>
+<p>Please see the <a href="../../lib/roda/plugins/hash_routes_rb.html">hash_routes</a> plugin documentation for additional methods and configuration styles supported by the plugin.</p>
 </li><li>
-<p>A match_hook plugin has been added, which is called for each successful match, before yielding to the match block.  For example, with the following routing tree:</p>
+<p>A <a href="../../lib/roda/plugins/match_hook_rb.html">match_hook</a> plugin has been added, which is called for each successful match, before yielding to the match block.  For example, with the following routing tree:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:match_hook</span>
 
@@ -170,7 +170,7 @@ doc/release_notes/3.19.0.txt
 <p>This plugin can be used to make debugging easier, as well as for metrics.</p>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
 <p>Per-cookie cipher secrets are now supported and used automatically by default in the sessions plugin.  This can prevent issues where the cipher secret can be leaked if the random initialization vector turns out not to be so random and ends up being reused.  This makes the session cookies slightly larger and about 10-20% slower.</p>
 
@@ -188,18 +188,18 @@ doc/release_notes/3.19.0.txt
 </li><li>
 <p>Terminal matching performance has improved by about 4x.</p>
 </li><li>
-<p><a href="../../../classes/Roda.html"><code>Roda</code></a> will now automatically load the direct_call plugin when freezing the application if there is no middleware used and the application has not been subclassed, for improved performance.</p>
+<p><a href="../../../classes/Roda.html"><code>Roda</code></a> will now automatically load the <a href="../../lib/roda/plugins/direct_call_rb.html">direct_call</a> plugin when freezing the application if there is no middleware used and the application has not been subclassed, for improved performance.</p>
 </li><li>
 <p><a href="../../../classes/Roda.html"><code>Roda</code></a> no longer builds the rack application until the app class method is called.  This can fix O(n^2) issues when building applications with a lot of middleware.  One consequence of this is that a Roda.route block is no longer required. If Roda.route is not called, then the default routing tree will return a 404 response for all requests.</p>
 
-<p>The delay_build plugin used to support delaying building the rack application until a build! method is called.  Now that <a href="../../../classes/Roda.html"><code>Roda</code></a> delays building the rack application until the app method is called, there is no reason to use this plugin, and it is now a no-op.</p>
+<p>The <a href="../../lib/roda/plugins/delay_build_rb.html">delay_build</a> plugin used to support delaying building the rack application until a build! method is called.  Now that <a href="../../../classes/Roda.html"><code>Roda</code></a> delays building the rack application until the app method is called, there is no reason to use this plugin, and it is now a no-op.</p>
 </li><li>
 <p>The assets plugin :timestamp_paths option now supports a string value to use a custom separator. A slash separator is still used by default.</p>
 </li></ul>
 
-<h1 id="label-Backwards+Compatibility">Backwards Compatibility<span><a href="#label-Backwards+Compatibility">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Backwards+Compatibility"><a href="#label-Backwards+Compatibility">Backwards Compatibility</a></h1>
 <ul><li>
-<p>The static_routing plugin internals have changed, as the static_routing is now implemented via the hash_routes plugin.  If you were depending on the internals, you will need to update your code.</p>
+<p>The <a href="../../lib/roda/plugins/static_routing_rb.html">static_routing</a> plugin internals have changed, as the <a href="../../lib/roda/plugins/static_routing_rb.html">static_routing</a> is now implemented via the <a href="../../lib/roda/plugins/hash_routes_rb.html">hash_routes</a> plugin.  If you were depending on the internals, you will need to update your code.</p>
 </li></ul>
 </div>
 <div id='context'>

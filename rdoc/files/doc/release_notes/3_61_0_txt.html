@@ -33,18 +33,18 @@ doc/release_notes/3.61.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-Improvements">Improvements<span><a href="#label-Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Improvements"><a href="#label-Improvements">Improvements</a></h1>
 <ul><li>
-<p>The typecast_params plugin now limits input bytesize for integer, float, and date/time typecasts.  If the input is over the allowed bytesize, typecasting will fail.  This prevents issues with trying to typecast arbitrarily large input.</p>
+<p>The <a href="../../lib/roda/plugins/typecast_params_rb.html">typecast_params</a> plugin now limits input bytesize for integer, float, and date/time typecasts.  If the input is over the allowed bytesize, typecasting will fail.  This prevents issues with trying to typecast arbitrarily large input.</p>
 </li><li>
 <p>The default Integer class matcher now limits integer segments to 100 characters by default, also to prevent issues with typecasting arbitrarily large input.  Segments larger than 100 characters will no longer be matched by the Integer class matcher.</p>
 </li></ul>
 
-<h1 id="label-Backwards+Compatibility">Backwards Compatibility<span><a href="#label-Backwards+Compatibility">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Backwards+Compatibility"><a href="#label-Backwards+Compatibility">Backwards Compatibility</a></h1>
 <ul><li>
-<p>If the input bytesize limits in the typecast_params plugin cause issues in your application, you can use the :skip_bytesize_checking option when loading the plugin to disable the checks.</p>
+<p>If the input bytesize limits in the <a href="../../lib/roda/plugins/typecast_params_rb.html">typecast_params</a> plugin cause issues in your application, you can use the :skip_bytesize_checking option when loading the plugin to disable the checks.</p>
 </li><li>
-<p>If the default Integer class matcher limit causes problems in your application, you can use the class_matchers plugin to override the matcher to not use a limit:</p>
+<p>If the default Integer class matcher limit causes problems in your application, you can use the <a href="../../lib/roda/plugins/class_matchers_rb.html">class_matchers</a> plugin to override the matcher to not use a limit:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:class_matchers</span>
 <span class="ruby-identifier">class_matcher</span>(<span class="ruby-constant">Integer</span>, <span class="ruby-regexp">/(\d+)/</span>){<span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span> [<span class="ruby-identifier">a</span>.<span class="ruby-identifier">to_i</span>]}

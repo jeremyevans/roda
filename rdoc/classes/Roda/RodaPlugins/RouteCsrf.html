@@ -36,13 +36,13 @@ Roda::RodaPlugins::RouteCsrf
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The route_csrf plugin is the recommended plugin to use to support CSRF protection in <a href="../../Roda.html"><code>Roda</code></a> applications. This plugin allows you set where in the routing tree to enforce CSRF protection.  Additionally, the route_csrf plugin uses modern security practices.</p>
+<p>The <a href="../../../files/lib/roda/plugins/route_csrf_rb.html">route_csrf</a> plugin is the recommended plugin to use to support CSRF protection in <a href="../../Roda.html"><code>Roda</code></a> applications. This plugin allows you set where in the routing tree to enforce CSRF protection.  Additionally, the <a href="../../../files/lib/roda/plugins/route_csrf_rb.html">route_csrf</a> plugin uses modern security practices.</p>
 
 <p>By default, the plugin requires tokens be specific to the request method and request path, so a CSRF token generated for one form will not be usable to submit a different form.</p>
 
 <p>This plugin also takes care to not expose the underlying CSRF key (except in the session), so that it is not possible for an attacker to generate valid CSRF tokens specific to an arbitrary request method and request path even if they have access to a token that is not specific to request method and request path.  To get this security benefit, you must ensure an attacker does not have access to the session.  Rack::Session::Cookie versions shipped with Rack before Rack 3 use signed sessions, not encrypted sessions, so if the attacker has the ability to read cookie data and you are using one of those Rack::Session::Cookie versions, it will still be possible for an attacker to generate valid CSRF tokens specific to arbitrary request method and request path.  Roda’s session plugin uses encrypted sessions and therefore is safe even if the attacker can read cookie data.</p>
 
-<h2 id="module-Roda::RodaPlugins::RouteCsrf-label-Usage">Usage<span><a href="#module-Roda::RodaPlugins::RouteCsrf-label-Usage">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="module-Roda::RodaPlugins::RouteCsrf-label-Usage"><a href="#module-Roda::RodaPlugins::RouteCsrf-label-Usage">Usage</a></h2>
 
 <p>It is recommended to use the plugin defaults, loading the plugin with no options:</p>
 
@@ -76,12 +76,12 @@ Roda::RodaPlugins::RouteCsrf
 </td></tr><tr><td class='label'>:check_request_methods </td><td>
 <p>Which request methods require CSRF protection (default: <code>[&#39;POST&#39;, &#39;DELETE&#39;, &#39;PATCH&#39;, &#39;PUT&#39;]</code>)</p>
 </td></tr><tr><td class='label'>:upgrade_from_rack_csrf_key </td><td>
-<p>If provided, the session key that should be checked for the rack_csrf raw token.  If the session key is present, the value will be checked against the submitted token, and if it matches, the CSRF check will be passed.  Should only be set temporarily if upgrading from using rack_csrf to the route_csrf plugin, and should be removed as soon as you are OK with CSRF forms generated before the upgrade not longer being usable. The default rack_csrf key is <code>&#39;csrf.token&#39;</code>.</p>
+<p>If provided, the session key that should be checked for the rack_csrf raw token.  If the session key is present, the value will be checked against the submitted token, and if it matches, the CSRF check will be passed.  Should only be set temporarily if upgrading from using rack_csrf to the <a href="../../../files/lib/roda/plugins/route_csrf_rb.html">route_csrf</a> plugin, and should be removed as soon as you are OK with CSRF forms generated before the upgrade not longer being usable. The default rack_csrf key is <code>&#39;csrf.token&#39;</code>.</p>
 </td></tr></tbody></table>
 
 <p>The plugin also supports a block, in which case the block will be used as the value of the :csrf_failure option.</p>
 
-<h2 id="module-Roda::RodaPlugins::RouteCsrf-label-Methods">Methods<span><a href="#module-Roda::RodaPlugins::RouteCsrf-label-Methods">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="module-Roda::RodaPlugins::RouteCsrf-label-Methods"><a href="#module-Roda::RodaPlugins::RouteCsrf-label-Methods">Methods</a></h2>
 
 <p>This adds the following instance methods:</p>
 <table class="rdoc-list note-list"><tbody><tr><td class='label'>check_csrf!(opts={}) </td><td>
@@ -109,9 +109,9 @@ Roda::RodaPlugins::RouteCsrf
 <p>An HTML meta tag string containing the CSRF token, suitable for placing in the page header.  It is not recommended to use this method, as the token generated is not request-specific and will not work unless you set the :require_request_specific_tokens option to false, which is a bad idea from a security standpoint.</p>
 </td></tr></tbody></table>
 
-<h2 id="module-Roda::RodaPlugins::RouteCsrf-label-Token+Cryptography">Token Cryptography<span><a href="#module-Roda::RodaPlugins::RouteCsrf-label-Token+Cryptography">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="module-Roda::RodaPlugins::RouteCsrf-label-Token+Cryptography"><a href="#module-Roda::RodaPlugins::RouteCsrf-label-Token+Cryptography">Token Cryptography</a></h2>
 
-<p>route_csrf uses HMAC-SHA-256 to generate all CSRF tokens.  It generates a random 32-byte secret, which is stored base64 encoded in the session.  For each CSRF token, it generates 31 bytes of random data.</p>
+<p><a href="../../../files/lib/roda/plugins/route_csrf_rb.html">route_csrf</a> uses HMAC-SHA-256 to generate all CSRF tokens.  It generates a random 32-byte secret, which is stored base64 encoded in the session.  For each CSRF token, it generates 31 bytes of random data.</p>
 
 <p>For request-specific CSRF tokens, this pseudocode generates the HMAC:</p>
 

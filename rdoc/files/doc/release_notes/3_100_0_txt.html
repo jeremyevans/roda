@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+<head>
+<title>3.100.0.txt</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<link href='../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<script type='text/javascript'>
+  function popupCode(url) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+  
+  function toggleCode(id) {
+    var code = document.getElementById(id)
+  
+    code.style.display = code.style.display != 'block' ? 'block' : 'none'
+    return true
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+</script>
+</head>
+<body class='page'>
+<div class='file' id='wrapper'>
+<div class='header'>
+<h1 class='name'>3.100.0.txt
+</h1>
+<div class='paths'>
+doc/release_notes/3.100.0.txt
+</div>
+</div>
+<div id='content'>
+<div id='text'>
+<div id='description'>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
+<ul><li>
+<p>A <a href="../../lib/roda/plugins/sec_fetch_site_csrf_rb.html">sec_fetch_site_csrf</a> plugin has been implemented, which implements CSRF protection using the Sec-Fetch-Site header. This offers weaker CSRF protection than the <a href="../../lib/roda/plugins/route_csrf_rb.html">route_csrf</a> plugin, but doesn’t require CSRF tokens in forms.  Other caveats when using the plugin:</p>
+<ul><li>
+<p>Not all browsers set the Sec-Fetch-Site header. Some popular browsers did not add support until 2023.</p>
+</li><li>
+<p>Sec-Fetch-Site is only set on HTTPS requests, not on HTTP requests, so if you need to support HTTP requests, you cannot rely on it.</p>
+</li><li>
+<p>There is no support for cross-site secure CSRF protection by sharing the token used.</p>
+</li></ul>
+
+<p>Like the <a href="../../lib/roda/plugins/route_csrf_rb.html">route_csrf</a> plugin, the <a href="../../lib/roda/plugins/sec_fetch_site_csrf_rb.html">sec_fetch_site_csrf</a> plugin exposes a method (check_sec_fetch_site!) that you can call at the appropriate point in your routing tree to enforce the CSRF protection.</p>
+
+<p>By default, only same-origin requests are allowed by default. Using plugin options, you can support same-site or none requests, or support requests where the header is not present.</p>
+
+<p>For CSRF violations, the default is to raise an exception. You can use plugin options to either return a blank 403 page or clear the current session. You can also pass a block to either the plugin or to the check_sec_fetch_site! method for custom handling.</p>
+</li></ul>
+</div>
+<div id='context'>
+</div>
+
+</div>
+</div>
+
+<div id='footer-push'></div>
+</div>
+<div id='footer'>
+<a href="https://github.com/jeremyevans/hanna"><strong>Hanna</strong> RDoc template</a>
+</div>
+</body>
+</html>

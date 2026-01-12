@@ -36,7 +36,7 @@ Roda::RodaPlugins::SymbolMatchers
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The symbol_matchers plugin allows you do define custom regexps to use for specific symbols.  For example, if you have a route such as:</p>
+<p>The <a href="../../../files/lib/roda/plugins/symbol_matchers_rb.html">symbol_matchers</a> plugin allows you do define custom regexps to use for specific symbols.  For example, if you have a route such as:</p>
 
 <pre class="ruby"><span class="ruby-identifier">r</span>.<span class="ruby-identifier">on</span> <span class="ruby-value">:username</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">username</span><span class="ruby-operator">|</span>
   <span class="ruby-comment"># ...</span>
@@ -60,7 +60,7 @@ Roda::RodaPlugins::SymbolMatchers
 <p><code>/(\w+)/</code>, an alphanumeric segment</p>
 </td></tr></tbody></table>
 
-<p>If the placeholder_string_matchers plugin is loaded, this feature also applies to placeholders in strings, so the following:</p>
+<p>If the <a href="../../../files/lib/roda/plugins/placeholder_string_matchers_rb.html">placeholder_string_matchers</a> plugin is loaded, this feature also applies to placeholders in strings, so the following:</p>
 
 <pre class="ruby"><span class="ruby-identifier">r</span>.<span class="ruby-identifier">on</span> <span class="ruby-string">&quot;users/:username&quot;</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">username</span><span class="ruby-operator">|</span>
   <span class="ruby-comment"># ...</span>
@@ -69,7 +69,7 @@ Roda::RodaPlugins::SymbolMatchers
 
 <p>Would match <code>/users/foobar123</code>, but not <code>/users/foo</code>, <code>/users/FooBar123</code>, or <code>/users/foobar_123</code>.</p>
 
-<p>If using this plugin with the params_capturing plugin, this plugin should be loaded first.</p>
+<p>If using this plugin with the <a href="../../../files/lib/roda/plugins/params_capturing_rb.html">params_capturing</a> plugin, this plugin should be loaded first.</p>
 
 <p>You can provide a block when calling <code>symbol_matcher</code>, and it will be called for all matches to allow for type conversion:</p>
 
@@ -108,7 +108,7 @@ Roda::RodaPlugins::SymbolMatchers
 
 <p>With the above example, the :d matcher matches only decimal strings, but yields them as string.  The registered :employee_id matcher converts the decimal string to an integer.  The registered :employee matcher builds on that and uses the integer to lookup the related employee.  If there is no employee with that id, then the :employee matcher will not match.</p>
 
-<p>If using the class_matchers plugin, you can provide a recognized class matcher as the second argument to symbol_matcher, and it will work in a similar manner:</p>
+<p>If using the <a href="../../../files/lib/roda/plugins/class_matchers_rb.html">class_matchers</a> plugin, you can provide a recognized class matcher as the second argument to symbol_matcher, and it will work in a similar manner:</p>
 
 <pre class="ruby"><span class="ruby-identifier">symbol_matcher</span> <span class="ruby-value">:employee</span>, <span class="ruby-constant">Integer</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">id</span><span class="ruby-operator">|</span>
   <span class="ruby-constant">Employee</span>[<span class="ruby-identifier">id</span>]
@@ -117,7 +117,7 @@ Roda::RodaPlugins::SymbolMatchers
 
 <p>Blocks passed to the symbol matchers plugin are evaluated in route block context.</p>
 
-<p>If providing a block to the symbol_matchers plugin, the symbol may not work with the params_capturing plugin. Note that the use of symbol matchers inside strings when using the placeholder_string_matchers plugin only uses the regexp, it does not respect the conversion blocks registered with the symbols.</p>
+<p>If providing a block to the <a href="../../../files/lib/roda/plugins/symbol_matchers_rb.html">symbol_matchers</a> plugin, the symbol may not work with the <a href="../../../files/lib/roda/plugins/params_capturing_rb.html">params_capturing</a> plugin. Note that the use of symbol matchers inside strings when using the <a href="../../../files/lib/roda/plugins/placeholder_string_matchers_rb.html">placeholder_string_matchers</a> plugin only uses the regexp, it does not respect the conversion blocks registered with the symbols.</p>
 </div>
 <div id='method-list'>
 <h2>Methods</h2>

@@ -33,15 +33,15 @@ doc/conventions.rdoc
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-Conventions">Conventions<span><a href="#label-Conventions">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Conventions"><a href="#label-Conventions">Conventions</a></h1>
 
 <p>This guide goes over conventions for directory layout and file layout for <a href="../../classes/Roda.html"><code>Roda</code></a> applications. You are free to ignore these conventions, they mostly exist to help users who are unsure how to structure their <a href="../../classes/Roda.html"><code>Roda</code></a> applications.</p>
 
-<h2 id="label-Directory+Layout">Directory Layout<span><a href="#label-Directory+Layout">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="label-Directory+Layout"><a href="#label-Directory+Layout">Directory Layout</a></h2>
 
 <p>Which directory layout to use should reflect the size of your application.</p>
 
-<h3 id="label-Small+Applications">Small Applications<span><a href="#label-Small+Applications">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-Small+Applications"><a href="#label-Small+Applications">Small Applications</a></h3>
 
 <p>For a small application, the following directory layout is recommended:</p>
 
@@ -79,7 +79,7 @@ views/</pre>
 
 <p><code>Rakefile</code> should contain the rake tasks for the application.  The convention is that the default rake task will run all specs/tests related to the application.  If you are using the <code>assets</code> plugin, you should have an <code>assets:precompile</code> task for precompiling assets.</p>
 
-<h3 id="label-Large+Applications">Large Applications<span><a href="#label-Large+Applications">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-Large+Applications"><a href="#label-Large+Applications">Large Applications</a></h3>
 
 <p>Large applications generally need more structure:</p>
 
@@ -103,21 +103,21 @@ views/
 
 <p>For larger apps, the <code>Rakefile</code>, <code>assets/</code>, <code>migrate</code>, <code>models.rb</code>, <code>models/</code>, <code>public/</code>, remain the same.</p>
 
-<p><code>app_name.rb</code> should use the <code>hash_branch_view_subdir</code> plugin (which builds on the <code>hash_branches</code> and <code>view_options</code> plugin), or the <code>multi_run</code> plugin. The routes used by the <code>hash_branches</code> or <code>multi_run</code> should be stored in routing files in the <code>routes/</code> directory, with one file per prefix.</p>
+<p><code>app_name.rb</code> should use the <a href="../lib/roda/plugins/hash_branch_view_subdir_rb.html">hash_branch_view_subdir</a> plugin (which builds on the <a href="../lib/roda/plugins/hash_branches_rb.html">hash_branches</a> and <a href="../lib/roda/plugins/view_options_rb.html">view_options</a> plugin), or the <a href="../lib/roda/plugins/multi_run_rb.html">multi_run</a> plugin. The routes used by the <a href="../lib/roda/plugins/hash_branches_rb.html">hash_branches</a> or <a href="../lib/roda/plugins/multi_run_rb.html">multi_run</a> should be stored in routing files in the <code>routes/</code> directory, with one file per prefix.</p>
 
 <p>For specs/tests, you should have <code>spec/models/</code> and <code>spec/web/</code>, with one file per model in <code>spec/models/</code> and one file per prefix in <code>spec/web/</code>. Substitute <code>spec</code> with <code>test</code> if that is what you are using as the name of the directory.</p>
 
-<p>You should have a separate view subdirectory per prefix. With the <code>hash_branch_view_subdir</code>, the application will automatically set a separate view subdirectory per routing tree branch.</p>
+<p>You should have a separate view subdirectory per prefix. With the <a href="../lib/roda/plugins/hash_branch_view_subdir_rb.html">hash_branch_view_subdir</a>, the application will automatically set a separate view subdirectory per routing tree branch.</p>
 
 <p><code>helpers/</code> should be used to store helper methods for your application, that you call in your routing files and views.  In a small application, these methods should just be specified in <code>app_name.rb</code></p>
 
-<h3 id="label-Really+Large+Applications">Really Large Applications<span><a href="#label-Really+Large+Applications">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-Really+Large+Applications"><a href="#label-Really+Large+Applications">Really Large Applications</a></h3>
 
-<p>For very large applications, it’s expected that there will be deviations from these conventions. However, it is recommended to use the <code>hash_branch_view_subdir</code> or <code>multi_run</code> plugins to organize your application, and have subdirectories in the <code>routes/</code> directory, and nested subdirectories in the <code>views/</code> directory.</p>
+<p>For very large applications, it’s expected that there will be deviations from these conventions. However, it is recommended to use the <a href="../lib/roda/plugins/hash_branch_view_subdir_rb.html">hash_branch_view_subdir</a> or <a href="../lib/roda/plugins/multi_run_rb.html">multi_run</a> plugins to organize your application, and have subdirectories in the <code>routes/</code> directory, and nested subdirectories in the <code>views/</code> directory.</p>
 
-<h2 id="label-Roda+Application+File+Layout"><a href="../../classes/Roda.html"><code>Roda</code></a> Application File Layout<span><a href="#label-Roda+Application+File+Layout">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<h2 id="label-Roda+Application+File+Layout"><a href="#label-Roda+Application+File+Layout"><a href="../../classes/Roda.html"><code>Roda</code></a> Application File Layout</a></h2>
 
-<h3 id="label-Small+Applications">Small Applications<span><a href="#label-Small+Applications">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-Small+Applications"><a href="#label-Small+Applications">Small Applications</a></h3>
 
 <p>For a small application, the convention in <a href="../../classes/Roda.html"><code>Roda</code></a> is to layout your <a href="../../classes/Roda.html"><code>Roda</code></a> application file (<code>app_name.rb</code>) like this:</p>
 
@@ -146,7 +146,7 @@ views/
 
 <p>You should subclass <a href="../../classes/Roda.html"><code>Roda</code></a> and make the application’s name the name of the <a href="../../classes/Roda.html"><code>Roda</code></a> subclass. Inside the subclass, you first define the constants used by the application.  Then you add any middleware used by the application, followed by loading any plugins used by the application. Then you add the route block for the application.  After the route block, define the instance methods used in your route block or views.</p>
 
-<h3 id="label-Large+Applications">Large Applications<span><a href="#label-Large+Applications">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-Large+Applications"><a href="#label-Large+Applications">Large Applications</a></h3>
 
 <p>For larger applications, there are some slight changes to the <a href="../../classes/Roda.html"><code>Roda</code></a> application file layout:</p>
 
@@ -175,7 +175,7 @@ views/
 <span class="ruby-keyword">end</span>
 </pre>
 
-<p>After loading the <code>hash_branch_view_subdir</code> plugin, you require all of your routing files.  Inside your route block, instead of defining your routes, you just call <code>r.hash_branches</code>, which will dispatch to all of your routing files.  After your route block, you require all of your helper files containing the instance methods for your route block or views, instead of defining the methods directly.</p>
+<p>After loading the <a href="../lib/roda/plugins/hash_branch_view_subdir_rb.html">hash_branch_view_subdir</a> plugin, you require all of your routing files.  Inside your route block, instead of defining your routes, you just call <code>r.hash_branches</code>, which will dispatch to all of your routing files.  After your route block, you require all of your helper files containing the instance methods for your route block or views, instead of defining the methods directly.</p>
 </div>
 <div id='context'>
 </div>

@@ -33,9 +33,9 @@ doc/release_notes/2.12.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>An optimized_string_matchers plugin has been added, which contains optimized matchers for single strings.  r.on_branch is an optimized version of r.on and r.is_exactly is optimized version of r.is:</p>
+<p>An <a href="../../lib/roda/plugins/optimized_string_matchers_rb.html">optimized_string_matchers</a> plugin has been added, which contains optimized matchers for single strings.  r.on_branch is an optimized version of r.on and r.is_exactly is optimized version of r.is:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:optimized_string_matchers</span>
 
@@ -51,17 +51,17 @@ doc/release_notes/2.12.0.txt
 
 <p>Both of these methods will work even if the strings have placeholders, but no captures will be yielded to the blocks.</p>
 </li><li>
-<p>The error_handler plugin now has access to the request’s remaining_path when handling an error.  You can then compare the remaining_path to path_info to see how much of request was already routed, which can be useful when reporting errors.</p>
+<p>The <a href="../../lib/roda/plugins/error_handler_rb.html">error_handler</a> plugin now has access to the request’s remaining_path when handling an error.  You can then compare the remaining_path to path_info to see how much of request was already routed, which can be useful when reporting errors.</p>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
 <p>String matching for strings without placeholders is now 60% faster as it uses optimized string operations instead of a regexp match.</p>
 </li><li>
 <p>Symbol matching is now 60% faster as it uses optimized string operations instead of a regexp match.</p>
 </li></ul>
 
-<h1 id="label-Backwards+Compatibility">Backwards Compatibility<span><a href="#label-Backwards+Compatibility">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Backwards+Compatibility"><a href="#label-Backwards+Compatibility">Backwards Compatibility</a></h1>
 <ul><li>
 <p>The match methods no longer automatically reset the remaining_path via ensure.  This means that using non-local jumps out of the code such as begin/rescue and throw/catch will not reset remaining_path automatically.  Users that want to reset remaining path in such cases should use their own ensure blocks.</p>
 </li></ul>

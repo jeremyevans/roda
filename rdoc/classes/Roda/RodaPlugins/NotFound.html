@@ -36,7 +36,7 @@ Roda::RodaPlugins::NotFound
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The not_found plugin adds a <code>not_found</code> class method which sets a block that is called whenever a 404 response with an empty body would be returned.  The usual use case for this is the desire for nice error pages if the page is not found.</p>
+<p>The <a href="../../../files/lib/roda/plugins/not_found_rb.html">not_found</a> plugin adds a <a href="../../../files/lib/roda/plugins/not_found_rb.html">not_found</a> class method which sets a block that is called whenever a 404 response with an empty body would be returned.  The usual use case for this is the desire for nice error pages if the page is not found.</p>
 
 <p>You can provide the block with the plugin call:</p>
 
@@ -45,7 +45,7 @@ Roda::RodaPlugins::NotFound
 <span class="ruby-keyword">end</span>
 </pre>
 
-<p>Or later via a separate call to <code>not_found</code>:</p>
+<p>Or later via a separate call to <a href="../../../files/lib/roda/plugins/not_found_rb.html">not_found</a>:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:not_found</span>
 
@@ -54,9 +54,9 @@ Roda::RodaPlugins::NotFound
 <span class="ruby-keyword">end</span>
 </pre>
 
-<p>Before not_found is called, any existing headers on the response will be cleared.  So if you want to be sure the headers are set even in a not_found block, you need to reset them in the not_found block.</p>
+<p>Before <a href="../../../files/lib/roda/plugins/not_found_rb.html">not_found</a> is called, any existing headers on the response will be cleared.  So if you want to be sure the headers are set even in a <a href="../../../files/lib/roda/plugins/not_found_rb.html">not_found</a> block, you need to reset them in the <a href="../../../files/lib/roda/plugins/not_found_rb.html">not_found</a> block.</p>
 
-<p>This plugin is now a wrapper around the <code>status_handler</code> plugin and still exists mainly for backward compatibility.</p>
+<p>This plugin is now a wrapper around the <a href="../../../files/lib/roda/plugins/status_handler_rb.html">status_handler</a> plugin and still exists mainly for backward compatibility.</p>
 </div>
 <div id='method-list'>
 <h2>Methods</h2>
@@ -85,7 +85,7 @@ Roda::RodaPlugins::NotFound
 </div>
 <div class='description'>
 
-<p>If a block is given, install the block as the not_found handler.</p>
+<p>If a block is given, install the block as the <a href="../../../files/lib/roda/plugins/not_found_rb.html">not_found</a> handler.</p>
 
 </div>
 <div class='source'>
@@ -108,7 +108,7 @@ Roda::RodaPlugins::NotFound
 </div>
 <div class='description'>
 
-<p>Require the status_handler plugin</p>
+<p>Require the <a href="../../../files/lib/roda/plugins/status_handler_rb.html">status_handler</a> plugin</p>
 
 </div>
 <div class='source'>

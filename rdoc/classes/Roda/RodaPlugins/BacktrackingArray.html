@@ -36,7 +36,7 @@ Roda::RodaPlugins::BacktrackingArray
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The backtracking_array plugin changes the handling of array matchers such that if one of the array entries matches, but a later match argument fails, it will backtrack and try the next entry in the array.  For example, the following match block does not match <code>/a/b</code> by default:</p>
+<p>The <a href="../../../files/lib/roda/plugins/backtracking_array_rb.html">backtracking_array</a> plugin changes the handling of array matchers such that if one of the array entries matches, but a later match argument fails, it will backtrack and try the next entry in the array.  For example, the following match block does not match <code>/a/b</code> by default:</p>
 
 <pre class="ruby"><span class="ruby-identifier">r</span>.<span class="ruby-identifier">is</span> [<span class="ruby-string">&#39;a&#39;</span>, <span class="ruby-string">&#39;a/b&#39;</span>] <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">path</span><span class="ruby-operator">|</span>
   <span class="ruby-comment"># ...</span>
@@ -45,7 +45,7 @@ Roda::RodaPlugins::BacktrackingArray
 
 <p>This is because the <code>&#39;a&#39;</code> entry in the array matches, which makes the array match.  However, the next matcher is the terminal matcher (since <code>r.is</code> was used), and since the path is not terminal as it still contains <code>/b</code> after matching <code>&#39;a&#39;</code>.</p>
 
-<p>With the backtracking_array plugin, when the terminal matcher fails, matching will go on to the next entry in the array, <code>&#39;a/b&#39;</code>, which will also match.  Since <code>&#39;a/b&#39;</code> matches the path fully, the terminal matcher also matches, and the match block yields.</p>
+<p>With the <a href="../../../files/lib/roda/plugins/backtracking_array_rb.html">backtracking_array</a> plugin, when the terminal matcher fails, matching will go on to the next entry in the array, <code>&#39;a/b&#39;</code>, which will also match.  Since <code>&#39;a/b&#39;</code> matches the path fully, the terminal matcher also matches, and the match block yields.</p>
 </div>
 <div id='context'>
 </div>

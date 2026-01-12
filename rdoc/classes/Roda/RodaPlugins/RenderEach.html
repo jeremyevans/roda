@@ -36,7 +36,7 @@ Roda::RodaPlugins::RenderEach
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The render_each plugin allows you to render a template for each value in an enumerable, returning the concatention of all of the template renderings.  For example:</p>
+<p>The <a href="../../../files/lib/roda/plugins/render_each_rb.html">render_each</a> plugin allows you to render a template for each value in an enumerable, returning the concatention of all of the template renderings.  For example:</p>
 
 <pre class="ruby"><span class="ruby-identifier">render_each</span>([<span class="ruby-value">1</span>,<span class="ruby-value">2</span>,<span class="ruby-value">3</span>], <span class="ruby-value">:foo</span>)
 </pre>
@@ -49,7 +49,7 @@ Roda::RodaPlugins::RenderEach
   &lt;p&gt;&lt;%= render(:foo, locals: {foo: v}) %&gt;&lt;/p&gt;
 &lt;% end %&gt;</pre>
 
-<p>You can use <code>render_each</code>, allowing for simpler and more optimized code:</p>
+<p>You can use <a href="../../../files/lib/roda/plugins/render_each_rb.html">render_each</a>, allowing for simpler and more optimized code:</p>
 
 <pre>&lt;% render_each([1,2,3], :foo) do |text| %&gt;
   &lt;p&gt;&lt;%= text %&gt;&lt;/p&gt;
@@ -65,7 +65,7 @@ Roda::RodaPlugins::RenderEach
 
 <p>This results in the same behavior, but avoids building a large intermediate string just to concatenate to the template result.</p>
 
-<p>When passing a block, <code>render_each</code> returns <code>nil</code>.</p>
+<p>When passing a block, <a href="../../../files/lib/roda/plugins/render_each_rb.html">render_each</a> returns <code>nil</code>.</p>
 
 <p>You can pass additional render options via an options hash:</p>
 

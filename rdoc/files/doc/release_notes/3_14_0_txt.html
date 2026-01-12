@@ -33,9 +33,9 @@ doc/release_notes/3.14.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>The convert! and convert_each! methods in the typecast_params plugin now support a :raise option for handling missing parameters specified as arguments to the methods.</p>
+<p>The convert! and convert_each! methods in the <a href="../../lib/roda/plugins/typecast_params_rb.html">typecast_params</a> plugin now support a :raise option for handling missing parameters specified as arguments to the methods.</p>
 
 <p>If the :raise option is set to false for convert! and the parameter argument is missing, then no conversion is done and an empty hash is returned:</p>
 
@@ -54,9 +54,9 @@ doc/release_notes/3.14.0.txt
 </pre>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
-<p>The :symbolize setting to the convert! and convert_each! methods in the typecast_params plugin is no longer persisted beyond the call to the method.  This fixes unexpected behavior if you do:</p>
+<p>The :symbolize setting to the convert! and convert_each! methods in the <a href="../../lib/roda/plugins/typecast_params_rb.html">typecast_params</a> plugin is no longer persisted beyond the call to the method.  This fixes unexpected behavior if you do:</p>
 
 <pre class="ruby"><span class="ruby-identifier">typecast_params</span>.<span class="ruby-identifier">convert!</span>(<span class="ruby-value">:symbolize</span><span class="ruby-operator">=&gt;</span><span class="ruby-keyword">true</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">tp</span><span class="ruby-operator">|</span>
   <span class="ruby-comment"># ...</span>

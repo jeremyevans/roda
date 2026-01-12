@@ -33,9 +33,9 @@ doc/release_notes/3.72.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>An invalid_request_body plugin has been added for allowing custom handling of invalid request bodies.  <a href="../../../classes/Roda.html"><code>Roda</code></a> uses Rack’s request body parsing, and by default invalid request bodies can result in different exceptions based on how the body is invalid and which version of Rack is in use.</p>
+<p>An <a href="../../lib/roda/plugins/invalid_request_body_rb.html">invalid_request_body</a> plugin has been added for allowing custom handling of invalid request bodies.  <a href="../../../classes/Roda.html"><code>Roda</code></a> uses Rack’s request body parsing, and by default invalid request bodies can result in different exceptions based on how the body is invalid and which version of Rack is in use.</p>
 
 <p>If you want to treat an invalid request body as the submission of no parameters, you can use the :empty_hash argument when loading the plugin:</p>
 
@@ -47,7 +47,7 @@ doc/release_notes/3.72.0.txt
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:invalid_request_body</span>, <span class="ruby-value">:empty_400</span>
 </pre>
 
-<p>If you want to raise a Roda::RodaPlugins::InvalidRequestBody::Error exception if an invalid request body is submitted (which makes it easier to handle these exceptions when using the error_handler plugin), you can use the :raise argument when loading the plugin:</p>
+<p>If you want to raise a Roda::RodaPlugins::InvalidRequestBody::Error exception if an invalid request body is submitted (which makes it easier to handle these exceptions when using the <a href="../../lib/roda/plugins/error_handler_rb.html">error_handler</a> plugin), you can use the :raise argument when loading the plugin:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:invalid_request_body</span>, <span class="ruby-value">:raise</span>
 </pre>
@@ -61,11 +61,11 @@ doc/release_notes/3.72.0.txt
 </pre>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
 <p>When using the check_arity: :warn <a href="../../../classes/Roda.html"><code>Roda</code></a> option, <a href="../../../classes/Roda.html"><code>Roda</code></a> now correctly warns when defining a method that expects a single argument when the provided block requires multiple arguments.</p>
 </li><li>
-<p>The match_hooks plugin is now implemented using the match_hook_args plugin, simplifying the implementation.  This change should be transparent unless you were reaching into the internals.</p>
+<p>The match_hooks plugin is now implemented using the <a href="../../lib/roda/plugins/match_hook_args_rb.html">match_hook_args</a> plugin, simplifying the implementation.  This change should be transparent unless you were reaching into the internals.</p>
 </li></ul>
 </div>
 <div id='context'>

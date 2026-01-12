@@ -33,12 +33,12 @@ doc/release_notes/3.70.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>A plain_hash_response_headers plugin has been added.  On Rack 3, this changes <a href="../../../classes/Roda.html"><code>Roda</code></a> to use a plain hash for response headers (as it does on Rack 2), instead of using Rack::Headers (the default on Rack 3).  For a minimal app, using this plugin can almost double the performance on Rack 3.  Before using this plugin, you should make sure that all response headers set explictly in your application are already lower-case.</p>
+<p>A <a href="../../lib/roda/plugins/plain_hash_response_headers_rb.html">plain_hash_response_headers</a> plugin has been added.  On Rack 3, this changes <a href="../../../classes/Roda.html"><code>Roda</code></a> to use a plain hash for response headers (as it does on Rack 2), instead of using Rack::Headers (the default on Rack 3).  For a minimal app, using this plugin can almost double the performance on Rack 3.  Before using this plugin, you should make sure that all response headers set explictly in your application are already lower-case.</p>
 </li></ul>
 
-<h1 id="label-Improvements">Improvements<span><a href="#label-Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Improvements"><a href="#label-Improvements">Improvements</a></h1>
 <ul><li>
 <p><a href="../../../classes/Roda.html"><code>Roda</code></a> now natively uses lower-case for all response headers set implicitly when using Rack 3.  Previously, <a href="../../../classes/Roda.html"><code>Roda</code></a> used mixed-case response headers and had Rack::Headers handle the conversion to lower-case (Rack 3 requires lower-case response headers). Note that Rack::Headers is still used for response headers by default on Rack 3, as applications may not have converted to using lower-case response headers.</p>
 </li></ul>

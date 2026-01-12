@@ -36,9 +36,9 @@ Roda::RodaPlugins::ContentFor
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The content_for plugin is designed to be used with the render plugin, allowing you to store content inside one template, and retrieve that content inside a separate template.  Most commonly, this is so view templates can set content for the layout template to display outside of the normal content pane.</p>
+<p>The <a href="../../../files/lib/roda/plugins/content_for_rb.html">content_for</a> plugin is designed to be used with the render plugin, allowing you to store content inside one template, and retrieve that content inside a separate template.  Most commonly, this is so view templates can set content for the layout template to display outside of the normal content pane.</p>
 
-<p>In the template in which you want to store content, call content_for with a block:</p>
+<p>In the template in which you want to store content, call <a href="../../../files/lib/roda/plugins/content_for_rb.html">content_for</a> with a block:</p>
 
 <pre>&lt;% content_for :foo do %&gt;
   Some content here.
@@ -52,11 +52,11 @@ Roda::RodaPlugins::ContentFor
 
 <pre>&lt;% content_for :foo, &quot;Some content&quot; %&gt;</pre>
 
-<p>In the template in which you want to retrieve content, call content_for without the block or argument:</p>
+<p>In the template in which you want to retrieve content, call <a href="../../../files/lib/roda/plugins/content_for_rb.html">content_for</a> without the block or argument:</p>
 
 <pre>&lt;%= content_for :foo %&gt;</pre>
 
-<p>Note that when storing content by calling content_for with a block and embedding template code, the return value of the block is used as the content (after being converted to a string).  This can cause issues in some cases, such as:</p>
+<p>Note that when storing content by calling <a href="../../../files/lib/roda/plugins/content_for_rb.html">content_for</a> with a block and embedding template code, the return value of the block is used as the content (after being converted to a string).  This can cause issues in some cases, such as:</p>
 
 <pre>&lt;% content_for :foo do %&gt;
   &lt;% [1,2,3].each do |i| %&gt;
@@ -64,9 +64,9 @@ Roda::RodaPlugins::ContentFor
   &lt;% end %&gt;
 &lt;% end %&gt;</pre>
 
-<p>In the above example, the return value of the block is <code>[1,2,3]</code>, as Array#each returns the receiver. If whitespace is not important, you can work around this by adding an empty line before the end of the content_for block.</p>
+<p>In the above example, the return value of the block is <code>[1,2,3]</code>, as Array#each returns the receiver. If whitespace is not important, you can work around this by adding an empty line before the end of the <a href="../../../files/lib/roda/plugins/content_for_rb.html">content_for</a> block.</p>
 
-<p>If content_for is used multiple times with the same key, by default, the last call will append previous calls. If you want to overwrite the previous content, pass the <code>append: false</code> option when loading the plugin:</p>
+<p>If <a href="../../../files/lib/roda/plugins/content_for_rb.html">content_for</a> is used multiple times with the same key, by default, the last call will append previous calls. If you want to overwrite the previous content, pass the <code>append: false</code> option when loading the plugin:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:content_for</span>, <span class="ruby-value">append:</span> <span class="ruby-keyword">false</span>
 </pre>
@@ -98,7 +98,7 @@ Roda::RodaPlugins::ContentFor
 </div>
 <div class='description'>
 
-<p>Configure whether to append or overwrite if content_for is called multiple times with the same key.</p>
+<p>Configure whether to append or overwrite if <a href="../../../files/lib/roda/plugins/content_for_rb.html">content_for</a> is called multiple times with the same key.</p>
 
 </div>
 <div class='source'>
@@ -119,7 +119,7 @@ Roda::RodaPlugins::ContentFor
 </div>
 <div class='description'>
 
-<p>Depend on the capture_erb plugin, since it uses capture_erb to capture the content.</p>
+<p>Depend on the <a href="../../../files/lib/roda/plugins/capture_erb_rb.html">capture_erb</a> plugin, since it uses <a href="../../../files/lib/roda/plugins/capture_erb_rb.html">capture_erb</a> to capture the content.</p>
 
 </div>
 <div class='source'>

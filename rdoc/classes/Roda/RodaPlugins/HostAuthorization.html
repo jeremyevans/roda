@@ -36,7 +36,7 @@ Roda::RodaPlugins::HostAuthorization
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The host_authorization plugin allows configuring an authorized host or an array of authorized hosts.  Then in the routing tree, you can check whether the request uses an authorized host via the <code>check_host_authorized!</code> method.</p>
+<p>The <a href="../../../files/lib/roda/plugins/host_authorization_rb.html">host_authorization</a> plugin allows configuring an authorized host or an array of authorized hosts.  Then in the routing tree, you can check whether the request uses an authorized host via the <code>check_host_authorized!</code> method.</p>
 
 <p>If the request doesn’t match one of the authorized hosts, the request processing stops at that point. Using this plugin can prevent DNS rebinding attacks if the application can receive requests for arbitrary hosts.</p>
 
@@ -44,7 +44,7 @@ Roda::RodaPlugins::HostAuthorization
 
 <p>Because <code>check_host_authorized!</code> is an instance method, you can easily choose to only check for authorization in certain routes, or to check it after other processing.  For example, you could check for authorized hosts after serving static files, since the serving of static files should not be vulnerable to DNS rebinding attacks.</p>
 
-<h1 id="module-Roda::RodaPlugins::HostAuthorization-label-Usage">Usage<span><a href="#module-Roda::RodaPlugins::HostAuthorization-label-Usage">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="module-Roda::RodaPlugins::HostAuthorization-label-Usage"><a href="#module-Roda::RodaPlugins::HostAuthorization-label-Usage">Usage</a></h1>
 
 <p>In your routing tree, call the <code>check_host_authorized!</code> method at the point you want to check for authorized hosts:</p>
 
@@ -59,7 +59,7 @@ Roda::RodaPlugins::HostAuthorization
 <span class="ruby-keyword">end</span>
 </pre>
 
-<h1 id="module-Roda::RodaPlugins::HostAuthorization-label-Specifying+authorized+hosts">Specifying authorized hosts<span><a href="#module-Roda::RodaPlugins::HostAuthorization-label-Specifying+authorized+hosts">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="module-Roda::RodaPlugins::HostAuthorization-label-Specifying+authorized+hosts"><a href="#module-Roda::RodaPlugins::HostAuthorization-label-Specifying+authorized+hosts">Specifying authorized hosts</a></h1>
 
 <p>For applications hosted on a single domain name, you can use a single string:</p>
 
@@ -90,7 +90,7 @@ Roda::RodaPlugins::HostAuthorization
 
 <p>In this case, the trailing host in the <code>X-Forwarded-Host</code> header is checked, which should be the host set by the forwarding proxy closest to the application. In cases where multiple forwarding proxies are used that append to the <code>X-Forwarded-Host</code> header, you should not use this plugin.</p>
 
-<h1 id="module-Roda::RodaPlugins::HostAuthorization-label-Customizing+behavior">Customizing behavior<span><a href="#module-Roda::RodaPlugins::HostAuthorization-label-Customizing+behavior">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="module-Roda::RodaPlugins::HostAuthorization-label-Customizing+behavior"><a href="#module-Roda::RodaPlugins::HostAuthorization-label-Customizing+behavior">Customizing behavior</a></h1>
 
 <p>By default, an unauthorized host will receive an empty 403 response.  You can customize this by passing a block when loading the plugin. For example, for sites using the render plugin, you could return a page that uses your default layout:</p>
 

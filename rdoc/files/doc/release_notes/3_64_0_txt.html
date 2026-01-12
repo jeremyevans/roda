@@ -33,21 +33,21 @@ doc/release_notes/3.64.0.txt
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<h1 id="label-New+Features">New Features<span><a href="#label-New+Features">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>An erb_h plugin has been added for faster HTML escaping using erb/escape.  erb 4 added erb/escape and it is included in Ruby 3.2.</p>
+<p>An <a href="../../lib/roda/plugins/erb_h_rb.html">erb_h</a> plugin has been added for faster HTML escaping using erb/escape.  erb 4 added erb/escape and it is included in Ruby 3.2.</p>
 
-<p>The erb_h plugin is added as a separate plugin because it changes the behavior of the h method. The h method added by the h plugin will always return a new string, but the h method added by the erb_h plugin will return the argument if the argument is a string that does not need escaping.  By avoiding unnecessary string allocations, use of the erb_h plugin can speed up HTML escaping.</p>
+<p>The <a href="../../lib/roda/plugins/erb_h_rb.html">erb_h</a> plugin is added as a separate plugin because it changes the behavior of the h method. The h method added by the h plugin will always return a new string, but the h method added by the <a href="../../lib/roda/plugins/erb_h_rb.html">erb_h</a> plugin will return the argument if the argument is a string that does not need escaping.  By avoiding unnecessary string allocations, use of the <a href="../../lib/roda/plugins/erb_h_rb.html">erb_h</a> plugin can speed up HTML escaping.</p>
 </li></ul>
 
-<h1 id="label-Other+Improvements">Other Improvements<span><a href="#label-Other+Improvements">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
-<p>The autoload_hash_branches plugin added in <a href="../../../classes/Roda.html"><code>Roda</code></a> <a href="3_63_0_txt.html">3.63.0</a> will now eagerly load the hash branches when freezing the application, allowing the application to continue to work after being frozen. Additionally, file paths for the hash branches will now be automatically expanded, allowing the use of relative file paths.</p>
+<p>The <a href="../../lib/roda/plugins/autoload_hash_branches_rb.html">autoload_hash_branches</a> plugin added in <a href="../../../classes/Roda.html"><code>Roda</code></a> <a href="3_63_0_txt.html">3.63.0</a> will now eagerly load the hash branches when freezing the application, allowing the application to continue to work after being frozen. Additionally, file paths for the hash branches will now be automatically expanded, allowing the use of relative file paths.</p>
 </li></ul>
 
-<h1 id="label-Backwards+Compatibility">Backwards Compatibility<span><a href="#label-Backwards+Compatibility">&para;</a> <a href="#top">&uarr;</a></span></h1>
+<h1 id="label-Backwards+Compatibility"><a href="#label-Backwards+Compatibility">Backwards Compatibility</a></h1>
 <ul><li>
-<p>The expanding of file paths in the autoload_hash_branches plugin can break applications that were providing relative paths and expecting them to be looked up using the Ruby load path.</p>
+<p>The expanding of file paths in the <a href="../../lib/roda/plugins/autoload_hash_branches_rb.html">autoload_hash_branches</a> plugin can break applications that were providing relative paths and expecting them to be looked up using the Ruby load path.</p>
 </li></ul>
 </div>
 <div id='context'>
