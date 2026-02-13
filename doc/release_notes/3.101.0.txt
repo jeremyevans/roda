@@ -1,0 +1,7 @@
+= New Features
+
+* A bearer_token plugin has been added for retrieving a bearer token
+  (if provided) from the HTTP Authorization header:
+
+    # HTTP Header: Authorization: Bearer foo
+    r.bearer_token # => "foo"
