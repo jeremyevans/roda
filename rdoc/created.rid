@@ -1,8 +1,8 @@
-Mon, 12 Jan 2026 10:00:24 -0800
+Fri, 13 Feb 2026 10:57:07 -0800
 README.rdoc	Sun, 07 Dec 2025 10:15:29 -0800
-CHANGELOG	Mon, 12 Jan 2026 09:56:02 -0800
+CHANGELOG	Fri, 13 Feb 2026 10:51:09 -0800
 doc/CHANGELOG.old	Fri, 11 Mar 2022 10:33:07 -0800
-MIT-LICENSE	Thu, 12 Jan 2023 07:50:45 -0800
+MIT-LICENSE	Fri, 23 Jan 2026 14:39:35 -0800
 lib/roda/cache.rb	Tue, 12 Jan 2021 15:49:31 -0800
 lib/roda/plugins/Integer_matcher_max.rb	Tue, 17 Sep 2024 11:54:43 -0700
 lib/roda/plugins/_after_hook.rb	Mon, 04 Mar 2019 16:26:49 -0800
@@ -20,6 +20,7 @@ lib/roda/plugins/assume_ssl.rb	Fri, 12 Jul 2024 18:14:45 -0700
 lib/roda/plugins/autoload_hash_branches.rb	Fri, 01 Nov 2024 14:58:11 -0700
 lib/roda/plugins/autoload_named_routes.rb	Fri, 01 Nov 2024 14:58:11 -0700
 lib/roda/plugins/backtracking_array.rb	Mon, 22 Jun 2020 15:56:02 -0700
+lib/roda/plugins/bearer_token.rb	Fri, 23 Jan 2026 14:39:35 -0800
 lib/roda/plugins/branch_locals.rb	Wed, 06 Mar 2019 07:42:46 -0800
 lib/roda/plugins/break.rb	Fri, 15 Dec 2023 09:54:59 -0800
 lib/roda/plugins/caching.rb	Mon, 19 Jun 2023 16:20:51 -0700
@@ -153,7 +154,7 @@ lib/roda/plugins.rb	Thu, 06 Mar 2025 16:45:46 -0800
 lib/roda/request.rb	Mon, 17 Nov 2025 20:32:04 -0800
 lib/roda/response.rb	Tue, 03 Jun 2025 09:12:22 -0700
 lib/roda/session_middleware.rb	Thu, 06 Mar 2025 16:45:04 -0800
-lib/roda/version.rb	Mon, 12 Jan 2026 09:56:02 -0800
+lib/roda/version.rb	Fri, 13 Feb 2026 10:51:09 -0800
 lib/roda.rb	Tue, 17 Sep 2024 11:54:43 -0700
 doc/conventions.rdoc	Mon, 16 Oct 2023 12:10:05 -0700
 doc/release_notes/1.0.0.txt	Tue, 19 Aug 2014 09:04:25 -0700
@@ -195,6 +196,7 @@ doc/release_notes/3.0.0.txt	Fri, 15 Sep 2017 08:13:40 -0700
 doc/release_notes/3.1.0.txt	Fri, 13 Oct 2017 08:55:29 -0700
 doc/release_notes/3.10.0.txt	Wed, 18 Jul 2018 08:00:08 -0700
 doc/release_notes/3.100.0.txt	Mon, 12 Jan 2026 09:56:02 -0800
+doc/release_notes/3.101.0.txt	Fri, 13 Feb 2026 10:51:09 -0800
 doc/release_notes/3.11.0.txt	Wed, 15 Aug 2018 07:42:06 -0700
 doc/release_notes/3.12.0.txt	Fri, 14 Sep 2018 09:44:36 -0700
 doc/release_notes/3.13.0.txt	Fri, 12 Oct 2018 13:18:35 -0700

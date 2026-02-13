@@ -21,7 +21,7 @@
       </nav>
     
     <div class="content"><div class="contain">    
-  <h1>Documentation for Roda (v3.100.0)</h1>
+  <h1>Documentation for Roda (v3.101.0)</h1>
 
   <h2><a href="rdoc/files/README_rdoc.html">README</a> <small>(Introduction to Roda, start here if new)</small></h2>
 
@@ -123,6 +123,7 @@
     </ul></li>
     <li>Request/Response: <ul>
       <li><a href="rdoc/classes/Roda/RodaPlugins/AssumeSSL.html">assume_ssl</a>: Makes request ssl? method always return true, for use with SSL-terminating reverse proxies that do not set appropriate headers.</li>
+      <li><a href="rdoc/classes/Roda/RodaPlugins/BearerToken.html">bearer_token</a>: Adds r.bearer_token method for retrieving bearer token from HTTP Authorization header.</li>
       <li><a href="rdoc/classes/Roda/RodaPlugins/Caching.html">caching</a>: Adds request and response methods related to http caching.</li>
       <li><a href="rdoc/classes/Roda/RodaPlugins/ContentSecurityPolicy.html">content_security_policy</a>: Allows setting an appropriate Content-Security-Policy header for the application/branch/action.</li>
       <li><a href="rdoc/classes/Roda/RodaPlugins/CookieFlags.html">cookie_flags</a>: Adds checks for certain cookie flags, to update, warn, or error if they are not set correctly.</li>
@@ -185,7 +186,7 @@
     <li>CSRF Protection: <ul>
       <li><a href="rdoc/classes/Roda/RodaPlugins/Csrf.html">csrf</a>: Older CSRF plugin for backwards compatibility using <a href="https://github.com/baldowl/rack_csrf">rack_csrf</a>.</li>
       <li><a href="rdoc/classes/Roda/RodaPlugins/RouteCsrf.html">route_csrf</a>: Recommended CSRF plugin with request-specific tokens and control over where CSRF tokens are checked during routing.</li>
-      <li><a href="rdoc/classes/Roda/RodaPlugins/SecFetchSiteCsrf.html">sec_fetch_site_csrf</a>: Simpler CSRF plugin using the Sec-Fetch-Site used in modern browsers.</li>
+      <li><a href="rdoc/classes/Roda/RodaPlugins/SecFetchSiteCsrf.html">sec_fetch_site_csrf</a>: Simpler CSRF plugin using the Sec-Fetch-Site header used in modern browsers.</li>
     </ul></li>
     <li>Other: <ul>
       <li><a href="rdoc/classes/Roda/RodaPlugins/CommonLogger.html">common_logger</a>: Adds support for logging in common log format.</li>
@@ -265,7 +266,7 @@
     
         
           <li>
-            <a href='rdoc/files/doc/release_notes/3_100_0_txt.html'>3.100</a>
+            <a href='rdoc/files/doc/release_notes/3_101_0_txt.html'>3.101</a> | <a href='rdoc/files/doc/release_notes/3_100_0_txt.html'>3.100</a>
           </li>
         
           <li>
