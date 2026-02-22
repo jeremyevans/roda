@@ -1,3 +1,7 @@
+=== master
+
+* Extract response_attachment plugin from sinatra_helpers plugin (jeremyevans)
+
 === 3.101.0 (2026-02-13)
 
 * Add bearer_token plugin for retrieving bearer token from HTTP Authorization header (jeremyevans)
