@@ -382,7 +382,7 @@ describe "sinatra_helpers plugin" do
     before(:all) do
       file = @file = 'spec/assets/css/raw.css'
       @content = File.read(@file)
-      sin_app{send_file file, env['rack.OPTS'] || {}}
+      sin_app{request.send_file file, env['rack.OPTS'] || {}}
     end
 
     it "sends the contents of the file" do

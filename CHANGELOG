@@ -1,5 +1,7 @@
 === master
 
+* Extract send_file plugin from sinatra_helpers plugin (jeremyevans) (#412)
+
 * Extract response_attachment plugin from sinatra_helpers plugin (jeremyevans)
 
 === 3.101.0 (2026-02-13)

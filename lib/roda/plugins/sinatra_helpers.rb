@@ -1,12 +1,6 @@
 # frozen-string-literal: true
 
 require 'rack/mime'
-begin
-  require 'rack/files'
-rescue LoadError
-  require 'rack/file'
-end
-
 
 #
 class Roda
@@ -91,20 +85,7 @@ class Roda
     #
     # === send_file
     #
-    # This will serve the file with the given path from the file system:
-    #
-    #   send_file 'path/to/file.txt'
-    #
-    # Options:
-    #
-    # :disposition :: Set the Content-Disposition to the given disposition.
-    # :filename :: Set the Content-Disposition to attachment (unless :disposition is set),
-    #              and set the filename parameter to the value.
-    # :last_modified :: Explicitly set the Last-Modified header to the given value, and
-    #                   return a not modified response if there has not been modified since
-    #                   the previous request.  This option requires the caching plugin.
-    # :status :: Override the status for the response.
-    # :type :: Set the Content-Type to use for this response.
+    # See send_file plugin documentation for details.
     #
     # == Response Methods Added
     #
@@ -166,15 +147,7 @@ class Roda
     #
     # === attachment
     #
-    # When called with no filename, +attachment+ just sets the Content-Disposition
-    # to attachment.  When called with a filename, this sets the Content-Disposition
-    # to attachment with the appropriate filename parameter, and if the filename
-    # extension is recognized, this also sets the Content-Type to the appropriate
-    # MIME type if not already set.
-    #
-    #   attachment          # set Content-Disposition to 'attachment'
-    #   attachment 'a.csv'  # set Content-Disposition to 'attachment;filename="a.csv"',
-    #                       # also set Content-Type to 'text/csv'
+    # See response_attachment plugin for details.
     #
     # === status predicates
     #
@@ -219,12 +192,10 @@ class Roda
     # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
     # OTHER DEALINGS IN THE SOFTWARE.
     module SinatraHelpers
-      RACK_FILES = defined?(Rack::Files) ? Rack::Files : Rack::File
-
       # Depend on the status_303 plugin.
       def self.load_dependencies(app, _opts = nil)
         app.plugin :status_303
-        app.plugin :response_attachment
+        app.plugin :send_file
       end
 
       # Add delegate methods to the route block scope
@@ -320,40 +291,9 @@ class Roda
           super(path, status)
         end
 
-        # Use the contents of the file at +path+ as the response body.  See plugin documentation for options.
+        # Backwards compatibility for callers of r.send_file.
         def send_file(path, opts = OPTS)
-          res = response
-          headers = res.headers
-          if opts[:type] || !headers[RodaResponseHeaders::CONTENT_TYPE]
-            res.content_type(opts[:type] || ::File.extname(path), :default => 'application/octet-stream')
-          end
-
-          disposition = opts[:disposition]
-          filename    = opts[:filename]
-          if disposition || filename
-            disposition ||= 'attachment'
-            filename = path if filename.nil?
-            res.attachment(filename, disposition)
-          end
-
-          if lm = opts[:last_modified]
-            last_modified(lm)
-          end
-
-          file = RACK_FILES.new nil
-          s, h, b = if Rack.release > '2'
-            file.serving(self, path)
-          else
-            file.path = path
-            file.serving(@env)
-          end
-
-          res.status = opts[:status] || s
-          headers.delete(RodaResponseHeaders::CONTENT_LENGTH)
-          headers.replace(h.merge!(headers))
-          halt res.finish_with_body(b)
-        rescue Errno::ENOENT
-          not_found
+          scope.send_file(path, opts)
         end
 
         # Generates the absolute URI for a given path in the app.
@@ -485,7 +425,7 @@ class Roda
         [:logger, :back].each do |meth|
           define_method(meth){@_request.public_send(meth)}
         end
-        [:redirect, :uri, :url, :to, :send_file, :error, :not_found].each do |meth|
+        [:redirect, :uri, :url, :to, :error, :not_found].each do |meth|
           define_method(meth){|*v, &block| @_request.public_send(meth, *v, &block)}
         end
 
