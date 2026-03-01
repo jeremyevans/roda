@@ -5,7 +5,7 @@ class Roda
   module RodaPlugins
     # The host_authorization plugin allows configuring an authorized host or
     # an array of authorized hosts.  Then in the routing tree, you can check
-    # whether the request uses an authorized host via the +check_host_authorized!+
+    # whether the request uses an authorized host via the +check_host_authorization!+
     # method.
     # 
     # If the request doesn't match one of the authorized hosts, the
@@ -16,7 +16,7 @@ class Roda
     # By default, an empty response using status 403 will be returned for requests
     # with unauthorized hosts.
     #
-    # Because +check_host_authorized!+ is an instance method, you can easily choose
+    # Because +check_host_authorization!+ is an instance method, you can easily choose
     # to only check for authorization in certain routes, or to check it after
     # other processing.  For example, you could check for authorized hosts after
     # serving static files, since the serving of static files should not be
@@ -24,7 +24,7 @@ class Roda
     #
     # = Usage
     #
-    # In your routing tree, call the +check_host_authorized!+ method at the point you
+    # In your routing tree, call the +check_host_authorization!+ method at the point you
     # want to check for authorized hosts:
     #
     #   plugin :host_authorization, 'www.example.com'
@@ -32,7 +32,7 @@ class Roda
     #
     #   route do |r|
     #    r.public
-    #    check_host_authorized!
+    #    check_host_authorization!
     #
     #    # ...
     #   end
@@ -153,4 +153,3 @@ class Roda
     register_plugin(:host_authorization, HostAuthorization)
   end
 end
-
