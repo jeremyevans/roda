@@ -15,7 +15,7 @@
 
     route do |r|
       r.public
-      check_host_authorized!
+      check_host_authorization!
 
       # ... rest of routing tree
     end
