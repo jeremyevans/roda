@@ -6,15 +6,18 @@ require 'rack/mime'
 class Roda
   module RodaPlugins
     # The attachment plugin adds a response.attachment method.
-    # When called with no filename, +attachment+ just sets the Content-Disposition
-    # to attachment.  When called with a filename, this sets the Content-Disposition
+    # When called with no filename, +attachment+ sets the Content-Disposition
+    # to attachment.  When called with a filename,+attachment+ sets the Content-Disposition
     # to attachment with the appropriate filename parameter, and if the filename
     # extension is recognized, this also sets the Content-Type to the appropriate
     # MIME type if not already set.
     #
-    #   attachment          # set Content-Disposition to 'attachment'
-    #   attachment 'a.csv'  # set Content-Disposition to 'attachment;filename="a.csv"',
-    #                       # also set Content-Type to 'text/csv'
+    #   # set Content-Disposition to 'attachment'
+    #   response.attachment
+    #
+    #   # set Content-Disposition to 'attachment; filename="a.csv"',
+    #   # also set Content-Type to 'text/csv'
+    #   response.attachment 'a.csv'
     #
     # == License
     #
