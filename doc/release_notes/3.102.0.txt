@@ -1,0 +1,17 @@
+= New Features
+
+* A response_attachment plugin has been extracted from the
+  sinatra_helpers plugin, allowing the use of the response.attachment
+  method without having to include the rest of sinatra_helpers:
+
+    response.attachment "a.csv"
+    # content-disposition: attachment; filename="a.csv"
+    # content-type: text/csv
+
+* A send_file plugin has been extracted from the sinatra_helpers
+  plugin, allowing the use of send_file without having to include the
+  rest of sinatra_helpers. This allows you to return the content of a
+  file as the response. It also sets the content-disposition and
+  content-type headers as appropriate based on the file extension:
+
+    send_file 'path/to/file.txt'

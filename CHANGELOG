@@ -1,4 +1,4 @@
-=== master
+=== 3.102.0 (2026-03-13)
 
 * Extract send_file plugin from sinatra_helpers plugin (jeremyevans) (#412)
 
