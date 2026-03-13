@@ -40,7 +40,7 @@ doc/release_notes/3.44.0.txt
 
 <h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
 <ul><li>
-<p>The send_file and attachment methods in the <a href="../../lib/roda/plugins/sinatra_helpers_rb.html">sinatra_helpers</a> plugin now support RFC 5987 UTF-8 and ISO-8859-1 encoded filenames, allowing modern browsers to save files with encoded chracters. For older browsers that do not support RFC 5987, unsupported characters in filenames are replaced with dashes.  This is considered to be an improvement over the previous behavior of using Ruby’s inspect output for the filename, which could contain backslashes (backslash is not an allowed chracter in Windows filenames).</p>
+<p>The <a href="../../lib/roda/plugins/send_file_rb.html">send_file</a> and attachment methods in the <a href="../../lib/roda/plugins/sinatra_helpers_rb.html">sinatra_helpers</a> plugin now support RFC 5987 UTF-8 and ISO-8859-1 encoded filenames, allowing modern browsers to save files with encoded chracters. For older browsers that do not support RFC 5987, unsupported characters in filenames are replaced with dashes.  This is considered to be an improvement over the previous behavior of using Ruby’s inspect output for the filename, which could contain backslashes (backslash is not an allowed chracter in Windows filenames).</p>
 </li><li>
 <p>The performance of the String class matcher has been slightly improved.</p>
 </li></ul>

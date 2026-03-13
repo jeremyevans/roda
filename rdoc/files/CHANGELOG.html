@@ -33,6 +33,13 @@ CHANGELOG
 <div id='content'>
 <div id='text'>
 <div id='description'>
+<h3 id="label-3.102.0+-282026-03-13-29"><a href="#label-3.102.0+-282026-03-13-29"><a href="doc/release_notes/3_102_0_txt.html">3.102.0</a> (2026-03-13)</a></h3>
+<ul><li>
+<p>Extract <a href="lib/roda/plugins/send_file_rb.html">send_file</a> plugin from <a href="lib/roda/plugins/sinatra_helpers_rb.html">sinatra_helpers</a> plugin (jeremyevans) (#412)</p>
+</li><li>
+<p>Extract <a href="lib/roda/plugins/response_attachment_rb.html">response_attachment</a> plugin from <a href="lib/roda/plugins/sinatra_helpers_rb.html">sinatra_helpers</a> plugin (jeremyevans)</p>
+</li></ul>
+
 <h3 id="label-3.101.0+-282026-02-13-29"><a href="#label-3.101.0+-282026-02-13-29"><a href="doc/release_notes/3_101_0_txt.html">3.101.0</a> (2026-02-13)</a></h3>
 <ul><li>
 <p>Add <a href="lib/roda/plugins/bearer_token_rb.html">bearer_token</a> plugin for retrieving bearer token from HTTP Authorization header (jeremyevans)</p>
@@ -106,7 +113,7 @@ CHANGELOG
 <ul><li>
 <p>Set temporary name on Ruby 3.3+ for remaining anonymous modules and classes (jeremyevans)</p>
 </li><li>
-<p>Make send_file in <a href="lib/roda/plugins/sinatra_helpers_rb.html">sinatra_helpers</a> use a response body that implements to_path (jeremyevans) (#379)</p>
+<p>Make <a href="lib/roda/plugins/send_file_rb.html">send_file</a> in <a href="lib/roda/plugins/sinatra_helpers_rb.html">sinatra_helpers</a> use a response body that implements to_path (jeremyevans) (#379)</p>
 </li><li>
 <p>Escape newlines in common logger lines (jeremyevans)</p>
 </li></ul>
@@ -476,7 +483,7 @@ CHANGELOG
 <ul><li>
 <p>Add <a href="lib/roda/plugins/optimized_segment_matchers_rb.html">optimized_segment_matchers</a> plugin for optimized matchers for a single String class argument (jeremyevans)</p>
 </li><li>
-<p>Use RFC 5987 UTF-8 and ISO-8859-1 encoded filenames when using send_file and attachment in the <a href="lib/roda/plugins/sinatra_helpers_rb.html">sinatra_helpers</a> plugin (jeremyevans)</p>
+<p>Use RFC 5987 UTF-8 and ISO-8859-1 encoded filenames when using <a href="lib/roda/plugins/send_file_rb.html">send_file</a> and attachment in the <a href="lib/roda/plugins/sinatra_helpers_rb.html">sinatra_helpers</a> plugin (jeremyevans)</p>
 </li></ul>
 
 <h1 id="label-3.43.1+-282021-04-13-29"><a href="#label-3.43.1+-282021-04-13-29">3.43.1 (2021-04-13)</a></h1>

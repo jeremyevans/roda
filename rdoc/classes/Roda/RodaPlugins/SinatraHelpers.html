@@ -99,25 +99,9 @@ Roda::RodaPlugins::SinatraHelpers
 
 <p>This method is aliased as <code>url</code> and <code>to</code>.</p>
 
-<h3 id="module-Roda::RodaPlugins::SinatraHelpers-label-send_file"><a href="#module-Roda::RodaPlugins::SinatraHelpers-label-send_file">send_file</a></h3>
+<h3 id="module-Roda::RodaPlugins::SinatraHelpers-label-send_file"><a href="#module-Roda::RodaPlugins::SinatraHelpers-label-send_file"><a href="../../../files/lib/roda/plugins/send_file_rb.html">send_file</a></a></h3>
 
-<p>This will serve the file with the given path from the file system:</p>
-
-<pre class="ruby"><span class="ruby-identifier">send_file</span> <span class="ruby-string">&#39;path/to/file.txt&#39;</span>
-</pre>
-
-<p>Options:</p>
-<table class="rdoc-list note-list"><tbody><tr><td class='label'>:disposition </td><td>
-<p>Set the Content-Disposition to the given disposition.</p>
-</td></tr><tr><td class='label'>:filename </td><td>
-<p>Set the Content-Disposition to attachment (unless :disposition is set), and set the filename parameter to the value.</p>
-</td></tr><tr><td class='label'>:last_modified </td><td>
-<p>Explicitly set the Last-Modified header to the given value, and return a not modified response if there has not been modified since the previous request.  This option requires the caching plugin.</p>
-</td></tr><tr><td class='label'>:status </td><td>
-<p>Override the status for the response.</p>
-</td></tr><tr><td class='label'>:type </td><td>
-<p>Set the Content-Type to use for this response.</p>
-</td></tr></tbody></table>
+<p>See <a href="../../../files/lib/roda/plugins/send_file_rb.html">send_file</a> plugin documentation for details.</p>
 
 <h2 id="module-Roda::RodaPlugins::SinatraHelpers-label-Response+Methods+Added"><a href="#module-Roda::RodaPlugins::SinatraHelpers-label-Response+Methods+Added">Response Methods Added</a></h2>
 
@@ -179,12 +163,7 @@ Roda::RodaPlugins::SinatraHelpers
 
 <h3 id="module-Roda::RodaPlugins::SinatraHelpers-label-attachment"><a href="#module-Roda::RodaPlugins::SinatraHelpers-label-attachment">attachment</a></h3>
 
-<p>When called with no filename, <code>attachment</code> just sets the Content-Disposition to attachment.  When called with a filename, this sets the Content-Disposition to attachment with the appropriate filename parameter, and if the filename extension is recognized, this also sets the Content-Type to the appropriate MIME type if not already set.</p>
-
-<pre class="ruby"><span class="ruby-identifier">attachment</span>          <span class="ruby-comment"># set Content-Disposition to &#39;attachment&#39;</span>
-<span class="ruby-identifier">attachment</span> <span class="ruby-string">&#39;a.csv&#39;</span>  <span class="ruby-comment"># set Content-Disposition to &#39;attachment;filename=&quot;a.csv&quot;&#39;,</span>
-                    <span class="ruby-comment"># also set Content-Type to &#39;text/csv&#39;</span>
-</pre>
+<p>See <a href="../../../files/lib/roda/plugins/response_attachment_rb.html">response_attachment</a> plugin for details.</p>
 
 <h3 id="module-Roda::RodaPlugins::SinatraHelpers-label-status+predicates"><a href="#module-Roda::RodaPlugins::SinatraHelpers-label-status+predicates">status predicates</a></h3>
 
@@ -233,41 +212,6 @@ Roda::RodaPlugins::SinatraHelpers
 </ol>
 </div>
 <div id='section'>
-<div id='constants-list'>
-<h2>Constants</h2>
-<div class='name-list'>
-<table summary='Constants'>
-<tr class='top-aligned-row context-row'>
-<td class='context-item-name'>BINARY_ENCODING</td>
-<td>=</td>
-<td class='context-item-value'>Encoding.find('BINARY')</td>
-<td>&nbsp;</td>
-<td class='context-item-desc'></td>
-</tr>
-<tr class='top-aligned-row context-row'>
-<td class='context-item-name'>ISO88591_ENCODING</td>
-<td>=</td>
-<td class='context-item-value'>Encoding.find('ISO-8859-1')</td>
-<td>&nbsp;</td>
-<td class='context-item-desc'></td>
-</tr>
-<tr class='top-aligned-row context-row'>
-<td class='context-item-name'>RACK_FILES</td>
-<td>=</td>
-<td class='context-item-value'>defined?(Rack::Files) ? Rack::Files : Rack::File</td>
-<td>&nbsp;</td>
-<td class='context-item-desc'></td>
-</tr>
-<tr class='top-aligned-row context-row'>
-<td class='context-item-name'>UTF8_ENCODING</td>
-<td>=</td>
-<td class='context-item-value'>Encoding.find('UTF-8')</td>
-<td>&nbsp;</td>
-<td class='context-item-desc'></td>
-</tr>
-</table>
-</div>
-</div>
 <div id='methods'>
 <h2>Public Class methods</h2>
 <div class='method public-class' id='method-method-c-configure'>
@@ -286,9 +230,9 @@ Roda::RodaPlugins::SinatraHelpers
 [show source]
 </a>
 <pre id='method-c-configure-source'>    <span class="ruby-comment"># File lib/roda/plugins/sinatra_helpers.rb</span>
-<span class="line-num">236</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
-<span class="line-num">237</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:include</span>, <span class="ruby-constant">DelegateMethods</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:delegate</span>] <span class="ruby-operator">==</span> <span class="ruby-keyword">false</span>
-<span class="line-num">238</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">204</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
+<span class="line-num">205</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:include</span>, <span class="ruby-constant">DelegateMethods</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:delegate</span>] <span class="ruby-operator">==</span> <span class="ruby-keyword">false</span>
+<span class="line-num">206</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-class' id='method-method-c-load_dependencies'>
@@ -307,9 +251,10 @@ Roda::RodaPlugins::SinatraHelpers
 [show source]
 </a>
 <pre id='method-c-load_dependencies-source'>    <span class="ruby-comment"># File lib/roda/plugins/sinatra_helpers.rb</span>
-<span class="line-num">229</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">load_dependencies</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">_opts</span> = <span class="ruby-keyword">nil</span>)
-<span class="line-num">230</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:status_303</span>
-<span class="line-num">231</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">196</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">load_dependencies</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">_opts</span> = <span class="ruby-keyword">nil</span>)
+<span class="line-num">197</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:status_303</span>
+<span class="line-num">198</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:send_file</span>
+<span class="line-num">199</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>
