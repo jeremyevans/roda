@@ -38,14 +38,13 @@ describe 'hash_public plugin' do
       end
     end
 
-    digest = Digest::SHA256.hexdigest(File.binread('spec/views/about/_test.erb'))
-    body.must_equal "/static/#{digest}/../views/about/_test.erb"
+    body.must_equal "/static/q12-OV-wZhMcEiJj7V60pITfJeGWgmIvBpSjMjef4UY/../views/about/_test.erb"
     status('/static/a/../views/about/_test.erb').must_equal 404
   end
 
   it "respects the application's :root option" do
     app(:bare) do
-      opts[:root] = File.expand_path('..', __dir__)
+      opts[:root] = File.expand_path('..', File.dirname(__FILE__))
       plugin :hash_public, root: 'views'
 
       route do |r|
@@ -106,8 +105,7 @@ describe 'hash_public plugin' do
       end
     end
 
-    digest = Digest::SHA256.hexdigest(File.binread('spec/views/about/_test.erb'))
-    body.must_equal "/static/#{digest[0, 16]}/../views/about/_test.erb"
+    body.must_equal "/static/q12-OV-wZhMcEiJj/../views/about/_test.erb"
   end
 
   it 'caches hash values for the same file' do

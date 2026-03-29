@@ -23,6 +23,11 @@ class Roda
     # +hash_path+ method is called with untrusted input, it is possible for an
     # attacker to read the content hash of any file on the file system.
     #
+    # This plugin caches the digest of file content on first read. That means
+    # if you change the file after that, it will continue to show the old hash.
+    # This can cause problems in development mode if you are modifying the
+    # content of files served by the plugin.
+    #
     # Examples:
     #
     #   # Use public folder as location of files, and static as the path prefix
@@ -34,11 +39,11 @@ class Roda
     #
     #   # Assuming public is the location of files, and static as the path prefix
     #   route do
-    #     # Make GET /static/a1b2c3d4e5f67890/images/foo.png look for public/images/foo.png
+    #     # Make GET /static/any-string/images/foo.png look for public/images/foo.png
     #     r.hash_public
     #
     #     r.get "example" do
-    #       # "/static/a1b2c3d4e5f67890/images/foo.png"
+    #       # "/static/sha256-url-safe-base64-encoded-file-digest-/images/foo.png"
     #       hash_path("images/foo.png")
     #     end
     #   end
@@ -47,14 +52,15 @@ class Roda
       # following options are recognized by the plugin:
       #
       # :prefix :: The prefix for paths, before the hash segment
-      # :length :: The number of characters of the hex digest to use in paths
-      #            (default: full 64-character SHA256 hex digest)
+      # :length :: The number of characters of the digest to use in paths
+      #            (default: full 43-character SHA256 URL safe base64 digest)
       #
       # The options given are also passed to the public plugin.
       def self.configure(app, opts = {})
         app.plugin :public, opts
         app.opts[:hash_public_prefix] = (opts[:prefix] || app.opts[:hash_public_prefix] || 'static').dup.freeze
         app.opts[:hash_public_length] = opts[:length] || app.opts[:hash_public_length]
+        app.opts[:hash_public_mutex] ||= Mutex.new
         app.opts[:hash_public_cache] ||= {}
       end
 
@@ -70,15 +76,20 @@ class Roda
         # This does not check the file is inside the directory for performance
         # reasons, so this should not be called with untrusted input.
         def hash_path(file)
+          opts = self.opts
           cache = opts[:hash_public_cache]
-          unless hex = cache[file]
-            hex = ::Digest::SHA256.hexdigest(File.binread(File.join(opts[:public_root], file)))
+          mutex = opts[:hash_public_mutex]
+          unless digest = mutex.synchronize{cache[file]}
+            digest = ::Digest::SHA256.file(File.join(opts[:public_root], file)).base64digest
+            digest.chomp!("=")
+            digest.tr!("+/", "-_")
             if length = opts[:hash_public_length]
-              hex = hex[0, length]
+              digest = digest[0, length]
             end
-            cache[file] = hex.freeze
+            digest.freeze
+            mutex.synchronize{cache[file] = digest}
           end
-          "/#{opts[:hash_public_prefix]}/#{hex}/#{file}"
+          "/#{opts[:hash_public_prefix]}/#{digest}/#{file}"
         end
       end
 

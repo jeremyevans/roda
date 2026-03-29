@@ -1,5 +1,7 @@
 === master
 
+* Add hash_public plugin for serving static files with paths that change based on content (yykamei, jeremyevans) (#417, #418)
+
 * Add ip_from_header plugin, getting request IP address from specified header (jeremyevans)
 
 === 3.102.0 (2026-03-13)
