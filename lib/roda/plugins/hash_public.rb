@@ -64,13 +64,6 @@ class Roda
         app.opts[:hash_public_cache] ||= {}
       end
 
-      module ClassMethods
-        def freeze
-          opts[:hash_public_cache].freeze
-          super
-        end
-      end
-
       module InstanceMethods
         # Return a path to the static file that could be served by r.hash_public.
         # This does not check the file is inside the directory for performance

@@ -42,6 +42,22 @@ describe 'hash_public plugin' do
     status('/static/a/../views/about/_test.erb').must_equal 404
   end
 
+  it 'returns the correct hash_path with content hash when app is frozen' do
+    app(:bare) do
+      plugin :hash_public, root: 'spec/plugin'
+
+      route do |r|
+        r.hash_public
+        hash_path('../views/about/_test.erb')
+      end
+
+      freeze
+    end
+
+    body.must_equal "/static/q12-OV-wZhMcEiJj7V60pITfJeGWgmIvBpSjMjef4UY/../views/about/_test.erb"
+    status('/static/a/../views/about/_test.erb').must_equal 404
+  end
+
   it "respects the application's :root option" do
     app(:bare) do
       opts[:root] = File.expand_path('..', File.dirname(__FILE__))
