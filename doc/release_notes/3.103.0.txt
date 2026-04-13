@@ -1,0 +1,14 @@
+= New Features
+
+* An ip_from_header plugin has been added, which makes request.ip
+  pull the IP address from a header if it is present. If you know that
+  all requests are coming from a proxy, this is simpler and faster
+  than attempting to parse the information out of the Forwarded or
+  X-Forwarded-For headers.
+
+* A hash_public plugin has been added, which operates similarly to
+  the timestamp plugin plugin, but does cache busting based on the
+  hash of the file content instead of the modification time of the
+  file.  This is useful in containerized environments where the
+  modification time of the file may change even if the content of
+  the file does not.

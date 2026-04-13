@@ -1,4 +1,4 @@
-=== master
+=== 3.103.0 (2026-04-13)
 
 * Add hash_public plugin for serving static files with paths that change based on content (yykamei, jeremyevans) (#417, #418)
 
