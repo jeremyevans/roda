@@ -35,9 +35,9 @@ doc/release_notes/3.103.0.txt
 <div id='description'>
 <h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
 <ul><li>
-<p>An <a href="../../lib/roda/plugins/ip_from_header_rb.html">ip_from_header</a> plugin has been added, which makes request.ip pull the IP address from a header if it is present. If you know that all requests are coming from a proxy, this is simpler and faster than attempting to parse the information out of the Forwarded or X-Forwarded-For headers.</p>
+<p>An <a href="../../lib/roda/plugins/ip_from_header_rb.html">ip_from_header</a> plugin has been added, which makes request.ip pull the IP address from a header if it is present. If you know that all requests are coming from a trusted proxy that sets a specific header, this is simpler and faster than attempting to parse the information out of the Forwarded or X-Forwarded-For headers.</p>
 </li><li>
-<p>A <a href="../../lib/roda/plugins/hash_public_rb.html">hash_public</a> plugin has been added, which operates similarly to the timestamp plugin plugin, but does cache busting based on the hash of the file content instead of the modification time of the file.  This is useful in containerized environments where the modification time of the file may change even if the content of the file does not.</p>
+<p>A <a href="../../lib/roda/plugins/hash_public_rb.html">hash_public</a> plugin has been added, which operates similarly to the timestamp_plugin plugin, but does cache busting based on the hash of the file content instead of the modification time of the file.  This is useful in containerized environments where the modification time of the file may change even if the content of the file does not.</p>
 </li></ul>
 </div>
 <div id='context'>
