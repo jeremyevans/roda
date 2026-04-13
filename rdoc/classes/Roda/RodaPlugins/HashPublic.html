@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+<head>
+<title>Roda::RodaPlugins::HashPublic</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<link href='../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<script type='text/javascript'>
+  function popupCode(url) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+  
+  function toggleCode(id) {
+    var code = document.getElementById(id)
+  
+    code.style.display = code.style.display != 'block' ? 'block' : 'none'
+    return true
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+</script>
+</head>
+<body class='page'>
+<div class='class' id='wrapper'>
+<div class='header'>
+<h1 class='name'><span class='type'>module</span>
+Roda::RodaPlugins::HashPublic
+</h1>
+<ol class='paths'>
+<li>
+<a href="../../../files/lib/roda/plugins/hash_public_rb.html">lib/roda/plugins/hash_public.rb</a>
+</li>
+</ol>
+</div>
+<div id='content'>
+<div id='text'>
+<div id='description'>
+<p>The <a href="../../../files/lib/roda/plugins/hash_public_rb.html">hash_public</a> plugin adds a <code>hash_path</code> method for constructing content-hash-based paths, and a <code>r.hash_public</code> routing method to serve static files from a directory (using the public plugin).  This plugin is useful when you want to modify the path to static files when the content of the file changes, ensuring that requests for the static file will not be cached.</p>
+
+<p>Unlike the <a href="../../../files/lib/roda/plugins/timestamp_public_rb.html">timestamp_public</a> plugin, which uses file modification times, <a href="../../../files/lib/roda/plugins/hash_public_rb.html">hash_public</a> uses a SHA256 digest of the file content.  This makes paths stable across different build environments (e.g. Docker images built in CI/CD pipelines), where file modification times may vary even when the file content has not changed.</p>
+
+<p>Note that while this plugin will not serve files outside of the public directory, for performance reasons it does not check the path of the file is inside the public directory when computing the content hash.  If the <code>hash_path</code> method is called with untrusted input, it is possible for an attacker to read the content hash of any file on the file system.</p>
+
+<p>This plugin caches the digest of file content on first read. That means if you change the file after that, it will continue to show the old hash. This can cause problems in development mode if you are modifying the content of files served by the plugin.</p>
+
+<p>Examples:</p>
+
+<pre class="ruby"><span class="ruby-comment"># Use public folder as location of files, and static as the path prefix</span>
+<span class="ruby-identifier">plugin</span> <span class="ruby-value">:hash_public</span>
+
+<span class="ruby-comment"># Use /path/to/app/static as location of files, and public as the path prefix</span>
+<span class="ruby-identifier">opts</span>[<span class="ruby-value">:root</span>] = <span class="ruby-string">&#39;/path/to/app&#39;</span>
+<span class="ruby-identifier">plugin</span> <span class="ruby-value">:hash_public</span>, <span class="ruby-value">root:</span> <span class="ruby-string">&#39;static&#39;</span>, <span class="ruby-value">prefix:</span> <span class="ruby-string">&#39;public&#39;</span>
+
+<span class="ruby-comment"># Assuming public is the location of files, and static as the path prefix</span>
+<span class="ruby-identifier">route</span> <span class="ruby-keyword">do</span>
+  <span class="ruby-comment"># Make GET /static/any-string/images/foo.png look for public/images/foo.png</span>
+  <span class="ruby-identifier">r</span>.<span class="ruby-identifier">hash_public</span>
+
+  <span class="ruby-identifier">r</span>.<span class="ruby-identifier">get</span> <span class="ruby-string">&quot;example&quot;</span> <span class="ruby-keyword">do</span>
+    <span class="ruby-comment"># &quot;/static/sha256-url-safe-base64-encoded-file-digest-/images/foo.png&quot;</span>
+    <span class="ruby-identifier">hash_path</span>(<span class="ruby-string">&quot;images/foo.png&quot;</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span>
+</pre>
+</div>
+<div id='method-list'>
+<h2>Methods</h2>
+<h3>Public Class</h3>
+<ol>
+<li><a href="#method-c-configure">configure</a></li>
+</ol>
+</div>
+<div id='context'>
+</div>
+<div id='class-list'>
+<h2>Classes and Modules</h2>
+<ol>
+<li><a href="HashPublic/InstanceMethods.html">Roda::RodaPlugins::HashPublic::InstanceMethods</a></li>
+<li><a href="HashPublic/RequestMethods.html">Roda::RodaPlugins::HashPublic::RequestMethods</a></li>
+</ol>
+</div>
+<div id='section'>
+<div id='methods'>
+<h2>Public Class methods</h2>
+<div class='method public-class' id='method-method-c-configure'>
+<a name='method-c-configure'></a>
+<div class='synopsis'>
+<span class='name'>configure</span><span class='arguments'>(app, opts = {})</span>
+
+</div>
+<div class='description'>
+
+<p>Use options given to setup content-hash-based file serving.  The following options are recognized by the plugin:</p>
+<table class="rdoc-list note-list"><tbody><tr><td class='label'>:prefix </td><td>
+<p>The prefix for paths, before the hash segment</p>
+</td></tr><tr><td class='label'>:length </td><td>
+<p>The number of characters of the digest to use in paths (default: full 43-character SHA256 URL safe base64 digest)</p>
+</td></tr></tbody></table>
+
+<p>The options given are also passed to the public plugin.</p>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-configure-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/hash_public.rb</span>
+<span class="line-num">59</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span> = {})
+<span class="line-num">60</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:public</span>, <span class="ruby-identifier">opts</span>
+<span class="line-num">61</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:hash_public_prefix</span>] = (<span class="ruby-identifier">opts</span>[<span class="ruby-value">:prefix</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:hash_public_prefix</span>] <span class="ruby-operator">||</span> <span class="ruby-string">&#39;static&#39;</span>).<span class="ruby-identifier">dup</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">62</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:hash_public_length</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:length</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:hash_public_length</span>]
+<span class="line-num">63</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:hash_public_mutex</span>] <span class="ruby-operator">||=</span> <span class="ruby-constant">Mutex</span>.<span class="ruby-identifier">new</span>
+<span class="line-num">64</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:hash_public_cache</span>] <span class="ruby-operator">||=</span> {}
+<span class="line-num">65</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div id='footer-push'></div>
+</div>
+<div id='footer'>
+<a href="https://github.com/jeremyevans/hanna"><strong>Hanna</strong> RDoc template</a>
+</div>
+</body>
+</html>
