@@ -48,6 +48,10 @@ class Roda
     #     end
     #   end
     module HashPublic
+      def self.load_dependencies(app, opts = OPTS)
+        app.plugin :public, opts
+      end
+
       # Use options given to setup content-hash-based file serving.  The
       # following options are recognized by the plugin:
       #
@@ -57,7 +61,6 @@ class Roda
       #
       # The options given are also passed to the public plugin.
       def self.configure(app, opts = {})
-        app.plugin :public, opts
         app.opts[:hash_public_prefix] = (opts[:prefix] || app.opts[:hash_public_prefix] || 'static').dup.freeze
         app.opts[:hash_public_length] = opts[:length] || app.opts[:hash_public_length]
         app.opts[:hash_public_mutex] ||= Mutex.new

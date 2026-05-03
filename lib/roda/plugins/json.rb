@@ -56,10 +56,12 @@ class Roda
     # This plugin depends on the custom_block_results plugin, and therefore does
     # not support treating String, FalseClass, or NilClass values as JSON.
     module Json
+      def self.load_dependencies(app, opts=OPTS)
+        app.plugin :custom_block_results
+      end
+
       # Set the classes to automatically convert to JSON, and the serializer to use.
       def self.configure(app, opts=OPTS)
-        app.plugin :custom_block_results
-
         classes = opts[:classes] || [Array, Hash]
         app.opts[:json_result_classes] ||= []
         app.opts[:json_result_classes] += classes

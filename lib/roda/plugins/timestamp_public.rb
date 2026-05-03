@@ -35,14 +35,17 @@ class Roda
     #     end
     #   end
     module TimestampPublic
+      def self.load_dependencies(app, opts=OPTS)
+        app.plugin :public, opts
+      end
+
       # Use options given to setup timestamped file serving.  The following option is
       # recognized by the plugin:
       #
       # :prefix :: The prefix for paths, before the timestamp segment
       #
       # The options given are also passed to the public plugin.
-      def self.configure(app, opts={})
-        app.plugin :public, opts
+      def self.configure(app, opts=OPTS)
         app.opts[:timestamp_public_prefix] = (opts[:prefix] || app.opts[:timestamp_public_prefix] || "static").dup.freeze
       end
 
