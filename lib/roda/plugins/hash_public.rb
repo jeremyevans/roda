@@ -1,7 +1,5 @@
 # frozen-string-literal: true
 
-require 'digest/sha2'
-
 class Roda
   module RodaPlugins
     # The hash_public plugin adds a +hash_path+ method for constructing
@@ -48,6 +46,16 @@ class Roda
     #     end
     #   end
     module HashPublic
+      Digest = begin
+        require 'openssl'
+        ::OpenSSL::Digest
+      # :nocov:
+      rescue LoadError
+        require 'digest/sha2'
+        ::Digest
+      # :nocov:
+      end
+
       def self.load_dependencies(app, opts = OPTS)
         app.plugin :public, opts
       end
@@ -74,7 +82,7 @@ class Roda
           cache = opts[:hash_public_cache]
           mutex = opts[:hash_public_mutex]
           unless digest = mutex.synchronize{cache[file]}
-            digest = ::Digest::SHA256.file(File.join(opts[:public_root], file)).base64digest
+            digest = Digest::SHA256.file(File.join(opts[:public_root], file)).base64digest
             digest.chomp!("=")
             digest.tr!("+/", "-_")
             if length = opts[:hash_public_length]
