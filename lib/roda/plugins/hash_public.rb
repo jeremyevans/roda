@@ -24,7 +24,9 @@ class Roda
     # This plugin caches the digest of file content on first read. That means
     # if you change the file after that, it will continue to show the old hash.
     # This can cause problems in development mode if you are modifying the
-    # content of files served by the plugin.
+    # content of files served by the plugin. You can use the hash_public_cache
+    # plugin to scan the public directory in and store the digests in a file,
+    # avoiding the need for the process to read files to calculate the digest.
     #
     # Examples:
     #

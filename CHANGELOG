@@ -1,5 +1,7 @@
 === master
 
+* Add hash_public_cache plugin for caching digests for files served by the hash_public plugin (jeremyevans)
+
 * Use faster OpenSSL::Digest if available in hash_public plugin (jeremyevans)
 
 === 3.103.0 (2026-04-13)
