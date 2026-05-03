@@ -67,11 +67,9 @@ class Roda
         app.opts[:hash_public_cache] ||= {}
       end
 
-      module InstanceMethods
-        # Return a path to the static file that could be served by r.hash_public.
-        # This does not check the file is inside the directory for performance
-        # reasons, so this should not be called with untrusted input.
-        def hash_path(file)
+      module ClassMethods
+        # The digest for the given file to use in hash_path.
+        def hash_path_digest(file)
           opts = self.opts
           cache = opts[:hash_public_cache]
           mutex = opts[:hash_public_mutex]
@@ -85,7 +83,16 @@ class Roda
             digest.freeze
             mutex.synchronize{cache[file] = digest}
           end
-          "/#{opts[:hash_public_prefix]}/#{digest}/#{file}"
+          digest
+        end
+      end
+
+      module InstanceMethods
+        # Return a path to the static file that could be served by r.hash_public.
+        # This does not check the file is inside the directory for performance
+        # reasons, so this should not be called with untrusted input.
+        def hash_path(file)
+          "/#{opts[:hash_public_prefix]}/#{self.class.hash_path_digest(file)}/#{file}"
         end
       end
 
