@@ -1,0 +1,20 @@
+= New Features
+
+* A hash_public_cache plugin has been added, which allows preloading
+  the digest cache for the hash_public plugin using a file, avoiding
+  the need for the hash_public plugin to read files on first
+  request for them to compute the digests.
+
+    plugin :hash_public_cache, "path/to/cache_file.json"
+
+    # Scan public directory, populate cache, and dump cache file.
+    scan_hash_public_cache_dir
+    dump_hash_public_cache_file
+
+    # Populate cache from file at process startup
+    load_hash_public_cache_file
+
+= Other Improvements
+
+* The hash_public plugin now uses OpenSSL::Digest instead of Digest
+  if available for better performance.
