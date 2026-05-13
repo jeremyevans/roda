@@ -63,23 +63,10 @@ Roda::RodaPlugins::HashPublic::InstanceMethods
 <a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-hash_path-source&#39;); return false'>
 [show source]
 </a>
-<pre id='method-i-hash_path-source'>   <span class="ruby-comment"># File lib/roda/plugins/hash_public.rb</span>
-<span class="line-num">71</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">hash_path</span>(<span class="ruby-identifier">file</span>)
-<span class="line-num">72</span>   <span class="ruby-identifier">opts</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">opts</span>
-<span class="line-num">73</span>   <span class="ruby-identifier">cache</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:hash_public_cache</span>]
-<span class="line-num">74</span>   <span class="ruby-identifier">mutex</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:hash_public_mutex</span>]
-<span class="line-num">75</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">digest</span> = <span class="ruby-identifier">mutex</span>.<span class="ruby-identifier">synchronize</span>{<span class="ruby-identifier">cache</span>[<span class="ruby-identifier">file</span>]}
-<span class="line-num">76</span>     <span class="ruby-identifier">digest</span> = <span class="ruby-operator">::</span><span class="ruby-constant">Digest</span><span class="ruby-operator">::</span><span class="ruby-constant">SHA256</span>.<span class="ruby-identifier">file</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">opts</span>[<span class="ruby-value">:public_root</span>], <span class="ruby-identifier">file</span>)).<span class="ruby-identifier">base64digest</span>
-<span class="line-num">77</span>     <span class="ruby-identifier">digest</span>.<span class="ruby-identifier">chomp!</span>(<span class="ruby-string">&quot;=&quot;</span>)
-<span class="line-num">78</span>     <span class="ruby-identifier">digest</span>.<span class="ruby-identifier">tr!</span>(<span class="ruby-string">&quot;+/&quot;</span>, <span class="ruby-string">&quot;-_&quot;</span>)
-<span class="line-num">79</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">length</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:hash_public_length</span>]
-<span class="line-num">80</span>       <span class="ruby-identifier">digest</span> = <span class="ruby-identifier">digest</span>[<span class="ruby-value">0</span>, <span class="ruby-identifier">length</span>]
-<span class="line-num">81</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">82</span>     <span class="ruby-identifier">digest</span>.<span class="ruby-identifier">freeze</span>
-<span class="line-num">83</span>     <span class="ruby-identifier">mutex</span>.<span class="ruby-identifier">synchronize</span>{<span class="ruby-identifier">cache</span>[<span class="ruby-identifier">file</span>] = <span class="ruby-identifier">digest</span>}
-<span class="line-num">84</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">85</span>   <span class="ruby-node">&quot;/#{opts[:hash_public_prefix]}/#{digest}/#{file}&quot;</span>
-<span class="line-num">86</span> <span class="ruby-keyword">end</span></pre>
+<pre id='method-i-hash_path-source'>    <span class="ruby-comment"># File lib/roda/plugins/hash_public.rb</span>
+<span class="line-num">104</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">hash_path</span>(<span class="ruby-identifier">file</span>)
+<span class="line-num">105</span>   <span class="ruby-node">&quot;/#{opts[:hash_public_prefix]}/#{self.class.hash_path_digest(file)}/#{file}&quot;</span>
+<span class="line-num">106</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

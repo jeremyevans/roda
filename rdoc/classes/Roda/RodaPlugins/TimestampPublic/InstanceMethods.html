@@ -64,10 +64,10 @@ Roda::RodaPlugins::TimestampPublic::InstanceMethods
 [show source]
 </a>
 <pre id='method-i-timestamp_path-source'>   <span class="ruby-comment"># File lib/roda/plugins/timestamp_public.rb</span>
-<span class="line-num">53</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">timestamp_path</span>(<span class="ruby-identifier">file</span>)
-<span class="line-num">54</span>   <span class="ruby-identifier">mtime</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">mtime</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">opts</span>[<span class="ruby-value">:public_root</span>], <span class="ruby-identifier">file</span>))
-<span class="line-num">55</span>   <span class="ruby-node">&quot;/#{opts[:timestamp_public_prefix]}/#{sprintf(&quot;%i%06i&quot;, mtime.to_i, mtime.usec)}/#{file}&quot;</span>
-<span class="line-num">56</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">56</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">timestamp_path</span>(<span class="ruby-identifier">file</span>)
+<span class="line-num">57</span>   <span class="ruby-identifier">mtime</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">mtime</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">opts</span>[<span class="ruby-value">:public_root</span>], <span class="ruby-identifier">file</span>))
+<span class="line-num">58</span>   <span class="ruby-node">&quot;/#{opts[:timestamp_public_prefix]}/#{sprintf(&quot;%i%06i&quot;, mtime.to_i, mtime.usec)}/#{file}&quot;</span>
+<span class="line-num">59</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

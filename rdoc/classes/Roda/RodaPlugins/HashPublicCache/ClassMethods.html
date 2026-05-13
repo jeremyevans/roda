@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+<head>
+<title>Roda::RodaPlugins::HashPublicCache::ClassMethods</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<link href='../../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<script type='text/javascript'>
+  function popupCode(url) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+  
+  function toggleCode(id) {
+    var code = document.getElementById(id)
+  
+    code.style.display = code.style.display != 'block' ? 'block' : 'none'
+    return true
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+</script>
+</head>
+<body class='page'>
+<div class='class' id='wrapper'>
+<div class='header'>
+<h1 class='name'><span class='type'>module</span>
+Roda::RodaPlugins::HashPublicCache::ClassMethods
+</h1>
+<ol class='paths'>
+<li>
+<a href="../../../../files/lib/roda/plugins/hash_public_cache_rb.html">lib/roda/plugins/hash_public_cache.rb</a>
+</li>
+</ol>
+</div>
+<div id='content'>
+<div id='text'>
+<div id='description'></div>
+<div id='method-list'>
+<h2>Methods</h2>
+<h3>Public Instance</h3>
+<ol>
+<li><a href="#method-i-dump_hash_public_cache_file">dump_hash_public_cache_file</a></li>
+<li><a href="#method-i-load_hash_public_cache_file">load_hash_public_cache_file</a></li>
+<li><a href="#method-i-scan_hash_public_cache_dir">scan_hash_public_cache_dir</a></li>
+</ol>
+</div>
+<div id='context'>
+</div>
+<div id='section'>
+<div id='methods'>
+<h2>Public Instance methods</h2>
+<div class='method public-instance' id='method-method-i-dump_hash_public_cache_file'>
+<a name='method-i-dump_hash_public_cache_file'></a>
+<div class='synopsis'>
+<span class='name'>dump_hash_public_cache_file</span><span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+<p>Write the current hash public cache to the cache file.</p>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-dump_hash_public_cache_file-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-dump_hash_public_cache_file-source'>   <span class="ruby-comment"># File lib/roda/plugins/hash_public_cache.rb</span>
+<span class="line-num">82</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">dump_hash_public_cache_file</span>
+<span class="line-num">83</span>   <span class="ruby-constant">File</span>.<span class="ruby-identifier">write</span>(<span class="ruby-identifier">opts</span>[<span class="ruby-value">:hash_public_cache_file</span>], (<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_serializer</span>] <span class="ruby-operator">||</span> <span class="ruby-value">:to_json</span>.<span class="ruby-identifier">to_proc</span>).<span class="ruby-identifier">call</span>(<span class="ruby-identifier">opts</span>[<span class="ruby-value">:hash_public_cache</span>]))
+<span class="line-num">84</span>   <span class="ruby-keyword">nil</span>
+<span class="line-num">85</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-load_hash_public_cache_file'>
+<a name='method-i-load_hash_public_cache_file'></a>
+<div class='synopsis'>
+<span class='name'>load_hash_public_cache_file</span><span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+<p>Load the hash public cache file, if it exists. This replaces the hash public cache with the values from the file.</p>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-load_hash_public_cache_file-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-load_hash_public_cache_file-source'>   <span class="ruby-comment"># File lib/roda/plugins/hash_public_cache.rb</span>
+<span class="line-num">45</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">load_hash_public_cache_file</span>
+<span class="line-num">46</span>   <span class="ruby-identifier">file</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:hash_public_cache_file</span>]
+<span class="line-num">47</span>   <span class="ruby-keyword">return</span> <span class="ruby-keyword">unless</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">file?</span>(<span class="ruby-identifier">file</span>)
+<span class="line-num">48</span> 
+<span class="line-num">49</span>   <span class="ruby-identifier">cache</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:hash_public_cache</span>] = (<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_parser</span>] <span class="ruby-operator">||</span> <span class="ruby-operator">::</span><span class="ruby-constant">JSON</span>.<span class="ruby-identifier">method</span>(<span class="ruby-value">:parse</span>)).<span class="ruby-identifier">call</span>(<span class="ruby-operator">::</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">read</span>(<span class="ruby-identifier">file</span>))
+<span class="line-num">50</span>   <span class="ruby-identifier">cache</span>.<span class="ruby-identifier">each_value</span>(<span class="ruby-operator">&amp;</span><span class="ruby-value">:freeze</span>)
+<span class="line-num">51</span>   <span class="ruby-keyword">nil</span>
+<span class="line-num">52</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-scan_hash_public_cache_dir'>
+<a name='method-i-scan_hash_public_cache_dir'></a>
+<div class='synopsis'>
+<span class='name'>scan_hash_public_cache_dir</span><span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+<p>Scan the public directory for files, computing the hash public digest for each. This will not rescan files that already have digest values. If a block is given, it will only calculate the digest for the file if the block returns truthy.</p>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-scan_hash_public_cache_dir-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-scan_hash_public_cache_dir-source'>   <span class="ruby-comment"># File lib/roda/plugins/hash_public_cache.rb</span>
+<span class="line-num">58</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">scan_hash_public_cache_dir</span>
+<span class="line-num">59</span>   <span class="ruby-identifier">cache</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:hash_public_cache</span>]
+<span class="line-num">60</span> 
+<span class="line-num">61</span>   <span class="ruby-comment"># Public root doesn&#39;t have trailing slash even if given, as</span>
+<span class="line-num">62</span>   <span class="ruby-comment"># File.expand_path removes it.</span>
+<span class="line-num">63</span>   <span class="ruby-identifier">root</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:public_root</span>] <span class="ruby-operator">+</span> <span class="ruby-constant">File</span><span class="ruby-operator">::</span><span class="ruby-constant">SEPARATOR</span>
+<span class="line-num">64</span> 
+<span class="line-num">65</span>   <span class="ruby-constant">Find</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">opts</span>[<span class="ruby-value">:public_root</span>]) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
+<span class="line-num">66</span>     <span class="ruby-keyword">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">file?</span>(<span class="ruby-identifier">file</span>)
+<span class="line-num">67</span>       <span class="ruby-identifier">file</span> = <span class="ruby-identifier">file</span>.<span class="ruby-identifier">sub</span>(<span class="ruby-identifier">root</span>, <span class="ruby-string">&#39;&#39;</span>)
+<span class="line-num">68</span>       <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">cache</span>[<span class="ruby-identifier">file</span>]
+<span class="line-num">69</span> 
+<span class="line-num">70</span>       <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-keyword">yield</span>)
+<span class="line-num">71</span>         <span class="ruby-keyword">next</span> <span class="ruby-keyword">unless</span> <span class="ruby-keyword">yield</span> <span class="ruby-identifier">file</span>
+<span class="line-num">72</span>       <span class="ruby-keyword">end</span>
+<span class="line-num">73</span> 
+<span class="line-num">74</span>       <span class="ruby-identifier">cache</span>[<span class="ruby-identifier">file</span>] = <span class="ruby-identifier">hash_path_digest</span>(<span class="ruby-identifier">file</span>)
+<span class="line-num">75</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">76</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">77</span> 
+<span class="line-num">78</span>   <span class="ruby-keyword">nil</span>
+<span class="line-num">79</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div id='footer-push'></div>
+</div>
+<div id='footer'>
+<a href="https://github.com/jeremyevans/hanna"><strong>Hanna</strong> RDoc template</a>
+</div>
+</body>
+</html>

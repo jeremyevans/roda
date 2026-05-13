@@ -63,14 +63,14 @@ Roda::RodaPlugins::HashPublic::RequestMethods
 <a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-hash_public-source&#39;); return false'>
 [show source]
 </a>
-<pre id='method-i-hash_public-source'>   <span class="ruby-comment"># File lib/roda/plugins/hash_public.rb</span>
-<span class="line-num">93</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">hash_public</span>
-<span class="line-num">94</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">is_get?</span>
-<span class="line-num">95</span>     <span class="ruby-identifier">on</span> <span class="ruby-identifier">roda_class</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:hash_public_prefix</span>], <span class="ruby-constant">String</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">_</span><span class="ruby-operator">|</span>
-<span class="line-num">96</span>       <span class="ruby-identifier">public</span>
-<span class="line-num">97</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">98</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">99</span> <span class="ruby-keyword">end</span></pre>
+<pre id='method-i-hash_public-source'>    <span class="ruby-comment"># File lib/roda/plugins/hash_public.rb</span>
+<span class="line-num">113</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">hash_public</span>
+<span class="line-num">114</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">is_get?</span>
+<span class="line-num">115</span>     <span class="ruby-identifier">on</span> <span class="ruby-identifier">roda_class</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:hash_public_prefix</span>], <span class="ruby-constant">String</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">_</span><span class="ruby-operator">|</span>
+<span class="line-num">116</span>       <span class="ruby-identifier">public</span>
+<span class="line-num">117</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">118</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">119</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

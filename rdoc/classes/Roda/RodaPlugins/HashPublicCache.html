@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+<head>
+<title>Roda::RodaPlugins::HashPublicCache</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<link href='../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<script type='text/javascript'>
+  function popupCode(url) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+  
+  function toggleCode(id) {
+    var code = document.getElementById(id)
+  
+    code.style.display = code.style.display != 'block' ? 'block' : 'none'
+    return true
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+</script>
+</head>
+<body class='page'>
+<div class='class' id='wrapper'>
+<div class='header'>
+<h1 class='name'><span class='type'>module</span>
+Roda::RodaPlugins::HashPublicCache
+</h1>
+<ol class='paths'>
+<li>
+<a href="../../../files/lib/roda/plugins/hash_public_cache_rb.html">lib/roda/plugins/hash_public_cache.rb</a>
+</li>
+</ol>
+</div>
+<div id='content'>
+<div id='text'>
+<div id='description'>
+<p>The <a href="../../../files/lib/roda/plugins/hash_public_cache_rb.html">hash_public_cache</a> plugin builds on top of the <a href="../../../files/lib/roda/plugins/hash_public_rb.html">hash_public</a> plugin and adds the ability to store the digests for the public files in a json file, and load that file at startup, which avoids the need for the process to read the public file in order to compute the digest.</p>
+
+<p>Examples:</p>
+
+<pre class="ruby"><span class="ruby-comment"># Load the plugin. Options given will be passed to public and hash_public.</span>
+<span class="ruby-identifier">plugin</span> <span class="ruby-value">:hash_public_cache</span>, <span class="ruby-string">&quot;path/to/cache_file.json&quot;</span>
+
+<span class="ruby-comment"># When rebuilding the cache:</span>
+<span class="ruby-comment">#</span>
+<span class="ruby-comment"># * Scan the public directory for files, calculate the digest on each.</span>
+<span class="ruby-comment"># * Write the hash public cache to a file.</span>
+<span class="ruby-comment">#</span>
+<span class="ruby-comment"># This is split into separate steps in case you want to modify the cache</span>
+<span class="ruby-comment"># manually after the scan.</span>
+<span class="ruby-identifier">scan_hash_public_cache_dir</span>
+<span class="ruby-identifier">dump_hash_public_cache_file</span> 
+
+<span class="ruby-comment"># To load the cache at application startup (if the file exists):</span>
+<span class="ruby-identifier">load_hash_public_cache_file</span>
+</pre>
+</div>
+<div id='method-list'>
+<h2>Methods</h2>
+<h3>Public Class</h3>
+<ol>
+<li><a href="#method-c-configure">configure</a></li>
+<li><a href="#method-c-load_dependencies">load_dependencies</a></li>
+</ol>
+</div>
+<div id='context'>
+</div>
+<div id='class-list'>
+<h2>Classes and Modules</h2>
+<ol>
+<li><a href="HashPublicCache/ClassMethods.html">Roda::RodaPlugins::HashPublicCache::ClassMethods</a></li>
+</ol>
+</div>
+<div id='section'>
+<div id='methods'>
+<h2>Public Class methods</h2>
+<div class='method public-class' id='method-method-c-configure'>
+<a name='method-c-configure'></a>
+<div class='synopsis'>
+<span class='name'>configure</span><span class='arguments'>(app, cache_file, opts = OPTS)</span>
+
+</div>
+<div class='description'>
+
+<p>Specify the location of the hash public cache file.</p>
+
+<p>The options given are passed to the <a href="../../../files/lib/roda/plugins/hash_public_rb.html">hash_public</a> plugin.</p>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-configure-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/hash_public_cache.rb</span>
+<span class="line-num">38</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">cache_file</span>, <span class="ruby-identifier">opts</span> = <span class="ruby-constant">OPTS</span>)
+<span class="line-num">39</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:hash_public_cache_file</span>] = <span class="ruby-identifier">cache_file</span>
+<span class="line-num">40</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-class' id='method-method-c-load_dependencies'>
+<a name='method-c-load_dependencies'></a>
+<div class='synopsis'>
+<span class='name'>load_dependencies</span><span class='arguments'>(app, _cache_file, opts = OPTS)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-load_dependencies-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-c-load_dependencies-source'>   <span class="ruby-comment"># File lib/roda/plugins/hash_public_cache.rb</span>
+<span class="line-num">31</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">load_dependencies</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">_cache_file</span>, <span class="ruby-identifier">opts</span> = <span class="ruby-constant">OPTS</span>)
+<span class="line-num">32</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:hash_public</span>, <span class="ruby-identifier">opts</span>
+<span class="line-num">33</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div id='footer-push'></div>
+</div>
+<div id='footer'>
+<a href="https://github.com/jeremyevans/hanna"><strong>Hanna</strong> RDoc template</a>
+</div>
+</body>
+</html>

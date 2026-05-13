@@ -42,7 +42,7 @@ Roda::RodaPlugins::HashPublic
 
 <p>Note that while this plugin will not serve files outside of the public directory, for performance reasons it does not check the path of the file is inside the public directory when computing the content hash.  If the <code>hash_path</code> method is called with untrusted input, it is possible for an attacker to read the content hash of any file on the file system.</p>
 
-<p>This plugin caches the digest of file content on first read. That means if you change the file after that, it will continue to show the old hash. This can cause problems in development mode if you are modifying the content of files served by the plugin.</p>
+<p>This plugin caches the digest of file content on first read. That means if you change the file after that, it will continue to show the old hash. This can cause problems in development mode if you are modifying the content of files served by the plugin. You can use the <a href="../../../files/lib/roda/plugins/hash_public_cache_rb.html">hash_public_cache</a> plugin to scan the public directory in and store the digests in a file, avoiding the need for the process to read files to calculate the digest.</p>
 
 <p>Examples:</p>
 
@@ -70,6 +70,7 @@ Roda::RodaPlugins::HashPublic
 <h3>Public Class</h3>
 <ol>
 <li><a href="#method-c-configure">configure</a></li>
+<li><a href="#method-c-load_dependencies">load_dependencies</a></li>
 </ol>
 </div>
 <div id='context'>
@@ -77,11 +78,34 @@ Roda::RodaPlugins::HashPublic
 <div id='class-list'>
 <h2>Classes and Modules</h2>
 <ol>
+<li><a href="HashPublic/ClassMethods.html">Roda::RodaPlugins::HashPublic::ClassMethods</a></li>
 <li><a href="HashPublic/InstanceMethods.html">Roda::RodaPlugins::HashPublic::InstanceMethods</a></li>
 <li><a href="HashPublic/RequestMethods.html">Roda::RodaPlugins::HashPublic::RequestMethods</a></li>
 </ol>
 </div>
 <div id='section'>
+<div id='constants-list'>
+<h2>Constants</h2>
+<div class='name-list'>
+<table summary='Constants'>
+<tr class='top-aligned-row context-row'>
+<td class='context-item-name'>Digest</td>
+<td>=</td>
+<td class='context-item-value'>begin
+require 'openssl'
+::OpenSSL::Digest
+# :nocov:
+rescue LoadError
+require 'digest/sha2'
+::Digest
+# :nocov:
+end</td>
+<td>&nbsp;</td>
+<td class='context-item-desc'></td>
+</tr>
+</table>
+</div>
+</div>
 <div id='methods'>
 <h2>Public Class methods</h2>
 <div class='method public-class' id='method-method-c-configure'>
@@ -107,13 +131,31 @@ Roda::RodaPlugins::HashPublic
 [show source]
 </a>
 <pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/hash_public.rb</span>
-<span class="line-num">59</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span> = {})
-<span class="line-num">60</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:public</span>, <span class="ruby-identifier">opts</span>
-<span class="line-num">61</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:hash_public_prefix</span>] = (<span class="ruby-identifier">opts</span>[<span class="ruby-value">:prefix</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:hash_public_prefix</span>] <span class="ruby-operator">||</span> <span class="ruby-string">&#39;static&#39;</span>).<span class="ruby-identifier">dup</span>.<span class="ruby-identifier">freeze</span>
-<span class="line-num">62</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:hash_public_length</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:length</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:hash_public_length</span>]
-<span class="line-num">63</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:hash_public_mutex</span>] <span class="ruby-operator">||=</span> <span class="ruby-constant">Mutex</span>.<span class="ruby-identifier">new</span>
-<span class="line-num">64</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:hash_public_cache</span>] <span class="ruby-operator">||=</span> {}
-<span class="line-num">65</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">73</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span> = {})
+<span class="line-num">74</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:hash_public_prefix</span>] = (<span class="ruby-identifier">opts</span>[<span class="ruby-value">:prefix</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:hash_public_prefix</span>] <span class="ruby-operator">||</span> <span class="ruby-string">&#39;static&#39;</span>).<span class="ruby-identifier">dup</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">75</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:hash_public_length</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:length</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:hash_public_length</span>]
+<span class="line-num">76</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:hash_public_mutex</span>] <span class="ruby-operator">||=</span> <span class="ruby-constant">Mutex</span>.<span class="ruby-identifier">new</span>
+<span class="line-num">77</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:hash_public_cache</span>] <span class="ruby-operator">||=</span> {}
+<span class="line-num">78</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-class' id='method-method-c-load_dependencies'>
+<a name='method-c-load_dependencies'></a>
+<div class='synopsis'>
+<span class='name'>load_dependencies</span><span class='arguments'>(app, opts = OPTS)</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-load_dependencies-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-c-load_dependencies-source'>   <span class="ruby-comment"># File lib/roda/plugins/hash_public.rb</span>
+<span class="line-num">61</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">load_dependencies</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span> = <span class="ruby-constant">OPTS</span>)
+<span class="line-num">62</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:public</span>, <span class="ruby-identifier">opts</span>
+<span class="line-num">63</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>
