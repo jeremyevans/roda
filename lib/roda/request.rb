@@ -444,7 +444,7 @@ class Roda
         # Match integer segment of up to 100 decimal characters, and yield resulting value as an
         # integer.
         def _match_class_Integer
-          consume(/\A\/(\d{1,100})(?=\/|\z)/, :_convert_class_Integer)
+          _consume_single_segment(/\A\/(\d{1,100})(?=\/|\z)/, :_convert_class_Integer)
         end
 
         # Match only if all of the arguments in the given array match.
@@ -583,6 +583,32 @@ class Roda
               @captures << captures
             end
           end
+        end
+
+        if RUBY_VERSION >= "2.4"
+          # A faster version of consume that can be used if you are sure the regexp
+          # will match a single segment if it matches, capturing the entire segment.
+          def _consume_single_segment(regexp, meth=nil)
+            rp = @remaining_path
+            if regexp.match?(rp)
+              if last = rp.index('/', 1)
+                val = rp[1, last-1]
+                @remaining_path = rp[last, rp.length]
+              elsif (len = rp.length) > 1
+                val = rp[1, len]
+                @remaining_path = ""
+              end
+            end
+
+            if val
+              val = scope.send(meth, val) if meth
+              @captures << val
+            end
+          end
+        # :nocov:
+        else
+          alias _consume_single_segment consume
+        # :nocov:
         end
 
         # The default path to use for redirects when a path is not given.

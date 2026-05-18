@@ -1,3 +1,7 @@
+=== master
+
+* Improve performance of Integer matcher by 2-3x (jeremyevans)
+
 === 3.104.0 (2026-05-13)
 
 * Add hash_public_cache plugin for caching digests for files served by the hash_public plugin (jeremyevans)
