@@ -594,13 +594,11 @@ class Roda
               if last = rp.index('/', 1)
                 val = rp[1, last-1]
                 @remaining_path = rp[last, rp.length]
-              elsif (len = rp.length) > 1
-                val = rp[1, len]
+              else
+                val = rp[1, rp.length]
                 @remaining_path = ""
               end
-            end
 
-            if val
               if meth
                 if captures = scope.send(meth, val)
                   if captures.is_a?(Array)
