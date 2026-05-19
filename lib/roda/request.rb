@@ -601,8 +601,17 @@ class Roda
             end
 
             if val
-              val = scope.send(meth, val) if meth
-              @captures << val
+              if meth
+                if captures = scope.send(meth, val)
+                  if captures.is_a?(Array)
+                    @captures.concat(captures)
+                  else
+                    @captures << captures
+                  end
+                end
+              else
+                @captures << val
+              end
             end
           end
         # :nocov:

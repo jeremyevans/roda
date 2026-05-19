@@ -67,6 +67,17 @@ class Roda
     # Blocks passed to the class_matchers plugin are evaluated in route
     # block context.
     #
+    # When passing a regexp as a matcher, to class_matcher, you can provide a
+    # <tt>segment: true</tt> option to speed up the matching on Ruby 2.4+:
+    #
+    #   symbol_matcher(:employee_id, /E-(\d{6})/, segment: true) do |employee_id|
+    #     employee_id.to_i
+    #   end
+    #
+    # Use of <tt>segment: true</tt> requires that the regexp not match more than
+    # one segment (i.e. it cannot match +/+). Additionally, the entire segment will
+    # be captured, so any capture groups in the regexp will be ignored.
+    #
     # This plugin does not work with the params_capturing plugin, as it does not
     # offer the ability to associate block arguments with named keys.
     module ClassMatchers
@@ -92,10 +103,14 @@ class Roda
         # captures if no block was registered with the class or symbol. In either case,
         # if a block is given, it should return an array with the captures to yield to
         # the match block.
-        def class_matcher(klass, matcher, &block)
-          _symbol_class_matcher(Class, klass, matcher, block) do |meth, (_, regexp, convert_meth)|
+        def class_matcher(klass, matcher, opts=OPTS, &block)
+          _symbol_class_matcher(Class, klass, matcher, block, opts) do |meth, (_, regexp, convert_meth, consume_meth)|
             if regexp
-              define_method(meth){consume(regexp, convert_meth)}
+              if consume_meth == :_consume_single_segment
+                define_method(meth){_consume_single_segment(regexp, convert_meth)}
+              else
+                define_method(meth){consume(regexp, convert_meth)}
+              end
             else
               define_method(meth){_consume_segment(convert_meth)}
             end

@@ -19,6 +19,15 @@ class Roda
     # Then the route will only if the path is +/foobar123+, but not if it is
     # +/foo+, +/FooBar123+, or +/foobar_123+.
     #
+    # You can provide a <tt>segment: true</tt> option to symbol_matcher to speed up
+    # the matching on Ruby 2.4+:
+    #
+    #   symbol_matcher :username, /([a-z0-9]{6,20})/, segment: true
+    #
+    # Use of <tt>segment: true</tt> requires that the regexp not match more than
+    # one segment (i.e. it cannot match +/+). Additionally, the entire segment will
+    # be captured, so any capture groups in the regexp will be ignored.
+    #
     # By default, this plugin sets up the following symbol matchers:
     #
     # :d :: <tt>/(\d+)/</tt>, a decimal segment
@@ -106,8 +115,8 @@ class Roda
 
       def self.configure(app)
         app.opts[:symbol_matchers] ||= {}
-        app.symbol_matcher(:d, /(\d+)/)
-        app.symbol_matcher(:w, /(\w+)/)
+        app.symbol_matcher(:d, /(\d+)/, segment: true)
+        app.symbol_matcher(:w, /(\w+)/, segment: true)
         app.symbol_matcher(:rest, /(.*)/)
       end
 
@@ -122,8 +131,8 @@ class Roda
         # captures if no block was registered with the symbol or class. In either case,
         # if a block is given, it should return an array with the captures to yield to
         # the match block.
-        def symbol_matcher(s, matcher, &block)
-          _symbol_class_matcher(Symbol, s, matcher, block) do |meth, array|
+        def symbol_matcher(s, matcher, opts=OPTS, &block)
+          _symbol_class_matcher(Symbol, s, matcher, block, opts) do |meth, array|
             define_method(meth){array}
           end
 
@@ -147,9 +156,9 @@ class Roda
           meth = :"match_symbol_#{s}"
           if respond_to?(meth, true)
             # Allow calling private match methods
-            _, re, convert_meth = send(meth)
+            _, re, convert_meth, consume_meth = send(meth)
             if re
-              consume(re, convert_meth)
+              send(consume_meth, re, convert_meth)
             else
               # defined in class_matchers plugin
               _consume_segment(convert_meth)

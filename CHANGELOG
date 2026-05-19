@@ -1,5 +1,9 @@
 === master
 
+* Support segment: true for class and symbol matchers to improve performance (jeremyevans)
+
+* Improve performance of :d and :w symbol matchers by 2x (jeremyevans)
+
 * Improve performance of Integer matcher by 2-3x (jeremyevans)
 
 === 3.104.0 (2026-05-13)

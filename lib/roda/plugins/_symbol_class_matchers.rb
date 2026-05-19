@@ -8,7 +8,7 @@ class Roda
         private
 
         # Backend of symbol_matcher and class_matcher.
-        def _symbol_class_matcher(expected_class, obj, matcher, block, &request_class_block)
+        def _symbol_class_matcher(expected_class, obj, matcher, block, options=OPTS, &request_class_block)
           unless obj.is_a?(expected_class)
             raise RodaError, "Invalid type passed to class_matcher or symbol_matcher: #{matcher.inspect}"
           end
@@ -30,7 +30,7 @@ class Roda
               raise RodaError, "cannot provide Symbol matcher to class_matcher unless using symbol_matchers plugin: #{matcher.inspect}"
             end
 
-            regexp, consume_regexp, matcher_block = opts[:symbol_matchers][matcher]
+            regexp, consume_regexp, matcher_block, consume_meth = opts[:symbol_matchers][matcher]
 
             unless regexp
               raise RodaError, "unregistered symbol matcher given to #{type}_matcher: #{matcher.inspect}"
@@ -42,7 +42,7 @@ class Roda
               raise RodaError, "cannot provide Class matcher to symbol_matcher unless using class_matchers plugin: #{matcher.inspect}"
             end
 
-            regexp, consume_regexp, matcher_block = opts[:class_matchers][matcher]
+            regexp, consume_regexp, matcher_block, consume_meth = opts[:class_matchers][matcher]
             unless regexp
               raise RodaError, "unregistered class matcher given to #{type}_matcher: #{matcher.inspect}"
             end
@@ -59,7 +59,8 @@ class Roda
             private convert_meth
           end
 
-          array = opts[:"#{type}_matchers"][obj] = [regexp, consume_regexp, convert_meth].freeze
+          consume_meth ||= options[:segment] ? :_consume_single_segment : :consume
+          array = opts[:"#{type}_matchers"][obj] = [regexp, consume_regexp, convert_meth, consume_meth].freeze
 
           self::RodaRequest.class_eval do
             class_exec(meth, array, &request_class_block)
@@ -69,7 +70,7 @@ class Roda
           nil
         end
 
-        # If both block and matche_meth are given, 
+        # If both block and matcher_meth are given, 
         # define a method for block, and then return a
         # proc that calls matcher_meth first, and only calls
         # the newly defined method with the return values of matcher_meth
