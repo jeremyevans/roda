@@ -30,23 +30,23 @@ class Roda
               raise RodaError, "cannot provide Symbol matcher to class_matcher unless using symbol_matchers plugin: #{matcher.inspect}"
             end
 
-            regexp, consume_regexp, matcher_block, consume_meth = opts[:symbol_matchers][matcher]
+            regexp, consume_regexp, convert_meth, consume_meth = opts[:symbol_matchers][matcher]
 
             unless regexp
               raise RodaError, "unregistered symbol matcher given to #{type}_matcher: #{matcher.inspect}"
             end
 
-            block = _merge_matcher_blocks(type, obj, block, matcher_block)
+            block = _merge_matcher_blocks(type, obj, block, convert_meth)
           when Class
             unless opts[:class_matchers]
               raise RodaError, "cannot provide Class matcher to symbol_matcher unless using class_matchers plugin: #{matcher.inspect}"
             end
 
-            regexp, consume_regexp, matcher_block, consume_meth = opts[:class_matchers][matcher]
+            regexp, consume_regexp, convert_meth, consume_meth = opts[:class_matchers][matcher]
             unless regexp
               raise RodaError, "unregistered class matcher given to #{type}_matcher: #{matcher.inspect}"
             end
-            block = _merge_matcher_blocks(type, obj, block, matcher_block)
+            block = _merge_matcher_blocks(type, obj, block, convert_meth)
           else
             raise RodaError, "unsupported matcher given to #{type}_matcher: #{matcher.inspect}"
           end
@@ -70,30 +70,30 @@ class Roda
           nil
         end
 
-        # If both block and matcher_meth are given, 
+        # If both block and convert_meth are given, 
         # define a method for block, and then return a
-        # proc that calls matcher_meth first, and only calls
-        # the newly defined method with the return values of matcher_meth
+        # proc that calls convert_meth first, and only calls
+        # the newly defined method with the return values of convert_meth
         # if matcher_method returns a truthy value.
-        # Otherwise, return matcher_meth or block.
-        def _merge_matcher_blocks(type, obj, block, matcher_meth)
-          if matcher_meth
+        # Otherwise, return convert_meth or block.
+        def _merge_matcher_blocks(type, obj, block, convert_meth)
+          if convert_meth
             if block
-              convert_meth = :"_convert_merge_#{type}_#{obj}"
-              define_method(convert_meth, &block)
-              private convert_meth
+              convert_merge_meth = :"_convert_merge_#{type}_#{obj}"
+              define_method(convert_merge_meth, &block)
+              private convert_merge_meth
 
               proc do |*a|
-                if captures = send(matcher_meth, *a)
+                if captures = send(convert_meth, *a)
                   if captures.is_a?(Array)
-                    send(convert_meth, *captures)
+                    send(convert_merge_meth, *captures)
                   else
-                    send(convert_meth, captures)
+                    send(convert_merge_meth, captures)
                   end
                 end
               end
             else
-              matcher_meth
+              convert_meth
             end
           else
             block
