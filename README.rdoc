@@ -1007,37 +1007,46 @@ option. If you really want to turn path checking off, you can do so via the
 
 == Code Reloading
 
-Roda does not ship with integrated support for code reloading, but there are rack-based
-reloaders that will work with Roda apps.
+Roda does not ship with integrated support for code reloading, but there are many good
+options available:
 
-{Zeitwerk}[https://github.com/fxn/zeitwerk] (which Rails now uses for reloading) can be used
-with Roda.  It requires minimal setup and handles most cases. It overrides +require+ when
-activated. If it can meet the needs of your application, it's probably the best approach.
+{Zeitwerk}[https://github.com/fxn/zeitwerk] is the most popular Ruby code reloading library.
+It requires minimal setup and handles most cases. It overrides +require+ when
+activated. It supports loading code on demand (autoloading), while enforcing some file path
+conventions. Each file should define a single top-level constant. On the other hand,
+explicitly requiring dependencies with Zeitwerk is currently considered
+{experimental and undocumented}[https://github.com/fxn/zeitwerk/blob/main/lib/zeitwerk/core_ext/kernel.rb#L16].
+Use of +require_relative+ {isn't currently supported}[https://github.com/fxn/zeitwerk/blob/main/lib/zeitwerk/core_ext/kernel.rb#L45].
+It's battle tested by Rails users. Pick Zeitwerk if you prefer your code to be automatically
+loaded and agree with the Zeitwerk convention rules to organize your code.
 
-{rack-unreloader}[https://github.com/jeremyevans/rack-unreloader] uses a fast
-approach to reloading while still being fairly safe, as it only reloads files that have
-been modified, and unloads constants defined in the files before reloading them. It can handle
-advanced cases that Zeitwerk does not support, such as classes defined in multiple files
-(common when using separate route files for different routing branches in the same application).
-However, rack-unreloader does not modify core classes and using it requires modifying your
-application code to use rack-unreloader specific APIs, which may not be simple.
+{rack-unreloader}[https://github.com/jeremyevans/rack-unreloader] implements a Rack
+middleware that detects changes upon web requests. It wraps a Rack app and records all
+loaded constants so that it knows what to unload in the next request on code updates.
+It doesn't override +require+ or apply any monkey patches. It unloads all newly detected
+constants, including standard library constants like JSON, which can be dangerous. Users are
+advised to load core classes before accepting requests (see the documentation). You can
+optionally enable autoloading as long as you provide the rules to translate a file path to
+the constant name. By default autoloading is disabled and the dependencies must be explicitly
+required. Pick rack-unreloader if you'd rather avoid monkey patching +Kernel.require+ and prefer
+to modify the application code to work with this tool instead.
 
-{AutoReloader}[https://github.com/rosenfeld/auto_reloader] provides transparent reloading for
-all files reached from one of the +reloadable_paths+ option entries, by detecting new top-level
+{auto_reloader}[https://github.com/rosenfeld/auto_reloader] provides transparent reloading for
+all files reached from one of the reloadable_paths option entries, by detecting new top-level
 constants and removing them when any of the reloadable loaded files changes. It overrides
 +require+ and +require_relative+ when activated (usually in the development environment). No
-configurations other than +reloadable_paths+ are required.
+configurations other than reloadable_paths are required. It detects code changes by watching
+files if the +listen+ gem is installed or by checking if any of the reloadable files have been
+changed upon each request otherwise. Autoloading isn't supported by design. Pick auto_reloader
+if you'd prefer explicit dependency management, simplicity and plain unmodified Ruby in
+production and don't care about monkey-patching require and require_relative in the development
+environment.
 
-{rerun}[https://github.com/alexch/rerun] uses a fork/exec approach for loading new
-versions of your app.  It work without any changes to application
-code, but may be slower as they have to reload the entire application on every change.
-However, for small apps that load quickly, it may be a good approach.
-
-There is no one reloading solution that is the best for all applications and development
-approaches.  Consider your needs and the tradeoffs of each of the reloading approaches,
-and pick the one you think will work best.  If you are unsure where to start,
-it may be best to start with Zeitwerk, and only consider other options if it does not
-work well for you.
+{rerun}[https://github.com/alexch/rerun] uses a fork/exec approach for loading new versions of
+your app. It works without any changes to application code, but may be slower as it has to
+reload the entire application on every change. It doesn't support autoloading code. Pick rerun
+if you value simplicity over performance in the development environment and prefer explicit
+dependency management.
 
 == Plugins
 
