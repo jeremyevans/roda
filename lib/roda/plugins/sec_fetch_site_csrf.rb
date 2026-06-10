@@ -2,16 +2,16 @@
 
 class Roda
   module RodaPlugins
-    # The sec_fetch_site plugin allows for CSRF protection using the
+    # The sec_fetch_site_csrf plugin allows for CSRF protection using the
     # Sec-Fetch-Site header added in modern browsers. It allows for CSRF
     # protection without the use of CSRF tokens, which can simplify
     # form creation.
     #
-    # The protection offered by the sec_fetch_site plugin is weaker than
+    # The protection offered by the sec_fetch_site_csrf plugin is weaker than
     # the protection offered by the route_csrf plugin with default settings,
     # since it doesn't support per-request tokens. Be aware you are trading
-    # security for simplicity when using the sec_fetch_site plugin instead
-    # of the route_csrf plugin.  Other caveats in using the sec_fetch_site
+    # security for simplicity when using the sec_fetch_site_csrf plugin instead
+    # of the route_csrf plugin.  Other caveats in using the sec_fetch_site_csrf
     # plugin:
     #
     # * Not all browsers set the Sec-Fetch-Site header. Some browsers
