@@ -52,9 +52,20 @@ class Roda
                   end
                 end
               elsif matcher == Integer
-                if (matchdata = /\A\/(\d{1,100})(?=\/|\z)/.match(@remaining_path)) && (value = scope.send(:_convert_class_Integer, matchdata[1]))
-                  @remaining_path = matchdata.post_match
-                  always{yield(value)}
+                rp = @remaining_path
+                if /\A\/(\d{1,100})(?=\/|\z)/.match?(rp)
+                  if last = rp.index('/', 1)
+                    value = rp[1, last-1]
+                    rp = rp[last, rp.length]
+                  else
+                    value = rp[1, rp.length]
+                    rp = ""
+                  end
+
+                  if value = scope.send(:_convert_class_Integer, value)
+                    @remaining_path = rp
+                    always{yield(value)}
+                  end
                 end
               else
                 path = @remaining_path
@@ -151,10 +162,11 @@ class Roda
                 always{yield rp[1, len]}
               end
             elsif matcher == Integer
-              if (matchdata = /\A\/(\d{1,100})\z/.match(@remaining_path)) && (value = scope.send(:_convert_class_Integer, matchdata[1]))
-                @remaining_path = ''
-                always{yield(value)}
-              end
+                rp = @remaining_path
+                if /\A\/(\d{1,100})\z/.match?(rp) && (value = scope.send(:_convert_class_Integer, rp[1, 101])) 
+                  @remaining_path = ''
+                  always{yield(value)}
+                end
             else
               path = @remaining_path
               captures = @captures.clear
