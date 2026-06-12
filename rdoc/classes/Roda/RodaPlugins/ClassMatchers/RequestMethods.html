@@ -64,25 +64,25 @@ Roda::RodaPlugins::ClassMatchers::RequestMethods
 [show source]
 </a>
 <pre id='method-i-_consume_segment-source'>    <span class="ruby-comment"># File lib/roda/plugins/class_matchers.rb</span>
-<span class="line-num">116</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">_consume_segment</span>(<span class="ruby-identifier">convert_meth</span>)
-<span class="line-num">117</span>   <span class="ruby-identifier">rp</span> = <span class="ruby-ivar">@remaining_path</span>
-<span class="line-num">118</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">_match_class_String</span>
-<span class="line-num">119</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">convert_meth</span>
-<span class="line-num">120</span>       <span class="ruby-keyword">if</span> <span class="ruby-identifier">captures</span> = <span class="ruby-identifier">scope</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">convert_meth</span>, <span class="ruby-ivar">@captures</span>.<span class="ruby-identifier">pop</span>)
-<span class="line-num">121</span>         <span class="ruby-keyword">if</span> <span class="ruby-identifier">captures</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>)
-<span class="line-num">122</span>           <span class="ruby-ivar">@captures</span>.<span class="ruby-identifier">concat</span>(<span class="ruby-identifier">captures</span>)
-<span class="line-num">123</span>         <span class="ruby-keyword">else</span>
-<span class="line-num">124</span>           <span class="ruby-ivar">@captures</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">captures</span>
-<span class="line-num">125</span>         <span class="ruby-keyword">end</span>
-<span class="line-num">126</span>       <span class="ruby-keyword">else</span>
-<span class="line-num">127</span>         <span class="ruby-ivar">@remaining_path</span> = <span class="ruby-identifier">rp</span>
-<span class="line-num">128</span>         <span class="ruby-keyword">nil</span>
-<span class="line-num">129</span>       <span class="ruby-keyword">end</span>
-<span class="line-num">130</span>     <span class="ruby-keyword">else</span>
-<span class="line-num">131</span>       <span class="ruby-keyword">true</span>
-<span class="line-num">132</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">133</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">134</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">131</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">_consume_segment</span>(<span class="ruby-identifier">convert_meth</span>)
+<span class="line-num">132</span>   <span class="ruby-identifier">rp</span> = <span class="ruby-ivar">@remaining_path</span>
+<span class="line-num">133</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">_match_class_String</span>
+<span class="line-num">134</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">convert_meth</span>
+<span class="line-num">135</span>       <span class="ruby-keyword">if</span> <span class="ruby-identifier">captures</span> = <span class="ruby-identifier">scope</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">convert_meth</span>, <span class="ruby-ivar">@captures</span>.<span class="ruby-identifier">pop</span>)
+<span class="line-num">136</span>         <span class="ruby-keyword">if</span> <span class="ruby-identifier">captures</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>)
+<span class="line-num">137</span>           <span class="ruby-ivar">@captures</span>.<span class="ruby-identifier">concat</span>(<span class="ruby-identifier">captures</span>)
+<span class="line-num">138</span>         <span class="ruby-keyword">else</span>
+<span class="line-num">139</span>           <span class="ruby-ivar">@captures</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">captures</span>
+<span class="line-num">140</span>         <span class="ruby-keyword">end</span>
+<span class="line-num">141</span>       <span class="ruby-keyword">else</span>
+<span class="line-num">142</span>         <span class="ruby-ivar">@remaining_path</span> = <span class="ruby-identifier">rp</span>
+<span class="line-num">143</span>         <span class="ruby-keyword">nil</span>
+<span class="line-num">144</span>       <span class="ruby-keyword">end</span>
+<span class="line-num">145</span>     <span class="ruby-keyword">else</span>
+<span class="line-num">146</span>       <span class="ruby-keyword">true</span>
+<span class="line-num">147</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">148</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">149</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

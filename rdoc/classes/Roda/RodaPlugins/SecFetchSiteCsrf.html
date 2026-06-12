@@ -36,9 +36,9 @@ Roda::RodaPlugins::SecFetchSiteCsrf
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The sec_fetch_site plugin allows for CSRF protection using the Sec-Fetch-Site header added in modern browsers. It allows for CSRF protection without the use of CSRF tokens, which can simplify form creation.</p>
+<p>The <a href="../../../files/lib/roda/plugins/sec_fetch_site_csrf_rb.html">sec_fetch_site_csrf</a> plugin allows for CSRF protection using the Sec-Fetch-Site header added in modern browsers. It allows for CSRF protection without the use of CSRF tokens, which can simplify form creation.</p>
 
-<p>The protection offered by the sec_fetch_site plugin is weaker than the protection offered by the <a href="../../../files/lib/roda/plugins/route_csrf_rb.html">route_csrf</a> plugin with default settings, since it doesn’t support per-request tokens. Be aware you are trading security for simplicity when using the sec_fetch_site plugin instead of the <a href="../../../files/lib/roda/plugins/route_csrf_rb.html">route_csrf</a> plugin.  Other caveats in using the sec_fetch_site plugin:</p>
+<p>The protection offered by the <a href="../../../files/lib/roda/plugins/sec_fetch_site_csrf_rb.html">sec_fetch_site_csrf</a> plugin is weaker than the protection offered by the <a href="../../../files/lib/roda/plugins/route_csrf_rb.html">route_csrf</a> plugin with default settings, since it doesn’t support per-request tokens. Be aware you are trading security for simplicity when using the <a href="../../../files/lib/roda/plugins/sec_fetch_site_csrf_rb.html">sec_fetch_site_csrf</a> plugin instead of the <a href="../../../files/lib/roda/plugins/route_csrf_rb.html">route_csrf</a> plugin.  Other caveats in using the <a href="../../../files/lib/roda/plugins/sec_fetch_site_csrf_rb.html">sec_fetch_site_csrf</a> plugin:</p>
 <ul><li>
 <p>Not all browsers set the Sec-Fetch-Site header. Some browsers didn’t start setting the header until 2023. In these cases, you need to decide how to handle the request. The default is to deny the request, though you can use the :allow_missing option to allow it.</p>
 </li><li>

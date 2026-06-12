@@ -65,16 +65,16 @@ Roda::RodaPlugins::SymbolMatchers::ClassMethods
 [show source]
 </a>
 <pre id='method-i-freeze-source'>    <span class="ruby-comment"># File lib/roda/plugins/symbol_matchers.rb</span>
-<span class="line-num">134</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">freeze</span>
-<span class="line-num">135</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:symbol_matchers</span>].<span class="ruby-identifier">freeze</span>
-<span class="line-num">136</span>   <span class="ruby-keyword">super</span>
-<span class="line-num">137</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">143</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">freeze</span>
+<span class="line-num">144</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:symbol_matchers</span>].<span class="ruby-identifier">freeze</span>
+<span class="line-num">145</span>   <span class="ruby-keyword">super</span>
+<span class="line-num">146</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-symbol_matcher'>
 <a name='method-i-symbol_matcher'></a>
 <div class='synopsis'>
-<span class='name'>symbol_matcher</span><span class='arguments'>(s, matcher, &block)</span>
+<span class='name'>symbol_matcher</span><span class='arguments'>(s, matcher, opts=OPTS, &block)</span>
 
 </div>
 <div class='description'>
@@ -89,13 +89,13 @@ Roda::RodaPlugins::SymbolMatchers::ClassMethods
 [show source]
 </a>
 <pre id='method-i-symbol_matcher-source'>    <span class="ruby-comment"># File lib/roda/plugins/symbol_matchers.rb</span>
-<span class="line-num">125</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">symbol_matcher</span>(<span class="ruby-identifier">s</span>, <span class="ruby-identifier">matcher</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">126</span>   <span class="ruby-identifier">_symbol_class_matcher</span>(<span class="ruby-constant">Symbol</span>, <span class="ruby-identifier">s</span>, <span class="ruby-identifier">matcher</span>, <span class="ruby-identifier">block</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">meth</span>, <span class="ruby-identifier">array</span><span class="ruby-operator">|</span>
-<span class="line-num">127</span>     <span class="ruby-identifier">define_method</span>(<span class="ruby-identifier">meth</span>){<span class="ruby-identifier">array</span>}
-<span class="line-num">128</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">129</span> 
-<span class="line-num">130</span>   <span class="ruby-keyword">nil</span>
-<span class="line-num">131</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">134</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">symbol_matcher</span>(<span class="ruby-identifier">s</span>, <span class="ruby-identifier">matcher</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">135</span>   <span class="ruby-identifier">_symbol_class_matcher</span>(<span class="ruby-constant">Symbol</span>, <span class="ruby-identifier">s</span>, <span class="ruby-identifier">matcher</span>, <span class="ruby-identifier">block</span>, <span class="ruby-identifier">opts</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">meth</span>, <span class="ruby-identifier">array</span><span class="ruby-operator">|</span>
+<span class="line-num">136</span>     <span class="ruby-identifier">define_method</span>(<span class="ruby-identifier">meth</span>){<span class="ruby-identifier">array</span>}
+<span class="line-num">137</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">138</span> 
+<span class="line-num">139</span>   <span class="ruby-keyword">nil</span>
+<span class="line-num">140</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

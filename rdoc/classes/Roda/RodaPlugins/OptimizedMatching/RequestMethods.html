@@ -112,67 +112,78 @@ Roda::RodaPlugins::OptimizedMatching::RequestMethods
 <span class="line-num"> 52</span>           <span class="ruby-keyword">end</span>
 <span class="line-num"> 53</span>         <span class="ruby-keyword">end</span>
 <span class="line-num"> 54</span>       <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">matcher</span> <span class="ruby-operator">==</span> <span class="ruby-constant">Integer</span>
-<span class="line-num"> 55</span>         <span class="ruby-keyword">if</span> (<span class="ruby-identifier">matchdata</span> = <span class="ruby-regexp">/\A\/(\d{1,100})(?=\/|\z)/</span>.<span class="ruby-identifier">match</span>(<span class="ruby-ivar">@remaining_path</span>)) <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">value</span> = <span class="ruby-identifier">scope</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:_convert_class_Integer</span>, <span class="ruby-identifier">matchdata</span>[<span class="ruby-value">1</span>]))
-<span class="line-num"> 56</span>           <span class="ruby-ivar">@remaining_path</span> = <span class="ruby-identifier">matchdata</span>.<span class="ruby-identifier">post_match</span>
-<span class="line-num"> 57</span>           <span class="ruby-identifier">always</span>{<span class="ruby-keyword">yield</span>(<span class="ruby-identifier">value</span>)}
-<span class="line-num"> 58</span>         <span class="ruby-keyword">end</span>
-<span class="line-num"> 59</span>       <span class="ruby-keyword">else</span>
-<span class="line-num"> 60</span>         <span class="ruby-identifier">path</span> = <span class="ruby-ivar">@remaining_path</span>
-<span class="line-num"> 61</span>         <span class="ruby-identifier">captures</span> = <span class="ruby-ivar">@captures</span>.<span class="ruby-identifier">clear</span>
-<span class="line-num"> 62</span>         <span class="ruby-identifier">meth</span> = <span class="ruby-value">:&quot;_match_class_#{matcher}&quot;</span>
-<span class="line-num"> 63</span>         <span class="ruby-keyword">if</span> <span class="ruby-identifier">respond_to?</span>(<span class="ruby-identifier">meth</span>, <span class="ruby-keyword">true</span>)
-<span class="line-num"> 64</span>           <span class="ruby-comment"># Allow calling private methods, as match methods are generally private</span>
-<span class="line-num"> 65</span>           <span class="ruby-keyword">if</span> <span class="ruby-identifier">send</span>(<span class="ruby-identifier">meth</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num"> 66</span>             <span class="ruby-identifier">block_result</span>(<span class="ruby-keyword">yield</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">captures</span>))
-<span class="line-num"> 67</span>             <span class="ruby-identifier">throw</span> <span class="ruby-value">:halt</span>, <span class="ruby-identifier">response</span>.<span class="ruby-identifier">finish</span>
-<span class="line-num"> 68</span>           <span class="ruby-keyword">else</span>
-<span class="line-num"> 69</span>             <span class="ruby-ivar">@remaining_path</span> = <span class="ruby-identifier">path</span>
-<span class="line-num"> 70</span>             <span class="ruby-keyword">false</span>
-<span class="line-num"> 71</span>           <span class="ruby-keyword">end</span>
-<span class="line-num"> 72</span>         <span class="ruby-keyword">else</span>
-<span class="line-num"> 73</span>           <span class="ruby-identifier">unsupported_matcher</span>(<span class="ruby-identifier">matcher</span>)
-<span class="line-num"> 74</span>         <span class="ruby-keyword">end</span>
-<span class="line-num"> 75</span>       <span class="ruby-keyword">end</span>
-<span class="line-num"> 76</span>     <span class="ruby-keyword">when</span> <span class="ruby-constant">Regexp</span>
-<span class="line-num"> 77</span>       <span class="ruby-keyword">if</span> <span class="ruby-identifier">matchdata</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">cached_matcher</span>(<span class="ruby-identifier">matcher</span>){<span class="ruby-identifier">matcher</span>}.<span class="ruby-identifier">match</span>(<span class="ruby-ivar">@remaining_path</span>)
-<span class="line-num"> 78</span>         <span class="ruby-ivar">@remaining_path</span> = <span class="ruby-identifier">matchdata</span>.<span class="ruby-identifier">post_match</span>
-<span class="line-num"> 79</span>         <span class="ruby-identifier">always</span>{<span class="ruby-keyword">yield</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">matchdata</span>.<span class="ruby-identifier">captures</span>)}
-<span class="line-num"> 80</span>       <span class="ruby-keyword">end</span>
-<span class="line-num"> 81</span>     <span class="ruby-keyword">when</span> <span class="ruby-keyword">true</span>
-<span class="line-num"> 82</span>       <span class="ruby-identifier">always</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num"> 83</span>     <span class="ruby-keyword">when</span> <span class="ruby-keyword">false</span>, <span class="ruby-keyword">nil</span>
-<span class="line-num"> 84</span>       <span class="ruby-comment"># nothing</span>
-<span class="line-num"> 85</span>     <span class="ruby-keyword">else</span>
-<span class="line-num"> 86</span>       <span class="ruby-identifier">path</span> = <span class="ruby-ivar">@remaining_path</span>
-<span class="line-num"> 87</span>       <span class="ruby-identifier">captures</span> = <span class="ruby-ivar">@captures</span>.<span class="ruby-identifier">clear</span>
-<span class="line-num"> 88</span> 
-<span class="line-num"> 89</span>       <span class="ruby-identifier">matched</span> = <span class="ruby-keyword">case</span> <span class="ruby-identifier">matcher</span>
-<span class="line-num"> 90</span>       <span class="ruby-keyword">when</span> <span class="ruby-constant">Array</span>
-<span class="line-num"> 91</span>         <span class="ruby-identifier">_match_array</span>(<span class="ruby-identifier">matcher</span>)
-<span class="line-num"> 92</span>       <span class="ruby-keyword">when</span> <span class="ruby-constant">Hash</span>
-<span class="line-num"> 93</span>         <span class="ruby-identifier">_match_hash</span>(<span class="ruby-identifier">matcher</span>)
-<span class="line-num"> 94</span>       <span class="ruby-keyword">when</span> <span class="ruby-constant">Symbol</span>
-<span class="line-num"> 95</span>         <span class="ruby-identifier">_match_symbol</span>(<span class="ruby-identifier">matcher</span>)
-<span class="line-num"> 96</span>       <span class="ruby-keyword">when</span> <span class="ruby-constant">Proc</span>
-<span class="line-num"> 97</span>         <span class="ruby-identifier">matcher</span>.<span class="ruby-identifier">call</span>
-<span class="line-num"> 98</span>       <span class="ruby-keyword">else</span>
-<span class="line-num"> 99</span>         <span class="ruby-identifier">unsupported_matcher</span>(<span class="ruby-identifier">matcher</span>)
-<span class="line-num">100</span>       <span class="ruby-keyword">end</span>
-<span class="line-num">101</span> 
-<span class="line-num">102</span>       <span class="ruby-keyword">if</span> <span class="ruby-identifier">matched</span>
-<span class="line-num">103</span>         <span class="ruby-identifier">block_result</span>(<span class="ruby-keyword">yield</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">captures</span>))
-<span class="line-num">104</span>         <span class="ruby-identifier">throw</span> <span class="ruby-value">:halt</span>, <span class="ruby-identifier">response</span>.<span class="ruby-identifier">finish</span>
-<span class="line-num">105</span>       <span class="ruby-keyword">else</span>
-<span class="line-num">106</span>         <span class="ruby-ivar">@remaining_path</span> = <span class="ruby-identifier">path</span>
-<span class="line-num">107</span>         <span class="ruby-keyword">false</span>
-<span class="line-num">108</span>       <span class="ruby-keyword">end</span>
-<span class="line-num">109</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">110</span>   <span class="ruby-keyword">when</span> <span class="ruby-value">0</span>
-<span class="line-num">111</span>     <span class="ruby-identifier">always</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">112</span>   <span class="ruby-keyword">else</span>
-<span class="line-num">113</span>     <span class="ruby-identifier">if_match</span>(<span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">114</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">115</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num"> 55</span>         <span class="ruby-identifier">rp</span> = <span class="ruby-ivar">@remaining_path</span>
+<span class="line-num"> 56</span>         <span class="ruby-keyword">if</span> <span class="ruby-regexp">/\A\/(\d{1,100})(?=\/|\z)/</span>.<span class="ruby-identifier">match?</span>(<span class="ruby-identifier">rp</span>)
+<span class="line-num"> 57</span>           <span class="ruby-keyword">if</span> <span class="ruby-identifier">last</span> = <span class="ruby-identifier">rp</span>.<span class="ruby-identifier">index</span>(<span class="ruby-string">&#39;/&#39;</span>, <span class="ruby-value">1</span>)
+<span class="line-num"> 58</span>             <span class="ruby-identifier">value</span> = <span class="ruby-identifier">rp</span>[<span class="ruby-value">1</span>, <span class="ruby-identifier">last</span><span class="ruby-value">-1</span>]
+<span class="line-num"> 59</span>             <span class="ruby-identifier">rp</span> = <span class="ruby-identifier">rp</span>[<span class="ruby-identifier">last</span>, <span class="ruby-identifier">rp</span>.<span class="ruby-identifier">length</span>]
+<span class="line-num"> 60</span>           <span class="ruby-keyword">else</span>
+<span class="line-num"> 61</span>             <span class="ruby-identifier">value</span> = <span class="ruby-identifier">rp</span>[<span class="ruby-value">1</span>, <span class="ruby-identifier">rp</span>.<span class="ruby-identifier">length</span>]
+<span class="line-num"> 62</span>             <span class="ruby-identifier">rp</span> = <span class="ruby-string">&quot;&quot;</span>
+<span class="line-num"> 63</span>           <span class="ruby-keyword">end</span>
+<span class="line-num"> 64</span> 
+<span class="line-num"> 65</span>           <span class="ruby-keyword">if</span> <span class="ruby-identifier">value</span> = <span class="ruby-identifier">scope</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:_convert_class_Integer</span>, <span class="ruby-identifier">value</span>)
+<span class="line-num"> 66</span>             <span class="ruby-ivar">@remaining_path</span> = <span class="ruby-identifier">rp</span>
+<span class="line-num"> 67</span>             <span class="ruby-identifier">always</span>{<span class="ruby-keyword">yield</span>(<span class="ruby-identifier">value</span>)}
+<span class="line-num"> 68</span>           <span class="ruby-keyword">end</span>
+<span class="line-num"> 69</span>         <span class="ruby-keyword">end</span>
+<span class="line-num"> 70</span>       <span class="ruby-keyword">else</span>
+<span class="line-num"> 71</span>         <span class="ruby-identifier">path</span> = <span class="ruby-ivar">@remaining_path</span>
+<span class="line-num"> 72</span>         <span class="ruby-identifier">captures</span> = <span class="ruby-ivar">@captures</span>.<span class="ruby-identifier">clear</span>
+<span class="line-num"> 73</span>         <span class="ruby-identifier">meth</span> = <span class="ruby-value">:&quot;_match_class_#{matcher}&quot;</span>
+<span class="line-num"> 74</span>         <span class="ruby-keyword">if</span> <span class="ruby-identifier">respond_to?</span>(<span class="ruby-identifier">meth</span>, <span class="ruby-keyword">true</span>)
+<span class="line-num"> 75</span>           <span class="ruby-comment"># Allow calling private methods, as match methods are generally private</span>
+<span class="line-num"> 76</span>           <span class="ruby-keyword">if</span> <span class="ruby-identifier">send</span>(<span class="ruby-identifier">meth</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num"> 77</span>             <span class="ruby-identifier">block_result</span>(<span class="ruby-keyword">yield</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">captures</span>))
+<span class="line-num"> 78</span>             <span class="ruby-identifier">throw</span> <span class="ruby-value">:halt</span>, <span class="ruby-identifier">response</span>.<span class="ruby-identifier">finish</span>
+<span class="line-num"> 79</span>           <span class="ruby-keyword">else</span>
+<span class="line-num"> 80</span>             <span class="ruby-ivar">@remaining_path</span> = <span class="ruby-identifier">path</span>
+<span class="line-num"> 81</span>             <span class="ruby-keyword">false</span>
+<span class="line-num"> 82</span>           <span class="ruby-keyword">end</span>
+<span class="line-num"> 83</span>         <span class="ruby-keyword">else</span>
+<span class="line-num"> 84</span>           <span class="ruby-identifier">unsupported_matcher</span>(<span class="ruby-identifier">matcher</span>)
+<span class="line-num"> 85</span>         <span class="ruby-keyword">end</span>
+<span class="line-num"> 86</span>       <span class="ruby-keyword">end</span>
+<span class="line-num"> 87</span>     <span class="ruby-keyword">when</span> <span class="ruby-constant">Regexp</span>
+<span class="line-num"> 88</span>       <span class="ruby-keyword">if</span> <span class="ruby-identifier">matchdata</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">cached_matcher</span>(<span class="ruby-identifier">matcher</span>){<span class="ruby-identifier">matcher</span>}.<span class="ruby-identifier">match</span>(<span class="ruby-ivar">@remaining_path</span>)
+<span class="line-num"> 89</span>         <span class="ruby-ivar">@remaining_path</span> = <span class="ruby-identifier">matchdata</span>.<span class="ruby-identifier">post_match</span>
+<span class="line-num"> 90</span>         <span class="ruby-identifier">always</span>{<span class="ruby-keyword">yield</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">matchdata</span>.<span class="ruby-identifier">captures</span>)}
+<span class="line-num"> 91</span>       <span class="ruby-keyword">end</span>
+<span class="line-num"> 92</span>     <span class="ruby-keyword">when</span> <span class="ruby-keyword">true</span>
+<span class="line-num"> 93</span>       <span class="ruby-identifier">always</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num"> 94</span>     <span class="ruby-keyword">when</span> <span class="ruby-keyword">false</span>, <span class="ruby-keyword">nil</span>
+<span class="line-num"> 95</span>       <span class="ruby-comment"># nothing</span>
+<span class="line-num"> 96</span>     <span class="ruby-keyword">else</span>
+<span class="line-num"> 97</span>       <span class="ruby-identifier">path</span> = <span class="ruby-ivar">@remaining_path</span>
+<span class="line-num"> 98</span>       <span class="ruby-identifier">captures</span> = <span class="ruby-ivar">@captures</span>.<span class="ruby-identifier">clear</span>
+<span class="line-num"> 99</span> 
+<span class="line-num">100</span>       <span class="ruby-identifier">matched</span> = <span class="ruby-keyword">case</span> <span class="ruby-identifier">matcher</span>
+<span class="line-num">101</span>       <span class="ruby-keyword">when</span> <span class="ruby-constant">Array</span>
+<span class="line-num">102</span>         <span class="ruby-identifier">_match_array</span>(<span class="ruby-identifier">matcher</span>)
+<span class="line-num">103</span>       <span class="ruby-keyword">when</span> <span class="ruby-constant">Hash</span>
+<span class="line-num">104</span>         <span class="ruby-identifier">_match_hash</span>(<span class="ruby-identifier">matcher</span>)
+<span class="line-num">105</span>       <span class="ruby-keyword">when</span> <span class="ruby-constant">Symbol</span>
+<span class="line-num">106</span>         <span class="ruby-identifier">_match_symbol</span>(<span class="ruby-identifier">matcher</span>)
+<span class="line-num">107</span>       <span class="ruby-keyword">when</span> <span class="ruby-constant">Proc</span>
+<span class="line-num">108</span>         <span class="ruby-identifier">matcher</span>.<span class="ruby-identifier">call</span>
+<span class="line-num">109</span>       <span class="ruby-keyword">else</span>
+<span class="line-num">110</span>         <span class="ruby-identifier">unsupported_matcher</span>(<span class="ruby-identifier">matcher</span>)
+<span class="line-num">111</span>       <span class="ruby-keyword">end</span>
+<span class="line-num">112</span> 
+<span class="line-num">113</span>       <span class="ruby-keyword">if</span> <span class="ruby-identifier">matched</span>
+<span class="line-num">114</span>         <span class="ruby-identifier">block_result</span>(<span class="ruby-keyword">yield</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">captures</span>))
+<span class="line-num">115</span>         <span class="ruby-identifier">throw</span> <span class="ruby-value">:halt</span>, <span class="ruby-identifier">response</span>.<span class="ruby-identifier">finish</span>
+<span class="line-num">116</span>       <span class="ruby-keyword">else</span>
+<span class="line-num">117</span>         <span class="ruby-ivar">@remaining_path</span> = <span class="ruby-identifier">path</span>
+<span class="line-num">118</span>         <span class="ruby-keyword">false</span>
+<span class="line-num">119</span>       <span class="ruby-keyword">end</span>
+<span class="line-num">120</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">121</span>   <span class="ruby-keyword">when</span> <span class="ruby-value">0</span>
+<span class="line-num">122</span>     <span class="ruby-identifier">always</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">123</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">124</span>     <span class="ruby-identifier">if_match</span>(<span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">125</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">126</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

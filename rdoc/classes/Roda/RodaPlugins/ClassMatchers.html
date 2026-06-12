@@ -91,6 +91,15 @@ Roda::RodaPlugins::ClassMatchers
 
 <p>Blocks passed to the <a href="../../../files/lib/roda/plugins/class_matchers_rb.html">class_matchers</a> plugin are evaluated in route block context.</p>
 
+<p>When passing a regexp as a matcher, to class_matcher, you can provide a <code>segment: true</code> option to speed up the matching on Ruby 2.4+:</p>
+
+<pre class="ruby"><span class="ruby-identifier">symbol_matcher</span>(<span class="ruby-value">:employee_id</span>, <span class="ruby-regexp">/E-(\d{6})/</span>, <span class="ruby-value">segment:</span> <span class="ruby-keyword">true</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">employee_id</span><span class="ruby-operator">|</span>
+  <span class="ruby-identifier">employee_id</span>.<span class="ruby-identifier">to_i</span>
+<span class="ruby-keyword">end</span>
+</pre>
+
+<p>Use of <code>segment: true</code> requires that the regexp not match more than one segment (i.e. it cannot match <code>/</code>). Additionally, the entire segment will be captured, so any capture groups in the regexp will be ignored.</p>
+
 <p>This plugin does not work with the <a href="../../../files/lib/roda/plugins/params_capturing_rb.html">params_capturing</a> plugin, as it does not offer the ability to associate block arguments with named keys.</p>
 </div>
 <div id='method-list'>
@@ -127,12 +136,12 @@ Roda::RodaPlugins::ClassMatchers
 [show source]
 </a>
 <pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/class_matchers.rb</span>
-<span class="line-num">77</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>)
-<span class="line-num">78</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:class_matchers</span>] <span class="ruby-operator">||=</span> {
-<span class="line-num">79</span>     <span class="ruby-constant">Integer</span><span class="ruby-operator">=&gt;</span>[<span class="ruby-regexp">/(\d{1,100})/</span>, <span class="ruby-regexp">/\A\/(\d{1,100})(?=\/|\z)/</span>, <span class="ruby-value">:_convert_class_Integer</span>].<span class="ruby-identifier">freeze</span>,
-<span class="line-num">80</span>     <span class="ruby-constant">String</span><span class="ruby-operator">=&gt;</span>[<span class="ruby-regexp">/([^\/]+)/</span>, <span class="ruby-keyword">nil</span>, <span class="ruby-keyword">nil</span>].<span class="ruby-identifier">freeze</span>
-<span class="line-num">81</span>   }
-<span class="line-num">82</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">88</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>)
+<span class="line-num">89</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:class_matchers</span>] <span class="ruby-operator">||=</span> {
+<span class="line-num">90</span>     <span class="ruby-constant">Integer</span><span class="ruby-operator">=&gt;</span>[<span class="ruby-regexp">/(\d{1,100})/</span>, <span class="ruby-regexp">/\A\/(\d{1,100})(?=\/|\z)/</span>, <span class="ruby-value">:_convert_class_Integer</span>].<span class="ruby-identifier">freeze</span>,
+<span class="line-num">91</span>     <span class="ruby-constant">String</span><span class="ruby-operator">=&gt;</span>[<span class="ruby-regexp">/([^\/]+)/</span>, <span class="ruby-keyword">nil</span>, <span class="ruby-keyword">nil</span>].<span class="ruby-identifier">freeze</span>
+<span class="line-num">92</span>   }
+<span class="line-num">93</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-class' id='method-method-c-load_dependencies'>
@@ -149,9 +158,9 @@ Roda::RodaPlugins::ClassMatchers
 [show source]
 </a>
 <pre id='method-c-load_dependencies-source'>   <span class="ruby-comment"># File lib/roda/plugins/class_matchers.rb</span>
-<span class="line-num">73</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">load_dependencies</span>(<span class="ruby-identifier">app</span>)
-<span class="line-num">74</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:_symbol_class_matchers</span>
-<span class="line-num">75</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">84</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">load_dependencies</span>(<span class="ruby-identifier">app</span>)
+<span class="line-num">85</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:_symbol_class_matchers</span>
+<span class="line-num">86</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>
