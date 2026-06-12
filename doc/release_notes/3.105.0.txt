@@ -1,0 +1,17 @@
+= New Features
+
+* The class_matcher and symbol_matcher methods in the class_matchers
+  and symbol_matchers plugins now support a :segment option on Ruby
+  2.4+. When this option is provided, the regexp will only be used for
+  matching and not capturing. If the regexp matches the segment, the
+  entire segment will be captured. If you are passing regexps to these
+  functions that capture the entire matched segment, it is recommended
+  to use the :segment option to improve performance.
+
+= Other Improvements
+
+* Performance of the Integer class matcher has been improved 2-3x on
+  Ruby 2.4+.
+
+* Performance of the :w and :w symbol matchers in the symbol_matchers
+  plugin has been improved 2x on Ruby 2.4+.

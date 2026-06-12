@@ -1,4 +1,4 @@
-=== master
+=== 3.105.0 (2026-06-12)
 
 * Support segment: true for class and symbol matchers to improve performance (jeremyevans)
 
