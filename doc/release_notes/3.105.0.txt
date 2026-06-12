@@ -13,5 +13,5 @@
 * Performance of the Integer class matcher has been improved 2-3x on
   Ruby 2.4+.
 
-* Performance of the :w and :w symbol matchers in the symbol_matchers
+* Performance of the :d and :w symbol matchers in the symbol_matchers
   plugin has been improved 2x on Ruby 2.4+.
