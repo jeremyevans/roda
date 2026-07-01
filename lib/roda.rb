@@ -17,6 +17,7 @@ class Roda
   @app = nil
   @inherit_middleware = true
   @middleware = []
+  @plugins = []
   @opts = {}
   @raw_route_block = nil
   @route_block = nil
@@ -41,6 +42,9 @@ class Roda
 
         # The settings/options hash for the current class.
         attr_reader :opts
+
+        # The plugins loaded into the current class.
+        attr_reader :plugins
 
         # The route block that this class uses.
         attr_reader :route_block
@@ -224,6 +228,7 @@ class Roda
 
           build_rack_app
           @opts.freeze
+          @plugins.freeze
           @middleware.freeze
 
           super
@@ -250,6 +255,7 @@ class Roda
           super
           subclass.instance_variable_set(:@inherit_middleware, @inherit_middleware)
           subclass.instance_variable_set(:@middleware, @inherit_middleware ? @middleware.dup : [])
+          subclass.instance_variable_set(:@plugins, @plugins.dup)
           subclass.instance_variable_set(:@opts, opts.dup)
           subclass.opts.delete(:subclassed)
           subclass.opts.to_a.each do |k,v|
@@ -291,6 +297,7 @@ class Roda
           end
 
           plugin.load_dependencies(self, *args, &block) if plugin.respond_to?(:load_dependencies)
+          @plugins << plugin unless @plugins.include?(plugin)
           include(plugin::InstanceMethods) if defined?(plugin::InstanceMethods)
           extend(plugin::ClassMethods) if defined?(plugin::ClassMethods)
           self::RodaRequest.send(:include, plugin::RequestMethods) if defined?(plugin::RequestMethods)

@@ -117,4 +117,15 @@ describe "plugins" do
 
     body.must_equal '22'
   end if RUBY_VERSION >= '2'
+
+  it "should keep a record of loaded plugins" do
+    app.plugins.must_equal [Roda::RodaPlugins::Base]
+    mod = Module.new{}
+    app.plugin mod
+    app.plugins.must_equal [Roda::RodaPlugins::Base, mod]
+    Class.new(app).plugins.must_equal [Roda::RodaPlugins::Base, mod]
+    app.plugins.frozen?.must_equal false
+    app.freeze
+    app.plugins.frozen?.must_equal true
+  end
 end
