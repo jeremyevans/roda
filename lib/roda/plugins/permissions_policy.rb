@@ -182,6 +182,8 @@ class Roda
         # Clear all settings, useful to remove any inherited settings.
         def clear
           @opts = {}
+          @report_only = nil
+          @header_value = nil
         end
 
         # Do not allow future modifications to any settings.
