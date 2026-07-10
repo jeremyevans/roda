@@ -112,6 +112,8 @@ class Roda
         def initialize
           @hosts = []
           @host_hash = {}
+          @default_host = nil
+          @default_block = nil
         end
 
         # Run the DSL for the given block.
