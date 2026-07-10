@@ -16,7 +16,11 @@ else
 end
 
 if RUBY_VERSION >= '3.4'
-  gem 'rdoc'
+  if RUBY_ENGINE == 'jruby'
+    gem 'rdoc', '< 8'
+  else
+    gem 'rdoc'
+  end
 end
 
 if RUBY_VERSION < '3.1.0' && RUBY_VERSION >= '3.0.0'
