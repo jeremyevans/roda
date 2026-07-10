@@ -10,6 +10,13 @@ class Roda
     #
     #   plugin :response_request
     module ResponseRequest
+      # This isn't set because it breaks usage with the error_handler/class_level_routing
+      # plugins and the shape_friendly plugin, due to those calling RodaResponse#initialize,
+      # which would reset @request to nil. It isn't strictly necessary to set this for
+      # shape friendliness, as the Roda#initialize sets it directly after creating the
+      # RodaRequest, so in normal use, the instance variable will already be set.
+      # RESPONSE_INSTANCE_VARIABLES = [:@request].freeze
+
       module InstanceMethods
         # Set the response's request to the current request.
         def initialize(env)

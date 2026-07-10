@@ -52,6 +52,10 @@ if ENV['PLAIN_HASH_RESPONSE_HEADERS']
   Roda.plugin :plain_hash_response_headers
 end
 
+if ENV['SHAPE_FRIENDLY']
+  Roda.plugin :shape_friendly
+end
+
 RodaResponseHeaders = Roda::RodaResponseHeaders
 
 $RODA_WARN = true

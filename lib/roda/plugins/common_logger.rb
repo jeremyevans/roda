@@ -20,6 +20,8 @@ class Roda
     #   plugin :common_logger, Logger.new('filename')
     #   plugin :common_logger, Logger.new('filename'), method: :debug
     module CommonLogger
+      SCOPE_INSTANCE_VARIABLES = [:@_request_timer].freeze
+
       MUTATE_LINE = RUBY_VERSION < '2.3' || RUBY_VERSION >= '3'
       private_constant :MUTATE_LINE
 

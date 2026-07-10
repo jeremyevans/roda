@@ -39,6 +39,8 @@ class Roda
     # it affects all rack applications instead of just the Roda app that
     # you load the plugin into.
     module IndifferentParams
+      SCOPE_INSTANCE_VARIABLES = [:@_params].freeze
+
       INDIFFERENT_PROC = lambda{|h,k| h[k.to_s] if k.is_a?(Symbol)}
 
       if Rack.release > '2'

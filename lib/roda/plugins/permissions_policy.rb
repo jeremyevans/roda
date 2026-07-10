@@ -104,6 +104,8 @@ class Roda
     # setting a policy.  This is faster than calling +permissions_policy.clear+, since
     # it does not duplicate the default policy.
     module PermissionsPolicy
+      RESPONSE_INSTANCE_VARIABLES = [:@permissions_policy, :@skip_permissions_policy].freeze
+
       SUPPORTED_SETTINGS = %w'
       accelerometer
       ambient-light-sensor

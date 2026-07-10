@@ -213,6 +213,7 @@ class Roda
         # called until the body is needed.
         def initialize(&block)
           @block = block
+          @value = nil
         end
 
         # If the body is a String, yield it, otherwise yield each string

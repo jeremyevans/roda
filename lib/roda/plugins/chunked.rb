@@ -148,6 +148,8 @@ class Roda
     # method is not called until template rendering, the flash may not be
     # rotated.
     module Chunked
+      SCOPE_INSTANCE_VARIABLES = [:@_chunked, :@_each_chunk_args, :@_delays, :@_flusher].freeze
+
       # Depend on the render plugin
       def self.load_dependencies(app, opts=OPTS)
         app.plugin :render
@@ -215,7 +217,7 @@ class Roda
         # If chunking by default, call chunked if it hasn't yet been
         # called and chunking is not specifically disabled.
         def view(*a)
-          if opts[:chunk_by_default] && !defined?(@_chunked) && !defined?(yield)
+          if opts[:chunk_by_default] && @_chunked != false && !defined?(yield)
             chunked(*a)
           else
             super
@@ -225,7 +227,7 @@ class Roda
         # Render a response to the user in chunks.  See Chunked for
         # an overview.  If a block is given, it is passed to #delay.
         def chunked(template, opts=OPTS, &block)
-          unless defined?(@_chunked)
+          if @_chunked.nil?
             @_chunked = !self.opts[:force_chunked_encoding] || @_request.http_version == "HTTP/1.1" 
           end
 

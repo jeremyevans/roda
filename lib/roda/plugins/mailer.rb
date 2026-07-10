@@ -127,6 +127,8 @@ class Roda
     # Roda application if you want your helper methods to automatically be
     # available in your email views.
     module Mailer
+      RESPONSE_INSTANCE_VARIABLES = [:@mail, :@mail_attachments].freeze
+
       # Error raised when the using the mail class method, but the routing
       # tree doesn't return the mail object. 
       class Error < ::Roda::RodaError; end

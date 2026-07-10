@@ -1,5 +1,7 @@
 === master
 
+* Add shape_friendly plugin to make scope, request, and response objects shape-friendly (jeremyevans)
+
 * Add Roda.plugins for checking the loaded plugins (jeremyevans)
 
 === 3.105.0 (2026-06-12)

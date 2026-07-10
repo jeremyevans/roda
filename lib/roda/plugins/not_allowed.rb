@@ -68,6 +68,8 @@ class Roda
     #
     # This plugin depends on the all_verbs plugin.
     module NotAllowed
+      REQUEST_INSTANCE_VARIABLES = [:@_is_verbs].freeze
+
       # Depend on the all_verbs plugin, as this plugin overrides methods
       # defined by it and calls super.
       def self.load_dependencies(app)

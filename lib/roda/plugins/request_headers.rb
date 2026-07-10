@@ -25,6 +25,8 @@ class Roda
     #
     #   plugin :request_headers
     module RequestHeaders
+      REQUEST_INSTANCE_VARIABLES = [:@request_headers].freeze
+
       module RequestMethods
         # Provide access to the request headers while normalizing indexes.
         def headers

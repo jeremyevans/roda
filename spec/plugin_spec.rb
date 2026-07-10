@@ -119,11 +119,14 @@ describe "plugins" do
   end if RUBY_VERSION >= '2'
 
   it "should keep a record of loaded plugins" do
-    app.plugins.must_equal [Roda::RodaPlugins::Base]
+    base = [Roda::RodaPlugins::Base]
+    base << Roda::RodaPlugins::PlainHashResponseHeaders if ENV['PLAIN_HASH_RESPONSE_HEADERS']
+    base << Roda::RodaPlugins::ShapeFriendly if ENV['SHAPE_FRIENDLY']
+    app.plugins.must_equal base
     mod = Module.new{}
     app.plugin mod
-    app.plugins.must_equal [Roda::RodaPlugins::Base, mod]
-    Class.new(app).plugins.must_equal [Roda::RodaPlugins::Base, mod]
+    app.plugins.must_equal [*base, mod]
+    Class.new(app).plugins.must_equal [*base, mod]
     app.plugins.frozen?.must_equal false
     app.freeze
     app.plugins.frozen?.must_equal true

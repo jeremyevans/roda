@@ -307,6 +307,8 @@ class Roda
     # By design, typecast_params only deals with string keys, it is not possible to use
     # symbol keys as arguments to the conversion methods and have them converted.
     module TypecastParams
+      SCOPE_INSTANCE_VARIABLES = [:@_typecast_params, :@_typecast_query_params, :@_typecast_body_params].freeze
+
       # Sentinal value for whether to raise exception during #process
       CHECK_NIL = Object.new.freeze
 

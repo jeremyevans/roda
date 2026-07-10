@@ -111,6 +111,8 @@ class Roda
     # is given.  Also, there is a +report_only?+ method for returning whether report only
     # mode is enabled.
     module ContentSecurityPolicy
+      RESPONSE_INSTANCE_VARIABLES = [:@content_security_policy, :@skip_content_security_policy].freeze
+
       # Represents a content security policy.
       class Policy
         '

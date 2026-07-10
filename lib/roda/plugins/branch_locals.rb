@@ -21,6 +21,8 @@ class Roda
     # have higher precedence than the render_locals plugin options, but lower precedence
     # than options you directly pass to the view/render methods.
     module BranchLocals
+      SCOPE_INSTANCE_VARIABLES = [:@_layout_locals, :@_view_locals].freeze
+
       # Load the render_locals plugin before this plugin, since this plugin
       # works by overriding methods in the render_locals plugin.
       def self.load_dependencies(app)

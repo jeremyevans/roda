@@ -89,6 +89,8 @@ class Roda
     # :use_header :: Whether to take the +Accept+ header into account.
     #                Default is +true+.
     module TypeRouting
+      REQUEST_INSTANCE_VARIABLES = [:@requested_type, :@type_routing_extension].freeze
+
       CONFIGURATION = {
         :mimes => {
           'text/json' => :json,
@@ -158,7 +160,7 @@ class Roda
 
         # Returns the data type the client requests.
         def requested_type
-          return @requested_type if defined?(@requested_type)
+          return @requested_type if @requested_type
 
           opts = @scope.opts[:type_routing]
           @requested_type = accept_response_type if opts[:use_header]
@@ -168,7 +170,7 @@ class Roda
         # Append the type routing extension back to the path if it was
         # removed before routing.
         def real_remaining_path
-          if defined?(@type_routing_extension)
+          if @type_routing_extension
             "#{super}.#{@type_routing_extension}"
           else
             super

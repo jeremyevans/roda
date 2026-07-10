@@ -36,6 +36,8 @@ class Roda
     #     flash['a'] # = >'b'
     #   end
     module Flash
+      SCOPE_INSTANCE_VARIABLES = [:@_flash].freeze
+
       # Simple flash hash, where assiging to the hash updates the flash
       # used in the following request.
       class FlashHash < DelegateClass(Hash)

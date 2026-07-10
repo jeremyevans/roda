@@ -71,6 +71,8 @@ class Roda
     # This plugin uses the host method on the request to get the hostname (this method
     # is defined by Rack).
     module HostRouting
+      REQUEST_INSTANCE_VARIABLES = [:@_host_routing_host].freeze
+
       # Setup the host routing support.  The block yields an object used to
       # configure the plugin.  Options:
       #

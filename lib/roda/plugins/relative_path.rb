@@ -31,6 +31,8 @@ class Roda
     # This plugin is mostly designed for applications using Roda as a static
     # site generator, where the generated site can be hosted at any subpath.
     module RelativePath
+      SCOPE_INSTANCE_VARIABLES = [:@_relative_prefix].freeze
+
       module InstanceMethods
         # Return a relative path for the absolute path based on the current path
         # of the request by adding the appropriate prefix.

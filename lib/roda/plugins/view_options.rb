@@ -80,6 +80,8 @@ class Roda
     #     end
     #   end
     module ViewOptions
+      SCOPE_INSTANCE_VARIABLES = [:@_view_subdir, :@_view_options, :@_layout_options].freeze
+
       # Load the render plugin before this plugin, since this plugin
       # works by overriding methods in the render plugin.
       def self.load_dependencies(app)

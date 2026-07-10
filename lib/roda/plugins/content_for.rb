@@ -55,6 +55,8 @@ class Roda
     #
     #   plugin :content_for, append: false
     module ContentFor
+      SCOPE_INSTANCE_VARIABLES = [:@_content_for].freeze
+
       # Depend on the capture_erb plugin, since it uses capture_erb
       # to capture the content.
       def self.load_dependencies(app, _opts = OPTS)

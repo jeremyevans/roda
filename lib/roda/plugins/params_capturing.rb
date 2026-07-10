@@ -55,6 +55,8 @@ class Roda
     # the symbol_matchers plugin with custom symbol matching and are using
     # symbols that capture multiple values or no values.
     module ParamsCapturing
+      REQUEST_INSTANCE_VARIABLES = [:@_params_captures].freeze
+
       module RequestMethods
         # Lazily initialize captures entry when params is called.
         def params
