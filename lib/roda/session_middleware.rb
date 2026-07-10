@@ -29,6 +29,7 @@ class RodaSessionMiddleware
 
     def initialize(req)
       @req = req
+      @data = nil
     end
 
     # The Roda sessions plugin options used by the middleware for this
@@ -124,7 +125,7 @@ class RodaSessionMiddleware
 
     # Whether the session has already been loaded from the cookie yet.
     def loaded?
-      !!defined?(@data)
+      !!@data
     end
 
     def empty?
