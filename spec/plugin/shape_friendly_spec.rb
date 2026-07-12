@@ -89,4 +89,12 @@ END
     app{|_|}
     proc{app.plugin :shape_friendly, :scope_instance_variables=>[:bad]}.must_raise Roda::RodaError
   end
+
+  it "does not include nil instance variables in inspect" do
+    app(:shape_friendly) do |_|
+      @a = nil
+      inspect
+    end
+    body.wont_include("@a=nil")
+  end if RUBY_VERSION >= "4"
 end

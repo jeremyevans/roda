@@ -132,6 +132,18 @@ class Roda
         end
       end
 
+      # :nocov:
+      if RUBY_VERSION >= '4.0'
+      # :nocov:
+        module InstanceMethods
+          private
+
+          def instance_variables_to_inspect
+            instance_variables.reject{|v| instance_variable_get(v).nil?}
+          end
+        end
+      end
+
       module OptimizedInstanceMethods
         # Initialize configured instance variables to nil.
         def initialize(env)
