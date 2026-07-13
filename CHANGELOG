@@ -1,3 +1,7 @@
+=== master
+
+* Add url_escape plugin for Roda#url_{,un}escape methods (jeremyevans)
+
 === 3.106.0 (2026-07-13)
 
 * Add shape_friendly plugin to make scope, request, and response objects shape-friendly (jeremyevans)
