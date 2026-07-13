@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang='en'>
 <head>
-<title>Roda::RodaPlugins::ResponseRequest::InstanceMethods</title>
+<title>Roda::RodaPlugins::ShapeFriendly::OptimizedInstanceMethods</title>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
 <link href='../../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
@@ -25,19 +25,17 @@
 <div class='class' id='wrapper'>
 <div class='header'>
 <h1 class='name'><span class='type'>module</span>
-Roda::RodaPlugins::ResponseRequest::InstanceMethods
+Roda::RodaPlugins::ShapeFriendly::OptimizedInstanceMethods
 </h1>
 <ol class='paths'>
 <li>
-<a href="../../../../files/lib/roda/plugins/response_request_rb.html">lib/roda/plugins/response_request.rb</a>
+<a href="../../../../files/lib/roda/plugins/shape_friendly_rb.html">lib/roda/plugins/shape_friendly.rb</a>
 </li>
 </ol>
 </div>
 <div id='content'>
 <div id='text'>
-<div id='description'>
-<p>This isn’t set because it breaks usage with the error_handler/class_level_routing plugins and the <a href="../../../../files/lib/roda/plugins/shape_friendly_rb.html">shape_friendly</a> plugin, due to those calling RodaResponse#initialize, which would reset @request to nil. It isn’t strictly necessary to set this for shape friendliness, as the Roda#initialize sets it directly after creating the <a href="../../RodaRequest.html"><code>RodaRequest</code></a>, so in normal use, the instance variable will already be set. RESPONSE_INSTANCE_VARIABLES = [:@request].freeze</p>
-</div>
+<div id='description'></div>
 <div id='method-list'>
 <h2>Methods</h2>
 <h3>Public Class</h3>
@@ -58,18 +56,20 @@ Roda::RodaPlugins::ResponseRequest::InstanceMethods
 </div>
 <div class='description'>
 
-<p>Set the response’s request to the current request.</p>
+<p>Initialize configured instance variables to nil.</p>
 
 </div>
 <div class='source'>
 <a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-new-source&#39;); return false'>
 [show source]
 </a>
-<pre id='method-c-new-source'>   <span class="ruby-comment"># File lib/roda/plugins/response_request.rb</span>
-<span class="line-num">22</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-identifier">env</span>)
-<span class="line-num">23</span>   <span class="ruby-keyword">super</span>
-<span class="line-num">24</span>   <span class="ruby-ivar">@_response</span>.<span class="ruby-identifier">request</span> = <span class="ruby-ivar">@_request</span>
-<span class="line-num">25</span> <span class="ruby-keyword">end</span></pre>
+<pre id='method-c-new-source'>    <span class="ruby-comment"># File lib/roda/plugins/shape_friendly.rb</span>
+<span class="line-num">149</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-identifier">env</span>)
+<span class="line-num">150</span>   <span class="ruby-identifier">_initialize_nil_instance_variables</span>
+<span class="line-num">151</span>   <span class="ruby-identifier">klass</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>
+<span class="line-num">152</span>   <span class="ruby-ivar">@_request</span> = <span class="ruby-identifier">klass</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword">self</span>, <span class="ruby-identifier">env</span>)
+<span class="line-num">153</span>   <span class="ruby-ivar">@_response</span> = <span class="ruby-identifier">klass</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaResponse</span>.<span class="ruby-identifier">new</span>
+<span class="line-num">154</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

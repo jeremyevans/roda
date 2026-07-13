@@ -67,13 +67,13 @@ Roda::RodaPlugins::ViewOptions::InstanceMethods
 [show source]
 </a>
 <pre id='method-i-append_view_subdir-source'>    <span class="ruby-comment"># File lib/roda/plugins/view_options.rb</span>
-<span class="line-num"> 95</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">append_view_subdir</span>(<span class="ruby-identifier">v</span>)
-<span class="line-num"> 96</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">subdir</span> = <span class="ruby-ivar">@_view_subdir</span>
-<span class="line-num"> 97</span>     <span class="ruby-identifier">set_view_subdir</span>(<span class="ruby-node">&quot;#{subdir}/#{v}&quot;</span>)
-<span class="line-num"> 98</span>   <span class="ruby-keyword">else</span>
-<span class="line-num"> 99</span>     <span class="ruby-identifier">set_view_subdir</span>(<span class="ruby-identifier">v</span>)
-<span class="line-num">100</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">101</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num"> 97</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">append_view_subdir</span>(<span class="ruby-identifier">v</span>)
+<span class="line-num"> 98</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">subdir</span> = <span class="ruby-ivar">@_view_subdir</span>
+<span class="line-num"> 99</span>     <span class="ruby-identifier">set_view_subdir</span>(<span class="ruby-node">&quot;#{subdir}/#{v}&quot;</span>)
+<span class="line-num">100</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">101</span>     <span class="ruby-identifier">set_view_subdir</span>(<span class="ruby-identifier">v</span>)
+<span class="line-num">102</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">103</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-set_layout_options'>
@@ -92,13 +92,13 @@ Roda::RodaPlugins::ViewOptions::InstanceMethods
 [show source]
 </a>
 <pre id='method-i-set_layout_options-source'>    <span class="ruby-comment"># File lib/roda/plugins/view_options.rb</span>
-<span class="line-num">110</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">set_layout_options</span>(<span class="ruby-identifier">opts</span>)
-<span class="line-num">111</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span> = <span class="ruby-ivar">@_layout_options</span>
-<span class="line-num">112</span>     <span class="ruby-ivar">@_layout_options</span> = <span class="ruby-identifier">options</span>.<span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">opts</span>)
-<span class="line-num">113</span>   <span class="ruby-keyword">else</span>
-<span class="line-num">114</span>     <span class="ruby-ivar">@_layout_options</span> = <span class="ruby-identifier">opts</span>
-<span class="line-num">115</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">116</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">112</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">set_layout_options</span>(<span class="ruby-identifier">opts</span>)
+<span class="line-num">113</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span> = <span class="ruby-ivar">@_layout_options</span>
+<span class="line-num">114</span>     <span class="ruby-ivar">@_layout_options</span> = <span class="ruby-identifier">options</span>.<span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">opts</span>)
+<span class="line-num">115</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">116</span>     <span class="ruby-ivar">@_layout_options</span> = <span class="ruby-identifier">opts</span>
+<span class="line-num">117</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">118</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-set_view_options'>
@@ -117,13 +117,13 @@ Roda::RodaPlugins::ViewOptions::InstanceMethods
 [show source]
 </a>
 <pre id='method-i-set_view_options-source'>    <span class="ruby-comment"># File lib/roda/plugins/view_options.rb</span>
-<span class="line-num">119</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">set_view_options</span>(<span class="ruby-identifier">opts</span>)
-<span class="line-num">120</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span> = <span class="ruby-ivar">@_view_options</span>
-<span class="line-num">121</span>     <span class="ruby-ivar">@_view_options</span> = <span class="ruby-identifier">options</span>.<span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">opts</span>)
-<span class="line-num">122</span>   <span class="ruby-keyword">else</span>
-<span class="line-num">123</span>     <span class="ruby-ivar">@_view_options</span> = <span class="ruby-identifier">opts</span>
-<span class="line-num">124</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">125</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">121</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">set_view_options</span>(<span class="ruby-identifier">opts</span>)
+<span class="line-num">122</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span> = <span class="ruby-ivar">@_view_options</span>
+<span class="line-num">123</span>     <span class="ruby-ivar">@_view_options</span> = <span class="ruby-identifier">options</span>.<span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">opts</span>)
+<span class="line-num">124</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">125</span>     <span class="ruby-ivar">@_view_options</span> = <span class="ruby-identifier">opts</span>
+<span class="line-num">126</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">127</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-set_view_subdir'>
@@ -142,9 +142,9 @@ Roda::RodaPlugins::ViewOptions::InstanceMethods
 [show source]
 </a>
 <pre id='method-i-set_view_subdir-source'>    <span class="ruby-comment"># File lib/roda/plugins/view_options.rb</span>
-<span class="line-num">105</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">set_view_subdir</span>(<span class="ruby-identifier">v</span>)
-<span class="line-num">106</span>   <span class="ruby-ivar">@_view_subdir</span> = <span class="ruby-identifier">v</span>
-<span class="line-num">107</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">107</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">set_view_subdir</span>(<span class="ruby-identifier">v</span>)
+<span class="line-num">108</span>   <span class="ruby-ivar">@_view_subdir</span> = <span class="ruby-identifier">v</span>
+<span class="line-num">109</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

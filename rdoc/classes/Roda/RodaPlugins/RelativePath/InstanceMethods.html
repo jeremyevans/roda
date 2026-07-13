@@ -65,9 +65,9 @@ Roda::RodaPlugins::RelativePath::InstanceMethods
 [show source]
 </a>
 <pre id='method-i-relative_path-source'>   <span class="ruby-comment"># File lib/roda/plugins/relative_path.rb</span>
-<span class="line-num">37</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">relative_path</span>(<span class="ruby-identifier">absolute_path</span>)
-<span class="line-num">38</span>   <span class="ruby-identifier">relative_prefix</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">absolute_path</span>
-<span class="line-num">39</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">39</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">relative_path</span>(<span class="ruby-identifier">absolute_path</span>)
+<span class="line-num">40</span>   <span class="ruby-identifier">relative_prefix</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">absolute_path</span>
+<span class="line-num">41</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-relative_prefix'>
@@ -86,32 +86,32 @@ Roda::RodaPlugins::RelativePath::InstanceMethods
 [show source]
 </a>
 <pre id='method-i-relative_prefix-source'>   <span class="ruby-comment"># File lib/roda/plugins/relative_path.rb</span>
-<span class="line-num">43</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">relative_prefix</span>
-<span class="line-num">44</span>   <span class="ruby-keyword">return</span> <span class="ruby-ivar">@_relative_prefix</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@_relative_prefix</span>
-<span class="line-num">45</span>   <span class="ruby-identifier">env</span> = <span class="ruby-ivar">@_request</span>.<span class="ruby-identifier">env</span>
-<span class="line-num">46</span>   <span class="ruby-identifier">script_name</span> = <span class="ruby-identifier">env</span>[<span class="ruby-string">&quot;SCRIPT_NAME&quot;</span>]
-<span class="line-num">47</span>   <span class="ruby-identifier">path_info</span> = <span class="ruby-identifier">env</span>[<span class="ruby-string">&quot;PATH_INFO&quot;</span>]
-<span class="line-num">48</span> 
-<span class="line-num">49</span>   <span class="ruby-comment"># Check path begins with slash.  All valid paths should, but in case this</span>
-<span class="line-num">50</span>   <span class="ruby-comment"># request is bad, just skip using a relative prefix.</span>
-<span class="line-num">51</span>   <span class="ruby-keyword">case</span> <span class="ruby-identifier">script_name</span>.<span class="ruby-identifier">getbyte</span>(<span class="ruby-value">0</span>)
-<span class="line-num">52</span>   <span class="ruby-keyword">when</span> <span class="ruby-keyword">nil</span> <span class="ruby-comment"># SCRIPT_NAME empty</span>
-<span class="line-num">53</span>     <span class="ruby-keyword">unless</span> <span class="ruby-identifier">path_info</span>.<span class="ruby-identifier">getbyte</span>(<span class="ruby-value">0</span>) <span class="ruby-operator">==</span> <span class="ruby-value">47</span> <span class="ruby-comment"># PATH_INFO starts with /</span>
-<span class="line-num">54</span>       <span class="ruby-keyword">return</span>(<span class="ruby-ivar">@_relative_prefix</span> = <span class="ruby-string">&#39;&#39;</span>)
-<span class="line-num">55</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">56</span>   <span class="ruby-keyword">when</span> <span class="ruby-value">47</span> <span class="ruby-comment"># SCRIPT_NAME starts with /</span>
-<span class="line-num">57</span>     <span class="ruby-comment"># nothing</span>
-<span class="line-num">58</span>   <span class="ruby-keyword">else</span>
-<span class="line-num">59</span>     <span class="ruby-keyword">return</span>(<span class="ruby-ivar">@_relative_prefix</span> = <span class="ruby-string">&#39;&#39;</span>)
-<span class="line-num">60</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">61</span> 
-<span class="line-num">62</span>   <span class="ruby-identifier">slash_count</span> = <span class="ruby-identifier">script_name</span>.<span class="ruby-identifier">count</span>(<span class="ruby-string">&#39;/&#39;</span>) <span class="ruby-operator">+</span> <span class="ruby-identifier">path_info</span>.<span class="ruby-identifier">count</span>(<span class="ruby-string">&#39;/&#39;</span>)
-<span class="line-num">63</span>   <span class="ruby-ivar">@_relative_prefix</span> = <span class="ruby-keyword">if</span> <span class="ruby-identifier">slash_count</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span>
-<span class="line-num">64</span>     (<span class="ruby-string">&quot;../&quot;</span> <span class="ruby-operator">*</span> (<span class="ruby-identifier">slash_count</span> <span class="ruby-operator">-</span> <span class="ruby-value">2</span>)) <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">&quot;..&quot;</span>
-<span class="line-num">65</span>   <span class="ruby-keyword">else</span>
-<span class="line-num">66</span>     <span class="ruby-string">&quot;.&quot;</span>
-<span class="line-num">67</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">68</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">45</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">relative_prefix</span>
+<span class="line-num">46</span>   <span class="ruby-keyword">return</span> <span class="ruby-ivar">@_relative_prefix</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@_relative_prefix</span>
+<span class="line-num">47</span>   <span class="ruby-identifier">env</span> = <span class="ruby-ivar">@_request</span>.<span class="ruby-identifier">env</span>
+<span class="line-num">48</span>   <span class="ruby-identifier">script_name</span> = <span class="ruby-identifier">env</span>[<span class="ruby-string">&quot;SCRIPT_NAME&quot;</span>]
+<span class="line-num">49</span>   <span class="ruby-identifier">path_info</span> = <span class="ruby-identifier">env</span>[<span class="ruby-string">&quot;PATH_INFO&quot;</span>]
+<span class="line-num">50</span> 
+<span class="line-num">51</span>   <span class="ruby-comment"># Check path begins with slash.  All valid paths should, but in case this</span>
+<span class="line-num">52</span>   <span class="ruby-comment"># request is bad, just skip using a relative prefix.</span>
+<span class="line-num">53</span>   <span class="ruby-keyword">case</span> <span class="ruby-identifier">script_name</span>.<span class="ruby-identifier">getbyte</span>(<span class="ruby-value">0</span>)
+<span class="line-num">54</span>   <span class="ruby-keyword">when</span> <span class="ruby-keyword">nil</span> <span class="ruby-comment"># SCRIPT_NAME empty</span>
+<span class="line-num">55</span>     <span class="ruby-keyword">unless</span> <span class="ruby-identifier">path_info</span>.<span class="ruby-identifier">getbyte</span>(<span class="ruby-value">0</span>) <span class="ruby-operator">==</span> <span class="ruby-value">47</span> <span class="ruby-comment"># PATH_INFO starts with /</span>
+<span class="line-num">56</span>       <span class="ruby-keyword">return</span>(<span class="ruby-ivar">@_relative_prefix</span> = <span class="ruby-string">&#39;&#39;</span>)
+<span class="line-num">57</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">58</span>   <span class="ruby-keyword">when</span> <span class="ruby-value">47</span> <span class="ruby-comment"># SCRIPT_NAME starts with /</span>
+<span class="line-num">59</span>     <span class="ruby-comment"># nothing</span>
+<span class="line-num">60</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">61</span>     <span class="ruby-keyword">return</span>(<span class="ruby-ivar">@_relative_prefix</span> = <span class="ruby-string">&#39;&#39;</span>)
+<span class="line-num">62</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">63</span> 
+<span class="line-num">64</span>   <span class="ruby-identifier">slash_count</span> = <span class="ruby-identifier">script_name</span>.<span class="ruby-identifier">count</span>(<span class="ruby-string">&#39;/&#39;</span>) <span class="ruby-operator">+</span> <span class="ruby-identifier">path_info</span>.<span class="ruby-identifier">count</span>(<span class="ruby-string">&#39;/&#39;</span>)
+<span class="line-num">65</span>   <span class="ruby-ivar">@_relative_prefix</span> = <span class="ruby-keyword">if</span> <span class="ruby-identifier">slash_count</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span>
+<span class="line-num">66</span>     (<span class="ruby-string">&quot;../&quot;</span> <span class="ruby-operator">*</span> (<span class="ruby-identifier">slash_count</span> <span class="ruby-operator">-</span> <span class="ruby-value">2</span>)) <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">&quot;..&quot;</span>
+<span class="line-num">67</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">68</span>     <span class="ruby-string">&quot;.&quot;</span>
+<span class="line-num">69</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">70</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

@@ -66,9 +66,9 @@ Roda::RodaPlugins::TypecastParams::InstanceMethods
 [show source]
 </a>
 <pre id='method-i-typecast_body_params-source'>     <span class="ruby-comment"># File lib/roda/plugins/typecast_params.rb</span>
-<span class="line-num">1175</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">typecast_body_params</span>
-<span class="line-num">1176</span>   <span class="ruby-ivar">@_typecast_body_params</span> <span class="ruby-operator">||=</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span><span class="ruby-operator">::</span><span class="ruby-constant">TypecastParams</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@_request</span>.<span class="ruby-constant">POST</span>)
-<span class="line-num">1177</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">1177</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">typecast_body_params</span>
+<span class="line-num">1178</span>   <span class="ruby-ivar">@_typecast_body_params</span> <span class="ruby-operator">||=</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span><span class="ruby-operator">::</span><span class="ruby-constant">TypecastParams</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@_request</span>.<span class="ruby-constant">POST</span>)
+<span class="line-num">1179</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-typecast_params'>
@@ -87,9 +87,9 @@ Roda::RodaPlugins::TypecastParams::InstanceMethods
 [show source]
 </a>
 <pre id='method-i-typecast_params-source'>     <span class="ruby-comment"># File lib/roda/plugins/typecast_params.rb</span>
-<span class="line-num">1161</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">typecast_params</span>
-<span class="line-num">1162</span>   <span class="ruby-ivar">@_typecast_params</span> <span class="ruby-operator">||=</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span><span class="ruby-operator">::</span><span class="ruby-constant">TypecastParams</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@_request</span>.<span class="ruby-identifier">params</span>)
-<span class="line-num">1163</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">1163</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">typecast_params</span>
+<span class="line-num">1164</span>   <span class="ruby-ivar">@_typecast_params</span> <span class="ruby-operator">||=</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span><span class="ruby-operator">::</span><span class="ruby-constant">TypecastParams</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@_request</span>.<span class="ruby-identifier">params</span>)
+<span class="line-num">1165</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-typecast_query_params'>
@@ -108,9 +108,9 @@ Roda::RodaPlugins::TypecastParams::InstanceMethods
 [show source]
 </a>
 <pre id='method-i-typecast_query_params-source'>     <span class="ruby-comment"># File lib/roda/plugins/typecast_params.rb</span>
-<span class="line-num">1168</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">typecast_query_params</span>
-<span class="line-num">1169</span>   <span class="ruby-ivar">@_typecast_query_params</span> <span class="ruby-operator">||=</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span><span class="ruby-operator">::</span><span class="ruby-constant">TypecastParams</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@_request</span>.<span class="ruby-constant">GET</span>)
-<span class="line-num">1170</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">1170</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">typecast_query_params</span>
+<span class="line-num">1171</span>   <span class="ruby-ivar">@_typecast_query_params</span> <span class="ruby-operator">||=</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span><span class="ruby-operator">::</span><span class="ruby-constant">TypecastParams</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@_request</span>.<span class="ruby-constant">GET</span>)
+<span class="line-num">1172</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

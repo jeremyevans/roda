@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang='en'>
 <head>
-<title>Roda::RodaPlugins::RequestHeaders::RequestMethods</title>
+<title>Roda::RodaPlugins::ShapeFriendly::UnoptimizedRequestMethods</title>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
 <link href='../../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
@@ -25,11 +25,11 @@
 <div class='class' id='wrapper'>
 <div class='header'>
 <h1 class='name'><span class='type'>module</span>
-Roda::RodaPlugins::RequestHeaders::RequestMethods
+Roda::RodaPlugins::ShapeFriendly::UnoptimizedRequestMethods
 </h1>
 <ol class='paths'>
 <li>
-<a href="../../../../files/lib/roda/plugins/request_headers_rb.html">lib/roda/plugins/request_headers.rb</a>
+<a href="../../../../files/lib/roda/plugins/shape_friendly_rb.html">lib/roda/plugins/shape_friendly.rb</a>
 </li>
 </ol>
 </div>
@@ -38,35 +38,36 @@ Roda::RodaPlugins::RequestHeaders::RequestMethods
 <div id='description'></div>
 <div id='method-list'>
 <h2>Methods</h2>
-<h3>Public Instance</h3>
+<h3>Public Class</h3>
 <ol>
-<li><a href="#method-i-headers">headers</a></li>
+<li><a href="#method-c-new">new</a></li>
 </ol>
 </div>
 <div id='context'>
 </div>
 <div id='section'>
 <div id='methods'>
-<h2>Public Instance methods</h2>
-<div class='method public-instance' id='method-method-i-headers'>
-<a name='method-i-headers'></a>
+<h2>Public Class methods</h2>
+<div class='method public-class' id='method-method-c-new'>
+<a name='method-c-new'></a>
 <div class='synopsis'>
-<span class='name'>headers</span><span class='arguments'>()</span>
+<span class='name'>new</span><span class='arguments'>(scope, env)</span>
 
 </div>
 <div class='description'>
 
-<p>Provide access to the request headers while normalizing indexes.</p>
+<p>Initialize configured instance variables to nil.</p>
 
 </div>
 <div class='source'>
-<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-headers-source&#39;); return false'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-new-source&#39;); return false'>
 [show source]
 </a>
-<pre id='method-i-headers-source'>   <span class="ruby-comment"># File lib/roda/plugins/request_headers.rb</span>
-<span class="line-num">32</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">headers</span>
-<span class="line-num">33</span>   <span class="ruby-ivar">@request_headers</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">Headers</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@env</span>)
-<span class="line-num">34</span> <span class="ruby-keyword">end</span></pre>
+<pre id='method-c-new-source'>    <span class="ruby-comment"># File lib/roda/plugins/shape_friendly.rb</span>
+<span class="line-num">196</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-identifier">scope</span>, <span class="ruby-identifier">env</span>)
+<span class="line-num">197</span>   <span class="ruby-identifier">_initialize_nil_instance_variables</span>
+<span class="line-num">198</span>   <span class="ruby-keyword">super</span>
+<span class="line-num">199</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

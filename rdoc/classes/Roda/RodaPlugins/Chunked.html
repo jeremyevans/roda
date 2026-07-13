@@ -155,6 +155,20 @@ Roda::RodaPlugins::Chunked
 </ol>
 </div>
 <div id='section'>
+<div id='constants-list'>
+<h2>Constants</h2>
+<div class='name-list'>
+<table summary='Constants'>
+<tr class='top-aligned-row context-row'>
+<td class='context-item-name'>SCOPE_INSTANCE_VARIABLES</td>
+<td>=</td>
+<td class='context-item-value'>[:@_chunked, :@_each_chunk_args, :@_delays, :@_flusher].freeze</td>
+<td>&nbsp;</td>
+<td class='context-item-desc'></td>
+</tr>
+</table>
+</div>
+</div>
 <div id='methods'>
 <h2>Public Class methods</h2>
 <div class='method public-class' id='method-method-c-configure'>
@@ -178,13 +192,13 @@ Roda::RodaPlugins::Chunked
 [show source]
 </a>
 <pre id='method-c-configure-source'>    <span class="ruby-comment"># File lib/roda/plugins/chunked.rb</span>
-<span class="line-num">159</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
-<span class="line-num">160</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:chunk_by_default</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:chunk_by_default</span>]
-<span class="line-num">161</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:force_chunked_encoding</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:force_chunked_encoding</span>]
-<span class="line-num">162</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:headers</span>]
-<span class="line-num">163</span>     <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:chunk_headers</span>] = (<span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:chunk_headers</span>] <span class="ruby-operator">||</span> {}).<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">opts</span>[<span class="ruby-value">:headers</span>]).<span class="ruby-identifier">freeze</span>
-<span class="line-num">164</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">165</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">161</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
+<span class="line-num">162</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:chunk_by_default</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:chunk_by_default</span>]
+<span class="line-num">163</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:force_chunked_encoding</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:force_chunked_encoding</span>]
+<span class="line-num">164</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:headers</span>]
+<span class="line-num">165</span>     <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:chunk_headers</span>] = (<span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:chunk_headers</span>] <span class="ruby-operator">||</span> {}).<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">opts</span>[<span class="ruby-value">:headers</span>]).<span class="ruby-identifier">freeze</span>
+<span class="line-num">166</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">167</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-class' id='method-method-c-load_dependencies'>
@@ -203,9 +217,9 @@ Roda::RodaPlugins::Chunked
 [show source]
 </a>
 <pre id='method-c-load_dependencies-source'>    <span class="ruby-comment"># File lib/roda/plugins/chunked.rb</span>
-<span class="line-num">152</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">load_dependencies</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
-<span class="line-num">153</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:render</span>
-<span class="line-num">154</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">154</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">load_dependencies</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
+<span class="line-num">155</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:render</span>
+<span class="line-num">156</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

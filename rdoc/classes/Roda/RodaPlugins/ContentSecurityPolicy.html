@@ -173,6 +173,20 @@ Roda::RodaPlugins::ContentSecurityPolicy
 </ol>
 </div>
 <div id='section'>
+<div id='constants-list'>
+<h2>Constants</h2>
+<div class='name-list'>
+<table summary='Constants'>
+<tr class='top-aligned-row context-row'>
+<td class='context-item-name'>RESPONSE_INSTANCE_VARIABLES</td>
+<td>=</td>
+<td class='context-item-value'>[:@content_security_policy, :@skip_content_security_policy].freeze</td>
+<td>&nbsp;</td>
+<td class='context-item-desc'></td>
+</tr>
+</table>
+</div>
+</div>
 <div id='methods'>
 <h2>Public Class methods</h2>
 <div class='method public-class' id='method-method-c-configure'>
@@ -191,16 +205,16 @@ Roda::RodaPlugins::ContentSecurityPolicy
 [show source]
 </a>
 <pre id='method-c-configure-source'>    <span class="ruby-comment"># File lib/roda/plugins/content_security_policy.rb</span>
-<span class="line-num">277</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>)
-<span class="line-num">278</span>   <span class="ruby-identifier">policy</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:content_security_policy</span>] = <span class="ruby-keyword">if</span> <span class="ruby-identifier">policy</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:content_security_policy</span>]
-<span class="line-num">279</span>     <span class="ruby-identifier">policy</span>.<span class="ruby-identifier">dup</span>
-<span class="line-num">280</span>   <span class="ruby-keyword">else</span>
-<span class="line-num">281</span>     <span class="ruby-constant">Policy</span>.<span class="ruby-identifier">new</span>
-<span class="line-num">282</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">283</span> 
-<span class="line-num">284</span>   <span class="ruby-keyword">yield</span> <span class="ruby-identifier">policy</span> <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-keyword">yield</span>)
-<span class="line-num">285</span>   <span class="ruby-identifier">policy</span>.<span class="ruby-identifier">freeze</span>
-<span class="line-num">286</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">281</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>)
+<span class="line-num">282</span>   <span class="ruby-identifier">policy</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:content_security_policy</span>] = <span class="ruby-keyword">if</span> <span class="ruby-identifier">policy</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:content_security_policy</span>]
+<span class="line-num">283</span>     <span class="ruby-identifier">policy</span>.<span class="ruby-identifier">dup</span>
+<span class="line-num">284</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">285</span>     <span class="ruby-constant">Policy</span>.<span class="ruby-identifier">new</span>
+<span class="line-num">286</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">287</span> 
+<span class="line-num">288</span>   <span class="ruby-keyword">yield</span> <span class="ruby-identifier">policy</span> <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-keyword">yield</span>)
+<span class="line-num">289</span>   <span class="ruby-identifier">policy</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">290</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

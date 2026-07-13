@@ -64,10 +64,10 @@ Roda::RodaPlugins::Flash::InstanceMethods
 [show source]
 </a>
 <pre id='method-i-flash-source'>   <span class="ruby-comment"># File lib/roda/plugins/flash.rb</span>
-<span class="line-num">93</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">flash</span>
-<span class="line-num">94</span>   <span class="ruby-comment"># :_flash to support transparent upgrades from previous key</span>
-<span class="line-num">95</span>   <span class="ruby-ivar">@_flash</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">FlashHash</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">session</span>[<span class="ruby-string">&#39;_flash&#39;</span>] <span class="ruby-operator">||</span> (<span class="ruby-identifier">session</span>[<span class="ruby-string">&#39;_flash&#39;</span>] = <span class="ruby-identifier">session</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:_flash</span>)))
-<span class="line-num">96</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">95</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">flash</span>
+<span class="line-num">96</span>   <span class="ruby-comment"># :_flash to support transparent upgrades from previous key</span>
+<span class="line-num">97</span>   <span class="ruby-ivar">@_flash</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">FlashHash</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">session</span>[<span class="ruby-string">&#39;_flash&#39;</span>] <span class="ruby-operator">||</span> (<span class="ruby-identifier">session</span>[<span class="ruby-string">&#39;_flash&#39;</span>] = <span class="ruby-identifier">session</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:_flash</span>)))
+<span class="line-num">98</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

@@ -73,10 +73,12 @@ Superclass:
 [show source]
 </a>
 <pre id='method-c-new-source'>    <span class="ruby-comment"># File lib/roda/plugins/host_routing.rb</span>
-<span class="line-num">110</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>
-<span class="line-num">111</span>   <span class="ruby-ivar">@hosts</span> = []
-<span class="line-num">112</span>   <span class="ruby-ivar">@host_hash</span> = {}
-<span class="line-num">113</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">112</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>
+<span class="line-num">113</span>   <span class="ruby-ivar">@hosts</span> = []
+<span class="line-num">114</span>   <span class="ruby-ivar">@host_hash</span> = {}
+<span class="line-num">115</span>   <span class="ruby-ivar">@default_host</span> = <span class="ruby-keyword">nil</span>
+<span class="line-num">116</span>   <span class="ruby-ivar">@default_block</span> = <span class="ruby-keyword">nil</span>
+<span class="line-num">117</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <h2>Public Instance methods</h2>
@@ -96,10 +98,10 @@ Superclass:
 [show source]
 </a>
 <pre id='method-i-default-source'>    <span class="ruby-comment"># File lib/roda/plugins/host_routing.rb</span>
-<span class="line-num">147</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">default</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">148</span>   <span class="ruby-ivar">@default_host</span> = <span class="ruby-identifier">hostname</span>
-<span class="line-num">149</span>   <span class="ruby-ivar">@default_block</span> = <span class="ruby-identifier">block</span>
-<span class="line-num">150</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">151</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">default</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">152</span>   <span class="ruby-ivar">@default_host</span> = <span class="ruby-identifier">hostname</span>
+<span class="line-num">153</span>   <span class="ruby-ivar">@default_block</span> = <span class="ruby-identifier">block</span>
+<span class="line-num">154</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-process'>
@@ -118,18 +120,18 @@ Superclass:
 [show source]
 </a>
 <pre id='method-i-process-source'>    <span class="ruby-comment"># File lib/roda/plugins/host_routing.rb</span>
-<span class="line-num">116</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">process</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">117</span>   <span class="ruby-identifier">instance_exec</span>(<span class="ruby-keyword">self</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">118</span> 
-<span class="line-num">119</span>   <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@default_host</span>
-<span class="line-num">120</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;must call default method inside host_routing plugin block to set default host&quot;</span>
-<span class="line-num">121</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">120</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">process</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">121</span>   <span class="ruby-identifier">instance_exec</span>(<span class="ruby-keyword">self</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
 <span class="line-num">122</span> 
-<span class="line-num">123</span>   <span class="ruby-ivar">@hosts</span>.<span class="ruby-identifier">concat</span>(<span class="ruby-ivar">@host_hash</span>.<span class="ruby-identifier">values</span>)
-<span class="line-num">124</span>   <span class="ruby-ivar">@hosts</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-ivar">@default_host</span>
-<span class="line-num">125</span>   <span class="ruby-ivar">@hosts</span>.<span class="ruby-identifier">uniq!</span>
-<span class="line-num">126</span>   [<span class="ruby-ivar">@hosts</span>.<span class="ruby-identifier">freeze</span>, <span class="ruby-ivar">@host_hash</span>.<span class="ruby-identifier">freeze</span>, <span class="ruby-ivar">@default_block</span>, <span class="ruby-ivar">@default_host</span>].<span class="ruby-identifier">freeze</span>
-<span class="line-num">127</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">123</span>   <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@default_host</span>
+<span class="line-num">124</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;must call default method inside host_routing plugin block to set default host&quot;</span>
+<span class="line-num">125</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">126</span> 
+<span class="line-num">127</span>   <span class="ruby-ivar">@hosts</span>.<span class="ruby-identifier">concat</span>(<span class="ruby-ivar">@host_hash</span>.<span class="ruby-identifier">values</span>)
+<span class="line-num">128</span>   <span class="ruby-ivar">@hosts</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-ivar">@default_host</span>
+<span class="line-num">129</span>   <span class="ruby-ivar">@hosts</span>.<span class="ruby-identifier">uniq!</span>
+<span class="line-num">130</span>   [<span class="ruby-ivar">@hosts</span>.<span class="ruby-identifier">freeze</span>, <span class="ruby-ivar">@host_hash</span>.<span class="ruby-identifier">freeze</span>, <span class="ruby-ivar">@default_block</span>, <span class="ruby-ivar">@default_host</span>].<span class="ruby-identifier">freeze</span>
+<span class="line-num">131</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-register'>
@@ -148,9 +150,9 @@ Superclass:
 [show source]
 </a>
 <pre id='method-i-register-source'>    <span class="ruby-comment"># File lib/roda/plugins/host_routing.rb</span>
-<span class="line-num">132</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">register</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">hosts</span>)
-<span class="line-num">133</span>   <span class="ruby-ivar">@hosts</span> = <span class="ruby-identifier">hosts</span>
-<span class="line-num">134</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">136</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">register</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">hosts</span>)
+<span class="line-num">137</span>   <span class="ruby-ivar">@hosts</span> = <span class="ruby-identifier">hosts</span>
+<span class="line-num">138</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-to'>
@@ -169,11 +171,11 @@ Superclass:
 [show source]
 </a>
 <pre id='method-i-to-source'>    <span class="ruby-comment"># File lib/roda/plugins/host_routing.rb</span>
-<span class="line-num">137</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">to</span>(<span class="ruby-identifier">host</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">hostnames</span>)
-<span class="line-num">138</span>   <span class="ruby-identifier">hostnames</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">hostname</span><span class="ruby-operator">|</span>
-<span class="line-num">139</span>     <span class="ruby-ivar">@host_hash</span>[<span class="ruby-identifier">hostname</span>] = <span class="ruby-identifier">host</span>
-<span class="line-num">140</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">141</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">141</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">to</span>(<span class="ruby-identifier">host</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">hostnames</span>)
+<span class="line-num">142</span>   <span class="ruby-identifier">hostnames</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">hostname</span><span class="ruby-operator">|</span>
+<span class="line-num">143</span>     <span class="ruby-ivar">@host_hash</span>[<span class="ruby-identifier">hostname</span>] = <span class="ruby-identifier">host</span>
+<span class="line-num">144</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">145</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

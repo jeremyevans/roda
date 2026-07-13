@@ -74,9 +74,9 @@ Superclass:
 [show source]
 </a>
 <pre id='method-c-new-source'>    <span class="ruby-comment"># File lib/roda/plugins/chunked.rb</span>
-<span class="line-num">196</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-identifier">scope</span>)
-<span class="line-num">197</span>   <span class="ruby-ivar">@scope</span> = <span class="ruby-identifier">scope</span>
-<span class="line-num">198</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">198</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-identifier">scope</span>)
+<span class="line-num">199</span>   <span class="ruby-ivar">@scope</span> = <span class="ruby-identifier">scope</span>
+<span class="line-num">200</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <h2>Public Instance methods</h2>
@@ -96,11 +96,11 @@ Superclass:
 [show source]
 </a>
 <pre id='method-i-each-source'>    <span class="ruby-comment"># File lib/roda/plugins/chunked.rb</span>
-<span class="line-num">201</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">each</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">202</span>   <span class="ruby-ivar">@scope</span>.<span class="ruby-identifier">each_chunk</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">chunk</span><span class="ruby-operator">|</span>
-<span class="line-num">203</span>     <span class="ruby-keyword">yield</span> <span class="ruby-identifier">chunk</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">chunk</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">chunk</span>.<span class="ruby-identifier">empty?</span>
-<span class="line-num">204</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">205</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">203</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">each</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">204</span>   <span class="ruby-ivar">@scope</span>.<span class="ruby-identifier">each_chunk</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">chunk</span><span class="ruby-operator">|</span>
+<span class="line-num">205</span>     <span class="ruby-keyword">yield</span> <span class="ruby-identifier">chunk</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">chunk</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">chunk</span>.<span class="ruby-identifier">empty?</span>
+<span class="line-num">206</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">207</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

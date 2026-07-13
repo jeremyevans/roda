@@ -66,11 +66,11 @@ Roda::RodaPlugins::TypeRouting::RequestMethods
 [show source]
 </a>
 <pre id='method-i-on_type-source'>    <span class="ruby-comment"># File lib/roda/plugins/type_routing.rb</span>
-<span class="line-num">153</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">on_type</span>(<span class="ruby-identifier">type</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">154</span>   <span class="ruby-keyword">return</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">type</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">requested_type</span>
-<span class="line-num">155</span>   <span class="ruby-identifier">response</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_TYPE</span>] <span class="ruby-operator">||=</span> <span class="ruby-ivar">@scope</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:type_routing</span>][<span class="ruby-value">:types</span>][<span class="ruby-identifier">type</span>]
-<span class="line-num">156</span>   <span class="ruby-identifier">always</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">157</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">155</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">on_type</span>(<span class="ruby-identifier">type</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">156</span>   <span class="ruby-keyword">return</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">type</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">requested_type</span>
+<span class="line-num">157</span>   <span class="ruby-identifier">response</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_TYPE</span>] <span class="ruby-operator">||=</span> <span class="ruby-ivar">@scope</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:type_routing</span>][<span class="ruby-value">:types</span>][<span class="ruby-identifier">type</span>]
+<span class="line-num">158</span>   <span class="ruby-identifier">always</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">159</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-real_remaining_path'>
@@ -89,13 +89,13 @@ Roda::RodaPlugins::TypeRouting::RequestMethods
 [show source]
 </a>
 <pre id='method-i-real_remaining_path-source'>    <span class="ruby-comment"># File lib/roda/plugins/type_routing.rb</span>
-<span class="line-num">170</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">real_remaining_path</span>
-<span class="line-num">171</span>   <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-ivar">@type_routing_extension</span>)
-<span class="line-num">172</span>     <span class="ruby-node">&quot;#{super}.#{@type_routing_extension}&quot;</span>
-<span class="line-num">173</span>   <span class="ruby-keyword">else</span>
-<span class="line-num">174</span>     <span class="ruby-keyword">super</span>
-<span class="line-num">175</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">176</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">172</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">real_remaining_path</span>
+<span class="line-num">173</span>   <span class="ruby-keyword">if</span> <span class="ruby-ivar">@type_routing_extension</span>
+<span class="line-num">174</span>     <span class="ruby-node">&quot;#{super}.#{@type_routing_extension}&quot;</span>
+<span class="line-num">175</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">176</span>     <span class="ruby-keyword">super</span>
+<span class="line-num">177</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">178</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-requested_type'>
@@ -114,13 +114,13 @@ Roda::RodaPlugins::TypeRouting::RequestMethods
 [show source]
 </a>
 <pre id='method-i-requested_type-source'>    <span class="ruby-comment"># File lib/roda/plugins/type_routing.rb</span>
-<span class="line-num">160</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">requested_type</span>
-<span class="line-num">161</span>   <span class="ruby-keyword">return</span> <span class="ruby-ivar">@requested_type</span> <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-ivar">@requested_type</span>)
-<span class="line-num">162</span> 
-<span class="line-num">163</span>   <span class="ruby-identifier">opts</span> = <span class="ruby-ivar">@scope</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:type_routing</span>]
-<span class="line-num">164</span>   <span class="ruby-ivar">@requested_type</span> = <span class="ruby-identifier">accept_response_type</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:use_header</span>]
-<span class="line-num">165</span>   <span class="ruby-ivar">@requested_type</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:default_type</span>]
-<span class="line-num">166</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">162</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">requested_type</span>
+<span class="line-num">163</span>   <span class="ruby-keyword">return</span> <span class="ruby-ivar">@requested_type</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@requested_type</span>
+<span class="line-num">164</span> 
+<span class="line-num">165</span>   <span class="ruby-identifier">opts</span> = <span class="ruby-ivar">@scope</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:type_routing</span>]
+<span class="line-num">166</span>   <span class="ruby-ivar">@requested_type</span> = <span class="ruby-identifier">accept_response_type</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:use_header</span>]
+<span class="line-num">167</span>   <span class="ruby-ivar">@requested_type</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:default_type</span>]
+<span class="line-num">168</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

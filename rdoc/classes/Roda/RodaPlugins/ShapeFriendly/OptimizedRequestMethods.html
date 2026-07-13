@@ -1,10 +1,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang='en'>
 <head>
-<title>Roda::RodaPlugins::IndifferentParams::QueryParser::Params</title>
+<title>Roda::RodaPlugins::ShapeFriendly::OptimizedRequestMethods</title>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
-<link href='../../../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<link href='../../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
 <script type='text/javascript'>
   function popupCode(url) {
     window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
@@ -24,18 +24,14 @@
 <body class='page'>
 <div class='class' id='wrapper'>
 <div class='header'>
-<h1 class='name'><span class='type'>class</span>
-Roda::RodaPlugins::IndifferentParams::QueryParser::Params
+<h1 class='name'><span class='type'>module</span>
+Roda::RodaPlugins::ShapeFriendly::OptimizedRequestMethods
 </h1>
 <ol class='paths'>
 <li>
-<a href="../../../../../files/lib/roda/plugins/indifferent_params_rb.html">lib/roda/plugins/indifferent_params.rb</a>
+<a href="../../../../files/lib/roda/plugins/shape_friendly_rb.html">lib/roda/plugins/shape_friendly.rb</a>
 </li>
 </ol>
-<div class='parent'>
-Superclass:
-<strong>Rack::QueryParser::Params</strong>
-</div>
 </div>
 <div id='content'>
 <div id='text'>
@@ -55,20 +51,26 @@ Superclass:
 <div class='method public-class' id='method-method-c-new'>
 <a name='method-c-new'></a>
 <div class='synopsis'>
-<span class='name'>new</span><span class='arguments'>()</span>
+<span class='name'>new</span><span class='arguments'>(scope, env)</span>
 
 </div>
 <div class='description'>
+
+<p>Initialize configured instance variables to nil.</p>
 
 </div>
 <div class='source'>
 <a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-new-source&#39;); return false'>
 [show source]
 </a>
-<pre id='method-c-new-source'>   <span class="ruby-comment"># File lib/roda/plugins/indifferent_params.rb</span>
-<span class="line-num">59</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>
-<span class="line-num">60</span>   <span class="ruby-keyword">super</span>(<span class="ruby-operator">&amp;</span><span class="ruby-constant">INDIFFERENT_PROC</span>)
-<span class="line-num">61</span> <span class="ruby-keyword">end</span></pre>
+<pre id='method-c-new-source'>    <span class="ruby-comment"># File lib/roda/plugins/shape_friendly.rb</span>
+<span class="line-num">179</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-identifier">scope</span>, <span class="ruby-identifier">env</span>)
+<span class="line-num">180</span>   <span class="ruby-identifier">_initialize_nil_instance_variables</span>
+<span class="line-num">181</span>   <span class="ruby-ivar">@scope</span> = <span class="ruby-identifier">scope</span>
+<span class="line-num">182</span>   <span class="ruby-ivar">@captures</span> = []
+<span class="line-num">183</span>   <span class="ruby-ivar">@remaining_path</span> = <span class="ruby-identifier">_remaining_path</span>(<span class="ruby-identifier">env</span>)
+<span class="line-num">184</span>   <span class="ruby-ivar">@env</span> = <span class="ruby-identifier">env</span>
+<span class="line-num">185</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

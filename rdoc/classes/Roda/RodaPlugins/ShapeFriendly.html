@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+<head>
+<title>Roda::RodaPlugins::ShapeFriendly</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<link href='../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<script type='text/javascript'>
+  function popupCode(url) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+  
+  function toggleCode(id) {
+    var code = document.getElementById(id)
+  
+    code.style.display = code.style.display != 'block' ? 'block' : 'none'
+    return true
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+</script>
+</head>
+<body class='page'>
+<div class='class' id='wrapper'>
+<div class='header'>
+<h1 class='name'><span class='type'>module</span>
+Roda::RodaPlugins::ShapeFriendly
+</h1>
+<ol class='paths'>
+<li>
+<a href="../../../files/lib/roda/plugins/shape_friendly_rb.html">lib/roda/plugins/shape_friendly.rb</a>
+</li>
+</ol>
+</div>
+<div id='content'>
+<div id='text'>
+<div id='description'>
+<p>The <a href="../../../files/lib/roda/plugins/shape_friendly_rb.html">shape_friendly</a> plugin makes the scope, request, and response objects used by <a href="../../Roda.html"><code>Roda</code></a> friendly to object shapes, which can result in better performance on modern versions of Ruby, especially when the JIT compiler is enabled. All plugins shipped with <a href="../../Roda.html"><code>Roda</code></a> integrate with this plugin.</p>
+
+<p>In order for this behavior to be beneficial for your application, you need to either avoid setting instance variables inside your routing tree, or you need to register each instance variable used, to ensure that all instances have the same shape.</p>
+
+<p>If you want to avoid using instance variables in your routing tree, you can switch to using local variables. If using the render plugin, you can pass data from your routing tree to your views using the <code>:locals</code> option. When passing data from your routing tree to other routing trees, such as when using the <a href="../../../files/lib/roda/plugins/hash_branches_rb.html">hash_branches</a> plugin, you can use the <a href="../../../files/lib/roda/plugins/shared_vars_rb.html">shared_vars</a> plugin, which stores the data in the Rack environment.</p>
+
+<p>To register instance variables set in your applications routing tree, use a <code>:scope_instance_variables</code> option when loading the plugin, listing the instance variable symbols you are setting in the route block scope:</p>
+
+<pre>class MyApp &lt; Roda
+  plugin :shape_friendly, scope_instance_variables: [:@var1, @:var2]
+
+  route do |r|
+    r.root do
+      @var1 = &quot;a&quot;
+      @var1.inspect
+    end
+
+    @var2 = &quot;b&quot;
+    @var2.inspect
+  end
+end</pre>
+
+<p>When developing external plugins, you can set one of three constants in the plugin module to integrate with this plugin to support shape friendly behavior:</p>
+<ul><li>
+<p><code>SCOPE_INSTANCE_VARIABLES</code>: For instance variables set in <a href="ShapeFriendly/InstanceMethods.html"><code>InstanceMethods</code></a>.</p>
+</li><li>
+<p><code>REQUEST_INSTANCE_VARIABLES</code>: For instance variables set in <code>RequestMethods</code>.</p>
+</li><li>
+<p><a href="ShapeFriendly.html#RESPONSE_INSTANCE_VARIABLES"><code>RESPONSE_INSTANCE_VARIABLES</code></a>: For instance variables set in <code>ResponseMethods</code>.</p>
+</li></ul>
+
+<p>These constants are set in the plugin module, not in the plugin’s <a href="ShapeFriendly/InstanceMethods.html"><code>InstanceMethods</code></a>, <code>RequestMethods</code>, or <code>ResponseMethods</code> modules, to avoid pollution of the related namespaces in the class loading the plugin.</p>
+</div>
+<div id='method-list'>
+<h2>Methods</h2>
+<h3>Public Class</h3>
+<ol>
+<li><a href="#method-c-configure">configure</a></li>
+</ol>
+</div>
+<div id='context'>
+</div>
+<div id='class-list'>
+<h2>Classes and Modules</h2>
+<ol>
+<li><a href="ShapeFriendly/ClassMethods.html">Roda::RodaPlugins::ShapeFriendly::ClassMethods</a></li>
+<li><a href="ShapeFriendly/InstanceMethods.html">Roda::RodaPlugins::ShapeFriendly::InstanceMethods</a></li>
+<li><a href="ShapeFriendly/OptimizedInstanceMethods.html">Roda::RodaPlugins::ShapeFriendly::OptimizedInstanceMethods</a></li>
+<li><a href="ShapeFriendly/OptimizedRequestMethods.html">Roda::RodaPlugins::ShapeFriendly::OptimizedRequestMethods</a></li>
+<li><a href="ShapeFriendly/OptimizedResponseMethods.html">Roda::RodaPlugins::ShapeFriendly::OptimizedResponseMethods</a></li>
+<li><a href="ShapeFriendly/UnoptimizedInstanceMethods.html">Roda::RodaPlugins::ShapeFriendly::UnoptimizedInstanceMethods</a></li>
+<li><a href="ShapeFriendly/UnoptimizedRequestMethods.html">Roda::RodaPlugins::ShapeFriendly::UnoptimizedRequestMethods</a></li>
+<li><a href="ShapeFriendly/UnoptimizedResponseMethods.html">Roda::RodaPlugins::ShapeFriendly::UnoptimizedResponseMethods</a></li>
+</ol>
+</div>
+<div id='section'>
+<div id='constants-list'>
+<h2>Constants</h2>
+<div class='name-list'>
+<table summary='Constants'>
+<tr class='top-aligned-row context-row'>
+<td class='context-item-name'>RESPONSE_INSTANCE_VARIABLES</td>
+<td>=</td>
+<td class='context-item-value'>[:@status].freeze</td>
+<td>&nbsp;</td>
+<td class='context-item-desc'>
+<p>This is used by the base support and not by this plugin.</p>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div id='methods'>
+<h2>Public Class methods</h2>
+<div class='method public-class' id='method-method-c-configure'>
+<a name='method-c-configure'></a>
+<div class='synopsis'>
+<span class='name'>configure</span><span class='arguments'>(app, opts=OPTS)</span>
+
+</div>
+<div class='description'>
+
+<p>Set the <a href="../../Roda.html"><code>Roda</code></a> application to create the private _initialize_nil_instance_variables for the plugin to use.</p>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-configure-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/shape_friendly.rb</span>
+<span class="line-num">59</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
+<span class="line-num">60</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">scope_ivs</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:scope_instance_variables</span>]
+<span class="line-num">61</span>     <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:shape_friendly_scope_instance_variables</span>] = <span class="ruby-constant">Array</span>(<span class="ruby-identifier">scope_ivs</span>).<span class="ruby-identifier">dup</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">62</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">63</span> 
+<span class="line-num">64</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">instance_exec</span> <span class="ruby-keyword">do</span>
+<span class="line-num">65</span>     <span class="ruby-identifier">def_initialize_nil_instance_variables</span>(<span class="ruby-identifier">app</span>, <span class="ruby-value">:SCOPE_INSTANCE_VARIABLES</span>)
+<span class="line-num">66</span>     <span class="ruby-identifier">def_initialize_nil_instance_variables</span>(<span class="ruby-identifier">app</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>, <span class="ruby-value">:REQUEST_INSTANCE_VARIABLES</span>)
+<span class="line-num">67</span>     <span class="ruby-identifier">def_initialize_nil_instance_variables</span>(<span class="ruby-identifier">app</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaResponse</span>, <span class="ruby-value">:RESPONSE_INSTANCE_VARIABLES</span>)
+<span class="line-num">68</span> 
+<span class="line-num">69</span>     <span class="ruby-comment"># Avoid overhead of super call if possible</span>
+<span class="line-num">70</span>     <span class="ruby-identifier">include</span>(<span class="ruby-identifier">instance_method</span>(<span class="ruby-value">:initialize</span>).<span class="ruby-identifier">owner</span> <span class="ruby-operator">==</span> <span class="ruby-constant">Roda</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaPlugins</span><span class="ruby-operator">::</span><span class="ruby-constant">Base</span><span class="ruby-operator">::</span><span class="ruby-constant">InstanceMethods</span> <span class="ruby-operator">?</span> <span class="ruby-constant">OptimizedInstanceMethods</span> <span class="ruby-operator">:</span> <span class="ruby-constant">UnoptimizedInstanceMethods</span>)
+<span class="line-num">71</span>     <span class="ruby-identifier">app</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:include</span>, <span class="ruby-identifier">app</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>.<span class="ruby-identifier">instance_method</span>(<span class="ruby-value">:initialize</span>).<span class="ruby-identifier">owner</span> <span class="ruby-operator">==</span> <span class="ruby-constant">Roda</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaPlugins</span><span class="ruby-operator">::</span><span class="ruby-constant">Base</span><span class="ruby-operator">::</span><span class="ruby-constant">RequestMethods</span> <span class="ruby-operator">?</span> <span class="ruby-constant">OptimizedRequestMethods</span> <span class="ruby-operator">:</span> <span class="ruby-constant">UnoptimizedRequestMethods</span>)
+<span class="line-num">72</span>     <span class="ruby-identifier">app</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaResponse</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:include</span>, <span class="ruby-identifier">app</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaResponse</span>.<span class="ruby-identifier">instance_method</span>(<span class="ruby-value">:initialize</span>).<span class="ruby-identifier">owner</span> <span class="ruby-operator">==</span> <span class="ruby-constant">Roda</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaPlugins</span><span class="ruby-operator">::</span><span class="ruby-constant">Base</span><span class="ruby-operator">::</span><span class="ruby-constant">ResponseMethods</span> <span class="ruby-operator">?</span> <span class="ruby-constant">OptimizedResponseMethods</span> <span class="ruby-operator">:</span> <span class="ruby-constant">UnoptimizedResponseMethods</span>)
+<span class="line-num">73</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">74</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div id='footer-push'></div>
+</div>
+<div id='footer'>
+<a href="https://github.com/jeremyevans/hanna"><strong>Hanna</strong> RDoc template</a>
+</div>
+</body>
+</html>

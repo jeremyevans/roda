@@ -69,15 +69,15 @@ block after any usual match block arguments. You can further manipulate the</pre
 [show source]
 </a>
 <pre id='method-i-mail-source'>    <span class="ruby-comment"># File lib/roda/plugins/mailer.rb</span>
-<span class="line-num">145</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">mail</span>(<span class="ruby-identifier">path</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
-<span class="line-num">146</span>   <span class="ruby-identifier">mail</span> = <span class="ruby-operator">::</span><span class="ruby-constant">Mail</span>.<span class="ruby-identifier">new</span>
-<span class="line-num">147</span>   <span class="ruby-identifier">catch</span>(<span class="ruby-value">:no_mail</span>) <span class="ruby-keyword">do</span>
-<span class="line-num">148</span>     <span class="ruby-keyword">unless</span> <span class="ruby-identifier">mail</span>.<span class="ruby-identifier">equal?</span>(<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;PATH_INFO&quot;</span><span class="ruby-operator">=&gt;</span><span class="ruby-identifier">path</span>, <span class="ruby-string">&#39;SCRIPT_NAME&#39;</span><span class="ruby-operator">=&gt;</span><span class="ruby-string">&#39;&#39;</span>, <span class="ruby-string">&quot;REQUEST_METHOD&quot;</span><span class="ruby-operator">=&gt;</span><span class="ruby-string">&quot;MAIL&quot;</span>, <span class="ruby-string">&#39;rack.input&#39;</span><span class="ruby-operator">=&gt;</span><span class="ruby-constant">StringIO</span>.<span class="ruby-identifier">new</span>, <span class="ruby-string">&#39;roda.mail&#39;</span><span class="ruby-operator">=&gt;</span><span class="ruby-identifier">mail</span>, <span class="ruby-string">&#39;roda.mail_args&#39;</span><span class="ruby-operator">=&gt;</span><span class="ruby-identifier">args</span>).<span class="ruby-identifier">_roda_handle_main_route</span>)
-<span class="line-num">149</span>       <span class="ruby-identifier">raise</span> <span class="ruby-constant">Error</span>, <span class="ruby-node">&quot;route did not return mail instance for #{path.inspect}, #{args.inspect}&quot;</span>
-<span class="line-num">150</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">151</span>     <span class="ruby-identifier">mail</span>
-<span class="line-num">152</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">153</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">147</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">mail</span>(<span class="ruby-identifier">path</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
+<span class="line-num">148</span>   <span class="ruby-identifier">mail</span> = <span class="ruby-operator">::</span><span class="ruby-constant">Mail</span>.<span class="ruby-identifier">new</span>
+<span class="line-num">149</span>   <span class="ruby-identifier">catch</span>(<span class="ruby-value">:no_mail</span>) <span class="ruby-keyword">do</span>
+<span class="line-num">150</span>     <span class="ruby-keyword">unless</span> <span class="ruby-identifier">mail</span>.<span class="ruby-identifier">equal?</span>(<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;PATH_INFO&quot;</span><span class="ruby-operator">=&gt;</span><span class="ruby-identifier">path</span>, <span class="ruby-string">&#39;SCRIPT_NAME&#39;</span><span class="ruby-operator">=&gt;</span><span class="ruby-string">&#39;&#39;</span>, <span class="ruby-string">&quot;REQUEST_METHOD&quot;</span><span class="ruby-operator">=&gt;</span><span class="ruby-string">&quot;MAIL&quot;</span>, <span class="ruby-string">&#39;rack.input&#39;</span><span class="ruby-operator">=&gt;</span><span class="ruby-constant">StringIO</span>.<span class="ruby-identifier">new</span>, <span class="ruby-string">&#39;roda.mail&#39;</span><span class="ruby-operator">=&gt;</span><span class="ruby-identifier">mail</span>, <span class="ruby-string">&#39;roda.mail_args&#39;</span><span class="ruby-operator">=&gt;</span><span class="ruby-identifier">args</span>).<span class="ruby-identifier">_roda_handle_main_route</span>)
+<span class="line-num">151</span>       <span class="ruby-identifier">raise</span> <span class="ruby-constant">Error</span>, <span class="ruby-node">&quot;route did not return mail instance for #{path.inspect}, #{args.inspect}&quot;</span>
+<span class="line-num">152</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">153</span>     <span class="ruby-identifier">mail</span>
+<span class="line-num">154</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">155</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-sendmail'>
@@ -96,11 +96,11 @@ block after any usual match block arguments. You can further manipulate the</pre
 [show source]
 </a>
 <pre id='method-i-sendmail-source'>    <span class="ruby-comment"># File lib/roda/plugins/mailer.rb</span>
-<span class="line-num">159</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">sendmail</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
-<span class="line-num">160</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">m</span> = <span class="ruby-identifier">mail</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
-<span class="line-num">161</span>     <span class="ruby-identifier">m</span>.<span class="ruby-identifier">deliver</span>
-<span class="line-num">162</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">163</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">161</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">sendmail</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
+<span class="line-num">162</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">m</span> = <span class="ruby-identifier">mail</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
+<span class="line-num">163</span>     <span class="ruby-identifier">m</span>.<span class="ruby-identifier">deliver</span>
+<span class="line-num">164</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">165</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>
