@@ -1,0 +1,40 @@
+= New Features
+
+* A shape_friendly plugin has been added, which makes Roda's scope,
+  request, and response objects shape-friendly, meaning they use the
+  same instance variables in the same order. This can significantly
+  improve performance in some cases on Ruby 3.2+, especially with
+  YJIT.
+    
+  In order for this to work, plugins must report which instance
+  variables that they use. This is done by checking for three
+  constants in the loaded plugins:
+    
+  * SCOPE_INSTANCE_VARIABLES
+  * REQUEST_INSTANCE_VARIABLES
+  * RESPONSE_INSTANCE_VARIABLES
+    
+  If these constants are defined in the plugin's module, they should
+  be arrays of instance variable symbols, and the instance variables
+  will be set to nil during the initialization of the related objects.
+
+  For application-specific instance variables that are set in the route
+  block scope, you can use the :scope_instance_variables plugin option
+  with an array of instance variable symbols.
+
+  It is possible to use Roda without setting instance variables in
+  route block scope, by always local variables, passing data to views
+  via the :locals option, and passing data between routing trees using
+  the shared_vars plugin.
+
+  Some other internal classes are now shape-friendly by default.
+
+* Roda.plugins has been added, and can be used to access the list of
+  plugin modules that have been loaded into the application.
+
+= Backwards Compatibility
+
+* Code that is checking whether specific instance variables are
+  defined for scope, request, or response objects should be changed
+  to check the value of the instance variable (which will be nil if
+  the variable is not defined).

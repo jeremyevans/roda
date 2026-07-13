@@ -1,4 +1,4 @@
-=== master
+=== 3.106.0 (2026-07-13)
 
 * Add shape_friendly plugin to make scope, request, and response objects shape-friendly (jeremyevans)
 
