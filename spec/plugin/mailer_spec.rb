@@ -274,19 +274,19 @@ describe "mailer plugin" do
   end
 
   it "raises error if mail object is not returned" do
-    app(:mailer){}
+    app(:mailer){|_|}
     proc{app.mail('/')}.must_raise(Roda::RodaPlugins::Mailer::Error)
   end
 
   it "does not raise an error when using an explicitly empty body" do
-    app(:mailer){""}
+    app(:mailer){|_| ""}
     app.mail('/')
   end
 
   it "supports setting the default content-type for emails when loading the plugin" do
     app(:bare) do
       plugin :mailer, :content_type=>'text/html'
-      route{""}
+      route{|_| ""}
     end
     app.mail('/').content_type.must_match(/\Atext\/html/)
   end
@@ -295,7 +295,7 @@ describe "mailer plugin" do
     app(:bare) do
       plugin :mailer, :content_type=>'text/html'
       plugin :mailer
-      route{""}
+      route{|_| ""}
     end
     app.mail('/').content_type.must_match(/\Atext\/html/)
   end
@@ -303,7 +303,7 @@ describe "mailer plugin" do
   it "supports manually overridding the default content-type for emails" do
     app(:bare) do
       plugin :mailer, :content_type=>'text/html'
-      route do
+      route do |_|
         response[RodaResponseHeaders::CONTENT_TYPE] = 'text/foo'
         ""
       end
@@ -314,7 +314,7 @@ describe "mailer plugin" do
   it "supports setting the default content type when attachments are used" do
     app(:bare) do
       plugin :mailer, :content_type=>'text/html'
-      route do
+      route do |_|
         add_file 'spec/assets/css/raw.css'
         "a"
       end
@@ -350,10 +350,10 @@ describe "mailer plugin" do
       before do 
         x << 1
       end
-      after do
+      after do |_|
         x << 2
       end
-      route do
+      route do |_|
         x << 3
         ''
       end

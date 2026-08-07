@@ -103,7 +103,7 @@ describe "hash_branches plugin" do
     body.must_equal 'n'
     body('/a').must_equal 'a2'
     body('/a/').must_equal 'a0'
-    proc{app.hash_branch("foo"){}}.must_raise
+    proc{app.hash_branch("foo"){|_|}}.must_raise
   end
 
   it "allows removing a hash branch" do

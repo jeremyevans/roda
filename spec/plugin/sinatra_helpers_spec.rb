@@ -82,48 +82,48 @@ describe "sinatra_helpers plugin" do
   end
 
   it 'status predicate methods return nil if status is not set' do
-    sin_app{informational?.inspect}
+    sin_app{|_| informational?.inspect}
     body.must_equal 'nil'
-    sin_app{success?.inspect}
+    sin_app{|_| success?.inspect}
     body.must_equal 'nil'
-    sin_app{redirect?.inspect}
+    sin_app{|_| redirect?.inspect}
     body.must_equal 'nil'
-    sin_app{client_error?.inspect}
+    sin_app{|_| client_error?.inspect}
     body.must_equal 'nil'
-    sin_app{server_error?.inspect}
+    sin_app{|_| server_error?.inspect}
     body.must_equal 'nil'
   end
 
   describe 'body' do
     it 'takes a block for deferred body generation' do
-      sin_app{body{'Hello World'}; nil}
+      sin_app{|_| body{'Hello World'}; nil}
       body.must_equal 'Hello World'
       header(RodaResponseHeaders::CONTENT_LENGTH).must_equal '11'
     end
 
     it 'supports #join' do
-      sin_app{body{'Hello World'}; nil}
+      sin_app{|_| body{'Hello World'}; nil}
       req[2].join.must_equal 'Hello World'
     end
 
     it 'takes a String, Array, or other object responding to #each' do
-      sin_app{body 'Hello World'; nil}
+      sin_app{|_| body 'Hello World'; nil}
       body.must_equal 'Hello World'
       header(RodaResponseHeaders::CONTENT_LENGTH).must_equal '11'
 
-      sin_app{body ['Hello ', 'World']; nil}
+      sin_app{|_| body ['Hello ', 'World']; nil}
       body.must_equal 'Hello World'
       header(RodaResponseHeaders::CONTENT_LENGTH).must_equal '11'
 
       o = Object.new
       def o.each; yield 'Hello World' end
-      sin_app{body o; nil}
+      sin_app{|_| body o; nil}
       body.must_equal 'Hello World'
       header(RodaResponseHeaders::CONTENT_LENGTH).must_equal '11'
     end
 
     it 'returns previously set body' do
-      sin_app do
+      sin_app do |_|
         response.body 'Hello World'
         response.body.join.must_equal 'Hello World'
       end
@@ -134,7 +134,7 @@ describe "sinatra_helpers plugin" do
 
   describe 'redirect' do
     it 'uses a 302 when only a path is given' do
-      sin_app do
+      sin_app do |_|
         redirect '/foo'
         fail 'redirect should halt'
       end
@@ -145,45 +145,45 @@ describe "sinatra_helpers plugin" do
     end
 
     it 'adds script_name if given a path' do
-      sin_app{redirect "/foo"}
+      sin_app{|_| redirect "/foo"}
       header(RodaResponseHeaders::LOCATION, '/bar', 'SCRIPT_NAME'=>'/foo').must_equal '/foo'
     end
 
     it 'does not adds script_name if not given a path' do
-      sin_app{redirect}
+      sin_app{|_| redirect}
       header(RodaResponseHeaders::LOCATION, '/bar', 'SCRIPT_NAME'=>'/foo', 'REQUEST_METHOD'=>'POST').must_equal '/foo/bar'
     end
 
     it 'respects :absolute_redirects option' do
-      sin_app{redirect}
+      sin_app{|_| redirect}
       app.opts[:absolute_redirects] = true
       header(RodaResponseHeaders::LOCATION, '/bar', 'HTTP_HOST'=>'example.org', 'SCRIPT_NAME'=>'/foo', 'REQUEST_METHOD'=>'POST').must_equal 'http://example.org/foo/bar'
     end
 
     it 'respects :prefixed_redirects option' do
-      sin_app{redirect "/bar"}
+      sin_app{|_| redirect "/bar"}
       app.opts[:prefixed_redirects] = true
       header(RodaResponseHeaders::LOCATION, 'SCRIPT_NAME'=>'/foo').must_equal '/foo/bar'
     end
 
     it 'ignores :prefix_redirects option if not given a path' do
-      sin_app{redirect}
+      sin_app{|_| redirect}
       app.opts[:prefix_redirects] = true
       header(RodaResponseHeaders::LOCATION, "/bar", 'SCRIPT_NAME'=>'/foo', 'REQUEST_METHOD'=>'POST').must_equal '/foo/bar'
     end
 
     it 'uses the code given when specified' do
-      sin_app{redirect '/foo', 301}
+      sin_app{|_| redirect '/foo', 301}
       status.must_equal 301
     end
 
     it 'redirects back to request.referer when passed back' do
-      sin_app{redirect back}
+      sin_app{|_| redirect back}
       header(RodaResponseHeaders::LOCATION, 'HTTP_REFERER' => '/foo').must_equal '/foo'
     end
 
     it 'uses 303 for post requests if request is HTTP 1.1, 302 for 1.0' do
-      sin_app{redirect '/foo'}
+      sin_app{|_| redirect '/foo'}
       status('HTTP_VERSION' => 'HTTP/1.1', 'REQUEST_METHOD'=>'POST').must_equal 303
       status('HTTP_VERSION' => 'HTTP/1.0', 'REQUEST_METHOD'=>'POST').must_equal 302
     end
@@ -191,7 +191,7 @@ describe "sinatra_helpers plugin" do
 
   describe 'error' do
     it 'sets a status code and halts' do
-      sin_app do
+      sin_app do |_|
         error
         fail 'error should halt'
       end
@@ -201,19 +201,19 @@ describe "sinatra_helpers plugin" do
     end
 
     it 'accepts status code' do
-      sin_app{error 501}
+      sin_app{|_| error 501}
       status.must_equal 501
       body.must_equal ''
     end
 
     it 'accepts body' do
-      sin_app{error '501'}
+      sin_app{|_| error '501'}
       status.must_equal 500
       body.must_equal '501'
     end
 
     it 'accepts status code and body' do
-      sin_app{error 502, '501'}
+      sin_app{|_| error 502, '501'}
       status.must_equal 502
       body.must_equal '501'
     end
@@ -221,7 +221,7 @@ describe "sinatra_helpers plugin" do
 
   describe 'not_found' do
     it 'halts with a 404 status' do
-      sin_app do
+      sin_app do |_|
         not_found
         fail 'not_found should halt'
       end
@@ -231,7 +231,7 @@ describe "sinatra_helpers plugin" do
     end
 
     it 'accepts optional body' do
-      sin_app{not_found 'nf'}
+      sin_app{|_| not_found 'nf'}
       status.must_equal 404
       body.must_equal 'nf'
     end
@@ -239,7 +239,7 @@ describe "sinatra_helpers plugin" do
 
   describe 'headers' do
     it 'sets headers on the response object when given a Hash' do
-      sin_app do
+      sin_app do |_|
         headers 'x-foo' => 'bar'
         'kthx'
       end
@@ -249,7 +249,7 @@ describe "sinatra_helpers plugin" do
     end
 
     it 'returns the response headers hash when no hash provided' do
-      sin_app{headers['x-foo'] = 'bar'}
+      sin_app{|_| headers['x-foo'] = 'bar'}
       header('x-foo').must_equal 'bar'
     end
   end
@@ -286,7 +286,7 @@ describe "sinatra_helpers plugin" do
 
   describe 'content_type' do
     it 'sets the Content-Type header' do
-      sin_app do
+      sin_app do |_|
         content_type 'text/plain'
         'Hello World'
       end
@@ -296,28 +296,28 @@ describe "sinatra_helpers plugin" do
     end
 
     it 'takes media type parameters (like charset=)' do
-      sin_app{content_type 'text/html', :charset => 'latin1'}
+      sin_app{|_| content_type 'text/html', :charset => 'latin1'}
       header(RodaResponseHeaders::CONTENT_TYPE).must_equal 'text/html;charset=latin1'
     end
 
     it "looks up symbols in Rack's mime types dictionary" do
-      sin_app{content_type :foo}
+      sin_app{|_| content_type :foo}
       Rack::Mime::MIME_TYPES['.foo'] = 'application/foo'
       header(RodaResponseHeaders::CONTENT_TYPE).must_equal 'application/foo'
     end
 
     it 'fails when no mime type is registered for the argument provided' do
-      sin_app{content_type :bizzle}
+      sin_app{|_| content_type :bizzle}
       proc{body}.must_raise(Roda::RodaError)
     end
 
     it 'handles already present params' do
-      sin_app{content_type 'foo/bar;level=1', :charset => 'utf-8'}
+      sin_app{|_| content_type 'foo/bar;level=1', :charset => 'utf-8'}
       header(RodaResponseHeaders::CONTENT_TYPE).must_equal 'foo/bar;level=1, charset=utf-8'
     end
 
     it 'does not add charset if present' do
-      sin_app{content_type 'text/plain;charset=utf-16', :charset => 'utf-8'}
+      sin_app{|_| content_type 'text/plain;charset=utf-16', :charset => 'utf-8'}
       header(RodaResponseHeaders::CONTENT_TYPE).must_equal 'text/plain;charset=utf-16'
     end
 
@@ -356,7 +356,7 @@ describe "sinatra_helpers plugin" do
     end
 
     it 'sets the Content-Disposition header even when a filename is not given' do
-      sin_app{attachment}
+      sin_app{|_| attachment}
       header(RodaResponseHeaders::CONTENT_DISPOSITION, '/foo/test.xml').must_equal 'attachment'
     end
 
@@ -369,7 +369,7 @@ describe "sinatra_helpers plugin" do
     end
 
     it 'should not modify the Content-Type if it is already set' do
-      sin_app do
+      sin_app do |_|
         content_type :atom
         attachment 'test.xml'
       end
@@ -382,7 +382,7 @@ describe "sinatra_helpers plugin" do
     before(:all) do
       file = @file = 'spec/assets/css/raw.css'
       @content = File.read(@file)
-      sin_app{request.send_file file, env['rack.OPTS'] || {}}
+      sin_app{|r| r.send_file file, env['rack.OPTS'] || {}}
     end
 
     it "sends the contents of the file" do
@@ -421,7 +421,7 @@ describe "sinatra_helpers plugin" do
     end
 
     it "returns a 404 when not found" do
-      sin_app{send_file 'this-file-does-not-exist.txt'}
+      sin_app{|_| send_file 'this-file-does-not-exist.txt'}
       status.must_equal 404
     end
 
@@ -455,7 +455,7 @@ describe "sinatra_helpers plugin" do
 
     it "does not override Content-Type if already set and no explicit type is given" do
       file = @file
-      sin_app do
+      sin_app do |_|
         content_type :png
         send_file file
       end
@@ -464,7 +464,7 @@ describe "sinatra_helpers plugin" do
 
     it "does override Content-Type even if already set, if explicit type is given" do
       file = @file
-      sin_app do
+      sin_app do |_|
         content_type :png
         send_file file, :type => :gif
       end
@@ -475,7 +475,7 @@ describe "sinatra_helpers plugin" do
   describe 'uri' do
     describe "without arguments" do
       before do
-        sin_app{uri}
+        sin_app{|_| uri}
       end
 
       it 'generates absolute urls' do
@@ -511,51 +511,51 @@ describe "sinatra_helpers plugin" do
     end
 
     it 'allows passing an alternative to path_info' do
-      sin_app{uri '/bar'}
+      sin_app{|_| uri '/bar'}
       body('HTTP_HOST'=>'example.org').must_equal 'http://example.org/bar'
       body('HTTP_HOST'=>'example.org', "SCRIPT_NAME" => '/foo').must_equal 'http://example.org/foo/bar'
     end
 
     it 'handles absolute URIs' do
-      sin_app{uri 'http://google.com'}
+      sin_app{|_| uri 'http://google.com'}
       body('HTTP_HOST'=>'example.org').must_equal 'http://google.com'
     end
 
     it 'handles different protocols' do
-      sin_app{uri 'mailto:jsmith@example.com'}
+      sin_app{|_| uri 'mailto:jsmith@example.com'}
       body('HTTP_HOST'=>'example.org').must_equal 'mailto:jsmith@example.com'
     end
 
     it 'allows turning off host' do
-      sin_app{uri '/foo', false}
+      sin_app{|_| uri '/foo', false}
       body('HTTP_HOST'=>'example.org').must_equal '/foo'
       body('HTTP_HOST'=>'example.org', "SCRIPT_NAME" => '/bar').must_equal '/bar/foo'
     end
 
     it 'allows turning off script_name' do
-      sin_app{uri '/foo', true, false}
+      sin_app{|_| uri '/foo', true, false}
       body('HTTP_HOST'=>'example.org').must_equal 'http://example.org/foo'
       body('HTTP_HOST'=>'example.org', "SCRIPT_NAME" => '/bar').must_equal 'http://example.org/foo'
     end
 
     it 'is aliased to #url' do
-      sin_app{url}
+      sin_app{|_| url}
       body('HTTP_HOST'=>'example.org').must_equal 'http://example.org/'
     end
 
     it 'is aliased to #to' do
-      sin_app{to}
+      sin_app{|_| to}
       body('HTTP_HOST'=>'example.org').must_equal 'http://example.org/'
     end
 
     it 'accepts a URI object instead of a String' do
-      sin_app{uri URI.parse('http://roda.jeremyevans.net')}
+      sin_app{|_| uri URI.parse('http://roda.jeremyevans.net')}
       body.must_equal 'http://roda.jeremyevans.net'
     end
   end
 
   it 'logger logs to rack.logger' do
-    sin_app{logger.info "foo"; nil}
+    sin_app{|_| logger.info "foo"; nil}
     o = Object.new
     def o.method_missing(*a)
       (@a ||= []) << a

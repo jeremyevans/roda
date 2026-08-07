@@ -115,7 +115,7 @@ describe "hooks plugin" do
     app.before do
       raise "before" if @_request.path == '/b'
     end
-    app.after do
+    app.after do |_|
       raise "after" if @_request.path == '/a'
     end
     body('/a').must_equal "error"
@@ -129,10 +129,10 @@ describe "hooks plugin" do
       before do
         raise "before" if @_request.path == '/b'
       end
-      after do
+      after do |_|
         raise "after" if @_request.path == '/a'
       end
-      route{}
+      route{|_|}
     end
     body('/a').must_equal "error"
     body('/b').must_equal "error"

@@ -8,7 +8,7 @@ else
 
 describe "branch_locals plugin" do
   it "should set view and layout locals to use" do
-    app(:branch_locals) do
+    app(:branch_locals) do |_|
       set_view_locals :title=>'About Roda'
       set_layout_locals :title=>'Home'
       view(:inline=>'<h1><%= title %></h1>', :layout=>{:inline=>"<title>Alternative Layout: <%= title %></title>\n<%= yield %>"})
@@ -18,7 +18,7 @@ describe "branch_locals plugin" do
   end
 
   it "should have set_view_locals work without set_layout_locals" do
-    app(:branch_locals) do
+    app(:branch_locals) do |_|
       set_view_locals :title=>'About Roda'
       view(:inline=>'<h1><%= title %></h1>', :layout=>{:inline=>"<title>Alternative Layout: <%= title %></title>\n<%= yield %>", :locals=>{:title=>'Home'}})
     end
@@ -27,7 +27,7 @@ describe "branch_locals plugin" do
   end
 
   it "should have set_layout_locals work without set_view_locals" do
-    app(:branch_locals) do
+    app(:branch_locals) do |_|
       set_layout_locals :title=>'Home'
       view(:inline=>'<h1><%= title %></h1>', :locals=>{:title=>'About Roda'}, :layout=>{:inline=>"<title>Alternative Layout: <%= title %></title>\n<%= yield %>"})
     end
@@ -36,7 +36,7 @@ describe "branch_locals plugin" do
   end
 
   it "should merge multiple calls to set view and layout locals" do
-    app(:branch_locals) do
+    app(:branch_locals) do |_|
       set_layout_locals :title=>'About Roda'
       set_view_locals :title=>'Home'
 
@@ -50,7 +50,7 @@ describe "branch_locals plugin" do
   end
 
   it "should merge multiple calls in the correct order" do
-    app(:branch_locals) do
+    app(:branch_locals) do |_|
       set_layout_locals :title=>'Roda'
       set_view_locals :title=>'H'
 

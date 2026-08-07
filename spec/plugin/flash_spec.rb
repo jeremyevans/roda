@@ -50,7 +50,7 @@ describe "flash plugin" do
     it "works correctly if flash not accessed" do
       app(:bare) do
         instance_exec(&config)
-        route{'a'}
+        route{|_| 'a'}
       end
       body.must_equal 'a'
     end

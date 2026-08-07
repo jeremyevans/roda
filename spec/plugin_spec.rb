@@ -64,7 +64,7 @@ describe "plugins" do
 
   it "should support registering plugins and loading them by symbol" do
     Roda::RodaPlugins.register_plugin(:foo, Module.new{module self::InstanceMethods; def a; '1' end end})
-    app(:foo) do
+    app(:foo) do |_|
       a
     end
 
@@ -110,7 +110,7 @@ describe "plugins" do
     end
     app(:bare) do
       plugin mod, bar: 2
-      route do
+      route do |_|
         foo + bar 
       end
     end

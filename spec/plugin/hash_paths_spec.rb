@@ -66,7 +66,7 @@ describe "hash_paths plugin" do
     body('/a').must_equal 'a'
     body('/a/').must_equal 'n'
     body('/p/x').must_equal 'px'
-    proc{app.hash_path("foo"){}}.must_raise
+    proc{app.hash_path("foo"){|_|}}.must_raise
   end
 
   it "works when subclassing the app" do

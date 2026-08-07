@@ -60,7 +60,7 @@ describe "integration" do
       def call(env) @a = 1; @app.call(env) end
     end
 
-    app do 
+    app do |_| 
       "D"
     end
 
@@ -226,7 +226,7 @@ describe "integration" do
     app(:bare) do
       use m1, key: 'test'
 
-      route do
+      route do |_|
         'a'
       end
     end

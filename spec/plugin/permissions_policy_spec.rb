@@ -2,7 +2,7 @@ require_relative "../spec_helper"
 
 describe "permissions_policy plugin" do 
   it "does not add header if no options are set" do
-    app(:permissions_policy){'a'}
+    app(:permissions_policy){|_| 'a'}
     header(RodaResponseHeaders::PERMISSIONS_POLICY, "/a").must_be_nil
   end
 
@@ -97,7 +97,7 @@ describe "permissions_policy plugin" do
   end
 
   it "raises error for unsupported Permission-Policy values" do
-    app{}
+    app{|_|}
     proc{app.plugin(:permissions_policy){|pp| pp.fullscreen Object.new}}.must_raise Roda::RodaError
     proc{app.plugin(:permissions_policy){|pp| pp.fullscreen []}}.must_raise Roda::RodaError
     proc{app.plugin(:permissions_policy){|pp| pp.fullscreen [:a]}}.must_raise Roda::RodaError

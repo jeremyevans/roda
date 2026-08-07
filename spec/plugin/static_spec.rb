@@ -5,7 +5,7 @@ describe "static plugin" do
     app(:bare) do
       plugin :static, ['/about'], :root=>'spec/views'
 
-      route do
+      route do |_|
         'a'
       end
     end
@@ -19,7 +19,7 @@ describe "static plugin" do
       opts[:root] = File.expand_path('../../', __FILE__)
       plugin :static, ['/about'], :root=>'views'
 
-      route do
+      route do |_|
         'a'
       end
     end

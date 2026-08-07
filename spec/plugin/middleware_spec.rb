@@ -102,7 +102,7 @@ describe "middleware plugin" do
   end
 
   it "makes it still possible to use the Roda app normally" do
-    app(:middleware) do
+    app(:middleware) do |_|
       "a"
     end
     body.must_equal 'a'
@@ -115,7 +115,7 @@ describe "middleware plugin" do
         super
       end
 
-      route do
+      route do |_|
         "a"
       end
     end
@@ -131,7 +131,7 @@ describe "middleware plugin" do
     a = app
     app(:bare) do
       use a
-      route{}
+      route{|_|}
     end
     body.must_equal 'a'
     a.opts[:a] = 'b'
@@ -145,7 +145,7 @@ describe "middleware plugin" do
     a = app
     app(:bare) do
       use a
-      route {}
+      route {|_|}
     end
     body.must_include '::middleware_subclass'
 
@@ -153,7 +153,7 @@ describe "middleware plugin" do
       Object.const_set(:MyApp, a)
       app(:bare) do
         use a
-        route {}
+        route {|_|}
       end
       body.must_equal 'MyApp::middleware_subclass'
     ensure
@@ -163,8 +163,8 @@ describe "middleware plugin" do
 
   it "should raise error if attempting to use options for Roda application that does not support configurable middleware" do
     a1 = app(:bare){plugin :middleware}
-    proc{app(:bare){use a1, :foo; route{}; build_rack_app}}.must_raise Roda::RodaError
-    proc{app(:bare){use(a1){}; route{}; build_rack_app}}.must_raise Roda::RodaError
+    proc{app(:bare){use a1, :foo; route{|_|}; build_rack_app}}.must_raise Roda::RodaError
+    proc{app(:bare){use(a1){}; route{|_|}; build_rack_app}}.must_raise Roda::RodaError
   end
 
   it "supports configuring middleware via a block" do
@@ -186,7 +186,7 @@ describe "middleware plugin" do
         [baz, :a1]
       end
 
-      route do
+      route do |_|
         'b1'
       end
     end
@@ -227,12 +227,12 @@ describe "middleware plugin" do
     app(:bare) do
       plugin :middleware, :include_middleware=>true
       use mid
-      route{}
+      route{|_|}
     end
     mid2 = app
     app(:bare) do
       use mid2
-      route{env['foo']}
+      route{|_| env['foo']}
     end
     body.must_equal 'bar'
   end
@@ -243,12 +243,12 @@ describe "middleware plugin" do
         res[1].delete(RodaResponseHeaders::CONTENT_LENGTH)
         res[2] << env['foo']
       end)
-      route{}
+      route{|_|}
     end
     mid2 = app
     app(:bare) do
       use mid2
-      route{env['foo'] = 'bar'; 'baz'}
+      route{|_| env['foo'] = 'bar'; 'baz'}
     end
     body.must_equal 'bazbar'
   end

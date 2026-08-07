@@ -22,7 +22,7 @@ describe "link_to plugin" do
     c = Class.new
     app(:bare) do
       plugin :link_to
-      path c do '/bar' end
+      path c do |_| '/bar' end
       route{|r| link_to('a', c.new)}
     end
     body.must_equal '<a href="/bar">a</a>'

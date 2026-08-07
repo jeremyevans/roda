@@ -246,7 +246,7 @@ describe "path plugin" do
     def c1.name; 'C'; end
     c2 = Class.new
     def c2.name; 'C'; end
-    @app.path(c1){'/c'}
+    @app.path(c1){|_| '/c'}
     @app.route{|r| path(r.env['rack.c'])}
     body('rack.c'=>c1.new).must_equal '/c'
     proc{body('rack.c'=>c2.new)}.must_raise(Roda::RodaError)
@@ -258,7 +258,7 @@ describe "path plugin" do
     c2 = Class.new
     def c2.name; 'C'; end
     @app.plugin :path, :by_name=>true
-    @app.path(c1){'/c'}
+    @app.path(c1){|_| '/c'}
     @app.route{|r| path(r.env['rack.c'])}
     body('rack.c'=>c1.new).must_equal '/c'
     body('rack.c'=>c2.new).must_equal '/c'
@@ -268,7 +268,7 @@ describe "path plugin" do
     c = Class.new
     def c.name; 'Roda::TestRodaPathPlugin'; end
     @app.plugin :path, :by_name=>true
-    @app.path('Roda::TestRodaPathPlugin', :class_name=>true){'/c'}
+    @app.path('Roda::TestRodaPathPlugin', :class_name=>true){|_| '/c'}
     @app.route{|r| path(r.env['rack.c'])}
     body('rack.c'=>c.new).must_equal '/c'
   end
@@ -277,7 +277,7 @@ describe "path plugin" do
     c = Class.new
     def c.name; 'TestRodaPathPlugin'; end
     @app.plugin :path, :by_name=>true
-    @app.path(:TestRodaPathPlugin, :class_name=>true){'/c'}
+    @app.path(:TestRodaPathPlugin, :class_name=>true){|_| '/c'}
     @app.route{|r| path(r.env['rack.c'])}
     body('rack.c'=>c.new).must_equal '/c'
   end
@@ -288,7 +288,7 @@ describe "path plugin" do
       def c.name; 'Roda::TestRodaPathPlugin'; end
       Roda.const_set(:TestRodaPathPlugin, c)
       @app.plugin :path
-      @app.path('Roda::TestRodaPathPlugin', :class_name=>true){'/c'}
+      @app.path('Roda::TestRodaPathPlugin', :class_name=>true){|_| '/c'}
       @app.route{|r| path(r.env['rack.c'])}
       body('rack.c'=>c.new).must_equal '/c'
     ensure
@@ -302,7 +302,7 @@ describe "path plugin" do
       def c.name; 'TestRodaPathPlugin'; end
       Object.const_set(:TestRodaPathPlugin, c)
       @app.plugin :path
-      @app.path(:TestRodaPathPlugin, :class_name=>true){'/c'}
+      @app.path(:TestRodaPathPlugin, :class_name=>true){|_| '/c'}
       @app.route{|r| path(r.env['rack.c'])}
       body('rack.c'=>c.new).must_equal '/c'
     ensure
@@ -312,15 +312,15 @@ describe "path plugin" do
 
   it ":class_name path method option raises for invalid class names" do
     @app.plugin :path
-    proc{@app.path(:testRodaPathPlugin, :class_name=>true){'/c'}}.must_raise Roda::RodaError
+    proc{@app.path(:testRodaPathPlugin, :class_name=>true){|_| '/c'}}.must_raise Roda::RodaError
   end
 
   it ":by_name plugin option defaults to true in development" do
     with_rack_env('development') do
-      app(:path){}
+      app(:path){|_|}
     end
     app.opts[:path_class_by_name].must_equal true
-    app(:path){}
+    app(:path){|_|}
     app.opts[:path_class_by_name].must_equal false
   end
 

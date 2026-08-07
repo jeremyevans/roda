@@ -348,7 +348,7 @@ describe "render plugin" do
 
         app(:bare) do
           plugin :render, :views=>'spec/views', :engine=>'rdoc', :cache=>cache_plugin_option
-          route do
+          route do |_|
             render('a')
           end
         end
@@ -366,7 +366,7 @@ describe "render plugin" do
       it "raises an exception and does not cache if trying to render a directory with :cache=>#{cache_plugin_option}" do
         app(:bare) do
           plugin :render, :views=>'spec', :cache=>cache_plugin_option
-          route do
+          route do |_|
             render('views')
           end
         end
@@ -380,7 +380,7 @@ describe "render plugin" do
         it "does not cache template renders when given a hash with #{template.class} value with plugin option :cache=>#{cache_plugin_option}" do
           app(:bare) do
             plugin :render, :views=>'spec/views', :cache=>cache_plugin_option
-            route do
+            route do |_|
               render(:template=>template)
             end
           end
@@ -398,7 +398,7 @@ describe "render plugin" do
         it "caches template renders when given a #{template.class} with plugin option :cache=>#{cache_plugin_option}" do
           app(:bare) do
             plugin :render, :views=>'spec/views', :cache=>cache_plugin_option
-            route do
+            route do |_|
               render(template)
             end
           end
@@ -416,7 +416,7 @@ describe "render plugin" do
         it "does not cache template renders when there is no template method cache with plugin option :cache=>#{cache_plugin_option}" do
           app(:bare) do
             plugin :render, :views=>'spec/views', :cache=>cache_plugin_option
-            route do
+            route do |_|
               render(template)
             end
           end
@@ -432,7 +432,7 @@ describe "render plugin" do
         it "does not cache template renders with locals when there is no template method cache with plugin option :cache=>#{cache_plugin_option}" do
           app(:bare) do
             plugin :render, :views=>'spec/views', :cache=>cache_plugin_option
-            route do
+            route do |_|
               render(template, :locals => {:a=>1})
             end
           end
@@ -450,7 +450,7 @@ describe "render plugin" do
             layout = template.to_s.sub('test', 'layout')
             layout = layout.to_sym if template.is_a?(Symbol)
             plugin :render, :views=>'spec/views', :layout=>layout, :cache=>cache_plugin_option
-            route do
+            route do |_|
               view(:template=>template)
             end
           end
@@ -474,7 +474,7 @@ describe "render plugin" do
             layout = template.to_s.sub('test', 'layout')
             layout = layout.to_sym if template.is_a?(Symbol)
             plugin :render, :views=>'spec/views', :layout=>layout, :cache=>cache_plugin_option
-            route do
+            route do |_|
               view(template)
             end
           end
@@ -498,7 +498,7 @@ describe "render plugin" do
             layout = template.to_s.sub('test', 'layout')
             layout = layout.to_sym if template.is_a?(Symbol)
             plugin :render, :views=>'spec/views', :layout=>layout, :cache=>cache_plugin_option
-            route do
+            route do |_|
               view(template)
             end
           end
@@ -525,7 +525,7 @@ describe "render plugin" do
         it "caches template views with inline layout when given a #{template.class} with plugin option :cache=>#{cache_plugin_option}" do
           app(:bare) do
             plugin :render, :views=>'spec/views', :layout=>{:inline=>"a<%= yield %>b"}, :cache=>cache_plugin_option
-            route do
+            route do |_|
               view(template)
             end
           end
@@ -549,7 +549,7 @@ describe "render plugin" do
             layout = template.to_s.sub('test', 'layout')
             layout = layout.to_sym if template.is_a?(Symbol)
             plugin :render, :views=>'spec/views', :layout=>layout, :cache=>cache_plugin_option
-            route do
+            route do |_|
               view(template)
             end
           end
@@ -566,7 +566,7 @@ describe "render plugin" do
         it "caches template views without layout when additional layout options given when given a #{template.class} with plugin option :cache=>#{cache_plugin_option}" do
           app(:bare) do
             plugin :render, :views=>'spec/views', :layout=>nil, :cache=>cache_plugin_option
-            route do
+            route do |_|
               view(template)
             end
           end
@@ -588,7 +588,7 @@ describe "render plugin" do
         it "caches template views without layout when additional layout options given when given a #{template.class} with plugin option :cache=>#{cache_plugin_option}" do
           app(:bare) do
             plugin :render, :views=>'spec/views', :layout_opts=>{:locals=>{:title=>"Home"}}, :cache=>cache_plugin_option
-            route do
+            route do |_|
               view(template)
             end
           end
@@ -619,7 +619,7 @@ describe "render plugin" do
 
         app(:bare) do
           plugin :render, :views=>'spec/views/fixed', :layout_opts=>{:locals=>{:title=>"Home"}}, :cache=>cache_plugin_option, :template_opts=>{:extract_fixed_locals=>true}
-          route do
+          route do |_|
             view(template)
           end
         end
@@ -643,7 +643,7 @@ describe "render plugin" do
 
         app(:bare) do
           plugin :render, :views=>'spec/views/fixed', :cache=>cache_plugin_option, :template_opts=>{:extract_fixed_locals=>true}
-          route do
+          route do |_|
             render(template, locals: {title: 'ct'})
           end
         end
@@ -713,7 +713,7 @@ describe "render plugin" do
   end
 
   it "inline layouts and inline views" do
-    app(:render) do
+    app(:render) do |_|
       view({:inline=>'bar'}, :layout=>{:inline=>'Foo: <%= yield %>'})
     end
 
@@ -723,7 +723,7 @@ describe "render plugin" do
   end
 
   it "inline renders with opts" do
-    app(:render) do
+    app(:render) do |_|
       render({:inline=>'<%= bar %>'}, {:engine=>'str'})
     end
 
@@ -735,7 +735,7 @@ describe "render plugin" do
   it "template renders with :template opts" do
     app(:bare) do
       plugin :render, :views => "./spec/views"
-      route do
+      route do |_|
         render(:template=>"about", :locals=>{:title => "About Roda"})
       end
     end
@@ -743,7 +743,7 @@ describe "render plugin" do
   end
 
   it "template renders with :template_class opts" do
-    app(:render) do
+    app(:render) do |_|
       @a = 1
       render(:inline=>'i#{@a}', :template_class=>::Tilt[:str])
     end
@@ -842,10 +842,10 @@ describe "render plugin" do
 
   it "Default to :check_template_mtime=>true in development mode" do
     with_rack_env('development') do
-      app(:render){}
+      app(:render){|_|}
     end
     app.render_opts[:check_template_mtime].must_equal true
-    app(:render){}
+    app(:render){|_|}
     app.render_opts[:check_template_mtime].must_equal false
   end
 

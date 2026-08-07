@@ -10,7 +10,7 @@ describe "delegate plugin" do
       def self.a; 'foo'; end
       class_delegate :a
 
-      route do
+      route do |_|
         root do
           headers[RodaResponseHeaders::CONTENT_TYPE] = a
         end

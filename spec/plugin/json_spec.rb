@@ -52,7 +52,7 @@ describe "json plugin" do
 
   it "should work when subclassing" do
     @app = Class.new(app)
-    app.route{[1]}
+    app.route{|_| [1]}
     body.must_equal '[1]'
   end
 

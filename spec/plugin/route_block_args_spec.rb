@@ -6,7 +6,7 @@ describe "route_block_args plugin" do
     app(:bare) do
       plugin :hooks
       before { a << 1 }
-      after { a << 2 }
+      after {|_| a << 2 }
       plugin :route_block_args do
         [request, response]
       end
@@ -28,7 +28,7 @@ describe "route_block_args plugin" do
       end
       plugin :hooks
       before { a << 1 }
-      after { a << 2 }
+      after {|_| a << 2 }
       route do |req, res|
         response.status = 401
         a << req.path << res.status
@@ -67,6 +67,7 @@ describe "route_block_args plugin" do
 
   it "works if given after the route block" do
     app(:bare) do
+      opts[:check_arity] = false
       route do |p, e, h|
         h['foo'] = "#{p['a']}-#{e['B']}"
       end

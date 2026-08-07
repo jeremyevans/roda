@@ -53,14 +53,14 @@ describe "static_routing plugin" do
       plugin :static_routing
 
       before{a << 1}
-      after{a << 2}
+      after{|_| a << 2}
 
       static_route "/foo" do |r|
         a << 3
         "bar"
       end
 
-      route{}
+      route{|_|}
     end
     body('/foo').must_equal 'bar'
     a.must_equal [1,3,2]
@@ -73,14 +73,14 @@ describe "static_routing plugin" do
       plugin :hooks
 
       before{a << 1}
-      after{a << 2}
+      after{|_| a << 2}
 
       static_route "/foo" do |r|
         a << 3
         "bar"
       end
 
-      route{}
+      route{|_|}
     end
     body('/foo').must_equal 'bar'
     a.must_equal [1,3,2]
@@ -89,9 +89,9 @@ describe "static_routing plugin" do
   it "supports overridding static routes" do
     app(:static_routing) do |r|
     end
-    app.static_route('/foo'){'bar'}
+    app.static_route('/foo'){|_| 'bar'}
     body('/foo').must_equal 'bar'
-    app.static_route('/foo'){'baz'}
+    app.static_route('/foo'){|_| 'baz'}
     body('/foo').must_equal 'baz'
   end
 
@@ -103,7 +103,7 @@ describe "static_routing plugin" do
       end
       plugin :static_routing
 
-      route{}
+      route{|_|}
     end
     body('/foo').must_equal '/foo:'
   end
@@ -115,7 +115,7 @@ describe "static_routing plugin" do
         "#{r.path}:#{r.remaining_path}"
       end
 
-      route{}
+      route{|_|}
     end
     body('/:foo').must_equal '/:foo:'
     status('/a').must_equal 404
@@ -128,7 +128,7 @@ describe "static_routing plugin" do
         'foo'
       end
 
-      route{}
+      route{|_|}
     end
 
     old_app = @app
@@ -155,7 +155,7 @@ describe "static_routing plugin" do
   it "freezes static routes when app is frozen" do
     app(:bare) do
       plugin :static_routing
-      static_route("/foo"){}
+      static_route("/foo"){|_|}
       freeze
 
       proc do
@@ -163,7 +163,7 @@ describe "static_routing plugin" do
       end.must_raise
 
       proc do
-        static_route("/bar"){}
+        static_route("/bar"){|_|}
       end.must_raise
     end
   end
@@ -183,7 +183,7 @@ describe "static_routing plugin" do
         "#{path}-#{meth}-bar"
       end
 
-      route{'a'}
+      route{|_| 'a'}
     end
 
     body('/foo').must_equal '/foo-GET'

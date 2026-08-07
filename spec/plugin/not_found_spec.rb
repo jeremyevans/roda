@@ -44,7 +44,7 @@ describe "not_found plugin" do
         "a"
       end
 
-      route{}
+      route{|_|}
     end
 
     header(RodaResponseHeaders::CONTENT_LENGTH).must_equal "1"

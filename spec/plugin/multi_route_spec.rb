@@ -87,7 +87,7 @@ describe "multi_route plugin" do
     status('/c').must_equal 404
     status('/c', 'REQUEST_METHOD'=>'POST').must_equal 404
 
-    proc{app.route("foo"){}}.must_raise
+    proc{app.route("foo"){|_|}}.must_raise
   end
 
   it "uses multi_route to dispatch to any named route" do
@@ -175,9 +175,9 @@ describe "multi_route plugin" do
     app(:multi_route) do |r|
       r.multi_route
     end
-    app.route('foo'){'bar'}
+    app.route('foo'){|_| 'bar'}
     body('/foo').must_equal 'bar'
-    app.route('foo'){'baz'}
+    app.route('foo'){|_| 'baz'}
     body('/foo').must_equal 'baz'
   end
 end
@@ -245,20 +245,23 @@ describe "multi_route plugin" do
     body('/bar/bar').must_equal 'bbb'
   end
 
-  it "handles namespaces in r.multi_route" do
-    app(:multi_route) do |path|
-      request.multi_route
-      path
-    end
-    app.plugin :route_block_args do
-      [request.path, request]
-    end
-    app.route("foo") do |path, r|
-      r.multi_route("foo")
-      "f-#{path}" 
-    end
-    app.route("bar", "foo") do |path|
-      "b-#{path}" 
+  it "supports route_block_args plugin" do
+    app(:bare) do
+      plugin :route_block_args do
+        [request.path, request]
+      end
+      plugin :multi_route
+      route do |path, r|
+        r.multi_route
+        path
+      end
+      route("foo") do |path, r|
+        r.multi_route("foo")
+        "f-#{path}" 
+      end
+      route("bar", "foo") do |path, r|
+        "b-#{path}" 
+      end
     end
 
     body.must_equal '/'

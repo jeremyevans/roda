@@ -2,7 +2,7 @@ require_relative "../spec_helper"
 
 describe "content_security_policy plugin" do 
   it "does not add header if no options are set" do
-    app(:content_security_policy){'a'}
+    app(:content_security_policy){|_| 'a'}
     header(RodaResponseHeaders::CONTENT_SECURITY_POLICY, "/a").must_be_nil
   end
 
@@ -102,7 +102,7 @@ describe "content_security_policy plugin" do
   end
 
   it "raises error for unsupported CSP values" do
-    app{}
+    app{|_|}
     proc{app.plugin(:content_security_policy){|csp| csp.default_src Object.new}}.must_raise Roda::RodaError
     proc{app.plugin(:content_security_policy){|csp| csp.default_src []}}.must_raise Roda::RodaError
     proc{app.plugin(:content_security_policy){|csp| csp.default_src [:a]}}.must_raise Roda::RodaError

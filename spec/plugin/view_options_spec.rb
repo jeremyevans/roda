@@ -87,7 +87,7 @@ describe "view_options plugin" do
       plugin :render, :views=>'spec/views', :allowed_paths=>['spec/views']
       plugin :view_options
 
-      route do
+      route do |_|
         set_view_options :views=>'spec/views/about'
         set_layout_options :template=>'layout-alternative'
         view('_test', :locals=>{:title=>'About Roda'}, :layout_opts=>{:locals=>{:title=>'Home'}})
@@ -102,7 +102,7 @@ describe "view_options plugin" do
       plugin :render, :views=>'spec/views', :allowed_paths=>['spec/views']
       plugin :view_options
 
-      route do
+      route do |_|
         set_view_options :views=>'spec/views/about'
         render('_test', :locals=>{:title=>'About Roda'})
       end
@@ -118,7 +118,7 @@ describe "view_options plugin" do
       plugin :render, :views=>'spec/views', :allowed_paths=>['spec/views']
       plugin :view_options
 
-      route do
+      route do |_|
         set_view_options :views=>'spec/views/about'
         set_layout_options :template=>'layout-alternative'
         view('_test', :locals=>{:title=>'About Roda'}, :layout_opts=>{:locals=>{:title=>'Home'}})
@@ -133,7 +133,7 @@ describe "view_options plugin" do
       plugin :render, :views=>'spec/views', :allowed_paths=>['spec/views'], :layout_opts=>{:template=>'layout'}
       plugin :view_options
 
-      route do
+      route do |_|
         set_view_options :views=>'spec/views/about', :layout=>'layout-alternative'
         set_layout_options :template=>'layout-alternative'
         view('_test', :locals=>{:title=>'About Roda'}, :layout_opts=>{:locals=>{:title=>'Home'}})
@@ -148,7 +148,7 @@ describe "view_options plugin" do
       plugin :render, :views=>'spec/views', :allowed_paths=>['spec/views'], :layout=>'layout'
       plugin :view_options
 
-      route do
+      route do |_|
         set_view_options :views=>'spec/views/about', :layout=>'layout-alternative'
         view('_test', :locals=>{:title=>'About Roda'}, :layout_opts=>{:locals=>{:title=>'Home'}})
       end
@@ -163,7 +163,7 @@ describe "view_options plugin" do
       plugin :view_options
       plugin :render_locals, :render=>{:title=>'About Roda'}, :layout=>{:title=>'Home'}
 
-      route do
+      route do |_|
         set_view_options :views=>'spec/views'
         set_layout_options :views=>'spec/views', :template=>'layout-alternative'
         view('about')
@@ -179,7 +179,7 @@ describe "view_options plugin" do
       plugin :view_options
       plugin :render_locals, :render=>{:title=>'Home', :b=>'B'}, :layout=>{:title=>'About Roda', :a=>'A'}
 
-      route do
+      route do |_|
         set_layout_options :views=>'spec/views', :template=>'multiple-layout', :engine=>'str'
         set_view_options :views=>'spec/views', :engine=>'str'
 

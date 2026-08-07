@@ -1,5 +1,7 @@
 === master
 
+* Warn by default if dynamically defining a method using a block with an unexpected arity (jeremyevans)
+
 * Add url_escape plugin for Roda#url_{,un}escape methods (jeremyevans)
 
 === 3.106.0 (2026-07-13)

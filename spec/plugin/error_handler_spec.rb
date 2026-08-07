@@ -178,7 +178,7 @@ describe "error_handler plugin" do
       end
       plugin :hooks
 
-      after do
+      after do |_|
         raise "foo"
       end
 

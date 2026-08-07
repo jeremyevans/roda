@@ -140,7 +140,7 @@ describe "route_csrf plugin" do
         [request, request.path, response]
       end
       plugin(:route_csrf){|r, path, res| res.write(path); res.write('2')}
-      route do |r|
+      route do |r, path, res|
         check_csrf!
         r.post('foo'){'f'}
         r.get "token", String do |s|

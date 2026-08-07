@@ -63,7 +63,7 @@ describe "part plugin" do
         app(:bare) do
           plugin :render, :views=>'spec/views/fixed', :cache=>cache_plugin_option, :template_opts=>{:extract_fixed_locals=>true}
           plugin :part
-          route do
+          route do |_|
             part("layout", title: "Home"){part(template)}
           end
         end
@@ -90,7 +90,7 @@ describe "part plugin" do
         app(:bare) do
           plugin :render, :views=>'spec/views/fixed', :cache=>cache_plugin_option, :template_opts=>{:extract_fixed_locals=>true}
           plugin :part
-          route do
+          route do |_|
             part(template, title: 'ct')
           end
         end

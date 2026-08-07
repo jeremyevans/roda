@@ -95,7 +95,7 @@ describe "sec_fetch_site_csrf plugin" do
         [request, request.path, response]
       end
       plugin(:sec_fetch_site_csrf){|r, path, res| res.write(path); res.write('2')}
-      route do |r|
+      route do |r, path, res|
         check_sec_fetch_site!
         "allowed"
       end

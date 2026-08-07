@@ -35,26 +35,26 @@ describe "cookies plugin" do
 
   it "should pass default cookie options when setting" do
     app.plugin :cookies, :path => '/foo'
-    app.route { response.set_cookie("foo", "bar") }
+    app.route {|_| response.set_cookie("foo", "bar") }
     header(RodaResponseHeaders::SET_COOKIE).must_equal "foo=bar; path=/foo"
 
-    app.route { response.set_cookie("foo", :value=>"bar", :path=>'/baz') }
+    app.route {|_| response.set_cookie("foo", :value=>"bar", :path=>'/baz') }
     header(RodaResponseHeaders::SET_COOKIE).must_equal "foo=bar; path=/baz"
   end
 
   it "should pass default cookie options when deleting" do
     app.plugin :cookies, :domain => 'example.com'
-    app.route { response.delete_cookie("foo") }
+    app.route {|_| response.delete_cookie("foo") }
     header(RodaResponseHeaders::SET_COOKIE).must_match(/foo=; domain=example.com; (max-age=0; )?expires=Thu, 01[ -]Jan[ -]1970 00:00:00 (-0000|GMT)/)
 
-    app.route { response.delete_cookie("foo", :domain=>'bar.com') }
+    app.route {|_| response.delete_cookie("foo", :domain=>'bar.com') }
     header(RodaResponseHeaders::SET_COOKIE).must_match(/foo=; domain=bar.com; (max-age=0; )?expires=Thu, 01[ -]Jan[ -]1970 00:00:00 (-0000|GMT)/)
   end
 
   it "should not override existing default cookie options" do
     app.plugin :cookies, :path => '/foo'
     app.plugin :cookies
-    app.route { response.set_cookie("foo", "bar") }
+    app.route {|_| response.set_cookie("foo", "bar") }
 
     header(RodaResponseHeaders::SET_COOKIE).must_equal "foo=bar; path=/foo"
   end

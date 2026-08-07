@@ -63,7 +63,7 @@ describe "status_handler plugin" do
         "a"
       end
 
-      route{}
+      route{|_|}
     end
 
     header(RodaResponseHeaders::CONTENT_LENGTH).must_equal "1"
@@ -169,7 +169,7 @@ describe "status_handler plugin" do
         "not found"
       end
 
-      route{}
+      route{|_|}
     end
 
     app.freeze

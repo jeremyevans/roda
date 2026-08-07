@@ -759,21 +759,24 @@ The following options are respected by the default library or multiple plugins:
                     useful if you mount the app as a path under another app.
 :check_arity :: Whether arity for blocks passed to Roda should be checked
                 to determine if they can be used directly to define methods
-                or need to be wrapped. By default, for backwards compatibility,
-                this is true, so Roda will check blocks and handle cases where
-                the arity of the block does not match the expected arity.  This
-                can be set to +:warn+ to issue warnings whenever Roda detects an
+                or need to be wrapped. For backwards compatibility, this can be
+                set to +true+, so Roda will check blocks and handle cases where
+                the arity of the block does not match the expected arity. The default 
+                is +:warn+, which issues warnings whenever Roda detects an
                 arity mismatch.  If set to +false+, Roda does not check the arity
                 of blocks, which can result in failures at runtime if the arity
                 of the block does not match what Roda expects.  Note that Roda
                 does not check the arity for lambda blocks, as those are strict
-                by default.
+                by default. In Roda 4, this option will be removed, and +false+
+                will be the only behavior.
 :check_dynamic_arity :: Similar to :check_arity, but used for checking blocks
                         where the number of arguments Roda will call the blocks
                         with is not possible to determine when defining the
                         method.  By default, Roda checks arity for such methods,
                         but doing so actually slows the method down even if the
                         number of arguments matches the expected number of arguments.
+                        In Roda 4, Roda will not check dynamic arity, and arity
+                        mismatches will result in exceptions.
 :freeze_middleware :: Whether to freeze all middleware when building the rack app.
 :json_parser :: A callable for parsing JSON (+JSON.parse+ in general used by
                 default).

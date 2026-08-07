@@ -148,7 +148,7 @@ describe "render_each plugin" do
         app(:bare) do
           plugin :render, :views=>'spec/views/fixed', :layout_opts=>{:locals=>{:title=>"Home"}}, :cache=>cache_plugin_option, :template_opts=>{:extract_fixed_locals=>true}
           plugin :render_each
-          route do
+          route do |_|
             render_each([1], template)
           end
         end
@@ -170,7 +170,7 @@ describe "render_each plugin" do
         app(:bare) do
           plugin :render, :views=>'spec/views/fixed', :cache=>cache_plugin_option, :template_opts=>{:extract_fixed_locals=>true}
           plugin :render_each
-          route do
+          route do |_|
             render_each([1], template, locals: {title: 'ct'})
           end
         end

@@ -2,7 +2,7 @@ require_relative "../spec_helper"
 
 describe "relative_plath plugin" do 
   it "supports relative_path method to turn absolute paths into relative paths" do
-    app(:relative_path) do
+    app(:relative_path) do |_|
       relative_path("/a")
     end
 
@@ -21,7 +21,7 @@ describe "relative_plath plugin" do
   end
 
   it "supports relative_prefix method for prefix to turn absolute paths into relative paths" do
-    app(:relative_path) do
+    app(:relative_path) do |_|
       "#{relative_prefix}/a"
     end
 
@@ -40,7 +40,7 @@ describe "relative_plath plugin" do
   end
 
   it "supports multiple calls to relative_prefix while routing same request" do
-    app(:relative_path) do
+    app(:relative_path) do |_|
       3.times.map{"#{relative_prefix}/a"}[0]
     end
 

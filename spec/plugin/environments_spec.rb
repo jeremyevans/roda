@@ -31,11 +31,11 @@ describe "environments plugin" do
 
   it "defaults environment to RACK_ENV" do
     with_rack_env('test') do
-      app(:environments){}
+      app(:environments){|_|}
     end
     app.test?.must_equal true
     app.development?.must_equal false
-    app(:environments){}
+    app(:environments){|_|}
     app.test?.must_equal false
     app.development?.must_equal true
   end

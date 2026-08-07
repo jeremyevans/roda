@@ -77,7 +77,7 @@ describe "public plugin" do
   end
 
   it "assumes public directory as default :root option" do
-    app(:public){}
+    app(:public){|_|}
     app.opts[:public_root].must_equal File.expand_path('public')
   end
 

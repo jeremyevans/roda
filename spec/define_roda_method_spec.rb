@@ -49,7 +49,7 @@ describe "Roda.define_roda_method" do
     @scope.send(m4, :c).must_equal [:c, 6, [], 5]
   end
 
-  it "should handle differences in arity" do
+  deprecated "should handle differences in arity" do
     m0 = app.define_roda_method("x", 0){|x| [x, 1]}
     @scope.send(m0).must_equal [nil, 1]
 
@@ -91,8 +91,8 @@ describe "Roda.define_roda_method" do
   [false, true].each do |warn_dynamic_arity| 
     meth = warn_dynamic_arity ? :deprecated : :it
     send meth, "should handle expected_arity :any and do dynamic arity check/fix" do
-      if warn_dynamic_arity
-        app.opts[:check_dynamic_arity] = :warn
+      unless warn_dynamic_arity
+        app.opts[:check_dynamic_arity] = true
       end
 
       m0 = app.define_roda_method("x", :any){1}
@@ -194,15 +194,21 @@ describe "Roda.define_roda_method" do
       @scope.send(eval("app.define_roda_method('x', 0){|**b| [b, 1]}", binding)).must_equal [{}, 1]
       @scope.send(eval("app.define_roda_method('x', 0){|c=1, b:2| [c, b, 1]}", binding)).must_equal [1, 2, 1]
       @scope.send(eval("app.define_roda_method('x', 0){|c=1, **b| [c, b, 1]}", binding)).must_equal [1, {}, 1]
+    end
+
+    deprecated "should ignore keyword arguments for expected_arity 0" do
       @scope.send(eval("app.define_roda_method('x', 0){|x, b:2| [x, b, 1]}", binding)).must_equal [nil, 2, 1]
       @scope.send(eval("app.define_roda_method('x', 0){|x, **b| [x, b, 1]}", binding)).must_equal [nil, {}, 1]
       @scope.send(eval("app.define_roda_method('x', 0){|x, c=1, b:2| [x, c, b, 1]}", binding)).must_equal [nil, 1, 2, 1]
       @scope.send(eval("app.define_roda_method('x', 0){|x, c=1, **b| [x, c, b, 1]}", binding)).must_equal [nil, 1, {}, 1]
     end
 
-    it "should ignore keyword arguments for expected_arity 1" do
+    deprecated "should ignore keyword arguments for expected_arity 1" do
       @scope.send(eval("app.define_roda_method('x', 1){|b:2| [b, 1]}", binding), 3).must_equal [2, 1]
       @scope.send(eval("app.define_roda_method('x', 1){|**b| [b, 1]}", binding), 3).must_equal [{}, 1]
+    end
+
+    it "should ignore keyword arguments for expected_arity 1" do
       @scope.send(eval("app.define_roda_method('x', 1){|c=1, b:2| [c, b, 1]}", binding), 3).must_equal [3, 2, 1]
       @scope.send(eval("app.define_roda_method('x', 1){|c=1, **b| [c, b, 1]}", binding), 3).must_equal [3, {}, 1]
       @scope.send(eval("app.define_roda_method('x', 1){|x, b:2| [x, b, 1]}", binding), 3).must_equal [3, 2, 1]

@@ -71,7 +71,7 @@ describe "hash_routes plugin - hash_routes DSL" do
 
       phr = hash_routes(:p)
 
-      phr.is true do
+      phr.is true do |_|
         "pi"
       end
 
@@ -160,7 +160,7 @@ describe "hash_routes plugin - hash_routes DSL" do
     body.must_equal 'n'
     body('/a').must_equal 'a2'
     body('/a/').must_equal 'a0'
-    proc{app.hash_branch("foo"){}}.must_raise
+    proc{app.hash_branch("foo"){|_|}}.must_raise
   end
 
   it "works when subclassing the app" do
@@ -226,7 +226,7 @@ describe "hash_routes plugin" do
         res.write('b')
       end
 
-      route do |r|
+      route do |r, res|
         r.hash_branches
 
         'n'
@@ -240,14 +240,14 @@ describe "hash_routes plugin" do
     body('/a/b/').must_equal 'a'
   end
 
-  it "should have r.hash_routes dispatch to both hash_paths and hash_branches" do
+  it "should have r.hash_routes dispatch to both hash_paths and hash_branches with route_block_args" do
     app(:bare) do
       plugin :hash_routes
       plugin :route_block_args do
         [request, response]
       end
 
-      hash_branch 'a' do |r|
+      hash_branch 'a' do |r, _|
         r.root do
           'ar'
         end
@@ -255,19 +255,19 @@ describe "hash_routes plugin" do
         'ab'
       end
 
-      hash_path '/a' do |_|
+      hash_path '/a' do |_, _|
         'ap'
       end
 
-      hash_branch 'b' do |_|
+      hash_branch 'b' do |_, _|
         'b'
       end
 
-      hash_path '/c' do |_|
+      hash_path '/c' do |_, _|
         'c'
       end
 
-      route do |r|
+      route do |r, _|
         r.hash_routes
 
         'n'

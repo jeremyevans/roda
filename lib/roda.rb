@@ -71,29 +71,34 @@ class Roda
         #
         # If the :check_arity app option is not set to false, Roda will check that
         # the arity of the block matches the expected arity, and compensate for
-        # cases where it does not.  If it is set to :warn, Roda will warn in the
-        # cases where the arity does not match what is expected.
+        # cases where it does not.  The :check_arity default app option setting is
+        # :warn, in which case Roda will warn in the cases where the arity does not
+        # match what is expected.
         #
         # If the expected arity is :any, Roda must perform a dynamic arity check
         # when the method is called, which can hurt performance even in the case
         # where the arity matches.  The :check_dynamic_arity app option can be
         # set to false to turn off the dynamic arity checks.  The
         # :check_dynamic_arity app option can be to :warn to warn if Roda needs
-        # to adjust arity dynamically.
+        # to adjust arity dynamically. The default value of the :check_dynamic_arity
+        # app option is to use the same value as the :check_arity app option.
         #
         # Roda only checks arity for regular blocks, not lambda blocks, as the
         # fixes Roda uses for regular blocks would not work for lambda blocks.
         #
         # Roda does not support blocks with required keyword arguments if the
         # expected arity is 0 or 1.
+        #
+        # Support for the :check_arity and :check_dynamic_arity options will be
+        # removed in Roda 4.
         def define_roda_method(meth, expected_arity, &block)
           if meth.is_a?(String)
             meth = roda_method_name(meth)
           end
           call_meth = meth
 
-          # RODA4: Switch to false # :warn in last Roda 3 version
-          if (check_arity = opts.fetch(:check_arity, true)) && !block.lambda?
+          # RODA4: Switch to false
+          if (check_arity = opts.fetch(:check_arity, :warn)) && !block.lambda?
             required_args, optional_args, rest, keyword = _define_roda_method_arg_numbers(block)
 
             if keyword == :required && (expected_arity == 0 || expected_arity == 1)

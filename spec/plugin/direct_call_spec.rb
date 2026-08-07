@@ -2,7 +2,7 @@ require_relative "../spec_helper"
 
 describe "direct_call plugin" do
   it "should have .call skip middleware" do
-    app{'123'}
+    app{|_| '123'}
     app.use(Class.new do
       def initialize(_) end
       def call(env) [200, {}, ['321']] end

@@ -2,7 +2,7 @@ require_relative "../spec_helper"
 
 describe "custom_block_results plugin" do
   before do
-    app(:custom_block_results) do
+    app(:custom_block_results) do |_|
       :sym
     end
   end

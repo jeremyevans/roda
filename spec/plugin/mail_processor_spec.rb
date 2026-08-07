@@ -428,7 +428,7 @@ describe "mail_processor plugin" do
       before do 
         processed << 1
       end
-      after do
+      after do |_|
         processed << 2
       end
       route do |r|

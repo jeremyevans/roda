@@ -7,21 +7,21 @@ describe "multi_run plugin" do
       "c"
     end
 
-    app.run "a", Class.new(Roda).class_eval{route{"a1"}; app}
+    app.run "a", Class.new(Roda).class_eval{route{|_| "a1"}; app}
 
     body("/a").must_equal 'a1'
     body("/b").must_equal 'c'
     body("/b/a").must_equal 'c'
     body.must_equal 'c'
 
-    app.run "b", Class.new(Roda).class_eval{route{"b1"}; app}
+    app.run "b", Class.new(Roda).class_eval{route{|_| "b1"}; app}
 
     body("/a").must_equal 'a1'
     body("/b").must_equal 'b1'
     body("/b/a").must_equal 'b1'
     body.must_equal 'c'
 
-    app.run "b/a", Class.new(Roda).class_eval{route{"b2"}; app}
+    app.run "b/a", Class.new(Roda).class_eval{route{|_| "b2"}; app}
 
     body("/a").must_equal 'a1'
     body("/b").must_equal 'b1'
@@ -35,9 +35,9 @@ describe "multi_run plugin" do
       "c"
     end
 
-    app.run "a", Class.new(Roda).class_eval{route{"a1"}; app}
-    app.run "b", Class.new(Roda).class_eval{route{"b1"}; app}
-    app.run "b/a", Class.new(Roda).class_eval{route{"b2"}; app}
+    app.run "a", Class.new(Roda).class_eval{route{|_| "a1"}; app}
+    app.run "b", Class.new(Roda).class_eval{route{|_| "b1"}; app}
+    app.run "b/a", Class.new(Roda).class_eval{route{|_| "b2"}; app}
     app.freeze
 
     body("/a").must_equal 'a1'
@@ -45,13 +45,13 @@ describe "multi_run plugin" do
     body("/b/a").must_equal 'b2'
     body.must_equal 'c'
 
-    proc{app.run "a", Class.new(Roda).class_eval{route{"a1"}; app}}.must_raise
+    proc{app.run "a", Class.new(Roda).class_eval{route{|_| "a1"}; app}}.must_raise
   end
 
   it "supports multi_run_apps" do
     app(:multi_run){|r|}
     app.multi_run_apps.must_equal({})
-    a = Class.new(Roda).class_eval{route{"a1"}; app}
+    a = Class.new(Roda).class_eval{route{|_| "a1"}; app}
     app.run :a, a
     app.multi_run_apps.must_equal('a'=>a)
   end
@@ -62,14 +62,14 @@ describe "multi_run plugin" do
       "c"
     end
 
-    app.run "a", Class.new(Roda).class_eval{route{"a1"}; app}
+    app.run "a", Class.new(Roda).class_eval{route{|_| "a1"}; app}
     body("/a").must_equal 'a1'
 
     a = app
     @app = Class.new(a)
 
-    a.run "b", Class.new(Roda).class_eval{route{"b2"}; app}
-    app.run "b", Class.new(Roda).class_eval{route{"b1"}; app}
+    a.run "b", Class.new(Roda).class_eval{route{|_| "b2"}; app}
+    app.run "b", Class.new(Roda).class_eval{route{|_| "b1"}; app}
 
     body("/a").must_equal 'a1'
     body("/b").must_equal 'b1'
@@ -87,7 +87,7 @@ describe "multi_run plugin" do
       end
     end
 
-    app.run "a", Class.new(Roda).class_eval{route{"a1"}; app}
+    app.run "a", Class.new(Roda).class_eval{route{|_| "a1"}; app}
 
     body("/a").must_equal "a1"
     yielded.must_equal "a"
@@ -99,7 +99,7 @@ describe "multi_run plugin" do
       "c"
     end
 
-    app.run "a", Class.new(Roda).class_eval{route{"a1"}; app}
+    app.run "a", Class.new(Roda).class_eval{route{|_| "a1"}; app}
     body("/a").must_equal 'a1'
     app.run "a"
     body("/a").must_equal 'c'
@@ -114,7 +114,7 @@ describe "multi_run plugin with blocks for Roda.run" do
     end
 
     loaded = []
-    app.run("a"){loaded << :a1; Class.new(Roda).class_eval{route{"a1"}; app}}
+    app.run("a"){loaded << :a1; Class.new(Roda).class_eval{route{|_| "a1"}; app}}
 
     body("/a").must_equal 'a1'
     body("/b").must_equal 'c'
@@ -122,7 +122,7 @@ describe "multi_run plugin with blocks for Roda.run" do
     body.must_equal 'c'
     loaded.must_equal [:a1]
 
-    app.run("b"){loaded << :b1; Class.new(Roda).class_eval{route{"b1"}; app}}
+    app.run("b"){loaded << :b1; Class.new(Roda).class_eval{route{|_| "b1"}; app}}
 
     body("/a").must_equal 'a1'
     body("/b").must_equal 'b1'
@@ -130,7 +130,7 @@ describe "multi_run plugin with blocks for Roda.run" do
     body.must_equal 'c'
     loaded.must_equal [:a1, :a1, :b1, :b1]
 
-    app.run("b/a"){loaded << :b2; Class.new(Roda).class_eval{route{"b2"}; app}}
+    app.run("b/a"){loaded << :b2; Class.new(Roda).class_eval{route{|_| "b2"}; app}}
 
     body("/a").must_equal 'a1'
     body("/b").must_equal 'b1'
@@ -145,9 +145,9 @@ describe "multi_run plugin with blocks for Roda.run" do
       "c"
     end
 
-    app.run("a"){Class.new(Roda).class_eval{route{"a1"}; app}}
-    app.run("b"){Class.new(Roda).class_eval{route{"b1"}; app}}
-    app.run("b/a"){Class.new(Roda).class_eval{route{"b2"}; app}}
+    app.run("a"){Class.new(Roda).class_eval{route{|_| "a1"}; app}}
+    app.run("b"){Class.new(Roda).class_eval{route{|_| "b1"}; app}}
+    app.run("b/a"){Class.new(Roda).class_eval{route{|_| "b2"}; app}}
     app.freeze
 
     body("/a").must_equal 'a1'
@@ -155,7 +155,7 @@ describe "multi_run plugin with blocks for Roda.run" do
     body("/b/a").must_equal 'b2'
     body.must_equal 'c'
 
-    proc{app.run "a", Class.new(Roda).class_eval{route{"a1"}; app}}.must_raise
+    proc{app.run "a", Class.new(Roda).class_eval{route{|_| "a1"}; app}}.must_raise
   end
 
   it "works when subclassing" do
@@ -164,14 +164,14 @@ describe "multi_run plugin with blocks for Roda.run" do
       "c"
     end
 
-    app.run("a"){Class.new(Roda).class_eval{route{"a1"}; app}}
+    app.run("a"){Class.new(Roda).class_eval{route{|_| "a1"}; app}}
     body("/a").must_equal 'a1'
 
     a = app
     @app = Class.new(a)
 
-    a.run("b"){Class.new(Roda).class_eval{route{"b2"}; app}}
-    app.run("b"){Class.new(Roda).class_eval{route{"b1"}; app}}
+    a.run("b"){Class.new(Roda).class_eval{route{|_| "b2"}; app}}
+    app.run("b"){Class.new(Roda).class_eval{route{|_| "b1"}; app}}
 
     body("/a").must_equal 'a1'
     body("/b").must_equal 'b1'
@@ -189,7 +189,7 @@ describe "multi_run plugin with blocks for Roda.run" do
       end
     end
 
-    app.run("a"){Class.new(Roda).class_eval{route{"a1"}; app}}
+    app.run("a"){Class.new(Roda).class_eval{route{|_| "a1"}; app}}
 
     body("/a").must_equal "a1"
     yielded.must_equal "a"
@@ -201,7 +201,7 @@ describe "multi_run plugin with blocks for Roda.run" do
       "c"
     end
 
-    app.run("a"){Class.new(Roda).class_eval{route{"a1"}; app}}
+    app.run("a"){Class.new(Roda).class_eval{route{|_| "a1"}; app}}
     body("/a").must_equal 'a1'
     app.run "a"
     body("/a").must_equal 'c'
@@ -223,11 +223,11 @@ describe "multi_run plugin with blocks for Roda.run" do
     end
 
     body("/a").must_equal 'c'
-    app.run "a", Class.new(Roda).class_eval{route{"a1"}; app}
+    app.run "a", Class.new(Roda).class_eval{route{|_| "a1"}; app}
     body("/a").must_equal 'a1'
-    app.run("a"){Class.new(Roda).class_eval{route{"a2"}; app}}
+    app.run("a"){Class.new(Roda).class_eval{route{|_| "a2"}; app}}
     body("/a").must_equal 'a2'
-    app.run "a", Class.new(Roda).class_eval{route{"a3"}; app}
+    app.run "a", Class.new(Roda).class_eval{route{|_| "a3"}; app}
     body("/a").must_equal 'a3'
     app.run "a"
     body("/a").must_equal 'c'
@@ -239,8 +239,8 @@ describe "multi_run plugin with blocks for Roda.run" do
       "c"
     end
 
-    app.run "a", Class.new(Roda).class_eval{route{"a"}; app}
-    app.run("b"){Class.new(Roda).class_eval{route{"b"}; app}}
+    app.run "a", Class.new(Roda).class_eval{route{|_| "a"}; app}
+    app.run("b"){Class.new(Roda).class_eval{route{|_| "b"}; app}}
     body("/a").must_equal 'a'
     body("/b").must_equal 'b'
   end

@@ -2,7 +2,7 @@ require_relative "spec_helper"
 
 describe "Roda.freeze" do
   before do
-    app{'a'}.freeze
+    app{|_| 'a'}.freeze
   end
 
   it "should result in a working application" do
@@ -20,7 +20,7 @@ describe "Roda.freeze" do
 
   it "should make use and route raise errors" do
     proc{app.use Class.new}.must_raise
-    proc{app.route{}}.must_raise
+    proc{app.route{|_|}}.must_raise
   end
 
   it "should make plugin raise errors" do

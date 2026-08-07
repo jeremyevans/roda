@@ -38,14 +38,14 @@ describe "hash_branch_view_subdir plugin" do
 
   it "supports use in subclasses" do
     sub_app = Class.new(app)
-    sub_app.hash_branch('about') do
+    sub_app.hash_branch('about') do |_|
       'a'
     end
     body('/about').gsub(/\s+/, '').must_equal "Headerabout-ctFooter"
     @app = sub_app
     body('/about').must_equal 'a'
 
-    sub_app.hash_branch('about') do
+    sub_app.hash_branch('about') do |_|
       view 'comp_test'
     end
     body('/about').gsub(/\s+/, '').must_equal "Headerabout-ctFooter"
