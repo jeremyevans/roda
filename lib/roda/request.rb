@@ -569,8 +569,9 @@ class Roda
             if meth
               return unless captures = scope.send(meth, *captures)
             # :nocov:
+            # RODA4: Remove elsif block
             elsif defined?(yield)
-              # RODA4: Remove
+              RodaPlugins.warn("Passing a block to RodaRequest#consume will be ignored in Roda 4. Update the code to pass a scope method symbol as the second argument.")
               return unless captures = yield(*captures)
             # :nocov:
             end
