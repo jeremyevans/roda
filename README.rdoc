@@ -976,7 +976,7 @@ content security policy configuration:
 
 You may want to look into setting the following HTTP headers, which
 can be done at the web server level, but can also be done at the
-application level using using the +default_headers+ plugin:
+application level using the +default_headers+ plugin:
 
 Strict-Transport-Security :: Enforces SSL/TLS Connections to the application.
 X-Content-Type-Options :: Forces some browsers to respect a declared Content-Type header.
