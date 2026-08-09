@@ -18,7 +18,7 @@ if run_tests
   describe 'recheck_precompiled_assets plugin' do
     define_method(:compile_assets) do |opts={}|
       Class.new(Roda) do
-        plugin :assets, {:css => 'app.str', :path => assets_dir, :css_dir=>nil, :precompiled=>metadata_file, :public=>assets_dir, :prefix=>nil}.merge!(opts)
+        plugin :assets, {:css => 'app.str', :path => assets_dir, :css_dir=>nil, :precompiled=>metadata_file, :public=>assets_dir, :prefix=>nil, :js_compressor=>:none, :css_compressor=>:none}.merge!(opts)
         compile_assets
       end
     end
