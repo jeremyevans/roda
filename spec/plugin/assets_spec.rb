@@ -384,6 +384,14 @@ if run_tests
       js.must_include('console.log')
     end
 
+    it 'should handle compressing using a proc' do
+      compressor = lambda{|content| content.gsub(/[ \n]+/, "").gsub("'", '"')}
+      app.plugin :assets, :css_compressor=>compressor, :js_compressor=>compressor
+      app.compile_assets
+      File.read(File.join(assets_dir, "app.#{app.assets_opts[:compiled]['css']}.css")).must_equal "body{color:red;}body{color:blue;}"
+      File.read(File.join(assets_dir, "app.head.#{app.assets_opts[:compiled]['js.head']}.js")).must_equal 'console.log("test")'
+    end
+
     it 'should handle compressing using different libraries' do
       try_compressor = proc do |css, js|
         app.plugin :assets, :css_compressor=>css, :js_compressor=>js

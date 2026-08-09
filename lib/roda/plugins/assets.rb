@@ -274,7 +274,7 @@ class Roda
     # :compiled_path:: Path inside public folder in which compiled files are stored (default: :prefix)
     # :concat_only :: Whether to just concatenate instead of concatenating
     #                 and compressing files (default: false)
-    # :css_compressor :: Compressor to use for compressing CSS, either :yui, :none, or nil (the default, which will try
+    # :css_compressor :: Compressor to use for compressing CSS, either a Proc, Method, :yui, :none, or nil (the default, which will try
     #                    :yui if available, but not fail if it is not available)
     # :css_dir :: Directory name containing your css source, inside :path (default: 'css')
     # :css_headers :: A hash of additional headers for your rendered css files
@@ -288,7 +288,7 @@ class Roda
     #                   related group are contained in a subdirectory with the same name (default: true)
     # :gzip :: Store gzipped compiled assets files, and serve those to clients who accept gzip encoding.
     # :headers :: A hash of additional headers for both js and css rendered files
-    # :js_compressor :: Compressor to use for compressing javascript, either :yui, :closure, :uglifier, :minjs,
+    # :js_compressor :: Compressor to use for compressing javascript, either a Proc, Method, :yui, :closure, :uglifier, :minjs,
     #                   :none, or nil (the default, which will try :yui, :closure, :uglifier, then :minjs, but
     #                   not fail if any of them is not available)
     # :js_dir :: Directory name containing your javascript source, inside :path (default: 'js')
@@ -564,6 +564,8 @@ class Roda
             return content
           when nil
             # default, try different compressors
+          when Proc, Method
+            return compressor.call(content)
           else
             # Allow calling private compress methods
             return send("compress_#{type}_#{compressor}", content)
