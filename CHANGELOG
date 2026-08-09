@@ -1,5 +1,7 @@
 === master
 
+* Deprecate the delay_build plugin (jeremyevans)
+
 * Deprecate automatic compression using common libraries in the assets plugin (jeremyevans)
 
 * Support using a proc or method for the :css_compressor and :js_compressor assets plugin options (jeremyevans)

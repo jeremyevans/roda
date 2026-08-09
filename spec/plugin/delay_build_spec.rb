@@ -1,7 +1,7 @@
 require_relative "../spec_helper"
 
 describe "delay_build plugin" do
-  it "does not build rack app until app is called" do
+  deprecated "does not build rack app until app is called" do
     app(:delay_build){|_| "a"}
     app.instance_variable_get(:@app).must_be_nil
     body.must_equal "a"
@@ -9,7 +9,7 @@ describe "delay_build plugin" do
     refute_equal app.instance_variable_get(:@app), nil
   end
 
-  it "supports the build! method for backwards compatibility" do
+  deprecated "supports the build! method for backwards compatibility" do
     app(:delay_build){|_| "a"}
     body.must_equal "a"
     c = Class.new do
