@@ -97,7 +97,7 @@ class Roda
           end
           call_meth = meth
 
-          # RODA4: Switch to false
+          # RODA4: Remove support for :check_arity, default to false behavior
           if (check_arity = opts.fetch(:check_arity, :warn)) && !block.lambda?
             required_args, optional_args, rest, keyword = _define_roda_method_arg_numbers(block)
 
