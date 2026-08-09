@@ -1,5 +1,7 @@
 # frozen-string-literal: true
 
+# RODA4: Remove plugin
+
 require 'rack/static'
 
 #
@@ -26,6 +28,15 @@ class Roda
     #   plugin :static, ['/js', '/css'] # path: /path/to/app/public
     #   plugin :static, ['/images'], root: 'pub'  # path: /path/to/app/pub
     #   plugin :static, ['/media'], root: '/path/to/public' # path: /path/to/public
+    #
+    # This plugin will no longer ship with Roda starting in Roda 4. As the plugin only
+    # configures a middleware, you should switch to doing so directly. Translating
+    # the above example to direct middleware usage:
+    #
+    #   require 'rack/static'
+    #   use Rack::Static, urls: ['/js', '/css'], root: '/path/to/app/public'
+    #   use Rack::Static, urls: ['/images'], root: '/path/to/app/pub'
+    #   use Rack::Static, urls: ['/media'], root: '/path/to/public'
     module Static
       # Load the Rack::Static middleware.  Use the paths given as the :urls option,
       # and set the :root option to be relative to the application's :root option.
