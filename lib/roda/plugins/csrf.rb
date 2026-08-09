@@ -1,5 +1,7 @@
 # frozen-string-literal: true
 
+# RODA4: Remove plugin
+
 require 'rack/csrf'
 
 class Roda
@@ -7,6 +9,7 @@ class Roda
     # This plugin is no longer recommended for use, it exists only for
     # backwards compatibility.  Consider using the route_csrf plugin
     # instead, as that provides stronger CSRF protection.
+    # This plugin will no longer ship with Roda starting in Roda 4.
     #
     # The csrf plugin adds CSRF protection using rack_csrf, along with
     # some csrf helper methods to use in your views.  To use it, load
