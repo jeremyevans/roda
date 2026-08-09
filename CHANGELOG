@@ -1,5 +1,7 @@
 === master
 
+* Deprecate upgrading rack sessions and compressed sessions in the sessions plugin (jeremyevans)
+
 * Deprecate the delay_build plugin (jeremyevans)
 
 * Deprecate automatic compression using common libraries in the assets plugin (jeremyevans)

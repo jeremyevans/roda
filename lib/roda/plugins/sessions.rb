@@ -67,7 +67,7 @@ class Roda
     #                    given, it will be merged into the default cookie options.
     # :env_key :: The key in `env` where the session should be located. Defaults to <tt>"rack.session"</tt>, the
     #             default key for sessions in Rack.
-    # :gzip_over :: For session data over this many bytes, compress it with the deflate algorithm (default: nil,
+    # :gzip_over (deprecated) :: For session data over this many bytes, compress it with the deflate algorithm (default: nil,
     #               so never compress).  Note that compression should not be enabled if you are storing data in
     #               the session derived from user input and also storing sensitive data in the session.
     # :key :: The cookie name to use (default: <tt>'roda.session'</tt>)
@@ -94,7 +94,7 @@ class Roda
     #                 (default: 3600).
     # :upgrade_from_rack_session_cookie_key :: The cookie name to use for transparently upgrading from
     #                                          Rack::Session:Cookie (defaults to <tt>'rack.session'</tt>).
-    # :upgrade_from_rack_session_cookie_secret :: The secret for the HMAC-SHA1 signature when allowing
+    # :upgrade_from_rack_session_cookie_secret (deprecated) :: The secret for the HMAC-SHA1 signature when allowing
     #                                             transparent upgrades from Rack::Session::Cookie. Using this
     #                                             option is only recommended during a short transition period,
     #                                             and is not enabled by default as it lowers security.
@@ -189,10 +189,15 @@ class Roda
         opts[:session_version_num] = opts[:per_cookie_cipher_secret] ? 1 : 0
 
         if opts[:upgrade_from_rack_session_cookie_secret]
+          RodaPlugins.warn("Support for upgrading rack session cookie sessions will be removed in Roda 4.")
           opts[:upgrade_from_rack_session_cookie_key] ||= 'rack.session'
           rsco = opts[:upgrade_from_rack_session_cookie_options] = Hash[opts[:upgrade_from_rack_session_cookie_options] || OPTS]
           rsco[:path] ||= co[:path]
           rsco[:domain] ||= co[:domain]
+        end
+
+        if opts[:gzip_over]
+          RodaPlugins.warn("Support for compressing session data will be removed in Roda 4.")
         end
 
         opts[:cipher_secret], opts[:hmac_secret] = split_secret(:secret, opts[:secret])

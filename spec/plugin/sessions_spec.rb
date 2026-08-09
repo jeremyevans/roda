@@ -297,7 +297,7 @@ if RUBY_VERSION >= '2'
       errors.must_equal []
     end
 
-    it "compresses data over a certain size by default" do
+    deprecated "compresses data over a certain size by default" do
       long = 'b'*8192
       proc{body("/s/foo/#{long}")}.must_raise Roda::RodaPlugins::Sessions::CookieTooLarge
 
@@ -437,7 +437,7 @@ if RUBY_VERSION >= '2'
       e
     end
 
-    it "supports transparent upgrade from Rack::Session::Cookie with default HMAC and coder" do
+    deprecated "supports transparent upgrade from Rack::Session::Cookie with default HMAC and coder" do
       app(:bare) do
         use Rack::Session::Cookie, :secret=>'1'
         plugin :middleware_stack
