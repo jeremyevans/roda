@@ -575,6 +575,7 @@ class Roda
             app.read_asset_file(file, type)
           end.join("\n")
 
+          # RODA4: Remove :concat_only option
           unless o[:concat_only]
             content = compress_asset(content, type)
           end
