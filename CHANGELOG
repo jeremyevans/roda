@@ -1,5 +1,7 @@
 === master
 
+* Document that the route_block_args plugin will be removed in Roda 4 (jeremyevans)
+
 * Document that the csrf plugin will be removed in Roda 4 (jeremyevans)
 
 * Document that the static plugin will be removed in Roda 4 (jeremyevans)

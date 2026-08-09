@@ -1,5 +1,7 @@
 # frozen-string-literal: true
 
+# RODA4: Remove plugin
+
 #
 class Roda
   module RodaPlugins
@@ -22,6 +24,10 @@ class Roda
     #       end
     #     end
     #   end
+    #
+    # This plugin will be no longer ship with Roda starting in Roda 4. Users
+    # are encouraged to switch to defining local variables at the top of the
+    # route block instead of using this plugin.
     module RouteBlockArgs
       def self.configure(app, &block)
         app.instance_exec do 
