@@ -65,6 +65,10 @@ if RUBY_VERSION >= '3.1.0'
   gem 'net-smtp'
 end
 
+if RUBY_VERSION.start_with?('2.1.')
+  gem 'net-imap', "< 0.4"
+end
+
 gem "minitest-global_expectations"
 gem "minitest-hooks"
 gem "erubi"
