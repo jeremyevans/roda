@@ -1,5 +1,7 @@
 === master
 
+* Deprecate automatic compression using common libraries in the assets plugin (jeremyevans)
+
 * Support using a proc or method for the :css_compressor and :js_compressor assets plugin options (jeremyevans)
 
 * Document that the route_block_args plugin will be removed in Roda 4 (jeremyevans)

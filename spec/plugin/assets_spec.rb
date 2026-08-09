@@ -392,7 +392,7 @@ if run_tests
       File.read(File.join(assets_dir, "app.head.#{app.assets_opts[:compiled]['js.head']}.js")).must_equal 'console.log("test")'
     end
 
-    it 'should handle compressing using different libraries' do
+    deprecated 'should handle compressing using different libraries' do
       try_compressor = proc do |css, js|
         app.plugin :assets, :css_compressor=>css, :js_compressor=>js
         begin
@@ -426,13 +426,23 @@ if run_tests
       try_compressor.call(:none, :minjs)
     end
 
-    it 'should handle custom compression methods that return nil by using uncompressed output' do
+    deprecated 'should handle custom compression methods that return nil by using uncompressed output' do
       app.plugin :assets, :css_compressor=>nil, :js_compressor=>nil
       app.define_singleton_method(:compress_js_yui){|*|}
       app.define_singleton_method(:compress_css_yui){|*|}
       app.compile_assets
       File.read(File.join(assets_dir, "app.#{app.assets_opts[:compiled]['css']}.css")).must_include('color: blue')
       File.read(File.join(assets_dir, "app.head.#{app.assets_opts[:compiled]['js.head']}.js")).must_include('console.log')
+    end
+
+    deprecated 'should try common compressors if the compressor option is nil' do
+      compressor = lambda{|content| content.gsub(/[ \n]+/, "").gsub("'", '"')}
+      app.plugin :assets, :css_compressor=>nil, :js_compressor=>nil
+      app.define_singleton_method(:compress_js_yui, &compressor)
+      app.define_singleton_method(:compress_css_yui, &compressor)
+      app.compile_assets
+      File.read(File.join(assets_dir, "app.#{app.assets_opts[:compiled]['css']}.css")).must_equal "body{color:red;}body{color:blue;}"
+      File.read(File.join(assets_dir, "app.head.#{app.assets_opts[:compiled]['js.head']}.js")).must_equal 'console.log("test")'
     end
 
     it 'should handle compiling assets, linking to them, and accepting requests for them' do

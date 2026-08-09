@@ -159,6 +159,35 @@ class Roda
     #   plugin :assets,
     #     css_opts: {style: :compressed}
     #
+    # In Roda 4, automatic compression of assets will not be attempted. You will
+    # need to specify the compressor to use using a Proc or Method. Here are values
+    # that you can use.
+    # 
+    # ==== yui
+    #
+    #  require 'yuicompressor'
+    #   plugin :assets,
+    #     css_compressor: lambda{|v| ::YUICompressor.compress_css(v, munge: true) },
+    #     js_compressor: lambda{|v| ::YUICompressor.compress_js(v, munge: true) }
+    #
+    # ==== closure-compiler
+    #
+    #   require 'closure-compiler'
+    #   plugin :assets, js_compressor: ::Closure::Compiler.new.method(:compile)
+    #
+    # ==== uglifier
+    #
+    #   require 'uglifier'
+    #   plugin :assets, js_compressor: Uglifier.method(:compile)
+    #
+    # ==== minjs
+    #
+    #   require 'minjs'
+    #   plugin :assets,
+    #     js_compressor: proc { |content|
+    #       Minjs::Compressor::Compressor.new(debug: false).compress(content).to_js
+    #     }
+    #
     # === Source Maps (CSS)
     #
     # The assets plugin does not have direct support for source maps, so it is
@@ -454,6 +483,17 @@ class Roda
         opts[:js_suffix]           = (opts[:add_suffix] ? '.js' : '').freeze
         opts[:css_suffix]          = (opts[:add_suffix] ? '.css' : '').freeze
 
+        unless opts[:concat_only]
+          [:css_compressor, :js_compressor].each do |s|
+            case v = opts[s]
+            when nil, :none, Proc, Method
+              nil
+            else
+              RodaPlugins.warn "Support for the assets plugin #{s}: #{v.inspect} option will be removed in Roda 4. See the assets plugin documentation for how to use an appropriate proc or method."
+            end
+          end
+        end
+
         opts.freeze
       end
 
@@ -581,6 +621,7 @@ class Roda
             begin
             # Allow calling private compress methods
               if c = send("compress_#{type}_#{comp}", content)
+                RodaPlugins.warn "Support for automatic compression of assets by trying common asset compressor libraries will be removed in Roda 4. The #{comp} #{type.to_s.upcase} compressor is currently used. See the assets plugin documentation for how to use an appropriate value for the assets plugin :#{type}_compressor option."
                 return c
               end
             rescue LoadError, CompressorNotFound
