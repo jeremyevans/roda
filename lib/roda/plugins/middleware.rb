@@ -125,6 +125,7 @@ class Roda
         app.opts[:middleware_configure] = block if block
         app.opts[:middleware_handle_result] = opts[:handle_result]
         app.opts[:middleware_forward_response_headers] = opts[:forward_response_headers]
+        # RODA4: Make next_if_not_found default to true
         app.opts[:middleware_next_if_not_found] = opts[:next_if_not_found]
       end
 
