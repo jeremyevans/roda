@@ -1,0 +1,54 @@
+= New Features
+
+* A url_escape plugin has been added. It adds url_escape and
+  url_unescape methods for use in route block scope (including views).
+
+* The assets plugin :css_compressor and :js_compressor options now
+  accept Proc and Method values, which are called with the asset
+  content and should return the compressed content.
+
+= Roda 4 Planning
+
+* Roda 4 planning has started. See
+  https://github.com/jeremyevans/roda/discussions/427 for details.
+
+* As part of Roda 4 preparation, Ruby 1.9 support will be dropped in
+  Roda 3.109.
+
+= Backwards Compatibility
+
+* The :check_arity and :check_dynamic_arity application options now
+  default to :warn. This means that if you provide a block which Roda
+  turns into a method, and the arity for the block is not the expected
+  arity for the method, you will get a warning. Starting in Roda 4,
+  Roda will not check the arity, and if the arity is incorrect, you
+  will get an ArgumentError raised when the method is called.
+
+* Providing a symbol other than :none to the assets plugin
+  :css_compressor and :js_compressor options now results in a warning.
+  Switch to passing a Proc or Method. See the assets plugin
+  documentation for how to convert a supported symbol to an
+  appropriate Proc or Method.
+
+  If the assets plugin :css_compressor and :js_compressor options has
+  a nil value (the default), and there is an available compressor that
+  Roda uses, Roda will now warn when compressing. Switch to providing
+  an appropriate Proc or Method as the option value.
+
+  Roda 4 will only support nil, :none, procs, and methods as valid
+  values for the :css_compressor and :js_compressor options.
+
+* Passing a :upgrade_from_rack_session_cookie_secret or :gzip_over
+  option to the sessions plugin now warns. Support for upgrading Rack
+  sessions and support for compressing sessions will be removed in
+  Roda 4.
+
+* The delay_build plugin now warns when loaded. It has been a no-op
+  for many versions, so if you are using it, you can remove it. This
+  plugin will be removed in Roda 4.
+
+* The RodaRequest#consume private method now warns if there is a block
+  given instead of a second argument and there is a match. If you are
+  using this support, update the call to pass a method symbol as a
+  second argument instead of passing a block. This support will be
+  removed in Roda 4.

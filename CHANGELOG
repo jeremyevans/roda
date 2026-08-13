@@ -1,4 +1,4 @@
-=== master
+=== 3.107.0 (2026-08-13)
 
 * Deprecate upgrading rack sessions and compressed sessions in the sessions plugin (jeremyevans)
 
