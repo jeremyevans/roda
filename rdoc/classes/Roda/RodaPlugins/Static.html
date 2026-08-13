@@ -51,6 +51,14 @@ Roda::RodaPlugins::Static
 <span class="ruby-identifier">plugin</span> <span class="ruby-value">:static</span>, [<span class="ruby-string">&#39;/images&#39;</span>], <span class="ruby-value">root:</span> <span class="ruby-string">&#39;pub&#39;</span>  <span class="ruby-comment"># path: /path/to/app/pub</span>
 <span class="ruby-identifier">plugin</span> <span class="ruby-value">:static</span>, [<span class="ruby-string">&#39;/media&#39;</span>], <span class="ruby-value">root:</span> <span class="ruby-string">&#39;/path/to/public&#39;</span> <span class="ruby-comment"># path: /path/to/public</span>
 </pre>
+
+<p>This plugin will no longer ship with <a href="../../Roda.html"><code>Roda</code></a> starting in <a href="../../Roda.html"><code>Roda</code></a> 4. As the plugin only configures a middleware, you should switch to doing so directly. Translating the above example to direct middleware usage:</p>
+
+<pre class="ruby"><span class="ruby-identifier">require</span> <span class="ruby-string">&#39;rack/static&#39;</span>
+<span class="ruby-identifier">use</span> <span class="ruby-constant">Rack</span><span class="ruby-operator">::</span><span class="ruby-constant">Static</span>, <span class="ruby-value">urls:</span> [<span class="ruby-string">&#39;/js&#39;</span>, <span class="ruby-string">&#39;/css&#39;</span>], <span class="ruby-value">root:</span> <span class="ruby-string">&#39;/path/to/app/public&#39;</span>
+<span class="ruby-identifier">use</span> <span class="ruby-constant">Rack</span><span class="ruby-operator">::</span><span class="ruby-constant">Static</span>, <span class="ruby-value">urls:</span> [<span class="ruby-string">&#39;/images&#39;</span>], <span class="ruby-value">root:</span> <span class="ruby-string">&#39;/path/to/app/pub&#39;</span>
+<span class="ruby-identifier">use</span> <span class="ruby-constant">Rack</span><span class="ruby-operator">::</span><span class="ruby-constant">Static</span>, <span class="ruby-value">urls:</span> [<span class="ruby-string">&#39;/media&#39;</span>], <span class="ruby-value">root:</span> <span class="ruby-string">&#39;/path/to/public&#39;</span>
+</pre>
 </div>
 <div id='method-list'>
 <h2>Methods</h2>
@@ -80,12 +88,12 @@ Roda::RodaPlugins::Static
 [show source]
 </a>
 <pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/static.rb</span>
-<span class="line-num">32</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">paths</span>, <span class="ruby-identifier">opts</span>={})
-<span class="line-num">33</span>   <span class="ruby-identifier">opts</span> = <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">dup</span>
-<span class="line-num">34</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:urls</span>] = <span class="ruby-identifier">paths</span>
-<span class="line-num">35</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:root</span>] =  <span class="ruby-identifier">app</span>.<span class="ruby-identifier">expand_path</span>(<span class="ruby-identifier">opts</span>[<span class="ruby-value">:root</span>]<span class="ruby-operator">||</span><span class="ruby-string">&quot;public&quot;</span>)
-<span class="line-num">36</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">use</span> <span class="ruby-operator">::</span><span class="ruby-constant">Rack</span><span class="ruby-operator">::</span><span class="ruby-constant">Static</span>, <span class="ruby-identifier">opts</span>
-<span class="line-num">37</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">43</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">paths</span>, <span class="ruby-identifier">opts</span>={})
+<span class="line-num">44</span>   <span class="ruby-identifier">opts</span> = <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">dup</span>
+<span class="line-num">45</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:urls</span>] = <span class="ruby-identifier">paths</span>
+<span class="line-num">46</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:root</span>] =  <span class="ruby-identifier">app</span>.<span class="ruby-identifier">expand_path</span>(<span class="ruby-identifier">opts</span>[<span class="ruby-value">:root</span>]<span class="ruby-operator">||</span><span class="ruby-string">&quot;public&quot;</span>)
+<span class="line-num">47</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">use</span> <span class="ruby-operator">::</span><span class="ruby-constant">Rack</span><span class="ruby-operator">::</span><span class="ruby-constant">Static</span>, <span class="ruby-identifier">opts</span>
+<span class="line-num">48</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

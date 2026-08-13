@@ -173,8 +173,9 @@ Roda::RodaPlugins::Middleware
 <span class="line-num">125</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:middleware_configure</span>] = <span class="ruby-identifier">block</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span>
 <span class="line-num">126</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:middleware_handle_result</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:handle_result</span>]
 <span class="line-num">127</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:middleware_forward_response_headers</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:forward_response_headers</span>]
-<span class="line-num">128</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:middleware_next_if_not_found</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:next_if_not_found</span>]
-<span class="line-num">129</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">128</span>   <span class="ruby-comment"># RODA4: Make next_if_not_found default to true</span>
+<span class="line-num">129</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:middleware_next_if_not_found</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:next_if_not_found</span>]
+<span class="line-num">130</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

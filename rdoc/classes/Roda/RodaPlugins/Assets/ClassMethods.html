@@ -65,9 +65,9 @@ Roda::RodaPlugins::Assets::ClassMethods
 [show source]
 </a>
 <pre id='method-i-assets_opts-source'>    <span class="ruby-comment"># File lib/roda/plugins/assets.rb</span>
-<span class="line-num">462</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">assets_opts</span>
-<span class="line-num">463</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:assets</span>]
-<span class="line-num">464</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">502</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">assets_opts</span>
+<span class="line-num">503</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:assets</span>]
+<span class="line-num">504</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-compile_assets'>
@@ -86,30 +86,30 @@ Roda::RodaPlugins::Assets::ClassMethods
 [show source]
 </a>
 <pre id='method-i-compile_assets-source'>    <span class="ruby-comment"># File lib/roda/plugins/assets.rb</span>
-<span class="line-num">470</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">compile_assets</span>(<span class="ruby-identifier">type</span>=<span class="ruby-keyword">nil</span>)
-<span class="line-num">471</span>   <span class="ruby-identifier">require</span> <span class="ruby-string">&#39;fileutils&#39;</span>
-<span class="line-num">472</span> 
-<span class="line-num">473</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">assets_opts</span>[<span class="ruby-value">:compiled</span>]
-<span class="line-num">474</span>     <span class="ruby-identifier">opts</span>[<span class="ruby-value">:assets</span>] = <span class="ruby-identifier">assets_opts</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-value">:compiled</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">_compiled_assets_initial_hash</span>).<span class="ruby-identifier">freeze</span>
-<span class="line-num">475</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">476</span> 
-<span class="line-num">477</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">type</span> <span class="ruby-operator">==</span> <span class="ruby-keyword">nil</span>
-<span class="line-num">478</span>     <span class="ruby-identifier">_compile_assets</span>(<span class="ruby-value">:css</span>)
-<span class="line-num">479</span>     <span class="ruby-identifier">_compile_assets</span>(<span class="ruby-value">:js</span>)
-<span class="line-num">480</span>   <span class="ruby-keyword">else</span>
-<span class="line-num">481</span>     <span class="ruby-identifier">_compile_assets</span>(<span class="ruby-identifier">type</span>)
-<span class="line-num">482</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">483</span> 
-<span class="line-num">484</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">precompile_file</span> = <span class="ruby-identifier">assets_opts</span>[<span class="ruby-value">:precompiled</span>]
-<span class="line-num">485</span>     <span class="ruby-identifier">require</span> <span class="ruby-string">&#39;json&#39;</span>
-<span class="line-num">486</span>     <span class="ruby-operator">::</span><span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">mkdir_p</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-identifier">precompile_file</span>))
-<span class="line-num">487</span>     <span class="ruby-identifier">tmp_file</span> = <span class="ruby-node">&quot;#{precompile_file}.tmp&quot;</span>
-<span class="line-num">488</span>     <span class="ruby-operator">::</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">tmp_file</span>, <span class="ruby-string">&#39;wb&#39;</span>){<span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">write</span>((<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_serializer</span>] <span class="ruby-operator">||</span> <span class="ruby-value">:to_json</span>.<span class="ruby-identifier">to_proc</span>).<span class="ruby-identifier">call</span>(<span class="ruby-identifier">assets_opts</span>[<span class="ruby-value">:compiled</span>]))}
-<span class="line-num">489</span>     <span class="ruby-operator">::</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">rename</span>(<span class="ruby-identifier">tmp_file</span>, <span class="ruby-identifier">precompile_file</span>)
-<span class="line-num">490</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">491</span> 
-<span class="line-num">492</span>   <span class="ruby-identifier">assets_opts</span>[<span class="ruby-value">:compiled</span>]
-<span class="line-num">493</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">510</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">compile_assets</span>(<span class="ruby-identifier">type</span>=<span class="ruby-keyword">nil</span>)
+<span class="line-num">511</span>   <span class="ruby-identifier">require</span> <span class="ruby-string">&#39;fileutils&#39;</span>
+<span class="line-num">512</span> 
+<span class="line-num">513</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">assets_opts</span>[<span class="ruby-value">:compiled</span>]
+<span class="line-num">514</span>     <span class="ruby-identifier">opts</span>[<span class="ruby-value">:assets</span>] = <span class="ruby-identifier">assets_opts</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-value">:compiled</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">_compiled_assets_initial_hash</span>).<span class="ruby-identifier">freeze</span>
+<span class="line-num">515</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">516</span> 
+<span class="line-num">517</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">type</span> <span class="ruby-operator">==</span> <span class="ruby-keyword">nil</span>
+<span class="line-num">518</span>     <span class="ruby-identifier">_compile_assets</span>(<span class="ruby-value">:css</span>)
+<span class="line-num">519</span>     <span class="ruby-identifier">_compile_assets</span>(<span class="ruby-value">:js</span>)
+<span class="line-num">520</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">521</span>     <span class="ruby-identifier">_compile_assets</span>(<span class="ruby-identifier">type</span>)
+<span class="line-num">522</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">523</span> 
+<span class="line-num">524</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">precompile_file</span> = <span class="ruby-identifier">assets_opts</span>[<span class="ruby-value">:precompiled</span>]
+<span class="line-num">525</span>     <span class="ruby-identifier">require</span> <span class="ruby-string">&#39;json&#39;</span>
+<span class="line-num">526</span>     <span class="ruby-operator">::</span><span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">mkdir_p</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-identifier">precompile_file</span>))
+<span class="line-num">527</span>     <span class="ruby-identifier">tmp_file</span> = <span class="ruby-node">&quot;#{precompile_file}.tmp&quot;</span>
+<span class="line-num">528</span>     <span class="ruby-operator">::</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">tmp_file</span>, <span class="ruby-string">&#39;wb&#39;</span>){<span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">write</span>((<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_serializer</span>] <span class="ruby-operator">||</span> <span class="ruby-value">:to_json</span>.<span class="ruby-identifier">to_proc</span>).<span class="ruby-identifier">call</span>(<span class="ruby-identifier">assets_opts</span>[<span class="ruby-value">:compiled</span>]))}
+<span class="line-num">529</span>     <span class="ruby-operator">::</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">rename</span>(<span class="ruby-identifier">tmp_file</span>, <span class="ruby-identifier">precompile_file</span>)
+<span class="line-num">530</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">531</span> 
+<span class="line-num">532</span>   <span class="ruby-identifier">assets_opts</span>[<span class="ruby-value">:compiled</span>]
+<span class="line-num">533</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>
