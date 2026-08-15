@@ -1,5 +1,7 @@
 === master
 
+* Support :exempt_request_methods option for route_csrf plugin, to use an allow list approach (jeremyevans)
+
 * Add csrf_request_method to route_csrf plugin, to handle case where REQUEST_METHOD has been modified (jeremyevans)
 
 === 3.107.0 (2026-08-13)

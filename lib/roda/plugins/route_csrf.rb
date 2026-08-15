@@ -64,6 +64,11 @@ class Roda
     #                  If :only, only checks the HTTP header and doesn't check the form input parameter.
     # :check_request_methods :: Which request methods require CSRF protection
     #                           (default: <tt>['POST', 'DELETE', 'PATCH', 'PUT']</tt>)
+    # :exempt_request_methods :: If given, specifies which request methods do not require CSRF protection.
+    #                            It is recommended to set this so an allow list approach is used, as
+    #                            :check_request_methods is the equivalent of a deny list
+    #                            (recommended: <tt>['GET', 'HEAD', 'OPTIONS', 'QUERY']</tt>, which
+    #                            will be the default in Roda 4)
     # :upgrade_from_rack_csrf_key :: If provided, the session key that should be checked for the
     #                                rack_csrf raw token.  If the session key is present, the value
     #                                will be checked against the submitted token, and if it matches,
@@ -178,6 +183,7 @@ class Roda
         :require_request_specific_tokens => true,
         :csrf_failure => :raise,
         :check_header => false,
+        # RODA4: Remove and set :exempt_request_methods by default
         :check_request_methods => %w'POST DELETE PATCH PUT'.freeze.each(&:freeze)
       }.freeze
 
@@ -323,7 +329,9 @@ class Roda
           opts = opts.empty? ? csrf_options : csrf_options.merge(opts)
           method = csrf_request_method
 
-          unless opts[:check_request_methods].include?(method)
+          if exempt = opts[:exempt_request_methods]
+            return if exempt.include?(method)
+          elsif !opts[:check_request_methods].include?(method)
             return
           end
 

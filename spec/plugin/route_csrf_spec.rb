@@ -67,6 +67,24 @@ describe "route_csrf plugin" do
     body("/f", "QUERY_STRING"=>"_csrf=#{Rack::Utils.escape(token)}", 'rack.input'=>rack_input("")).must_equal 'f'
   end
 
+  it "supports :check_request_methods option" do
+    route_csrf_app(:check_request_methods=>[])
+    body("/foo", "REQUEST_METHOD"=>'POST', 'rack.input'=>rack_input("")).must_equal 'f'
+    route_csrf_app(:check_request_methods=>["POST"])
+    token = body("/token/foo")
+    body("/foo", "REQUEST_METHOD"=>'POST', 'rack.input'=>rack_input("_csrf=#{Rack::Utils.escape(token)}")).must_equal 'f'
+    proc{body("/bar", "REQUEST_METHOD"=>'POST', 'rack.input'=>rack_input("_csrf=#{Rack::Utils.escape(token)}"))}.must_raise Roda::RodaPlugins::RouteCsrf::InvalidToken
+  end
+
+  it "supports :exempt_request_methods option" do
+    route_csrf_app(:exempt_request_methods=>["POST"])
+    body("/foo", "REQUEST_METHOD"=>'POST', 'rack.input'=>rack_input("")).must_equal 'f'
+    route_csrf_app(:exempt_request_methods=>["GET"])
+    token = body("/token/foo")
+    body("/foo", "REQUEST_METHOD"=>'POST', 'rack.input'=>rack_input("_csrf=#{Rack::Utils.escape(token)}")).must_equal 'f'
+    proc{body("/bar", "REQUEST_METHOD"=>'POST', 'rack.input'=>rack_input("_csrf=#{Rack::Utils.escape(token)}"))}.must_raise Roda::RodaPlugins::RouteCsrf::InvalidToken
+  end
+
   it "supports :require_request_specific_tokens => false option to allow non-request-specific tokens" do
     route_csrf_app(:require_request_specific_tokens=>false){csrf_token}
     token = body("/token/foo")
