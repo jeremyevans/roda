@@ -58,6 +58,15 @@ describe "route_csrf plugin" do
     proc{body("/bar", "REQUEST_METHOD"=>'POST', 'rack.input'=>rack_input("_csrf=#{Rack::Utils.escape(t2)}"))}.must_raise Roda::RodaPlugins::RouteCsrf::InvalidToken
   end
 
+  it "supports overriding csrf_request_method to change how the request method is determined" do
+    route_csrf_app{"f"}
+    token = body("/token/f")
+    body("/f").must_equal "f"
+    app.send(:define_method, :csrf_request_method){"POST"}
+    proc{body("/f", 'rack.input'=>rack_input(""))}.must_raise Roda::RodaPlugins::RouteCsrf::InvalidToken
+    body("/f", "QUERY_STRING"=>"_csrf=#{Rack::Utils.escape(token)}", 'rack.input'=>rack_input("")).must_equal 'f'
+  end
+
   it "supports :require_request_specific_tokens => false option to allow non-request-specific tokens" do
     route_csrf_app(:require_request_specific_tokens=>false){csrf_token}
     token = body("/token/foo")

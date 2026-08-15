@@ -1,3 +1,7 @@
+=== master
+
+* Add csrf_request_method to route_csrf plugin, to handle case where REQUEST_METHOD has been modified (jeremyevans)
+
 === 3.107.0 (2026-08-13)
 
 * Deprecate upgrading rack sessions and compressed sessions in the sessions plugin (jeremyevans)

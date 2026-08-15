@@ -155,6 +155,19 @@ class Roda
     #
     # By including random data in the HMAC for all tokens, different tokens are generated
     # each time, mitigating compression ratio attacks such as BREACH.
+    #
+    # == REQUEST_METHOD modifications
+    #
+    # It's possible to use Rack middleware that modify REQUEST_METHOD in the env hash,
+    # such that it does not reflect that actual request method. One example of this is
+    # Rack::MethodOverride. Using such middleware is generally bad from a security perspective,
+    # but if you want to do so anyway, you need to override the request method that the
+    # route_csrf plugin will use so it reflects the actual request method. If you are using
+    # Rack::MethodOverride, you can use:
+    #
+    #   def csrf_request_method
+    #     env['rack.methodoverride.original_method'] || super
+    #   end
     module RouteCsrf
       # Default CSRF option values
       DEFAULTS = {
@@ -297,11 +310,18 @@ class Roda
 
         private
 
+        # The request method to use to determine whether to perform a CSRF check.
+        # defaults to REQUEST_METHOD in the environment, can be overridden if
+        # that isn't the actual request method.
+        def csrf_request_method
+          @_request.env['REQUEST_METHOD']
+        end
+
         # Returns error message string if the CSRF token is not valid.
         # Returns nil if the CSRF token is valid.
         def csrf_invalid_message(opts)
           opts = opts.empty? ? csrf_options : csrf_options.merge(opts)
-          method = request.request_method
+          method = csrf_request_method
 
           unless opts[:check_request_methods].include?(method)
             return
