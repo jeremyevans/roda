@@ -13,6 +13,9 @@ describe "all_verbs plugin" do
         r.link{'l'}
         r.unlink{'u'}
       end
+      if Rack::Request.method_defined?(:query?)
+        r.query{'q'}
+      end
     end
 
     body('REQUEST_METHOD'=>'DELETE').must_equal 'd'
@@ -24,6 +27,9 @@ describe "all_verbs plugin" do
     if Rack::Request.method_defined?(:link?)
       body('REQUEST_METHOD'=>'LINK').must_equal 'l'
       body('REQUEST_METHOD'=>'UNLINK').must_equal 'u'
+    end
+    if Rack::Request.method_defined?(:query?)
+      body('REQUEST_METHOD'=>'QUERY').must_equal 'q'
     end
   end
 end

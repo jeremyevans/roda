@@ -6,7 +6,7 @@ class Roda
     # The all_verbs plugin adds methods for http verbs other than
     # get and post.  The following verbs are added, assuming
     # rack handles them: delete, head, options, link, patch, put,
-    # trace, unlink.
+    # query, trace, unlink.
     #
     # These methods operate just like Roda's default get and post
     # methods, so using them without any arguments just checks for
@@ -33,7 +33,7 @@ class Roda
     # isn't documentation for the individual methods created.
     module AllVerbs
       module RequestMethods
-        %w'delete head options link patch put trace unlink'.each do |verb|
+        %w'delete head options link patch put query trace unlink'.each do |verb|
           if ::Rack::Request.method_defined?("#{verb}?")
             class_eval(<<-END, __FILE__, __LINE__+1)
               def #{verb}(*args, &block)
