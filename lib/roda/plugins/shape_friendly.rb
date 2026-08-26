@@ -90,9 +90,9 @@ class Roda
           end
           nil
         end
-        # :nocov:
+        # simplecov:disable
         ruby2_keywords(:plugin) if respond_to?(:ruby2_keywords, true)
-        # :nocov:
+        # simplecov:enable
 
         private
 
@@ -132,9 +132,9 @@ class Roda
         end
       end
 
-      # :nocov:
+      # simplecov:disable
       if RUBY_VERSION >= '4.0'
-      # :nocov:
+      # simplecov:enable
         module InstanceMethods
           private
 

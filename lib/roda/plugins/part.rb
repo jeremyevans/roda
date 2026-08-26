@@ -44,19 +44,19 @@ class Roda
               render(template, :locals=>locals, &block)
             end
           RUBY
-        # :nocov:
+        # simplecov:disable
         else
           def part(template, locals=OPTS, &block)
             render(template, :locals=>locals, &block)
           end
         end
-        # :nocov:
+        # simplecov:enable
       end
 
       module AssumeFixedLocalsInstanceMethods
-        # :nocov:
+        # simplecov:disable
         if RUBY_VERSION >= '3.0'
-        # :nocov:
+        # simplecov:enable
           class_eval(<<-RUBY, __FILE__, __LINE__ + 1)
             def part(template, ...)
               if optimized_method = _optimized_render_method_for_locals(template, OPTS)

@@ -1,9 +1,9 @@
 # frozen-string-literal: true
 
 require 'tilt'
-# :nocov:
+# simplecov:disable
 raise 'Tilt version does not support coverable templates' unless Tilt::Template.method_defined?(:compiled_path=)
-# :nocov:
+# simplecov:enable
 
 #
 class Roda
@@ -76,9 +76,9 @@ class Roda
           template = super
 
           # Set compiled path for template when using older tilt versions.
-          # :nocov:
+          # simplecov:disable
           template.compiled_path = compiled_path if compiled_path
-          # :nocov:
+          # simplecov:enable
 
           template
         end

@@ -9,12 +9,12 @@ class Roda
           def decode64(str)
             str.unpack1("m0")
           end
-        # :nocov:
+        # simplecov:disable
         else
           def decode64(str)
             str.unpack("m0")[0]
           end
-        # :nocov:
+        # simplecov:enable
         end
 
         def urlsafe_encode64(bin)

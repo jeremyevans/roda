@@ -171,12 +171,12 @@ class Roda
 
             File.basename(template).sub(/\..+\z/, '').to_sym
           end
-        # :nocov:
+        # simplecov:disable
         else
           def render_each_default_local(template)
             File.basename(template.to_s).sub(/\..+\z/, '').to_sym
           end
-        # :nocov:
+        # simplecov:enable
         end
 
         if Render::COMPILED_METHOD_SUPPORT

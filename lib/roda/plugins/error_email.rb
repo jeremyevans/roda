@@ -44,9 +44,9 @@ class Roda
         :filter=>lambda{|k,v| false},
         :headers=>OPTS,
         :host=>'localhost',
-        # :nocov:
+        # simplecov:disable
         :emailer=>lambda{|h| Net::SMTP.start(h[:host]){|s| s.send_message(h[:message], h[:from], h[:to])}},
-        # :nocov:
+        # simplecov:enable
         :default_headers=>lambda do |h, e|
           subject = if e.respond_to?(:message)
             "#{e.class}: #{e.message}"

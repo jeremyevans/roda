@@ -568,12 +568,12 @@ class Roda
 
             if meth
               return unless captures = scope.send(meth, *captures)
-            # :nocov:
+            # simplecov:disable
             # RODA4: Remove elsif block
             elsif defined?(yield)
               RodaPlugins.warn("Passing a block to RodaRequest#consume will be ignored in Roda 4. Update the code to pass a scope method symbol as the second argument.")
               return unless captures = yield(*captures)
-            # :nocov:
+            # simplecov:enable
             end
 
             @remaining_path = matchdata.post_match
@@ -613,10 +613,10 @@ class Roda
               end
             end
           end
-        # :nocov:
+        # simplecov:disable
         else
           alias _consume_single_segment consume
-        # :nocov:
+        # simplecov:enable
         end
 
         # The default path to use for redirects when a path is not given.

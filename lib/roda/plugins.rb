@@ -43,11 +43,11 @@ class Roda
     # Deprecate the constant with the given name in the given module,
     # if the ruby version supports it.
     def self.deprecate_constant(mod, name)
-      # :nocov:
+      # simplecov:disable
       if RUBY_VERSION >= '2.3'
         mod.deprecate_constant(name)
       end
-      # :nocov:
+      # simplecov:enable
     end
 
     if RUBY_VERSION >= '3.3'
@@ -57,12 +57,12 @@ class Roda
         mod.set_temporary_name(yield)
         mod
       end
-    # :nocov:
+    # simplecov:disable
     else
       def self.set_temp_name(mod)
         mod
       end
     end
-    # :nocov:
+    # simplecov:enable
   end
 end

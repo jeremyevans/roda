@@ -51,11 +51,11 @@ class Roda
       Digest = begin
         require 'openssl'
         ::OpenSSL::Digest
-      # :nocov:
+      # simplecov:disable
       rescue LoadError
         require 'digest/sha2'
         ::Digest
-      # :nocov:
+      # simplecov:enable
       end
 
       def self.load_dependencies(app, opts = OPTS)

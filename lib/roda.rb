@@ -142,9 +142,9 @@ class Roda
                   block = if RUBY_VERSION >= '2.7'
                     eval('lambda{|*a, **kw| instance_exec(*a, **kw, &b)}', nil, __FILE__, __LINE__) # Keyword arguments fallback
                   else
-                    # :nocov:
+                    # simplecov:disable
                     lambda{|*a| instance_exec(*a, &b)} # Keyword arguments fallback
-                    # :nocov:
+                    # simplecov:enable
                   end
                 else
                   arity_meth = meth
@@ -312,9 +312,9 @@ class Roda
           plugin.configure(self, *args, &block) if plugin.respond_to?(:configure)
           @app = nil
         end
-        # :nocov:
+        # simplecov:disable
         ruby2_keywords(:plugin) if respond_to?(:ruby2_keywords, true)
-        # :nocov:
+        # simplecov:enable
 
         # Setup routing tree for the current Roda application, and build the
         # underlying rack application using the stored middleware. Requires
@@ -350,9 +350,9 @@ class Roda
           @middleware << [args, block].freeze
           @app = nil
         end
-        # :nocov:
+        # simplecov:disable
         ruby2_keywords(:use) if respond_to?(:ruby2_keywords, true)
-        # :nocov:
+        # simplecov:enable
 
         private
 

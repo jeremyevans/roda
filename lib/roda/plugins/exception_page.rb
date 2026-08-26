@@ -415,14 +415,14 @@ END
           def exception_page_exception_message(exception)
             exception.detailed_message(highlight: false).to_s
           end
-        # :nocov:
+        # simplecov:disable
         else
           # Return message to use for exception.
           def exception_page_exception_message(exception)
             exception.message.to_s
           end
         end
-        # :nocov:
+        # simplecov:enable
       end
 
       module RequestMethods

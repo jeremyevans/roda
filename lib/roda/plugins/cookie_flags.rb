@@ -48,9 +48,9 @@ class Roda
     # Note that this plugin only affects cookies set by the application, and does not
     # affect cookies set by middleware the application is using.
     module CookieFlags
-      # :nocov:
+      # simplecov:disable
       MATCH_METH = RUBY_VERSION >= '2.4' ? :match? : :match
-      # :nocov:
+      # simplecov:enable
       private_constant :MATCH_METH
 
       DEFAULTS = {:secure=>true, :httponly=>true, :same_site=>'strict', :action=>:modify}.freeze

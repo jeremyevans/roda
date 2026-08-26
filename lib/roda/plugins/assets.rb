@@ -659,9 +659,9 @@ class Roda
           begin
             require 'uglifier'
           rescue => e
-            # :nocov:
+            # simplecov:disable
             raise CompressorNotFound, "#{e.class}: #{e.message}", e.backtrace
-            # :nocov:
+            # simplecov:enable
           end
 
           Uglifier.compile(content)
@@ -689,11 +689,11 @@ class Roda
           digest = begin
             require 'openssl'
             ::OpenSSL::Digest
-          # :nocov:
+          # simplecov:disable
           rescue LoadError
             require 'digest/sha2'
             ::Digest
-          # :nocov:
+          # simplecov:enable
           end
           digest.const_get(algo.to_s.upcase).hexdigest(content)
         end

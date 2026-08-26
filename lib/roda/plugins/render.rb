@@ -298,24 +298,24 @@ class Roda
         def self.tilt_template_fixed_locals?(template)
           template.fixed_locals?
         end
-      # :nocov:
+      # simplecov:disable
       else
         def self.tilt_template_fixed_locals?(template)
           false
         end
       end
-      # :nocov:
+      # simplecov:enable
 
       if compiled_method_arity == -2
         def self.tilt_template_compiled_method(template, locals_keys, scope_class)
           template.send(:compiled_method, locals_keys, scope_class)
         end
-      # :nocov:
+      # simplecov:disable
       else
         def self.tilt_template_compiled_method(template, locals_keys, scope_class)
           template.send(:compiled_method, locals_keys)
         end
-      # :nocov:
+      # simplecov:enable
       end
 
       # Setup default rendering options.  See Render for details.
@@ -763,7 +763,7 @@ class Roda
                 end
               end
             RUBY
-          # :nocov:
+          # simplecov:disable
           elsif RUBY_VERSION >= '2'
             class_eval(<<-RUBY, __FILE__, __LINE__ + 1)
               def _call_optimized_template_method((meth, fixed_locals), locals, &block)
@@ -787,7 +787,7 @@ class Roda
               send(meth, locals, &block)
             end
           end
-          # :nocov:
+          # simplecov:enable
         else
           def _cached_template_method(_)
             nil
@@ -981,9 +981,9 @@ class Roda
       end
 
       module AssumeFixedLocalsInstanceMethods
-        # :nocov:
+        # simplecov:disable
         if RUBY_VERSION >= '3.0'
-        # :nocov:
+        # simplecov:enable
           class_eval(<<-RUBY, __FILE__, __LINE__ + 1)
             def _call_optimized_template_method((meth,_), locals, &block)
               send(meth, **locals, &block)

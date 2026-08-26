@@ -5,9 +5,9 @@ require 'openssl'
 begin
   OpenSSL::Cipher.new("aes-256-ctr")
 rescue OpenSSL::Cipher::CipherError
-  # :nocov:
+  # simplecov:disable
   raise LoadError, "Roda sessions plugin requires the aes-256-ctr cipher"
-  # :nocov:
+  # simplecov:enable
 end
 
 require 'json'

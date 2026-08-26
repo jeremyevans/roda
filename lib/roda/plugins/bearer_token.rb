@@ -8,9 +8,9 @@ class Roda
     # in the authorization header will be recognized as long as they start
     # with the case insensitive string "bearer ".
     module BearerToken
-      # :nocov:
+      # simplecov:disable
       METHOD = RUBY_VERSION >= "2.4" ? :match? : :match
-      # :nocov:
+      # simplecov:enable
 
       module RequestMethods
         # Return the bearer token for the request if there is one in the

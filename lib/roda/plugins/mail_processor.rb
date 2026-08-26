@@ -510,11 +510,11 @@ class Roda
             a1.casecmp?(a2)
           end
         else
-          # :nocov:
+          # simplecov:disable
           def address_match?(a1, a2)
             a1.downcase == a2.downcase
           end
-          # :nocov:
+          # simplecov:enable
         end
 
         # Match if any of the given addresses match the given val, which

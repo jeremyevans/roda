@@ -46,10 +46,10 @@ class Roda
       ENCODING_MAP = {:zstd=>'zstd', :brotli=>'br', :gzip=>'gzip'}.freeze
       ENCODING_EXTENSIONS = {'br'=>'.br', 'gzip'=>'.gz', 'zstd'=>'.zst'}.freeze
 
-      # :nocov:
+      # simplecov:disable
       PARSER = defined?(::URI::RFC2396_PARSER) ? ::URI::RFC2396_PARSER : ::URI::DEFAULT_PARSER
       MATCH_METHOD = RUBY_VERSION >= '2.4' ? :match? : :match
-      # :nocov:
+      # simplecov:enable
 
       # Use options given to setup a Rack::File instance for serving files. Options:
       # :brotli :: Whether to serve already brotli-compressed files with a .br extension
@@ -114,9 +114,9 @@ class Roda
         def public_file_readable?(path)
           ::File.file?(path) && ::File.readable?(path)
         rescue SystemCallError
-          # :nocov:
+          # simplecov:disable
           false
-          # :nocov:
+          # simplecov:enable
         end
 
         def public_serve_with(server)
