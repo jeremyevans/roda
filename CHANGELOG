@@ -1,5 +1,7 @@
 === master
 
+* Support json_parser :content_type_regexp plugin option, warn if not provided (jeremyevans)
+
 * Add r.query to all_verbs plugin on Rack 3.3+ (jeremyevans)
 
 * Support :exempt_request_methods option for route_csrf plugin, to use an allow list approach (jeremyevans)

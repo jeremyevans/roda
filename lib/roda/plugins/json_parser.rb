@@ -17,7 +17,19 @@ class Roda
     module JsonParser
       DEFAULT_ERROR_HANDLER = proc{|r| r.halt [400, {}, []]}
 
+      # simplecov:disable
+      MATCH_METHOD = RUBY_VERSION >= '2.4' ? :match? : :match
+      # simplecov:enable
+      private_constant :MATCH_METHOD
+
       # Handle options for the json_parser plugin:
+      # :content_type_regexp :: A regexp used to determine if the request's
+      #                         content type is JSON. For backwards compatibility,
+      #                         uses the insecure /json/ if not provided. Warns
+      #                         if this option is not provided. The recommended
+      #                         value to use is /\Aapplication\/json\b/ or
+      #                         /\Aapplication\/(?:vnd\.api\+)?json\b/i. Roda 4
+      #                         will default to the latter.
       # :error_handler :: A proc to call if an exception is raised when
       #                   parsing a JSON request body.  The proc is called
       #                   with the request object, and should probably call
@@ -37,6 +49,13 @@ class Roda
         app.opts[:json_parser_error_handler] = opts[:error_handler] || app.opts[:json_parser_error_handler] || DEFAULT_ERROR_HANDLER
         app.opts[:json_parser_parser] = opts[:parser] || app.opts[:json_parser_parser] || app.opts[:json_parser] || JSON.method(:parse)
         app.opts[:json_parser_include_request] = opts[:include_request] if opts.has_key?(:include_request)
+        app.opts[:json_parser_content_type_regexp] = opts[:content_type_regexp] || app.opts[:json_parser_content_type_regexp]
+
+        unless app.opts[:json_parser_content_type_regexp]
+          # RODA4: Switch to /\Aapplication\/(?:vnd\.api\+)?json\b/i by default
+          RodaPlugins.warn(':content_type_regexp option not provided to json_parser plugin, using /json/ for backwards compatibility, which may be insecure, using /\Aapplication\/json\b/i or /\Aapplication\/(?:vnd\.api\+)?json\b/i is recommended')
+          app.opts[:json_parser_content_type_regexp] = /json/
+        end
 
         case opts[:wrap]
         when :unless_hash, :always
@@ -57,7 +76,7 @@ class Roda
             return post_params
           end
 
-          unless (input = env["rack.input"]) && (content_type = self.content_type) && content_type.include?('json')
+          unless (input = env["rack.input"]) && (content_type = self.content_type) && roda_class.opts[:json_parser_content_type_regexp].send(MATCH_METHOD, content_type)
             return super
           end
 
@@ -84,7 +103,6 @@ class Roda
           args << self if roda_class.opts[:json_parser_include_request]
           roda_class.opts[:json_parser_parser].call(*args)
         end
-
         
         # Rack 3 dropped requirement that input be rewindable
         if Rack.release >= '3'
