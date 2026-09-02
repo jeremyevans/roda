@@ -46,8 +46,11 @@ class Roda
     #
     # The following plugin options are supported:
     #
-    # :allowed_paths :: Set the template paths to allow.  Attempts to render paths outside
-    #                   of these paths will raise an error.  Defaults to the +:views+ directory.
+    # :allowed_paths :: Set the template directories to allow.  Attempts to render paths outside
+    #                   of these directories will raise an error.  Defaults to the +:views+ option,
+    #                   if it is a directory.  For backwards compatibility, if a non-directory is
+    #                   given, it will be used as a prefix match. Roda 4 will raise if a non-directory
+    #                   is given as an allowed path and +:check_paths+ is true.
     # :assume_fixed_locals :: Set if you are sure all templates in your application use fixed locals
     #                         to allow for additional optimization. This is ignored unless both
     #                         compiled methods and fixed locals are not supported.
@@ -331,9 +334,18 @@ class Roda
         opts = app.opts[:render]
         opts[:engine] = (opts[:engine] || "erb").dup.freeze
         opts[:views] = app.expand_path(opts[:views]||"views").freeze
-        opts[:allowed_paths] ||= [opts[:views]].freeze
-        opts[:allowed_paths] = opts[:allowed_paths].map{|f| app.expand_path(f, nil)}.uniq.freeze
         opts[:check_paths] = true unless opts.has_key?(:check_paths)
+        opts[:allowed_paths] ||= [opts[:views]]
+        opts[:allowed_paths] = opts[:allowed_paths].map do |f|
+          path = app.expand_path(f, nil)
+          if File.directory?(path) || f == opts[:views]
+            path << "/"
+          elsif opts[:check_paths]
+            # RODA4: raise
+            RodaPlugins.warn("allowed path #{f.inspect} is not a directory in the file system. For backwards compatibility, will allow prefix matches, but this could result in security issues. Roda 4 will raise if an allowed path is not a directory.")
+          end
+          path.freeze
+        end.uniq.freeze
         opts[:assume_fixed_locals] &&= FIXED_LOCALS_COMPILED_METHOD_SUPPORT
 
         unless opts.has_key?(:check_template_mtime)

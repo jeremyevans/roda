@@ -1,5 +1,9 @@
 === master
 
+* Do not allow rendering templates outside an allowed_paths directory but having an allowed path as a prefix (jeremyevans)
+
+* Do not add the :views directory as an allowed path if it isn't a directory (jeremyevans)
+
 * Support json_parser :content_type_regexp plugin option, warn if not provided (jeremyevans)
 
 * Add r.query to all_verbs plugin on Rack 3.3+ (jeremyevans)

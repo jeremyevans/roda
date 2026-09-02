@@ -43,7 +43,7 @@ describe "additional_view_directories plugin" do
       plugin :additional_view_directories, ['spec/views/about', 'spec/views/additional']
     end
 
-    expected = ['spec/views', 'spec/views/about', 'spec/views/additional'].map{|x| File.expand_path(x)}
+    expected = ['spec/views', 'spec/views/about', 'spec/views/additional'].map{|x| File.expand_path(x) + '/'}
     app.render_opts[:allowed_paths].must_equal expected
     app.plugin :render
     app.render_opts[:allowed_paths].must_equal expected

@@ -1073,15 +1073,35 @@ describe "render plugin" do
     req("/c")
 
     @app = Class.new(app)
-    app.plugin :render, :allowed_paths=>%w'spec/views/about spec/views/b'
+    app.plugin :render, :allowed_paths=>['spec/views/a']
+    proc{req}.must_raise Roda::RodaError
+    proc{req("/a")}.must_raise Roda::RodaError
+    proc{req("/c")}.must_raise Roda::RodaError
+
+    @app = Class.new(app)
+    app.plugin :render, :allowed_paths=>['spec/views/b'], :check_paths=>false
     body.strip.must_equal "b"
+    req("/a")
+    req("/c")
+
+    deprecated do
+      @app = Class.new(app)
+      app.plugin :render, :allowed_paths=>%w'spec/views/about spec/views/b', :check_paths=>true
+      body.strip.must_equal "b"
+      proc{req("/a")}.must_raise Roda::RodaError
+      req("/c")
+    end
+
+    @app = Class.new(app)
+    app.plugin :render, :allowed_paths=>%w'spec/views/about'
+    proc{req}.must_raise Roda::RodaError
     proc{req("/a")}.must_raise Roda::RodaError
     req("/c")
 
     render_opts[:check_paths] = true
     @app = Class.new(app)
     app.plugin :render, :check_paths=>false
-    body.strip.must_equal "b"
+    proc{req}.must_raise Roda::RodaError
     proc{req("/a")}.must_raise Roda::RodaError
     req("/c")
 
@@ -1092,7 +1112,7 @@ describe "render plugin" do
     req("/c")
 
     render_opts[:check_paths] = true
-    body.strip.must_equal "b"
+    proc{req}.must_raise Roda::RodaError
     proc{req("/a")}.must_raise Roda::RodaError
     req("/c")
   end

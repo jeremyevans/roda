@@ -126,13 +126,15 @@ end
 
 class Minitest::Spec
   def self.deprecated(a, &block)
-    it("#{a} (deprecated)") do
-      begin
-        $RODA_WARN = false
-        instance_exec(&block)
-      ensure
-        $RODA_WARN = true
-      end
+    it("#{a} (deprecated)"){deprecated{instance_exec(&block)}}
+  end
+
+  def deprecated
+    begin
+      $RODA_WARN = false
+      yield
+    ensure
+      $RODA_WARN = true
     end
   end
 
