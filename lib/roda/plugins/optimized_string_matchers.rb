@@ -28,7 +28,11 @@ class Roda
       module RequestMethods
         # Optimized version of +on+ that only supports a single string.
         def on_branch(s)
-          always{yield} if _match_string(s)
+          rp = @remaining_path
+          if _match_string(s)
+            always{yield}
+            @remaining_path = rp
+          end
         end
 
         # Optimized version of +is+ that only supports a single string.
@@ -37,9 +41,8 @@ class Roda
           if _match_string(s)
             if @remaining_path.empty?
               always{yield}
-            else
-              @remaining_path = rp
             end
+            @remaining_path = rp
           end
         end
       end

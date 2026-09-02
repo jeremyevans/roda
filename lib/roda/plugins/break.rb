@@ -22,11 +22,19 @@ class Roda
     #   end
     #
     # This provides the same basic feature as the pass plugin, but
-    # uses Ruby's standard control flow primative instead of a
+    # uses Ruby's standard control flow primitive instead of a
     # separate method.
     module Break
       module RequestMethods
         private
+
+        # Handle passing inside the match block.
+        def always
+          rp = @remaining_path
+          super
+        ensure
+          @remaining_path = rp
+        end
 
         # Handle break inside match blocks, restoring remaining path.
         def if_match(_)

@@ -1,5 +1,7 @@
 === master
 
+* Make pass and break plugins work with optimized_{string,segment}_matchers plugins (jeremyevans)
+
 * Make render method options have greater priority than options set via set_view_options (jeremyevans)
 
 * Do not allow rendering templates outside an allowed_paths directory but having an allowed path as a prefix (jeremyevans)

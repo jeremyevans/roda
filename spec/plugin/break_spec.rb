@@ -26,4 +26,38 @@ describe "break plugin" do
     body("/foo/a/b").must_equal 'fooa'
     status("/foo").must_equal 404
   end
+
+  it "works with optimized_segment_matchers and optimized_string_matchers" do
+    app(:bare) do
+      plugin :break
+      plugin :optimized_segment_matchers
+      plugin :optimized_string_matchers
+      route do|r|
+        res = String.new
+        r.is_segment do |s|
+          res << 'i' << s << "-"
+          break
+        end
+        r.on_segment do |s|
+          res << 'o' << s << "-"
+          break
+        end
+        r.is_exactly('d') do
+          res << 'xd'
+          break
+        end
+        r.on_branch('c') do
+          res << 'xc'
+          break
+        end
+        res
+      end
+    end
+
+    body.must_equal ''
+    body("/a").must_equal 'ia-oa-'
+    body("/a/b").must_equal 'oa-'
+    body("/c").must_equal 'ic-oc-xc'
+    body("/d").must_equal 'id-od-xd'
+  end
 end

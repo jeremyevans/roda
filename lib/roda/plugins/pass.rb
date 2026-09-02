@@ -29,7 +29,10 @@ class Roda
 
         # Handle passing inside the match block.
         def always
-          catch(:pass){super}
+          rp = @remaining_path
+          ret = catch(:pass){super}
+          @remaining_path = rp
+          ret
         end
 
         # Handle passing inside the match block.

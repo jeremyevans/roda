@@ -27,11 +27,15 @@ class Roda
           rp = @remaining_path
           if rp.getbyte(0) == 47
             if last = rp.index('/', 1)
-              @remaining_path = rp[last, rp.length]
-              always{yield rp[1, last-1]}
+              always do
+                @remaining_path = rp[last, rp.length]
+                yield rp[1, last-1]
+              end
             elsif (len = rp.length) > 1
-              @remaining_path = ""
-              always{yield rp[1, len]}
+              always do
+                @remaining_path = ""
+                yield rp[1, len]
+              end
             end
           end
         end
@@ -41,8 +45,10 @@ class Roda
         def is_segment
           rp = @remaining_path
           if rp.getbyte(0) == 47 && !rp.index('/', 1) && (len = rp.length) > 1
-            @remaining_path = ""
-            always{yield rp[1, len]}
+            always do
+              @remaining_path = ""
+              yield rp[1, len]
+            end
           end
         end
       end
