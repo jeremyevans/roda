@@ -68,8 +68,29 @@ class Roda
     #     end
     #   end
     #
-    # This plugin uses the host method on the request to get the hostname (this method
-    # is defined by Rack).
+    # This plugin uses the +host+ method on the request to get the hostname (this method
+    # is defined by Rack). Note that as of Rack 3.2, Rack's default approach to determine
+    # the hostname is insecure in many cases, since:
+    #
+    # * It will use a forwarded header instead of the +host+ header by default if the
+    #   request was from a trusted proxy.
+    # * Rack trust proxies from any private IP address range by default
+    #   (this can be disabled using <tt>Rack::Request.ip_filter=</tt>).
+    # * Rack supports both +forwarded+ and <tt>x-forwarded-host</tt> headers, will check
+    #   both by default, and the order of checking depends on Rack's configuration
+    #   (this can be configured using <tt>Rack::Request.forwarded_priority</tt>).
+    # * If the application can be reached via an arbitrary +host+ header, the attacker
+    #   has full control over the <tt>Rack::Request#host</tt> value even when forwarded
+    #   host usage is disabled.
+    #
+    # You should configure Rack appropriately for your deployment, not allowing the use
+    # of forwarded information unless your deployment is using a reverse proxy, and only
+    # allowing the specific forwarded header set by the expected reverse proxy if a
+    # reverse proxy is used. Rack 3.3 should include more control in this area,
+    # and Rack 4 should ship with more secure defaults in regard to forwarding headers.
+    #
+    # It is recommended to use the host_authorization plugin to check that the requested
+    # host is allowed when using this plugin.
     module HostRouting
       REQUEST_INSTANCE_VARIABLES = [:@_host_routing_host].freeze
 
