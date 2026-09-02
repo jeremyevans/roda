@@ -437,8 +437,15 @@ class Roda
 
         # Match the given hash if all hash matchers match.
         def _match_hash(hash)
+          rp = @remaining_path
+          captures_len = @captures.length
+
           # Allow calling private methods, as match methods are generally private
-          hash.all?{|k,v| send("match_#{k}", v)}
+          return true if hash.all?{|k,v| send("match_#{k}", v)}
+
+          @remaining_path = rp
+          @captures.slice!(captures_len, 10000000)
+          false
         end
 
         # Match integer segment of up to 100 decimal characters, and yield resulting value as an

@@ -66,4 +66,26 @@ describe "param_matchers plugin" do
     body("/signup", "rack.input" => io, "QUERY_STRING" => "em=foo").must_equal 'No email'
     body("/signup", "rack.input" => io, "QUERY_STRING" => "ail=john@doe.com").must_equal 'No email'
   end
+
+  it "should handle multiple entries in hash matcher that modifies remaining path and captures" do
+    app(:bare) do
+      plugin :path_matchers
+      plugin :param_matchers
+      route do |r|
+        r.get [{prefix: 'a', param: 'b'}, 'c'] do |*a|
+          ['y', *a].join('-')
+        end
+
+        "n"
+      end
+    end
+
+    io = rack_input
+    body("/ad", "rack.input" => io, "QUERY_STRING" => "b=e").must_equal 'y-d-e'
+    body("/c", "rack.input" => io, "QUERY_STRING" => "b=e").must_equal 'y-c'
+    body("/ad", "rack.input" => io, "QUERY_STRING" => "").must_equal 'n'
+    body("/f", "rack.input" => io, "QUERY_STRING" => "b=e").must_equal 'n'
+    body("/ad/c", "rack.input" => io, "QUERY_STRING" => "b=e").must_equal 'n'
+    body("/ad/c", "rack.input" => io, "QUERY_STRING" => "").must_equal 'n'
+  end
 end

@@ -1,5 +1,7 @@
 === master
 
+* Make hash matcher reset remaining path and captures on failure (jeremyevans)
+
 * Make pass and break plugins work with optimized_{string,segment}_matchers plugins (jeremyevans)
 
 * Make render method options have greater priority than options set via set_view_options (jeremyevans)
