@@ -82,6 +82,21 @@ describe "view_options plugin view subdirs" do
 end
 
 describe "view_options plugin" do
+  it "should given render method options precedence over set_view_options" do
+    app(:bare) do
+      plugin :render, :views=>'spec/views', :allowed_paths=>['spec/views']
+      plugin :view_options
+
+      route do |_|
+        set_view_options :views=>'spec/views/bogus'
+        set_layout_options :template=>'layout-alternative'
+        view('_test', :locals=>{:title=>'About Roda'}, :layout_opts=>{:locals=>{:title=>'Home'}}, :views=>'spec/views/about')
+      end
+    end
+
+    body.strip.must_equal "<title>Alternative Layout: Home</title>\n<h1>Subdir: About Roda</h1>"
+  end
+
   it "should not use :views view option for layout" do
     app(:bare) do
       plugin :render, :views=>'spec/views', :allowed_paths=>['spec/views']

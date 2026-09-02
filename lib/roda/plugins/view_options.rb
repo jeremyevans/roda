@@ -158,13 +158,11 @@ class Roda
         # template isn't a layout template, merge the options
         # and locals into the returned hash.
         def parse_template_opts(template, opts)
-          t_opts = super
-
-          if !t_opts[:_is_layout] && (v_opts = @_view_options)
-            t_opts.merge!(v_opts)
+          if (v_opts = @_view_options) && (!template.is_a?(Hash) || !template[:_is_layout])
+            opts = v_opts.merge(opts)
           end
 
-          t_opts
+          super
         end
 
         # If layout options or locals have been set,
