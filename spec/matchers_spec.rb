@@ -763,7 +763,7 @@ describe "request verb methods" do
 end
 
 describe "all matcher" do
-  it "should match only all all arguments match" do
+  it "should match only if all arguments match" do
     app do |r|
       r.is :all=>['foo', :y] do |file|
         file
