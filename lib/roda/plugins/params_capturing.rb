@@ -60,8 +60,9 @@ class Roda
       module RequestMethods
         # Lazily initialize captures entry when params is called.
         def params
+          return @params if @params
           ret = super
-          ret['captures'] ||= []
+          ret['captures'] = []
           ret
         end
 

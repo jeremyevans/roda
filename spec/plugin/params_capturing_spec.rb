@@ -30,6 +30,7 @@ describe "params_capturing plugin" do
 
     body('/blarg', 'rack.input'=>rack_input).must_equal 'x-blarg-blarg-1'
     body('/foo/1/2/3', 'rack.input'=>rack_input).must_equal '1-2-3-1-2-3-3'
+    body('/foo/1/2/3', 'rack.input'=>rack_input, 'QUERY_STRING'=>'captures[]=1').must_equal '1-2-3-1-2-3-3'
     body('/quux/foobar', 'rack.input'=>rack_input).must_equal 'y-quuxfoobar-quux-foo-bar'
     body('/quux/asdf', 'rack.input'=>rack_input).must_equal 'y--quux-asdf-2'
     body('/quux/asdf/890', 'rack.input'=>rack_input).must_equal 'y--890-quux-asdf-890-3'
