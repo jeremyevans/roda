@@ -75,7 +75,7 @@ describe "capturing" do
     body("/posts/123-postal-service").must_equal "123postal-service"
   end
 
-  it "yields an integer segment as an integer segment over 100 bytes when using Integer matcher" do
+  it "yields an integer segment as an integer if segment 100 bytes or less when using Integer matcher" do
     app do |r|
       r.get "user", Integer do |id|
         "#{id}-#{id.is_a?(Integer)}"
@@ -89,6 +89,30 @@ describe "capturing" do
     body("/user/"+"1"*100).must_equal '1'*100+'-true'
     body("/user/"+"1"*101).must_equal 'b'
   end
+
+  it "Integer matcher works correctly inside array matcher" do
+    app(:bare) do
+      private
+
+      def _convert_class_Integer(v)
+        v.to_i if v < '3'
+      end
+
+      route do |r|
+        r.get [Integer, "a"] do |id|
+          "#{id}-#{id.is_a?(Integer)}"
+        end
+        "b"
+      end
+    end
+
+    body("/a").must_equal 'a-false'
+    body("/1").must_equal '1-true'
+    body("/1/a").must_equal 'b'
+    body("/4").must_equal 'b'
+    body("/4/a").must_equal 'b'
+  end
+
 
   it "yields the segment for String class matcher" do
     app do |r|

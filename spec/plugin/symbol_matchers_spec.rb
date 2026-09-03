@@ -66,6 +66,9 @@ describe "symbol_matchers plugin" do
             r.is "s", :s do |x|
               "s-#{x}"
             end
+            r.is "a", [:c, "b"] do |x, len|
+              "a-c-#{x}-#{len}"
+            end
           end
 
           r.is :d do |d|
@@ -141,6 +144,9 @@ describe "symbol_matchers plugin" do
       body('/X/i/3').must_equal 'i-3'
       body('/X/str/f').must_equal 'str-ff'
       body('/X/s/f').must_equal 's-f'
+      body('/X/a/ccc').must_equal 'a-c-ccc-3'
+      body('/X/a/b').must_equal 'a-c-b-'
+      status('/X/a/ccccc/b').must_equal 404
     end
   end
 

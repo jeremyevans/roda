@@ -601,13 +601,13 @@ class Roda
             if regexp.match?(rp)
               if last = rp.index('/', 1)
                 val = rp[1, last-1]
-                @remaining_path = rp[last, rp.length]
+                new_rp = rp[last, rp.length]
               else
                 val = rp[1, rp.length]
-                @remaining_path = ""
+                new_rp = ""
               end
 
-              if meth
+              ret = if meth
                 if captures = scope.send(meth, val)
                   if captures.is_a?(Array)
                     @captures.concat(captures)
@@ -618,6 +618,10 @@ class Roda
               else
                 @captures << val
               end
+
+              @remaining_path = new_rp if ret
+
+              ret
             end
           end
         # simplecov:disable

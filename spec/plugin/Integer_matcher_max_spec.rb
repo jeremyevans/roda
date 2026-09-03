@@ -46,4 +46,22 @@ describe "Integer_matcher_max plugin" do
     body("/#{max}").must_equal max
     body("/#{max.next}").must_equal ''
   end
+
+  it "works correctly as an array matcher element" do
+    app(:bare) do
+      plugin :Integer_matcher_max, 2**64-1
+      route do |r|
+        r.is [Integer, 'b'] do |i|
+          i.to_s
+        end
+      end
+    end
+
+    max = (2**64-1).to_s
+    body("/0").must_equal '0'
+    body("/#{max}").must_equal max
+    body("/#{max.next}").must_equal ''
+    body("/b").must_equal 'b'
+    body("/#{max.next}/b").must_equal ''
+  end
 end
