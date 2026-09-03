@@ -226,7 +226,7 @@ class Roda
               plugin :direct_call
             end
 
-            if RUBY_VERSION > "2.4" && ([:on, :is, :_verb, :_match_class_String, :_match_class_Integer, :_match_string, :_match_regexp, :empty_path?, :if_match, :match, :_match_class]).all?{|m| self::RodaRequest.instance_method(m).owner == RequestMethods}
+            if RUBY_VERSION > "2.4" && ([:on, :is, :_verb, :_match_class_String, :_match_class_Integer, :_match_string, :_match_regexp, :empty_path?, :if_match, :match, :_match_class, :always]).all?{|m| self::RodaRequest.instance_method(m).owner == RequestMethods}
               plugin :_optimized_matching
             end
           end
