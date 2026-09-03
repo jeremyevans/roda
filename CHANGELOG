@@ -1,5 +1,7 @@
 === master
 
+* Deprecate the :clear_session csrf_failure option value in the route_csrf and sec_fetch_site_csrf plugins (jeremyevans)
+
 * Make segment matching with convertor not consume remaining_path if convertor returns false/nil (jeremyevans)
 
 * Make etag in the caching plugin return a 412 response if an If-Match header is submitted and weak option is used (jeremyevans)

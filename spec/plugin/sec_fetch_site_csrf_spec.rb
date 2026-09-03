@@ -65,7 +65,7 @@ describe "sec_fetch_site_csrf plugin" do
     req("REQUEST_METHOD"=>'POST').must_equal [403, {RodaResponseHeaders::CONTENT_TYPE=>'text/html', RodaResponseHeaders::CONTENT_LENGTH=>'0'}, []]
   end
 
-  it "allows configuring CSRF failure action with :csrf_failure => :clear_session option" do
+  deprecated "allows configuring CSRF failure action with :csrf_failure => :clear_session option" do
     sec_fetch_site_app(:csrf_failure=>:clear_session)
     body("/session", "REQUEST_METHOD"=>'POST', 'HTTP_SEC_FETCH_SITE'=>'same-origin', 'rack.session'=>{a: 1}).must_equal '1'
     body("/session", "REQUEST_METHOD"=>'POST', 'rack.session'=>{a: 1}).must_equal 'nil'

@@ -57,7 +57,7 @@ class Roda
     # :csrf_failure :: The action to taken if a request fails the CSRF check (default: :raise).  Options:
     #                  :raise :: raise a Roda::RodaPlugins::RouteCsrf::InvalidToken exception
     #                  :empty_403 :: return a blank 403 page (rack_csrf's default behavior)
-    #                  :clear_session :: Clear the current session
+    #                  :clear_session :: Clear the current session  (deprecated)
     #                  Proc :: Treated as a routing block, called with request object
     # :check_header :: Whether the HTTP header should be checked for the token value (default: false).
     #                  If true, checks the HTTP header after checking for the form input parameter.
@@ -205,6 +205,9 @@ class Roda
           options[:csrf_failure] = :csrf_failure_method
           app.define_roda_method(:_roda_route_csrf_failure, 1, &app.send(:convert_route_block, block))
         end
+        if opts[:csrf_failure] == :clear_session
+          RodaPlugins.warn "Passing :clear_session as the :csrf_failure option to the route_csrf plugin is deprecated"
+        end
         options[:env_header] = "HTTP_#{options[:header].to_s.tr('-', '_').upcase}".freeze
         options.freeze
       end
@@ -231,6 +234,7 @@ class Roda
               headers[RodaResponseHeaders::CONTENT_LENGTH] ='0'
               throw :halt, @_response.finish_with_body([])
             when :clear_session
+              RodaPlugins.warn "Passing :clear_session as the :csrf_failure option to check_csrf! is deprecated"
               session.clear
             when :csrf_failure_method
               @_request.on{_roda_route_csrf_failure(@_request)}

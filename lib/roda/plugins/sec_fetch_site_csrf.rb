@@ -54,7 +54,7 @@ class Roda
     #                  :raise :: raise a Roda::RodaPlugins::SecFetchSiteCsrf::CsrfFailure
     #                            exception
     #                  :empty_403 :: return a blank 403 page
-    #                  :clear_session :: clear the current session
+    #                  :clear_session :: clear the current session (deprecated)
     #
     # The plugin also supports a block, in which case failures will call the block
     # as a routing block (the block should accept the request object).
@@ -83,8 +83,10 @@ class Roda
         end
 
         case options[:csrf_failure]
-        when :raise, :empty_403, :clear_session, :method
+        when :raise, :empty_403, :method
           # nothing
+        when :clear_session
+          RodaPlugins.warn "Passing :clear_session as the :csrf_failure option to the sec_fetch_site_csrf plugin is deprecated"
         else
           raise RodaError, "Unsupported :csrf_failure plugin option: #{options[:csrf_failure].inspect}"
         end
@@ -118,6 +120,7 @@ class Roda
             headers[RodaResponseHeaders::CONTENT_LENGTH] ='0'
             throw :halt, @_response.finish_with_body([])
           when :clear_session
+            # RODA4: Remove
             session.clear
           else # when :method
             @_request.on{_roda_sec_fetch_site_csrf_failure(@_request)}

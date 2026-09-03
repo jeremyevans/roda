@@ -142,7 +142,7 @@ describe "route_csrf plugin" do
     req("/foo", "REQUEST_METHOD"=>'POST', 'rack.input'=>rack_input).must_equal [403, {RodaResponseHeaders::CONTENT_TYPE=>'text/html', RodaResponseHeaders::CONTENT_LENGTH=>'0'}, []]
   end
 
-  it "allows configuring CSRF failure action with :csrf_failure => :clear_session option" do
+  deprecated "allows configuring CSRF failure action with :csrf_failure => :clear_session option" do
     route_csrf_app(:csrf_failure=>:clear_session){session.inspect}
     body("/foo", "REQUEST_METHOD"=>'POST', 'rack.input'=>rack_input("_csrf=#{Rack::Utils.escape(body("/token/foo"))}")).must_equal 'f'
     body("/b", "REQUEST_METHOD"=>'POST', 'rack.input'=>rack_input("_csrf=#{Rack::Utils.escape(body('/token/a'))}")).must_equal '{}'
