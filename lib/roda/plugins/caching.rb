@@ -113,8 +113,9 @@ class Roda
         # matching etag, immediately returns a response with a 304 or 412 status,
         # depending on the request method.
         #
-        # When the current request includes an If-Match header with a
-        # etag that doesn't match, immediately returns a response with a 412 status.
+        # When the current request includes an If-Match header with an etag that
+        # doesn't match, or where the :weak option was used, immediately returns a
+        # response with a 412 status.
         def etag(value, opts=OPTS)
           # Before touching this code, please double check RFC 2616 14.24 and 14.26.
           weak = opts[:weak]
@@ -132,7 +133,7 @@ class Roda
             end
 
             if ifm = e['HTTP_IF_MATCH']
-              unless etag_matches?(ifm, etag, new_resource)
+              if weak || !etag_matches?(ifm, etag, new_resource)
                 res.status = 412
                 halt
               end

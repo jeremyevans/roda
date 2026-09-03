@@ -1,5 +1,7 @@
 === master
 
+* Make etag in the caching plugin return a 412 response if an If-Match header is submitted and weak option is used (jeremyevans)
+
 * Make r.redirect without arguments use / if path starts with // (jeremyevans)
 
 * Make run_append_slash with :use_redirects option not redirect if path starts with // (jeremyevans)

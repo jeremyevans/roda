@@ -206,6 +206,10 @@ describe 'request.etag' do
       res('HTTP_IF_MATCH' => '"bar", "foo"').must_equal [200, 'ok']
     end
 
+    it "sets etag and returns 412 if If-Match is given a weak etag" do
+      status('HTTP_IF_MATCH' => 'W/"foo"', 'weak'=>'true').must_equal 412
+    end
+
     it "sets etag and returns 412 if If-Match is * for new resources" do
       res('HTTP_IF_MATCH' => '*', 'new_resource'=>'true').must_equal [412, '']
     end
