@@ -128,12 +128,16 @@ class Roda
           if routes = roda_class.opts[:hash_branches][namespace]
             if segment_end = rp.index('/', 1)
               if meth = routes[rp[0, segment_end]]
-                @remaining_path = rp[segment_end, 100000000]
-                always{scope.send(meth, self)}
+                always do
+                  @remaining_path = rp[segment_end, 100000000]
+                  scope.send(meth, self)
+                end
               end
             elsif meth = routes[rp]
-              @remaining_path = ''
-              always{scope.send(meth, self)}
+              always do
+                @remaining_path = ''
+                scope.send(meth, self)
+              end
             end
           end
         end

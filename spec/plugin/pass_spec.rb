@@ -27,6 +27,27 @@ describe "pass plugin" do
     status("/foo").must_equal 404
   end
 
+  it "works with hash_branches and hash_paths" do
+    app(:bare) do
+      plugin :pass
+      plugin :hash_branches
+      plugin :hash_paths
+
+      hash_branch("a", &:pass)
+      hash_path("/b", &:pass)
+
+      route do |r|
+        r.hash_branches
+        r.hash_paths
+        r.remaining_path
+      end
+    end
+
+    body('/b').must_equal '/b'
+    body('/a').must_equal '/a'
+    body('/a/b').must_equal '/a/b'
+  end
+
   it "works with optimized_segment_matchers and optimized_string_matchers" do
     app(:bare) do
       plugin :pass

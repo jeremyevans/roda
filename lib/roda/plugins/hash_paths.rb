@@ -116,8 +116,10 @@ class Roda
         # remaining path, and dispatch to that block if there is one.
         def hash_paths(namespace=matched_path)
           if (routes = roda_class.opts[:hash_paths][namespace]) && (meth = routes[@remaining_path])
-            @remaining_path = ''
-            always{scope.send(meth, self)}
+            always do
+              @remaining_path = ''
+              scope.send(meth, self)
+            end
           end
         end
       end

@@ -1,5 +1,7 @@
 === master
 
+* Make pass plugin work with hash_branches and hash_paths plugins (jeremyevans)
+
 * Make params_capturing plugin override a provided parameter named captures (jeremyevans)
 
 * Deprecate the :clear_session csrf_failure option value in the route_csrf and sec_fetch_site_csrf plugins (jeremyevans)
