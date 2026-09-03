@@ -44,6 +44,7 @@ class Roda
                 rp = @remaining_path
                 if rp.getbyte(0) == 47
                   if last = rp.index('/', 1)
+                    return false if last == 1
                     @remaining_path = rp[last, rp.length]
                     always{yield rp[1, last-1]}
                   elsif (len = rp.length) > 1

@@ -424,6 +424,7 @@ require_relative "spec_helper"
         body('foo').must_equal ''
       end
       body.must_equal ''
+      body('//').must_equal ''
       body('/fo').must_equal '["fo"]-'
       body('/foo').must_equal '["foo"]-'
       body('/foo/').must_equal '["foo"]-/'

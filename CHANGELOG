@@ -1,5 +1,7 @@
 === master
 
+* Do not have r.on with String class matcher and default symbol matcher match empty segment (jeremyevans)
+
 * Make pass plugin work with hash_branches and hash_paths plugins (jeremyevans)
 
 * Make params_capturing plugin override a provided parameter named captures (jeremyevans)

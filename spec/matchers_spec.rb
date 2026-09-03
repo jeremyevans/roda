@@ -41,6 +41,18 @@ describe "capturing" do
     body("/user/101").must_equal '101'
   end
 
+  it "yields a non-empty segment for symbol matcher" do
+    app do |r|
+      r.on :any do |one|
+        one + "-" + r.remaining_path
+      end
+    end
+
+    body("/one").must_equal "one-"
+    body("/one/two").must_equal "one-/two"
+    body("//two").must_equal ""
+  end
+
   it "yields a segment per nested block for symbol matcher" do
     app do |r|
       r.on :one do |one|
@@ -113,6 +125,17 @@ describe "capturing" do
     body("/4/a").must_equal 'b'
   end
 
+  it "yields a non-empty segment for String class matcher" do
+    app do |r|
+      r.on String do |one|
+        one + "-" + r.remaining_path
+      end
+    end
+
+    body("/one").must_equal "one-"
+    body("/one/two").must_equal "one-/two"
+    body("//two").must_equal ""
+  end
 
   it "yields the segment for String class matcher" do
     app do |r|
