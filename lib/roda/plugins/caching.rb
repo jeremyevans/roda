@@ -75,28 +75,27 @@ class Roda
         # Set the last modified time of the resource using the Last-Modified header.
         # The +time+ argument should be a Time instance.
         #
-        # If the current request includes an If-Modified-Since header that is
-        # equal or later than the time specified, immediately returns a response
-        # with a 304 status.
-        #
         # If the current request includes an If-Unmodified-Since header that is
         # before than the time specified, immediately returns a response
         # with a 412 status.
+        #
+        # If the current request does not include an If-None-Match header and
+        # includes an If-Modified-Since header that is equal or later than the
+        # time specified, immediately returns a response with a 304 status.
         def last_modified(time)
           return unless time
           res = response
           e = env
           res[RodaResponseHeaders::LAST_MODIFIED] = time.httpdate
-          return if e['HTTP_IF_NONE_MATCH']
           status = res.status
-
-          if (!status || status == 200) && (ims = time_from_header(e['HTTP_IF_MODIFIED_SINCE'])) && ims >= time.to_i
-            res.status = 304
-            halt
-          end
 
           if (!status || (status >= 200 && status < 300) || status == 412) && (ius = time_from_header(e['HTTP_IF_UNMODIFIED_SINCE'])) && ius < time.to_i
             res.status = 412
+            halt
+          end
+
+          if !e['HTTP_IF_NONE_MATCH'] && (!status || status == 200) && (ims = time_from_header(e['HTTP_IF_MODIFIED_SINCE'])) && ims >= time.to_i
+            res.status = 304
             halt
           end
         end

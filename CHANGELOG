@@ -1,5 +1,7 @@
 === master
 
+* Have r.last_modified in caching plugin check If-Unmodified-Since before If-None-Match and If-Modified-Since (jeremyevans)
+
 * Do not have r.on_segment in optimized_segment_matchers match empty segment (jeremyevans)
 
 * Do not have r.on with String class matcher and default symbol matcher match empty segment (jeremyevans)

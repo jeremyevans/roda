@@ -129,6 +129,8 @@ describe 'request.last_modified' do
 
   it 'sets Last-Modified and returns 412 if modified after If-Unmodified-Since header' do
     res('HTTP_IF_UNMODIFIED_SINCE' => (@last_modified - 1).httpdate).must_equal [412, '']
+    res('HTTP_IF_UNMODIFIED_SINCE' => (@last_modified - 1).httpdate, 'HTTP_IF_NONE_MATCH' => '*').must_equal [412, '']
+    res('HTTP_IF_UNMODIFIED_SINCE' => (@last_modified - 1).httpdate, 'HTTP_IF_MODIFIED_SINCE' => (@last_modified + 1).httpdate).must_equal [412, '']
   end
 end
 
