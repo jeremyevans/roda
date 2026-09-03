@@ -1,5 +1,7 @@
 === master
 
+* Do not have r.on_segment in optimized_segment_matchers match empty segment (jeremyevans)
+
 * Do not have r.on with String class matcher and default symbol matcher match empty segment (jeremyevans)
 
 * Make pass plugin work with hash_branches and hash_paths plugins (jeremyevans)
