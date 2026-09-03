@@ -1,5 +1,7 @@
 === master
 
+* Make run_append_slash with :use_redirects option not redirect if path starts with // (jeremyevans)
+
 * Make hash matcher reset remaining path and captures on failure (jeremyevans)
 
 * Make pass and break plugins work with optimized_{string,segment}_matchers plugins (jeremyevans)

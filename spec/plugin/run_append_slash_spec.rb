@@ -35,6 +35,10 @@ describe "run_append_slash plugin" do
         r.on 'sub' do
           r.run sub1
         end
+
+        r.on '/a' do
+          r.run sub1
+        end
       end
     end
   end
@@ -48,6 +52,7 @@ describe "run_append_slash plugin" do
     body('/sub/bar/').must_equal 'sub-bar-root'
     body('/sub/bar/baz').must_equal 'sub-bar-baz'
     status('/sub/bar/baz/').must_equal 404
+    body('//a/').must_equal 'sub-root'
   end unless ENV['LINT']
 
   it "internally appends a missing trailing slash to #run sub apps" do
@@ -60,6 +65,7 @@ describe "run_append_slash plugin" do
     body('/sub/bar/').must_equal 'sub-bar-root'
     body('/sub/bar/baz').must_equal 'sub-bar-baz'
     status('/sub/bar/baz/').must_equal 404
+    body('//a').must_equal 'sub-root'
   end
 
   it "redirects #run sub apps when trailing slash is missing" do
@@ -73,6 +79,7 @@ describe "run_append_slash plugin" do
     body('/sub/bar/').must_equal 'sub-bar-root'
     body('/sub/bar/baz').must_equal 'sub-bar-baz'
     status('/sub/bar/baz/').must_equal 404
+    body('//a').must_equal 'sub-root'
   end
 
   it "works with run_handler plugin" do
