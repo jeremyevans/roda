@@ -634,9 +634,13 @@ class Roda
         #
         # If the current request is a GET request, raise an error, as otherwise
         # it is easy to create an infinite redirect.
+        #
+        # If the path starts +//+, then this redirects to the root path
+        # (+/+) instead of using a protocol-relative redirect.
         def default_redirect_path
           raise RodaError, "must provide path argument to redirect for get requests" if is_get?
-          path
+          path = self.path
+          path.start_with?('//') ? '/' : path
         end
 
         # The default status to use for redirects if a status is not provided,

@@ -22,6 +22,8 @@ describe "redirects" do
           r.redirect
         end
       end
+
+      r.redirect
     end
 
     status.must_equal 302
@@ -37,5 +39,8 @@ describe "redirects" do
     body("/foo", 'REQUEST_METHOD'=>'POST').must_equal ''
 
     proc{req('/foo')}.must_raise(Roda::RodaError)
+    proc{req('//foo')}.must_raise(Roda::RodaError)
+    status('//foo', 'REQUEST_METHOD'=>'POST').must_equal 302
+    header(RodaResponseHeaders::LOCATION, "//foo", 'REQUEST_METHOD'=>'POST').must_equal '/'
   end
 end
