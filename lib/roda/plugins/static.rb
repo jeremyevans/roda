@@ -21,6 +21,9 @@ class Roda
     # uses a separate option for it.
     #
     # Users of this plugin may want to consider using the public plugin instead.
+    # As this only loads a middleware, it does not integrate with other Roda
+    # security features, such as the content_security_policy and host_authorization
+    # plugins.
     # 
     # Examples:
     #
