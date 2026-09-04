@@ -1,5 +1,7 @@
 === master
 
+* Always set Vary response header if considering Accept request header in type_routing plugin (jeremyevans)
+
 * Have r.last_modified in caching plugin check If-Unmodified-Since before If-None-Match and If-Modified-Since (jeremyevans)
 
 * Do not have r.on_segment in optimized_segment_matchers match empty segment (jeremyevans)

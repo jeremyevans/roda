@@ -47,6 +47,7 @@ describe "type_routing plugin" do
   it "sets Vary header when using Accept header value" do
     body('/a', 'HTTP_ACCEPT' => 'text/html').must_equal 'HTML: html'
     header(RodaResponseHeaders::VARY, '/a', 'HTTP_ACCEPT' => 'text/html').must_equal 'Accept'
+    header(RodaResponseHeaders::VARY, '/a', 'HTTP_ACCEPT' => 'image/png').must_equal 'Accept'
 
     app(:type_routing) do |r|
       response[RodaResponseHeaders::VARY] = 'User-Agent'
@@ -58,6 +59,7 @@ describe "type_routing plugin" do
     end
     body('/a', 'HTTP_ACCEPT' => 'application/json').must_equal 'JSON: json'
     header(RodaResponseHeaders::VARY, '/a', 'HTTP_ACCEPT' => 'application/json').must_equal 'User-Agent, Accept'
+    header(RodaResponseHeaders::VARY, '/a', 'HTTP_ACCEPT' => 'image/png').must_equal 'User-Agent, Accept'
   end
 
   it "favors the file extension over the Accept header" do

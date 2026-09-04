@@ -198,11 +198,11 @@ class Roda
         # The response type indicated by the Accept request header.
         def accept_response_type
           mimes = @scope.opts[:type_routing][:mimes]
+          response[RodaResponseHeaders::VARY] = (vary = response[RodaResponseHeaders::VARY]) ? "#{vary}, Accept" : 'Accept'
 
           @env['HTTP_ACCEPT'].to_s.split(/\s*,\s*/).map do |part|
             mime, _= part.split(/\s*;\s*/, 2)
             if sym = mimes[mime]
-              response[RodaResponseHeaders::VARY] = (vary = response[RodaResponseHeaders::VARY]) ? "#{vary}, Accept" : 'Accept'
               return sym
             end
           end
