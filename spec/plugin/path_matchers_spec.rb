@@ -11,6 +11,7 @@ describe "path_matchers plugin" do
     end
 
     body("/css/reset.css").must_equal 'reset'
+    status("/css/resetXcss").must_equal 404
     status("/css/reset.bar").must_equal 404
   end
 

@@ -1,5 +1,7 @@
 === master
 
+* Make :extension hash matcher in path_matchers plugin require . before extension (jeremyevans)
+
 * Add params_capturing_restore plugin to have params_capturing work with pass and break plugins (jeremyevans)
 
 * Always set Vary response header if considering Accept request header in type_routing plugin (jeremyevans)

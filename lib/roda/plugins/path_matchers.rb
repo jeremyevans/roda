@@ -29,12 +29,16 @@ class Roda
     #     # Matches '/foo.bar', yielding 'foo'
     #     # Does not match bar.foo
     #   end
+    #
+    # Note that all of these matchers treat a given string as regexp source,
+    # so if you are including regexp metacharacters but want a literal string
+    # match, use +Regexp.escape+.
     module PathMatchers
       module RequestMethods
         # Match when the current segment ends with the given extension.
         # request path end with the extension.
         def match_extension(ext)
-          match_suffix(".#{ext}")
+          match_suffix("\\.#{ext}")
         end
 
         # Match when the current path segment starts with the given prefix.
