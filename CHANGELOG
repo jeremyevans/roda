@@ -1,5 +1,7 @@
 === master
 
+* Make invalid_request_body r.POST exception handling reraise RodaErrors (jeremyevans)
+
 * Make host_routing plugin downcase hostnames before storage and comparison (jeremyevans)
 
 * Make :extension hash matcher in path_matchers plugin require . before extension (jeremyevans)

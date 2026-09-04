@@ -34,6 +34,14 @@ describe "invalid_request_body plugin" do
     proc{req(invalid_request_hash)}.must_raise Roda::RodaPlugins::InvalidRequestBody::Error
   end
 
+  it "reraises Roda errors, not swallowing errors raised by disallow_file_uploads plugin" do
+    invalid_request_body_app(:raise)
+    app.plugin :disallow_file_uploads
+    body(valid_request_hash).must_equal '[["x", "y"]]'
+    file_upload_body = "--foobar\r\ncontent-disposition: form-data; name=\"f\"; filename=\"t\"\r\n\r\ny\r\n--foobar--\r\n"
+    proc{req(invalid_request_hash.merge('CONTENT_LENGTH'=>file_upload_body.bytesize.to_s, 'rack.input'=>rack_input(file_upload_body)))}.must_raise Roda::RodaPlugins::DisallowFileUploads::Error
+  end if Rack.release >= '1.6'
+
   it "supports plugin block argument" do
     invalid_request_body_app{|e| {'y'=>"x"}}
     body(valid_request_hash).must_equal '[["x", "y"]]'

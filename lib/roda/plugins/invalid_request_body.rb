@@ -72,6 +72,8 @@ class Roda
         # raises an exception.
         def POST
           super
+        rescue RodaError
+          raise
         rescue => e 
           handle_invalid_request_body(e)
         end
