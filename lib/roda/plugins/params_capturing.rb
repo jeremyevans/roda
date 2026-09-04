@@ -54,6 +54,11 @@ class Roda
     # Also note that this plugin will not work correctly if you are using
     # the symbol_matchers plugin with custom symbol matching and are using
     # symbols that capture multiple values or no values.
+    #
+    # If you are using the pass or break plugin along with this plugin,
+    # it is recommended you load the params_capturing_restore plugin, as that
+    # allows +r.pass+ or +break+ inside param capturing blocking to work
+    # correctly.
     module ParamsCapturing
       REQUEST_INSTANCE_VARIABLES = [:@_params_captures].freeze
 
@@ -101,15 +106,18 @@ class Roda
           end
 
           super do |*a|
-            if pc
-              @_params_captures = nil
-              pc.zip(a).each do |k,v|
-                params[k] = v
-              end
-            end
+            _set_params_captures(a) if pc
             params['captures'].concat(a) 
             yield(*a)
           end
+        end
+
+        # Set the captures into the parameters.
+        def _set_params_captures(a)
+          @_params_captures.zip(a).each do |k,v|
+            params[k] = v
+          end
+          @_params_captures = nil
         end
       end
     end
