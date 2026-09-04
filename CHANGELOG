@@ -1,5 +1,7 @@
 === master
 
+* Make host_routing plugin downcase hostnames before storage and comparison (jeremyevans)
+
 * Make :extension hash matcher in path_matchers plugin require . before extension (jeremyevans)
 
 * Add params_capturing_restore plugin to have params_capturing work with pass and break plugins (jeremyevans)

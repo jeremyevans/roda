@@ -4,8 +4,8 @@ describe "host_routing plugin" do
   it "adds support for routing based on host name" do
     app(:bare) do
       plugin :host_routing do |hosts|
-        hosts.to :t1, "t1.example.com"
-        hosts.to :t2, "t2.example.com", "tx.example.com"
+        hosts.to :t1, "t1.Example.com"
+        hosts.to :t2, "t2.Example.com", "tx.Example.com"
         hosts.default :t1
       end
 
@@ -25,6 +25,9 @@ describe "host_routing plugin" do
       body('HTTP_HOST'=>"t1.example.com").must_equal 't1-true-false'
       body('HTTP_HOST'=>"t2.example.com").must_equal 't2-false-true'
       body('HTTP_HOST'=>"tx.example.com").must_equal 't2-false-true'
+      body('HTTP_HOST'=>"T1.example.com").must_equal 't1-true-false'
+      body('HTTP_HOST'=>"T2.example.com").must_equal 't2-false-true'
+      body('HTTP_HOST'=>"Tx.example.com").must_equal 't2-false-true'
       @app = Class.new(@app)
     end
   end

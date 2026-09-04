@@ -161,7 +161,7 @@ class Roda
         # Treat all given hostnames as routing to the give host.
         def to(host, *hostnames)
           hostnames.each do |hostname|
-            @host_hash[hostname] = host
+            @host_hash[hostname.downcase.freeze] = host
           end
         end
 
@@ -201,7 +201,11 @@ class Roda
         # * The return value of the +hosts.default+ block, if given
         # * The default value provided in the +hosts.default+ call
         def _get_host_routing_host
-          host = self.host || ""
+          if host = self.host
+            host = host.downcase
+          else
+            host = ""
+          end
 
           roda_class.opts[:host_routing_hash][host] ||
             scope._host_routing_default(host) ||
