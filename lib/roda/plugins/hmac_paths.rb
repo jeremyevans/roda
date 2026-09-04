@@ -346,43 +346,41 @@ class Roda
 
             if submitted_hmac.bytesize == 64
               on String do |flags|
-                if flags.bytesize >= 1
-                  if flags.include?('n') ^ !scope.hmac_path_namespace(opts).nil?
-                    # Namespace required and not provided, or provided and not required.
-                    # Bail early to avoid unnecessary HMAC calculation.
-                    @remaining_path = orig_path
-                    return
-                  end
-
-                  if flags.include?('m')
-                    rpath = "#{env['REQUEST_METHOD'].to_s.upcase}:#{rpath}"
-                  end
-
-                  if flags.include?('p')
-                    rpath = "#{rpath}?#{env["QUERY_STRING"]}"
-                  end
-
-                  if hmac_path_valid?(mpath, rpath, submitted_hmac, opts)
-                    if flags.include?('t')
-                      on Integer do |int|
-                        if int >= Time.now.to_i
-                          always(&block)
-                        else
-                          # Return from method without matching
-                          @remaining_path = orig_path
-                          return
-                        end
-                      end
-                    else
-                      always(&block)
-                    end
-                  end
+                if flags.include?('n') ^ !scope.hmac_path_namespace(opts).nil?
+                  # Namespace required and not provided, or provided and not required.
+                  # Bail early to avoid unnecessary HMAC calculation.
+                  @remaining_path = orig_path
+                  return
                 end
 
-                # Return from method without matching
-                @remaining_path = orig_path
-                return
+                if flags.include?('m')
+                  rpath = "#{env['REQUEST_METHOD'].to_s.upcase}:#{rpath}"
+                end
+
+                if flags.include?('p')
+                  rpath = "#{rpath}?#{env["QUERY_STRING"]}"
+                end
+
+                if hmac_path_valid?(mpath, rpath, submitted_hmac, opts)
+                  if flags.include?('t')
+                    on Integer do |int|
+                      if int >= Time.now.to_i
+                        always(&block)
+                      else
+                        # Return from method without matching
+                        @remaining_path = orig_path
+                        return
+                      end
+                    end
+                  else
+                    always(&block)
+                  end
+                end
               end
+
+              # Return from method without matching
+              @remaining_path = orig_path
+              return
             end
 
             # Return from method without matching
