@@ -286,8 +286,8 @@ if RUBY_VERSION >= '2'
       b.must_equal ['bar2']
       h1[RodaResponseHeaders::SET_COOKIE].length.must_equal h2[RodaResponseHeaders::SET_COOKIE].length
       h1[RodaResponseHeaders::SET_COOKIE].wont_equal h2[RodaResponseHeaders::SET_COOKIE]
-      if !defined?(JRUBY_VERSION) || JRUBY_VERSION >= '9.2'
-      h1[RodaResponseHeaders::SET_COOKIE].length.wont_equal h3[RodaResponseHeaders::SET_COOKIE].length
+      if !defined?(JRUBY_VERSION) || JRUBY_VERSION.to_r >= Rational('9.2')
+        h1[RodaResponseHeaders::SET_COOKIE].length.wont_equal h3[RodaResponseHeaders::SET_COOKIE].length
       end
 
       proc{@app.plugin(:sessions, :pad_size=>0)}.must_raise Roda::RodaError
