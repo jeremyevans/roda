@@ -27,7 +27,7 @@ class Roda
       #                         content type is JSON. For backwards compatibility,
       #                         uses the insecure /json/ if not provided. Warns
       #                         if this option is not provided. The recommended
-      #                         value to use is /\Aapplication\/json\b/ or
+      #                         value to use is /\Aapplication\/json\b/i or
       #                         /\Aapplication\/(?:vnd\.api\+)?json\b/i. Roda 4
       #                         will default to the latter.
       # :error_handler :: A proc to call if an exception is raised when
