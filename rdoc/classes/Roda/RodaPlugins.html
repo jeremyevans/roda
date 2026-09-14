@@ -332,6 +332,9 @@ Roda::RodaPlugins
 <a href="../../files/lib/roda/plugins/params_capturing_rb.html">lib/roda/plugins/params_capturing.rb</a>
 </li>
 <li class='other'>
+<a href="../../files/lib/roda/plugins/params_capturing_restore_rb.html">lib/roda/plugins/params_capturing_restore.rb</a>
+</li>
+<li class='other'>
 <a href="../../files/lib/roda/plugins/part_rb.html">lib/roda/plugins/part.rb</a>
 </li>
 <li class='other'>
@@ -621,6 +624,7 @@ Roda::RodaPlugins
 <li><a href="RodaPlugins/PadrinoRender.html">Roda::RodaPlugins::PadrinoRender</a></li>
 <li><a href="RodaPlugins/ParamMatchers.html">Roda::RodaPlugins::ParamMatchers</a></li>
 <li><a href="RodaPlugins/ParamsCapturing.html">Roda::RodaPlugins::ParamsCapturing</a></li>
+<li><a href="RodaPlugins/ParamsCapturingRestore.html">Roda::RodaPlugins::ParamsCapturingRestore</a></li>
 <li><a href="RodaPlugins/Part.html">Roda::RodaPlugins::Part</a></li>
 <li><a href="RodaPlugins/Partials.html">Roda::RodaPlugins::Partials</a></li>
 <li><a href="RodaPlugins/Pass.html">Roda::RodaPlugins::Pass</a></li>
@@ -720,11 +724,11 @@ Roda::RodaPlugins
 </a>
 <pre id='method-c-deprecate_constant-source'>   <span class="ruby-comment"># File lib/roda/plugins.rb</span>
 <span class="line-num">45</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">deprecate_constant</span>(<span class="ruby-identifier">mod</span>, <span class="ruby-identifier">name</span>)
-<span class="line-num">46</span>   <span class="ruby-comment"># :nocov:</span>
+<span class="line-num">46</span>   <span class="ruby-comment"># simplecov:disable</span>
 <span class="line-num">47</span>   <span class="ruby-keyword">if</span> <span class="ruby-constant">RUBY_VERSION</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-string">&#39;2.3&#39;</span>
 <span class="line-num">48</span>     <span class="ruby-identifier">mod</span>.<span class="ruby-identifier">deprecate_constant</span>(<span class="ruby-identifier">name</span>)
 <span class="line-num">49</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">50</span>   <span class="ruby-comment"># :nocov:</span>
+<span class="line-num">50</span>   <span class="ruby-comment"># simplecov:enable</span>
 <span class="line-num">51</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>

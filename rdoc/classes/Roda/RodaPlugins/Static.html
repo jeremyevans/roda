@@ -42,7 +42,7 @@ Roda::RodaPlugins::Static
 
 <p>Since the :urls option for Rack::Static is always required, the static plugin uses a separate option for it.</p>
 
-<p>Users of this plugin may want to consider using the public plugin instead.</p>
+<p>Users of this plugin may want to consider using the public plugin instead. As this only loads a middleware, it does not integrate with other <a href="../../Roda.html"><code>Roda</code></a> security features, such as the <a href="../../../files/lib/roda/plugins/content_security_policy_rb.html">content_security_policy</a> and <a href="../../../files/lib/roda/plugins/host_authorization_rb.html">host_authorization</a> plugins.</p>
 
 <p>Examples:</p>
 
@@ -88,12 +88,12 @@ Roda::RodaPlugins::Static
 [show source]
 </a>
 <pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/static.rb</span>
-<span class="line-num">43</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">paths</span>, <span class="ruby-identifier">opts</span>={})
-<span class="line-num">44</span>   <span class="ruby-identifier">opts</span> = <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">dup</span>
-<span class="line-num">45</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:urls</span>] = <span class="ruby-identifier">paths</span>
-<span class="line-num">46</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:root</span>] =  <span class="ruby-identifier">app</span>.<span class="ruby-identifier">expand_path</span>(<span class="ruby-identifier">opts</span>[<span class="ruby-value">:root</span>]<span class="ruby-operator">||</span><span class="ruby-string">&quot;public&quot;</span>)
-<span class="line-num">47</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">use</span> <span class="ruby-operator">::</span><span class="ruby-constant">Rack</span><span class="ruby-operator">::</span><span class="ruby-constant">Static</span>, <span class="ruby-identifier">opts</span>
-<span class="line-num">48</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">46</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">paths</span>, <span class="ruby-identifier">opts</span>={})
+<span class="line-num">47</span>   <span class="ruby-identifier">opts</span> = <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">dup</span>
+<span class="line-num">48</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:urls</span>] = <span class="ruby-identifier">paths</span>
+<span class="line-num">49</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:root</span>] =  <span class="ruby-identifier">app</span>.<span class="ruby-identifier">expand_path</span>(<span class="ruby-identifier">opts</span>[<span class="ruby-value">:root</span>]<span class="ruby-operator">||</span><span class="ruby-string">&quot;public&quot;</span>)
+<span class="line-num">50</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">use</span> <span class="ruby-operator">::</span><span class="ruby-constant">Rack</span><span class="ruby-operator">::</span><span class="ruby-constant">Static</span>, <span class="ruby-identifier">opts</span>
+<span class="line-num">51</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

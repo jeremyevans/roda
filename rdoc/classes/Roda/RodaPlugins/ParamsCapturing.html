@@ -79,6 +79,8 @@ Roda::RodaPlugins::ParamsCapturing
 <p>This plugin will also handle string matchers with placeholders if the <a href="../../../files/lib/roda/plugins/placeholder_string_matchers_rb.html">placeholder_string_matchers</a> plugin is loaded before this plugin.</p>
 
 <p>Also note that this plugin will not work correctly if you are using the <a href="../../../files/lib/roda/plugins/symbol_matchers_rb.html">symbol_matchers</a> plugin with custom symbol matching and are using symbols that capture multiple values or no values.</p>
+
+<p>If you are using the pass or break plugin along with this plugin, it is recommended you load the <a href="../../../files/lib/roda/plugins/params_capturing_restore_rb.html">params_capturing_restore</a> plugin, as that allows <code>r.pass</code> or <code>break</code> inside param capturing blocking to work correctly.</p>
 </div>
 <div id='context'>
 </div>

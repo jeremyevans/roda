@@ -56,7 +56,7 @@ Roda::RodaPlugins::RunAppendSlash::RequestMethods
 </div>
 <div class='description'>
 
-<p>Calls the given rack app. If the path matches the root of the app but does not contain a trailing slash, a trailing slash is appended to the path internally, or a redirect is issued when configured with <code>use_redirects: true</code>.</p>
+<p>Calls the given rack app. If the path matches the root of the app but does not contain a trailing slash, a trailing slash is appended to the path internally, or a redirect is issued when configured with <code>use_redirects: true</code>. If the path starts with <code>//</code>, the redirect approach will not be used.</p>
 
 </div>
 <div class='source'>
@@ -64,16 +64,16 @@ Roda::RodaPlugins::RunAppendSlash::RequestMethods
 [show source]
 </a>
 <pre id='method-i-run-source'>   <span class="ruby-comment"># File lib/roda/plugins/run_append_slash.rb</span>
-<span class="line-num">36</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">run</span>(<span class="ruby-operator">*</span>)
-<span class="line-num">37</span>   <span class="ruby-keyword">if</span> <span class="ruby-ivar">@remaining_path</span>.<span class="ruby-identifier">empty?</span>
-<span class="line-num">38</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">scope</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:run_append_slash_redirect</span>]
-<span class="line-num">39</span>       <span class="ruby-identifier">redirect</span>(<span class="ruby-node">&quot;#{path}/&quot;</span>)
-<span class="line-num">40</span>     <span class="ruby-keyword">else</span>
-<span class="line-num">41</span>       <span class="ruby-ivar">@remaining_path</span> <span class="ruby-operator">+=</span> <span class="ruby-string">&#39;/&#39;</span>
-<span class="line-num">42</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">43</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">44</span>   <span class="ruby-keyword">super</span>
-<span class="line-num">45</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">40</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">run</span>(<span class="ruby-operator">*</span>)
+<span class="line-num">41</span>   <span class="ruby-keyword">if</span> <span class="ruby-ivar">@remaining_path</span>.<span class="ruby-identifier">empty?</span>
+<span class="line-num">42</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">scope</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:run_append_slash_redirect</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span>(<span class="ruby-identifier">path</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">path</span>).<span class="ruby-identifier">start_with?</span>(<span class="ruby-string">&#39;//&#39;</span>)
+<span class="line-num">43</span>       <span class="ruby-identifier">redirect</span>(<span class="ruby-node">&quot;#{path}/&quot;</span>)
+<span class="line-num">44</span>     <span class="ruby-keyword">else</span>
+<span class="line-num">45</span>       <span class="ruby-ivar">@remaining_path</span> <span class="ruby-operator">+=</span> <span class="ruby-string">&#39;/&#39;</span>
+<span class="line-num">46</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">47</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">48</span>   <span class="ruby-keyword">super</span>
+<span class="line-num">49</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

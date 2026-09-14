@@ -61,6 +61,8 @@ Roda::RodaPlugins::PathMatchers
   <span class="ruby-comment"># Does not match bar.foo</span>
 <span class="ruby-keyword">end</span>
 </pre>
+
+<p>Note that all of these matchers treat a given string as regexp source, so if you are including regexp metacharacters but want a literal string match, use <code>Regexp.escape</code>.</p>
 </div>
 <div id='context'>
 </div>

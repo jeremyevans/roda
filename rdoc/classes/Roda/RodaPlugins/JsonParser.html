@@ -83,7 +83,9 @@ Roda::RodaPlugins::JsonParser
 <div class='description'>
 
 <p>Handle options for the <a href="../../../files/lib/roda/plugins/json_parser_rb.html">json_parser</a> plugin:</p>
-<table class="rdoc-list note-list"><tbody><tr><td class='label'>:error_handler </td><td>
+<table class="rdoc-list note-list"><tbody><tr><td class='label'>:content_type_regexp </td><td>
+<p>A regexp used to determine if the request’s content type is JSON. For backwards compatibility, uses the insecure /json/ if not provided. Warns if this option is not provided. The recommended value to use is /Aapplication/jsonb/i or /Aapplication/(?:vnd.api+)?jsonb/i. <a href="../../Roda.html"><code>Roda</code></a> 4 will default to the latter.</p>
+</td></tr><tr><td class='label'>:error_handler </td><td>
 <p>A proc to call if an exception is raised when parsing a JSON request body.  The proc is called with the request object, and should probably call halt on the request or raise an exception.</p>
 </td></tr><tr><td class='label'>:parser </td><td>
 <p>The parser to use for parsing incoming json.  Should be an object that responds to +call(str)+ and returns the parsed data.  The default is to call JSON.parse.</p>
@@ -99,20 +101,27 @@ Roda::RodaPlugins::JsonParser
 [show source]
 </a>
 <pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/json_parser.rb</span>
-<span class="line-num">36</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
-<span class="line-num">37</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_parser_error_handler</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:error_handler</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_parser_error_handler</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">DEFAULT_ERROR_HANDLER</span>
-<span class="line-num">38</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_parser_parser</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:parser</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_parser_parser</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_parser</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">method</span>(<span class="ruby-value">:parse</span>)
-<span class="line-num">39</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_parser_include_request</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:include_request</span>] <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:include_request</span>)
-<span class="line-num">40</span> 
-<span class="line-num">41</span>   <span class="ruby-keyword">case</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:wrap</span>]
-<span class="line-num">42</span>   <span class="ruby-keyword">when</span> <span class="ruby-value">:unless_hash</span>, <span class="ruby-value">:always</span>
-<span class="line-num">43</span>     <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_parser_wrap</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:wrap</span>]
-<span class="line-num">44</span>   <span class="ruby-keyword">when</span> <span class="ruby-keyword">nil</span>
-<span class="line-num">45</span>     <span class="ruby-comment"># Nothing</span>
-<span class="line-num">46</span>   <span class="ruby-keyword">else</span>
-<span class="line-num">47</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-node">&quot;unsupported option value for json_parser plugin :wrap option: #{opts[:wrap].inspect} (should be :unless_hash or :always)&quot;</span>
-<span class="line-num">48</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">49</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">48</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
+<span class="line-num">49</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_parser_error_handler</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:error_handler</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_parser_error_handler</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">DEFAULT_ERROR_HANDLER</span>
+<span class="line-num">50</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_parser_parser</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:parser</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_parser_parser</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_parser</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">method</span>(<span class="ruby-value">:parse</span>)
+<span class="line-num">51</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_parser_include_request</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:include_request</span>] <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:include_request</span>)
+<span class="line-num">52</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_parser_content_type_regexp</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:content_type_regexp</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_parser_content_type_regexp</span>]
+<span class="line-num">53</span> 
+<span class="line-num">54</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_parser_content_type_regexp</span>]
+<span class="line-num">55</span>     <span class="ruby-comment"># RODA4: Switch to /\Aapplication\/(?:vnd\.api\+)?json\b/i by default</span>
+<span class="line-num">56</span>     <span class="ruby-constant">RodaPlugins</span>.<span class="ruby-identifier">warn</span>(<span class="ruby-string">&#39;:content_type_regexp option not provided to json_parser plugin, using /json/ for backwards compatibility, which may be insecure, using /\Aapplication\/json\b/i or /\Aapplication\/(?:vnd\.api\+)?json\b/i is recommended&#39;</span>)
+<span class="line-num">57</span>     <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_parser_content_type_regexp</span>] = <span class="ruby-regexp">/json/</span>
+<span class="line-num">58</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">59</span> 
+<span class="line-num">60</span>   <span class="ruby-keyword">case</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:wrap</span>]
+<span class="line-num">61</span>   <span class="ruby-keyword">when</span> <span class="ruby-value">:unless_hash</span>, <span class="ruby-value">:always</span>
+<span class="line-num">62</span>     <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:json_parser_wrap</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:wrap</span>]
+<span class="line-num">63</span>   <span class="ruby-keyword">when</span> <span class="ruby-keyword">nil</span>
+<span class="line-num">64</span>     <span class="ruby-comment"># Nothing</span>
+<span class="line-num">65</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">66</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-node">&quot;unsupported option value for json_parser plugin :wrap option: #{opts[:wrap].inspect} (should be :unless_hash or :always)&quot;</span>
+<span class="line-num">67</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">68</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

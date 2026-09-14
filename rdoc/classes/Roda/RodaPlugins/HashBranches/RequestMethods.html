@@ -72,15 +72,19 @@ Roda::RodaPlugins::HashBranches::RequestMethods
 <span class="line-num">128</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">routes</span> = <span class="ruby-identifier">roda_class</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:hash_branches</span>][<span class="ruby-identifier">namespace</span>]
 <span class="line-num">129</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">segment_end</span> = <span class="ruby-identifier">rp</span>.<span class="ruby-identifier">index</span>(<span class="ruby-string">&#39;/&#39;</span>, <span class="ruby-value">1</span>)
 <span class="line-num">130</span>       <span class="ruby-keyword">if</span> <span class="ruby-identifier">meth</span> = <span class="ruby-identifier">routes</span>[<span class="ruby-identifier">rp</span>[<span class="ruby-value">0</span>, <span class="ruby-identifier">segment_end</span>]]
-<span class="line-num">131</span>         <span class="ruby-ivar">@remaining_path</span> = <span class="ruby-identifier">rp</span>[<span class="ruby-identifier">segment_end</span>, <span class="ruby-value">100000000</span>]
-<span class="line-num">132</span>         <span class="ruby-identifier">always</span>{<span class="ruby-identifier">scope</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">meth</span>, <span class="ruby-keyword">self</span>)}
-<span class="line-num">133</span>       <span class="ruby-keyword">end</span>
-<span class="line-num">134</span>     <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">meth</span> = <span class="ruby-identifier">routes</span>[<span class="ruby-identifier">rp</span>]
-<span class="line-num">135</span>       <span class="ruby-ivar">@remaining_path</span> = <span class="ruby-string">&#39;&#39;</span>
-<span class="line-num">136</span>       <span class="ruby-identifier">always</span>{<span class="ruby-identifier">scope</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">meth</span>, <span class="ruby-keyword">self</span>)}
-<span class="line-num">137</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">138</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">139</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">131</span>         <span class="ruby-identifier">always</span> <span class="ruby-keyword">do</span>
+<span class="line-num">132</span>           <span class="ruby-ivar">@remaining_path</span> = <span class="ruby-identifier">rp</span>[<span class="ruby-identifier">segment_end</span>, <span class="ruby-value">100000000</span>]
+<span class="line-num">133</span>           <span class="ruby-identifier">scope</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">meth</span>, <span class="ruby-keyword">self</span>)
+<span class="line-num">134</span>         <span class="ruby-keyword">end</span>
+<span class="line-num">135</span>       <span class="ruby-keyword">end</span>
+<span class="line-num">136</span>     <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">meth</span> = <span class="ruby-identifier">routes</span>[<span class="ruby-identifier">rp</span>]
+<span class="line-num">137</span>       <span class="ruby-identifier">always</span> <span class="ruby-keyword">do</span>
+<span class="line-num">138</span>         <span class="ruby-ivar">@remaining_path</span> = <span class="ruby-string">&#39;&#39;</span>
+<span class="line-num">139</span>         <span class="ruby-identifier">scope</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">meth</span>, <span class="ruby-keyword">self</span>)
+<span class="line-num">140</span>       <span class="ruby-keyword">end</span>
+<span class="line-num">141</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">142</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">143</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

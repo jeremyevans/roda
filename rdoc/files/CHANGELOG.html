@@ -33,6 +33,57 @@ CHANGELOG
 <div id='content'>
 <div id='text'>
 <div id='description'>
+<h3 id="label-3.108.0+-282026-09-14-29"><a href="#label-3.108.0+-282026-09-14-29"><a href="doc/release_notes/3_108_0_txt.html">3.108.0</a> (2026-09-14)</a></h3>
+<ul><li>
+<p>Make <a href="lib/roda/plugins/invalid_request_body_rb.html">invalid_request_body</a> r.POST exception handling reraise RodaErrors (jeremyevans)</p>
+</li><li>
+<p>Make <a href="lib/roda/plugins/host_routing_rb.html">host_routing</a> plugin downcase hostnames before storage and comparison (jeremyevans)</p>
+</li><li>
+<p>Make :extension hash matcher in <a href="lib/roda/plugins/path_matchers_rb.html">path_matchers</a> plugin require . before extension (jeremyevans)</p>
+</li><li>
+<p>Add <a href="lib/roda/plugins/params_capturing_restore_rb.html">params_capturing_restore</a> plugin to have <a href="lib/roda/plugins/params_capturing_rb.html">params_capturing</a> work with pass and break plugins (jeremyevans)</p>
+</li><li>
+<p>Always set Vary response header if considering Accept request header in <a href="lib/roda/plugins/type_routing_rb.html">type_routing</a> plugin (jeremyevans)</p>
+</li><li>
+<p>Have r.last_modified in caching plugin check If-Unmodified-Since before If-None-Match and If-Modified-Since (jeremyevans)</p>
+</li><li>
+<p>Do not have r.on_segment in <a href="lib/roda/plugins/optimized_segment_matchers_rb.html">optimized_segment_matchers</a> match empty segment (jeremyevans)</p>
+</li><li>
+<p>Do not have r.on with String class matcher and default symbol matcher match empty segment (jeremyevans)</p>
+</li><li>
+<p>Make pass plugin work with <a href="lib/roda/plugins/hash_branches_rb.html">hash_branches</a> and <a href="lib/roda/plugins/hash_paths_rb.html">hash_paths</a> plugins (jeremyevans)</p>
+</li><li>
+<p>Make <a href="lib/roda/plugins/params_capturing_rb.html">params_capturing</a> plugin override a provided parameter named captures (jeremyevans)</p>
+</li><li>
+<p>Deprecate the :clear_session csrf_failure option value in the <a href="lib/roda/plugins/route_csrf_rb.html">route_csrf</a> and <a href="lib/roda/plugins/sec_fetch_site_csrf_rb.html">sec_fetch_site_csrf</a> plugins (jeremyevans)</p>
+</li><li>
+<p>Make segment matching with convertor not consume remaining_path if convertor returns false/nil (jeremyevans)</p>
+</li><li>
+<p>Make etag in the caching plugin return a 412 response if an If-Match header is submitted and weak option is used (jeremyevans)</p>
+</li><li>
+<p>Make r.redirect without arguments use / if path starts with // (jeremyevans)</p>
+</li><li>
+<p>Make <a href="lib/roda/plugins/run_append_slash_rb.html">run_append_slash</a> with :use_redirects option not redirect if path starts with // (jeremyevans)</p>
+</li><li>
+<p>Make hash matcher reset remaining path and captures on failure (jeremyevans)</p>
+</li><li>
+<p>Make pass and break plugins work with optimized_{string,segment}_matchers plugins (jeremyevans)</p>
+</li><li>
+<p>Make render method options have greater priority than options set via set_view_options (jeremyevans)</p>
+</li><li>
+<p>Do not allow rendering templates outside an allowed_paths directory but having an allowed path as a prefix (jeremyevans)</p>
+</li><li>
+<p>Do not add the :views directory as an allowed path if it isn’t a directory (jeremyevans)</p>
+</li><li>
+<p>Support <a href="lib/roda/plugins/json_parser_rb.html">json_parser</a> :content_type_regexp plugin option, warn if not provided (jeremyevans)</p>
+</li><li>
+<p>Add r.query to <a href="lib/roda/plugins/all_verbs_rb.html">all_verbs</a> plugin on Rack 3.3+ (jeremyevans)</p>
+</li><li>
+<p>Support :exempt_request_methods option for <a href="lib/roda/plugins/route_csrf_rb.html">route_csrf</a> plugin, to use an allow list approach (jeremyevans)</p>
+</li><li>
+<p>Add csrf_request_method to <a href="lib/roda/plugins/route_csrf_rb.html">route_csrf</a> plugin, to handle case where REQUEST_METHOD has been modified (jeremyevans)</p>
+</li></ul>
+
 <h3 id="label-3.107.0+-282026-08-13-29"><a href="#label-3.107.0+-282026-08-13-29"><a href="doc/release_notes/3_107_0_txt.html">3.107.0</a> (2026-08-13)</a></h3>
 <ul><li>
 <p>Deprecate upgrading rack sessions and compressed sessions in the sessions plugin (jeremyevans)</p>

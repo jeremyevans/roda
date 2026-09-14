@@ -68,7 +68,7 @@ Roda::RodaPlugins::Caching::RequestMethods
 
 <p>When the current request includes an If-None-Match header with a matching etag, immediately returns a response with a 304 or 412 status, depending on the request method.</p>
 
-<p>When the current request includes an If-Match header with a etag that doesn’t match, immediately returns a response with a 412 status.</p>
+<p>When the current request includes an If-Match header with an etag that doesn’t match, or where the :weak option was used, immediately returns a response with a 412 status.</p>
 
 </div>
 <div class='source'>
@@ -93,7 +93,7 @@ Roda::RodaPlugins::Caching::RequestMethods
 <span class="line-num">132</span>     <span class="ruby-keyword">end</span>
 <span class="line-num">133</span> 
 <span class="line-num">134</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">ifm</span> = <span class="ruby-identifier">e</span>[<span class="ruby-string">&#39;HTTP_IF_MATCH&#39;</span>]
-<span class="line-num">135</span>       <span class="ruby-keyword">unless</span> <span class="ruby-identifier">etag_matches?</span>(<span class="ruby-identifier">ifm</span>, <span class="ruby-identifier">etag</span>, <span class="ruby-identifier">new_resource</span>)
+<span class="line-num">135</span>       <span class="ruby-keyword">if</span> <span class="ruby-identifier">weak</span> <span class="ruby-operator">||</span> <span class="ruby-operator">!</span><span class="ruby-identifier">etag_matches?</span>(<span class="ruby-identifier">ifm</span>, <span class="ruby-identifier">etag</span>, <span class="ruby-identifier">new_resource</span>)
 <span class="line-num">136</span>         <span class="ruby-identifier">res</span>.<span class="ruby-identifier">status</span> = <span class="ruby-value">412</span>
 <span class="line-num">137</span>         <span class="ruby-identifier">halt</span>
 <span class="line-num">138</span>       <span class="ruby-keyword">end</span>
@@ -112,9 +112,9 @@ Roda::RodaPlugins::Caching::RequestMethods
 
 <p>Set the last modified time of the resource using the Last-Modified header. The <code>time</code> argument should be a Time instance.</p>
 
-<p>If the current request includes an If-Modified-Since header that is equal or later than the time specified, immediately returns a response with a 304 status.</p>
-
 <p>If the current request includes an If-Unmodified-Since header that is before than the time specified, immediately returns a response with a 412 status.</p>
+
+<p>If the current request does not include an If-None-Match header and includes an If-Modified-Since header that is equal or later than the time specified, immediately returns a response with a 304 status.</p>
 
 </div>
 <div class='source'>
@@ -127,19 +127,18 @@ Roda::RodaPlugins::Caching::RequestMethods
 <span class="line-num"> 87</span>   <span class="ruby-identifier">res</span> = <span class="ruby-identifier">response</span>
 <span class="line-num"> 88</span>   <span class="ruby-identifier">e</span> = <span class="ruby-identifier">env</span>
 <span class="line-num"> 89</span>   <span class="ruby-identifier">res</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">LAST_MODIFIED</span>] = <span class="ruby-identifier">time</span>.<span class="ruby-identifier">httpdate</span>
-<span class="line-num"> 90</span>   <span class="ruby-keyword">return</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">e</span>[<span class="ruby-string">&#39;HTTP_IF_NONE_MATCH&#39;</span>]
-<span class="line-num"> 91</span>   <span class="ruby-identifier">status</span> = <span class="ruby-identifier">res</span>.<span class="ruby-identifier">status</span>
-<span class="line-num"> 92</span> 
-<span class="line-num"> 93</span>   <span class="ruby-keyword">if</span> (<span class="ruby-operator">!</span><span class="ruby-identifier">status</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">status</span> <span class="ruby-operator">==</span> <span class="ruby-value">200</span>) <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">ims</span> = <span class="ruby-identifier">time_from_header</span>(<span class="ruby-identifier">e</span>[<span class="ruby-string">&#39;HTTP_IF_MODIFIED_SINCE&#39;</span>])) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">ims</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-identifier">time</span>.<span class="ruby-identifier">to_i</span>
-<span class="line-num"> 94</span>     <span class="ruby-identifier">res</span>.<span class="ruby-identifier">status</span> = <span class="ruby-value">304</span>
-<span class="line-num"> 95</span>     <span class="ruby-identifier">halt</span>
-<span class="line-num"> 96</span>   <span class="ruby-keyword">end</span>
-<span class="line-num"> 97</span> 
-<span class="line-num"> 98</span>   <span class="ruby-keyword">if</span> (<span class="ruby-operator">!</span><span class="ruby-identifier">status</span> <span class="ruby-operator">||</span> (<span class="ruby-identifier">status</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-value">200</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">status</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">300</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">status</span> <span class="ruby-operator">==</span> <span class="ruby-value">412</span>) <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">ius</span> = <span class="ruby-identifier">time_from_header</span>(<span class="ruby-identifier">e</span>[<span class="ruby-string">&#39;HTTP_IF_UNMODIFIED_SINCE&#39;</span>])) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">ius</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">time</span>.<span class="ruby-identifier">to_i</span>
-<span class="line-num"> 99</span>     <span class="ruby-identifier">res</span>.<span class="ruby-identifier">status</span> = <span class="ruby-value">412</span>
-<span class="line-num">100</span>     <span class="ruby-identifier">halt</span>
-<span class="line-num">101</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">102</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num"> 90</span>   <span class="ruby-identifier">status</span> = <span class="ruby-identifier">res</span>.<span class="ruby-identifier">status</span>
+<span class="line-num"> 91</span> 
+<span class="line-num"> 92</span>   <span class="ruby-keyword">if</span> (<span class="ruby-operator">!</span><span class="ruby-identifier">status</span> <span class="ruby-operator">||</span> (<span class="ruby-identifier">status</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-value">200</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">status</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">300</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">status</span> <span class="ruby-operator">==</span> <span class="ruby-value">412</span>) <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">ius</span> = <span class="ruby-identifier">time_from_header</span>(<span class="ruby-identifier">e</span>[<span class="ruby-string">&#39;HTTP_IF_UNMODIFIED_SINCE&#39;</span>])) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">ius</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">time</span>.<span class="ruby-identifier">to_i</span>
+<span class="line-num"> 93</span>     <span class="ruby-identifier">res</span>.<span class="ruby-identifier">status</span> = <span class="ruby-value">412</span>
+<span class="line-num"> 94</span>     <span class="ruby-identifier">halt</span>
+<span class="line-num"> 95</span>   <span class="ruby-keyword">end</span>
+<span class="line-num"> 96</span> 
+<span class="line-num"> 97</span>   <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">e</span>[<span class="ruby-string">&#39;HTTP_IF_NONE_MATCH&#39;</span>] <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-operator">!</span><span class="ruby-identifier">status</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">status</span> <span class="ruby-operator">==</span> <span class="ruby-value">200</span>) <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">ims</span> = <span class="ruby-identifier">time_from_header</span>(<span class="ruby-identifier">e</span>[<span class="ruby-string">&#39;HTTP_IF_MODIFIED_SINCE&#39;</span>])) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">ims</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-identifier">time</span>.<span class="ruby-identifier">to_i</span>
+<span class="line-num"> 98</span>     <span class="ruby-identifier">res</span>.<span class="ruby-identifier">status</span> = <span class="ruby-value">304</span>
+<span class="line-num"> 99</span>     <span class="ruby-identifier">halt</span>
+<span class="line-num">100</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">101</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

@@ -94,11 +94,11 @@ Roda::RodaPlugins::HashPublic
 <td class='context-item-value'>begin
 require 'openssl'
 ::OpenSSL::Digest
-# :nocov:
+# simplecov:disable
 rescue LoadError
 require 'digest/sha2'
 ::Digest
-# :nocov:
+# simplecov:enable
 end</td>
 <td>&nbsp;</td>
 <td class='context-item-desc'></td>

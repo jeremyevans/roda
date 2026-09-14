@@ -66,9 +66,11 @@ Roda::RodaPlugins::InvalidRequestBody::RequestMethods
 <pre id='method-i-POST-source'>   <span class="ruby-comment"># File lib/roda/plugins/invalid_request_body.rb</span>
 <span class="line-num">73</span> <span class="ruby-keyword">def</span> <span class="ruby-constant">POST</span>
 <span class="line-num">74</span>   <span class="ruby-keyword">super</span>
-<span class="line-num">75</span> <span class="ruby-keyword">rescue</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier ruby-title">e</span> 
-<span class="line-num">76</span>   <span class="ruby-identifier">handle_invalid_request_body</span>(<span class="ruby-identifier">e</span>)
-<span class="line-num">77</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">75</span> <span class="ruby-keyword">rescue</span> <span class="ruby-constant">RodaError</span>
+<span class="line-num">76</span>   <span class="ruby-identifier ruby-title">raise</span>
+<span class="line-num">77</span> <span class="ruby-keyword">rescue</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">e</span> 
+<span class="line-num">78</span>   <span class="ruby-identifier">handle_invalid_request_body</span>(<span class="ruby-identifier">e</span>)
+<span class="line-num">79</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

@@ -72,7 +72,7 @@ Roda::RodaPlugins::SecFetchSiteCsrf
 </td></tr><tr><td class='label'>:empty_403 </td><td>
 <p>return a blank 403 page</p>
 </td></tr><tr><td class='label'>:clear_session </td><td>
-<p>clear the current session</p>
+<p>clear the current session (deprecated)</p>
 </td></tr></tbody></table>
 </td></tr></tbody></table>
 
@@ -143,14 +143,16 @@ Roda::RodaPlugins::SecFetchSiteCsrf
 <span class="line-num">83</span>   <span class="ruby-keyword">end</span>
 <span class="line-num">84</span> 
 <span class="line-num">85</span>   <span class="ruby-keyword">case</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:csrf_failure</span>]
-<span class="line-num">86</span>   <span class="ruby-keyword">when</span> <span class="ruby-value">:raise</span>, <span class="ruby-value">:empty_403</span>, <span class="ruby-value">:clear_session</span>, <span class="ruby-value">:method</span>
+<span class="line-num">86</span>   <span class="ruby-keyword">when</span> <span class="ruby-value">:raise</span>, <span class="ruby-value">:empty_403</span>, <span class="ruby-value">:method</span>
 <span class="line-num">87</span>     <span class="ruby-comment"># nothing</span>
-<span class="line-num">88</span>   <span class="ruby-keyword">else</span>
-<span class="line-num">89</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-node">&quot;Unsupported :csrf_failure plugin option: #{options[:csrf_failure].inspect}&quot;</span>
-<span class="line-num">90</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">91</span> 
-<span class="line-num">92</span>   <span class="ruby-identifier">options</span>.<span class="ruby-identifier">freeze</span>
-<span class="line-num">93</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">88</span>   <span class="ruby-keyword">when</span> <span class="ruby-value">:clear_session</span>
+<span class="line-num">89</span>     <span class="ruby-constant">RodaPlugins</span>.<span class="ruby-identifier">warn</span> <span class="ruby-string">&quot;Passing :clear_session as the :csrf_failure option to the sec_fetch_site_csrf plugin is deprecated&quot;</span>
+<span class="line-num">90</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">91</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-node">&quot;Unsupported :csrf_failure plugin option: #{options[:csrf_failure].inspect}&quot;</span>
+<span class="line-num">92</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">93</span> 
+<span class="line-num">94</span>   <span class="ruby-identifier">options</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">95</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

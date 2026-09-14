@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+<head>
+<title>3.108.0.txt</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<link href='../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<script type='text/javascript'>
+  function popupCode(url) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+  
+  function toggleCode(id) {
+    var code = document.getElementById(id)
+  
+    code.style.display = code.style.display != 'block' ? 'block' : 'none'
+    return true
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+</script>
+</head>
+<body class='page'>
+<div class='file' id='wrapper'>
+<div class='header'>
+<h1 class='name'>3.108.0.txt
+</h1>
+<div class='paths'>
+doc/release_notes/3.108.0.txt
+</div>
+</div>
+<div id='content'>
+<div id='text'>
+<div id='description'>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
+<ul><li>
+<p>The <a href="../../lib/roda/plugins/json_parser_rb.html">json_parser</a> plugin now supports a :content_type_regexp plugin option, and warns if the option is not provided. Previously, the plugin would check for “json” anywhere in the content-type header. This allowed including json in a type parameter, instead of the content type itself. It is recommended to use /Aapplication/jsonb/i or /Aapplication/(?:vnd.api+)?jsonb/i as the value. <a href="../../../classes/Roda.html"><code>Roda</code></a> 4 will default to the latter.</p>
+</li><li>
+<p>The <a href="../../lib/roda/plugins/all_verbs_rb.html">all_verbs</a> plugin now supports r.query for handling requests with the QUERY request method, if Rack::Request#query? is supported (currently requires Rack main branch, will be released in Rack 3.3).</p>
+</li><li>
+<p>The <a href="../../lib/roda/plugins/route_csrf_rb.html">route_csrf</a> plugin now supports a csrf_request_method method, which should return the actual request method.  If you are using middleware that modifies REQUEST_METHOD (such as Rack::MethodOverride), you should override csrf_request_method to return the actual request method.</p>
+</li><li>
+<p>The <a href="../../lib/roda/plugins/route_csrf_rb.html">route_csrf</a> plugin now supports an :exempt_request_methods plugin option, which changes the plugin from using a block list approach for request methods to an allow list. If the option is given, it will do a CSRF check if the request method is not one of the given methods.  In <a href="../../../classes/Roda.html"><code>Roda</code></a> 4, the default if neither the :exempt_request_methods nor the :check_request_methods options are given will be to use :exempt_request_methods with GET, HEAD, OPTIONS, and QUERY.</p>
+</li><li>
+<p>A <a href="../../lib/roda/plugins/params_capturing_restore_rb.html">params_capturing_restore</a> plugin has been added, which allows the <a href="../../lib/roda/plugins/params_capturing_rb.html">params_capturing</a> plugin to work with the pass and break plugins, allowing restoration of captured parameters when using r.pass and break to exit routing blocks that captured parameters.</p>
+</li></ul>
+
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
+<ul><li>
+<p>The render plugin :allowed_paths option no longer allows prefix matches if the path given is a directory in the file system or the same as the :views option. Previously, if one of the :allowed_paths was “foo”, and foo was a valid directory, attempting to render a template under “foobar” would be allowed. Prefix matches for paths that are not directories are still supported until <a href="../../../classes/Roda.html"><code>Roda</code></a> 4, but they will result in deprecation warnings.</p>
+</li><li>
+<p>r.redirect without arguments will now redirect to / if the request path starts with //, to avoid redirecting to a protocol-relative URL instead of a path.  For similar reasons, the <a href="../../lib/roda/plugins/run_append_slash_rb.html">run_append_slash</a> plugin, when used with the :use_redirects option, will not redirect for a missing trailing slash if the path starts with //.</p>
+</li><li>
+<p>The String class matcher and default symbol matcher no longer match an empty segment. This is how <a href="../../../classes/Roda.html"><code>Roda</code></a> historically worked and how it was already documented to work, but an optimization in 3.34 to remove conditionals thought unnecessary removed the check. The r.on_segment method in the <a href="../../lib/roda/plugins/optimized_segment_matchers_rb.html">optimized_segment_matchers</a> plugin had the same issue and was also fixed.</p>
+</li><li>
+<p>The segment matcher optimization added in 3.105 no longer updates the remaining path if the conversion method returns nil/false (signaling no match). This affected the symbol_matcher method (in the <a href="../../lib/roda/plugins/symbol_matchers_rb.html">symbol_matchers</a> plugin) when using the :segment option and a conversion block, as well as the <a href="../../lib/roda/plugins/Integer_matcher_max_rb.html">Integer_matcher_max</a> plugin.</p>
+</li><li>
+<p>The <a href="../../lib/roda/plugins/view_options_rb.html">view_options</a> plugin’s set_view_options method now handles option precedence as specified by the plugin documentation (from highest to lowest):</p>
+<ul><li>
+<p>render method options</p>
+</li><li>
+<p>set_view_options method options</p>
+</li><li>
+<p>render plugin options</p>
+</li></ul>
+
+<p>Previously, set_view_options method options had higher precedence than render method options.</p>
+</li><li>
+<p>The hash matcher now resets the remaining path and captures on failure.  This can fix issues when it is used as a non-final element of an array matcher.</p>
+</li><li>
+<p>The <a href="../../lib/roda/plugins/host_routing_rb.html">host_routing</a> plugin now downcases hostnames before storage and comparison, as hostnames should be considered case insensitive.</p>
+</li><li>
+<p>The :extension hash matcher in the <a href="../../lib/roda/plugins/path_matchers_rb.html">path_matchers</a> plugin now requires “.” before the extension. The method treats the extension given as regexp source, and the “.” was previously treated as regexp source as well, matching any character.</p>
+</li><li>
+<p>The <a href="../../lib/roda/plugins/invalid_request_body_rb.html">invalid_request_body</a> r.POST exception handling now reraises RodaErrors. This allows usage with the <a href="../../lib/roda/plugins/disallow_file_uploads_rb.html">disallow_file_uploads</a> plugin to raise the expected exception.</p>
+</li><li>
+<p>The etag method in the caching plugin now returns a 412 response if an If-Match header is present and a weak etag is requested, as required by RFC 9110.</p>
+</li><li>
+<p>The r.last_modified method in the caching plugin now checks the If-Unmodified-Since header before the If-None-Match and If-Modified-Since headers, as required by RFC 9110.</p>
+</li><li>
+<p>The <a href="../../lib/roda/plugins/type_routing_rb.html">type_routing</a> plugin now always sets a Vary response header if it considers the Accept request header when determining the requested type. This can prevent cache poisoning if making a request where the Accept header does not include any of the supported types.</p>
+</li><li>
+<p>The <a href="../../lib/roda/plugins/params_capturing_rb.html">params_capturing</a> plugin now overrides a provided parameter named captures, as the plugin was already documented to do.</p>
+</li><li>
+<p>The pass and break plugins now work with the <a href="../../lib/roda/plugins/optimized_string_matchers_rb.html">optimized_string_matchers</a> and <a href="../../lib/roda/plugins/optimized_segment_matchers_rb.html">optimized_segment_matchers</a> plugins.</p>
+</li><li>
+<p>The pass plugin now works with the <a href="../../lib/roda/plugins/hash_branches_rb.html">hash_branches</a> and <a href="../../lib/roda/plugins/hash_paths_rb.html">hash_paths</a> plugins, allowing the use of r.pass inside hash_branch and hash_path blocks to continue the routing after the call to r.hash_branches or r.hash_paths.</p>
+</li></ul>
+
+<h1 id="label-Backwards+Compatibility"><a href="#label-Backwards+Compatibility">Backwards Compatibility</a></h1>
+<ul><li>
+<p>The :clear_session csrf_failure option value in the <a href="../../lib/roda/plugins/route_csrf_rb.html">route_csrf</a> and <a href="../../lib/roda/plugins/sec_fetch_site_csrf_rb.html">sec_fetch_site_csrf</a> plugins is now deprecated and will be removed in <a href="../../../classes/Roda.html"><code>Roda</code></a> 4.</p>
+</li><li>
+<p>This is the last version of <a href="../../../classes/Roda.html"><code>Roda</code></a> to support Ruby 1.9.  As announced in the <a href="3_107_0_txt.html">3.107.0</a> release notes, as part of <a href="../../../classes/Roda.html"><code>Roda</code></a> 4 preparation, Ruby 1.9 support will be dropped in <a href="../../../classes/Roda.html"><code>Roda</code></a> 3.109.</p>
+</li></ul>
+
+<h1 id="label-Acknowledgements"><a href="#label-Acknowledgements">Acknowledgements</a></h1>
+<ul><li>
+<p>Thank you to Joshua Rogers (<a target="_top" href="https://joshua.hu">joshua.hu</a>) of AISLE Research (<a target="_top" href="https://aisle.com">aisle.com</a>) for reporting the vast majority of the issues fixed in this release.</p>
+</li></ul>
+</div>
+<div id='context'>
+</div>
+
+</div>
+</div>
+
+<div id='footer-push'></div>
+</div>
+<div id='footer'>
+<a href="https://github.com/jeremyevans/hanna"><strong>Hanna</strong> RDoc template</a>
+</div>
+</body>
+</html>

@@ -66,9 +66,9 @@ Roda::RodaPlugins::PathMatchers::RequestMethods
 [show source]
 </a>
 <pre id='method-i-match_extension-source'>   <span class="ruby-comment"># File lib/roda/plugins/path_matchers.rb</span>
-<span class="line-num">36</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">match_extension</span>(<span class="ruby-identifier">ext</span>)
-<span class="line-num">37</span>   <span class="ruby-identifier">match_suffix</span>(<span class="ruby-node">&quot;.#{ext}&quot;</span>)
-<span class="line-num">38</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">40</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">match_extension</span>(<span class="ruby-identifier">ext</span>)
+<span class="line-num">41</span>   <span class="ruby-identifier">match_suffix</span>(<span class="ruby-node">&quot;\\.#{ext}&quot;</span>)
+<span class="line-num">42</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-match_prefix'>
@@ -87,9 +87,9 @@ Roda::RodaPlugins::PathMatchers::RequestMethods
 [show source]
 </a>
 <pre id='method-i-match_prefix-source'>   <span class="ruby-comment"># File lib/roda/plugins/path_matchers.rb</span>
-<span class="line-num">41</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">match_prefix</span>(<span class="ruby-identifier">prefix</span>)
-<span class="line-num">42</span>   <span class="ruby-identifier">consume</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">cached_matcher</span>([<span class="ruby-value">:prefix</span>, <span class="ruby-identifier">prefix</span>]){<span class="ruby-regexp">/#{prefix}([^\\\/]+)/</span>})
-<span class="line-num">43</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">45</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">match_prefix</span>(<span class="ruby-identifier">prefix</span>)
+<span class="line-num">46</span>   <span class="ruby-identifier">consume</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">cached_matcher</span>([<span class="ruby-value">:prefix</span>, <span class="ruby-identifier">prefix</span>]){<span class="ruby-regexp">/#{prefix}([^\\\/]+)/</span>})
+<span class="line-num">47</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-match_suffix'>
@@ -108,9 +108,9 @@ Roda::RodaPlugins::PathMatchers::RequestMethods
 [show source]
 </a>
 <pre id='method-i-match_suffix-source'>   <span class="ruby-comment"># File lib/roda/plugins/path_matchers.rb</span>
-<span class="line-num">46</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">match_suffix</span>(<span class="ruby-identifier">suffix</span>)
-<span class="line-num">47</span>   <span class="ruby-identifier">consume</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">cached_matcher</span>([<span class="ruby-value">:suffix</span>, <span class="ruby-identifier">suffix</span>]){<span class="ruby-regexp">/([^\\\/]+)#{suffix}/</span>})
-<span class="line-num">48</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">50</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">match_suffix</span>(<span class="ruby-identifier">suffix</span>)
+<span class="line-num">51</span>   <span class="ruby-identifier">consume</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">cached_matcher</span>([<span class="ruby-value">:suffix</span>, <span class="ruby-identifier">suffix</span>]){<span class="ruby-regexp">/([^\\\/]+)#{suffix}/</span>})
+<span class="line-num">52</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>
