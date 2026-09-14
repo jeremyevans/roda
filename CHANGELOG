@@ -1,4 +1,4 @@
-=== master
+=== 3.108.0 (2026-09-14)
 
 * Make invalid_request_body r.POST exception handling reraise RodaErrors (jeremyevans)
 

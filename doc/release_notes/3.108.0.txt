@@ -1,0 +1,129 @@
+= New Features
+
+* The json_parser plugin now supports a :content_type_regexp plugin
+  option, and warns if the option is not provided. Previously, the
+  plugin would check for "json" anywhere in the content-type header.
+  This allowed including json in a type parameter, instead of the
+  content type itself. It is recommended to use
+  /\Aapplication\/json\b/i or /\Aapplication\/(?:vnd\.api\+)?json\b/i
+  as the value. Roda 4 will default to the latter.
+
+* The all_verbs plugin now supports r.query for handling requests
+  with the QUERY request method, if Rack::Request#query? is supported
+  (currently requires Rack main branch, will be released in Rack 3.3).
+
+* The route_csrf plugin now supports a csrf_request_method method,
+  which should return the actual request method.  If you are using
+  middleware that modifies REQUEST_METHOD (such as
+  Rack::MethodOverride), you should override csrf_request_method to
+  return the actual request method.
+
+* The route_csrf plugin now supports an :exempt_request_methods plugin
+  option, which changes the plugin from using a block list approach
+  for request methods to an allow list. If the option is given, it
+  will do a CSRF check if the request method is not one of the given
+  methods.  In Roda 4, the default if neither the
+  :exempt_request_methods nor the :check_request_methods options are
+  given will be to use :exempt_request_methods with GET, HEAD,
+  OPTIONS, and QUERY.
+
+* A params_capturing_restore plugin has been added, which allows the
+  params_capturing plugin to work with the pass and break plugins,
+  allowing restoration of captured parameters when using r.pass and
+  break to exit routing blocks that captured parameters.
+
+= Other Improvements
+
+* The render plugin :allowed_paths option no longer allows prefix
+  matches if the path given is a directory in the file system or
+  the same as the :views option. Previously, if one of the
+  :allowed_paths was "foo", and foo was a valid directory, attempting
+  to render a template under "foobar" would be allowed. Prefix matches
+  for paths that are not directories are still supported until Roda 4,
+  but they will result in deprecation warnings.
+
+* r.redirect without arguments will now redirect to / if the request
+  path starts with //, to avoid redirecting to a protocol-relative URL
+  instead of a path.  For similar reasons, the run_append_slash
+  plugin, when used with the :use_redirects option, will not
+  redirect for a missing trailing slash if the path starts with //.
+
+* The String class matcher and default symbol matcher no longer match
+  an empty segment. This is how Roda historically worked and how it
+  was already documented to work, but an optimization in 3.34 to
+  remove conditionals thought unnecessary removed the check. The
+  r.on_segment method in the optimized_segment_matchers plugin had the
+  same issue and was also fixed.
+
+* The segment matcher optimization added in 3.105 no longer updates
+  the remaining path if the conversion method returns nil/false
+  (signaling no match). This affected the symbol_matcher method
+  (in the symbol_matchers plugin) when using the :segment option and
+  a conversion block, as well as the Integer_matcher_max plugin.
+
+* The view_options plugin's set_view_options method now handles option
+  precedence as specified by the plugin documentation (from highest
+  to lowest):
+
+  * render method options
+  * set_view_options method options
+  * render plugin options
+
+  Previously, set_view_options method options had higher precedence
+  than render method options.
+
+* The hash matcher now resets the remaining path and captures on
+  failure.  This can fix issues when it is used as a non-final element
+  of an array matcher.
+
+* The host_routing plugin now downcases hostnames before storage and
+  comparison, as hostnames should be considered case insensitive.
+
+* The :extension hash matcher in the path_matchers plugin now requires
+  "." before the extension. The method treats the extension given as
+  regexp source, and the "." was previously treated as regexp source
+  as well, matching any character.
+
+* The invalid_request_body r.POST exception handling now reraises
+  RodaErrors. This allows usage with the disallow_file_uploads plugin
+  to raise the expected exception.
+
+* The etag method in the caching plugin now returns a 412 response if
+  an If-Match header is present and a weak etag is requested, as
+  required by RFC 9110.
+
+* The r.last_modified method in the caching plugin now checks the
+  If-Unmodified-Since header before the If-None-Match and
+  If-Modified-Since headers, as required by RFC 9110.
+
+* The type_routing plugin now always sets a Vary response header if it
+  considers the Accept request header when determining the requested
+  type. This can prevent cache poisoning if making a request where the
+  Accept header does not include any of the supported types.
+
+* The params_capturing plugin now overrides a provided parameter named
+  captures, as the plugin was already documented to do.
+
+* The pass and break plugins now work with the
+  optimized_string_matchers and optimized_segment_matchers plugins.
+
+* The pass plugin now works with the hash_branches and hash_paths
+  plugins, allowing the use of r.pass inside hash_branch and hash_path
+  blocks to continue the routing after the call to r.hash_branches or
+  r.hash_paths.
+
+= Backwards Compatibility
+
+* The :clear_session csrf_failure option value in the route_csrf and
+  sec_fetch_site_csrf plugins is now deprecated and will be removed
+  in Roda 4.
+
+* This is the last version of Roda to support Ruby 1.9.  As announced
+  in the 3.107.0 release notes, as part of Roda 4 preparation, Ruby
+  1.9 support will be dropped in Roda 3.109.
+
+= Acknowledgements
+
+* Thank you to Joshua Rogers (https://joshua.hu) of AISLE Research
+  (https://aisle.com) for reporting the vast majority of the issues
+  fixed in this release.
