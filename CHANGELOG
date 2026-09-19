@@ -1,5 +1,7 @@
 === master
 
+* Add rescue_classes keyword argument to invalid_request_body plugin (jeremyevans)
+
 * Drop support for Ruby 1.9 (jeremyevans)
 
 === 3.108.0 (2026-09-14)

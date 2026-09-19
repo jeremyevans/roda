@@ -37,13 +37,25 @@ class Roda
     #     # To treat the exception raised as a submitted parameter
     #     {body_error: exception}
     #   end
+    #
+    # You can use the +rescue_classes+ argument when loading the plugin to only rescue
+    # specific exception classes:
+    #
+    #   plugin :invalid_request_body, :empty_hash, rescue_classes: Rack::BadRequest
+    #
+    # However, this can be risky, because there have been many cases in the past where
+    # Rack can rescue classes such as +ArgumentError+ or +NoMethodError+ when parsing
+    # invalid request bodies. The default for +rescue_classes+ is +StandardError+.
     module InvalidRequestBody
       # Exception class raised for invalid request bodies.
       Error = Class.new(RodaError)
 
       # Set the action to use (:empty_400, :empty_hash, :raise) for invalid request bodies,
-      # or use a block for custom behavior.
-      def self.configure(app, action=nil, &block)
+      # or use a block for custom behavior. The rescue_classes argument is an exception
+      # class or array of exception classes to rescue.
+      def self.configure(app, action=nil, rescue_classes: StandardError, &block)
+        app.opts[:invalid_response_body_rescue_classes] = Array(rescue_classes).dup.freeze
+
         if action
           if block
             raise RodaError, "cannot provide both block and action when loading invalid_request_body plugin"
@@ -74,7 +86,7 @@ class Roda
           super
         rescue RodaError
           raise
-        rescue => e 
+        rescue *roda_class.opts[:invalid_response_body_rescue_classes] => e 
           handle_invalid_request_body(e)
         end
 

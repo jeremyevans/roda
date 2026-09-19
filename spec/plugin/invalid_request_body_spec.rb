@@ -1,9 +1,9 @@
 require_relative "../spec_helper"
 
 describe "invalid_request_body plugin" do 
-  def invalid_request_body_app(*args, &block)
+  def invalid_request_body_app(*args, **kw, &block)
     app(:bare) do
-      plugin :invalid_request_body, *args, &block
+      plugin :invalid_request_body, *args, **kw, &block
       route{|r| r.POST.to_a.inspect}
     end
   end
@@ -31,6 +31,14 @@ describe "invalid_request_body plugin" do
   it "supports :raise plugin argument" do
     invalid_request_body_app(:raise)
     body(valid_request_hash).must_equal '[["x", "y"]]'
+    proc{req(invalid_request_hash)}.must_raise Roda::RodaPlugins::InvalidRequestBody::Error
+  end
+
+  it "supports :rescue_classes plugin argument" do
+    invalid_request_body_app(:raise, rescue_classes: ArgumentError)
+    body(valid_request_hash).must_equal '[["x", "y"]]'
+    proc{req(invalid_request_hash)}.must_raise EOFError
+    invalid_request_body_app(:raise, rescue_classes: EOFError)
     proc{req(invalid_request_hash)}.must_raise Roda::RodaPlugins::InvalidRequestBody::Error
   end
 
