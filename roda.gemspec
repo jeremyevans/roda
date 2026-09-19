@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.email             = ["code@jeremyevans.net"]
   s.homepage          = "https://roda.jeremyevans.net"
   s.license           = "MIT"
-  s.required_ruby_version = ">= 1.9.2"
+  s.required_ruby_version = ">= 2.0"
   s.metadata          = { 
     'bug_tracker_uri'   => 'https://github.com/jeremyevans/roda/issues',
     'changelog_uri'     => 'https://roda.jeremyevans.net/rdoc/files/CHANGELOG.html',
