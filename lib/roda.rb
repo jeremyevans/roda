@@ -207,7 +207,7 @@ class Roda
             # If the _roda_run_main_route instance method has not been overridden,
             # make it an alias to _roda_main_route for performance
             if instance_method(:_roda_run_main_route).owner == InstanceMethods
-              class_eval("alias _roda_run_main_route _roda_main_route")
+              alias_method :_roda_run_main_route, :_roda_main_route
             end
             self::RodaResponse.class_eval do
               if instance_method(:set_default_headers).owner == ResponseMethods &&
