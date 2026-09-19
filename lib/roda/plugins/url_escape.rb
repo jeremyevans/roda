@@ -16,20 +16,8 @@ class Roda
     #   end
     module UrlEscape
       module InstanceMethods
-        if RUBY_VERSION >= '2'
-          define_method(:url_escape, Rack::Utils.instance_method(:escape))
-          define_method(:url_unescape, Rack::Utils.instance_method(:unescape))
-        # simplecov:disable
-        else
-          def url_escape(v)
-            Rack::Utils.escape(v)
-          end
-
-          def url_unescape(v)
-            Rack::Utils.unescape(v)
-          end
-        end
-        # simplecov:enable
+        define_method(:url_escape, Rack::Utils.instance_method(:escape))
+        define_method(:url_unescape, Rack::Utils.instance_method(:unescape))
       end
     end
 

@@ -18,12 +18,8 @@ describe "session handling" do
   it "should return session if session middleware is used" do
     require 'roda/session_middleware'
     app(:bare) do
-      if RUBY_VERSION >= '2.0'
-        require 'roda/session_middleware'
-        use RodaSessionMiddleware, :secret=>'1'*64
-      else
-        use Rack::Session::Cookie, :secret=>'1'*64
-      end
+      require 'roda/session_middleware'
+      use RodaSessionMiddleware, :secret=>'1'*64
 
       route do |r|
         r.on do

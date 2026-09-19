@@ -186,106 +186,108 @@ describe "Roda.define_roda_method" do
     @scope.send(m7, 2, 3, 4).must_equal [3, 2, [4], 3]
   end
 
-  if RUBY_VERSION > '2.1'
-    it "should raise for required keyword arguments for expected_arity 0 or 1" do
-      proc{eval("app.define_roda_method('x', 0){|b:| [b, 1]}", binding)}.must_raise Roda::RodaError
-      proc{eval("app.define_roda_method('x', 0){|c=1, b:| [c, b, 1]}", binding)}.must_raise Roda::RodaError
-      proc{eval("app.define_roda_method('x', 1){|x, b:| [b, 1]}", binding)}.must_raise Roda::RodaError
-      proc{eval("app.define_roda_method('x', 1){|x, c=1, b:| [c, b, 1]}", binding)}.must_raise Roda::RodaError
-    end
+  it "should raise for required keyword arguments for expected_arity 0 or 1" do
+    proc{eval("app.define_roda_method('x', 0){|b:| [b, 1]}", binding)}.must_raise Roda::RodaError
+    proc{eval("app.define_roda_method('x', 0){|c=1, b:| [c, b, 1]}", binding)}.must_raise Roda::RodaError
+    proc{eval("app.define_roda_method('x', 1){|x, b:| [b, 1]}", binding)}.must_raise Roda::RodaError
+    proc{eval("app.define_roda_method('x', 1){|x, c=1, b:| [c, b, 1]}", binding)}.must_raise Roda::RodaError
+  end if RUBY_VERSION > '2.1'
 
-    it "should ignore keyword arguments for expected_arity 0" do
-      @scope.send(eval("app.define_roda_method('x', 0){|b:2| [b, 1]}", binding)).must_equal [2, 1]
-      @scope.send(eval("app.define_roda_method('x', 0){|**b| [b, 1]}", binding)).must_equal [{}, 1]
-      @scope.send(eval("app.define_roda_method('x', 0){|c=1, b:2| [c, b, 1]}", binding)).must_equal [1, 2, 1]
-      @scope.send(eval("app.define_roda_method('x', 0){|c=1, **b| [c, b, 1]}", binding)).must_equal [1, {}, 1]
-    end
+  it "should ignore keyword arguments for expected_arity 0" do
+    @scope.send(app.define_roda_method('x', 0){|b:2| [b, 1]}).must_equal [2, 1]
+    @scope.send(app.define_roda_method('x', 0){|**b| [b, 1]}).must_equal [{}, 1]
+    @scope.send(app.define_roda_method('x', 0){|c=1, b:2| [c, b, 1]}).must_equal [1, 2, 1]
+    @scope.send(app.define_roda_method('x', 0){|c=1, **b| [c, b, 1]}).must_equal [1, {}, 1]
+  end
 
-    deprecated "should ignore keyword arguments for expected_arity 0" do
-      @scope.send(eval("app.define_roda_method('x', 0){|x, b:2| [x, b, 1]}", binding)).must_equal [nil, 2, 1]
-      @scope.send(eval("app.define_roda_method('x', 0){|x, **b| [x, b, 1]}", binding)).must_equal [nil, {}, 1]
-      @scope.send(eval("app.define_roda_method('x', 0){|x, c=1, b:2| [x, c, b, 1]}", binding)).must_equal [nil, 1, 2, 1]
-      @scope.send(eval("app.define_roda_method('x', 0){|x, c=1, **b| [x, c, b, 1]}", binding)).must_equal [nil, 1, {}, 1]
-    end
+  deprecated "should ignore keyword arguments for expected_arity 0" do
+    @scope.send(app.define_roda_method('x', 0){|x, b:2| [x, b, 1]}).must_equal [nil, 2, 1]
+    @scope.send(app.define_roda_method('x', 0){|x, **b| [x, b, 1]}).must_equal [nil, {}, 1]
+    @scope.send(app.define_roda_method('x', 0){|x, c=1, b:2| [x, c, b, 1]}).must_equal [nil, 1, 2, 1]
+    @scope.send(app.define_roda_method('x', 0){|x, c=1, **b| [x, c, b, 1]}).must_equal [nil, 1, {}, 1]
+  end
 
-    deprecated "should ignore keyword arguments for expected_arity 1" do
-      @scope.send(eval("app.define_roda_method('x', 1){|b:2| [b, 1]}", binding), 3).must_equal [2, 1]
-      @scope.send(eval("app.define_roda_method('x', 1){|**b| [b, 1]}", binding), 3).must_equal [{}, 1]
-    end
+  deprecated "should ignore keyword arguments for expected_arity 1" do
+    @scope.send(app.define_roda_method('x', 1){|b:2| [b, 1]}, 3).must_equal [2, 1]
+    @scope.send(app.define_roda_method('x', 1){|**b| [b, 1]}, 3).must_equal [{}, 1]
+  end
 
-    it "should ignore keyword arguments for expected_arity 1" do
-      @scope.send(eval("app.define_roda_method('x', 1){|c=1, b:2| [c, b, 1]}", binding), 3).must_equal [3, 2, 1]
-      @scope.send(eval("app.define_roda_method('x', 1){|c=1, **b| [c, b, 1]}", binding), 3).must_equal [3, {}, 1]
-      @scope.send(eval("app.define_roda_method('x', 1){|x, b:2| [x, b, 1]}", binding), 3).must_equal [3, 2, 1]
-      @scope.send(eval("app.define_roda_method('x', 1){|x, **b| [x, b, 1]}", binding), 3).must_equal [3, {}, 1]
-      @scope.send(eval("app.define_roda_method('x', 1){|x, c=1, b:2| [x, c, b, 1]}", binding), 3).must_equal [3, 1, 2, 1]
-      @scope.send(eval("app.define_roda_method('x', 1){|x, c=1, **b| [x, c, b, 1]}", binding), 3).must_equal [3, 1, {}, 1]
-    end
+  it "should ignore keyword arguments for expected_arity 1" do
+    @scope.send(app.define_roda_method('x', 1){|c=1, b:2| [c, b, 1]}, 3).must_equal [3, 2, 1]
+    @scope.send(app.define_roda_method('x', 1){|c=1, **b| [c, b, 1]}, 3).must_equal [3, {}, 1]
+    @scope.send(app.define_roda_method('x', 1){|x, b:2| [x, b, 1]}, 3).must_equal [3, 2, 1]
+    @scope.send(app.define_roda_method('x', 1){|x, **b| [x, b, 1]}, 3).must_equal [3, {}, 1]
+    @scope.send(app.define_roda_method('x', 1){|x, c=1, b:2| [x, c, b, 1]}, 3).must_equal [3, 1, 2, 1]
+    @scope.send(app.define_roda_method('x', 1){|x, c=1, **b| [x, c, b, 1]}, 3).must_equal [3, 1, {}, 1]
+  end
 
-    it "should handle expected_arity :any with keyword arguments" do
-      if RUBY_VERSION >= '2.7' && RUBY_VERSION < '3'
-        suppress = proc do |&b|
-          begin
-            stderr = $stderr
-            $stderr = rack_input
-            b.call
-          ensure
-            $stderr = stderr
-          end
+  it "should handle expected_arity :any with keyword arguments" do
+    if RUBY_VERSION >= '2.7' && RUBY_VERSION < '3'
+      suppress = proc do |&b|
+        begin
+          stderr = $stderr
+          $stderr = rack_input
+          b.call
+        ensure
+          $stderr = stderr
         end
-      else
-        suppress = proc{|&b| b.call}
       end
+    else
+      suppress = proc{|&b| b.call}
+    end
 
-      m = eval('app.define_roda_method("x", :any){|b:2| b}', binding)
-      @scope.send(m).must_equal 2
-      @scope.send(m, 4).must_equal 2
-      @scope.send(m, b: 3).must_equal 3
-      @scope.send(m, 4, b: 3).must_equal 3
+    m = app.define_roda_method("x", :any){|b:2| b}
+    @scope.send(m).must_equal 2
+    @scope.send(m, 4).must_equal 2
+    @scope.send(m, b: 3).must_equal 3
+    @scope.send(m, 4, b: 3).must_equal 3
 
+    if RUBY_VERSION > '2.1'
       m = eval('app.define_roda_method("x", :any){|b:| b}', binding)
       proc{@scope.send(m)}.must_raise ArgumentError
       proc{@scope.send(m, 4)}.must_raise ArgumentError
       @scope.send(m, b: 3).must_equal 3
       @scope.send(m, 4, b: 3).must_equal 3
+    end
 
-      m = eval('app.define_roda_method("x", :any){|**b| b}', binding)
-      @scope.send(m).must_equal({})
-      @scope.send(m, 4).must_equal({})
-      @scope.send(m, b: 3).must_equal(b: 3)
-      @scope.send(m, 4, b: 3).must_equal(b: 3)
+    m = app.define_roda_method("x", :any){|**b| b}
+    @scope.send(m).must_equal({})
+    @scope.send(m, 4).must_equal({})
+    @scope.send(m, b: 3).must_equal(b: 3)
+    @scope.send(m, 4, b: 3).must_equal(b: 3)
 
-      m = eval('app.define_roda_method("x", :any){|x, b:9| [x, b, 1]}', binding)
-      suppress.call{@scope.send(m)[1..-1]}.must_equal [9, 1]
-      @scope.send(m, 2).must_equal [2, 9, 1]
-      @scope.send(m, 2, 3).must_equal [2, 9, 1]
-      eval("@scope.send(m, {b: 4}#{', **{}' if RUBY_VERSION > '2'})").must_equal [{b: 4}, 9, 1]
-      @scope.send(m, 2, b: 4).must_equal [2, 4, 1]
-      @scope.send(m, 2, 3, b: 4).must_equal [2, 4, 1]
+    m = app.define_roda_method("x", :any){|x, b:9| [x, b, 1]}
+    suppress.call{@scope.send(m)[1..-1]}.must_equal [9, 1]
+    @scope.send(m, 2).must_equal [2, 9, 1]
+    @scope.send(m, 2, 3).must_equal [2, 9, 1]
+    @scope.send(m, {b: 4}, **{}).must_equal [{b: 4}, 9, 1]
+    @scope.send(m, 2, b: 4).must_equal [2, 4, 1]
+    @scope.send(m, 2, 3, b: 4).must_equal [2, 4, 1]
 
+    if RUBY_VERSION > '2.1'
       m = eval('app.define_roda_method("x", :any){|x, b:| [x, b, 1]}', binding)
       proc{suppress.call{@scope.send(m)}}.must_raise ArgumentError
       proc{@scope.send(m, 2)}.must_raise ArgumentError
       proc{@scope.send(m, 2, 3)}.must_raise ArgumentError
-      proc{eval("@scope.send(m, {b: 4}#{', **{}' if RUBY_VERSION > '2'})")}.must_raise ArgumentError
+      proc{@scope.send(m, {b: 4}, **{})}.must_raise ArgumentError
       @scope.send(m, 2, b: 4).must_equal [2, 4, 1]
       @scope.send(m, 2, 3, b: 4).must_equal [2, 4, 1]
-
-      m = eval('app.define_roda_method("x", :any){|x, **b| [x, b, 1]}', binding)
-      suppress.call{@scope.send(m)[1..-1]}.must_equal [{}, 1]
-      @scope.send(m, 2).must_equal [2, {}, 1]
-      @scope.send(m, 2, 3).must_equal [2, {}, 1]
-      eval("@scope.send(m, {b: 4}#{', **{}' if RUBY_VERSION > '2'})").must_equal [{b: 4}, {}, 1]
-      @scope.send(m, 2, b: 4).must_equal [2, {b: 4}, 1]
-      @scope.send(m, 2, 3, b: 4).must_equal [2, {b: 4}, 1]
-
-      m = eval('m = app.define_roda_method("x", :any){|x=5, b:9| [x, b, 2]}', binding)
-      @scope.send(m).must_equal [5, 9, 2]
-      @scope.send(m, 2).must_equal [2, 9, 2]
-      @scope.send(m, 2, 3).must_equal [2, 9, 2]
-      @scope.send(m, b: 4).must_equal [5, 4, 2]
-      @scope.send(m, 2, b: 4).must_equal [2, 4, 2]
-      @scope.send(m, 2, 3, b: 4).must_equal [2, 4, 2]
     end
+
+    m = app.define_roda_method("x", :any){|x, **b| [x, b, 1]}
+    suppress.call{@scope.send(m)[1..-1]}.must_equal [{}, 1]
+    @scope.send(m, 2).must_equal [2, {}, 1]
+    @scope.send(m, 2, 3).must_equal [2, {}, 1]
+    @scope.send(m, {b: 4}, **{}).must_equal [{b: 4}, {}, 1]
+    @scope.send(m, 2, b: 4).must_equal [2, {b: 4}, 1]
+    @scope.send(m, 2, 3, b: 4).must_equal [2, {b: 4}, 1]
+
+    m = m = app.define_roda_method("x", :any){|x=5, b:9| [x, b, 2]}
+    @scope.send(m).must_equal [5, 9, 2]
+    @scope.send(m, 2).must_equal [2, 9, 2]
+    @scope.send(m, 2, 3).must_equal [2, 9, 2]
+    @scope.send(m, b: 4).must_equal [5, 4, 2]
+    @scope.send(m, 2, b: 4).must_equal [2, 4, 2]
+    @scope.send(m, 2, 3, b: 4).must_equal [2, 4, 2]
   end
 end

@@ -38,11 +38,9 @@ class Roda
 
       module InstanceMethods
         if RUBY_VERSION >= '2.7'
-          class_eval(<<-RUBY, __FILE__, __LINE__ + 1)
-            def each_part(enum, template, **locals, &block)
-              render_each(enum, template, :locals=>locals, &block)
-            end
-          RUBY
+          def each_part(enum, template, **locals, &block)
+            render_each(enum, template, :locals=>locals, &block)
+          end
         # simplecov:disable
         else
           def each_part(enum, template, locals=OPTS, &block)
@@ -56,28 +54,26 @@ class Roda
         # simplecov:disable
         if RUBY_VERSION >= '3.0'
         # simplecov:enable
-          class_eval(<<-RUBY, __FILE__, __LINE__ + 1)
-            def each_part(enum, template, **locals, &block)
-              if optimized_method = _cached_render_each_template_method(template)
-                optimized_method = optimized_method[0]
-                as = render_each_default_local(template)
-                if defined?(yield)
-                  enum.each do |v|
-                    locals[as] = v
-                    yield send(optimized_method, **locals)
-                  end
-                  nil
-                else
-                  enum.map do |v|
-                    locals[as] = v
-                    send(optimized_method, **locals)
-                  end.join
+          def each_part(enum, template, **locals, &block)
+            if optimized_method = _cached_render_each_template_method(template)
+              optimized_method = optimized_method[0]
+              as = render_each_default_local(template)
+              if defined?(yield)
+                enum.each do |v|
+                  locals[as] = v
+                  yield send(optimized_method, **locals)
                 end
+                nil
               else
-                render_each(enum, template, :locals=>locals, &block)
+                enum.map do |v|
+                  locals[as] = v
+                  send(optimized_method, **locals)
+                end.join
               end
+            else
+              render_each(enum, template, :locals=>locals, &block)
             end
-          RUBY
+          end
         end
       end
     end

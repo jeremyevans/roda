@@ -766,37 +766,25 @@ class Roda
           end
 
           if RUBY_VERSION >= '3'
-            class_eval(<<-RUBY, __FILE__, __LINE__ + 1)
-              def _call_optimized_template_method((meth, fixed_locals), locals, &block)
-                if fixed_locals
-                  send(meth, **locals, &block)
-                else
-                  send(meth, locals, &block)
-                end
-              end
-            RUBY
-          # simplecov:disable
-          elsif RUBY_VERSION >= '2'
-            class_eval(<<-RUBY, __FILE__, __LINE__ + 1)
-              def _call_optimized_template_method((meth, fixed_locals), locals, &block)
-                if fixed_locals
-                  if locals.empty?
-                    send(meth, &block)
-                  else
-                    send(meth, **locals, &block)
-                  end
-                else
-                  send(meth, locals, &block)
-                end
-              end
-            RUBY
-          else
-            # Call the optimized template method.  This is designed to be used with the
-            # method cache, which caches the method name and whether the method uses
-            # fixed locals.  Methods with fixed locals need to be called with a keyword
-            # splat.
             def _call_optimized_template_method((meth, fixed_locals), locals, &block)
-              send(meth, locals, &block)
+              if fixed_locals
+                send(meth, **locals, &block)
+              else
+                send(meth, locals, &block)
+              end
+            end
+          # simplecov:disable
+          else
+            def _call_optimized_template_method((meth, fixed_locals), locals, &block)
+              if fixed_locals
+                if locals.empty?
+                  send(meth, &block)
+                else
+                  send(meth, **locals, &block)
+                end
+              else
+                send(meth, locals, &block)
+              end
             end
           end
           # simplecov:enable
@@ -996,11 +984,9 @@ class Roda
         # simplecov:disable
         if RUBY_VERSION >= '3.0'
         # simplecov:enable
-          class_eval(<<-RUBY, __FILE__, __LINE__ + 1)
-            def _call_optimized_template_method((meth,_), locals, &block)
-              send(meth, **locals, &block)
-            end
-          RUBY
+          def _call_optimized_template_method((meth,_), locals, &block)
+            send(meth, **locals, &block)
+          end
         end
       end
     end

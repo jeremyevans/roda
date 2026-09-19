@@ -1,18 +1,9 @@
 source 'https://rubygems.org'
 
-if RUBY_VERSION < '2'
-  gem 'rake', '<10'
-elsif RUBY_VERSION < '2.3'
+if RUBY_VERSION < '2.3'
   gem 'rake', '<13'
 else
   gem 'rake'
-end
-
-if RUBY_VERSION < '2.0.0'
-  gem 'mime-types', '< 3'
-  gem "tilt", '<2.0.11'
-else
-  gem "tilt"
 end
 
 if RUBY_VERSION >= '3.4'
@@ -23,18 +14,16 @@ if RUBY_VERSION >= '3.4'
   end
 end
 
-if RUBY_VERSION < '3.1.0' && RUBY_VERSION >= '3.0.0'
-  gem 'json', '2.5.1'
-elsif RUBY_VERSION < '2.0.0'
-  gem 'json', '<1.8.5'
-elsif RUBY_VERSION < '2.3.0'
+if RUBY_VERSION < '2.3'
   gem 'json', '<2.6'
+elsif RUBY_VERSION < '3.1' && RUBY_VERSION >= '3.0'
+  gem 'json', '2.5.1'
 else
   gem 'json'
 end
 
 case RUBY_VERSION[0, 3]
-when '1.9', '2.0'
+when '2.0'
   gem 'rack', '<1.6'
 when '2.1', '2.2'
   gem 'rack', '<2'
@@ -58,14 +47,14 @@ else
   gem 'rack'
 end
 
-if RUBY_VERSION < '2.4.0'
+if RUBY_VERSION < '2.4'
   # Until mintest 5.12.0 is fixed
   gem 'minitest', '5.11.3'
 else
   gem 'minitest'
 end
 
-if RUBY_VERSION >= '3.1.0'
+if RUBY_VERSION >= '3.1'
   gem 'net-smtp'
 end
 
@@ -79,3 +68,4 @@ gem "minitest-global_expectations"
 gem "minitest-hooks"
 gem "erubi"
 gem "rack_csrf"
+gem "tilt"

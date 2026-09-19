@@ -76,21 +76,19 @@ describe "mailer plugin" do
   end
 
   it "supports keywords arguments to mail/sendmail methods, yielding them to the route blocks" do
-    instance_eval(<<-'RUBY', __FILE__, __LINE__ + 1)
-      app(:mailer) do |r|
-        instance_exec(&setup_email)
-        r.mail "foo" do |*args, **kw|
-          "foo#{args.inspect}#{kw.to_a.inspect}"
-        end
-        r.mail :d do |*args, **kw|
-          [args, kw.to_a].inspect
-        end
+    app(:mailer) do |r|
+      instance_exec(&setup_email)
+      r.mail "foo" do |*args, **kw|
+        "foo#{args.inspect}#{kw.to_a.inspect}"
       end
-    RUBY
+      r.mail :d do |*args, **kw|
+        [args, kw.to_a].inspect
+      end
+    end
 
     app.mail('/foo', 1, a: 2).body.must_be :==, 'foo[1][[:a, 2]]'
     app.sendmail('/bar', 1, a: 2).body.must_be :==, '[["bar", 1], [[:a, 2]]]'
-  end if RUBY_VERSION >= "2"
+  end
 
   it "supports no_mail! method for skipping mailing" do
     app(:mailer) do |r|

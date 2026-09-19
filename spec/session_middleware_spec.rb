@@ -1,6 +1,5 @@
 require_relative "spec_helper"
 
-if RUBY_VERSION >= '2'
 require 'roda/session_middleware'
 
 describe "RodaSessionMiddleware" do 
@@ -122,5 +121,4 @@ describe "RodaSessionMiddleware" do
     sess.keys.must_equal ["foo"]
     sess.values.must_equal ["bar"]
   end
-end
 end

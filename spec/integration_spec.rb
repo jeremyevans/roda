@@ -209,12 +209,10 @@ describe "integration" do
 
   it "supports configuring middleware with keyword arguments" do
     m1 = Class.new do
-      eval <<-END
-        def initialize(app, key: 1)
-          @app = app
-          @key = key
-        end
-      END
+      def initialize(app, key: 1)
+        @app = app
+        @key = key
+      end
 
       def call(env)
         status, headers, _body = @app.call(env)
@@ -232,5 +230,5 @@ describe "integration" do
     end
 
     body.must_equal 'test'
-  end if RUBY_VERSION >= '2'
+  end
 end

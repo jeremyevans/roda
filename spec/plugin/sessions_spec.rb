@@ -3,7 +3,6 @@ require_relative "../../lib/roda/plugins/_base64"
 
 base64 = Roda::RodaPlugins::Base64_
 
-if RUBY_VERSION >= '2'
 [true, false].each do |per_cookie_cipher_secret|
   describe "sessions plugin with per_cookie_cipher_secret: #{per_cookie_cipher_secret}" do 
     include CookieJar
@@ -503,5 +502,4 @@ if RUBY_VERSION >= '2'
       [['{"a"=>"bar"}'], ['{"a" => "bar"}']].must_include b
     end
   end if Rack.release < '2.3'
-end
 end

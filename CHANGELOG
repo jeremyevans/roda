@@ -1,3 +1,7 @@
+=== master
+
+* Drop support for Ruby 1.9 (jeremyevans)
+
 === 3.108.0 (2026-09-14)
 
 * Make invalid_request_body r.POST exception handling reraise RodaErrors (jeremyevans)

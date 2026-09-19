@@ -140,7 +140,7 @@ class Roda
                   # Fallback to instance_exec in this case.
                   b = block
                   block = if RUBY_VERSION >= '2.7'
-                    eval('lambda{|*a, **kw| instance_exec(*a, **kw, &b)}', nil, __FILE__, __LINE__) # Keyword arguments fallback
+                    lambda{|*a, **kw| instance_exec(*a, **kw, &b)} # Keyword arguments fallback
                   else
                     # simplecov:disable
                     lambda{|*a| instance_exec(*a, &b)} # Keyword arguments fallback
