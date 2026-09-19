@@ -17,7 +17,7 @@ describe "sinatra_helpers plugin" do
     end
     sin_app do |r|
       status code
-      instance_eval(&block).inspect
+      instance_exec(&block).inspect
     end
   end
 

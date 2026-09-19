@@ -57,7 +57,7 @@ describe "csrf plugin" do
 
   it "can optionally skip setting up the middleware" do
     sub_app = Class.new(Roda)
-    sub_app.class_eval do
+    sub_app.class_exec do
       plugin :csrf, :skip_middleware=>true
 
       route do |r|

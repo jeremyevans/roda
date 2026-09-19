@@ -20,7 +20,7 @@ describe "Roda.route" do
   end
 
   deprecated "should support #call being overridden" do
-    app.class_eval do
+    app.class_exec do
       def call; super end
     end
     app.route{|_| '123'}

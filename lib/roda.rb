@@ -209,7 +209,7 @@ class Roda
             if instance_method(:_roda_run_main_route).owner == InstanceMethods
               alias_method :_roda_run_main_route, :_roda_main_route
             end
-            self::RodaResponse.class_eval do
+            self::RodaResponse.class_exec do
               if instance_method(:set_default_headers).owner == ResponseMethods &&
                  instance_method(:default_headers).owner == ResponseMethods
 

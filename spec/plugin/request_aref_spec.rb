@@ -5,7 +5,7 @@ describe "request_aref plugin" do
     warning = @warning = String.new('')
     app(:bare) do
       plugin :request_aref, value
-      self::RodaRequest.class_eval do
+      self::RodaRequest.class_exec do
         define_method(:warn){|s| warning.replace(s)}
         private :warn
       end

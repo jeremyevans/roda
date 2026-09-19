@@ -1122,7 +1122,7 @@ class Roda
       # before processing them.
       def self.configure(app, opts=OPTS, &block)
         app.const_set(:TypecastParams, Class.new(RodaPlugins::TypecastParams::Params)) unless app.const_defined?(:TypecastParams)
-        app::TypecastParams.class_eval(&block) if block
+        app::TypecastParams.class_eval(&block) if block # RODA4: use class_exec
         if opts[:strip] == :all
           app::TypecastParams.send(:include, StringStripper)
         end
@@ -1133,7 +1133,7 @@ class Roda
           app::TypecastParams.send(:include, SkipBytesizeChecking)
         end
         if opts[:date_parse_input_handler]
-          app::TypecastParams.class_eval do
+          app::TypecastParams.class_exec do
             include DateParseInputHandler
             define_method(:handle_date_parse_input, &opts[:date_parse_input_handler])
             private :handle_date_parse_input

@@ -84,7 +84,7 @@ class Roda
       # :by_name :: Register classes by name, which is friendlier when reloading code (defaults to
       #             true in development mode)
       def self.configure(app, opts=OPTS)
-        app.instance_eval do
+        app.instance_exec do
           self.opts[:path_class_by_name] = opts.fetch(:by_name, ENV['RACK_ENV'] == 'development')
           self.opts[:path_classes] ||= {}
           self.opts[:path_class_methods] ||= {}

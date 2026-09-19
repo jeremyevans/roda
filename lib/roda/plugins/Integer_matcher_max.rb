@@ -23,7 +23,7 @@ class Roda
     module IntegerMatcherMax
       def self.configure(app, max=nil)
         if max
-          app.class_eval do
+          app.class_exec do
             meth = :_max_value_convert_class_Integer
             define_method(meth){max}
             alias_method meth, meth

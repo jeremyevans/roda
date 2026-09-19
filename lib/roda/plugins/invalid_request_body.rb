@@ -56,7 +56,7 @@ class Roda
 
           app::RodaRequest.send(:alias_method, :handle_invalid_request_body, method)
         elsif block
-          app::RodaRequest.class_eval do
+          app::RodaRequest.class_exec do
             define_method(:handle_invalid_request_body, &block)
             alias handle_invalid_request_body handle_invalid_request_body
           end

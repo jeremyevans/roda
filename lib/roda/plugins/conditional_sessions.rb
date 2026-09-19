@@ -23,7 +23,7 @@ class Roda
       # a request method for whether sessions are allowed.
       def self.load_dependencies(app, opts=OPTS, &block)
         app.plugin :sessions, opts
-        app::RodaRequest.class_eval do
+        app::RodaRequest.class_exec do
           define_method(:use_sessions?, &block)
           alias use_sessions? use_sessions?
         end

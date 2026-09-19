@@ -13,7 +13,7 @@ describe "direct_call plugin" do
   end
 
   deprecated "should work when #call is overridden" do
-    app.class_eval do
+    app.class_exec do
       def call; super end
       route{'123'}
     end

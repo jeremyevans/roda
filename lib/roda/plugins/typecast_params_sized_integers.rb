@@ -90,7 +90,7 @@ class Roda
         end
 
         if default = opts[:default_size]
-          app::TypecastParams.class_eval do
+          app::TypecastParams.class_exec do
             meths = ['', 'convert_', '_convert_array_', '_max_input_bytesize_for_', '_invalid_value_message_for_']
             %w[int uint pos_int pos_uint Integer Integeru].each do |type|
               meths.each do |prefix|

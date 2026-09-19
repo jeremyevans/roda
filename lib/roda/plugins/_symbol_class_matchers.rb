@@ -62,7 +62,7 @@ class Roda
           consume_meth ||= options[:segment] ? :_consume_single_segment : :consume
           array = opts[:"#{type}_matchers"][obj] = [regexp, consume_regexp, convert_meth, consume_meth].freeze
 
-          self::RodaRequest.class_eval do
+          self::RodaRequest.class_exec do
             class_exec(meth, array, &request_class_block)
             private meth
           end

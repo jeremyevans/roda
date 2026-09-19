@@ -20,7 +20,7 @@ class Roda
       def self.configure(app, setting)
         case setting
         when :allow, :raise, :warn
-          app::RodaRequest.class_eval do
+          app::RodaRequest.class_exec do
             alias_method(:[],  :"request_aref_#{setting}")
             alias_method(:[]=, :"request_aset_#{setting}")
             public :[], :[]=

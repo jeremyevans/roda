@@ -139,7 +139,7 @@ describe "hooks plugin" do
   end
 
   deprecated "should work if #call is overridden" do
-    app.class_eval do
+    app.class_exec do
       def call; super end
     end
     app.route(&app.route_block)

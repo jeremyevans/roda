@@ -235,7 +235,7 @@ class Minitest::Spec
   def _app(&block)
     c = Class.new(Roda)
     c.use Rack::Lint if ENV['LINT']
-    c.class_eval(&block)
+    c.class_exec(&block)
     c
   end
 

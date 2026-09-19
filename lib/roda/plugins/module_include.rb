@@ -83,7 +83,7 @@ class Roda
               klass.send(:include, mod)
             end
 
-            mod.module_eval(&block) if block
+            mod.module_eval(&block) if block # RODA4: Switch to module_exec
           end
 
           mod
