@@ -978,6 +978,8 @@ class Roda
       end
 
       module AssumeFixedLocalsInstanceMethods
+        private
+
         # simplecov:disable
         if RUBY_VERSION >= '3.0'
         # simplecov:enable
