@@ -10,7 +10,6 @@ rescue OpenSSL::Cipher::CipherError
   # simplecov:enable
 end
 
-require 'json'
 require 'securerandom'
 require 'zlib'
 require 'rack/utils'
@@ -175,6 +174,7 @@ class Roda
 
       def self.load_dependencies(app, opts=OPTS)
         app.plugin :_base64
+        app.plugin :_json
       end
 
       # Configure the plugin, see Sessions for details on options.
@@ -182,8 +182,8 @@ class Roda
         opts = (app.sessions_opts || DEFAULT_OPTIONS).merge(opts)
         co = opts[:cookie_options] = DEFAULT_COOKIE_OPTIONS.merge(opts[:cookie_options] || OPTS).freeze
         opts[:remove_cookie_options] = co.merge(:max_age=>'0', :expires=>Time.at(0))
-        opts[:parser] ||= app.json_parser || JSON.method(:parse)
-        opts[:serializer] ||= app.json_serializer || :to_json.to_proc
+        opts[:parser] ||= app.json_parser
+        opts[:serializer] ||= app.json_serializer
 
         opts[:per_cookie_cipher_secret] = true unless opts.has_key?(:per_cookie_cipher_secret)
         opts[:session_version_num] = opts[:per_cookie_cipher_secret] ? 1 : 0

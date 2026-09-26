@@ -1,7 +1,5 @@
 # frozen-string-literal: true
 
-require 'json'
-
 class Roda
   module RodaPlugins
     # The json plugin allows match blocks to return
@@ -57,6 +55,7 @@ class Roda
     # not support treating String, FalseClass, or NilClass values as JSON.
     module Json
       def self.load_dependencies(app, opts=OPTS)
+        app.plugin :_json
         app.plugin :custom_block_results
       end
 
@@ -72,7 +71,7 @@ class Roda
           app.custom_block_results[klass] = :handle_json_block_result
         end
 
-        app.opts[:json_result_serializer] = opts[:serializer] || app.json_result_serializer || app.json_serializer || :to_json.to_proc
+        app.opts[:json_result_serializer] = opts[:serializer] || app.json_result_serializer || app.json_serializer
 
         app.opts[:json_result_include_request] = opts[:include_request] if opts.has_key?(:include_request)
 

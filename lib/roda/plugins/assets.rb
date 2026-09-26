@@ -371,6 +371,7 @@ class Roda
       # Load the render, caching, and h plugins, since the assets plugin
       # depends on them.
       def self.load_dependencies(app, opts = OPTS)
+        app.plugin :_json
         app.plugin :render
         app.plugin :caching
         app.plugin :h
@@ -420,7 +421,6 @@ class Roda
         end
 
         if opts[:precompiled] && !opts[:compiled] && ::File.exist?(opts[:precompiled])
-          require 'json'
           opts[:compiled] = app.send(:_precompiled_asset_metadata, opts[:precompiled])
         end
 
@@ -519,10 +519,9 @@ class Roda
           end
 
           if precompile_file = assets_opts[:precompiled]
-            require 'json'
             ::FileUtils.mkdir_p(File.dirname(precompile_file))
             tmp_file = "#{precompile_file}.tmp"
-            ::File.open(tmp_file, 'wb'){|f| f.write((json_serializer || :to_json.to_proc).call(assets_opts[:compiled]))}
+            ::File.open(tmp_file, 'wb'){|f| f.write(json_serializer.call(assets_opts[:compiled]))}
             ::File.rename(tmp_file, precompile_file)
           end
 
@@ -555,7 +554,7 @@ class Roda
 
         # The precompiled asset metadata stored in the given file
         def _precompiled_asset_metadata(file)
-          (json_parser || ::JSON.method(:parse)).call(::File.read(file))
+          json_parser.call(::File.read(file))
         end
 
         # Compile each array of files for the given type into a single

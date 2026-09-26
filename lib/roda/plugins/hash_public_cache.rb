@@ -1,6 +1,5 @@
 # frozen-string-literal: true
 
-require 'json'
 require 'find'
 
 class Roda
@@ -29,6 +28,7 @@ class Roda
     #   load_hash_public_cache_file
     module HashPublicCache
       def self.load_dependencies(app, _cache_file, opts = OPTS)
+        app.plugin :_json
         app.plugin :hash_public, opts
       end
 
@@ -48,7 +48,7 @@ class Roda
           file = hash_public_cache_file
           return unless File.file?(file)
 
-          cache = opts[:hash_public_cache] = (json_parser || ::JSON.method(:parse)).call(::File.read(file))
+          cache = opts[:hash_public_cache] = json_parser.call(::File.read(file))
           cache.each_value(&:freeze)
           nil
         end
@@ -82,7 +82,7 @@ class Roda
 
         # Write the current hash public cache to the cache file.
         def dump_hash_public_cache_file
-          File.write(hash_public_cache_file, (json_serializer || :to_json.to_proc).call(hash_public_cache))
+          File.write(hash_public_cache_file, json_serializer.call(hash_public_cache))
           nil
         end
       end

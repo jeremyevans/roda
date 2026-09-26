@@ -1,7 +1,5 @@
 # frozen-string-literal: true
 
-require 'json'
-
 class Roda
   module RodaPlugins
     # The json_parser plugin parses request bodies in JSON format
@@ -21,6 +19,10 @@ class Roda
       MATCH_METHOD = RUBY_VERSION >= '2.4' ? :match? : :match
       # simplecov:enable
       private_constant :MATCH_METHOD
+
+      def self.load_dependencies(app, opts=OPTS)
+        app.plugin :_json
+      end
 
       # Handle options for the json_parser plugin:
       # :content_type_regexp :: A regexp used to determine if the request's
@@ -47,7 +49,7 @@ class Roda
       #          only wrap values that are not already hashes.
       def self.configure(app, opts=OPTS)
         app.opts[:json_parser_error_handler] = opts[:error_handler] || app.json_parser_error_handler || DEFAULT_ERROR_HANDLER
-        app.opts[:json_parser_parser] = opts[:parser] || app.json_parser_parser || app.json_parser || JSON.method(:parse)
+        app.opts[:json_parser_parser] = opts[:parser] || app.json_parser_parser || app.json_parser
         app.opts[:json_parser_include_request] = opts[:include_request] if opts.has_key?(:include_request)
         app.opts[:json_parser_content_type_regexp] = opts[:content_type_regexp] || app.json_parser_content_type_regexp
 
