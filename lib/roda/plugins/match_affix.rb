@@ -39,13 +39,18 @@ class Roda
         app.opts[:match_suffix] = suffix if suffix
       end
       
+      module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :match_prefix)
+        RodaPlugins.opt_attr_reader(self, :match_suffix)
+      end
+
       module RequestClassMethods
         private
 
         # Use the match prefix and suffix provided when loading the plugin, or fallback
         # to Roda's default prefix/suffix if one was not provided.
         def consume_pattern(pattern)
-          /\A#{roda_class.opts[:match_prefix] || "/"}(?:#{pattern})#{roda_class.opts[:match_suffix] || "(?=\/|\z)"}/
+          /\A#{roda_class.match_prefix || "/"}(?:#{pattern})#{roda_class.match_suffix || "(?=\/|\z)"}/
         end
       end
 

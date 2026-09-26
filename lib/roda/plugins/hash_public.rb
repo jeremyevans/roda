@@ -78,16 +78,20 @@ class Roda
       end
 
       module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :hash_public_prefix)
+        RodaPlugins.opt_attr_reader(self, :hash_public_length)
+        RodaPlugins.opt_attr_reader(self, :hash_public_mutex)
+        RodaPlugins.opt_attr_reader(self, :hash_public_cache)
+
         # The digest for the given file to use in hash_path.
         def hash_path_digest(file)
-          opts = self.opts
-          cache = opts[:hash_public_cache]
-          mutex = opts[:hash_public_mutex]
+          cache = hash_public_cache
+          mutex = hash_public_mutex
           unless digest = mutex.synchronize{cache[file]}
-            digest = Digest::SHA256.file(File.join(opts[:public_root], file)).base64digest
+            digest = Digest::SHA256.file(File.join(public_root, file)).base64digest
             digest.chomp!("=")
             digest.tr!("+/", "-_")
-            if length = opts[:hash_public_length]
+            if length = hash_public_length
               digest = digest[0, length]
             end
             digest.freeze
@@ -102,7 +106,7 @@ class Roda
         # This does not check the file is inside the directory for performance
         # reasons, so this should not be called with untrusted input.
         def hash_path(file)
-          "/#{opts[:hash_public_prefix]}/#{self.class.hash_path_digest(file)}/#{file}"
+          "/#{self.class.hash_public_prefix}/#{self.class.hash_path_digest(file)}/#{file}"
         end
       end
 
@@ -112,7 +116,7 @@ class Roda
         # a string segment for the content hash, and this is a GET request.
         def hash_public
           if is_get?
-            on roda_class.opts[:hash_public_prefix], String do |_|
+            on roda_class.hash_public_prefix, String do |_|
               public
             end
           end

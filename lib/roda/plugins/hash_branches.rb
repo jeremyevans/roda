@@ -88,9 +88,11 @@ class Roda
       end
 
       module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :hash_branches)
+
         # Freeze the hash_branches metadata when freezing the app.
         def freeze
-          opts[:hash_branches].freeze.each_value(&:freeze)
+          hash_branches.freeze.each_value(&:freeze)
           super
         end
 
@@ -98,8 +100,8 @@ class Roda
         def inherited(subclass)
           super
 
-          h = subclass.opts[:hash_branches]
-          opts[:hash_branches].each do |namespace, routes|
+          h = subclass.hash_branches
+          hash_branches.each do |namespace, routes|
             h[namespace] = routes.dup
           end
         end
@@ -108,7 +110,7 @@ class Roda
         # a block, removes the existing branch handler if it exists.
         def hash_branch(namespace='', segment, &block)
           segment = "/#{segment}"
-          routes = opts[:hash_branches][namespace] ||= {}
+          routes = hash_branches[namespace] ||= {}
           if block
             routes[segment] = define_roda_method(routes[segment] || "hash_branch_#{namespace}_#{segment}", 1, &convert_route_block(block))
           elsif meth = routes.delete(segment)
@@ -125,7 +127,7 @@ class Roda
 
           return unless rp.getbyte(0) == 47 # "/"
 
-          if routes = roda_class.opts[:hash_branches][namespace]
+          if routes = roda_class.hash_branches[namespace]
             if segment_end = rp.index('/', 1)
               if meth = routes[rp[0, segment_end]]
                 always do

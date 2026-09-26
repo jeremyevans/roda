@@ -58,8 +58,10 @@ class Roda
       end
 
       module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :custom_matchers)
+
         def custom_matcher(match_class, &block)
-          custom_matchers = Hash[opts[:custom_matchers]]
+          custom_matchers = Hash[self.custom_matchers]
           meth = custom_matchers[match_class] = custom_matchers[match_class] || :"_custom_matcher_#{match_class}"
           opts[:custom_matchers] = custom_matchers.freeze
           self::RodaRequest.send(:define_method, meth, &block)
@@ -72,7 +74,7 @@ class Roda
 
         # Try custom matchers before calling super
         def unsupported_matcher(matcher)
-          roda_class.opts[:custom_matchers].each do |match_class, meth|
+          roda_class.custom_matchers.each do |match_class, meth|
             if match_class === matcher
               return send(meth, matcher)
             end

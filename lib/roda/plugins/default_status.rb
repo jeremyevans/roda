@@ -18,6 +18,7 @@ class Roda
       def self.configure(app, &block)
         raise RodaError, "default_status plugin requires a block" unless block
         if check_arity = app.opts.fetch(:check_arity, true)
+          # RODA4: Remove support for :check_arity, default to false behavior
           unless block.arity == 0
             if check_arity == :warn
               RodaPlugins.warn "Arity mismatch in block passed to plugin :default_status. Expected Arity 0, but arguments required for #{block.inspect}"

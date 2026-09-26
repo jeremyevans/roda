@@ -69,19 +69,15 @@ class Roda
       # :zstd :: Whether to serve already zstd-compressed files with a .zst extension
       #          for clients supporting "zstd" transfer encoding.
       def self.configure(app, opts={})
-        if opts[:root]
-          app.opts[:public_root] = app.expand_path(opts[:root])
-        elsif !app.opts[:public_root]
-          app.opts[:public_root] = app.expand_path("public")
-        end
-        app.opts[:public_server] = RACK_FILES.new(app.opts[:public_root], opts[:headers]||{}, opts[:default_mime] || 'text/plain')
+        app.opts[:public_root] = app.expand_path(opts[:root] || app.public_root || "public")
+        app.opts[:public_server] = RACK_FILES.new(app.public_root, opts[:headers]||{}, opts[:default_mime] || 'text/plain')
 
         unless encodings = opts[:encodings]
           if ENCODING_MAP.any?{|k,| opts.has_key?(k)}
             encodings = ENCODING_MAP.map{|k, v| [v, ENCODING_EXTENSIONS[v]] if opts[k]}.compact
           end
         end
-        encodings = (encodings || app.opts[:public_encodings] || EMPTY_ARRAY).map(&:dup).freeze
+        encodings = (encodings || app.public_encodings || EMPTY_ARRAY).map(&:dup).freeze
         encodings.each do |a|
           a << /\b#{a[0]}\b/
         end
@@ -89,10 +85,16 @@ class Roda
         app.opts[:public_encodings] = encodings
       end
 
+      module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :public_root)
+        RodaPlugins.opt_attr_reader(self, :public_server)
+        RodaPlugins.opt_attr_reader(self, :public_encodings)
+      end
+
       module RequestMethods
         # Serve files from the public directory if the file exists and this is a GET request.
         def public
-          public_serve_with(roda_class.opts[:public_server])
+          public_serve_with(roda_class.public_server)
         end
 
         private
@@ -124,11 +126,10 @@ class Roda
           path = PARSER.unescape(real_remaining_path)
           return if path.include?("\0")
 
-          roda_opts = roda_class.opts
           path = ::File.join(server.root, *public_path_segments(path))
 
           if accept_encoding = env['HTTP_ACCEPT_ENCODING']
-            roda_opts[:public_encodings].each do |enc, ext, regexp|
+            roda_class.public_encodings.each do |enc, ext, regexp|
               if regexp.send(MATCH_METHOD, accept_encoding)
                 public_serve_compressed(server, path, ext, enc)
               end

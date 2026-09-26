@@ -27,15 +27,12 @@ class Roda
       end 
 
       module ClassMethods
-        # The default response headers to use for the current class.
-        def default_headers
-          opts[:default_headers]
-        end
+        RodaPlugins.opt_attr_reader(self, :default_headers)
 
         # Optimize the response class set_default_headers method if it hasn't been
         # overridden and all default headers are strings.
         def freeze
-          if (headers = opts[:default_headers]).all?{|k, v| k.is_a?(String) && v.is_a?(String)} &&
+          if (headers = default_headers).all?{|k, v| k.is_a?(String) && v.is_a?(String)} &&
              (self::RodaResponse.instance_method(:set_default_headers).owner == Base::ResponseMethods)
             self::RodaResponse.class_eval(<<-END, __FILE__, __LINE__+1)
               private

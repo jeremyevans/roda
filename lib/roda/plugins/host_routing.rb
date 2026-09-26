@@ -176,6 +176,11 @@ class Roda
       end
       private_constant :DSL
 
+      module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :host_routing_hash)
+        RodaPlugins.opt_attr_reader(self, :host_routing_default_host)
+      end
+
       module InstanceMethods
         # Handle case where plugin is used without providing a block to
         # +hosts.default+.  This returns nil, ensuring that the hostname
@@ -207,9 +212,9 @@ class Roda
             host = ""
           end
 
-          roda_class.opts[:host_routing_hash][host] ||
+          roda_class.host_routing_hash[host] ||
             scope._host_routing_default(host) ||
-            roda_class.opts[:host_routing_default_host]
+            roda_class.host_routing_default_host
         end
       end
     end

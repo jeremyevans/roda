@@ -57,7 +57,7 @@ class Roda
         precompiled_file = app.assets_opts[:precompiled]
         prev_mtime = ::File.mtime(precompiled_file)
         app.instance_exec do
-          opts[:assets] = opts[:assets].merge(:compiled=>_compiled_assets_initial_hash.replace(assets_opts[:compiled])).freeze
+          opts[:assets] = assets_opts.merge(:compiled=>_compiled_assets_initial_hash.replace(assets_opts[:compiled])).freeze
 
           define_singleton_method(:recheck_precompiled_assets) do
             new_mtime = ::File.mtime(precompiled_file)

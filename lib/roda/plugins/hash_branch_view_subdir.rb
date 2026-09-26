@@ -33,9 +33,11 @@ class Roda
       end
 
       module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :hash_branch_view_subdir_methods)
+
         # Freeze the hash_branch_view_subdir metadata when freezing the app.
         def freeze
-          opts[:hash_branch_view_subdir_methods].freeze.each_value(&:freeze)
+          hash_branch_view_subdir_methods.freeze.each_value(&:freeze)
           super
         end
 
@@ -43,8 +45,8 @@ class Roda
         def inherited(subclass)
           super
 
-          h = subclass.opts[:hash_branch_view_subdir_methods]
-          opts[:hash_branch_view_subdir_methods].each do |namespace, routes|
+          h = subclass.hash_branch_view_subdir_methods
+          hash_branch_view_subdir_methods.each do |namespace, routes|
             h[namespace] = routes.dup
           end
         end
@@ -53,7 +55,7 @@ class Roda
         # by modifying the generated method to append the view subdirectory before
         # dispatching to the original block.
         def hash_branch(namespace='', segment, &block)
-          meths = opts[:hash_branch_view_subdir_methods][namespace] ||= {}
+          meths = hash_branch_view_subdir_methods[namespace] ||= {}
 
           if block
             meth = meths[segment] = define_roda_method(meths[segment] || "_hash_branch_view_subdir_#{namespace}_#{segment}", 1, &convert_route_block(block))

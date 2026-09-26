@@ -53,11 +53,14 @@ class Roda
       #                uses a hash that redirects GET and HEAD requests with a 301 status,
       #                and other request methods with a 307 status.
       def self.configure(app, opts=OPTS)
-        previous = app.opts[:redirect_http_to_https] || DEFAULTS
-        opts = app.opts[:redirect_http_to_https] = previous.merge(opts)
+        opts = app.opts[:redirect_http_to_https] = (app.redirect_http_to_https_opts || DEFAULTS).merge(opts)
         opts[:port_string] = opts[:port] ? ":#{opts[:port]}".freeze : "".freeze
         opts[:prefix] = opts[:host] ? "https://#{opts[:host]}#{opts[:port_string]}".freeze : nil
         opts.freeze
+      end
+
+      module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :redirect_http_to_https, name: :redirect_http_to_https_opts)
       end
 
       module RequestMethods
@@ -67,7 +70,7 @@ class Roda
         def redirect_http_to_https
           return if ssl?
 
-          opts = roda_class.opts[:redirect_http_to_https]
+          opts = roda_class.redirect_http_to_https_opts
 
           res = response
 

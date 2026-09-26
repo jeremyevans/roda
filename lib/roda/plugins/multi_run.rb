@@ -70,12 +70,15 @@ class Roda
       end
 
       module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :multi_run_apps)
+        RodaPlugins.opt_attr_reader(self, :multi_run_app_blocks)
+
         # Convert app blocks into apps by calling them, in order to force autoloads
         # and to speed up subsequent calls.
         # Freeze the multi_run apps so that there can be no thread safety issues at runtime.
         def freeze
-          app_blocks = opts[:multi_run_app_blocks]
-          apps = opts[:multi_run_apps]
+          app_blocks = multi_run_app_blocks
+          apps = multi_run_apps
           app_blocks.each do |prefix, block|
             apps[prefix] = block.call
           end
@@ -83,12 +86,6 @@ class Roda
           apps.freeze
           self::RodaRequest.refresh_multi_run_regexp!
           super
-        end
-
-        # Hash storing rack applications to dispatch to, keyed by the prefix
-        # for the application.
-        def multi_run_apps
-          opts[:multi_run_apps]
         end
 
         # Add a rack application to dispatch to for the given prefix when
@@ -100,14 +97,14 @@ class Roda
           prefix = prefix.to_s
           if app 
             raise Roda::RodaError, "cannot provide both app and block to Roda.run" if block
-            opts[:multi_run_apps][prefix] = app
-            opts[:multi_run_app_blocks].delete(prefix)
+            multi_run_apps[prefix] = app
+            multi_run_app_blocks.delete(prefix)
           elsif block
-            opts[:multi_run_apps].delete(prefix)
-            opts[:multi_run_app_blocks][prefix] = block
+            multi_run_apps.delete(prefix)
+            multi_run_app_blocks[prefix] = block
           else
-            opts[:multi_run_apps].delete(prefix)
-            opts[:multi_run_app_blocks].delete(prefix)
+            multi_run_apps.delete(prefix)
+            multi_run_app_blocks.delete(prefix)
           end
           self::RodaRequest.refresh_multi_run_regexp!
         end
@@ -117,7 +114,7 @@ class Roda
         # Refresh the multi_run_regexp, using the stored route prefixes,
         # preferring longer routes before shorter routes.
         def refresh_multi_run_regexp!
-          @multi_run_regexp = /(#{Regexp.union((roda_class.opts[:multi_run_apps].keys + roda_class.opts[:multi_run_app_blocks].keys).sort.reverse)})/
+          @multi_run_regexp = /(#{Regexp.union((roda_class.multi_run_apps.keys + roda_class.multi_run_app_blocks.keys).sort.reverse)})/
         end
 
         # Refresh the multi_run_regexp if it hasn't been loaded yet.
@@ -132,8 +129,7 @@ class Roda
         def multi_run
           on self.class.multi_run_regexp do |prefix|
             yield prefix if defined?(yield)
-            opts = scope.opts
-            run(opts[:multi_run_apps][prefix] || opts[:multi_run_app_blocks][prefix].call)
+            run(roda_class.multi_run_apps[prefix] || roda_class.multi_run_app_blocks[prefix].call)
           end
         end
       end

@@ -401,7 +401,7 @@ class Roda
           app.opts[:assets] = opts.dup
           app.opts[:assets][:orig_opts] = opts
         end
-        opts = app.opts[:assets]
+        opts = app.assets_opts
         opts[:path] = app.expand_path(opts[:path]||"assets").freeze
         opts[:public] = app.expand_path(opts[:public]||"public").freeze
 
@@ -498,10 +498,7 @@ class Roda
       end
 
       module ClassMethods
-        # Return the assets options for this class.
-        def assets_opts
-          opts[:assets]
-        end
+        RodaPlugins.opt_attr_reader(self, :assets, name: :assets_opts)
 
         # Compile options for the given asset type.  If no asset_type
         # is given, compile both the :css and :js asset types.  You
@@ -525,7 +522,7 @@ class Roda
             require 'json'
             ::FileUtils.mkdir_p(File.dirname(precompile_file))
             tmp_file = "#{precompile_file}.tmp"
-            ::File.open(tmp_file, 'wb'){|f| f.write((opts[:json_serializer] || :to_json.to_proc).call(assets_opts[:compiled]))}
+            ::File.open(tmp_file, 'wb'){|f| f.write((json_serializer || :to_json.to_proc).call(assets_opts[:compiled]))}
             ::File.rename(tmp_file, precompile_file)
           end
 
@@ -558,7 +555,7 @@ class Roda
 
         # The precompiled asset metadata stored in the given file
         def _precompiled_asset_metadata(file)
-          (opts[:json_parser] || ::JSON.method(:parse)).call(::File.read(file))
+          (json_parser || ::JSON.method(:parse)).call(::File.read(file))
         end
 
         # Compile each array of files for the given type into a single
@@ -711,7 +708,7 @@ class Roda
           end
           stype = ltype.to_s
 
-          url_prefix = request.script_name if self.class.opts[:add_script_name]
+          url_prefix = request.script_name if self.class.add_script_name?
           relative_paths = o[:relative_paths]
 
           paths = if o[:compiled]

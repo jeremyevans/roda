@@ -191,7 +191,7 @@ class Roda
         def dispatch_from(namespace='', branch, &block)
           ns = @namespace
           if block
-            meth_hash = @roda.opts[:hash_routes_methods]
+            meth_hash = @roda.hash_routes_methods
             key = [:dispatch_from, namespace, branch].freeze
             meth = meth_hash[key] = @roda.define_roda_method(meth_hash[key] || "hash_routes_dispatch_from_#{namespace}_#{branch}", 1, &block)
             @roda.hash_branch(namespace, branch) do |r|
@@ -253,7 +253,7 @@ class Roda
         # Returns 404 for requests for the path with a different request method.
         def verb(verb, path, &block)
           path = path == true ? "" : "/#{path}"
-          meth_hash = @roda.opts[:hash_routes_methods]
+          meth_hash = @roda.hash_routes_methods
           key = [@namespace, path].freeze
           meth = meth_hash[key] = @roda.define_roda_method(meth_hash[key] || "hash_routes_#{@namespace}_#{path}", 0, &block)
           @roda.hash_path(@namespace, path) do |r|
@@ -265,9 +265,11 @@ class Roda
       end
 
       module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :hash_routes_methods)
+
         # Freeze the hash_routes metadata when freezing the app.
         def freeze
-          opts[:hash_routes_methods].freeze
+          hash_routes_methods.freeze
           super
         end
 

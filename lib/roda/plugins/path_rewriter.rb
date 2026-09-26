@@ -53,10 +53,13 @@ class Roda
       end
 
       module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :remaining_path_rewrites)
+        RodaPlugins.opt_attr_reader(self, :path_info_rewrites)
+
         # Freeze the path rewrite metadata.
         def freeze
-          opts[:remaining_path_rewrites].freeze
-          opts[:path_info_rewrites].freeze
+          remaining_path_rewrites.freeze
+          path_info_rewrites.freeze
           super
         end
 
@@ -75,7 +78,7 @@ class Roda
           end
 
           was = /\A#{Regexp.escape(was)}/ unless was.is_a?(Regexp)
-          array = @opts[opts[:path_info] ? :path_info_rewrites : :remaining_path_rewrites]
+          array = opts[:path_info] ? path_info_rewrites : remaining_path_rewrites
           array << [was, is.dup.freeze].freeze
         end
       end
@@ -85,10 +88,10 @@ class Roda
         def initialize(scope, env)
           path_info = env['PATH_INFO']
 
-          rewrite_path(scope.class.opts[:path_info_rewrites], path_info)
+          rewrite_path(scope.class.path_info_rewrites, path_info)
           super
           remaining_path = @remaining_path = @remaining_path.dup
-          rewrite_path(scope.class.opts[:remaining_path_rewrites], remaining_path)
+          rewrite_path(scope.class.remaining_path_rewrites, remaining_path)
         end
 
         private

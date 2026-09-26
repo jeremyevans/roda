@@ -256,6 +256,11 @@ class Roda
         end
       end
 
+      module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :absolute_redirects, name: :absolute_redirects?)
+        RodaPlugins.opt_attr_reader(self, :prefixed_redirects, name: :prefixed_redirects?)
+      end
+
       module RequestMethods
         # Alias for referrer
         def back
@@ -285,9 +290,8 @@ class Roda
         # If the absolute_redirects or :prefixed_redirects roda class options has been set, respect those
         # and update the path.
         def redirect(path=(no_add_script_name = true; default_redirect_path), status=default_redirect_status)
-          opts = roda_class.opts
-          absolute_redirects = opts[:absolute_redirects]
-          prefixed_redirects = no_add_script_name ? false : opts[:prefixed_redirects]
+          absolute_redirects = roda_class.absolute_redirects?
+          prefixed_redirects = no_add_script_name ? false : roda_class.prefixed_redirects?
           path = uri(path, absolute_redirects, prefixed_redirects) if absolute_redirects || prefixed_redirects
           super(path, status)
         end

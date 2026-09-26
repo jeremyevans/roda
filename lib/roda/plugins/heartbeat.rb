@@ -16,7 +16,11 @@ class Roda
     module Heartbeat
       # Set the heartbeat path to the given path.
       def self.configure(app, opts=OPTS)
-        app.opts[:heartbeat_path] = (opts[:path] || app.opts[:heartbeat_path] || "/heartbeat").dup.freeze
+        app.opts[:heartbeat_path] = (opts[:path] || app.heartbeat_path || "/heartbeat").dup.freeze
+      end
+
+      module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :heartbeat_path)
       end
 
       module InstanceMethods
@@ -24,7 +28,7 @@ class Roda
 
         # If the request is for a heartbeat path, return the heartbeat response.
         def _roda_before_20__heartbeat
-          if env['PATH_INFO'] == opts[:heartbeat_path]
+          if env['PATH_INFO'] == self.class.heartbeat_path
             response = @_response
             response.status = 200
             response[RodaResponseHeaders::CONTENT_TYPE] = 'text/plain'

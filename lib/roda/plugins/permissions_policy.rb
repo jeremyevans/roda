@@ -280,7 +280,7 @@ class Roda
 
       # Yield the current Permissions Policy to the block.
       def self.configure(app, opts=OPTS)
-        policy = app.opts[:permissions_policy] = if policy = app.opts[:permissions_policy]
+        policy = app.opts[:permissions_policy] = if policy = app.permissions_policy
           policy.dup
         else
           Policy.new
@@ -294,6 +294,10 @@ class Roda
 
         yield policy if defined?(yield)
         policy.freeze
+      end
+
+      module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :permissions_policy)
       end
 
       module InstanceMethods
@@ -315,7 +319,7 @@ class Roda
 
         # The current permissions policy to be used for this response.
         def permissions_policy
-          @permissions_policy ||= roda_class.opts[:permissions_policy].dup
+          @permissions_policy ||= roda_class.permissions_policy.dup
         end
 
         # Do not set a permissions policy header for this response.
@@ -329,7 +333,7 @@ class Roda
         def set_default_headers
           super
           unless @skip_permissions_policy
-            (@permissions_policy || roda_class.opts[:permissions_policy]).set_header(headers)
+            (@permissions_policy || roda_class.permissions_policy).set_header(headers)
           end
         end
       end

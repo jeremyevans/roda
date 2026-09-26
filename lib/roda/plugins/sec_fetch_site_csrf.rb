@@ -69,7 +69,7 @@ class Roda
       class CsrfFailure < RodaError; end
 
       def self.configure(app, opts=OPTS, &block)
-        options = app.opts[:sec_fetch_site_csrf] = (app.opts[:sec_fetch_site_csrf] || DEFAULTS).merge(opts)
+        options = app.opts[:sec_fetch_site_csrf] = (app.sec_fetch_site_csrf_opts || DEFAULTS).merge(opts)
 
         allowed_values = options[:allowed_values] = ["same-origin"]
         allowed_values << "same-site" if opts[:allow_same_site]
@@ -94,6 +94,10 @@ class Roda
         options.freeze
       end
 
+      module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :sec_fetch_site_csrf, name: :sec_fetch_site_csrf_opts)
+      end
+
       module InstanceMethods
         # Check that the Sec-Fetch-Site header is valid, if the request requires it.
         # If the header is valid or the request does not require the header, return nil.
@@ -101,7 +105,7 @@ class Roda
         # if a block is not given, use the plugin :csrf_failure option to determine how to
         # handle it.
         def check_sec_fetch_site!(&block)
-          plugin_opts = self.class.opts[:sec_fetch_site_csrf]
+          plugin_opts = self.class.sec_fetch_site_csrf_opts
           return unless plugin_opts[:check_request_methods].include?(request.request_method)
 
           sec_fetch_site = env["HTTP_SEC_FETCH_SITE"]

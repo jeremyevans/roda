@@ -50,10 +50,14 @@ class Roda
           else
             mime_types.dup
           end
-          app.opts[:repsonse_content_types] = mime_types.freeze
+          app.opts[:response_content_types] = mime_types.freeze
         else
-          app.opts[:repsonse_content_types] ||= {}
+          app.opts[:response_content_types] ||= {}
         end
+      end
+
+      module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :response_content_types)
       end
 
       module ResponseMethods
@@ -68,7 +72,7 @@ class Roda
         # type with the given file extension. If the symbol is not
         # a recognized mime type, raises KeyError.
         def content_type=(mime_type)
-          mime_type = roda_class.opts[:repsonse_content_types].fetch(mime_type) if mime_type.is_a?(Symbol)
+          mime_type = roda_class.response_content_types.fetch(mime_type) if mime_type.is_a?(Symbol)
           @headers[RodaResponseHeaders::CONTENT_TYPE] = mime_type
         end
       end

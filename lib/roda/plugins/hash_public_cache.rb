@@ -40,13 +40,15 @@ class Roda
       end
 
       module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :hash_public_cache_file)
+
         # Load the hash public cache file, if it exists. This replaces the hash
         # public cache with the values from the file.
         def load_hash_public_cache_file
-          file = opts[:hash_public_cache_file]
+          file = hash_public_cache_file
           return unless File.file?(file)
 
-          cache = opts[:hash_public_cache] = (opts[:json_parser] || ::JSON.method(:parse)).call(::File.read(file))
+          cache = opts[:hash_public_cache] = (json_parser || ::JSON.method(:parse)).call(::File.read(file))
           cache.each_value(&:freeze)
           nil
         end
@@ -56,13 +58,13 @@ class Roda
         # If a block is given, it will only calculate the digest for the file
         # if the block returns truthy.
         def scan_hash_public_cache_dir
-          cache = opts[:hash_public_cache]
+          cache = hash_public_cache
 
           # Public root doesn't have trailing slash even if given, as
           # File.expand_path removes it.
-          root = opts[:public_root] + File::SEPARATOR
+          root = public_root + File::SEPARATOR
 
-          Find.find(opts[:public_root]) do |file|
+          Find.find(public_root) do |file|
             if File.file?(file)
               file = file.sub(root, '')
               next if cache[file]
@@ -80,7 +82,7 @@ class Roda
 
         # Write the current hash public cache to the cache file.
         def dump_hash_public_cache_file
-          File.write(opts[:hash_public_cache_file], (opts[:json_serializer] || :to_json.to_proc).call(opts[:hash_public_cache]))
+          File.write(hash_public_cache_file, (json_serializer || :to_json.to_proc).call(hash_public_cache))
           nil
         end
       end

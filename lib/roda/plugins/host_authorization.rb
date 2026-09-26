@@ -101,6 +101,11 @@ class Roda
         end
       end
 
+      module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :host_authorization_host)
+        RodaPlugins.opt_attr_reader(self, :host_authorization_check_forwarded, name: :host_authorization_check_forwarded?)
+      end
+
       module InstanceMethods
         # Check whether the host is authorized.  If not authorized, return a response
         # immediately based on the plugin block.
@@ -108,7 +113,7 @@ class Roda
           r = @_request
           return if host_authorized?(_convert_host_for_authorization(r.env["HTTP_HOST"].to_s.dup))
 
-          if opts[:host_authorization_check_forwarded] && (host = r.env["HTTP_X_FORWARDED_HOST"])
+          if self.class.host_authorization_check_forwarded? && (host = r.env["HTTP_X_FORWARDED_HOST"])
             if i = host.rindex(',')
               host = host[i+1, 10000000].to_s
             end
@@ -133,7 +138,7 @@ class Roda
         end
 
         # Whether the host given is one of the authorized hosts for this application.
-        def host_authorized?(host, authorized_host = opts[:host_authorization_host])
+        def host_authorized?(host, authorized_host = self.class.host_authorization_host)
           case authorized_host
           when Array
             authorized_host.any?{|auth_host| host_authorized?(host, auth_host)}

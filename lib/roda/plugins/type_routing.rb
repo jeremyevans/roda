@@ -110,7 +110,7 @@ class Roda
       }.freeze
 
       def self.configure(app, opts = {})
-        config = (app.opts[:type_routing] || CONFIGURATION).dup
+        config = (app.type_routing_opts || CONFIGURATION).dup
         [:use_extension, :use_header, :default_type].each do |key|
           config[key] = opts[key] if opts.has_key?(key)
         end
@@ -149,12 +149,16 @@ class Roda
         app.opts[:type_routing] = config.freeze
       end
 
+      module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :type_routing, name: :type_routing_opts)
+      end
+
       module RequestMethods
         # Yields if the given +type+ matches the requested data type and halts
         # the request afterwards, returning the result of the block.
         def on_type(type, &block)
           return unless type == requested_type
-          response[RodaResponseHeaders::CONTENT_TYPE] ||= @scope.opts[:type_routing][:types][type]
+          response[RodaResponseHeaders::CONTENT_TYPE] ||= roda_class.type_routing_opts[:types][type]
           always(&block)
         end
 
@@ -162,7 +166,7 @@ class Roda
         def requested_type
           return @requested_type if @requested_type
 
-          opts = @scope.opts[:type_routing]
+          opts = roda_class.type_routing_opts
           @requested_type = accept_response_type if opts[:use_header]
           @requested_type ||= opts[:default_type]
         end
@@ -182,7 +186,7 @@ class Roda
         # Removes a trailing file extension from the path, and sets
         # the requested type if so.
         def _remaining_path(env)
-          opts = scope.opts[:type_routing]
+          opts = roda_class.type_routing_opts
           path = super
 
           if opts[:use_extension]
@@ -197,7 +201,7 @@ class Roda
 
         # The response type indicated by the Accept request header.
         def accept_response_type
-          mimes = @scope.opts[:type_routing][:mimes]
+          mimes = roda_class.type_routing_opts[:mimes]
           response[RodaResponseHeaders::VARY] = (vary = response[RodaResponseHeaders::VARY]) ? "#{vary}, Accept" : 'Accept'
 
           @env['HTTP_ACCEPT'].to_s.split(/\s*,\s*/).map do |part|

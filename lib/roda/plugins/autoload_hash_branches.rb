@@ -38,13 +38,15 @@ class Roda
       end
 
       module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :autoload_hash_branch_files)
+
         # Autoload the given file when there is request for the hash branch.
         # The given file should configure the hash branch specified.
         def autoload_hash_branch(namespace='', segment, file)
           segment = "/#{segment}"
           file = File.expand_path(file)
-          opts[:autoload_hash_branch_files] << file
-          routes = opts[:hash_branches][namespace] ||= {}
+          autoload_hash_branch_files << file
+          routes = hash_branches[namespace] ||= {}
           meth = routes[segment] = define_roda_method(routes[segment] || "hash_branch_#{namespace}_#{segment}", 1) do |r|
             loc = method(routes[segment]).source_location
             require file
@@ -68,7 +70,11 @@ class Roda
 
         # Eagerly load all hash branches when freezing the application.
         def freeze
-          opts.delete(:autoload_hash_branch_files).each{|file| require file} unless opts.frozen?
+          unless opts.frozen?
+            autoload_hash_branch_files.each{|file| require file}
+            opts[:autoload_hash_branch_files] = nil
+            opts.delete(:autoload_hash_branch_files)
+          end
           super
         end
       end

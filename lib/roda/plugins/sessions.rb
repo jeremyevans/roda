@@ -179,11 +179,11 @@ class Roda
 
       # Configure the plugin, see Sessions for details on options.
       def self.configure(app, opts=OPTS)
-        opts = (app.opts[:sessions] || DEFAULT_OPTIONS).merge(opts)
+        opts = (app.sessions_opts || DEFAULT_OPTIONS).merge(opts)
         co = opts[:cookie_options] = DEFAULT_COOKIE_OPTIONS.merge(opts[:cookie_options] || OPTS).freeze
         opts[:remove_cookie_options] = co.merge(:max_age=>'0', :expires=>Time.at(0))
-        opts[:parser] ||= app.opts[:json_parser] || JSON.method(:parse)
-        opts[:serializer] ||= app.opts[:json_serializer] || :to_json.to_proc
+        opts[:parser] ||= app.json_parser || JSON.method(:parse)
+        opts[:serializer] ||= app.json_serializer || :to_json.to_proc
 
         opts[:per_cookie_cipher_secret] = true unless opts.has_key?(:per_cookie_cipher_secret)
         opts[:session_version_num] = opts[:per_cookie_cipher_secret] ? 1 : 0
@@ -216,6 +216,10 @@ class Roda
         app.opts[:sessions_convert_symbols] = true unless app.opts.has_key?(:sessions_convert_symbols)
       end
 
+      module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :sessions, name: :sessions_opts)
+      end
+
       module InstanceMethods
         # Clear data from the session, and update the request environment
         # so that the session cookie will use a new creation timestamp
@@ -233,7 +237,7 @@ class Roda
         # update the rack response headers to set the session cookie in
         # the response.
         def _roda_after_50__sessions(res)
-          if res && (session = env[self.class.opts[:sessions][:env_key]])
+          if res && (session = env[self.class.sessions_opts[:env_key]])
             @_request.persist_session(res[1], session)
           end
         end
@@ -247,7 +251,7 @@ class Roda
         # this method stores the session in 'rack.session' in the request environment,
         # but that does not happen until this method is called.
         def session
-          @env[roda_class.opts[:sessions][:env_key]] ||= _load_session
+          @env[roda_class.sessions_opts[:env_key]] ||= _load_session
         end
 
         # The time the session was originally created. nil if there is no active session.
@@ -266,7 +270,7 @@ class Roda
         # Rack::Session::Cookie, mark the related cookie for expiration so it isn't
         # sent in the future.
         def persist_session(headers, session)
-          opts = roda_class.opts[:sessions]
+          opts = roda_class.sessions_opts
 
           if session.empty?
             if env[SESSION_SERIALIZED]
@@ -317,7 +321,7 @@ class Roda
         # Load the session by looking for the appropriate cookie, or falling
         # back to the rack session cookie if configured.
         def _load_session
-          opts = roda_class.opts[:sessions]
+          opts = roda_class.sessions_opts
           cs = cookies
 
           if data = cs[opts[:key]]
@@ -340,7 +344,7 @@ class Roda
         # serialized session using the default Rack::Session::Cookie
         # hmac and coder.
         def _deserialize_rack_session(data)
-          opts = roda_class.opts[:sessions]
+          opts = roda_class.sessions_opts
           data, digest = data.split("--", 2)
           unless digest
             return _session_serialization_error("Not decoding Rack::Session::Cookie session: invalid format")
@@ -374,7 +378,7 @@ class Roda
 
         # Interpret given cookie data as a Rack::Session::Cookie
         def _deserialize_session(data)
-          opts = roda_class.opts[:sessions]
+          opts = roda_class.sessions_opts
 
           begin
             data = Base64_.urlsafe_decode64(data)
@@ -466,7 +470,7 @@ class Roda
         end
 
         def _serialize_session(session)
-          opts = roda_class.opts[:sessions]
+          opts = roda_class.sessions_opts
           env = @env
           now = Time.now.to_i
           json_data = opts[:serializer].call(session).force_encoding('BINARY')

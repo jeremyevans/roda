@@ -44,16 +44,18 @@ class Roda
       end
 
       module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :custom_block_results)
+
         # Freeze the configured custom block results when freezing the app.
         def freeze
-          opts[:custom_block_results].freeze
+          custom_block_results.freeze
           super
         end
 
         # Specify a block that will be called when an instance of klass
         # is returned as a block result.  The block defines a method.
         def handle_block_result(klass, &block)
-          opts[:custom_block_results][klass] = define_roda_method(opts[:custom_block_results][klass] || "custom_block_result_#{klass}", 1, &block)
+          custom_block_results[klass] = define_roda_method(custom_block_results[klass] || "custom_block_result_#{klass}", 1, &block)
         end
       end
 
@@ -63,7 +65,7 @@ class Roda
         # Try each configured custom block result, and call the related method
         # to get the block result.
         def unsupported_block_result(result)
-          roda_class.opts[:custom_block_results].each do |klass, meth|
+          roda_class.custom_block_results.each do |klass, meth|
             if klass === result
               result = scope.send(meth, result)
 

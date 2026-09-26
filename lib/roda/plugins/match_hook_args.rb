@@ -40,20 +40,22 @@ class Roda
       end
 
       module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :match_hook_args)
+
         # Freeze the array of hook methods when freezing the app
         def freeze
-          opts[:match_hook_args].freeze
+          match_hook_args.freeze
           super
         end
 
         # Add a match hook that will be called with matchers and block args.
         def add_match_hook(&block)
-          opts[:match_hook_args] << define_roda_method("match_hook_args", :any, &block)
+          match_hook_args << define_roda_method("match_hook_args", :any, &block)
 
-          if opts[:match_hook_args].length == 1
-            class_eval("alias _match_hook_args #{opts[:match_hook_args].first}", __FILE__, __LINE__)
+          if match_hook_args.length == 1
+            class_eval("alias _match_hook_args #{match_hook_args.first}", __FILE__, __LINE__)
           else
-            class_eval("def _match_hook_args(v, a); #{opts[:match_hook_args].map{|m| "#{m}(v, a)"}.join(';')} end", __FILE__, __LINE__)
+            class_eval("def _match_hook_args(v, a); #{match_hook_args.map{|m| "#{m}(v, a)"}.join(';')} end", __FILE__, __LINE__)
           end
 
           public :_match_hook_args

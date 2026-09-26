@@ -56,7 +56,7 @@ class Roda
           {'From'=>h[:from], 'To'=>h[:to], 'Subject'=>"#{h[:prefix]}#{subject}"}
         end,
         :body=>lambda do |s, e|
-          filter = s.opts[:error_email][:filter]
+          filter = s.class.error_email_opts[:filter]
           format = lambda do |h|
             h = h.map{|k, v| "#{k.inspect} => #{filter.call(k, v) ? 'FILTERED' : v.inspect}"}
             h.sort!
@@ -120,8 +120,12 @@ END
           raise RodaError, "must provide :to and :from options to error_email plugin"
         end
         app.opts[:error_email] = email_opts
-        app.opts[:error_email][:headers].freeze
-        app.opts[:error_email].freeze
+        app.error_email_opts[:headers].freeze
+        app.error_email_opts.freeze
+      end
+
+      module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :error_email, name: :error_email_opts)
       end
 
       module InstanceMethods
@@ -129,7 +133,7 @@ END
         # instance, but it can be a plain string which is used as the subject for
         # the email.
         def error_email(exception)
-          email_opts = self.class.opts[:error_email].dup
+          email_opts = self.class.error_email_opts.dup
           email_opts[:message] = error_email_content(exception)
           email_opts[:emailer].call(email_opts)
         end
@@ -137,7 +141,7 @@ END
         # The content of the email to send, include the headers and the body.
         # Takes the same argument as #error_email.
         def error_email_content(exception)
-          email_opts = self.class.opts[:error_email]
+          email_opts = self.class.error_email_opts
           headers = email_opts[:default_headers].call(email_opts, exception)
           headers = headers.merge(email_opts[:headers])
           headers = headers.map{|k,v| "#{k}: #{v.gsub(/\r?\n/m, "\r\n ")}"}.sort.join("\r\n")

@@ -5,6 +5,7 @@ require_relative "roda/request"
 require_relative "roda/response"
 require_relative "roda/plugins"
 require_relative "roda/cache"
+require_relative "roda/opts"
 require_relative "roda/version"
 
 # The main class for Roda.  Roda is built completely out of plugins, with the
@@ -18,7 +19,8 @@ class Roda
   @inherit_middleware = true
   @middleware = []
   @plugins = []
-  @opts = {}
+  @opts = RodaOpts.new
+  @opts.roda_class = self
   @raw_route_block = nil
   @route_block = nil
   @rack_app_route_block = nil
@@ -30,6 +32,11 @@ class Roda
     module Base
       # Class methods for the Roda class.
       module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :root, name: :app_root)
+        RodaPlugins.opt_attr_reader(self, :json_parser)
+        RodaPlugins.opt_attr_reader(self, :json_serializer)
+        RodaPlugins.opt_attr_reader(self, :add_script_name, name: :add_script_name?)
+
         # The rack application that this class uses.
         def app
           @app || build_rack_app
@@ -189,7 +196,7 @@ class Roda
         end
 
         # Expand the given path, using the root argument as the base directory.
-        def expand_path(path, root=opts[:root])
+        def expand_path(path, root=app_root)
           ::File.expand_path(path, root)
         end
 
@@ -253,21 +260,28 @@ class Roda
         def inherited(subclass)
           raise RodaError, "Cannot subclass a frozen Roda class" if frozen?
 
-          # Mark current class as having been subclassed, as some optimizations
-          # depend on the class not being subclassed
-          opts[:subclassed] = true
-
           super
           subclass.instance_variable_set(:@inherit_middleware, @inherit_middleware)
           subclass.instance_variable_set(:@middleware, @inherit_middleware ? @middleware.dup : [])
           subclass.instance_variable_set(:@plugins, @plugins.dup)
-          subclass.instance_variable_set(:@opts, opts.dup)
-          subclass.opts.delete(:subclassed)
-          subclass.opts.to_a.each do |k,v|
-            if (v.is_a?(Array) || v.is_a?(Hash)) && !v.frozen?
-              subclass.opts[k] = v.dup
+
+          opts = RodaOpts.new
+          opts.roda_class = subclass
+          @opts.each do |k,v|
+            opts[k] = if k == :subclassed
+              false
+            elsif (v.is_a?(Array) || v.is_a?(Hash)) && !v.frozen?
+              v.dup
+            else
+              v
             end
           end
+          subclass.instance_variable_set(:@opts, opts)
+
+          # Mark current class as having been subclassed, as some optimizations
+          # depend on the class not being subclassed
+          @opts[:subclassed] = true
+
           if block = @raw_route_block
             subclass.route(&block)
           end

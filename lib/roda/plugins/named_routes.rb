@@ -111,22 +111,24 @@ class Roda
       end
 
       module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :namespaced_routes)
+
         # Freeze the namespaced routes so that there can be no thread safety issues at runtime.
         def freeze
-          opts[:namespaced_routes].freeze.each_value(&:freeze)
+          namespaced_routes.freeze.each_value(&:freeze)
           super
         end
 
         # Copy the named routes into the subclass when inheriting.
         def inherited(subclass)
           super
-          nsr = subclass.opts[:namespaced_routes]
-          opts[:namespaced_routes].each{|k, v| nsr[k] = v.dup}
+          nsr = subclass.namespaced_routes
+          namespaced_routes.each{|k, v| nsr[k] = v.dup}
         end
 
         # The names for the currently stored named routes
         def named_routes(namespace=nil)
-          unless routes = opts[:namespaced_routes][namespace]
+          unless routes = namespaced_routes[namespace]
             raise RodaError, "unsupported named_routes namespace used: #{namespace.inspect}"
           end
           routes.keys
@@ -134,7 +136,7 @@ class Roda
 
         # Return the named route with the given name.
         def named_route(name, namespace=nil)
-          opts[:namespaced_routes][namespace][name]
+          namespaced_routes[namespace][name]
         end
 
         # If the given route has a name, treat it as a named route and
@@ -142,7 +144,7 @@ class Roda
         # call super.
         def route(name=nil, namespace=nil, &block)
           if name
-            routes = opts[:namespaced_routes][namespace] ||= {}
+            routes = namespaced_routes[namespace] ||= {}
             if block
               routes[name] = define_roda_method(routes[name] || "named_routes_#{namespace}_#{name}", 1, &convert_route_block(block))
             elsif meth = routes.delete(name)

@@ -20,11 +20,15 @@ class Roda
         app.opts[:ip_from_header_env_key] = "HTTP_#{header.upcase.tr('-', '_')}".freeze
       end
 
+      module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :ip_from_header_env_key)
+      end
+
       module RequestMethods
         # Return the IP address continained in the configured header, if present.
         # Fallback to the default behavior if not present.
         def ip
-          @env[roda_class.opts[:ip_from_header_env_key]] || super
+          @env[roda_class.ip_from_header_env_key] || super
         end
       end
     end

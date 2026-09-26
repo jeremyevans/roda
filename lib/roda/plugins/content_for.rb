@@ -69,13 +69,17 @@ class Roda
         app.opts[:append_content_for] = opts.fetch(:append, true)
       end
 
+      module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :append_content_for, name: :append_content_for?)
+      end
+
       module InstanceMethods
         # If called with a block, store content enclosed by block
         # under the given key.  If called without a block, retrieve
         # stored content with the given key, or return nil if there
         # is no content stored with that key.
         def content_for(key, value=nil, &block)
-          append = opts[:append_content_for]
+          append = self.class.append_content_for?
 
           if block || value
             if block

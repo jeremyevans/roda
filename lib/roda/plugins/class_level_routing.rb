@@ -60,17 +60,19 @@ class Roda
       end
 
       module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :class_level_routes)
+
         # Define routing methods that will store class level routes.
         [:root, :on, :is, :get, :post, :delete, :head, :options, :link, :patch, :put, :trace, :unlink].each do |request_meth|
           define_method(request_meth) do |*args, &block|
             meth = define_roda_method("class_level_routing_#{request_meth}", :any, &block)
-            opts[:class_level_routes] << [request_meth, args, meth].freeze
+            class_level_routes << [request_meth, args, meth].freeze
           end
         end
 
         # Freeze the class level routes so that there can be no thread safety issues at runtime.
         def freeze
-          opts[:class_level_routes].freeze
+          class_level_routes.freeze
           super
         end
       end
@@ -93,7 +95,7 @@ class Roda
             @_response.status = nil
             result.replace(_roda_handle_route do
               r = @_request
-              opts[:class_level_routes].each do |request_meth, args, meth|
+              self.class.class_level_routes.each do |request_meth, args, meth|
                 r.instance_variable_set(:@remaining_path, @_original_remaining_path)
                 r.public_send(request_meth, *args) do |*a|
                   send(meth, *a)

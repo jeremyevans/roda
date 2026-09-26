@@ -42,11 +42,14 @@ class Roda
       # strip.
       def self.configure(app, opts=OPTS)
         app.opts[:render_coverage_strip_paths] = opts[:strip_paths].map{|f| File.expand_path(f)} if opts.has_key?(:strip_paths)
-        coverage_dir = app.opts[:render_coverage_dir] = opts[:dir] || app.opts[:render_coverage_dir] || 'coverage/views'
+        coverage_dir = app.opts[:render_coverage_dir] = opts[:dir] || app.render_coverage_dir || 'coverage/views'
         Dir.mkdir(coverage_dir) unless File.directory?(coverage_dir)
       end
 
       module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :render_coverage_strip_paths)
+        RodaPlugins.opt_attr_reader(self, :render_coverage_dir)
+
         # Set a compiled path on the created template, if the path for
         # the template is in one of the allowed_views.
         def create_template(opts, template_opts)
@@ -54,10 +57,10 @@ class Roda
 
           path = File.expand_path(opts[:path])
           compiled_path = nil
-          (self.opts[:render_coverage_strip_paths] || render_opts[:allowed_paths]).each do |dir|
+          (render_coverage_strip_paths || render_opts[:allowed_paths]).each do |dir|
             dir += "/" unless dir.end_with?("/")
             if path.start_with?(dir)
-              compiled_path = File.join(self.opts[:render_coverage_dir], path[dir.length, 10000000].tr('/', '-'))
+              compiled_path = File.join(render_coverage_dir, path[dir.length, 10000000].tr('/', '-'))
               break
             end
           end

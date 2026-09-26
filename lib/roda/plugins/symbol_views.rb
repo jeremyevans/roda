@@ -28,7 +28,7 @@ class Roda
       end
 
       def self.configure(app)
-        app.opts[:custom_block_results][Symbol] = :view
+        app.custom_block_results[Symbol] = :view
       end
     end
 

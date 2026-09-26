@@ -44,22 +44,18 @@ class Roda
       # if no environment is given.  If ENV['RACK_ENV'] is not set and
       # no environment is given, assume the development environment.
       def self.configure(app, env=ENV["RACK_ENV"])
-        app.environment = (env || 'development').to_sym
+        app.opts[:environment] = (env || 'development').to_sym
       end
 
       module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :environment)
+
         # If no environments are given or one of the given environments
         # matches the current environment, yield the receiver to the block.
         def configure(*envs)
           if envs.empty? || envs.any?{|s| s == environment}
             yield self
           end
-        end
-
-        # The current environment for the application, which should be stored
-        # as a symbol.
-        def environment
-          opts[:environment]
         end
 
         # Override the environment for the application, instead of using

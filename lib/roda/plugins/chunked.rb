@@ -162,7 +162,7 @@ class Roda
         app.opts[:chunk_by_default] = opts[:chunk_by_default]
         app.opts[:force_chunked_encoding] = opts[:force_chunked_encoding]
         if opts[:headers]
-          app.opts[:chunk_headers] = (app.opts[:chunk_headers] || {}).merge(opts[:headers]).freeze
+          app.opts[:chunk_headers] = (app.chunk_headers || {}).merge(opts[:headers]).freeze
         end
       end
 
@@ -207,6 +207,12 @@ class Roda
         end
       end
 
+      module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :chunk_by_default, name: :chunk_by_default?)
+        RodaPlugins.opt_attr_reader(self, :force_chunked_encoding, name: :force_chunked_encoding?)
+        RodaPlugins.opt_attr_reader(self, :chunk_headers)
+      end
+
       module InstanceMethods
         # Disable chunking for the current request.  Mostly useful when
         # chunking is turned on by default.
@@ -217,7 +223,7 @@ class Roda
         # If chunking by default, call chunked if it hasn't yet been
         # called and chunking is not specifically disabled.
         def view(*a)
-          if opts[:chunk_by_default] && @_chunked != false && !defined?(yield)
+          if self.class.chunk_by_default? && @_chunked != false && !defined?(yield)
             chunked(*a)
           else
             super
@@ -228,7 +234,7 @@ class Roda
         # an overview.  If a block is given, it is passed to #delay.
         def chunked(template, opts=OPTS, &block)
           if @_chunked.nil?
-            @_chunked = !self.opts[:force_chunked_encoding] || @_request.http_version == "HTTP/1.1" 
+            @_chunked = !self.class.force_chunked_encoding? || @_request.http_version == "HTTP/1.1" 
           end
 
           if block
@@ -255,10 +261,10 @@ class Roda
 
           res = response
           headers = res.headers
-          if chunk_headers = self.opts[:chunk_headers]
+          if chunk_headers = self.class.chunk_headers
             headers.merge!(chunk_headers)
           end
-          if self.opts[:force_chunked_encoding]
+          if self.class.force_chunked_encoding?
             res[RodaResponseHeaders::TRANSFER_ENCODING] = 'chunked'
             body = Body.new(self)
           else

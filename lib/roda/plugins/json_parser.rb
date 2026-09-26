@@ -46,12 +46,12 @@ class Roda
       #          :always will wrap all values, and a value of :unless_hash will
       #          only wrap values that are not already hashes.
       def self.configure(app, opts=OPTS)
-        app.opts[:json_parser_error_handler] = opts[:error_handler] || app.opts[:json_parser_error_handler] || DEFAULT_ERROR_HANDLER
-        app.opts[:json_parser_parser] = opts[:parser] || app.opts[:json_parser_parser] || app.opts[:json_parser] || JSON.method(:parse)
+        app.opts[:json_parser_error_handler] = opts[:error_handler] || app.json_parser_error_handler || DEFAULT_ERROR_HANDLER
+        app.opts[:json_parser_parser] = opts[:parser] || app.json_parser_parser || app.json_parser || JSON.method(:parse)
         app.opts[:json_parser_include_request] = opts[:include_request] if opts.has_key?(:include_request)
-        app.opts[:json_parser_content_type_regexp] = opts[:content_type_regexp] || app.opts[:json_parser_content_type_regexp]
+        app.opts[:json_parser_content_type_regexp] = opts[:content_type_regexp] || app.json_parser_content_type_regexp
 
-        unless app.opts[:json_parser_content_type_regexp]
+        unless app.json_parser_content_type_regexp
           # RODA4: Switch to /\Aapplication\/(?:vnd\.api\+)?json\b/i by default
           RodaPlugins.warn(':content_type_regexp option not provided to json_parser plugin, using /json/ for backwards compatibility, which may be insecure, using /\Aapplication\/json\b/i or /\Aapplication\/(?:vnd\.api\+)?json\b/i is recommended')
           app.opts[:json_parser_content_type_regexp] = /json/
@@ -67,6 +67,14 @@ class Roda
         end
       end
 
+      module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :json_parser_error_handler)
+        RodaPlugins.opt_attr_reader(self, :json_parser_parser)
+        RodaPlugins.opt_attr_reader(self, :json_parser_include_request, name: :json_parser_include_request?)
+        RodaPlugins.opt_attr_reader(self, :json_parser_content_type_regexp)
+        RodaPlugins.opt_attr_reader(self, :json_parser_wrap)
+      end
+
       module RequestMethods
         # If the Content-Type header in the request includes "json",
         # parse the request body as JSON.  Ignore an empty request body.
@@ -76,7 +84,7 @@ class Roda
             return post_params
           end
 
-          unless (input = env["rack.input"]) && (content_type = self.content_type) && roda_class.opts[:json_parser_content_type_regexp].send(MATCH_METHOD, content_type)
+          unless (input = env["rack.input"]) && (content_type = self.content_type) && roda_class.json_parser_content_type_regexp.send(MATCH_METHOD, content_type)
             return super
           end
 
@@ -85,10 +93,10 @@ class Roda
           begin
             json_params = parse_json(str)
           rescue
-            roda_class.opts[:json_parser_error_handler].call(self)
+            roda_class.json_parser_error_handler.call(self)
           end
 
-          wrap = roda_class.opts[:json_parser_wrap]
+          wrap = roda_class.json_parser_wrap
           if wrap == :always || (wrap == :unless_hash && !json_params.is_a?(Hash))
             json_params = {"_json"=>json_params}
           end
@@ -99,9 +107,13 @@ class Roda
         private
 
         def parse_json(str)
-          args = [str]
-          args << self if roda_class.opts[:json_parser_include_request]
-          roda_class.opts[:json_parser_parser].call(*args)
+          parser = roda_class.json_parser_parser
+
+          if roda_class.json_parser_include_request?
+            parser.call(str, self)
+          else
+            parser.call(str)
+          end
         end
         
         # Rack 3 dropped requirement that input be rewindable

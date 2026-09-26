@@ -34,6 +34,10 @@ class Roda
         app.opts[:additional_render_engines] = render_engines.dup.freeze
       end
 
+      module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :additional_render_engines)
+      end
+
       module InstanceMethods
         private
 
@@ -45,7 +49,7 @@ class Roda
           orig_path = super
 
           unless File.file?(orig_path)
-            self.opts[:additional_render_engines].each do |engine|
+            self.class.additional_render_engines.each do |engine|
               path = super(opts.merge(:engine=>engine))
               return path if File.file?(path)
             end

@@ -69,10 +69,10 @@ class Roda
         classes.uniq!
         classes.freeze
         classes.each do |klass|
-          app.opts[:custom_block_results][klass] = :handle_json_block_result
+          app.custom_block_results[klass] = :handle_json_block_result
         end
 
-        app.opts[:json_result_serializer] = opts[:serializer] || app.opts[:json_result_serializer] || app.opts[:json_serializer] || :to_json.to_proc
+        app.opts[:json_result_serializer] = opts[:serializer] || app.json_result_serializer || app.json_serializer || :to_json.to_proc
 
         app.opts[:json_result_include_request] = opts[:include_request] if opts.has_key?(:include_request)
 
@@ -80,6 +80,10 @@ class Roda
       end
 
       module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :json_result_serializer)
+        RodaPlugins.opt_attr_reader(self, :json_result_include_request, name: :json_result_include_request?)
+        RodaPlugins.opt_attr_reader(self, :json_result_content_type)
+
         # The classes that should be automatically converted to json
         def json_result_classes
           # RODA4: remove, only used by previous implementation.
@@ -91,7 +95,7 @@ class Roda
         # Handle a result for one of the registered JSON result classes
         # by converting the result to JSON.
         def handle_json_block_result(result)
-          @_response[RodaResponseHeaders::CONTENT_TYPE] ||= opts[:json_result_content_type]
+          @_response[RodaResponseHeaders::CONTENT_TYPE] ||= self.class.json_result_content_type
           @_request.send(:convert_to_json, result)
         end
       end
@@ -102,10 +106,9 @@ class Roda
         # Convert the given object to JSON.  Uses to_json by default,
         # but can use a custom serializer passed to the plugin.
         def convert_to_json(result)
-          opts = roda_class.opts
-          serializer = opts[:json_result_serializer]
+          serializer = roda_class.json_result_serializer
 
-          if opts[:json_result_include_request]
+          if roda_class.json_result_include_request?
             serializer.call(result, self)
           else
             serializer.call(result)

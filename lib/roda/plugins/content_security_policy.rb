@@ -289,6 +289,10 @@ class Roda
         policy.freeze
       end
 
+      module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :content_security_policy)
+      end
+
       module InstanceMethods
         # If a block is given, yield the current content security policy.  Returns the
         # current content security policy.
@@ -308,7 +312,7 @@ class Roda
 
         # The current content security policy to be used for this response.
         def content_security_policy
-          @content_security_policy ||= roda_class.opts[:content_security_policy].dup
+          @content_security_policy ||= roda_class.content_security_policy.dup
         end
 
         # Do not set a content security policy header for this response.
@@ -322,7 +326,7 @@ class Roda
         def set_default_headers
           super
           unless @skip_content_security_policy
-            (@content_security_policy || roda_class.opts[:content_security_policy]).set_header(headers)
+            (@content_security_policy || roda_class.content_security_policy).set_header(headers)
           end
         end
       end

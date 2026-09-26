@@ -51,6 +51,10 @@ class Roda
         app.opts[:capture_erb_returns] = opts[:returns] if opts.has_key?(:returns)
       end
 
+      module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :capture_erb_returns)
+      end
+
       module InstanceMethods
         # Temporarily replace the ERB output buffer
         # with an empty string, and then yield to the block.
@@ -71,7 +75,7 @@ class Roda
           if buf_was.respond_to?(:capture) && !buf_was.instance_of?(String)
             buf_was.capture(&block)
           else
-            returns = opts.fetch(:returns) { self.opts[:capture_erb_returns] }
+            returns = opts.fetch(:returns) { self.class.capture_erb_returns }
 
             begin
               instance_variable_set(outvar, String.new)

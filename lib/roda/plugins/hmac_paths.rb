@@ -231,6 +231,12 @@ class Roda
         end
       end
 
+      module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :hmac_paths_secret)
+        RodaPlugins.opt_attr_reader(self, :hmac_paths_old_secret)
+        RodaPlugins.opt_attr_reader(self, :hmac_paths_namespace_session_key)
+      end
+
       module InstanceMethods
         # Return a path with an HMAC.  Designed to be used with r.hmac_path, to make sure
         # users can only request paths that they have been provided by the application
@@ -315,7 +321,7 @@ class Roda
         # using the secret given in the plugin, for the given root and options.
         # This always returns a hexidecimal string.
         def hmac_path_hmac_secret(root, opts=OPTS)
-          secret = opts[:secret] || self.opts[:hmac_paths_secret]
+          secret = opts[:secret] || self.class.hmac_paths_secret
 
           if namespace = hmac_path_namespace(opts)
             secret = OpenSSL::HMAC.digest(OpenSSL::Digest::SHA256.new, secret, namespace)
@@ -326,7 +332,7 @@ class Roda
 
         # The default namespace to use for hmac_path, if a :namespace option is not provided.
         def hmac_path_default_namespace
-          if (key = opts[:hmac_paths_namespace_session_key]) && (value = session[key])
+          if (key = self.class.hmac_paths_namespace_session_key) && (value = session[key])
             value.to_s
           end
         end
@@ -395,7 +401,7 @@ class Roda
         def hmac_path_valid?(root, path, hmac, opts=OPTS)
           if Rack::Utils.secure_compare(scope.hmac_path_hmac(root, path, opts), hmac)
             true
-          elsif old_secret = roda_class.opts[:hmac_paths_old_secret]
+          elsif old_secret = roda_class.hmac_paths_old_secret
             opts = opts.dup
             opts[:secret] = old_secret
             Rack::Utils.secure_compare(scope.hmac_path_hmac(root, path, opts), hmac)

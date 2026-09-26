@@ -39,21 +39,24 @@ class Roda
       end
 
       module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :after_hooks)
+        RodaPlugins.opt_attr_reader(self, :before_hooks)
+
         # Freeze the array of hook methods when freezing the app.
         def freeze
-          opts[:after_hooks].freeze
-          opts[:before_hooks].freeze
+          after_hooks.freeze
+          before_hooks.freeze
 
           super
         end
 
         # Add an after hook.
         def after(&block)
-          opts[:after_hooks] << define_roda_method("after_hook", 1, &block)
-          if opts[:after_hooks].length == 1
-            class_eval("alias _roda_after_80__hooks #{opts[:after_hooks].first}", __FILE__, __LINE__)
+          after_hooks << define_roda_method("after_hook", 1, &block)
+          if after_hooks.length == 1
+            class_eval("alias _roda_after_80__hooks #{after_hooks.first}", __FILE__, __LINE__)
           else
-            class_eval("def _roda_after_80__hooks(res) #{opts[:after_hooks].map{|m| "#{m}(res)"}.join(';')} end", __FILE__, __LINE__)
+            class_eval("def _roda_after_80__hooks(res) #{after_hooks.map{|m| "#{m}(res)"}.join(';')} end", __FILE__, __LINE__)
           end
           private :_roda_after_80__hooks
           def_roda_after
@@ -62,11 +65,11 @@ class Roda
 
         # Add a before hook.
         def before(&block)
-          opts[:before_hooks].unshift(define_roda_method("before_hook", 0, &block))
-          if opts[:before_hooks].length == 1
-            class_eval("alias _roda_before_10__hooks #{opts[:before_hooks].first}", __FILE__, __LINE__)
+          before_hooks.unshift(define_roda_method("before_hook", 0, &block))
+          if before_hooks.length == 1
+            class_eval("alias _roda_before_10__hooks #{before_hooks.first}", __FILE__, __LINE__)
           else
-            class_eval("def _roda_before_10__hooks; #{opts[:before_hooks].join(';')} end", __FILE__, __LINE__)
+            class_eval("def _roda_before_10__hooks; #{before_hooks.join(';')} end", __FILE__, __LINE__)
           end
           private :_roda_before_10__hooks
           def_roda_before

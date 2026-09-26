@@ -74,6 +74,8 @@ class Roda
       end
 
       module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :shape_friendly_scope_instance_variables)
+
         # Automatically refresh the instance variables used if the plugin
         # sets instance variables.
         def plugin(plugin, *args, &block)
@@ -107,7 +109,7 @@ class Roda
             ivs.concat(mod.const_get(const)) if mod.const_defined?(const)
           end
 
-          if const == :SCOPE_INSTANCE_VARIABLES && (scope_ivs = opts[:shape_friendly_scope_instance_variables])
+          if const == :SCOPE_INSTANCE_VARIABLES && (scope_ivs = shape_friendly_scope_instance_variables)
             ivs.concat(scope_ivs)
           end
 

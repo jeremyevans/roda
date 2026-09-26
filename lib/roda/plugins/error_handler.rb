@@ -49,7 +49,7 @@ class Roda
       # If a block is given, automatically call the +error+ method on
       # the Roda class with it.
       def self.configure(app, opts={}, &block)
-        app.opts[:error_handler_classes] = (opts[:classes] || app.opts[:error_handler_classes] || DEFAULT_ERROR_HANDLER_CLASSES).dup.freeze
+        app.opts[:error_handler_classes] = (opts[:classes] || app.error_handler_classes || DEFAULT_ERROR_HANDLER_CLASSES).dup.freeze
 
         if block
           app.error(&block)
@@ -57,6 +57,8 @@ class Roda
       end
 
       module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :error_handler_classes)
+
         # Install the given block as the error handler, so that if routing
         # the request raises an exception, the block will be called with
         # the exception in the scope of the Roda instance.
@@ -77,7 +79,7 @@ class Roda
           ensure
             _roda_after(res)
           end
-        rescue *opts[:error_handler_classes] => e
+        rescue *self.class.error_handler_classes => e
           _handle_error(e)
         end
 
@@ -89,7 +91,7 @@ class Roda
           ensure
             _roda_after(res)
           end
-        rescue *opts[:error_handler_classes] => e
+        rescue *self.class.error_handler_classes => e
           _handle_error(e)
         end
 

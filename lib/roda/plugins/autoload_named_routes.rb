@@ -35,12 +35,14 @@ class Roda
       end
 
       module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :autoload_named_route_files)
+
         # Autoload the given file when there is request for the named route.
         # The given file should configure the named route specified.
         def autoload_named_route(namespace=nil, name, file)
           file = File.expand_path(file)
-          opts[:autoload_named_route_files] << file
-          routes = opts[:namespaced_routes][namespace] ||= {}
+          autoload_named_route_files << file
+          routes = namespaced_routes[namespace] ||= {}
           meth = routes[name] = define_roda_method(routes[name] || "named_routes_#{namespace}_#{name}", 1) do |r|
             loc = method(routes[name]).source_location
             require file
@@ -54,7 +56,11 @@ class Roda
 
         # Eagerly load all autoloaded named routes when freezing the application.
         def freeze
-          opts.delete(:autoload_named_route_files).each{|file| require file} unless opts.frozen?
+          unless opts.frozen?
+            autoload_named_route_files.each{|file| require file}
+            opts[:autoload_named_route_files] = nil
+            opts.delete(:autoload_named_route_files)
+          end
           super
         end
       end

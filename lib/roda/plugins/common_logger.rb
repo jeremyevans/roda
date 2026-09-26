@@ -26,8 +26,8 @@ class Roda
       private_constant :MUTATE_LINE
 
       def self.configure(app, logger=nil, opts=OPTS)
-        app.opts[:common_logger] = logger || app.opts[:common_logger] || $stderr
-        app.opts[:common_logger_meth] = app.opts[:common_logger].method(opts.fetch(:method){logger.respond_to?(:write) ? :write : :<<})
+        common_logger = app.opts[:common_logger] = logger || app.opts[:common_logger] || $stderr # RODA4: drop setting of option, no longer used
+        app.opts[:common_logger_meth] = common_logger.method(opts.fetch(:method){logger.respond_to?(:write) ? :write : :<<})
       end
 
       if RUBY_VERSION >= '2.1'
@@ -41,6 +41,10 @@ class Roda
           Time.now
         end
         # simplecov:enable
+      end
+
+      module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :common_logger_meth)
       end
 
       module InstanceMethods
@@ -67,7 +71,7 @@ class Roda
           # simplecov:enable
           end
           line[-1] = "\n"
-          opts[:common_logger_meth].call(line)
+          self.class.common_logger_meth.call(line)
         end
 
         # Create timer instance used for timing

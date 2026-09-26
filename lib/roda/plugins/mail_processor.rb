@@ -285,11 +285,14 @@ class Roda
       class UnhandledMail < StandardError; end
 
       module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :mail_processor_string_routes)
+        RodaPlugins.opt_attr_reader(self, :mail_processor_regexp_routes)
+
         # Freeze the rcpt routes if they are present.
         def freeze
-          if string_routes = opts[:mail_processor_string_routes].freeze
+          if string_routes = mail_processor_string_routes.freeze
             string_routes.freeze
-            opts[:mail_processor_regexp_routes].freeze
+            mail_processor_regexp_routes.freeze
           end
           super
         end
@@ -337,12 +340,12 @@ class Roda
               unless string_meth
                 string_meth = define_roda_method("mail_processor_string_route_#{address}", 1, &convert_route_block(block))
               end
-              opts[:mail_processor_string_routes][address] = string_meth 
+              mail_processor_string_routes[address] = string_meth 
             when Regexp
               unless regexp_meth
                 regexp_meth = define_roda_method("mail_processor_regexp_route_#{address}", :any, &convert_route_block(block))
               end
-              opts[:mail_processor_regexp_routes][address] = regexp_meth
+              mail_processor_regexp_routes[address] = regexp_meth
             else
               raise RodaError, "invalid address format passed to rcpt, should be Array or String"
             end
@@ -382,7 +385,7 @@ class Roda
         # routes defined via the class-level +rcpt+ method, and then the
         # normal routing tree passed in as the block.
         def process_mail(&block)
-          if string_routes = opts[:mail_processor_string_routes]
+          if string_routes = self.class.mail_processor_string_routes
             addresses = mail_recipients
 
             addresses.each do |address|
@@ -392,7 +395,7 @@ class Roda
               end
             end
 
-            opts[:mail_processor_regexp_routes].each do |regexp, meth|
+            self.class.mail_processor_regexp_routes.each do |regexp, meth|
               addresses.each do |address|
                 if md = regexp.match(address)
                   _roda_handle_route{send(meth, @_request, *md.captures)}

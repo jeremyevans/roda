@@ -94,7 +94,7 @@ class Roda
         # Freeze the multi_route regexp matchers so that there can be no thread safety issues at runtime.
         def freeze
           super
-          opts[:namespaced_routes].each_key do |k|
+          namespaced_routes.each_key do |k|
             self::RodaRequest.named_route_regexp(k)
           end
           self::RodaRequest.instance_variable_get(:@namespaced_route_regexps).freeze

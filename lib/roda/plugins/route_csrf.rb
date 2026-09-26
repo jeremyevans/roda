@@ -196,7 +196,7 @@ class Roda
       end
 
       def self.configure(app, opts=OPTS, &block)
-        options = app.opts[:route_csrf] = (app.opts[:route_csrf] || DEFAULTS).merge(opts)
+        options = app.opts[:route_csrf] = (app.route_csrf_opts || DEFAULTS).merge(opts)
         if block || opts[:csrf_failure].is_a?(Proc)
           if block && opts[:csrf_failure]
             raise RodaError, "Cannot specify both route_csrf plugin block and :csrf_failure option"
@@ -210,6 +210,10 @@ class Roda
         end
         options[:env_header] = "HTTP_#{options[:header].to_s.tr('-', '_').upcase}".freeze
         options.freeze
+      end
+
+      module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :route_csrf, name: :route_csrf_opts)
       end
 
       module InstanceMethods
@@ -358,6 +362,7 @@ class Roda
           end
 
           if (rack_csrf_key = opts[:upgrade_from_rack_csrf_key]) && (rack_csrf_value = session[rack_csrf_key]) && csrf_compare(rack_csrf_value, encoded_token)
+            # RODA4: Remove :upgrade_from_rack_csrf_key support
             return
           end
 
@@ -392,7 +397,7 @@ class Roda
         
         # Helper for getting the plugin options.
         def csrf_options
-          opts[:route_csrf]
+          self.class.route_csrf_opts
         end
 
         # Perform a constant-time comparison of the two strings, returning true if they match and false otherwise.

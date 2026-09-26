@@ -79,6 +79,10 @@ class Roda
         app::RodaRequest.send(:private, :handle_invalid_request_body)
       end
 
+      module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :invalid_response_body_rescue_classes)
+      end
+
       module RequestMethods
         # Handle invalid request bodies as configured if the default behavior
         # raises an exception.
@@ -86,7 +90,7 @@ class Roda
           super
         rescue RodaError
           raise
-        rescue *roda_class.opts[:invalid_response_body_rescue_classes] => e 
+        rescue *roda_class.invalid_response_body_rescue_classes => e 
           handle_invalid_request_body(e)
         end
 

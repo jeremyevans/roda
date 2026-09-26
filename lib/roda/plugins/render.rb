@@ -323,15 +323,15 @@ class Roda
 
       # Setup default rendering options.  See Render for details.
       def self.configure(app, opts=OPTS)
-        if app.opts[:render]
-          orig_cache = app.opts[:render][:cache]
-          orig_method_cache = app.opts[:render][:template_method_cache]
-          opts = app.opts[:render][:orig_opts].merge(opts)
+        if app.render_opts
+          orig_cache = app.render_opts[:cache]
+          orig_method_cache = app.render_opts[:template_method_cache]
+          opts = app.render_opts[:orig_opts].merge(opts)
         end
         app.opts[:render] = opts.dup
-        app.opts[:render][:orig_opts] = opts
+        app.render_opts[:orig_opts] = opts
 
-        opts = app.opts[:render]
+        opts = app.render_opts
         opts[:engine] = (opts[:engine] || "erb").dup.freeze
         opts[:views] = app.expand_path(opts[:views]||"views").freeze
         opts[:check_paths] = true unless opts.has_key?(:check_paths)
@@ -580,7 +580,7 @@ class Roda
         # affecting the parent class.
         def inherited(subclass)
           super
-          opts = subclass.opts[:render] = subclass.opts[:render].dup
+          opts = subclass.opts[:render] = subclass.render_opts.dup
           if COMPILED_METHOD_SUPPORT
             opts[:template_method_cache] = (opts[:cache_class] || RodaCache).new
           end
@@ -588,10 +588,7 @@ class Roda
           opts.freeze
         end
 
-        # Return the render options for this class.
-        def render_opts
-          opts[:render]
-        end
+        RodaPlugins.opt_attr_reader(self, :render, name: :render_opts)
 
         private
 
@@ -603,13 +600,13 @@ class Roda
             # in order for the precompile_templates plugin to work correctly.
             instance.send(:retrieve_template, instance.send(:view_layout_opts, OPTS))
 
-            if COMPILED_METHOD_SUPPORT && (layout_template = render_opts[:optimize_layout]) && !opts[:render][:optimized_layout_method_created]
+            if COMPILED_METHOD_SUPPORT && (layout_template = render_opts[:optimize_layout]) && !render_opts[:optimized_layout_method_created]
                 instance.send(:retrieve_template, :template=>layout_template, :cache_key=>nil, :template_method_cache_key => :_roda_layout)
-                layout_method = opts[:render][:template_method_cache][:_roda_layout]
+                layout_method = render_opts[:template_method_cache][:_roda_layout]
                 define_method(:_layout_method){layout_method}
                 private :_layout_method
                 alias_method(:_layout_method, :_layout_method)
-                opts[:render] = opts[:render].merge(:optimized_layout_method_created=>true)
+                opts[:render] = render_opts.merge(:optimized_layout_method_created=>true)
             end
           end
         end
@@ -650,7 +647,7 @@ class Roda
             # If we have an optimized template method but no optimized layout method, create the
             # optimized layout method if possible and use it.  If you can't create the optimized
             # layout method, fall through to the slower approach.
-            if layout_template = self.class.opts[:render][:optimize_layout]
+            if layout_template = self.class.render_opts[:optimize_layout]
               retrieve_template(:template=>layout_template, :cache_key=>nil, :template_method_cache_key => :_roda_layout)
               if layout_method = _layout_method
                 return _call_optimized_template_method(layout_method, OPTS){content}
@@ -695,7 +692,7 @@ class Roda
 
           # Return a symbol containing the optimized layout method
           def _layout_method
-            self.class.opts[:render][:template_method_cache][:_roda_layout]
+            self.class.render_opts[:template_method_cache][:_roda_layout]
           end
 
           # Use an optimized render path for templates with a hash of locals.  Returns the result
@@ -832,7 +829,7 @@ class Roda
         # Given the template name and options, set the template class, template path/content,
         # template block, and locals to use for the render in the passed options.
         def find_template(opts)
-          render_opts = self.class.opts[:render]
+          render_opts = self.class.render_opts
           engine_override = opts[:engine]
           engine = opts[:engine] ||= render_opts[:engine]
           if content = opts[:inline]
@@ -896,7 +893,7 @@ class Roda
           end
           cached_template(opts) do
             opts = found_template_opts || find_template(opts)
-            render_opts = self.class.opts[:render]
+            render_opts = self.class.render_opts
             template_opts = render_opts[:template_opts]
             if engine_opts = render_opts[:engine_opts][opts[:engine]]
               template_opts = template_opts.merge(engine_opts)

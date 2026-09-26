@@ -136,10 +136,12 @@ class Roda
       # Set the options for the mailer.  Options:
       # :content_type :: The default content type for emails (default: text/plain)
       def self.configure(app, opts=OPTS)
-        app.opts[:mailer] = (app.opts[:mailer]||OPTS).merge(opts).freeze
+        app.opts[:mailer] = (app.mailer_opts||OPTS).merge(opts).freeze
       end
 
       module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :mailer, name: :mailer_opts)
+
         # Return a Mail::Message instance for the email for the given request path
         # and arguments.   Any arguments given are yielded to the appropriate +r.mail+
         # block after any usual match block arguments. You can further manipulate the
@@ -177,7 +179,7 @@ class Roda
         def mail(*args)
           if @env["REQUEST_METHOD"] == "MAIL"
             # RODA4: Make terminal match the default
-            send(roda_class.opts[:mailer][:terminal] ? :_verb : :if_match, args) do |*vs|
+            send(roda_class.mailer_opts[:terminal] ? :_verb : :if_match, args) do |*vs|
               yield(*(vs + @env['roda.mail_args']))
             end
           end
@@ -202,7 +204,7 @@ class Roda
               block.call if block
             end
 
-            if content_type = header_content_type || roda_class.opts[:mailer][:content_type]
+            if content_type = header_content_type || roda_class.mailer_opts[:content_type]
               if mail.multipart?
                 if /multipart\/mixed/ =~ mail.content_type &&
                    mail.parts.length >= 2 &&

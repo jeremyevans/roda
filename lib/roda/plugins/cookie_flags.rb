@@ -61,7 +61,7 @@ class Roda
       end
 
       def self.configure(app, opts=OPTS)
-        previous = app.opts[:cookie_flags] || DEFAULTS
+        previous = app.cookie_flags || DEFAULTS
         opts = app.opts[:cookie_flags] = previous.merge(opts)
 
         case opts[:same_site]
@@ -74,11 +74,15 @@ class Roda
         opts.freeze
       end
 
+      module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :cookie_flags)
+      end
+
       module InstanceMethods
         private
 
         def _handle_cookie_flags_array(cookies)
-          opts = self.class.opts[:cookie_flags]
+          opts = self.class.cookie_flags
           needs_secure = opts[:secure]
           needs_httponly = opts[:httponly]
           if needs_same_site = opts[:same_site]

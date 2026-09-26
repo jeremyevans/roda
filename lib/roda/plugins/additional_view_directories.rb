@@ -39,6 +39,10 @@ class Roda
         app.plugin :render, :allowed_paths=>(app.opts[:render][:allowed_paths] + view_dirs).uniq.freeze
       end
 
+      module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :additional_view_directories)
+      end
+
       module InstanceMethods
         private
 
@@ -50,7 +54,7 @@ class Roda
           orig_path = super
 
           unless File.file?(orig_path)
-            self.opts[:additional_view_directories].each do |view_dir|
+            self.class.additional_view_directories.each do |view_dir|
               path = super(opts.merge(:views=>view_dir))
               return path if File.file?(path)
             end

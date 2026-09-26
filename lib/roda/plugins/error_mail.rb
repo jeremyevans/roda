@@ -44,10 +44,14 @@ class Roda
 
       # Set default opts for plugin.  See ErrorEmail module RDoc for options.
       def self.configure(app, opts=OPTS)
-        app.opts[:error_mail] = email_opts = (app.opts[:error_mail] || {:filter=>DEFAULT_FILTER}).merge(opts).freeze
+        app.opts[:error_mail] = email_opts = (app.error_mail_opts || {:filter=>DEFAULT_FILTER}).merge(opts).freeze
         unless email_opts[:to] && email_opts[:from]
           raise RodaError, "must provide :to and :from options to error_mail plugin"
         end
+      end
+
+      module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :error_mail, name: :error_mail_opts)
       end
 
       module InstanceMethods
@@ -67,7 +71,7 @@ class Roda
         private
 
         def _error_mail(e)
-          email_opts = self.class.opts[:error_mail]
+          email_opts = self.class.error_mail_opts
           subject = if e.respond_to?(:message)
             "#{e.class}: #{e.message}"
           else

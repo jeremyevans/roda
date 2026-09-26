@@ -46,7 +46,11 @@ class Roda
       #
       # The options given are also passed to the public plugin.
       def self.configure(app, opts=OPTS)
-        app.opts[:timestamp_public_prefix] = (opts[:prefix] || app.opts[:timestamp_public_prefix] || "static").dup.freeze
+        app.opts[:timestamp_public_prefix] = (opts[:prefix] || app.timestamp_public_prefix || "static").dup.freeze
+      end
+
+      module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :timestamp_public_prefix)
       end
 
       module InstanceMethods
@@ -54,8 +58,8 @@ class Roda
         # This does not check the file is inside the directory for performance reasons,
         # so this should not be called with untrusted input.
         def timestamp_path(file)
-          mtime = File.mtime(File.join(opts[:public_root], file))
-          "/#{opts[:timestamp_public_prefix]}/#{sprintf("%i%06i", mtime.to_i, mtime.usec)}/#{file}"
+          mtime = File.mtime(File.join(self.class.public_root, file))
+          "/#{self.class.timestamp_public_prefix}/#{sprintf("%i%06i", mtime.to_i, mtime.usec)}/#{file}"
         end
       end
 
@@ -65,7 +69,7 @@ class Roda
         # a integer segment for the timestamp, and this is a GET request.
         def timestamp_public
           if is_get?
-            on roda_class.opts[:timestamp_public_prefix], Integer do |_|
+            on roda_class.timestamp_public_prefix, Integer do |_|
               public
             end
           end

@@ -32,6 +32,16 @@ class Roda
       plugin
     end
 
+    # Define an attr_reader method for name that uses the instance variable
+    # <tt>@opt_*</tt>. Designed to be used with instance variables set via RodaOpts#[]=.
+    def self.opt_attr_reader(mod, key, name: key)
+      opt_name = :"opt_#{key}"
+      mod.send(:attr_reader, opt_name)
+      mod.send(:alias_method, name, opt_name)
+      mod.send(:remove_method, opt_name)
+      nil
+    end
+
     # Register the given plugin with Roda, so that it can be loaded using #plugin
     # with a symbol.  Should be used by plugin files. Example:
     #

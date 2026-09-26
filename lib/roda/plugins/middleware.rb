@@ -136,10 +136,10 @@ class Roda
         def initialize(mid, app, *args, &block)
           @mid = Class.new(mid)
           RodaPlugins.set_temp_name(@mid){"#{mid}::middleware_subclass"}
-          if @mid.opts[:middleware_next_if_not_found]
+          if @mid.middleware_next_if_not_found?
             @mid.plugin(:not_found, &NEXT_PROC)
           end
-          if configure = @mid.opts[:middleware_configure]
+          if configure = @mid.middleware_configure
             configure.call(@mid, *args, &block)
           elsif block || !args.empty?
             raise RodaError, "cannot provide middleware args or block unless loading middleware plugin with a block"
@@ -154,7 +154,7 @@ class Roda
           res = nil
 
           call_next = catch(:next) do
-            env[@mid.opts[:middleware_env_var]] = true
+            env[@mid.middleware_env_var] = true
             res = @mid.call(env)
             false
           end
@@ -167,7 +167,7 @@ class Roda
             end
           end
 
-          if handle_result = @mid.opts[:middleware_handle_result]
+          if handle_result = @mid.middleware_handle_result
             handle_result.call(env, res)
           end
 
@@ -176,6 +176,12 @@ class Roda
       end
 
       module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :middleware_env_var)
+        RodaPlugins.opt_attr_reader(self, :middleware_configure)
+        RodaPlugins.opt_attr_reader(self, :middleware_handle_result)
+        RodaPlugins.opt_attr_reader(self, :middleware_forward_response_headers)
+        RodaPlugins.opt_attr_reader(self, :middleware_next_if_not_found, name: :middleware_next_if_not_found?)
+
         # Create a Forwarder instead of a new instance if a non-Hash is given.
         def new(app, *args, &block)
           if app.is_a?(Hash)
@@ -193,7 +199,7 @@ class Roda
           super do |r|
             res = instance_exec(r, &block) # call Fallback
             if r.forward_next
-              r.env['roda.response_headers'] = response.headers if opts[:middleware_forward_response_headers]
+              r.env['roda.response_headers'] = response.headers if self.class.middleware_forward_response_headers
               throw :next, true
             end
             res
@@ -205,7 +211,7 @@ class Roda
         def _roda_run_main_route(r)
           res = super
           if r.forward_next
-            r.env['roda.response_headers'] = response.headers if opts[:middleware_forward_response_headers]
+            r.env['roda.response_headers'] = response.headers if self.class.middleware_forward_response_headers
             throw :next, true
           end
           res
@@ -216,7 +222,7 @@ class Roda
         # Whether to forward the request to the next application.  Set only if
         # this request is being performed for middleware.
         def forward_next
-          env[roda_class.opts[:middleware_env_var]]
+          env[roda_class.middleware_env_var]
         end
       end
     end

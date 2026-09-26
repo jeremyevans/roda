@@ -121,6 +121,8 @@ class Roda
       end
 
       module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :symbol_matchers)
+
         # Set the matcher and block to use for the given class.
         # The matcher can be a regexp, registered symbol matcher, or registered class
         # matcher (if using the class_matchers plugin).
@@ -141,7 +143,7 @@ class Roda
 
         # Freeze the class_matchers hash when freezing the app.
         def freeze
-          opts[:symbol_matchers].freeze
+          symbol_matchers.freeze
           super
         end
       end

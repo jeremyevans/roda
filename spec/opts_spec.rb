@@ -39,4 +39,16 @@ describe "opts" do
     sc.opts[:foo].must_equal "baz"
     c.opts[:foo].must_equal "baz"
   end
+
+  it "sets instance variable in Roda class during []= by default" do
+    c = Class.new(Roda)
+    c.opts[:foo] = 1
+    c.instance_variable_get(:@opt_foo).must_equal 1
+  end
+
+  it "does not set instance variable in Roda class during []= after dup" do
+    c = Class.new(Roda)
+    c.opts.dup[:foo] = 1
+    c.instance_variable_get(:@opt_foo).must_be_nil
+  end
 end

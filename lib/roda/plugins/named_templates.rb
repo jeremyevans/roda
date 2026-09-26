@@ -61,15 +61,17 @@ class Roda
       end
 
       module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :named_templates)
+
         # Freeze the named templates so that there can be no thread safety issues at runtime.
         def freeze
-          opts[:named_templates].freeze
+          named_templates.freeze
           super
         end
 
         # Store a new template block and options for the given template name.
         def template(name, options=nil, &block)
-          opts[:named_templates][name.to_s] = [options, define_roda_method("named_templates_#{name}", 0, &block)].freeze
+          named_templates[name.to_s] = [options, define_roda_method("named_templates_#{name}", 0, &block)].freeze
           nil
         end
       end
@@ -80,7 +82,7 @@ class Roda
         # If a template name is given and it matches a named template, call
         # the named template block to get the inline template to use.
         def find_template(options)
-          if options[:template] && (template_opts, meth = opts[:named_templates][template_name(options)]; meth)
+          if options[:template] && (template_opts, meth = self.class.named_templates[template_name(options)]; meth)
             if template_opts
               options = template_opts.merge(options)
             else

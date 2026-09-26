@@ -31,6 +31,10 @@ class Roda
         app.opts[:run_append_slash_redirect] = !!opts[:use_redirects]
       end
 
+      module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :run_append_slash_redirect, name: :run_append_slash_redirect?)
+      end
+
       module RequestMethods
         # Calls the given rack app. If the path matches the root of the app but
         # does not contain a trailing slash, a trailing slash is appended to the
@@ -39,7 +43,7 @@ class Roda
         # the redirect approach will not be used.
         def run(*)
           if @remaining_path.empty?
-            if scope.opts[:run_append_slash_redirect] && !(path = self.path).start_with?('//')
+            if roda_class.run_append_slash_redirect? && !(path = self.path).start_with?('//')
               redirect("#{path}/")
             else
               @remaining_path += '/'

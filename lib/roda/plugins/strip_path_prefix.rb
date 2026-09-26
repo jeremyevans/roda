@@ -21,9 +21,11 @@ class Roda
       end
 
       module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :strip_path_prefix, name: :strip_path_prefix_regexp)
+
         # Strip the path prefix from the gien path if it starts with the prefix.
-        def expand_path(path, root=opts[:root])
-          super.sub(opts[:strip_path_prefix], '')
+        def expand_path(path, root=app_root)
+          super.sub(strip_path_prefix_regexp, '')
         end
       end
     end

@@ -72,7 +72,7 @@ class Roda
 
       # Use the given directories to setup servers.  Any opts are passed to the public plugin.
       def self.configure(app, directories, _=OPTS)
-        roots = app.opts[:multi_public_servers] = (app.opts[:multi_public_servers] || {}).dup
+        roots = app.opts[:multi_public_servers] = (app.multi_public_servers || {}).dup
         directories.each do |key, path|
           path, headers, mime = path
           roots[key] = RACK_FILES.new(app.expand_path(path), headers||{}, mime||'text/plain')
@@ -80,11 +80,15 @@ class Roda
         roots.freeze
       end
 
+      module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :multi_public_servers)
+      end
+
       module RequestMethods
         # Serve files from the directory corresponding to the given key if the file exists and
         # this is a GET request.
         def multi_public(key)
-          public_serve_with(roda_class.opts[:multi_public_servers].fetch(key))
+          public_serve_with(roda_class.multi_public_servers.fetch(key))
         end
       end
     end

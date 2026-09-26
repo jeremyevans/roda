@@ -80,9 +80,11 @@ class Roda
       end
 
       module ClassMethods
+        RodaPlugins.opt_attr_reader(self, :hash_paths)
+
         # Freeze the hash_paths metadata when freezing the app.
         def freeze
-          opts[:hash_paths].freeze.each_value(&:freeze)
+          hash_paths.freeze.each_value(&:freeze)
           super
         end
 
@@ -90,8 +92,8 @@ class Roda
         def inherited(subclass)
           super
 
-          h = subclass.opts[:hash_paths]
-          opts[:hash_paths].each do |namespace, routes|
+          h = subclass.hash_paths
+          hash_paths.each do |namespace, routes|
             h[namespace] = routes.dup
           end
         end
@@ -102,7 +104,7 @@ class Roda
         # there is one.  If called without a block, removes the existing
         # path handler if it exists.
         def hash_path(namespace='', path, &block)
-          routes = opts[:hash_paths][namespace] ||= {}
+          routes = hash_paths[namespace] ||= {}
           if block
             routes[path] = define_roda_method(routes[path] || "hash_path_#{namespace}_#{path}", 1, &convert_route_block(block))
           elsif meth = routes.delete(path)
@@ -115,7 +117,7 @@ class Roda
         # Checks the matching hash_path namespace for a branch matching the 
         # remaining path, and dispatch to that block if there is one.
         def hash_paths(namespace=matched_path)
-          if (routes = roda_class.opts[:hash_paths][namespace]) && (meth = routes[@remaining_path])
+          if (routes = roda_class.hash_paths[namespace]) && (meth = routes[@remaining_path])
             always do
               @remaining_path = ''
               scope.send(meth, self)

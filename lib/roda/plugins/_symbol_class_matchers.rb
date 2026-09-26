@@ -26,11 +26,11 @@ class Roda
             regexp = matcher
             consume_regexp = self::RodaRequest.send(:consume_pattern, regexp)
           when Symbol
-            unless opts[:symbol_matchers]
+            unless respond_to?(:symbol_matchers)
               raise RodaError, "cannot provide Symbol matcher to class_matcher unless using symbol_matchers plugin: #{matcher.inspect}"
             end
 
-            regexp, consume_regexp, convert_meth, consume_meth = opts[:symbol_matchers][matcher]
+            regexp, consume_regexp, convert_meth, consume_meth = symbol_matchers[matcher]
 
             unless regexp
               raise RodaError, "unregistered symbol matcher given to #{type}_matcher: #{matcher.inspect}"
@@ -38,11 +38,11 @@ class Roda
 
             block = _merge_matcher_blocks(type, obj, block, convert_meth)
           when Class
-            unless opts[:class_matchers]
+            unless respond_to?(:class_matchers)
               raise RodaError, "cannot provide Class matcher to symbol_matcher unless using class_matchers plugin: #{matcher.inspect}"
             end
 
-            regexp, consume_regexp, convert_meth, consume_meth = opts[:class_matchers][matcher]
+            regexp, consume_regexp, convert_meth, consume_meth = class_matchers[matcher]
             unless regexp
               raise RodaError, "unregistered class matcher given to #{type}_matcher: #{matcher.inspect}"
             end
@@ -60,7 +60,7 @@ class Roda
           end
 
           consume_meth ||= options[:segment] ? :_consume_single_segment : :consume
-          array = opts[:"#{type}_matchers"][obj] = [regexp, consume_regexp, convert_meth, consume_meth].freeze
+          array = (obj.is_a?(Symbol) ? symbol_matchers : class_matchers)[obj] = [regexp, consume_regexp, convert_meth, consume_meth].freeze
 
           self::RodaRequest.class_exec do
             class_exec(meth, array, &request_class_block)
