@@ -80,6 +80,10 @@ class Roda
       # Regexp for valid constant names, to prevent code execution.
       VALID_CONSTANT_NAME_REGEXP = /\A(?:::)?([A-Z]\w*(?:::[A-Z]\w*)*)\z/.freeze
 
+      def self.load_dependencies(app, opts = OPTS)
+        app.plugin :_add_script_name
+      end
+
       # Initialize the path classes when loading the plugin. Options:
       # :by_name :: Register classes by name, which is friendlier when reloading code (defaults to
       #             true in development mode)
@@ -146,7 +150,7 @@ class Roda
           url = opts[:url]
           url_only = opts[:url_only]
           relative = opts[:relative]
-          add_script_name = opts.fetch(:add_script_name, add_script_name?)
+          add_script_name = opts.fetch(:add_script_name){add_script_name?}
 
           if relative
             if (url || url_only)

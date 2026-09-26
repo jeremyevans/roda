@@ -33,7 +33,6 @@ class Roda
       # Class methods for the Roda class.
       module ClassMethods
         RodaPlugins.opt_attr_reader(self, :root, name: :app_root)
-        RodaPlugins.opt_attr_reader(self, :add_script_name, name: :add_script_name?)
 
         # The rack application that this class uses.
         def app

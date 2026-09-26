@@ -372,6 +372,7 @@ class Roda
       # depends on them.
       def self.load_dependencies(app, opts = OPTS)
         app.plugin :_json
+        app.plugin :_add_script_name
         app.plugin :render
         app.plugin :caching
         app.plugin :h
