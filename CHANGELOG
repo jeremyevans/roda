@@ -1,6 +1,6 @@
 === master
 
-* Persist keys set in Roda.opts to class instance variables, add attr_reader methods for much faster access (jeremyevans)
+* Persist symbol keys set in Roda.opts to class instance variables, add attr_reader methods for much faster access (jeremyevans)
 
 * Add rescue_classes keyword argument to invalid_request_body plugin (jeremyevans)
 

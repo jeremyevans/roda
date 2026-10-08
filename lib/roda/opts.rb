@@ -15,7 +15,7 @@ class Roda
     # to a Roda class.
     def []=(k, v)
       super
-      @roda_class.instance_variable_set(:"@opt_#{k}", v) if @roda_class
+      @roda_class.instance_variable_set(:"@opt_#{k}", v) if @roda_class && Symbol === k
       v
     end
   end

@@ -51,4 +51,10 @@ describe "opts" do
     c.opts.dup[:foo] = 1
     c.instance_variable_get(:@opt_foo).must_be_nil
   end
+
+  it "does not set instance variable in Roda class during []= for non-symbol keys" do
+    c = Class.new(Roda)
+    c.opts["foo"] = 1
+    c.instance_variable_get(:@opt_foo).must_be_nil
+  end
 end
