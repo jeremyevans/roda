@@ -34,5 +34,5 @@
   it's possible that will no longer work as expected. Switch to
   using #[]= for such cases.
 
-* The Roda.opts key used for the response_content_type has been
+* The Roda.opts key used by the response_content_type plugin has been
   modified to fix a typo.
