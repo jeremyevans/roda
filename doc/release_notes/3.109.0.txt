@@ -1,0 +1,38 @@
+= New Features
+
+* The invalid_request_body plugin now accepts a rescue_classes
+  keyword argument to give control over the classes rescued.  The
+  default is still to rescue StandardError, since Rack's request body
+  parsing can raise errors such as NoMethodError for invalid request
+  bodies.
+
+= Other Improvements
+
+* Roda.opts is now an instance of Roda::RodaOpts (a Hash subclass)
+  instead of an instance of Hash. Setting symbol keys via
+  Roda.opts.[]= now sets class instance variables based on the key
+  name. Class attr_accessors have been added for these instance
+  variables in the core and plugins that ship Roda, and internal
+  calls use the class attr_accessors for a significant performance
+  improvement (avoiding a hash access per call). This approach was
+  taken to keep backwards compatibility and simplicity while
+  improving performance.
+
+  To use this updated approach in external plugins, use the
+  Roda::RodaPlugins.opt_attr_reader method to define the class
+  attr_accessor methods, and switch from calling Roda.opts to calling
+  the class attr_accessor methods. See the internal plugins for
+  examples.
+
+= Backwards Compatibility
+
+* Roda has dropped support for Ruby 1.9. The minimum supported Ruby
+  version is now 2.0.
+
+* If you were modifying Roda.opts to set keys used by plugins that
+  ship with Roda via methods other than #[]= (such as #merge!),
+  it's possible that will no longer work as expected. Switch to
+  using #[]= for such cases.
+
+* The Roda.opts key used for the response_content_type has been
+  modified to fix a typo.
