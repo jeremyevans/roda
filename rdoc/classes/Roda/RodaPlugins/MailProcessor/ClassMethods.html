@@ -67,13 +67,13 @@ Roda::RodaPlugins::MailProcessor::ClassMethods
 [show source]
 </a>
 <pre id='method-i-freeze-source'>    <span class="ruby-comment"># File lib/roda/plugins/mail_processor.rb</span>
-<span class="line-num">289</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">freeze</span>
-<span class="line-num">290</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">string_routes</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:mail_processor_string_routes</span>].<span class="ruby-identifier">freeze</span>
-<span class="line-num">291</span>     <span class="ruby-identifier">string_routes</span>.<span class="ruby-identifier">freeze</span>
-<span class="line-num">292</span>     <span class="ruby-identifier">opts</span>[<span class="ruby-value">:mail_processor_regexp_routes</span>].<span class="ruby-identifier">freeze</span>
-<span class="line-num">293</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">294</span>   <span class="ruby-keyword">super</span>
-<span class="line-num">295</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">292</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">freeze</span>
+<span class="line-num">293</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">string_routes</span> = <span class="ruby-identifier">mail_processor_string_routes</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">294</span>     <span class="ruby-identifier">string_routes</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">295</span>     <span class="ruby-identifier">mail_processor_regexp_routes</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">296</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">297</span>   <span class="ruby-keyword">super</span>
+<span class="line-num">298</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-process_mail'>
@@ -92,21 +92,21 @@ Roda::RodaPlugins::MailProcessor::ClassMethods
 [show source]
 </a>
 <pre id='method-i-process_mail-source'>    <span class="ruby-comment"># File lib/roda/plugins/mail_processor.rb</span>
-<span class="line-num">299</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">process_mail</span>(<span class="ruby-identifier">mail</span>)
-<span class="line-num">300</span>   <span class="ruby-identifier">scope</span> = <span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;PATH_INFO&quot;</span><span class="ruby-operator">=&gt;</span><span class="ruby-string">&#39;&#39;</span>, <span class="ruby-string">&#39;SCRIPT_NAME&#39;</span><span class="ruby-operator">=&gt;</span><span class="ruby-string">&#39;&#39;</span>, <span class="ruby-string">&quot;REQUEST_METHOD&quot;</span><span class="ruby-operator">=&gt;</span><span class="ruby-string">&quot;PROCESSMAIL&quot;</span>, <span class="ruby-string">&#39;rack.input&#39;</span><span class="ruby-operator">=&gt;</span><span class="ruby-constant">StringIO</span>.<span class="ruby-identifier">new</span>, <span class="ruby-string">&#39;roda.mail&#39;</span><span class="ruby-operator">=&gt;</span><span class="ruby-identifier">mail</span>)
-<span class="line-num">301</span> 
-<span class="line-num">302</span>   <span class="ruby-keyword">begin</span>
-<span class="line-num">303</span>     <span class="ruby-keyword">begin</span>
-<span class="line-num">304</span>       <span class="ruby-identifier">scope</span>.<span class="ruby-identifier">process_mail</span>
-<span class="line-num">305</span>     <span class="ruby-keyword">rescue</span> <span class="ruby-constant">UnhandledMail</span>
-<span class="line-num">306</span>       <span class="ruby-identifier">scope</span>.<span class="ruby-identifier">unhandled_mail_hook</span>
-<span class="line-num">307</span>     <span class="ruby-keyword">else</span>
-<span class="line-num">308</span>       <span class="ruby-identifier">scope</span>.<span class="ruby-identifier">handled_mail_hook</span>
-<span class="line-num">309</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">310</span>   <span class="ruby-keyword">ensure</span>
-<span class="line-num">311</span>     <span class="ruby-identifier">scope</span>.<span class="ruby-identifier">after_mail_hook</span>
-<span class="line-num">312</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">313</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">302</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">process_mail</span>(<span class="ruby-identifier">mail</span>)
+<span class="line-num">303</span>   <span class="ruby-identifier">scope</span> = <span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;PATH_INFO&quot;</span><span class="ruby-operator">=&gt;</span><span class="ruby-string">&#39;&#39;</span>, <span class="ruby-string">&#39;SCRIPT_NAME&#39;</span><span class="ruby-operator">=&gt;</span><span class="ruby-string">&#39;&#39;</span>, <span class="ruby-string">&quot;REQUEST_METHOD&quot;</span><span class="ruby-operator">=&gt;</span><span class="ruby-string">&quot;PROCESSMAIL&quot;</span>, <span class="ruby-string">&#39;rack.input&#39;</span><span class="ruby-operator">=&gt;</span><span class="ruby-constant">StringIO</span>.<span class="ruby-identifier">new</span>, <span class="ruby-string">&#39;roda.mail&#39;</span><span class="ruby-operator">=&gt;</span><span class="ruby-identifier">mail</span>)
+<span class="line-num">304</span> 
+<span class="line-num">305</span>   <span class="ruby-keyword">begin</span>
+<span class="line-num">306</span>     <span class="ruby-keyword">begin</span>
+<span class="line-num">307</span>       <span class="ruby-identifier">scope</span>.<span class="ruby-identifier">process_mail</span>
+<span class="line-num">308</span>     <span class="ruby-keyword">rescue</span> <span class="ruby-constant">UnhandledMail</span>
+<span class="line-num">309</span>       <span class="ruby-identifier">scope</span>.<span class="ruby-identifier">unhandled_mail_hook</span>
+<span class="line-num">310</span>     <span class="ruby-keyword">else</span>
+<span class="line-num">311</span>       <span class="ruby-identifier">scope</span>.<span class="ruby-identifier">handled_mail_hook</span>
+<span class="line-num">312</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">313</span>   <span class="ruby-keyword">ensure</span>
+<span class="line-num">314</span>     <span class="ruby-identifier">scope</span>.<span class="ruby-identifier">after_mail_hook</span>
+<span class="line-num">315</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">316</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-process_mailbox'>
@@ -125,10 +125,10 @@ Roda::RodaPlugins::MailProcessor::ClassMethods
 [show source]
 </a>
 <pre id='method-i-process_mailbox-source'>    <span class="ruby-comment"># File lib/roda/plugins/mail_processor.rb</span>
-<span class="line-num">321</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">process_mailbox</span>(<span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
-<span class="line-num">322</span>   (<span class="ruby-identifier">opts</span>[<span class="ruby-value">:retriever</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">Mail</span>).<span class="ruby-identifier">find_and_delete</span>(<span class="ruby-identifier">opts</span>.<span class="ruby-identifier">dup</span>){<span class="ruby-operator">|</span><span class="ruby-identifier">m</span><span class="ruby-operator">|</span> <span class="ruby-identifier">process_mail</span>(<span class="ruby-identifier">m</span>)}
-<span class="line-num">323</span>   <span class="ruby-keyword">nil</span>
-<span class="line-num">324</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">324</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">process_mailbox</span>(<span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
+<span class="line-num">325</span>   (<span class="ruby-identifier">opts</span>[<span class="ruby-value">:retriever</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">Mail</span>).<span class="ruby-identifier">find_and_delete</span>(<span class="ruby-identifier">opts</span>.<span class="ruby-identifier">dup</span>){<span class="ruby-operator">|</span><span class="ruby-identifier">m</span><span class="ruby-operator">|</span> <span class="ruby-identifier">process_mail</span>(<span class="ruby-identifier">m</span>)}
+<span class="line-num">326</span>   <span class="ruby-keyword">nil</span>
+<span class="line-num">327</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-rcpt'>
@@ -147,29 +147,29 @@ Roda::RodaPlugins::MailProcessor::ClassMethods
 [show source]
 </a>
 <pre id='method-i-rcpt-source'>    <span class="ruby-comment"># File lib/roda/plugins/mail_processor.rb</span>
-<span class="line-num">329</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">rcpt</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">addresses</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">330</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:mail_processor_string_routes</span>] <span class="ruby-operator">||=</span> {}
-<span class="line-num">331</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:mail_processor_regexp_routes</span>] <span class="ruby-operator">||=</span> {}
-<span class="line-num">332</span>   <span class="ruby-identifier">string_meth</span> = <span class="ruby-keyword">nil</span>
-<span class="line-num">333</span>   <span class="ruby-identifier">regexp_meth</span> = <span class="ruby-keyword">nil</span>
-<span class="line-num">334</span>   <span class="ruby-identifier">addresses</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">address</span><span class="ruby-operator">|</span>
-<span class="line-num">335</span>     <span class="ruby-keyword">case</span> <span class="ruby-identifier">address</span>
-<span class="line-num">336</span>     <span class="ruby-keyword">when</span> <span class="ruby-constant">String</span>
-<span class="line-num">337</span>       <span class="ruby-keyword">unless</span> <span class="ruby-identifier">string_meth</span>
-<span class="line-num">338</span>         <span class="ruby-identifier">string_meth</span> = <span class="ruby-identifier">define_roda_method</span>(<span class="ruby-node">&quot;mail_processor_string_route_#{address}&quot;</span>, <span class="ruby-value">1</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">convert_route_block</span>(<span class="ruby-identifier">block</span>))
-<span class="line-num">339</span>       <span class="ruby-keyword">end</span>
-<span class="line-num">340</span>       <span class="ruby-identifier">opts</span>[<span class="ruby-value">:mail_processor_string_routes</span>][<span class="ruby-identifier">address</span>] = <span class="ruby-identifier">string_meth</span> 
-<span class="line-num">341</span>     <span class="ruby-keyword">when</span> <span class="ruby-constant">Regexp</span>
-<span class="line-num">342</span>       <span class="ruby-keyword">unless</span> <span class="ruby-identifier">regexp_meth</span>
-<span class="line-num">343</span>         <span class="ruby-identifier">regexp_meth</span> = <span class="ruby-identifier">define_roda_method</span>(<span class="ruby-node">&quot;mail_processor_regexp_route_#{address}&quot;</span>, <span class="ruby-value">:any</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">convert_route_block</span>(<span class="ruby-identifier">block</span>))
-<span class="line-num">344</span>       <span class="ruby-keyword">end</span>
-<span class="line-num">345</span>       <span class="ruby-identifier">opts</span>[<span class="ruby-value">:mail_processor_regexp_routes</span>][<span class="ruby-identifier">address</span>] = <span class="ruby-identifier">regexp_meth</span>
-<span class="line-num">346</span>     <span class="ruby-keyword">else</span>
-<span class="line-num">347</span>       <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;invalid address format passed to rcpt, should be Array or String&quot;</span>
-<span class="line-num">348</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">349</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">350</span>   <span class="ruby-keyword">nil</span>
-<span class="line-num">351</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">332</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">rcpt</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">addresses</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">333</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:mail_processor_string_routes</span>] <span class="ruby-operator">||=</span> {}
+<span class="line-num">334</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:mail_processor_regexp_routes</span>] <span class="ruby-operator">||=</span> {}
+<span class="line-num">335</span>   <span class="ruby-identifier">string_meth</span> = <span class="ruby-keyword">nil</span>
+<span class="line-num">336</span>   <span class="ruby-identifier">regexp_meth</span> = <span class="ruby-keyword">nil</span>
+<span class="line-num">337</span>   <span class="ruby-identifier">addresses</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">address</span><span class="ruby-operator">|</span>
+<span class="line-num">338</span>     <span class="ruby-keyword">case</span> <span class="ruby-identifier">address</span>
+<span class="line-num">339</span>     <span class="ruby-keyword">when</span> <span class="ruby-constant">String</span>
+<span class="line-num">340</span>       <span class="ruby-keyword">unless</span> <span class="ruby-identifier">string_meth</span>
+<span class="line-num">341</span>         <span class="ruby-identifier">string_meth</span> = <span class="ruby-identifier">define_roda_method</span>(<span class="ruby-node">&quot;mail_processor_string_route_#{address}&quot;</span>, <span class="ruby-value">1</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">convert_route_block</span>(<span class="ruby-identifier">block</span>))
+<span class="line-num">342</span>       <span class="ruby-keyword">end</span>
+<span class="line-num">343</span>       <span class="ruby-identifier">mail_processor_string_routes</span>[<span class="ruby-identifier">address</span>] = <span class="ruby-identifier">string_meth</span> 
+<span class="line-num">344</span>     <span class="ruby-keyword">when</span> <span class="ruby-constant">Regexp</span>
+<span class="line-num">345</span>       <span class="ruby-keyword">unless</span> <span class="ruby-identifier">regexp_meth</span>
+<span class="line-num">346</span>         <span class="ruby-identifier">regexp_meth</span> = <span class="ruby-identifier">define_roda_method</span>(<span class="ruby-node">&quot;mail_processor_regexp_route_#{address}&quot;</span>, <span class="ruby-value">:any</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">convert_route_block</span>(<span class="ruby-identifier">block</span>))
+<span class="line-num">347</span>       <span class="ruby-keyword">end</span>
+<span class="line-num">348</span>       <span class="ruby-identifier">mail_processor_regexp_routes</span>[<span class="ruby-identifier">address</span>] = <span class="ruby-identifier">regexp_meth</span>
+<span class="line-num">349</span>     <span class="ruby-keyword">else</span>
+<span class="line-num">350</span>       <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;invalid address format passed to rcpt, should be Array or String&quot;</span>
+<span class="line-num">351</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">352</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">353</span>   <span class="ruby-keyword">nil</span>
+<span class="line-num">354</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

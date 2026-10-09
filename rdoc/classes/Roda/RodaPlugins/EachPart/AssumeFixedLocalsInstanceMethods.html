@@ -36,9 +36,57 @@ Roda::RodaPlugins::EachPart::AssumeFixedLocalsInstanceMethods
 <div id='content'>
 <div id='text'>
 <div id='description'></div>
+<div id='method-list'>
+<h2>Methods</h2>
+<h3>Public Instance</h3>
+<ol>
+<li><a href="#method-i-each_part">each_part</a></li>
+</ol>
+</div>
 <div id='context'>
 </div>
 <div id='section'>
+<div id='methods'>
+<h2>Public Instance methods</h2>
+<div class='method public-instance' id='method-method-i-each_part'>
+<a name='method-i-each_part'></a>
+<div class='synopsis'>
+<span class='name'>each_part</span><span class='arguments'>(enum, template, **locals, &block)</span>
+
+</div>
+<div class='description'>
+
+<p>simplecov:enable</p>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-each_part-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-each_part-source'>   <span class="ruby-comment"># File lib/roda/plugins/each_part.rb</span>
+<span class="line-num">57</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">each_part</span>(<span class="ruby-identifier">enum</span>, <span class="ruby-identifier">template</span>, <span class="ruby-operator">**</span><span class="ruby-identifier">locals</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">58</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">optimized_method</span> = <span class="ruby-identifier">_cached_render_each_template_method</span>(<span class="ruby-identifier">template</span>)
+<span class="line-num">59</span>     <span class="ruby-identifier">optimized_method</span> = <span class="ruby-identifier">optimized_method</span>[<span class="ruby-value">0</span>]
+<span class="line-num">60</span>     <span class="ruby-identifier">as</span> = <span class="ruby-identifier">render_each_default_local</span>(<span class="ruby-identifier">template</span>)
+<span class="line-num">61</span>     <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-keyword">yield</span>)
+<span class="line-num">62</span>       <span class="ruby-identifier">enum</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">v</span><span class="ruby-operator">|</span>
+<span class="line-num">63</span>         <span class="ruby-identifier">locals</span>[<span class="ruby-identifier">as</span>] = <span class="ruby-identifier">v</span>
+<span class="line-num">64</span>         <span class="ruby-keyword">yield</span> <span class="ruby-identifier">send</span>(<span class="ruby-identifier">optimized_method</span>, <span class="ruby-operator">**</span><span class="ruby-identifier">locals</span>)
+<span class="line-num">65</span>       <span class="ruby-keyword">end</span>
+<span class="line-num">66</span>       <span class="ruby-keyword">nil</span>
+<span class="line-num">67</span>     <span class="ruby-keyword">else</span>
+<span class="line-num">68</span>       <span class="ruby-identifier">enum</span>.<span class="ruby-identifier">map</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">v</span><span class="ruby-operator">|</span>
+<span class="line-num">69</span>         <span class="ruby-identifier">locals</span>[<span class="ruby-identifier">as</span>] = <span class="ruby-identifier">v</span>
+<span class="line-num">70</span>         <span class="ruby-identifier">send</span>(<span class="ruby-identifier">optimized_method</span>, <span class="ruby-operator">**</span><span class="ruby-identifier">locals</span>)
+<span class="line-num">71</span>       <span class="ruby-keyword">end</span>.<span class="ruby-identifier">join</span>
+<span class="line-num">72</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">73</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">74</span>     <span class="ruby-identifier">render_each</span>(<span class="ruby-identifier">enum</span>, <span class="ruby-identifier">template</span>, <span class="ruby-value">:locals</span><span class="ruby-operator">=&gt;</span><span class="ruby-identifier">locals</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">75</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">76</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+</div>
 </div>
 
 </div>

@@ -65,10 +65,10 @@ Roda::RodaPlugins::HashRoutes::ClassMethods
 [show source]
 </a>
 <pre id='method-i-freeze-source'>    <span class="ruby-comment"># File lib/roda/plugins/hash_routes.rb</span>
-<span class="line-num">269</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">freeze</span>
-<span class="line-num">270</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:hash_routes_methods</span>].<span class="ruby-identifier">freeze</span>
-<span class="line-num">271</span>   <span class="ruby-keyword">super</span>
-<span class="line-num">272</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">271</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">freeze</span>
+<span class="line-num">272</span>   <span class="ruby-identifier">hash_routes_methods</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">273</span>   <span class="ruby-keyword">super</span>
+<span class="line-num">274</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-hash_routes'>
@@ -87,18 +87,18 @@ Roda::RodaPlugins::HashRoutes::ClassMethods
 [show source]
 </a>
 <pre id='method-i-hash_routes-source'>    <span class="ruby-comment"># File lib/roda/plugins/hash_routes.rb</span>
-<span class="line-num">278</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">hash_routes</span>(<span class="ruby-identifier">namespace</span>=<span class="ruby-string">&#39;&#39;</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">279</span>   <span class="ruby-identifier">dsl</span> = <span class="ruby-constant">DSL</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword">self</span>, <span class="ruby-identifier">namespace</span>)
-<span class="line-num">280</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span>
-<span class="line-num">281</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span>.<span class="ruby-identifier">arity</span> <span class="ruby-operator">==</span> <span class="ruby-value">1</span>
-<span class="line-num">282</span>       <span class="ruby-keyword">yield</span> <span class="ruby-identifier">dsl</span>
-<span class="line-num">283</span>     <span class="ruby-keyword">else</span>
-<span class="line-num">284</span>       <span class="ruby-identifier">dsl</span>.<span class="ruby-identifier">instance_exec</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">285</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">286</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">287</span> 
-<span class="line-num">288</span>   <span class="ruby-identifier">dsl</span>
-<span class="line-num">289</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">280</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">hash_routes</span>(<span class="ruby-identifier">namespace</span>=<span class="ruby-string">&#39;&#39;</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">281</span>   <span class="ruby-identifier">dsl</span> = <span class="ruby-constant">DSL</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword">self</span>, <span class="ruby-identifier">namespace</span>)
+<span class="line-num">282</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span>
+<span class="line-num">283</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span>.<span class="ruby-identifier">arity</span> <span class="ruby-operator">==</span> <span class="ruby-value">1</span>
+<span class="line-num">284</span>       <span class="ruby-keyword">yield</span> <span class="ruby-identifier">dsl</span>
+<span class="line-num">285</span>     <span class="ruby-keyword">else</span>
+<span class="line-num">286</span>       <span class="ruby-identifier">dsl</span>.<span class="ruby-identifier">instance_exec</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">287</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">288</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">289</span> 
+<span class="line-num">290</span>   <span class="ruby-identifier">dsl</span>
+<span class="line-num">291</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

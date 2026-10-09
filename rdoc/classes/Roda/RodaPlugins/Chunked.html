@@ -149,6 +149,7 @@ Roda::RodaPlugins::Chunked
 <div id='class-list'>
 <h2>Classes and Modules</h2>
 <ol>
+<li><a href="Chunked/ClassMethods.html">Roda::RodaPlugins::Chunked::ClassMethods</a></li>
 <li><a href="Chunked/InstanceMethods.html">Roda::RodaPlugins::Chunked::InstanceMethods</a></li>
 <li><a href="Chunked/Body.html">Roda::RodaPlugins::Chunked::Body</a></li>
 <li><a href="Chunked/StreamBody.html">Roda::RodaPlugins::Chunked::StreamBody</a></li>
@@ -196,7 +197,7 @@ Roda::RodaPlugins::Chunked
 <span class="line-num">162</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:chunk_by_default</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:chunk_by_default</span>]
 <span class="line-num">163</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:force_chunked_encoding</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:force_chunked_encoding</span>]
 <span class="line-num">164</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:headers</span>]
-<span class="line-num">165</span>     <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:chunk_headers</span>] = (<span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:chunk_headers</span>] <span class="ruby-operator">||</span> {}).<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">opts</span>[<span class="ruby-value">:headers</span>]).<span class="ruby-identifier">freeze</span>
+<span class="line-num">165</span>     <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:chunk_headers</span>] = (<span class="ruby-identifier">app</span>.<span class="ruby-identifier">chunk_headers</span> <span class="ruby-operator">||</span> {}).<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">opts</span>[<span class="ruby-value">:headers</span>]).<span class="ruby-identifier">freeze</span>
 <span class="line-num">166</span>   <span class="ruby-keyword">end</span>
 <span class="line-num">167</span> <span class="ruby-keyword">end</span></pre>
 </div>

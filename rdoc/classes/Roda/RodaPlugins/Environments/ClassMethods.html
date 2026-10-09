@@ -41,7 +41,6 @@ Roda::RodaPlugins::Environments::ClassMethods
 <h3>Public Instance</h3>
 <ol>
 <li><a href="#method-i-configure">configure</a></li>
-<li><a href="#method-i-environment">environment</a></li>
 <li><a href="#method-i-environment-3D">environment=</a></li>
 </ol>
 </div>
@@ -66,32 +65,11 @@ Roda::RodaPlugins::Environments::ClassMethods
 [show source]
 </a>
 <pre id='method-i-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/environments.rb</span>
-<span class="line-num">53</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">envs</span>)
-<span class="line-num">54</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">envs</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">envs</span>.<span class="ruby-identifier">any?</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">s</span><span class="ruby-operator">|</span> <span class="ruby-identifier">s</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">environment</span>}
-<span class="line-num">55</span>     <span class="ruby-keyword">yield</span> <span class="ruby-keyword">self</span>
-<span class="line-num">56</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">57</span> <span class="ruby-keyword">end</span></pre>
-</div>
-</div>
-<div class='method public-instance' id='method-method-i-environment'>
-<a name='method-i-environment'></a>
-<div class='synopsis'>
-<span class='name'>environment</span><span class='arguments'>()</span>
-
-</div>
-<div class='description'>
-
-<p>The current environment for the application, which should be stored as a symbol.</p>
-
-</div>
-<div class='source'>
-<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-environment-source&#39;); return false'>
-[show source]
-</a>
-<pre id='method-i-environment-source'>   <span class="ruby-comment"># File lib/roda/plugins/environments.rb</span>
-<span class="line-num">61</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">environment</span>
-<span class="line-num">62</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:environment</span>]
-<span class="line-num">63</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">55</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">envs</span>)
+<span class="line-num">56</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">envs</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">envs</span>.<span class="ruby-identifier">any?</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">s</span><span class="ruby-operator">|</span> <span class="ruby-identifier">s</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">environment</span>}
+<span class="line-num">57</span>     <span class="ruby-keyword">yield</span> <span class="ruby-keyword">self</span>
+<span class="line-num">58</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">59</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-environment-3D'>
@@ -110,9 +88,9 @@ Roda::RodaPlugins::Environments::ClassMethods
 [show source]
 </a>
 <pre id='method-i-environment-3D-source'>   <span class="ruby-comment"># File lib/roda/plugins/environments.rb</span>
-<span class="line-num">67</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">environment=</span>(<span class="ruby-identifier">v</span>)
-<span class="line-num">68</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:environment</span>] = <span class="ruby-identifier">v</span>
-<span class="line-num">69</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">63</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">environment=</span>(<span class="ruby-identifier">v</span>)
+<span class="line-num">64</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:environment</span>] = <span class="ruby-identifier">v</span>
+<span class="line-num">65</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

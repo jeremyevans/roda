@@ -90,6 +90,7 @@ Roda::RodaPlugins::SecFetchSiteCsrf
 <div id='class-list'>
 <h2>Classes and Modules</h2>
 <ol>
+<li><a href="SecFetchSiteCsrf/ClassMethods.html">Roda::RodaPlugins::SecFetchSiteCsrf::ClassMethods</a></li>
 <li><a href="SecFetchSiteCsrf/InstanceMethods.html">Roda::RodaPlugins::SecFetchSiteCsrf::InstanceMethods</a></li>
 <li><a href="SecFetchSiteCsrf/CsrfFailure.html">Roda::RodaPlugins::SecFetchSiteCsrf::CsrfFailure</a></li>
 </ol>
@@ -129,7 +130,7 @@ Roda::RodaPlugins::SecFetchSiteCsrf
 </a>
 <pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/sec_fetch_site_csrf.rb</span>
 <span class="line-num">71</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">72</span>   <span class="ruby-identifier">options</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:sec_fetch_site_csrf</span>] = (<span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:sec_fetch_site_csrf</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">DEFAULTS</span>).<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">opts</span>)
+<span class="line-num">72</span>   <span class="ruby-identifier">options</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:sec_fetch_site_csrf</span>] = (<span class="ruby-identifier">app</span>.<span class="ruby-identifier">sec_fetch_site_csrf_opts</span> <span class="ruby-operator">||</span> <span class="ruby-constant">DEFAULTS</span>).<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">opts</span>)
 <span class="line-num">73</span> 
 <span class="line-num">74</span>   <span class="ruby-identifier">allowed_values</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:allowed_values</span>] = [<span class="ruby-string">&quot;same-origin&quot;</span>]
 <span class="line-num">75</span>   <span class="ruby-identifier">allowed_values</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">&quot;same-site&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:allow_same_site</span>]

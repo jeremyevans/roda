@@ -70,6 +70,7 @@ Roda::RodaPlugins::RedirectHttpToHttps
 <div id='class-list'>
 <h2>Classes and Modules</h2>
 <ol>
+<li><a href="RedirectHttpToHttps/ClassMethods.html">Roda::RodaPlugins::RedirectHttpToHttps::ClassMethods</a></li>
 <li><a href="RedirectHttpToHttps/RequestMethods.html">Roda::RodaPlugins::RedirectHttpToHttps::RequestMethods</a></li>
 </ol>
 </div>
@@ -104,12 +105,11 @@ Roda::RodaPlugins::RedirectHttpToHttps
 </a>
 <pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/redirect_http_to_https.rb</span>
 <span class="line-num">55</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
-<span class="line-num">56</span>   <span class="ruby-identifier">previous</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:redirect_http_to_https</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">DEFAULTS</span>
-<span class="line-num">57</span>   <span class="ruby-identifier">opts</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:redirect_http_to_https</span>] = <span class="ruby-identifier">previous</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">opts</span>)
-<span class="line-num">58</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:port_string</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:port</span>] <span class="ruby-operator">?</span> <span class="ruby-node">&quot;:#{opts[:port]}&quot;</span>.<span class="ruby-identifier">freeze</span> <span class="ruby-operator">:</span> <span class="ruby-string">&quot;&quot;</span>.<span class="ruby-identifier">freeze</span>
-<span class="line-num">59</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:prefix</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:host</span>] <span class="ruby-operator">?</span> <span class="ruby-node">&quot;https://#{opts[:host]}#{opts[:port_string]}&quot;</span>.<span class="ruby-identifier">freeze</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>
-<span class="line-num">60</span>   <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">freeze</span>
-<span class="line-num">61</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">56</span>   <span class="ruby-identifier">opts</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:redirect_http_to_https</span>] = (<span class="ruby-identifier">app</span>.<span class="ruby-identifier">redirect_http_to_https_opts</span> <span class="ruby-operator">||</span> <span class="ruby-constant">DEFAULTS</span>).<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">opts</span>)
+<span class="line-num">57</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:port_string</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:port</span>] <span class="ruby-operator">?</span> <span class="ruby-node">&quot;:#{opts[:port]}&quot;</span>.<span class="ruby-identifier">freeze</span> <span class="ruby-operator">:</span> <span class="ruby-string">&quot;&quot;</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">58</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:prefix</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:host</span>] <span class="ruby-operator">?</span> <span class="ruby-node">&quot;https://#{opts[:host]}#{opts[:port_string]}&quot;</span>.<span class="ruby-identifier">freeze</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>
+<span class="line-num">59</span>   <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">60</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

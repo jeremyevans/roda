@@ -76,6 +76,7 @@ Roda::RodaPlugins::ErrorMail
 <div id='class-list'>
 <h2>Classes and Modules</h2>
 <ol>
+<li><a href="ErrorMail/ClassMethods.html">Roda::RodaPlugins::ErrorMail::ClassMethods</a></li>
 <li><a href="ErrorMail/InstanceMethods.html">Roda::RodaPlugins::ErrorMail::InstanceMethods</a></li>
 </ol>
 </div>
@@ -99,7 +100,7 @@ Roda::RodaPlugins::ErrorMail
 </a>
 <pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/error_mail.rb</span>
 <span class="line-num">46</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
-<span class="line-num">47</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:error_mail</span>] = <span class="ruby-identifier">email_opts</span> = (<span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:error_mail</span>] <span class="ruby-operator">||</span> {<span class="ruby-value">:filter</span><span class="ruby-operator">=&gt;</span><span class="ruby-constant">DEFAULT_FILTER</span>}).<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">opts</span>).<span class="ruby-identifier">freeze</span>
+<span class="line-num">47</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:error_mail</span>] = <span class="ruby-identifier">email_opts</span> = (<span class="ruby-identifier">app</span>.<span class="ruby-identifier">error_mail_opts</span> <span class="ruby-operator">||</span> {<span class="ruby-value">:filter</span><span class="ruby-operator">=&gt;</span><span class="ruby-constant">DEFAULT_FILTER</span>}).<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">opts</span>).<span class="ruby-identifier">freeze</span>
 <span class="line-num">48</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">email_opts</span>[<span class="ruby-value">:to</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">email_opts</span>[<span class="ruby-value">:from</span>]
 <span class="line-num">49</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;must provide :to and :from options to error_mail plugin&quot;</span>
 <span class="line-num">50</span>   <span class="ruby-keyword">end</span>

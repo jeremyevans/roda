@@ -65,11 +65,11 @@ Roda::RodaPlugins::PathRewriter::ClassMethods
 [show source]
 </a>
 <pre id='method-i-freeze-source'>   <span class="ruby-comment"># File lib/roda/plugins/path_rewriter.rb</span>
-<span class="line-num">57</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">freeze</span>
-<span class="line-num">58</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:remaining_path_rewrites</span>].<span class="ruby-identifier">freeze</span>
-<span class="line-num">59</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:path_info_rewrites</span>].<span class="ruby-identifier">freeze</span>
-<span class="line-num">60</span>   <span class="ruby-keyword">super</span>
-<span class="line-num">61</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">60</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">freeze</span>
+<span class="line-num">61</span>   <span class="ruby-identifier">remaining_path_rewrites</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">62</span>   <span class="ruby-identifier">path_info_rewrites</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">63</span>   <span class="ruby-keyword">super</span>
+<span class="line-num">64</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-rewrite_path'>
@@ -91,22 +91,22 @@ Roda::RodaPlugins::PathRewriter::ClassMethods
 [show source]
 </a>
 <pre id='method-i-rewrite_path-source'>   <span class="ruby-comment"># File lib/roda/plugins/path_rewriter.rb</span>
-<span class="line-num">65</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">rewrite_path</span>(<span class="ruby-identifier">was</span>, <span class="ruby-identifier">is</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">66</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">is</span>.<span class="ruby-identifier">is_a?</span> <span class="ruby-constant">Hash</span>
-<span class="line-num">67</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;cannot provide two hashes to rewrite_path&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">empty?</span>
-<span class="line-num">68</span>     <span class="ruby-identifier">opts</span> = <span class="ruby-identifier">is</span>
-<span class="line-num">69</span>     <span class="ruby-identifier">is</span> = <span class="ruby-keyword">nil</span>
-<span class="line-num">70</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">71</span> 
-<span class="line-num">72</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span>
-<span class="line-num">73</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;cannot provide both block and string replacement to rewrite_path&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">is</span>
-<span class="line-num">74</span>     <span class="ruby-identifier">is</span> = <span class="ruby-identifier">block</span>
-<span class="line-num">75</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">76</span> 
-<span class="line-num">77</span>   <span class="ruby-identifier">was</span> = <span class="ruby-regexp">/\A#{Regexp.escape(was)}/</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">was</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Regexp</span>)
-<span class="line-num">78</span>   <span class="ruby-identifier">array</span> = <span class="ruby-ivar">@opts</span>[<span class="ruby-identifier">opts</span>[<span class="ruby-value">:path_info</span>] <span class="ruby-operator">?</span> <span class="ruby-value">:path_info_rewrites</span> <span class="ruby-operator">:</span> <span class="ruby-value">:remaining_path_rewrites</span>]
-<span class="line-num">79</span>   <span class="ruby-identifier">array</span> <span class="ruby-operator">&lt;&lt;</span> [<span class="ruby-identifier">was</span>, <span class="ruby-identifier">is</span>.<span class="ruby-identifier">dup</span>.<span class="ruby-identifier">freeze</span>].<span class="ruby-identifier">freeze</span>
-<span class="line-num">80</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">68</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">rewrite_path</span>(<span class="ruby-identifier">was</span>, <span class="ruby-identifier">is</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">69</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">is</span>.<span class="ruby-identifier">is_a?</span> <span class="ruby-constant">Hash</span>
+<span class="line-num">70</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;cannot provide two hashes to rewrite_path&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">empty?</span>
+<span class="line-num">71</span>     <span class="ruby-identifier">opts</span> = <span class="ruby-identifier">is</span>
+<span class="line-num">72</span>     <span class="ruby-identifier">is</span> = <span class="ruby-keyword">nil</span>
+<span class="line-num">73</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">74</span> 
+<span class="line-num">75</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span>
+<span class="line-num">76</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;cannot provide both block and string replacement to rewrite_path&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">is</span>
+<span class="line-num">77</span>     <span class="ruby-identifier">is</span> = <span class="ruby-identifier">block</span>
+<span class="line-num">78</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">79</span> 
+<span class="line-num">80</span>   <span class="ruby-identifier">was</span> = <span class="ruby-regexp">/\A#{Regexp.escape(was)}/</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">was</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Regexp</span>)
+<span class="line-num">81</span>   <span class="ruby-identifier">array</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:path_info</span>] <span class="ruby-operator">?</span> <span class="ruby-identifier">path_info_rewrites</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">remaining_path_rewrites</span>
+<span class="line-num">82</span>   <span class="ruby-identifier">array</span> <span class="ruby-operator">&lt;&lt;</span> [<span class="ruby-identifier">was</span>, <span class="ruby-identifier">is</span>.<span class="ruby-identifier">dup</span>.<span class="ruby-identifier">freeze</span>].<span class="ruby-identifier">freeze</span>
+<span class="line-num">83</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

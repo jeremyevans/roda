@@ -74,6 +74,7 @@ Roda::RodaPlugins::TimestampPublic
 <div id='class-list'>
 <h2>Classes and Modules</h2>
 <ol>
+<li><a href="TimestampPublic/ClassMethods.html">Roda::RodaPlugins::TimestampPublic::ClassMethods</a></li>
 <li><a href="TimestampPublic/InstanceMethods.html">Roda::RodaPlugins::TimestampPublic::InstanceMethods</a></li>
 <li><a href="TimestampPublic/RequestMethods.html">Roda::RodaPlugins::TimestampPublic::RequestMethods</a></li>
 </ol>
@@ -103,7 +104,7 @@ Roda::RodaPlugins::TimestampPublic
 </a>
 <pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/timestamp_public.rb</span>
 <span class="line-num">48</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
-<span class="line-num">49</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:timestamp_public_prefix</span>] = (<span class="ruby-identifier">opts</span>[<span class="ruby-value">:prefix</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:timestamp_public_prefix</span>] <span class="ruby-operator">||</span> <span class="ruby-string">&quot;static&quot;</span>).<span class="ruby-identifier">dup</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">49</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:timestamp_public_prefix</span>] = (<span class="ruby-identifier">opts</span>[<span class="ruby-value">:prefix</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">timestamp_public_prefix</span> <span class="ruby-operator">||</span> <span class="ruby-string">&quot;static&quot;</span>).<span class="ruby-identifier">dup</span>.<span class="ruby-identifier">freeze</span>
 <span class="line-num">50</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>

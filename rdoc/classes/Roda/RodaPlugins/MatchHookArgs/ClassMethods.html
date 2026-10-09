@@ -65,19 +65,19 @@ Roda::RodaPlugins::MatchHookArgs::ClassMethods
 [show source]
 </a>
 <pre id='method-i-add_match_hook-source'>   <span class="ruby-comment"># File lib/roda/plugins/match_hook_args.rb</span>
-<span class="line-num">50</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">add_match_hook</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">51</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:match_hook_args</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">define_roda_method</span>(<span class="ruby-string">&quot;match_hook_args&quot;</span>, <span class="ruby-value">:any</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">52</span> 
-<span class="line-num">53</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:match_hook_args</span>].<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-value">1</span>
-<span class="line-num">54</span>     <span class="ruby-identifier">class_eval</span>(<span class="ruby-node">&quot;alias _match_hook_args #{opts[:match_hook_args].first}&quot;</span>, <span class="ruby-keyword">__FILE__</span>, <span class="ruby-keyword">__LINE__</span>)
-<span class="line-num">55</span>   <span class="ruby-keyword">else</span>
-<span class="line-num">56</span>     <span class="ruby-identifier">class_eval</span>(<span class="ruby-node">&quot;def _match_hook_args(v, a); #{opts[:match_hook_args].map{|m| &quot;#{m}(v, a)&quot;}.join(&#39;;&#39;)} end&quot;</span>, <span class="ruby-keyword">__FILE__</span>, <span class="ruby-keyword">__LINE__</span>)
-<span class="line-num">57</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">58</span> 
-<span class="line-num">59</span>   <span class="ruby-identifier">public</span> <span class="ruby-value">:_match_hook_args</span>
+<span class="line-num">52</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">add_match_hook</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">53</span>   <span class="ruby-identifier">match_hook_args</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">define_roda_method</span>(<span class="ruby-string">&quot;match_hook_args&quot;</span>, <span class="ruby-value">:any</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">54</span> 
+<span class="line-num">55</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">match_hook_args</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-value">1</span>
+<span class="line-num">56</span>     <span class="ruby-identifier">class_eval</span>(<span class="ruby-node">&quot;alias _match_hook_args #{match_hook_args.first}&quot;</span>, <span class="ruby-keyword">__FILE__</span>, <span class="ruby-keyword">__LINE__</span>)
+<span class="line-num">57</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">58</span>     <span class="ruby-identifier">class_eval</span>(<span class="ruby-node">&quot;def _match_hook_args(v, a); #{match_hook_args.map{|m| &quot;#{m}(v, a)&quot;}.join(&#39;;&#39;)} end&quot;</span>, <span class="ruby-keyword">__FILE__</span>, <span class="ruby-keyword">__LINE__</span>)
+<span class="line-num">59</span>   <span class="ruby-keyword">end</span>
 <span class="line-num">60</span> 
-<span class="line-num">61</span>   <span class="ruby-keyword">nil</span>
-<span class="line-num">62</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">61</span>   <span class="ruby-identifier">public</span> <span class="ruby-value">:_match_hook_args</span>
+<span class="line-num">62</span> 
+<span class="line-num">63</span>   <span class="ruby-keyword">nil</span>
+<span class="line-num">64</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-freeze'>
@@ -96,10 +96,10 @@ Roda::RodaPlugins::MatchHookArgs::ClassMethods
 [show source]
 </a>
 <pre id='method-i-freeze-source'>   <span class="ruby-comment"># File lib/roda/plugins/match_hook_args.rb</span>
-<span class="line-num">44</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">freeze</span>
-<span class="line-num">45</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:match_hook_args</span>].<span class="ruby-identifier">freeze</span>
-<span class="line-num">46</span>   <span class="ruby-keyword">super</span>
-<span class="line-num">47</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">46</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">freeze</span>
+<span class="line-num">47</span>   <span class="ruby-identifier">match_hook_args</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">48</span>   <span class="ruby-keyword">super</span>
+<span class="line-num">49</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

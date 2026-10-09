@@ -51,7 +51,7 @@ Roda::RodaPlugins::EachPart::InstanceMethods
 <div class='method public-instance' id='method-method-i-each_part'>
 <a name='method-i-each_part'></a>
 <div class='synopsis'>
-<span class='name'>each_part</span><span class='arguments'>(enum, template, locals=OPTS, &block)</span>
+<span class='name'>each_part</span><span class='arguments'>(enum, template, **locals, &block)</span>
 
 </div>
 <div class='description'>
@@ -62,9 +62,9 @@ Roda::RodaPlugins::EachPart::InstanceMethods
 [show source]
 </a>
 <pre id='method-i-each_part-source'>   <span class="ruby-comment"># File lib/roda/plugins/each_part.rb</span>
-<span class="line-num">48</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">each_part</span>(<span class="ruby-identifier">enum</span>, <span class="ruby-identifier">template</span>, <span class="ruby-identifier">locals</span>=<span class="ruby-constant">OPTS</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">49</span>   <span class="ruby-identifier">render_each</span>(<span class="ruby-identifier">enum</span>, <span class="ruby-identifier">template</span>, <span class="ruby-value">:locals</span><span class="ruby-operator">=&gt;</span><span class="ruby-identifier">locals</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">50</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">41</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">each_part</span>(<span class="ruby-identifier">enum</span>, <span class="ruby-identifier">template</span>, <span class="ruby-operator">**</span><span class="ruby-identifier">locals</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">42</span>   <span class="ruby-identifier">render_each</span>(<span class="ruby-identifier">enum</span>, <span class="ruby-identifier">template</span>, <span class="ruby-value">:locals</span><span class="ruby-operator">=&gt;</span><span class="ruby-identifier">locals</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">43</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

@@ -64,9 +64,9 @@ Roda::RodaPlugins::IPFromHeader::RequestMethods
 [show source]
 </a>
 <pre id='method-i-ip-source'>   <span class="ruby-comment"># File lib/roda/plugins/ip_from_header.rb</span>
-<span class="line-num">26</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">ip</span>
-<span class="line-num">27</span>   <span class="ruby-ivar">@env</span>[<span class="ruby-identifier">roda_class</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:ip_from_header_env_key</span>]] <span class="ruby-operator">||</span> <span class="ruby-keyword">super</span>
-<span class="line-num">28</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">30</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">ip</span>
+<span class="line-num">31</span>   <span class="ruby-ivar">@env</span>[<span class="ruby-identifier">roda_class</span>.<span class="ruby-identifier">ip_from_header_env_key</span>] <span class="ruby-operator">||</span> <span class="ruby-keyword">super</span>
+<span class="line-num">32</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

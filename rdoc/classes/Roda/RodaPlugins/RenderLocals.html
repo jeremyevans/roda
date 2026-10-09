@@ -75,6 +75,7 @@ Roda::RodaPlugins::RenderLocals
 <div id='class-list'>
 <h2>Classes and Modules</h2>
 <ol>
+<li><a href="RenderLocals/ClassMethods.html">Roda::RodaPlugins::RenderLocals::ClassMethods</a></li>
 <li><a href="RenderLocals/InstanceMethods.html">Roda::RodaPlugins::RenderLocals::InstanceMethods</a></li>
 </ol>
 </div>
@@ -96,11 +97,11 @@ Roda::RodaPlugins::RenderLocals
 </a>
 <pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/render_locals.rb</span>
 <span class="line-num">34</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
-<span class="line-num">35</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:render_locals</span>] = (<span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:render_locals</span>] <span class="ruby-operator">||</span> {}).<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">opts</span>[<span class="ruby-value">:render</span>]<span class="ruby-operator">||</span>{}).<span class="ruby-identifier">freeze</span>
-<span class="line-num">36</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:layout_locals</span>] = (<span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:layout_locals</span>] <span class="ruby-operator">||</span> {}).<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">opts</span>[<span class="ruby-value">:layout</span>]<span class="ruby-operator">||</span>{}).<span class="ruby-identifier">freeze</span>
+<span class="line-num">35</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:render_locals</span>] = (<span class="ruby-identifier">app</span>.<span class="ruby-identifier">render_locals</span> <span class="ruby-operator">||</span> {}).<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">opts</span>[<span class="ruby-value">:render</span>]<span class="ruby-operator">||</span>{}).<span class="ruby-identifier">freeze</span>
+<span class="line-num">36</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:layout_locals</span>] = (<span class="ruby-identifier">app</span>.<span class="ruby-identifier">layout_locals</span> <span class="ruby-operator">||</span> {}).<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">opts</span>[<span class="ruby-value">:layout</span>]<span class="ruby-operator">||</span>{}).<span class="ruby-identifier">freeze</span>
 <span class="line-num">37</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:merge</span>)
 <span class="line-num">38</span>     <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:merge_locals</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:merge</span>]
-<span class="line-num">39</span>     <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:layout_locals</span>] = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:render_locals</span>].<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:layout_locals</span>]).<span class="ruby-identifier">freeze</span>
+<span class="line-num">39</span>     <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:layout_locals</span>] = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">render_locals</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">app</span>.<span class="ruby-identifier">layout_locals</span>).<span class="ruby-identifier">freeze</span>
 <span class="line-num">40</span>   <span class="ruby-keyword">end</span>
 <span class="line-num">41</span> <span class="ruby-keyword">end</span></pre>
 </div>

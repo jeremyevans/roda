@@ -38,6 +38,9 @@ Roda::RodaPlugins
 <a href="../../files/lib/roda/plugins/Integer_matcher_max_rb.html">lib/roda/plugins/Integer_matcher_max.rb</a>
 </li>
 <li class='other'>
+<a href="../../files/lib/roda/plugins/_add_script_name_rb.html">lib/roda/plugins/_add_script_name.rb</a>
+</li>
+<li class='other'>
 <a href="../../files/lib/roda/plugins/_after_hook_rb.html">lib/roda/plugins/_after_hook.rb</a>
 </li>
 <li class='other'>
@@ -45,6 +48,9 @@ Roda::RodaPlugins
 </li>
 <li class='other'>
 <a href="../../files/lib/roda/plugins/_before_hook_rb.html">lib/roda/plugins/_before_hook.rb</a>
+</li>
+<li class='other'>
+<a href="../../files/lib/roda/plugins/_json_rb.html">lib/roda/plugins/_json.rb</a>
 </li>
 <li class='other'>
 <a href="../../files/lib/roda/plugins/_optimized_matching_rb.html">lib/roda/plugins/_optimized_matching.rb</a>
@@ -518,6 +524,7 @@ Roda::RodaPlugins
 <ol>
 <li><a href="#method-c-deprecate_constant">deprecate_constant</a></li>
 <li><a href="#method-c-load_plugin">load_plugin</a></li>
+<li><a href="#method-c-opt_attr_reader">opt_attr_reader</a></li>
 <li><a href="#method-c-register_plugin">register_plugin</a></li>
 <li><a href="#method-c-set_temp_name">set_temp_name</a></li>
 </ol>
@@ -527,6 +534,7 @@ Roda::RodaPlugins
 <div id='class-list'>
 <h2>Classes and Modules</h2>
 <ol>
+<li><a href="RodaPlugins/AddScriptName_.html">Roda::RodaPlugins::AddScriptName_</a></li>
 <li><a href="RodaPlugins/AdditionalRenderEngines.html">Roda::RodaPlugins::AdditionalRenderEngines</a></li>
 <li><a href="RodaPlugins/AdditionalViewDirectories.html">Roda::RodaPlugins::AdditionalViewDirectories</a></li>
 <li><a href="RodaPlugins/AllVerbs.html">Roda::RodaPlugins::AllVerbs</a></li>
@@ -597,6 +605,7 @@ Roda::RodaPlugins
 <li><a href="RodaPlugins/InjectERB.html">Roda::RodaPlugins::InjectERB</a></li>
 <li><a href="RodaPlugins/IntegerMatcherMax.html">Roda::RodaPlugins::IntegerMatcherMax</a></li>
 <li><a href="RodaPlugins/InvalidRequestBody.html">Roda::RodaPlugins::InvalidRequestBody</a></li>
+<li><a href="RodaPlugins/JSON_.html">Roda::RodaPlugins::JSON_</a></li>
 <li><a href="RodaPlugins/Json.html">Roda::RodaPlugins::Json</a></li>
 <li><a href="RodaPlugins/JsonParser.html">Roda::RodaPlugins::JsonParser</a></li>
 <li><a href="RodaPlugins/LinkTo.html">Roda::RodaPlugins::LinkTo</a></li>
@@ -723,13 +732,13 @@ Roda::RodaPlugins
 [show source]
 </a>
 <pre id='method-c-deprecate_constant-source'>   <span class="ruby-comment"># File lib/roda/plugins.rb</span>
-<span class="line-num">45</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">deprecate_constant</span>(<span class="ruby-identifier">mod</span>, <span class="ruby-identifier">name</span>)
-<span class="line-num">46</span>   <span class="ruby-comment"># simplecov:disable</span>
-<span class="line-num">47</span>   <span class="ruby-keyword">if</span> <span class="ruby-constant">RUBY_VERSION</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-string">&#39;2.3&#39;</span>
-<span class="line-num">48</span>     <span class="ruby-identifier">mod</span>.<span class="ruby-identifier">deprecate_constant</span>(<span class="ruby-identifier">name</span>)
-<span class="line-num">49</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">50</span>   <span class="ruby-comment"># simplecov:enable</span>
-<span class="line-num">51</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">55</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">deprecate_constant</span>(<span class="ruby-identifier">mod</span>, <span class="ruby-identifier">name</span>)
+<span class="line-num">56</span>   <span class="ruby-comment"># simplecov:disable</span>
+<span class="line-num">57</span>   <span class="ruby-keyword">if</span> <span class="ruby-constant">RUBY_VERSION</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-string">&#39;2.3&#39;</span>
+<span class="line-num">58</span>     <span class="ruby-identifier">mod</span>.<span class="ruby-identifier">deprecate_constant</span>(<span class="ruby-identifier">name</span>)
+<span class="line-num">59</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">60</span>   <span class="ruby-comment"># simplecov:enable</span>
+<span class="line-num">61</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-class' id='method-method-c-load_plugin'>
@@ -758,6 +767,31 @@ Roda::RodaPlugins
 <span class="line-num">33</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
+<div class='method public-class' id='method-method-c-opt_attr_reader'>
+<a name='method-c-opt_attr_reader'></a>
+<div class='synopsis'>
+<span class='name'>opt_attr_reader</span><span class='arguments'>(mod, key, name: key)</span>
+
+</div>
+<div class='description'>
+
+<p>Define an attr_reader method for name that uses the instance variable <code>@opt_*</code>. Designed to be used with instance variables set via <a href="RodaOpts.html#method-i-5B-5D-3D"><code>RodaOpts#[]=</code></a>.</p>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-opt_attr_reader-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-c-opt_attr_reader-source'>   <span class="ruby-comment"># File lib/roda/plugins.rb</span>
+<span class="line-num">37</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">opt_attr_reader</span>(<span class="ruby-identifier">mod</span>, <span class="ruby-identifier">key</span>, <span class="ruby-value">name:</span> <span class="ruby-identifier">key</span>)
+<span class="line-num">38</span>   <span class="ruby-identifier">opt_name</span> = <span class="ruby-value">:&quot;opt_#{key}&quot;</span>
+<span class="line-num">39</span>   <span class="ruby-identifier">mod</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:attr_reader</span>, <span class="ruby-identifier">opt_name</span>)
+<span class="line-num">40</span>   <span class="ruby-identifier">mod</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:alias_method</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">opt_name</span>)
+<span class="line-num">41</span>   <span class="ruby-identifier">mod</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:remove_method</span>, <span class="ruby-identifier">opt_name</span>)
+<span class="line-num">42</span>   <span class="ruby-keyword">nil</span>
+<span class="line-num">43</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
 <div class='method public-class' id='method-method-c-register_plugin'>
 <a name='method-c-register_plugin'></a>
 <div class='synopsis'>
@@ -777,9 +811,9 @@ Roda::RodaPlugins
 [show source]
 </a>
 <pre id='method-c-register_plugin-source'>   <span class="ruby-comment"># File lib/roda/plugins.rb</span>
-<span class="line-num">39</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">register_plugin</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">mod</span>)
-<span class="line-num">40</span>   <span class="ruby-ivar">@plugins</span>[<span class="ruby-identifier">name</span>] = <span class="ruby-identifier">mod</span>
-<span class="line-num">41</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">49</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">register_plugin</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">mod</span>)
+<span class="line-num">50</span>   <span class="ruby-ivar">@plugins</span>[<span class="ruby-identifier">name</span>] = <span class="ruby-identifier">mod</span>
+<span class="line-num">51</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-class' id='method-method-c-set_temp_name'>
@@ -798,10 +832,10 @@ Roda::RodaPlugins
 [show source]
 </a>
 <pre id='method-c-set_temp_name-source'>   <span class="ruby-comment"># File lib/roda/plugins.rb</span>
-<span class="line-num">56</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">set_temp_name</span>(<span class="ruby-identifier">mod</span>)
-<span class="line-num">57</span>   <span class="ruby-identifier">mod</span>.<span class="ruby-identifier">set_temporary_name</span>(<span class="ruby-keyword">yield</span>)
-<span class="line-num">58</span>   <span class="ruby-identifier">mod</span>
-<span class="line-num">59</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">66</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">set_temp_name</span>(<span class="ruby-identifier">mod</span>)
+<span class="line-num">67</span>   <span class="ruby-identifier">mod</span>.<span class="ruby-identifier">set_temporary_name</span>(<span class="ruby-keyword">yield</span>)
+<span class="line-num">68</span>   <span class="ruby-identifier">mod</span>
+<span class="line-num">69</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

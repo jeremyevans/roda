@@ -64,13 +64,12 @@ Roda::RodaPlugins::MultiRun::RequestMethods
 [show source]
 </a>
 <pre id='method-i-multi_run-source'>    <span class="ruby-comment"># File lib/roda/plugins/multi_run.rb</span>
-<span class="line-num">132</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">multi_run</span>
-<span class="line-num">133</span>   <span class="ruby-identifier">on</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">multi_run_regexp</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">prefix</span><span class="ruby-operator">|</span>
-<span class="line-num">134</span>     <span class="ruby-keyword">yield</span> <span class="ruby-identifier">prefix</span> <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-keyword">yield</span>)
-<span class="line-num">135</span>     <span class="ruby-identifier">opts</span> = <span class="ruby-identifier">scope</span>.<span class="ruby-identifier">opts</span>
-<span class="line-num">136</span>     <span class="ruby-identifier">run</span>(<span class="ruby-identifier">opts</span>[<span class="ruby-value">:multi_run_apps</span>][<span class="ruby-identifier">prefix</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:multi_run_app_blocks</span>][<span class="ruby-identifier">prefix</span>].<span class="ruby-identifier">call</span>)
-<span class="line-num">137</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">138</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">129</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">multi_run</span>
+<span class="line-num">130</span>   <span class="ruby-identifier">on</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">multi_run_regexp</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">prefix</span><span class="ruby-operator">|</span>
+<span class="line-num">131</span>     <span class="ruby-keyword">yield</span> <span class="ruby-identifier">prefix</span> <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-keyword">yield</span>)
+<span class="line-num">132</span>     <span class="ruby-identifier">run</span>(<span class="ruby-identifier">roda_class</span>.<span class="ruby-identifier">multi_run_apps</span>[<span class="ruby-identifier">prefix</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">roda_class</span>.<span class="ruby-identifier">multi_run_app_blocks</span>[<span class="ruby-identifier">prefix</span>].<span class="ruby-identifier">call</span>)
+<span class="line-num">133</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">134</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

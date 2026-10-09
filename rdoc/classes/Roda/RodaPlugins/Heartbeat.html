@@ -58,6 +58,7 @@ Roda::RodaPlugins::Heartbeat
 <div id='class-list'>
 <h2>Classes and Modules</h2>
 <ol>
+<li><a href="Heartbeat/ClassMethods.html">Roda::RodaPlugins::Heartbeat::ClassMethods</a></li>
 <li><a href="Heartbeat/InstanceMethods.html">Roda::RodaPlugins::Heartbeat::InstanceMethods</a></li>
 </ol>
 </div>
@@ -81,7 +82,7 @@ Roda::RodaPlugins::Heartbeat
 </a>
 <pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/heartbeat.rb</span>
 <span class="line-num">18</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
-<span class="line-num">19</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:heartbeat_path</span>] = (<span class="ruby-identifier">opts</span>[<span class="ruby-value">:path</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:heartbeat_path</span>] <span class="ruby-operator">||</span> <span class="ruby-string">&quot;/heartbeat&quot;</span>).<span class="ruby-identifier">dup</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">19</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:heartbeat_path</span>] = (<span class="ruby-identifier">opts</span>[<span class="ruby-value">:path</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">heartbeat_path</span> <span class="ruby-operator">||</span> <span class="ruby-string">&quot;/heartbeat&quot;</span>).<span class="ruby-identifier">dup</span>.<span class="ruby-identifier">freeze</span>
 <span class="line-num">20</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>

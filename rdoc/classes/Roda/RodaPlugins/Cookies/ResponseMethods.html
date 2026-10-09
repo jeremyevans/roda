@@ -69,9 +69,9 @@ Roda::RodaPlugins::Cookies::ResponseMethods
 [show source]
 </a>
 <pre id='method-i-delete_cookie-source'>   <span class="ruby-comment"># File lib/roda/plugins/cookies.rb</span>
-<span class="line-num">34</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">delete_cookie</span>(<span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span> = {})
-<span class="line-num">35</span>   <span class="ruby-operator">::</span><span class="ruby-constant">Rack</span><span class="ruby-operator">::</span><span class="ruby-constant">Utils</span>.<span class="ruby-identifier">delete_cookie_header!</span>(<span class="ruby-ivar">@headers</span>, <span class="ruby-identifier">key</span>, <span class="ruby-identifier">roda_class</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:cookies_opts</span>].<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">value</span>))
-<span class="line-num">36</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">38</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">delete_cookie</span>(<span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span> = {})
+<span class="line-num">39</span>   <span class="ruby-operator">::</span><span class="ruby-constant">Rack</span><span class="ruby-operator">::</span><span class="ruby-constant">Utils</span>.<span class="ruby-identifier">delete_cookie_header!</span>(<span class="ruby-ivar">@headers</span>, <span class="ruby-identifier">key</span>, <span class="ruby-identifier">roda_class</span>.<span class="ruby-identifier">cookies_opts</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">value</span>))
+<span class="line-num">40</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-set_cookie'>
@@ -94,10 +94,10 @@ Roda::RodaPlugins::Cookies::ResponseMethods
 [show source]
 </a>
 <pre id='method-i-set_cookie-source'>   <span class="ruby-comment"># File lib/roda/plugins/cookies.rb</span>
-<span class="line-num">42</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">set_cookie</span>(<span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span>)
-<span class="line-num">43</span>   <span class="ruby-identifier">value</span> = { <span class="ruby-value">:value</span><span class="ruby-operator">=&gt;</span><span class="ruby-identifier">value</span> } <span class="ruby-keyword">unless</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:keys</span>)
-<span class="line-num">44</span>   <span class="ruby-operator">::</span><span class="ruby-constant">Rack</span><span class="ruby-operator">::</span><span class="ruby-constant">Utils</span>.<span class="ruby-identifier">set_cookie_header!</span>(<span class="ruby-ivar">@headers</span>, <span class="ruby-identifier">key</span>, <span class="ruby-identifier">roda_class</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:cookies_opts</span>].<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">value</span>))
-<span class="line-num">45</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">46</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">set_cookie</span>(<span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span>)
+<span class="line-num">47</span>   <span class="ruby-identifier">value</span> = { <span class="ruby-value">:value</span><span class="ruby-operator">=&gt;</span><span class="ruby-identifier">value</span> } <span class="ruby-keyword">unless</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:keys</span>)
+<span class="line-num">48</span>   <span class="ruby-operator">::</span><span class="ruby-constant">Rack</span><span class="ruby-operator">::</span><span class="ruby-constant">Utils</span>.<span class="ruby-identifier">set_cookie_header!</span>(<span class="ruby-ivar">@headers</span>, <span class="ruby-identifier">key</span>, <span class="ruby-identifier">roda_class</span>.<span class="ruby-identifier">cookies_opts</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">value</span>))
+<span class="line-num">49</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

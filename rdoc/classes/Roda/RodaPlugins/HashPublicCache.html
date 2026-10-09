@@ -113,7 +113,8 @@ Roda::RodaPlugins::HashPublicCache
 [show source]
 </a>
 <pre id='method-c-load_dependencies-source'>   <span class="ruby-comment"># File lib/roda/plugins/hash_public_cache.rb</span>
-<span class="line-num">31</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">load_dependencies</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">_cache_file</span>, <span class="ruby-identifier">opts</span> = <span class="ruby-constant">OPTS</span>)
+<span class="line-num">30</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">load_dependencies</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">_cache_file</span>, <span class="ruby-identifier">opts</span> = <span class="ruby-constant">OPTS</span>)
+<span class="line-num">31</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:_json</span>
 <span class="line-num">32</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:hash_public</span>, <span class="ruby-identifier">opts</span>
 <span class="line-num">33</span> <span class="ruby-keyword">end</span></pre>
 </div>

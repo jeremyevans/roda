@@ -60,6 +60,13 @@ Roda::RodaPlugins::InvalidRequestBody
   {<span class="ruby-value">body_error:</span> <span class="ruby-identifier">exception</span>}
 <span class="ruby-keyword">end</span>
 </pre>
+
+<p>You can use the <code>rescue_classes</code> argument when loading the plugin to only rescue specific exception classes:</p>
+
+<pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:invalid_request_body</span>, <span class="ruby-value">:empty_hash</span>, <span class="ruby-value">rescue_classes:</span> <span class="ruby-constant">Rack</span><span class="ruby-operator">::</span><span class="ruby-constant">BadRequest</span>
+</pre>
+
+<p>However, this can be risky, because there have been many cases in the past where Rack can rescue classes such as <code>ArgumentError</code> or <code>NoMethodError</code> when parsing invalid request bodies. The default for <code>rescue_classes</code> is <code>StandardError</code>.</p>
 </div>
 <div id='method-list'>
 <h2>Methods</h2>
@@ -73,6 +80,7 @@ Roda::RodaPlugins::InvalidRequestBody
 <div id='class-list'>
 <h2>Classes and Modules</h2>
 <ol>
+<li><a href="InvalidRequestBody/ClassMethods.html">Roda::RodaPlugins::InvalidRequestBody::ClassMethods</a></li>
 <li><a href="InvalidRequestBody/RequestMethods.html">Roda::RodaPlugins::InvalidRequestBody::RequestMethods</a></li>
 </ol>
 </div>
@@ -98,12 +106,12 @@ Roda::RodaPlugins::InvalidRequestBody
 <div class='method public-class' id='method-method-c-configure'>
 <a name='method-c-configure'></a>
 <div class='synopsis'>
-<span class='name'>configure</span><span class='arguments'>(app, action=nil, &block)</span>
+<span class='name'>configure</span><span class='arguments'>(app, action=nil, rescue_classes: StandardError, &block)</span>
 
 </div>
 <div class='description'>
 
-<p>Set the action to use (:empty_400, :empty_hash, :raise) for invalid request bodies, or use a block for custom behavior.</p>
+<p>Set the action to use (:empty_400, :empty_hash, :raise) for invalid request bodies, or use a block for custom behavior. The rescue_classes argument is an exception class or array of exception classes to rescue.</p>
 
 </div>
 <div class='source'>
@@ -111,29 +119,31 @@ Roda::RodaPlugins::InvalidRequestBody
 [show source]
 </a>
 <pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/invalid_request_body.rb</span>
-<span class="line-num">46</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">action</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">47</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">action</span>
-<span class="line-num">48</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span>
-<span class="line-num">49</span>       <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;cannot provide both block and action when loading invalid_request_body plugin&quot;</span>
-<span class="line-num">50</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">51</span> 
-<span class="line-num">52</span>     <span class="ruby-identifier">method</span> = <span class="ruby-value">:&quot;handle_invalid_request_body_#{action}&quot;</span>
-<span class="line-num">53</span>     <span class="ruby-keyword">unless</span> <span class="ruby-constant">RequestMethods</span>.<span class="ruby-identifier">private_method_defined?</span>(<span class="ruby-identifier">method</span>)
-<span class="line-num">54</span>       <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-node">&quot;invalid invalid_request_body action provided: #{action}&quot;</span>
-<span class="line-num">55</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">56</span> 
-<span class="line-num">57</span>     <span class="ruby-identifier">app</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:alias_method</span>, <span class="ruby-value">:handle_invalid_request_body</span>, <span class="ruby-identifier">method</span>)
-<span class="line-num">58</span>   <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">block</span>
-<span class="line-num">59</span>     <span class="ruby-identifier">app</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>.<span class="ruby-identifier">class_eval</span> <span class="ruby-keyword">do</span>
-<span class="line-num">60</span>       <span class="ruby-identifier">define_method</span>(<span class="ruby-value">:handle_invalid_request_body</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">61</span>       <span class="ruby-keyword">alias</span> <span class="ruby-identifier">handle_invalid_request_body</span> <span class="ruby-identifier">handle_invalid_request_body</span>
+<span class="line-num">56</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">action</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-value">rescue_classes:</span> <span class="ruby-constant">StandardError</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">57</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:invalid_response_body_rescue_classes</span>] = <span class="ruby-constant">Array</span>(<span class="ruby-identifier">rescue_classes</span>).<span class="ruby-identifier">dup</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">58</span> 
+<span class="line-num">59</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">action</span>
+<span class="line-num">60</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span>
+<span class="line-num">61</span>       <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;cannot provide both block and action when loading invalid_request_body plugin&quot;</span>
 <span class="line-num">62</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">63</span>   <span class="ruby-keyword">else</span>
-<span class="line-num">64</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;must provide block or action when loading invalid_request_body plugin&quot;</span>
-<span class="line-num">65</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">66</span> 
-<span class="line-num">67</span>   <span class="ruby-identifier">app</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:private</span>, <span class="ruby-value">:handle_invalid_request_body</span>)
-<span class="line-num">68</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">63</span> 
+<span class="line-num">64</span>     <span class="ruby-identifier">method</span> = <span class="ruby-value">:&quot;handle_invalid_request_body_#{action}&quot;</span>
+<span class="line-num">65</span>     <span class="ruby-keyword">unless</span> <span class="ruby-constant">RequestMethods</span>.<span class="ruby-identifier">private_method_defined?</span>(<span class="ruby-identifier">method</span>)
+<span class="line-num">66</span>       <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-node">&quot;invalid invalid_request_body action provided: #{action}&quot;</span>
+<span class="line-num">67</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">68</span> 
+<span class="line-num">69</span>     <span class="ruby-identifier">app</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:alias_method</span>, <span class="ruby-value">:handle_invalid_request_body</span>, <span class="ruby-identifier">method</span>)
+<span class="line-num">70</span>   <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">block</span>
+<span class="line-num">71</span>     <span class="ruby-identifier">app</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>.<span class="ruby-identifier">class_exec</span> <span class="ruby-keyword">do</span>
+<span class="line-num">72</span>       <span class="ruby-identifier">define_method</span>(<span class="ruby-value">:handle_invalid_request_body</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">73</span>       <span class="ruby-keyword">alias</span> <span class="ruby-identifier">handle_invalid_request_body</span> <span class="ruby-identifier">handle_invalid_request_body</span>
+<span class="line-num">74</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">75</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">76</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;must provide block or action when loading invalid_request_body plugin&quot;</span>
+<span class="line-num">77</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">78</span> 
+<span class="line-num">79</span>   <span class="ruby-identifier">app</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:private</span>, <span class="ruby-value">:handle_invalid_request_body</span>)
+<span class="line-num">80</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

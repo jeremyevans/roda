@@ -40,7 +40,6 @@ Roda::RodaPlugins::DefaultHeaders::ClassMethods
 <h2>Methods</h2>
 <h3>Public Instance</h3>
 <ol>
-<li><a href="#method-i-default_headers">default_headers</a></li>
 <li><a href="#method-i-freeze">freeze</a></li>
 </ol>
 </div>
@@ -49,27 +48,6 @@ Roda::RodaPlugins::DefaultHeaders::ClassMethods
 <div id='section'>
 <div id='methods'>
 <h2>Public Instance methods</h2>
-<div class='method public-instance' id='method-method-i-default_headers'>
-<a name='method-i-default_headers'></a>
-<div class='synopsis'>
-<span class='name'>default_headers</span><span class='arguments'>()</span>
-
-</div>
-<div class='description'>
-
-<p>The default response headers to use for the current class.</p>
-
-</div>
-<div class='source'>
-<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-default_headers-source&#39;); return false'>
-[show source]
-</a>
-<pre id='method-i-default_headers-source'>   <span class="ruby-comment"># File lib/roda/plugins/default_headers.rb</span>
-<span class="line-num">31</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">default_headers</span>
-<span class="line-num">32</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:default_headers</span>]
-<span class="line-num">33</span> <span class="ruby-keyword">end</span></pre>
-</div>
-</div>
 <div class='method public-instance' id='method-method-i-freeze'>
 <a name='method-i-freeze'></a>
 <div class='synopsis'>
@@ -86,21 +64,21 @@ Roda::RodaPlugins::DefaultHeaders::ClassMethods
 [show source]
 </a>
 <pre id='method-i-freeze-source'>   <span class="ruby-comment"># File lib/roda/plugins/default_headers.rb</span>
-<span class="line-num">37</span>         <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">freeze</span>
-<span class="line-num">38</span>           <span class="ruby-keyword">if</span> (<span class="ruby-identifier">headers</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:default_headers</span>]).<span class="ruby-identifier">all?</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-identifier">k</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">v</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>)} <span class="ruby-operator">&amp;&amp;</span>
-<span class="line-num">39</span>              (<span class="ruby-keyword">self</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaResponse</span>.<span class="ruby-identifier">instance_method</span>(<span class="ruby-value">:set_default_headers</span>).<span class="ruby-identifier">owner</span> <span class="ruby-operator">==</span> <span class="ruby-constant">Base</span><span class="ruby-operator">::</span><span class="ruby-constant">ResponseMethods</span>)
-<span class="line-num">40</span>             <span class="ruby-keyword">self</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaResponse</span>.<span class="ruby-identifier">class_eval</span>(<span class="ruby-identifier">&lt;&lt;-END</span>, <span class="ruby-keyword">__FILE__</span>, <span class="ruby-keyword">__LINE__</span><span class="ruby-value">+1</span>)
-<span class="line-num">41</span> <span class="ruby-value">              private
-<span class="line-num">42</span> 
-<span class="line-num">43</span>               def set_default_headers
-<span class="line-num">44</span>                 h = @headers
-<span class="line-num">45</span>                 #{headers.map{|k,v| &quot;h[#{k.inspect}] ||= #{v.inspect}&quot;}.join(&#39;; &#39;)}
-<span class="line-num">46</span>               end
-<span class="line-num">47</span> </span><span class="ruby-identifier">            END</span>
-<span class="line-num">48</span>           <span class="ruby-keyword">end</span>
-<span class="line-num">49</span> 
-<span class="line-num">50</span>           <span class="ruby-keyword">super</span>
-<span class="line-num">51</span>         <span class="ruby-keyword">end</span></pre>
+<span class="line-num">34</span>         <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">freeze</span>
+<span class="line-num">35</span>           <span class="ruby-keyword">if</span> (<span class="ruby-identifier">headers</span> = <span class="ruby-identifier">default_headers</span>).<span class="ruby-identifier">all?</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-identifier">k</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">v</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>)} <span class="ruby-operator">&amp;&amp;</span>
+<span class="line-num">36</span>              (<span class="ruby-keyword">self</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaResponse</span>.<span class="ruby-identifier">instance_method</span>(<span class="ruby-value">:set_default_headers</span>).<span class="ruby-identifier">owner</span> <span class="ruby-operator">==</span> <span class="ruby-constant">Base</span><span class="ruby-operator">::</span><span class="ruby-constant">ResponseMethods</span>)
+<span class="line-num">37</span>             <span class="ruby-keyword">self</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaResponse</span>.<span class="ruby-identifier">class_eval</span>(<span class="ruby-identifier">&lt;&lt;-END</span>, <span class="ruby-keyword">__FILE__</span>, <span class="ruby-keyword">__LINE__</span><span class="ruby-value">+1</span>)
+<span class="line-num">38</span> <span class="ruby-value">              private
+<span class="line-num">39</span> 
+<span class="line-num">40</span>               def set_default_headers
+<span class="line-num">41</span>                 h = @headers
+<span class="line-num">42</span>                 #{headers.map{|k,v| &quot;h[#{k.inspect}] ||= #{v.inspect}&quot;}.join(&#39;; &#39;)}
+<span class="line-num">43</span>               end
+<span class="line-num">44</span> </span><span class="ruby-identifier">            END</span>
+<span class="line-num">45</span>           <span class="ruby-keyword">end</span>
+<span class="line-num">46</span> 
+<span class="line-num">47</span>           <span class="ruby-keyword">super</span>
+<span class="line-num">48</span>         <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

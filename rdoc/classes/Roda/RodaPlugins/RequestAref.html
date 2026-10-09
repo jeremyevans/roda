@@ -83,7 +83,7 @@ Roda::RodaPlugins::RequestAref
 <span class="line-num">20</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">setting</span>)
 <span class="line-num">21</span>   <span class="ruby-keyword">case</span> <span class="ruby-identifier">setting</span>
 <span class="line-num">22</span>   <span class="ruby-keyword">when</span> <span class="ruby-value">:allow</span>, <span class="ruby-value">:raise</span>, <span class="ruby-value">:warn</span>
-<span class="line-num">23</span>     <span class="ruby-identifier">app</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>.<span class="ruby-identifier">class_eval</span> <span class="ruby-keyword">do</span>
+<span class="line-num">23</span>     <span class="ruby-identifier">app</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>.<span class="ruby-identifier">class_exec</span> <span class="ruby-keyword">do</span>
 <span class="line-num">24</span>       <span class="ruby-identifier">alias_method</span>(<span class="ruby-value">:[]</span>,  <span class="ruby-value">:&quot;request_aref_#{setting}&quot;</span>)
 <span class="line-num">25</span>       <span class="ruby-identifier">alias_method</span>(<span class="ruby-value">:[]=</span>, <span class="ruby-value">:&quot;request_aset_#{setting}&quot;</span>)
 <span class="line-num">26</span>       <span class="ruby-identifier">public</span> <span class="ruby-value">:[]</span>, <span class="ruby-value">:[]=</span>

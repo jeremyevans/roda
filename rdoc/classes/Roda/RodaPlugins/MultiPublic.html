@@ -101,6 +101,7 @@ Roda::RodaPlugins::MultiPublic
 <div id='class-list'>
 <h2>Classes and Modules</h2>
 <ol>
+<li><a href="MultiPublic/ClassMethods.html">Roda::RodaPlugins::MultiPublic::ClassMethods</a></li>
 <li><a href="MultiPublic/RequestMethods.html">Roda::RodaPlugins::MultiPublic::RequestMethods</a></li>
 </ol>
 </div>
@@ -138,7 +139,7 @@ Roda::RodaPlugins::MultiPublic
 </a>
 <pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/multi_public.rb</span>
 <span class="line-num">74</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">directories</span>, <span class="ruby-identifier">_</span>=<span class="ruby-constant">OPTS</span>)
-<span class="line-num">75</span>   <span class="ruby-identifier">roots</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:multi_public_servers</span>] = (<span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:multi_public_servers</span>] <span class="ruby-operator">||</span> {}).<span class="ruby-identifier">dup</span>
+<span class="line-num">75</span>   <span class="ruby-identifier">roots</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:multi_public_servers</span>] = (<span class="ruby-identifier">app</span>.<span class="ruby-identifier">multi_public_servers</span> <span class="ruby-operator">||</span> {}).<span class="ruby-identifier">dup</span>
 <span class="line-num">76</span>   <span class="ruby-identifier">directories</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">path</span><span class="ruby-operator">|</span>
 <span class="line-num">77</span>     <span class="ruby-identifier">path</span>, <span class="ruby-identifier">headers</span>, <span class="ruby-identifier">mime</span> = <span class="ruby-identifier">path</span>
 <span class="line-num">78</span>     <span class="ruby-identifier">roots</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-constant">RACK_FILES</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">app</span>.<span class="ruby-identifier">expand_path</span>(<span class="ruby-identifier">path</span>), <span class="ruby-identifier">headers</span><span class="ruby-operator">||</span>{}, <span class="ruby-identifier">mime</span><span class="ruby-operator">||</span><span class="ruby-string">&#39;text/plain&#39;</span>)

@@ -68,7 +68,7 @@ Roda::RodaPlugins::MultiRoute::ClassMethods
 <pre id='method-i-freeze-source'>    <span class="ruby-comment"># File lib/roda/plugins/multi_route.rb</span>
 <span class="line-num"> 95</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">freeze</span>
 <span class="line-num"> 96</span>   <span class="ruby-keyword">super</span>
-<span class="line-num"> 97</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:namespaced_routes</span>].<span class="ruby-identifier">each_key</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">k</span><span class="ruby-operator">|</span>
+<span class="line-num"> 97</span>   <span class="ruby-identifier">namespaced_routes</span>.<span class="ruby-identifier">each_key</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">k</span><span class="ruby-operator">|</span>
 <span class="line-num"> 98</span>     <span class="ruby-keyword">self</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>.<span class="ruby-identifier">named_route_regexp</span>(<span class="ruby-identifier">k</span>)
 <span class="line-num"> 99</span>   <span class="ruby-keyword">end</span>
 <span class="line-num">100</span>   <span class="ruby-keyword">self</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>.<span class="ruby-identifier">instance_variable_get</span>(<span class="ruby-value">:@namespaced_route_regexps</span>).<span class="ruby-identifier">freeze</span>

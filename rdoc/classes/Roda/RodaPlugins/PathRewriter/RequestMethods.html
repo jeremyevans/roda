@@ -64,14 +64,14 @@ Roda::RodaPlugins::PathRewriter::RequestMethods
 [show source]
 </a>
 <pre id='method-c-new-source'>   <span class="ruby-comment"># File lib/roda/plugins/path_rewriter.rb</span>
-<span class="line-num">85</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-identifier">scope</span>, <span class="ruby-identifier">env</span>)
-<span class="line-num">86</span>   <span class="ruby-identifier">path_info</span> = <span class="ruby-identifier">env</span>[<span class="ruby-string">&#39;PATH_INFO&#39;</span>]
-<span class="line-num">87</span> 
-<span class="line-num">88</span>   <span class="ruby-identifier">rewrite_path</span>(<span class="ruby-identifier">scope</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:path_info_rewrites</span>], <span class="ruby-identifier">path_info</span>)
-<span class="line-num">89</span>   <span class="ruby-keyword">super</span>
-<span class="line-num">90</span>   <span class="ruby-identifier">remaining_path</span> = <span class="ruby-ivar">@remaining_path</span> = <span class="ruby-ivar">@remaining_path</span>.<span class="ruby-identifier">dup</span>
-<span class="line-num">91</span>   <span class="ruby-identifier">rewrite_path</span>(<span class="ruby-identifier">scope</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:remaining_path_rewrites</span>], <span class="ruby-identifier">remaining_path</span>)
-<span class="line-num">92</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">88</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-identifier">scope</span>, <span class="ruby-identifier">env</span>)
+<span class="line-num">89</span>   <span class="ruby-identifier">path_info</span> = <span class="ruby-identifier">env</span>[<span class="ruby-string">&#39;PATH_INFO&#39;</span>]
+<span class="line-num">90</span> 
+<span class="line-num">91</span>   <span class="ruby-identifier">rewrite_path</span>(<span class="ruby-identifier">scope</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">path_info_rewrites</span>, <span class="ruby-identifier">path_info</span>)
+<span class="line-num">92</span>   <span class="ruby-keyword">super</span>
+<span class="line-num">93</span>   <span class="ruby-identifier">remaining_path</span> = <span class="ruby-ivar">@remaining_path</span> = <span class="ruby-ivar">@remaining_path</span>.<span class="ruby-identifier">dup</span>
+<span class="line-num">94</span>   <span class="ruby-identifier">rewrite_path</span>(<span class="ruby-identifier">scope</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">remaining_path_rewrites</span>, <span class="ruby-identifier">remaining_path</span>)
+<span class="line-num">95</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

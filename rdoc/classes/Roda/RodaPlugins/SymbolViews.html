@@ -84,7 +84,7 @@ Roda::RodaPlugins::SymbolViews
 </a>
 <pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/symbol_views.rb</span>
 <span class="line-num">30</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>)
-<span class="line-num">31</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:custom_block_results</span>][<span class="ruby-constant">Symbol</span>] = <span class="ruby-value">:view</span>
+<span class="line-num">31</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">custom_block_results</span>[<span class="ruby-constant">Symbol</span>] = <span class="ruby-value">:view</span>
 <span class="line-num">32</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>

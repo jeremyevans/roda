@@ -64,25 +64,25 @@ Roda::RodaPlugins::HostAuthorization::InstanceMethods
 [show source]
 </a>
 <pre id='method-i-check_host_authorization-21-source'>    <span class="ruby-comment"># File lib/roda/plugins/host_authorization.rb</span>
-<span class="line-num">107</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">check_host_authorization!</span>
-<span class="line-num">108</span>   <span class="ruby-identifier">r</span> = <span class="ruby-ivar">@_request</span>
-<span class="line-num">109</span>   <span class="ruby-keyword">return</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">host_authorized?</span>(<span class="ruby-identifier">_convert_host_for_authorization</span>(<span class="ruby-identifier">r</span>.<span class="ruby-identifier">env</span>[<span class="ruby-string">&quot;HTTP_HOST&quot;</span>].<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">dup</span>))
-<span class="line-num">110</span> 
-<span class="line-num">111</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:host_authorization_check_forwarded</span>] <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">host</span> = <span class="ruby-identifier">r</span>.<span class="ruby-identifier">env</span>[<span class="ruby-string">&quot;HTTP_X_FORWARDED_HOST&quot;</span>])
-<span class="line-num">112</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">i</span> = <span class="ruby-identifier">host</span>.<span class="ruby-identifier">rindex</span>(<span class="ruby-string">&#39;,&#39;</span>)
-<span class="line-num">113</span>       <span class="ruby-identifier">host</span> = <span class="ruby-identifier">host</span>[<span class="ruby-identifier">i</span><span class="ruby-value">+1</span>, <span class="ruby-value">10000000</span>].<span class="ruby-identifier">to_s</span>
-<span class="line-num">114</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">115</span>     <span class="ruby-identifier">host</span> = <span class="ruby-identifier">_convert_host_for_authorization</span>(<span class="ruby-identifier">host</span>.<span class="ruby-identifier">strip</span>)
-<span class="line-num">116</span> 
-<span class="line-num">117</span>     <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">host</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">host_authorized?</span>(<span class="ruby-identifier">host</span>)
-<span class="line-num">118</span>       <span class="ruby-keyword">return</span>
+<span class="line-num">112</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">check_host_authorization!</span>
+<span class="line-num">113</span>   <span class="ruby-identifier">r</span> = <span class="ruby-ivar">@_request</span>
+<span class="line-num">114</span>   <span class="ruby-keyword">return</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">host_authorized?</span>(<span class="ruby-identifier">_convert_host_for_authorization</span>(<span class="ruby-identifier">r</span>.<span class="ruby-identifier">env</span>[<span class="ruby-string">&quot;HTTP_HOST&quot;</span>].<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">dup</span>))
+<span class="line-num">115</span> 
+<span class="line-num">116</span>   <span class="ruby-keyword">if</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">host_authorization_check_forwarded?</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">host</span> = <span class="ruby-identifier">r</span>.<span class="ruby-identifier">env</span>[<span class="ruby-string">&quot;HTTP_X_FORWARDED_HOST&quot;</span>])
+<span class="line-num">117</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">i</span> = <span class="ruby-identifier">host</span>.<span class="ruby-identifier">rindex</span>(<span class="ruby-string">&#39;,&#39;</span>)
+<span class="line-num">118</span>       <span class="ruby-identifier">host</span> = <span class="ruby-identifier">host</span>[<span class="ruby-identifier">i</span><span class="ruby-value">+1</span>, <span class="ruby-value">10000000</span>].<span class="ruby-identifier">to_s</span>
 <span class="line-num">119</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">120</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">120</span>     <span class="ruby-identifier">host</span> = <span class="ruby-identifier">_convert_host_for_authorization</span>(<span class="ruby-identifier">host</span>.<span class="ruby-identifier">strip</span>)
 <span class="line-num">121</span> 
-<span class="line-num">122</span>   <span class="ruby-identifier">r</span>.<span class="ruby-identifier">on</span> <span class="ruby-keyword">do</span>
-<span class="line-num">123</span>     <span class="ruby-identifier">host_authorization_unauthorized</span>(<span class="ruby-identifier">r</span>)
-<span class="line-num">124</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">125</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">122</span>     <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">host</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">host_authorized?</span>(<span class="ruby-identifier">host</span>)
+<span class="line-num">123</span>       <span class="ruby-keyword">return</span>
+<span class="line-num">124</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">125</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">126</span> 
+<span class="line-num">127</span>   <span class="ruby-identifier">r</span>.<span class="ruby-identifier">on</span> <span class="ruby-keyword">do</span>
+<span class="line-num">128</span>     <span class="ruby-identifier">host_authorization_unauthorized</span>(<span class="ruby-identifier">r</span>)
+<span class="line-num">129</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">130</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

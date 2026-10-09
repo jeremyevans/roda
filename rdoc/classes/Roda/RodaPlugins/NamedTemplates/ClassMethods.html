@@ -65,10 +65,10 @@ Roda::RodaPlugins::NamedTemplates::ClassMethods
 [show source]
 </a>
 <pre id='method-i-freeze-source'>   <span class="ruby-comment"># File lib/roda/plugins/named_templates.rb</span>
-<span class="line-num">65</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">freeze</span>
-<span class="line-num">66</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:named_templates</span>].<span class="ruby-identifier">freeze</span>
-<span class="line-num">67</span>   <span class="ruby-keyword">super</span>
-<span class="line-num">68</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">67</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">freeze</span>
+<span class="line-num">68</span>   <span class="ruby-identifier">named_templates</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">69</span>   <span class="ruby-keyword">super</span>
+<span class="line-num">70</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-template'>
@@ -87,10 +87,10 @@ Roda::RodaPlugins::NamedTemplates::ClassMethods
 [show source]
 </a>
 <pre id='method-i-template-source'>   <span class="ruby-comment"># File lib/roda/plugins/named_templates.rb</span>
-<span class="line-num">71</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">template</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">options</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">72</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:named_templates</span>][<span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span>] = [<span class="ruby-identifier">options</span>, <span class="ruby-identifier">define_roda_method</span>(<span class="ruby-node">&quot;named_templates_#{name}&quot;</span>, <span class="ruby-value">0</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)].<span class="ruby-identifier">freeze</span>
-<span class="line-num">73</span>   <span class="ruby-keyword">nil</span>
-<span class="line-num">74</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">73</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">template</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">options</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">74</span>   <span class="ruby-identifier">named_templates</span>[<span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span>] = [<span class="ruby-identifier">options</span>, <span class="ruby-identifier">define_roda_method</span>(<span class="ruby-node">&quot;named_templates_#{name}&quot;</span>, <span class="ruby-value">0</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)].<span class="ruby-identifier">freeze</span>
+<span class="line-num">75</span>   <span class="ruby-keyword">nil</span>
+<span class="line-num">76</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

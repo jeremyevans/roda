@@ -78,6 +78,7 @@ Roda::RodaPlugins::ResponseContentType
 <div id='class-list'>
 <h2>Classes and Modules</h2>
 <ol>
+<li><a href="ResponseContentType/ClassMethods.html">Roda::RodaPlugins::ResponseContentType::ClassMethods</a></li>
 <li><a href="ResponseContentType/ResponseMethods.html">Roda::RodaPlugins::ResponseContentType::ResponseMethods</a></li>
 </ol>
 </div>
@@ -110,9 +111,9 @@ Roda::RodaPlugins::ResponseContentType
 <span class="line-num">50</span>     <span class="ruby-keyword">else</span>
 <span class="line-num">51</span>       <span class="ruby-identifier">mime_types</span>.<span class="ruby-identifier">dup</span>
 <span class="line-num">52</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">53</span>     <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:repsonse_content_types</span>] = <span class="ruby-identifier">mime_types</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">53</span>     <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:response_content_types</span>] = <span class="ruby-identifier">mime_types</span>.<span class="ruby-identifier">freeze</span>
 <span class="line-num">54</span>   <span class="ruby-keyword">else</span>
-<span class="line-num">55</span>     <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:repsonse_content_types</span>] <span class="ruby-operator">||=</span> {}
+<span class="line-num">55</span>     <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:response_content_types</span>] <span class="ruby-operator">||=</span> {}
 <span class="line-num">56</span>   <span class="ruby-keyword">end</span>
 <span class="line-num">57</span> <span class="ruby-keyword">end</span></pre>
 </div>

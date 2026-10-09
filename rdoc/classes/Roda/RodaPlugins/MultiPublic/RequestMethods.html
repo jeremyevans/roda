@@ -64,9 +64,9 @@ Roda::RodaPlugins::MultiPublic::RequestMethods
 [show source]
 </a>
 <pre id='method-i-multi_public-source'>   <span class="ruby-comment"># File lib/roda/plugins/multi_public.rb</span>
-<span class="line-num">86</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">multi_public</span>(<span class="ruby-identifier">key</span>)
-<span class="line-num">87</span>   <span class="ruby-identifier">public_serve_with</span>(<span class="ruby-identifier">roda_class</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:multi_public_servers</span>].<span class="ruby-identifier">fetch</span>(<span class="ruby-identifier">key</span>))
-<span class="line-num">88</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">90</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">multi_public</span>(<span class="ruby-identifier">key</span>)
+<span class="line-num">91</span>   <span class="ruby-identifier">public_serve_with</span>(<span class="ruby-identifier">roda_class</span>.<span class="ruby-identifier">multi_public_servers</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-identifier">key</span>))
+<span class="line-num">92</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

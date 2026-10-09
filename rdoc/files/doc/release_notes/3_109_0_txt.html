@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+<head>
+<title>3.109.0.txt</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<link href='../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<script type='text/javascript'>
+  function popupCode(url) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+  
+  function toggleCode(id) {
+    var code = document.getElementById(id)
+  
+    code.style.display = code.style.display != 'block' ? 'block' : 'none'
+    return true
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+</script>
+</head>
+<body class='page'>
+<div class='file' id='wrapper'>
+<div class='header'>
+<h1 class='name'>3.109.0.txt
+</h1>
+<div class='paths'>
+doc/release_notes/3.109.0.txt
+</div>
+</div>
+<div id='content'>
+<div id='text'>
+<div id='description'>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
+<ul><li>
+<p>The <a href="../../lib/roda/plugins/invalid_request_body_rb.html">invalid_request_body</a> plugin now accepts a rescue_classes keyword argument to give control over the classes rescued.  The default is still to rescue StandardError, since Rack’s request body parsing can raise errors such as NoMethodError for invalid request bodies.</p>
+</li></ul>
+
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
+<ul><li>
+<p>Roda.opts is now an instance of <a href="../../../classes/Roda/RodaOpts.html"><code>Roda::RodaOpts</code></a> (a Hash subclass) instead of an instance of Hash. Setting symbol keys via Roda.opts.[]= now sets class instance variables based on the key name. Class attr_accessors have been added for these instance variables in the core and plugins that ship <a href="../../../classes/Roda.html"><code>Roda</code></a>, and internal calls use the class attr_accessors for a significant performance improvement (avoiding a hash access per call). This approach was taken to keep backwards compatibility and simplicity while improving performance.</p>
+
+<p>To use this updated approach in external plugins, use the <a href="../../../classes/Roda/RodaPlugins.html#method-c-opt_attr_reader"><code>Roda::RodaPlugins.opt_attr_reader</code></a> method to define the class attr_accessor methods, and switch from calling Roda.opts to calling the class attr_accessor methods. See the internal plugins for examples.</p>
+</li></ul>
+
+<h1 id="label-Backwards+Compatibility"><a href="#label-Backwards+Compatibility">Backwards Compatibility</a></h1>
+<ul><li>
+<p><a href="../../../classes/Roda.html"><code>Roda</code></a> has dropped support for Ruby 1.9. The minimum supported Ruby version is now 2.0.</p>
+</li><li>
+<p>If you were modifying Roda.opts to set keys used by plugins that ship with <a href="../../../classes/Roda.html"><code>Roda</code></a> via methods other than []= (such as merge!), it’s possible that will no longer work as expected. Switch to using []= for such cases.</p>
+</li><li>
+<p>The Roda.opts key used by the <a href="../../lib/roda/plugins/response_content_type_rb.html">response_content_type</a> plugin has been modified to fix a typo.</p>
+</li></ul>
+</div>
+<div id='context'>
+</div>
+
+</div>
+</div>
+
+<div id='footer-push'></div>
+</div>
+<div id='footer'>
+<a href="https://github.com/jeremyevans/hanna"><strong>Hanna</strong> RDoc template</a>
+</div>
+</body>
+</html>

@@ -70,6 +70,7 @@ Roda::RodaPlugins::CommonLogger
 <div id='class-list'>
 <h2>Classes and Modules</h2>
 <ol>
+<li><a href="CommonLogger/ClassMethods.html">Roda::RodaPlugins::CommonLogger::ClassMethods</a></li>
 <li><a href="CommonLogger/InstanceMethods.html">Roda::RodaPlugins::CommonLogger::InstanceMethods</a></li>
 </ol>
 </div>
@@ -105,8 +106,8 @@ Roda::RodaPlugins::CommonLogger
 </a>
 <pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/common_logger.rb</span>
 <span class="line-num">28</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">logger</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
-<span class="line-num">29</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:common_logger</span>] = <span class="ruby-identifier">logger</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:common_logger</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">$stderr</span>
-<span class="line-num">30</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:common_logger_meth</span>] = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:common_logger</span>].<span class="ruby-identifier">method</span>(<span class="ruby-identifier">opts</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-value">:method</span>){<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:write</span>) <span class="ruby-operator">?</span> <span class="ruby-value">:write</span> <span class="ruby-operator">:</span> <span class="ruby-value">:&lt;&lt;</span>})
+<span class="line-num">29</span>   <span class="ruby-identifier">common_logger</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:common_logger</span>] = <span class="ruby-identifier">logger</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:common_logger</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">$stderr</span> <span class="ruby-comment"># RODA4: drop setting of option, no longer used</span>
+<span class="line-num">30</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:common_logger_meth</span>] = <span class="ruby-identifier">common_logger</span>.<span class="ruby-identifier">method</span>(<span class="ruby-identifier">opts</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-value">:method</span>){<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:write</span>) <span class="ruby-operator">?</span> <span class="ruby-value">:write</span> <span class="ruby-operator">:</span> <span class="ruby-value">:&lt;&lt;</span>})
 <span class="line-num">31</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>

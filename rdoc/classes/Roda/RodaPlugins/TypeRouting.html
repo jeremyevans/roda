@@ -126,6 +126,7 @@ Roda::RodaPlugins::TypeRouting
 <div id='class-list'>
 <h2>Classes and Modules</h2>
 <ol>
+<li><a href="TypeRouting/ClassMethods.html">Roda::RodaPlugins::TypeRouting::ClassMethods</a></li>
 <li><a href="TypeRouting/RequestMethods.html">Roda::RodaPlugins::TypeRouting::RequestMethods</a></li>
 </ol>
 </div>
@@ -184,7 +185,7 @@ Roda::RodaPlugins::TypeRouting
 </a>
 <pre id='method-c-configure-source'>    <span class="ruby-comment"># File lib/roda/plugins/type_routing.rb</span>
 <span class="line-num">112</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span> = {})
-<span class="line-num">113</span>   <span class="ruby-identifier">config</span> = (<span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:type_routing</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">CONFIGURATION</span>).<span class="ruby-identifier">dup</span>
+<span class="line-num">113</span>   <span class="ruby-identifier">config</span> = (<span class="ruby-identifier">app</span>.<span class="ruby-identifier">type_routing_opts</span> <span class="ruby-operator">||</span> <span class="ruby-constant">CONFIGURATION</span>).<span class="ruby-identifier">dup</span>
 <span class="line-num">114</span>   [<span class="ruby-value">:use_extension</span>, <span class="ruby-value">:use_header</span>, <span class="ruby-value">:default_type</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span><span class="ruby-operator">|</span>
 <span class="line-num">115</span>     <span class="ruby-identifier">config</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-identifier">key</span>] <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">key</span>)
 <span class="line-num">116</span>   <span class="ruby-keyword">end</span>

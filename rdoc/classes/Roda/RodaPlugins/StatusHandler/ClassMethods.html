@@ -65,10 +65,10 @@ Roda::RodaPlugins::StatusHandler::ClassMethods
 [show source]
 </a>
 <pre id='method-i-freeze-source'>   <span class="ruby-comment"># File lib/roda/plugins/status_handler.rb</span>
-<span class="line-num">66</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">freeze</span>
-<span class="line-num">67</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:status_handler</span>].<span class="ruby-identifier">freeze</span>
-<span class="line-num">68</span>   <span class="ruby-keyword">super</span>
-<span class="line-num">69</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">68</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">freeze</span>
+<span class="line-num">69</span>   <span class="ruby-identifier">status_handlers</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">70</span>   <span class="ruby-keyword">super</span>
+<span class="line-num">71</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-status_handler'>
@@ -87,29 +87,29 @@ Roda::RodaPlugins::StatusHandler::ClassMethods
 [show source]
 </a>
 <pre id='method-i-status_handler-source'>   <span class="ruby-comment"># File lib/roda/plugins/status_handler.rb</span>
-<span class="line-num">41</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">status_handler</span>(<span class="ruby-identifier">code</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">42</span>   <span class="ruby-comment"># For backwards compatibility, pass request argument if block accepts argument</span>
-<span class="line-num">43</span>   <span class="ruby-identifier">arity</span> = <span class="ruby-identifier">block</span>.<span class="ruby-identifier">arity</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span> <span class="ruby-operator">?</span> <span class="ruby-value">0</span> <span class="ruby-operator">:</span> <span class="ruby-value">1</span>
-<span class="line-num">44</span>   <span class="ruby-identifier">handle_headers</span> = <span class="ruby-keyword">case</span> <span class="ruby-identifier">keep_headers</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:keep_headers</span>]
-<span class="line-num">45</span>   <span class="ruby-keyword">when</span> <span class="ruby-keyword">nil</span>, <span class="ruby-keyword">false</span>
-<span class="line-num">46</span>     <span class="ruby-constant">CLEAR_HEADERS</span>
-<span class="line-num">47</span>   <span class="ruby-keyword">when</span> <span class="ruby-constant">Array</span>
-<span class="line-num">48</span>     <span class="ruby-keyword">if</span> <span class="ruby-constant">Rack</span>.<span class="ruby-identifier">release</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-string">&#39;3&#39;</span>
-<span class="line-num">49</span>       <span class="ruby-identifier">keep_headers</span> = <span class="ruby-identifier">keep_headers</span>.<span class="ruby-identifier">map</span>(<span class="ruby-operator">&amp;</span><span class="ruby-value">:downcase</span>)
-<span class="line-num">50</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">51</span>     <span class="ruby-identifier">lambda</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">headers</span><span class="ruby-operator">|</span> <span class="ruby-identifier">headers</span>.<span class="ruby-identifier">delete_if</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">k</span>,<span class="ruby-identifier">_</span><span class="ruby-operator">|</span> <span class="ruby-operator">!</span><span class="ruby-identifier">keep_headers</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">k</span>)}}
-<span class="line-num">52</span>   <span class="ruby-keyword">else</span>
-<span class="line-num">53</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;Invalid :keep_headers option&quot;</span>
-<span class="line-num">54</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">55</span> 
-<span class="line-num">56</span>   <span class="ruby-identifier">meth</span> = <span class="ruby-identifier">define_roda_method</span>(<span class="ruby-value">:&quot;_roda_status_handler__#{code}&quot;</span>, <span class="ruby-identifier">arity</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">57</span>   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:status_handler</span>][<span class="ruby-identifier">code</span>] = <span class="ruby-identifier">define_roda_method</span>(<span class="ruby-value">:&quot;_roda_status_handler_#{code}&quot;</span>, <span class="ruby-value">1</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">result</span><span class="ruby-operator">|</span>
-<span class="line-num">58</span>     <span class="ruby-identifier">res</span> = <span class="ruby-ivar">@_response</span>
-<span class="line-num">59</span>     <span class="ruby-identifier">res</span>.<span class="ruby-identifier">status</span> = <span class="ruby-identifier">result</span>[<span class="ruby-value">0</span>]
-<span class="line-num">60</span>     <span class="ruby-identifier">handle_headers</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">res</span>.<span class="ruby-identifier">headers</span>)
-<span class="line-num">61</span>     <span class="ruby-identifier">result</span>.<span class="ruby-identifier">replace</span>(<span class="ruby-identifier">_roda_handle_route</span>{<span class="ruby-identifier">arity</span> <span class="ruby-operator">==</span> <span class="ruby-value">1</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">send</span>(<span class="ruby-identifier">meth</span>, <span class="ruby-ivar">@_request</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">send</span>(<span class="ruby-identifier">meth</span>)})
-<span class="line-num">62</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">63</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">43</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">status_handler</span>(<span class="ruby-identifier">code</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">44</span>   <span class="ruby-comment"># For backwards compatibility, pass request argument if block accepts argument</span>
+<span class="line-num">45</span>   <span class="ruby-identifier">arity</span> = <span class="ruby-identifier">block</span>.<span class="ruby-identifier">arity</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span> <span class="ruby-operator">?</span> <span class="ruby-value">0</span> <span class="ruby-operator">:</span> <span class="ruby-value">1</span>
+<span class="line-num">46</span>   <span class="ruby-identifier">handle_headers</span> = <span class="ruby-keyword">case</span> <span class="ruby-identifier">keep_headers</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:keep_headers</span>]
+<span class="line-num">47</span>   <span class="ruby-keyword">when</span> <span class="ruby-keyword">nil</span>, <span class="ruby-keyword">false</span>
+<span class="line-num">48</span>     <span class="ruby-constant">CLEAR_HEADERS</span>
+<span class="line-num">49</span>   <span class="ruby-keyword">when</span> <span class="ruby-constant">Array</span>
+<span class="line-num">50</span>     <span class="ruby-keyword">if</span> <span class="ruby-constant">Rack</span>.<span class="ruby-identifier">release</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-string">&#39;3&#39;</span>
+<span class="line-num">51</span>       <span class="ruby-identifier">keep_headers</span> = <span class="ruby-identifier">keep_headers</span>.<span class="ruby-identifier">map</span>(<span class="ruby-operator">&amp;</span><span class="ruby-value">:downcase</span>)
+<span class="line-num">52</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">53</span>     <span class="ruby-identifier">lambda</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">headers</span><span class="ruby-operator">|</span> <span class="ruby-identifier">headers</span>.<span class="ruby-identifier">delete_if</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">k</span>,<span class="ruby-identifier">_</span><span class="ruby-operator">|</span> <span class="ruby-operator">!</span><span class="ruby-identifier">keep_headers</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">k</span>)}}
+<span class="line-num">54</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">55</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;Invalid :keep_headers option&quot;</span>
+<span class="line-num">56</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">57</span> 
+<span class="line-num">58</span>   <span class="ruby-identifier">meth</span> = <span class="ruby-identifier">define_roda_method</span>(<span class="ruby-value">:&quot;_roda_status_handler__#{code}&quot;</span>, <span class="ruby-identifier">arity</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">59</span>   <span class="ruby-identifier">status_handlers</span>[<span class="ruby-identifier">code</span>] = <span class="ruby-identifier">define_roda_method</span>(<span class="ruby-value">:&quot;_roda_status_handler_#{code}&quot;</span>, <span class="ruby-value">1</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">result</span><span class="ruby-operator">|</span>
+<span class="line-num">60</span>     <span class="ruby-identifier">res</span> = <span class="ruby-ivar">@_response</span>
+<span class="line-num">61</span>     <span class="ruby-identifier">res</span>.<span class="ruby-identifier">status</span> = <span class="ruby-identifier">result</span>[<span class="ruby-value">0</span>]
+<span class="line-num">62</span>     <span class="ruby-identifier">handle_headers</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">res</span>.<span class="ruby-identifier">headers</span>)
+<span class="line-num">63</span>     <span class="ruby-identifier">result</span>.<span class="ruby-identifier">replace</span>(<span class="ruby-identifier">_roda_handle_route</span>{<span class="ruby-identifier">arity</span> <span class="ruby-operator">==</span> <span class="ruby-value">1</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">send</span>(<span class="ruby-identifier">meth</span>, <span class="ruby-ivar">@_request</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">send</span>(<span class="ruby-identifier">meth</span>)})
+<span class="line-num">64</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">65</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

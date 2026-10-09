@@ -103,7 +103,7 @@ Roda::RodaPlugins::Environments
 </a>
 <pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/environments.rb</span>
 <span class="line-num">46</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">env</span>=<span class="ruby-constant">ENV</span>[<span class="ruby-string">&quot;RACK_ENV&quot;</span>])
-<span class="line-num">47</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">environment</span> = (<span class="ruby-identifier">env</span> <span class="ruby-operator">||</span> <span class="ruby-string">&#39;development&#39;</span>).<span class="ruby-identifier">to_sym</span>
+<span class="line-num">47</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:environment</span>] = (<span class="ruby-identifier">env</span> <span class="ruby-operator">||</span> <span class="ruby-string">&#39;development&#39;</span>).<span class="ruby-identifier">to_sym</span>
 <span class="line-num">48</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>

@@ -89,6 +89,7 @@ Roda::RodaPlugins::CookieFlags
 <div id='class-list'>
 <h2>Classes and Modules</h2>
 <ol>
+<li><a href="CookieFlags/ClassMethods.html">Roda::RodaPlugins::CookieFlags::ClassMethods</a></li>
 <li><a href="CookieFlags/InstanceMethods.html">Roda::RodaPlugins::CookieFlags::InstanceMethods</a></li>
 <li><a href="CookieFlags/Error.html">Roda::RodaPlugins::CookieFlags::Error</a></li>
 </ol>
@@ -111,7 +112,7 @@ Roda::RodaPlugins::CookieFlags
 </a>
 <pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/cookie_flags.rb</span>
 <span class="line-num">63</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
-<span class="line-num">64</span>   <span class="ruby-identifier">previous</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:cookie_flags</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">DEFAULTS</span>
+<span class="line-num">64</span>   <span class="ruby-identifier">previous</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">cookie_flags</span> <span class="ruby-operator">||</span> <span class="ruby-constant">DEFAULTS</span>
 <span class="line-num">65</span>   <span class="ruby-identifier">opts</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:cookie_flags</span>] = <span class="ruby-identifier">previous</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">opts</span>)
 <span class="line-num">66</span> 
 <span class="line-num">67</span>   <span class="ruby-keyword">case</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:same_site</span>]

@@ -62,13 +62,13 @@ Roda::RodaPlugins::CustomMatchers::ClassMethods
 [show source]
 </a>
 <pre id='method-i-custom_matcher-source'>   <span class="ruby-comment"># File lib/roda/plugins/custom_matchers.rb</span>
-<span class="line-num">61</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">custom_matcher</span>(<span class="ruby-identifier">match_class</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">62</span>   <span class="ruby-identifier">custom_matchers</span> = <span class="ruby-constant">Hash</span>[<span class="ruby-identifier">opts</span>[<span class="ruby-value">:custom_matchers</span>]]
-<span class="line-num">63</span>   <span class="ruby-identifier">meth</span> = <span class="ruby-identifier">custom_matchers</span>[<span class="ruby-identifier">match_class</span>] = <span class="ruby-identifier">custom_matchers</span>[<span class="ruby-identifier">match_class</span>] <span class="ruby-operator">||</span> <span class="ruby-value">:&quot;_custom_matcher_#{match_class}&quot;</span>
-<span class="line-num">64</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:custom_matchers</span>] = <span class="ruby-identifier">custom_matchers</span>.<span class="ruby-identifier">freeze</span>
-<span class="line-num">65</span>   <span class="ruby-keyword">self</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:define_method</span>, <span class="ruby-identifier">meth</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">66</span>   <span class="ruby-keyword">nil</span>
-<span class="line-num">67</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">63</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">custom_matcher</span>(<span class="ruby-identifier">match_class</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">64</span>   <span class="ruby-identifier">custom_matchers</span> = <span class="ruby-constant">Hash</span>[<span class="ruby-keyword">self</span>.<span class="ruby-identifier">custom_matchers</span>]
+<span class="line-num">65</span>   <span class="ruby-identifier">meth</span> = <span class="ruby-identifier">custom_matchers</span>[<span class="ruby-identifier">match_class</span>] = <span class="ruby-identifier">custom_matchers</span>[<span class="ruby-identifier">match_class</span>] <span class="ruby-operator">||</span> <span class="ruby-value">:&quot;_custom_matcher_#{match_class}&quot;</span>
+<span class="line-num">66</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:custom_matchers</span>] = <span class="ruby-identifier">custom_matchers</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">67</span>   <span class="ruby-keyword">self</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:define_method</span>, <span class="ruby-identifier">meth</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">68</span>   <span class="ruby-keyword">nil</span>
+<span class="line-num">69</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

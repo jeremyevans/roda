@@ -68,10 +68,10 @@ Roda::RodaPlugins::NamedRoutes::ClassMethods
 [show source]
 </a>
 <pre id='method-i-freeze-source'>    <span class="ruby-comment"># File lib/roda/plugins/named_routes.rb</span>
-<span class="line-num">115</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">freeze</span>
-<span class="line-num">116</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:namespaced_routes</span>].<span class="ruby-identifier">freeze</span>.<span class="ruby-identifier">each_value</span>(<span class="ruby-operator">&amp;</span><span class="ruby-value">:freeze</span>)
-<span class="line-num">117</span>   <span class="ruby-keyword">super</span>
-<span class="line-num">118</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">117</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">freeze</span>
+<span class="line-num">118</span>   <span class="ruby-identifier">namespaced_routes</span>.<span class="ruby-identifier">freeze</span>.<span class="ruby-identifier">each_value</span>(<span class="ruby-operator">&amp;</span><span class="ruby-value">:freeze</span>)
+<span class="line-num">119</span>   <span class="ruby-keyword">super</span>
+<span class="line-num">120</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-inherited'>
@@ -90,11 +90,11 @@ Roda::RodaPlugins::NamedRoutes::ClassMethods
 [show source]
 </a>
 <pre id='method-i-inherited-source'>    <span class="ruby-comment"># File lib/roda/plugins/named_routes.rb</span>
-<span class="line-num">121</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">inherited</span>(<span class="ruby-identifier">subclass</span>)
-<span class="line-num">122</span>   <span class="ruby-keyword">super</span>
-<span class="line-num">123</span>   <span class="ruby-identifier">nsr</span> = <span class="ruby-identifier">subclass</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:namespaced_routes</span>]
-<span class="line-num">124</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:namespaced_routes</span>].<span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-identifier">nsr</span>[<span class="ruby-identifier">k</span>] = <span class="ruby-identifier">v</span>.<span class="ruby-identifier">dup</span>}
-<span class="line-num">125</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">123</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">inherited</span>(<span class="ruby-identifier">subclass</span>)
+<span class="line-num">124</span>   <span class="ruby-keyword">super</span>
+<span class="line-num">125</span>   <span class="ruby-identifier">nsr</span> = <span class="ruby-identifier">subclass</span>.<span class="ruby-identifier">namespaced_routes</span>
+<span class="line-num">126</span>   <span class="ruby-identifier">namespaced_routes</span>.<span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-identifier">nsr</span>[<span class="ruby-identifier">k</span>] = <span class="ruby-identifier">v</span>.<span class="ruby-identifier">dup</span>}
+<span class="line-num">127</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-named_route'>
@@ -113,9 +113,9 @@ Roda::RodaPlugins::NamedRoutes::ClassMethods
 [show source]
 </a>
 <pre id='method-i-named_route-source'>    <span class="ruby-comment"># File lib/roda/plugins/named_routes.rb</span>
-<span class="line-num">136</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">named_route</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">namespace</span>=<span class="ruby-keyword">nil</span>)
-<span class="line-num">137</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:namespaced_routes</span>][<span class="ruby-identifier">namespace</span>][<span class="ruby-identifier">name</span>]
-<span class="line-num">138</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">138</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">named_route</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">namespace</span>=<span class="ruby-keyword">nil</span>)
+<span class="line-num">139</span>   <span class="ruby-identifier">namespaced_routes</span>[<span class="ruby-identifier">namespace</span>][<span class="ruby-identifier">name</span>]
+<span class="line-num">140</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-named_routes'>
@@ -134,12 +134,12 @@ Roda::RodaPlugins::NamedRoutes::ClassMethods
 [show source]
 </a>
 <pre id='method-i-named_routes-source'>    <span class="ruby-comment"># File lib/roda/plugins/named_routes.rb</span>
-<span class="line-num">128</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">named_routes</span>(<span class="ruby-identifier">namespace</span>=<span class="ruby-keyword">nil</span>)
-<span class="line-num">129</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">routes</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:namespaced_routes</span>][<span class="ruby-identifier">namespace</span>]
-<span class="line-num">130</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-node">&quot;unsupported named_routes namespace used: #{namespace.inspect}&quot;</span>
-<span class="line-num">131</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">132</span>   <span class="ruby-identifier">routes</span>.<span class="ruby-identifier">keys</span>
-<span class="line-num">133</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">130</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">named_routes</span>(<span class="ruby-identifier">namespace</span>=<span class="ruby-keyword">nil</span>)
+<span class="line-num">131</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">routes</span> = <span class="ruby-identifier">namespaced_routes</span>[<span class="ruby-identifier">namespace</span>]
+<span class="line-num">132</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-node">&quot;unsupported named_routes namespace used: #{namespace.inspect}&quot;</span>
+<span class="line-num">133</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">134</span>   <span class="ruby-identifier">routes</span>.<span class="ruby-identifier">keys</span>
+<span class="line-num">135</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-route'>
@@ -158,18 +158,18 @@ Roda::RodaPlugins::NamedRoutes::ClassMethods
 [show source]
 </a>
 <pre id='method-i-route-source'>    <span class="ruby-comment"># File lib/roda/plugins/named_routes.rb</span>
-<span class="line-num">143</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">route</span>(<span class="ruby-identifier">name</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-identifier">namespace</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">144</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">name</span>
-<span class="line-num">145</span>     <span class="ruby-identifier">routes</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:namespaced_routes</span>][<span class="ruby-identifier">namespace</span>] <span class="ruby-operator">||=</span> {}
-<span class="line-num">146</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span>
-<span class="line-num">147</span>       <span class="ruby-identifier">routes</span>[<span class="ruby-identifier">name</span>] = <span class="ruby-identifier">define_roda_method</span>(<span class="ruby-identifier">routes</span>[<span class="ruby-identifier">name</span>] <span class="ruby-operator">||</span> <span class="ruby-node">&quot;named_routes_#{namespace}_#{name}&quot;</span>, <span class="ruby-value">1</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">convert_route_block</span>(<span class="ruby-identifier">block</span>))
-<span class="line-num">148</span>     <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">meth</span> = <span class="ruby-identifier">routes</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">name</span>)
-<span class="line-num">149</span>       <span class="ruby-identifier">remove_method</span>(<span class="ruby-identifier">meth</span>)
-<span class="line-num">150</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">151</span>   <span class="ruby-keyword">else</span>
-<span class="line-num">152</span>     <span class="ruby-keyword">super</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">153</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">154</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">145</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">route</span>(<span class="ruby-identifier">name</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-identifier">namespace</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">146</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">name</span>
+<span class="line-num">147</span>     <span class="ruby-identifier">routes</span> = <span class="ruby-identifier">namespaced_routes</span>[<span class="ruby-identifier">namespace</span>] <span class="ruby-operator">||=</span> {}
+<span class="line-num">148</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span>
+<span class="line-num">149</span>       <span class="ruby-identifier">routes</span>[<span class="ruby-identifier">name</span>] = <span class="ruby-identifier">define_roda_method</span>(<span class="ruby-identifier">routes</span>[<span class="ruby-identifier">name</span>] <span class="ruby-operator">||</span> <span class="ruby-node">&quot;named_routes_#{namespace}_#{name}&quot;</span>, <span class="ruby-value">1</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">convert_route_block</span>(<span class="ruby-identifier">block</span>))
+<span class="line-num">150</span>     <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">meth</span> = <span class="ruby-identifier">routes</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">name</span>)
+<span class="line-num">151</span>       <span class="ruby-identifier">remove_method</span>(<span class="ruby-identifier">meth</span>)
+<span class="line-num">152</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">153</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">154</span>     <span class="ruby-keyword">super</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">155</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">156</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

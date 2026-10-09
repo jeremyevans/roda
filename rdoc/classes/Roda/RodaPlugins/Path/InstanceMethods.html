@@ -65,18 +65,17 @@ Roda::RodaPlugins::Path::InstanceMethods
 [show source]
 </a>
 <pre id='method-i-path-source'>    <span class="ruby-comment"># File lib/roda/plugins/path.rb</span>
-<span class="line-num">223</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">path</span>(<span class="ruby-identifier">obj</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">224</span>   <span class="ruby-identifier">app</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>
-<span class="line-num">225</span>   <span class="ruby-identifier">opts</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>
-<span class="line-num">226</span>   <span class="ruby-identifier">klass</span> =  <span class="ruby-identifier">opts</span>[<span class="ruby-value">:path_class_by_name</span>] <span class="ruby-operator">?</span> <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">name</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">class</span>
-<span class="line-num">227</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">meth</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:path_class_methods</span>][<span class="ruby-identifier">klass</span>]
-<span class="line-num">228</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-node">&quot;unrecognized object given to Roda#path: #{obj.inspect}&quot;</span>
-<span class="line-num">229</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">230</span> 
-<span class="line-num">231</span>   <span class="ruby-identifier">path</span> = <span class="ruby-identifier">send</span>(<span class="ruby-identifier">meth</span>, <span class="ruby-identifier">obj</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">232</span>   <span class="ruby-identifier">path</span> = <span class="ruby-identifier">request</span>.<span class="ruby-identifier">script_name</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">path</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:add_script_name</span>]
-<span class="line-num">233</span>   <span class="ruby-identifier">path</span>
-<span class="line-num">234</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">226</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">path</span>(<span class="ruby-identifier">obj</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">227</span>   <span class="ruby-identifier">app</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>
+<span class="line-num">228</span>   <span class="ruby-identifier">klass</span> =  <span class="ruby-identifier">app</span>.<span class="ruby-identifier">path_class_by_name?</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">name</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">class</span>
+<span class="line-num">229</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">meth</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">path_class_methods</span>[<span class="ruby-identifier">klass</span>]
+<span class="line-num">230</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-node">&quot;unrecognized object given to Roda#path: #{obj.inspect}&quot;</span>
+<span class="line-num">231</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">232</span> 
+<span class="line-num">233</span>   <span class="ruby-identifier">path</span> = <span class="ruby-identifier">send</span>(<span class="ruby-identifier">meth</span>, <span class="ruby-identifier">obj</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">234</span>   <span class="ruby-identifier">path</span> = <span class="ruby-identifier">request</span>.<span class="ruby-identifier">script_name</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">path</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">add_script_name?</span>
+<span class="line-num">235</span>   <span class="ruby-identifier">path</span>
+<span class="line-num">236</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-url'>
@@ -95,9 +94,9 @@ Roda::RodaPlugins::Path::InstanceMethods
 [show source]
 </a>
 <pre id='method-i-url-source'>    <span class="ruby-comment"># File lib/roda/plugins/path.rb</span>
-<span class="line-num">237</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">url</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">238</span>   <span class="ruby-node">&quot;#{_base_url}#{path(*args, &amp;block)}&quot;</span>
-<span class="line-num">239</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">239</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">url</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">240</span>   <span class="ruby-node">&quot;#{_base_url}#{path(*args, &amp;block)}&quot;</span>
+<span class="line-num">241</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

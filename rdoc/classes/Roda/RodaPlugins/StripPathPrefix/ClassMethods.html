@@ -51,7 +51,7 @@ Roda::RodaPlugins::StripPathPrefix::ClassMethods
 <div class='method public-instance' id='method-method-i-expand_path'>
 <a name='method-i-expand_path'></a>
 <div class='synopsis'>
-<span class='name'>expand_path</span><span class='arguments'>(path, root=opts[:root])</span>
+<span class='name'>expand_path</span><span class='arguments'>(path, root=app_root)</span>
 
 </div>
 <div class='description'>
@@ -64,9 +64,9 @@ Roda::RodaPlugins::StripPathPrefix::ClassMethods
 [show source]
 </a>
 <pre id='method-i-expand_path-source'>   <span class="ruby-comment"># File lib/roda/plugins/strip_path_prefix.rb</span>
-<span class="line-num">25</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">expand_path</span>(<span class="ruby-identifier">path</span>, <span class="ruby-identifier">root</span>=<span class="ruby-identifier">opts</span>[<span class="ruby-value">:root</span>])
-<span class="line-num">26</span>   <span class="ruby-keyword">super</span>.<span class="ruby-identifier">sub</span>(<span class="ruby-identifier">opts</span>[<span class="ruby-value">:strip_path_prefix</span>], <span class="ruby-string">&#39;&#39;</span>)
-<span class="line-num">27</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">27</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">expand_path</span>(<span class="ruby-identifier">path</span>, <span class="ruby-identifier">root</span>=<span class="ruby-identifier">app_root</span>)
+<span class="line-num">28</span>   <span class="ruby-keyword">super</span>.<span class="ruby-identifier">sub</span>(<span class="ruby-identifier">strip_path_prefix_regexp</span>, <span class="ruby-string">&#39;&#39;</span>)
+<span class="line-num">29</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

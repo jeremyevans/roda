@@ -66,10 +66,10 @@ Roda::RodaPlugins::HashBranchViewSubdir::ClassMethods
 [show source]
 </a>
 <pre id='method-i-freeze-source'>   <span class="ruby-comment"># File lib/roda/plugins/hash_branch_view_subdir.rb</span>
-<span class="line-num">37</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">freeze</span>
-<span class="line-num">38</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:hash_branch_view_subdir_methods</span>].<span class="ruby-identifier">freeze</span>.<span class="ruby-identifier">each_value</span>(<span class="ruby-operator">&amp;</span><span class="ruby-value">:freeze</span>)
-<span class="line-num">39</span>   <span class="ruby-keyword">super</span>
-<span class="line-num">40</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">39</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">freeze</span>
+<span class="line-num">40</span>   <span class="ruby-identifier">hash_branch_view_subdir_methods</span>.<span class="ruby-identifier">freeze</span>.<span class="ruby-identifier">each_value</span>(<span class="ruby-operator">&amp;</span><span class="ruby-value">:freeze</span>)
+<span class="line-num">41</span>   <span class="ruby-keyword">super</span>
+<span class="line-num">42</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-hash_branch'>
@@ -88,22 +88,22 @@ Roda::RodaPlugins::HashBranchViewSubdir::ClassMethods
 [show source]
 </a>
 <pre id='method-i-hash_branch-source'>   <span class="ruby-comment"># File lib/roda/plugins/hash_branch_view_subdir.rb</span>
-<span class="line-num">55</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">hash_branch</span>(<span class="ruby-identifier">namespace</span>=<span class="ruby-string">&#39;&#39;</span>, <span class="ruby-identifier">segment</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">56</span>   <span class="ruby-identifier">meths</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:hash_branch_view_subdir_methods</span>][<span class="ruby-identifier">namespace</span>] <span class="ruby-operator">||=</span> {}
-<span class="line-num">57</span> 
-<span class="line-num">58</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span>
-<span class="line-num">59</span>     <span class="ruby-identifier">meth</span> = <span class="ruby-identifier">meths</span>[<span class="ruby-identifier">segment</span>] = <span class="ruby-identifier">define_roda_method</span>(<span class="ruby-identifier">meths</span>[<span class="ruby-identifier">segment</span>] <span class="ruby-operator">||</span> <span class="ruby-node">&quot;_hash_branch_view_subdir_#{namespace}_#{segment}&quot;</span>, <span class="ruby-value">1</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">convert_route_block</span>(<span class="ruby-identifier">block</span>))
-<span class="line-num">60</span>     <span class="ruby-keyword">super</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-operator">*</span><span class="ruby-identifier">_</span><span class="ruby-operator">|</span>
-<span class="line-num">61</span>       <span class="ruby-identifier">append_view_subdir</span>(<span class="ruby-identifier">segment</span>)
-<span class="line-num">62</span>       <span class="ruby-identifier">send</span>(<span class="ruby-identifier">meth</span>, <span class="ruby-ivar">@_request</span>)
-<span class="line-num">63</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">64</span>   <span class="ruby-keyword">else</span>
-<span class="line-num">65</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">meth</span> = <span class="ruby-identifier">meths</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">segment</span>)
-<span class="line-num">66</span>       <span class="ruby-identifier">remove_method</span>(<span class="ruby-identifier">meth</span>)
-<span class="line-num">67</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">68</span>     <span class="ruby-keyword">super</span>
-<span class="line-num">69</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">70</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">57</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">hash_branch</span>(<span class="ruby-identifier">namespace</span>=<span class="ruby-string">&#39;&#39;</span>, <span class="ruby-identifier">segment</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">58</span>   <span class="ruby-identifier">meths</span> = <span class="ruby-identifier">hash_branch_view_subdir_methods</span>[<span class="ruby-identifier">namespace</span>] <span class="ruby-operator">||=</span> {}
+<span class="line-num">59</span> 
+<span class="line-num">60</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span>
+<span class="line-num">61</span>     <span class="ruby-identifier">meth</span> = <span class="ruby-identifier">meths</span>[<span class="ruby-identifier">segment</span>] = <span class="ruby-identifier">define_roda_method</span>(<span class="ruby-identifier">meths</span>[<span class="ruby-identifier">segment</span>] <span class="ruby-operator">||</span> <span class="ruby-node">&quot;_hash_branch_view_subdir_#{namespace}_#{segment}&quot;</span>, <span class="ruby-value">1</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">convert_route_block</span>(<span class="ruby-identifier">block</span>))
+<span class="line-num">62</span>     <span class="ruby-keyword">super</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-operator">*</span><span class="ruby-identifier">_</span><span class="ruby-operator">|</span>
+<span class="line-num">63</span>       <span class="ruby-identifier">append_view_subdir</span>(<span class="ruby-identifier">segment</span>)
+<span class="line-num">64</span>       <span class="ruby-identifier">send</span>(<span class="ruby-identifier">meth</span>, <span class="ruby-ivar">@_request</span>)
+<span class="line-num">65</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">66</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">67</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">meth</span> = <span class="ruby-identifier">meths</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">segment</span>)
+<span class="line-num">68</span>       <span class="ruby-identifier">remove_method</span>(<span class="ruby-identifier">meth</span>)
+<span class="line-num">69</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">70</span>     <span class="ruby-keyword">super</span>
+<span class="line-num">71</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">72</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-inherited'>
@@ -122,14 +122,14 @@ Roda::RodaPlugins::HashBranchViewSubdir::ClassMethods
 [show source]
 </a>
 <pre id='method-i-inherited-source'>   <span class="ruby-comment"># File lib/roda/plugins/hash_branch_view_subdir.rb</span>
-<span class="line-num">43</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">inherited</span>(<span class="ruby-identifier">subclass</span>)
-<span class="line-num">44</span>   <span class="ruby-keyword">super</span>
-<span class="line-num">45</span> 
-<span class="line-num">46</span>   <span class="ruby-identifier">h</span> = <span class="ruby-identifier">subclass</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:hash_branch_view_subdir_methods</span>]
-<span class="line-num">47</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:hash_branch_view_subdir_methods</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">routes</span><span class="ruby-operator">|</span>
-<span class="line-num">48</span>     <span class="ruby-identifier">h</span>[<span class="ruby-identifier">namespace</span>] = <span class="ruby-identifier">routes</span>.<span class="ruby-identifier">dup</span>
-<span class="line-num">49</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">50</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">45</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">inherited</span>(<span class="ruby-identifier">subclass</span>)
+<span class="line-num">46</span>   <span class="ruby-keyword">super</span>
+<span class="line-num">47</span> 
+<span class="line-num">48</span>   <span class="ruby-identifier">h</span> = <span class="ruby-identifier">subclass</span>.<span class="ruby-identifier">hash_branch_view_subdir_methods</span>
+<span class="line-num">49</span>   <span class="ruby-identifier">hash_branch_view_subdir_methods</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">routes</span><span class="ruby-operator">|</span>
+<span class="line-num">50</span>     <span class="ruby-identifier">h</span>[<span class="ruby-identifier">namespace</span>] = <span class="ruby-identifier">routes</span>.<span class="ruby-identifier">dup</span>
+<span class="line-num">51</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">52</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

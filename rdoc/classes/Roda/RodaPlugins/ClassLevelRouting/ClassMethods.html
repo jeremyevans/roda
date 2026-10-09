@@ -64,10 +64,10 @@ Roda::RodaPlugins::ClassLevelRouting::ClassMethods
 [show source]
 </a>
 <pre id='method-i-freeze-source'>   <span class="ruby-comment"># File lib/roda/plugins/class_level_routing.rb</span>
-<span class="line-num">72</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">freeze</span>
-<span class="line-num">73</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:class_level_routes</span>].<span class="ruby-identifier">freeze</span>
-<span class="line-num">74</span>   <span class="ruby-keyword">super</span>
-<span class="line-num">75</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">74</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">freeze</span>
+<span class="line-num">75</span>   <span class="ruby-identifier">class_level_routes</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">76</span>   <span class="ruby-keyword">super</span>
+<span class="line-num">77</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

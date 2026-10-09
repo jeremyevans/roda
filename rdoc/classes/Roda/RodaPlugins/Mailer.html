@@ -203,7 +203,7 @@ Roda::RodaPlugins::Mailer
 </a>
 <pre id='method-c-configure-source'>    <span class="ruby-comment"># File lib/roda/plugins/mailer.rb</span>
 <span class="line-num">138</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
-<span class="line-num">139</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:mailer</span>] = (<span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:mailer</span>]<span class="ruby-operator">||</span><span class="ruby-constant">OPTS</span>).<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">opts</span>).<span class="ruby-identifier">freeze</span>
+<span class="line-num">139</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:mailer</span>] = (<span class="ruby-identifier">app</span>.<span class="ruby-identifier">mailer_opts</span><span class="ruby-operator">||</span><span class="ruby-constant">OPTS</span>).<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">opts</span>).<span class="ruby-identifier">freeze</span>
 <span class="line-num">140</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>

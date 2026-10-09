@@ -78,6 +78,7 @@ Roda::RodaPlugins::ErrorEmail
 <div id='class-list'>
 <h2>Classes and Modules</h2>
 <ol>
+<li><a href="ErrorEmail/ClassMethods.html">Roda::RodaPlugins::ErrorEmail::ClassMethods</a></li>
 <li><a href="ErrorEmail/InstanceMethods.html">Roda::RodaPlugins::ErrorEmail::InstanceMethods</a></li>
 </ol>
 </div>
@@ -105,7 +106,7 @@ end
 {'From'=>h[:from], 'To'=>h[:to], 'Subject'=>"#{h[:prefix]}#{subject}"}
 end,
 :body=>lambda do |s, e|
-filter = s.opts[:error_email][:filter]
+filter = s.class.error_email_opts[:filter]
 format = lambda do |h|
 h = h.map{|k, v| "#{k.inspect} => #{filter.call(k, v) ? 'FILTERED' : v.inspect}"}
 h.sort!
@@ -191,8 +192,8 @@ end
 <span class="line-num">120</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;must provide :to and :from options to error_email plugin&quot;</span>
 <span class="line-num">121</span>   <span class="ruby-keyword">end</span>
 <span class="line-num">122</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:error_email</span>] = <span class="ruby-identifier">email_opts</span>
-<span class="line-num">123</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:error_email</span>][<span class="ruby-value">:headers</span>].<span class="ruby-identifier">freeze</span>
-<span class="line-num">124</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:error_email</span>].<span class="ruby-identifier">freeze</span>
+<span class="line-num">123</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">error_email_opts</span>[<span class="ruby-value">:headers</span>].<span class="ruby-identifier">freeze</span>
+<span class="line-num">124</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">error_email_opts</span>.<span class="ruby-identifier">freeze</span>
 <span class="line-num">125</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>

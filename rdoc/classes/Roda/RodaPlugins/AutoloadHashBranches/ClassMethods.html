@@ -66,21 +66,21 @@ Roda::RodaPlugins::AutoloadHashBranches::ClassMethods
 [show source]
 </a>
 <pre id='method-i-autoload_hash_branch-source'>   <span class="ruby-comment"># File lib/roda/plugins/autoload_hash_branches.rb</span>
-<span class="line-num">43</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">autoload_hash_branch</span>(<span class="ruby-identifier">namespace</span>=<span class="ruby-string">&#39;&#39;</span>, <span class="ruby-identifier">segment</span>, <span class="ruby-identifier">file</span>)
-<span class="line-num">44</span>   <span class="ruby-identifier">segment</span> = <span class="ruby-node">&quot;/#{segment}&quot;</span>
-<span class="line-num">45</span>   <span class="ruby-identifier">file</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">expand_path</span>(<span class="ruby-identifier">file</span>)
-<span class="line-num">46</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:autoload_hash_branch_files</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">file</span>
-<span class="line-num">47</span>   <span class="ruby-identifier">routes</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:hash_branches</span>][<span class="ruby-identifier">namespace</span>] <span class="ruby-operator">||=</span> {}
-<span class="line-num">48</span>   <span class="ruby-identifier">meth</span> = <span class="ruby-identifier">routes</span>[<span class="ruby-identifier">segment</span>] = <span class="ruby-identifier">define_roda_method</span>(<span class="ruby-identifier">routes</span>[<span class="ruby-identifier">segment</span>] <span class="ruby-operator">||</span> <span class="ruby-node">&quot;hash_branch_#{namespace}_#{segment}&quot;</span>, <span class="ruby-value">1</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span>
-<span class="line-num">49</span>     <span class="ruby-identifier">loc</span> = <span class="ruby-identifier">method</span>(<span class="ruby-identifier">routes</span>[<span class="ruby-identifier">segment</span>]).<span class="ruby-identifier">source_location</span>
-<span class="line-num">50</span>     <span class="ruby-identifier">require</span> <span class="ruby-identifier">file</span>
-<span class="line-num">51</span>     <span class="ruby-comment"># Avoid infinite loop in case method is not overridden</span>
-<span class="line-num">52</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">method</span>(<span class="ruby-identifier">meth</span>).<span class="ruby-identifier">source_location</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">loc</span>
-<span class="line-num">53</span>       <span class="ruby-identifier">send</span>(<span class="ruby-identifier">meth</span>, <span class="ruby-identifier">r</span>)
-<span class="line-num">54</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">55</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">56</span>   <span class="ruby-keyword">nil</span>
-<span class="line-num">57</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">45</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">autoload_hash_branch</span>(<span class="ruby-identifier">namespace</span>=<span class="ruby-string">&#39;&#39;</span>, <span class="ruby-identifier">segment</span>, <span class="ruby-identifier">file</span>)
+<span class="line-num">46</span>   <span class="ruby-identifier">segment</span> = <span class="ruby-node">&quot;/#{segment}&quot;</span>
+<span class="line-num">47</span>   <span class="ruby-identifier">file</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">expand_path</span>(<span class="ruby-identifier">file</span>)
+<span class="line-num">48</span>   <span class="ruby-identifier">autoload_hash_branch_files</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">file</span>
+<span class="line-num">49</span>   <span class="ruby-identifier">routes</span> = <span class="ruby-identifier">hash_branches</span>[<span class="ruby-identifier">namespace</span>] <span class="ruby-operator">||=</span> {}
+<span class="line-num">50</span>   <span class="ruby-identifier">meth</span> = <span class="ruby-identifier">routes</span>[<span class="ruby-identifier">segment</span>] = <span class="ruby-identifier">define_roda_method</span>(<span class="ruby-identifier">routes</span>[<span class="ruby-identifier">segment</span>] <span class="ruby-operator">||</span> <span class="ruby-node">&quot;hash_branch_#{namespace}_#{segment}&quot;</span>, <span class="ruby-value">1</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span>
+<span class="line-num">51</span>     <span class="ruby-identifier">loc</span> = <span class="ruby-identifier">method</span>(<span class="ruby-identifier">routes</span>[<span class="ruby-identifier">segment</span>]).<span class="ruby-identifier">source_location</span>
+<span class="line-num">52</span>     <span class="ruby-identifier">require</span> <span class="ruby-identifier">file</span>
+<span class="line-num">53</span>     <span class="ruby-comment"># Avoid infinite loop in case method is not overridden</span>
+<span class="line-num">54</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">method</span>(<span class="ruby-identifier">meth</span>).<span class="ruby-identifier">source_location</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">loc</span>
+<span class="line-num">55</span>       <span class="ruby-identifier">send</span>(<span class="ruby-identifier">meth</span>, <span class="ruby-identifier">r</span>)
+<span class="line-num">56</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">57</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">58</span>   <span class="ruby-keyword">nil</span>
+<span class="line-num">59</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-autoload_hash_branch_dir'>
@@ -99,13 +99,13 @@ Roda::RodaPlugins::AutoloadHashBranches::ClassMethods
 [show source]
 </a>
 <pre id='method-i-autoload_hash_branch_dir-source'>   <span class="ruby-comment"># File lib/roda/plugins/autoload_hash_branches.rb</span>
-<span class="line-num">61</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">autoload_hash_branch_dir</span>(<span class="ruby-identifier">namespace</span>=<span class="ruby-string">&#39;&#39;</span>, <span class="ruby-identifier">dir</span>)
-<span class="line-num">62</span>   <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">dir</span>).<span class="ruby-identifier">entries</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
-<span class="line-num">63</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">file</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">/\.rb\z/i</span>
-<span class="line-num">64</span>       <span class="ruby-identifier">autoload_hash_branch</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">file</span>.<span class="ruby-identifier">sub</span>(<span class="ruby-regexp">/\.rb\z/i</span>, <span class="ruby-string">&#39;&#39;</span>), <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">dir</span>, <span class="ruby-identifier">file</span>))
-<span class="line-num">65</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">66</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">67</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">63</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">autoload_hash_branch_dir</span>(<span class="ruby-identifier">namespace</span>=<span class="ruby-string">&#39;&#39;</span>, <span class="ruby-identifier">dir</span>)
+<span class="line-num">64</span>   <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">dir</span>).<span class="ruby-identifier">entries</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
+<span class="line-num">65</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">file</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">/\.rb\z/i</span>
+<span class="line-num">66</span>       <span class="ruby-identifier">autoload_hash_branch</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">file</span>.<span class="ruby-identifier">sub</span>(<span class="ruby-regexp">/\.rb\z/i</span>, <span class="ruby-string">&#39;&#39;</span>), <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">dir</span>, <span class="ruby-identifier">file</span>))
+<span class="line-num">67</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">68</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">69</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-freeze'>
@@ -124,10 +124,14 @@ Roda::RodaPlugins::AutoloadHashBranches::ClassMethods
 [show source]
 </a>
 <pre id='method-i-freeze-source'>   <span class="ruby-comment"># File lib/roda/plugins/autoload_hash_branches.rb</span>
-<span class="line-num">70</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">freeze</span>
-<span class="line-num">71</span>   <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:autoload_hash_branch_files</span>).<span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span> <span class="ruby-identifier">require</span> <span class="ruby-identifier">file</span>} <span class="ruby-keyword">unless</span> <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">frozen?</span>
-<span class="line-num">72</span>   <span class="ruby-keyword">super</span>
-<span class="line-num">73</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">72</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">freeze</span>
+<span class="line-num">73</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">frozen?</span>
+<span class="line-num">74</span>     <span class="ruby-identifier">autoload_hash_branch_files</span>.<span class="ruby-identifier">each</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span> <span class="ruby-identifier">require</span> <span class="ruby-identifier">file</span>}
+<span class="line-num">75</span>     <span class="ruby-identifier">opts</span>[<span class="ruby-value">:autoload_hash_branch_files</span>] = <span class="ruby-keyword">nil</span>
+<span class="line-num">76</span>     <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:autoload_hash_branch_files</span>)
+<span class="line-num">77</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">78</span>   <span class="ruby-keyword">super</span>
+<span class="line-num">79</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

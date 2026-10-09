@@ -158,6 +158,7 @@ Roda::RodaPlugins::RouteCsrf
 <div id='class-list'>
 <h2>Classes and Modules</h2>
 <ol>
+<li><a href="RouteCsrf/ClassMethods.html">Roda::RodaPlugins::RouteCsrf::ClassMethods</a></li>
 <li><a href="RouteCsrf/InstanceMethods.html">Roda::RodaPlugins::RouteCsrf::InstanceMethods</a></li>
 <li><a href="RouteCsrf/InvalidToken.html">Roda::RodaPlugins::RouteCsrf::InvalidToken</a></li>
 </ol>
@@ -206,7 +207,7 @@ Roda::RodaPlugins::RouteCsrf
 </a>
 <pre id='method-c-configure-source'>    <span class="ruby-comment"># File lib/roda/plugins/route_csrf.rb</span>
 <span class="line-num">198</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">199</span>   <span class="ruby-identifier">options</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:route_csrf</span>] = (<span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:route_csrf</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">DEFAULTS</span>).<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">opts</span>)
+<span class="line-num">199</span>   <span class="ruby-identifier">options</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:route_csrf</span>] = (<span class="ruby-identifier">app</span>.<span class="ruby-identifier">route_csrf_opts</span> <span class="ruby-operator">||</span> <span class="ruby-constant">DEFAULTS</span>).<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">opts</span>)
 <span class="line-num">200</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:csrf_failure</span>].<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Proc</span>)
 <span class="line-num">201</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:csrf_failure</span>]
 <span class="line-num">202</span>       <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;Cannot specify both route_csrf plugin block and :csrf_failure option&quot;</span>

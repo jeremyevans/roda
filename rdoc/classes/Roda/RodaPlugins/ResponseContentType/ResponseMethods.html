@@ -65,9 +65,9 @@ Roda::RodaPlugins::ResponseContentType::ResponseMethods
 [show source]
 </a>
 <pre id='method-i-content_type-source'>   <span class="ruby-comment"># File lib/roda/plugins/response_content_type.rb</span>
-<span class="line-num">62</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">content_type</span>
-<span class="line-num">63</span>   <span class="ruby-ivar">@headers</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_TYPE</span>]
-<span class="line-num">64</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">66</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">content_type</span>
+<span class="line-num">67</span>   <span class="ruby-ivar">@headers</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_TYPE</span>]
+<span class="line-num">68</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-content_type-3D'>
@@ -86,10 +86,10 @@ Roda::RodaPlugins::ResponseContentType::ResponseMethods
 [show source]
 </a>
 <pre id='method-i-content_type-3D-source'>   <span class="ruby-comment"># File lib/roda/plugins/response_content_type.rb</span>
-<span class="line-num">70</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">content_type=</span>(<span class="ruby-identifier">mime_type</span>)
-<span class="line-num">71</span>   <span class="ruby-identifier">mime_type</span> = <span class="ruby-identifier">roda_class</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:repsonse_content_types</span>].<span class="ruby-identifier">fetch</span>(<span class="ruby-identifier">mime_type</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">mime_type</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Symbol</span>)
-<span class="line-num">72</span>   <span class="ruby-ivar">@headers</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_TYPE</span>] = <span class="ruby-identifier">mime_type</span>
-<span class="line-num">73</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">74</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">content_type=</span>(<span class="ruby-identifier">mime_type</span>)
+<span class="line-num">75</span>   <span class="ruby-identifier">mime_type</span> = <span class="ruby-identifier">roda_class</span>.<span class="ruby-identifier">response_content_types</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-identifier">mime_type</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">mime_type</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Symbol</span>)
+<span class="line-num">76</span>   <span class="ruby-ivar">@headers</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_TYPE</span>] = <span class="ruby-identifier">mime_type</span>
+<span class="line-num">77</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

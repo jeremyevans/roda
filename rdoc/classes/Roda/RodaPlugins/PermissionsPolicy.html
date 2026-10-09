@@ -168,6 +168,7 @@ Roda::RodaPlugins::PermissionsPolicy
 <div id='class-list'>
 <h2>Classes and Modules</h2>
 <ol>
+<li><a href="PermissionsPolicy/ClassMethods.html">Roda::RodaPlugins::PermissionsPolicy::ClassMethods</a></li>
 <li><a href="PermissionsPolicy/InstanceMethods.html">Roda::RodaPlugins::PermissionsPolicy::InstanceMethods</a></li>
 <li><a href="PermissionsPolicy/ResponseMethods.html">Roda::RodaPlugins::PermissionsPolicy::ResponseMethods</a></li>
 <li><a href="PermissionsPolicy/Policy.html">Roda::RodaPlugins::PermissionsPolicy::Policy</a></li>
@@ -207,7 +208,7 @@ Roda::RodaPlugins::PermissionsPolicy
 </a>
 <pre id='method-c-configure-source'>    <span class="ruby-comment"># File lib/roda/plugins/permissions_policy.rb</span>
 <span class="line-num">282</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
-<span class="line-num">283</span>   <span class="ruby-identifier">policy</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:permissions_policy</span>] = <span class="ruby-keyword">if</span> <span class="ruby-identifier">policy</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:permissions_policy</span>]
+<span class="line-num">283</span>   <span class="ruby-identifier">policy</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:permissions_policy</span>] = <span class="ruby-keyword">if</span> <span class="ruby-identifier">policy</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">permissions_policy</span>
 <span class="line-num">284</span>     <span class="ruby-identifier">policy</span>.<span class="ruby-identifier">dup</span>
 <span class="line-num">285</span>   <span class="ruby-keyword">else</span>
 <span class="line-num">286</span>     <span class="ruby-constant">Policy</span>.<span class="ruby-identifier">new</span>

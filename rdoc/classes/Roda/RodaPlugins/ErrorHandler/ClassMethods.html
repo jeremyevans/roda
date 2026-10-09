@@ -64,11 +64,11 @@ Roda::RodaPlugins::ErrorHandler::ClassMethods
 [show source]
 </a>
 <pre id='method-i-error-source'>   <span class="ruby-comment"># File lib/roda/plugins/error_handler.rb</span>
-<span class="line-num">63</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">error</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">64</span>   <span class="ruby-identifier">define_method</span>(<span class="ruby-value">:handle_error</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">65</span>   <span class="ruby-identifier">alias_method</span>(<span class="ruby-value">:handle_error</span>, <span class="ruby-value">:handle_error</span>)
-<span class="line-num">66</span>   <span class="ruby-identifier">private</span> <span class="ruby-value">:handle_error</span>
-<span class="line-num">67</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">65</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">error</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">66</span>   <span class="ruby-identifier">define_method</span>(<span class="ruby-value">:handle_error</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">67</span>   <span class="ruby-identifier">alias_method</span>(<span class="ruby-value">:handle_error</span>, <span class="ruby-value">:handle_error</span>)
+<span class="line-num">68</span>   <span class="ruby-identifier">private</span> <span class="ruby-value">:handle_error</span>
+<span class="line-num">69</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>
