@@ -413,6 +413,29 @@ describe "render plugin" do
           app::RodaCompiledTemplates.private_instance_methods.length.must_equal multiplier
         end
 
+        it "does not share compiled templates module with superclass with plugin option :cache=>#{cache_plugin_option}" do
+          app(:bare) do
+            plugin :render, :views=>'spec/views', :cache=>cache_plugin_option
+            route do |_|
+              render(template)
+            end
+          end
+          orig_app = app
+          orig_app::RodaCompiledTemplates.private_instance_methods.length.must_equal 0
+          @app = Class.new(orig_app)
+          orig_app::RodaCompiledTemplates.wont_be_same_as app::RodaCompiledTemplates
+
+          app.render_opts[:template_method_cache][template].must_be_nil
+          body.strip.must_equal "ct"
+          app.render_opts[:template_method_cache][template].must_be_kind_of(Array)
+          body.strip.must_equal "ct"
+          app.render_opts[:template_method_cache][template].must_be_kind_of(Array)
+          body.strip.must_equal "ct"
+          app.render_opts[:template_method_cache][template].must_be_kind_of(Array)
+          app::RodaCompiledTemplates.private_instance_methods.length.must_equal multiplier
+          orig_app::RodaCompiledTemplates.private_instance_methods.length.must_equal 0
+        end
+
         it "does not cache template renders when there is no template method cache with plugin option :cache=>#{cache_plugin_option}" do
           app(:bare) do
             plugin :render, :views=>'spec/views', :cache=>cache_plugin_option

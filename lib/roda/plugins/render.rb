@@ -583,6 +583,9 @@ class Roda
           opts = subclass.opts[:render] = subclass.render_opts.dup
           if COMPILED_METHOD_SUPPORT
             opts[:template_method_cache] = (opts[:cache_class] || RodaCache).new
+            compiled_templates_module = Module.new
+            subclass.send(:include, compiled_templates_module)
+            subclass.const_set(:RodaCompiledTemplates, compiled_templates_module)
           end
           opts[:cache] = opts[:cache].dup
           opts.freeze
