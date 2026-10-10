@@ -241,7 +241,7 @@ class Roda
           end
         end
 
-        [:get, :post, :delete, :head, :options, :link, :patch, :put, :trace, :unlink].each do |meth|
+        %i[get post delete head options link patch put trace unlink query].each do |meth|
           define_method(meth) do |path, &block|
             verb(meth, path, &block)
           end

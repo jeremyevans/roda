@@ -1,3 +1,7 @@
+=== master
+
+* Add query method to hash_routes DSL, requires Rack::Request#query? to be defined (jeremyevans)
+
 === 3.109.0 (2026-10-09)
 
 * Persist symbol keys set in Roda.opts to class instance variables, add attr_reader methods for much faster access (jeremyevans)
