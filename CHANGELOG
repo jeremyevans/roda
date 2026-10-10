@@ -1,5 +1,7 @@
 === master
 
+* Add freeze_request_response plugin for freezing RodaRequest and RodaResponse (jeremyevans)
+
 * In the render plugin, have each subclass use a separate RodaCompiledTemplates module (jeremyevans)
 
 * Add query method to hash_routes DSL, requires Rack::Request#query? to be defined (jeremyevans)
