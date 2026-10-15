@@ -1,7 +1,5 @@
 # frozen-string-literal: true
 
-require "thread"
-
 class Roda
   # A thread safe cache class, offering only #[] and #[]= methods,
   # each protected by a mutex.

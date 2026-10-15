@@ -1,6 +1,5 @@
 # frozen-string-literal: true
 
-require "thread"
 require_relative "roda/request"
 require_relative "roda/response"
 require_relative "roda/plugins"
