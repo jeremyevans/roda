@@ -109,10 +109,10 @@ class Roda
         # rack response array of status, headers, and body.  If no argument
         # is given, uses the current response.
         #
-        #   r.halt [200, {'Content-Type'=>'text/html'}, ['Hello World!']]
+        #   r.halt [200, {'content-type'=>'text/html'}, ['Hello World!']]
         #   
         #   response.status = 200
-        #   response['Content-Type'] = 'text/html'
+        #   response['content-type'] = 'text/html'
         #   response.write 'Hello World!'
         #   r.halt
         def halt(res=response.finish)
@@ -328,7 +328,7 @@ class Roda
         #     # matches
         #   end
         #
-        # This is usuable inside other match blocks:
+        # This is usable inside other match blocks:
         #
         #   [r.request_method, r.remaining_path]
         #   # => ['GET', '/foo/']
@@ -512,7 +512,7 @@ class Roda
           end
         end
 
-        # Match the given symbol if any segment matches.
+        # Match for any nonempty segment.
         def _match_symbol(sym=nil)
           rp = @remaining_path
           if rp.getbyte(0) == 47
@@ -635,7 +635,7 @@ class Roda
         # For non-GET requests, redirects to the current path, which will
         # trigger a GET request.  This is to make the common case where
         # a POST request will redirect to a GET request at the same location
-        # will work fine.
+        # work fine.
         #
         # If the current request is a GET request, raise an error, as otherwise
         # it is easy to create an infinite redirect.
@@ -654,7 +654,7 @@ class Roda
           302
         end
 
-        # Whether the current path is considered empty.
+        # Whether the remaining path is considered empty.
         def empty_path?
           @remaining_path.empty?
         end
@@ -723,13 +723,14 @@ class Roda
           end
         end
 
-        # How to handle block results that are not nil, false, or a String.
+        # Handle block results that are not nil, false, or a String.
         # By default raises an exception.
         def unsupported_block_result(result)
           raise RodaError, "unsupported block result: #{result.inspect}"
         end
 
         # Handle an unsupported matcher.
+        # By default raises an exception.
         def unsupported_matcher(matcher)
           raise RodaError, "unsupported matcher: #{matcher.inspect}"
         end
