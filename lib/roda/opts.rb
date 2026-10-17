@@ -12,7 +12,7 @@ class Roda
     end
 
     # Set an <tt>@opt_*</tt> instance variable in the Roda class if it is tied
-    # to a Roda class.
+    # to a Roda class and the key is a symbol.
     def []=(k, v)
       super
       @roda_class.instance_variable_set(:"@opt_#{k}", v) if @roda_class && Symbol === k
