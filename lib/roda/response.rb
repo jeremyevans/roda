@@ -10,6 +10,7 @@ class Roda
   # headers used internally by Roda can be lower case on Rack 3, so that it is
   # possible to use a plain hash of response headers instead of using Rack::Headers.
   module RodaResponseHeaders
+    # RODA4: switch all constant access to downcased strings
     downcase = defined?(Rack::Headers) && Rack::Headers.is_a?(Class)
 
     %w'Allow Cache-Control Content-Disposition Content-Encoding Content-Length
@@ -65,14 +66,14 @@ class Roda
 
         # Return the response header with the given key. Example:
         #
-        #   response['Content-Type'] # => 'text/html'
+        #   response['content-type'] # => 'text/html'
         def [](key)
           @headers[key]
         end
 
         # Set the response header with the given key to the given value.
         #
-        #   response['Content-Type'] = 'application/json'
+        #   response['content-type'] = 'application/json'
         def []=(key, value)
           @headers[key] = value
         end
@@ -97,13 +98,13 @@ class Roda
         # for the current response.  If the status has not been set,
         # uses the return value of default_status if the body has
         # been written to, otherwise uses a 404 status.
-        # Adds the Content-Length header to the size of the response body.
+        # Adds the content-length header to the size of the response body.
         #
         # Example:
         #
         #   response.finish
         #   #  => [200,
-        #   #      {'Content-Type'=>'text/html', 'Content-Length'=>'0'},
+        #   #      {'content-type'=>'text/html', 'content-length'=>'0'},
         #   #      []]
         def finish
           b = @body
@@ -129,7 +130,7 @@ class Roda
 
         # Return the rack response array using a given body.  Assumes a
         # 200 response status unless status has been explicitly set,
-        # and doesn't add the Content-Length header or use the existing
+        # and doesn't add the content-length header or use the existing
         # body.
         def finish_with_body(body)
           set_default_headers
@@ -151,8 +152,8 @@ class Roda
         # Set the Location header to the given path, and the status
         # to the given status.  Example:
         #
-        #   response.redirect('foo', 301)
-        #   response.redirect('bar')
+        #   response.redirect('/foo', 301)
+        #   response.redirect('/bar')
         def redirect(path, status = 302)
           @headers[RodaResponseHeaders::LOCATION] = path
           @status  = status
@@ -181,6 +182,7 @@ class Roda
 
           # Use Rack::Headers for headers by default on Rack 3
           def _initialize_headers
+            # RODA4: Use {} always, add plugin for using Rack::Headers
             Rack::Headers.new
           end
         else
