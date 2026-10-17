@@ -95,6 +95,7 @@ class Roda
         # Support for the :check_arity and :check_dynamic_arity options will be
         # removed in Roda 4.
         def define_roda_method(meth, expected_arity, &block)
+          # RODA4: Make expected_arity optional, remove from callers
           if meth.is_a?(String)
             meth = roda_method_name(meth)
           end
@@ -300,14 +301,13 @@ class Roda
         # class has been subclassed, as doing so can break the subclasses.
         #
         #   Roda.plugin PluginModule
-        #   Roda.plugin :csrf
+        #   Roda.plugin :route_csrf
         def plugin(plugin, *args, &block)
           raise RodaError, "Cannot add a plugin to a frozen Roda class" if frozen?
           plugin = RodaPlugins.load_plugin(plugin) if plugin.is_a?(Symbol)
           raise RodaError, "Invalid plugin type: #{plugin.class.inspect}" unless plugin.is_a?(Module)
 
           if !plugin.respond_to?(:load_dependencies) && !plugin.respond_to?(:configure) && (!args.empty? || block)
-            # RODA4: switch from warning to error
             RodaPlugins.warn("Plugin #{plugin} does not accept arguments or a block, but arguments or a block was passed when loading this. This will raise an error in Roda 4.")
           end
 
@@ -352,8 +352,7 @@ class Roda
           @app = nil
         end
 
-        # Add a middleware to use for the rack application.  Must be
-        # called before calling #route to have an effect. Example:
+        # Add a middleware to use for the rack application. Example:
         #
         #   Roda.use Rack::ShowExceptions
         def use(*args, &block)
@@ -371,6 +370,7 @@ class Roda
         # and whether the callable accepts keyword arguments (true, false
         # or :required).
         def _define_roda_method_arg_numbers(callable)
+          # RODA4: Remove
           optional_args = 0
           rest = false
           keyword = false
@@ -402,7 +402,9 @@ class Roda
 
         # The base rack app to use, before middleware is added.
         def base_rack_app_callable(new_api=true)
+          # RODA4.1: Remove
           if new_api
+            # RODA4: Inline this behavior
             lambda{|env| new(env)._roda_handle_main_route}
           else
             block = @rack_app_route_block
@@ -427,6 +429,7 @@ class Roda
         # which can include route blocks that are delegated to by the main route block.
         # Can be modified by plugins.
         def convert_route_block(block)
+          # RODA4.1: Remove
           block
         end
 
@@ -470,6 +473,7 @@ class Roda
         # if any before hooks are defined.
         # Can be modified by plugins.
         def rack_app_route_block(block)
+          # RODA4.1: Remove
           block
         end
 
@@ -566,7 +570,7 @@ WARNING
           @_request.env
         end
 
-        # The class-level options hash.  This should probably not be
+        # The class-level options hash.  This should not be
         # modified at the instance level. Example:
         #
         #   Roda.plugin :render
