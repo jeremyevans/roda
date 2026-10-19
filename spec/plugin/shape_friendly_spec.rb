@@ -49,6 +49,12 @@ END
 END
   end
 
+  begin
+    require 'tilt'
+    require_relative '../../lib/roda/plugins/render'
+  rescue LoadError
+    warn "tilt not installed, skipping shape_friend/render plugin test"  
+  else
   it "makes the app shape friendly" do
     app do |r|
       <<END
@@ -83,6 +89,7 @@ END
     app.ancestors.include?(sf::UnoptimizedInstanceMethods).must_equal true
     app::RodaRequest.ancestors.include?(sf::UnoptimizedRequestMethods).must_equal true
     app::RodaResponse.ancestors.include?(sf::UnoptimizedResponseMethods).must_equal true
+  end
   end
 
   it "raises for invalid instance variable" do
