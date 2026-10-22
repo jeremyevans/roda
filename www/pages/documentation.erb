@@ -1,4 +1,4 @@
-<div class="contain">    
+<div class="contain">
   <h1>Documentation for Roda (v<%= Roda::RodaVersion %>)</h1>
 
   <h2><a href="rdoc/files/README_rdoc.html">README</a> <small>(Introduction to Roda, start here if new)</small></h2>
@@ -244,6 +244,7 @@
     <li><a href="https://github.com/jeremyevans/roda-sequel-stack">roda-sequel-stack</a>: Application Skeleton For Roda/Sequel stack.</li>
     <li><a href="https://github.com/GregTemplates/roda_app">roda_app</a>: Generator for Roda apps.</li>
     <li><a href="https://gitlab.com/nini1294/roda-template-simple">roda-template-simple</a>: Template for a simple Roda application</li>
+    <li><a href="https://roda-project.github.com">roda-project</a>: A CLI tool to quickly scaffold and develop Roda web apps and APIs</li>
   </ul>
 
   <h2><a href="rdoc/files/CHANGELOG.html">Change Log</a></h2>
@@ -251,7 +252,7 @@
   <h2 id="release-notes">Release Notes</h2>
   <ul>
     <% %w'3 2 1'.each do |i| %>
-        <% 
+        <%
            lines = []
            Dir["../doc/release_notes/#{i}.*.txt"].map{|f| File.basename(f)}.each do |f|
              (lines[f.split('.')[1].to_i/10] ||= []) << f
@@ -279,13 +280,13 @@
     <li><a href='https://topenddevs.com/podcasts/ruby-rogues/episodes/building-with-just-what-you-need-using-roda-with-jeremy-evans-ruby-507'>Ruby Rogues 507: Building with Just What You Need Using Roda with Jeremy Evans</a></li>
     <li><a href='https://topenddevs.com/podcasts/ruby-rogues/episodes/210-rr-roda-and-routing-trees-with-jeremy-evans'>Ruby Rogues 210: Roda and Routing Trees with Jeremy Evans</a></li>
   </ul>
-  
+
   <h2 id="books">Books</h2>
 
   <ul>
     <li><a href="https://leanpub.com/rubyonroda">Ruby on Roda - REST APIs with Roda & Sequel</a></li>
   </ul>
-  
+
 
   <h2 id="presentations">Presentations</h2>
 
