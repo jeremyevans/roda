@@ -1,7 +1,5 @@
 # frozen-string-literal: true
 
-require 'rack/utils'
-
 #
 class Roda
   module RodaPlugins
@@ -34,10 +32,24 @@ class Roda
           _unescape_path(super)
         end
 
-        # Rack::Utils.unescape decodes + as a space, which is only
-        # correct for form data, so escape + first to keep it.
-        def _unescape_path(path)
-          Rack::Utils.unescape(path.gsub('+', '%2B'))
+        if RUBY_VERSION >= "4.0"
+          require "cgi/escape"
+
+          # Use CGI.unescapeURIComponent, which unescapes percent encoding
+          # but not +.
+          def _unescape_path(path)
+           CGI.unescapeURIComponent(path)
+          end
+        # simplecov:disable
+        else
+          require 'rack/utils'
+
+          # Rack::Utils.unescape decodes + as a space, which is only
+          # correct for form data, so escape + first to keep it.
+          def _unescape_path(path)
+            Rack::Utils.unescape(path.gsub('+', '%2B'))
+          end
+        # simplecov:enable
         end
       end
     end

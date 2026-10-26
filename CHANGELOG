@@ -1,5 +1,7 @@
 === master
 
+* Do not decode + as a space in the unescape_path plugin (wleeaf, jeremyevans) (#434)
+
 * Use weak etag comparison in caching plugin etag method (wleeaf) (#433)
 
 * Have public plugin add Vary Accept-Encoding header when using encodings (wleeaf) (#432)
