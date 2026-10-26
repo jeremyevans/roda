@@ -24,14 +24,20 @@ class Roda
         # of the remaining path.
         def matched_path
           e = @env
-          Rack::Utils.unescape(e["SCRIPT_NAME"] + e["PATH_INFO"]).chomp(@remaining_path)
+          _unescape_path(e["SCRIPT_NAME"] + e["PATH_INFO"]).chomp(@remaining_path)
         end
 
         private
 
         # Unescape the path.
         def _remaining_path(env)
-          Rack::Utils.unescape(super)
+          _unescape_path(super)
+        end
+
+        # Rack::Utils.unescape decodes + as a space, which is only
+        # correct for form data, so escape + first to keep it.
+        def _unescape_path(path)
+          Rack::Utils.unescape(path.gsub('+', '%2B'))
         end
       end
     end
