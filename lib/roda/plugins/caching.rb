@@ -126,7 +126,7 @@ class Roda
           status = res.status
 
           if (!status || (status >= 200 && status < 300) || status == 304)
-            if etag_matches?(e['HTTP_IF_NONE_MATCH'], etag, new_resource)
+            if etag_matches?(e['HTTP_IF_NONE_MATCH'], etag, new_resource, true)
               res.status = (request_method =~ /\AGET|HEAD|OPTIONS|TRACE\z/i ? 304 : 412)
               halt
             end
@@ -143,10 +143,18 @@ class Roda
         private
 
         # Helper method checking if a ETag value list includes the current ETag.
-        def etag_matches?(list, etag, new_resource)
+        # If weak is true, uses the weak comparison that If-None-Match requires
+        # (RFC 9110 section 13.1.2), which ignores a W/ prefix on both sides.
+        def etag_matches?(list, etag, new_resource, weak=false)
           return unless list
           return !new_resource if list == '*'
-          list.to_s.split(/\s*,\s*/).include?(etag)
+          list = list.to_s.split(/\s*,\s*/)
+          if weak
+            etag = etag.sub(/\AW\//, '')
+            list.any?{|tag| tag.sub(/\AW\//, '') == etag}
+          else
+            list.include?(etag)
+          end
         end
 
         # Helper method parsing a time value from an HTTP header, returning the
