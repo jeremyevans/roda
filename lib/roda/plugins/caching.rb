@@ -126,7 +126,7 @@ class Roda
           status = res.status
 
           if (!status || (status >= 200 && status < 300) || status == 304)
-            if etag_matches?(e['HTTP_IF_NONE_MATCH'], etag, new_resource, true)
+            if etag_matches?(e['HTTP_IF_NONE_MATCH'], etag, new_resource, weak: true)
               res.status = (request_method =~ /\AGET|HEAD|OPTIONS|TRACE\z/i ? 304 : 412)
               halt
             end
@@ -145,13 +145,16 @@ class Roda
         # Helper method checking if a ETag value list includes the current ETag.
         # If weak is true, uses the weak comparison that If-None-Match requires
         # (RFC 9110 section 13.1.2), which ignores a W/ prefix on both sides.
-        def etag_matches?(list, etag, new_resource, weak=false)
+        def etag_matches?(list, etag, new_resource, weak: false)
           return unless list
           return !new_resource if list == '*'
           list = list.to_s.split(/\s*,\s*/)
           if weak
             etag = etag.sub(/\AW\//, '')
-            list.any?{|tag| tag.sub(/\AW\//, '') == etag}
+            list.any? do |tag|
+              tag.sub!(/\AW\//, '')
+              tag == etag
+            end
           else
             list.include?(etag)
           end

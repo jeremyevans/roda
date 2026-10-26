@@ -1,5 +1,7 @@
 === master
 
+* Use weak etag comparison in caching plugin etag method (wleeaf) (#433)
+
 * Have public plugin add Vary Accept-Encoding header when using encodings (wleeaf) (#432)
 
 * Add freeze_request_response plugin for freezing RodaRequest and RodaResponse (jeremyevans)
