@@ -151,6 +151,7 @@ class Roda
           unless roda_class.public_encodings.empty?
             headers[RodaResponseHeaders::VARY] = (vary = headers[RodaResponseHeaders::VARY]) ? "#{vary}, Accept-Encoding" : 'Accept-Encoding'
           end
+          nil
         end
 
         # Serve the compressed file if it exists.  This should only

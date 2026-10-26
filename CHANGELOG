@@ -1,5 +1,7 @@
 === master
 
+* Have public plugin add Vary Accept-Encoding header when using encodings (wleeaf) (#432)
+
 * Add freeze_request_response plugin for freezing RodaRequest and RodaResponse (jeremyevans)
 
 * In the render plugin, have each subclass use a separate RodaCompiledTemplates module (jeremyevans)
