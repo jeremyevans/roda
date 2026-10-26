@@ -108,6 +108,7 @@ describe "public plugin" do
 
         body('/about/_test.erb').must_equal File.read('spec/views/about/_test.erb')
         header(RodaResponseHeaders::CONTENT_ENCODING, '/about/_test.erb').must_be_nil
+        header(RodaResponseHeaders::VARY, '/about/_test.erb').must_equal 'Accept-Encoding'
 
         body('/about.erb').must_equal File.read('spec/views/about.erb')
         header(RodaResponseHeaders::CONTENT_ENCODING, '/about.erb').must_be_nil
@@ -118,6 +119,7 @@ describe "public plugin" do
         h = req('/about/_test.erb', 'HTTP_ACCEPT_ENCODING'=>accept_encoding)[1]
         h[RodaResponseHeaders::CONTENT_ENCODING].must_equal 'gzip'
         h[RodaResponseHeaders::CONTENT_TYPE].must_equal 'text/plain'
+        h[RodaResponseHeaders::VARY].must_equal 'Accept-Encoding'
 
         body('/about/_test2.css', 'HTTP_ACCEPT_ENCODING'=>accept_encoding).must_equal File.binread("spec/views/about/_test2.css#{ext}")
         h = req('/about/_test2.css', 'HTTP_ACCEPT_ENCODING'=>accept_encoding)[1]
@@ -128,9 +130,35 @@ describe "public plugin" do
         s.must_equal 304
         h[RodaResponseHeaders::CONTENT_ENCODING].must_be_nil
         h[RodaResponseHeaders::CONTENT_TYPE].must_be_nil
+        h[RodaResponseHeaders::VARY].must_equal 'Accept-Encoding'
         b.must_equal []
       end
     end
+  end
+
+  it "does not add Vary when no encodings are used" do
+    app(:bare) do
+      plugin :public, :root=>'spec/views'
+
+      route do |r|
+        r.public
+      end
+    end
+
+    header(RodaResponseHeaders::VARY, '/about/_test.erb', 'HTTP_ACCEPT_ENCODING'=>'gzip').must_be_nil
+  end
+
+  it "appends Accept-Encoding to a Vary header given in the :headers option" do
+    app(:bare) do
+      plugin :public, :root=>'spec/views', :gzip=>true, :headers=>{RodaResponseHeaders::VARY=>'Cookie'}
+
+      route do |r|
+        r.public
+      end
+    end
+
+    header(RodaResponseHeaders::VARY, '/about/_test.erb', 'HTTP_ACCEPT_ENCODING'=>'gzip').must_equal 'Cookie, Accept-Encoding'
+    header(RodaResponseHeaders::VARY, '/about/_test.erb').must_equal 'Cookie, Accept-Encoding'
   end
 
   it "does not handle non-GET requests" do

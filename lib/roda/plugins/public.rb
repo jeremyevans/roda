@@ -140,7 +140,16 @@ class Roda
             s, h, b = public_serve(server, path)
             headers = response.headers
             headers.replace(h)
+            public_add_vary(headers)
             halt [s, headers, b]
+          end
+        end
+
+        # When encodings are used, the response depends on the Accept-Encoding
+        # request header, so add it to the Vary header for caches.
+        def public_add_vary(headers)
+          unless roda_class.public_encodings.empty?
+            headers[RodaResponseHeaders::VARY] = (vary = headers[RodaResponseHeaders::VARY]) ? "#{vary}, Accept-Encoding" : 'Accept-Encoding'
           end
         end
 
@@ -158,6 +167,7 @@ class Roda
               headers[RodaResponseHeaders::CONTENT_TYPE] = ::Rack::Mime.mime_type(::File.extname(path), 'text/plain')
               headers[RodaResponseHeaders::CONTENT_ENCODING] = encoding
             end
+            public_add_vary(headers)
 
             halt [s, headers, b]
           end
