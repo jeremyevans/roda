@@ -665,7 +665,8 @@ describe "hmac_paths plugin" do
     body('/method/get/widget/1').must_equal "/d38c1e634ecf9a3c0ab9d0832555b035d91b35069efcbf2670b0dfefd4b62fdd/m/widget/1"
     body('/params/foo/bar/widget/1').must_equal "/fe8d03f9572d5af6c2866295bd3c12c2ea11d290b1cbd016c3b68ee36a678139/p/widget/1?foo=bar"
     body('/until/widget/1').must_equal "/dc8b6e56e4cbe7815df7880d42f0e02956b2e4c49881b6060ceb0e49745a540d/t/4102444800/widget/1"
-    body('/seconds/widget/1').must_equal "/dc8b6e56e4cbe7815df7880d42f0e02956b2e4c49881b6060ceb0e49745a540d/t/4102444800/widget/1"
+    ["/dc8b6e56e4cbe7815df7880d42f0e02956b2e4c49881b6060ceb0e49745a540d/t/4102444800/widget/1",
+     "/b5df5f9a6bef3635528c36ed15c0b83cdaedeac43abb8227e2a59cad9630808a/t/4102444801/widget/1"].must_include body('/seconds/widget/1')
     body('/namespace/1/widget/1').must_equal "/3793ac2a72ea399c40cbd63f154d19f0fe34cdf8d347772134c506a0b756d590/n/widget/1"
     body('/namespace/2/widget/1').must_equal "/0e1e748860d4fd17fe9b7c8259b1e26996502c38e465f802c2c9a0a13000087c/n/widget/1"
     body('/all/widget/get/foo/bar/1/1').must_equal "/widget/c14c78a81d34d766cf334a3ddbb7a6b231bc2092ef50a77ded0028586027b14e/mpn/1?foo=bar"
