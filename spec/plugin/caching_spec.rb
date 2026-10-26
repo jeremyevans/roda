@@ -180,6 +180,17 @@ describe 'request.etag' do
       res('HTTP_IF_NONE_MATCH' => '"bar", "foo"').must_equal [304, '']
     end
 
+    it "sets etag and returns 304 if If-None-Match includes the weak form of the etag" do
+      res('HTTP_IF_NONE_MATCH' => 'W/"foo"').must_equal [304, '']
+      res('HTTP_IF_NONE_MATCH' => '"bar", W/"foo"').must_equal [304, '']
+    end
+
+    it "returns 304 if If-None-Match includes the strong form of a weak etag" do
+      status('HTTP_IF_NONE_MATCH' => '"foo"', 'weak'=>'true').must_equal 304
+      status('HTTP_IF_NONE_MATCH' => 'W/"bar", "foo"', 'weak'=>'true').must_equal 304
+      status('HTTP_IF_NONE_MATCH' => 'W/"bar"', 'weak'=>'true').must_equal 200
+    end
+
     it "sets etag if If-None-Match does not include etag" do
       res('HTTP_IF_NONE_MATCH' => '"bar", "baz"').must_equal [200, 'ok']
     end
