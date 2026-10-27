@@ -11,11 +11,11 @@ class Roda
     # For a list of compatible browsers, see
     # http://caniuse.com/#search=link-rel-preload
     #
-    # The plugin provides two functions - preload_assets_link_header and
-    # preload_assets_link_tags. The resulting preloading should be
-    # identical, it is up to you which system you prefer.
+    # The plugin provides two functions: +preload_assets_link_header+ and
+    # +preload_assets_link_tags+. The resulting preloading should be
+    # identical, it is up to you which approach you prefer.
     #
-    # preload_assets_link_header returns a string suitable for populating
+    # +preload_assets_link_header+ returns a string suitable for populating
     # the response Link header:
     #
     #   response.headers['Link'] = preload_assets_link_header(:css)
@@ -43,7 +43,6 @@ class Roda
     #
     #   # generate Link header for css assets and js asset groups app and bar
     #   preload_assets_link_header(:css, [:js, :app])
-    #
     module AssetsPreloading
       TYPE_AS = {
         :css => 'style'.freeze,
@@ -59,27 +58,44 @@ class Roda
         # Return a string of <link> tags for the given asset
         # types/groups.
         def preload_assets_link_tags(*args)
-          _preload_assets_array(args).map{|path, as| "<link href=\"#{h(path)}\" rel=\"preload\" as=\"#{as}\">"}.join("\n")
+          _each_preload_asset(args, "\n") do |path, as|
+            "<link href=\"#{h(path)}\" rel=\"preload\" as=\"#{as}\">"
+          end
         end
 
         # Return a string suitable for a Link header for the
         # given asset types/groups.
         def preload_assets_link_header(*args)
-          _preload_assets_array(args).map{|path, as| "<#{path}>;rel=preload;as=#{as}"}.join(",")
+          _each_preload_asset(args, ",") do |path, as|
+            "<#{path}>;rel=preload;as=#{as}"
+          end
         end
 
         private
 
         # Return an array of paths/as pairs for the given asset
         # types and/or groups.
-        def _preload_assets_array(assets)
-          assets.flat_map do |type|
+        def _each_preload_asset(assets, sep)
+          output = String.new
+          append_sep = false
+
+          assets.each do |type|
+            if append_sep
+              output << sep
+            else
+              append_sep = sep
+            end
+
             paths = assets_paths(type)
             type = type[0] if type.is_a?(Array)
             as = TYPE_AS[type]
 
-            paths.map{|path| [path, as]}
+            paths.each do |path|
+              output << yield(path, as)
+            end
           end
+
+          output
         end
       end
     end

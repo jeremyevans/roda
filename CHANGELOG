@@ -1,5 +1,7 @@
 === master
 
+* Avoid unnecessary allocations in assets_preloading plugin (jeremyevans)
+
 * Do not decode + as a space in the unescape_path plugin (wleeaf, jeremyevans) (#434)
 
 * Use weak etag comparison in caching plugin etag method (wleeaf) (#433)
