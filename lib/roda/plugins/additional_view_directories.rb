@@ -13,7 +13,7 @@ class Roda
     #
     # Example:
     #
-    #   plugin :render, :views=>'dir'
+    #   plugin :render, views: 'dir'
     #   plugin :additional_view_directories, ['dir1', 'dir2', 'dir3']
     #
     #   route do |r|
@@ -36,7 +36,7 @@ class Roda
       # is also added as an allowed path.
       def self.configure(app, view_dirs)
         view_dirs = app.opts[:additional_view_directories] = view_dirs.map{|f| app.expand_path(f, nil)}.freeze
-        app.plugin :render, :allowed_paths=>(app.opts[:render][:allowed_paths] + view_dirs).uniq.freeze
+        app.plugin :render, :allowed_paths=>(app.render_opts[:allowed_paths] + view_dirs).uniq.freeze
       end
 
       module ClassMethods
