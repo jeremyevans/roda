@@ -881,6 +881,25 @@ END
       end
       status.must_equal 404
     end
+
+    it 'should work correctly when freezing request class' do
+      app.plugin :assets,
+          :css => 'raw.css',
+          :path => assets_dir,
+          :public => pid_dir,
+          :css_opts => {:cache=>false},
+          :css_compressor => :none
+      app.plugin :freeze_request_response
+      app.route do |r|
+        r.assets
+        "#{assets(:css)}"
+      end
+      app.freeze
+      html = body
+      html.scan(/<link/).length.must_equal 1
+      html =~ %r{href="(/assets/css/raw.css)"}
+      body($1).must_equal File.read(File.join(assets_dir, 'css', 'raw.css'))
+    end
   end
 
   describe 'assets plugin' do

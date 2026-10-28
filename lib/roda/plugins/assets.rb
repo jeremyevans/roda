@@ -21,7 +21,7 @@ class Roda
     #
     # == Usage
     #
-    # When loading the plugin, use the :css and :js options
+    # When loading the plugin, use the +:css+ and +:js+ options
     # to set the source file(s) to use for CSS and javascript assets:
     #
     #   plugin :assets, css: 'some_file.scss', js: 'some_file.coffee'
@@ -31,7 +31,7 @@ class Roda
     #   assets/css/some_file.scss
     #   assets/js/some_file.coffee
     #
-    # The values for the :css and :js options can be arrays to load multiple
+    # The values for the +:css+ and +:js+ options can be arrays to load multiple
     # files. If you want to change the paths where asset files are stored, see the
     # Options section below.
     #
@@ -49,7 +49,7 @@ class Roda
     #
     # === Views
     #
-    # In your layout view, use the assets method to add links to your CSS and
+    # In your layout view, use the +assets+ method to add links to your CSS and
     # javascript assets:
     #
     #   <%= assets(:css) %>
@@ -66,7 +66,7 @@ class Roda
     # == Asset Paths
     #
     # If you just want the paths rather than the full tags, you can use
-    # assets_paths instead. This will return an array of the sources that
+    # +assets_paths+ instead. This will return an array of the sources that
     # the assets function would have put into tags:
     #
     #   assets_paths(:css)
@@ -95,15 +95,14 @@ class Roda
     # If you do not want to force that directory structure when using
     # asset groups, you can use the <tt>group_subdirs: false</tt> option.
     #
-    # In your view code use an array argument in your call to assets:
+    # In your view code use an array argument in your call to +assets+:
     #
     #   <%= assets([:css, :frontend]) %>
     #
     # === Nesting
     #
-    # Asset groups also support nesting, though that should only be needed
-    # in fairly large applications.  You can use a nested hash when loading
-    # the plugin:
+    # Asset groups also support nesting.  You can use a nested hash when
+    # loading the plugin:
     #
     #   plugin :assets,
     #     css: {frontend: {dashboard: 'some_frontend_file.scss'}}
@@ -115,13 +114,13 @@ class Roda
     # == Caching
     #
     # The assets plugin uses the caching plugin internally, and will set the
-    # Last-Modified header to the modified timestamp of the asset source file
+    # <tt>Last-Modified</tt> header to the modified timestamp of the asset source file
     # when rendering the asset.
     #
     # If you have assets that include other asset files, such as using @import
     # in a sass file, you need to specify the dependencies for your assets so
     # that the assets plugin will correctly pick up changes.  You can do this
-    # using the :dependencies option to the plugin, which takes a hash where
+    # using the +:dependencies+ option to the plugin, which takes a hash where
     # the keys are paths to asset files, and values are arrays of paths to
     # dependencies of those asset files:
     #
@@ -131,26 +130,22 @@ class Roda
     # == Asset Compilation
     #
     # In production, you are generally going to want to compile your assets
-    # into a single file, with you can do by calling compile_assets after
+    # into a single file, with you can do by calling +compile_assets+ after
     # loading the plugin:
     #
     #   plugin :assets, css: 'some_file.scss', js: 'some_file.coffee'
     #   compile_assets
     #
-    # After calling compile_assets, calls to assets in your views will default
+    # After calling +compile_assets+, calls to +assets+ in your views will default
     # to a using a single link each to your CSS and javascript compiled asset
     # files.  By default the compiled files are written to the public directory,
     # so that they can be served by the webserver.
     #
     # === Asset Compression
     #
-    # If you have the yuicompressor gem installed and working, it will be used
-    # automatically to compress your javascript and css assets.  For javascript
-    # assets, if yuicompressor is not available, the plugin will check for
-    # closure-compiler, uglifier, and minjs and use the first one that works.
-    # If no compressors are available, the assets will just be concatenated
-    # together and not compressed during compilation.  You can use the
-    # :css_compressor and :js_compressor options to specify the compressor to use.
+    # You can use the +:css_compressor+ and +:js_compressor+ options to specify a
+    # compressor callable. The callable will be called with the uncompressed source,
+    # and should return the compressed source.
     #
     # It is also possible to use the built-in compression options in the CSS or JS
     # compiler, assuming the compiler supports such options.  For example, with
@@ -159,9 +154,7 @@ class Roda
     #   plugin :assets,
     #     css_opts: {style: :compressed}
     #
-    # In Roda 4, automatic compression of assets will not be attempted. You will
-    # need to specify the compressor to use using a Proc or Method. Here are values
-    # that you can use.
+    # Here are examples you can use for a few compressor libraries:
     # 
     # ==== yui
     #
@@ -222,19 +215,19 @@ class Roda
     #   end
     #
     # If you do have the application serve the compiled assets, it will use the
-    # Last-Modified header to make sure that clients do not redownload compiled
+    # <tt>Last-Modified</tt> header to make sure that clients do not redownload compiled
     # assets that haven't changed.
     #
     # === Asset Precompilation
     #
     # If you want to precompile your assets, so they do not need to be compiled
-    # every time you boot the application, you can provide a :precompiled option
+    # every time you boot the application, you can provide a +:precompiled+ option
     # when loading the plugin.  The value of this option should be the filename
     # where the compiled asset metadata is stored.  
     #
     # If the compiled asset metadata file does not exist when the assets plugin
     # is loaded, the plugin will run in non-compiled mode.  However, when you call
-    # compile_assets, it will write the compiled asset metadata file after
+    # +compile_assets+, it will write the compiled asset metadata file after
     # compiling the assets.
     #
     # If the compiled asset metadata file already exists when the assets plugin
@@ -245,7 +238,7 @@ class Roda
     # ==== On Heroku
     #
     # Heroku supports precompiling the assets when using Roda.  You just need to
-    # add an assets:precompile task, similar to this:
+    # add an assets:precompile task, such as:
     #
     #   namespace :assets do
     #     desc "Precompile the assets"
@@ -283,9 +276,8 @@ class Roda
     # path, you have the following options:
     #
     # * Copy, hard link, or symlink the external assets files into the assets path.
-    # * Use tilt-indirect or another method of indirection (such as an erb template that loads
-    #   the external asset file) so that a file inside the assets path can reference files
-    #   outside the assets path.
+    # * Use indirection, such as an erb template that loads the external asset file,
+    #   so that a file inside the assets path can reference files outside the assets path.
     #
     # == Plugin Options
     #
@@ -301,10 +293,7 @@ class Roda
     # :compiled_js_route :: Route under :prefix for compiled javscript assets (default: :compiled_js_dir)
     # :compiled_name :: Compiled file name prefix (default: 'app')
     # :compiled_path:: Path inside public folder in which compiled files are stored (default: :prefix)
-    # :concat_only :: Whether to just concatenate instead of concatenating
-    #                 and compressing files (default: false)
-    # :css_compressor :: Compressor to use for compressing CSS, either a Proc, Method, :yui, :none, or nil (the default, which will try
-    #                    :yui if available, but not fail if it is not available)
+    # :css_compressor :: Compressor callable to use for compressing CSS
     # :css_dir :: Directory name containing your css source, inside :path (default: 'css')
     # :css_headers :: A hash of additional headers for your rendered css files
     # :css_opts :: Template options to pass to the render plugin (via :template_opts) when rendering css assets
@@ -317,9 +306,7 @@ class Roda
     #                   related group are contained in a subdirectory with the same name (default: true)
     # :gzip :: Store gzipped compiled assets files, and serve those to clients who accept gzip encoding.
     # :headers :: A hash of additional headers for both js and css rendered files
-    # :js_compressor :: Compressor to use for compressing javascript, either a Proc, Method, :yui, :closure, :uglifier, :minjs,
-    #                   :none, or nil (the default, which will try :yui, :closure, :uglifier, then :minjs, but
-    #                   not fail if any of them is not available)
+    # :js_compressor :: Compressor callable to use for compressing javascript
     # :js_dir :: Directory name containing your javascript source, inside :path (default: 'js')
     # :js_headers :: A hash of additional headers for your rendered javascript files
     # :js_opts :: Template options to pass to the render plugin (via :template_opts) when rendering javascript assets
@@ -380,6 +367,10 @@ class Roda
         if opts[:relative_paths]
           app.plugin :relative_path
         end
+
+        if opts[:early_hints]
+          app.plugin :early_hints
+        end
       end
 
       # Setup the options for the plugin.  See the Assets module RDoc
@@ -387,7 +378,7 @@ class Roda
       def self.configure(app, opts = {})
         if app.assets_opts
           prev_opts = app.assets_opts[:orig_opts]
-          orig_opts = app.assets_opts[:orig_opts].merge(opts)
+          orig_opts = prev_opts.merge(opts)
           [:headers, :css_headers, :js_headers, :css_opts, :js_opts, :dependencies].each do |s|
             if prev_opts[s]
               if opts[s]
@@ -423,10 +414,6 @@ class Roda
 
         if opts[:precompiled] && !opts[:compiled] && ::File.exist?(opts[:precompiled])
           opts[:compiled] = app.send(:_precompiled_asset_metadata, opts[:precompiled])
-        end
-
-        if opts[:early_hints]
-          app.plugin :early_hints
         end
 
         if opts[:timestamp_paths] && !opts[:timestamp_paths].is_a?(String)
@@ -743,11 +730,11 @@ class Roda
         end
 
         # Return a string containing html tags for the given asset type.
-        # This will use a script tag for the :js type and a link tag for
-        # the :css type.
+        # This will use a script tag for the +:js+ type and a link tag for
+        # the +:css+ type.
         #
         # To return the tags for a specific asset group, use an array for
-        # the type, such as [:css, :frontend].
+        # the type, such as <tt>[:css, :frontend]</tt>.
         #
         # You can specify custom attributes for the tag by passing a hash
         # as the attrs argument.
@@ -781,7 +768,7 @@ class Roda
             early_hints = early_hints.join("\n") if Rack.release < '3'
             send_early_hints(RodaResponseHeaders::LINK=>early_hints)
           end
-          paths.map{|p| "#{tag_start}#{h(p)}#{tag_end}"}.join("\n")
+          paths.map!{|p| "#{tag_start}#{h(p)}#{tag_end}"}.join("\n")
         end
 
         # Render the asset with the given filename.  When assets are compiled,
@@ -850,7 +837,7 @@ class Roda
         # return the maximum.
         def asset_last_modified(file)
           if deps = self.class.assets_opts[:expanded_dependencies][file]
-            ([file] + Array(deps)).map{|f| ::File.stat(f).mtime}.max
+            [file, *deps].map!{|f| ::File.stat(f).mtime}.max
           else
             ::File.stat(file).mtime
           end
@@ -875,11 +862,16 @@ class Roda
         # An array of asset type strings and regexps for that type, for all asset types
         # handled.
         def assets_matchers
-          @assets_matchers ||= [:css, :js].map do |t|
+          @assets_matchers ||= [:css, :js].map! do |t|
             if regexp = assets_regexp(t)
               [t, regexp].freeze
             end
           end.compact.freeze
+        end
+
+        def freeze
+          assets_matchers
+          super
         end
 
         private

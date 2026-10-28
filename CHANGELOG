@@ -1,5 +1,7 @@
 === master
 
+* Make assets and freeze_request_response plugins work together (jeremyevans)
+
 * Avoid unnecessary allocations in assets_preloading plugin (jeremyevans)
 
 * Do not decode + as a space in the unescape_path plugin (wleeaf, jeremyevans) (#434)
