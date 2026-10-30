@@ -1,5 +1,7 @@
 === master
 
+* Replace Hash[hash1].merge!(hash2) with hash1.merge(hash2), as the later is faster since Ruby 2.5 (jeremyevans)
+
 * Make assets and freeze_request_response plugins work together (jeremyevans)
 
 * Avoid unnecessary allocations in assets_preloading plugin (jeremyevans)

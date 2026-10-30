@@ -76,7 +76,7 @@ class Roda
 
           plugin_locals = render_locals
           if locals = opts[:locals]
-            plugin_locals = Hash[plugin_locals].merge!(locals)
+            plugin_locals = plugin_locals.merge(locals)
           end
           opts[:locals] = plugin_locals
           opts

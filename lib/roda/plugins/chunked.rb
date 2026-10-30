@@ -251,7 +251,7 @@ class Roda
             if opts.empty?
               opts = template
             else
-              opts = Hash[opts].merge!(template)
+              opts = opts.merge(template)
             end
           end
           

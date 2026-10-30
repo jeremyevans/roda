@@ -54,7 +54,7 @@ class Roda
         def render_locals
           locals = super
           if @_view_locals
-            locals = Hash[locals].merge!(@_view_locals)
+            locals = locals.merge(@_view_locals)
           end
           locals
         end
@@ -63,7 +63,7 @@ class Roda
         def layout_locals
           locals = super
           if @_layout_locals
-            locals = Hash[locals].merge!(@_layout_locals)
+            locals = locals.merge(@_layout_locals)
           end
           locals
         end
