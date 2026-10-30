@@ -16,8 +16,8 @@ class Roda
     # This is because the <tt>'a'</tt> entry in the array matches, which
     # makes the array match.  However, the next matcher is the
     # terminal matcher (since +r.is+ was used), and since the
-    # path is not terminal as it still contains +/b+ after
-    # matching <tt>'a'</tt>.
+    # remaining path is not empty as it still contains +/b+ after
+    # matching <tt>'a'</tt>, matching fails.
     #
     # With the backtracking_array plugin, when the terminal matcher
     # fails, matching will go on to the next entry in the array,
