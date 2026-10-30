@@ -3,7 +3,7 @@
 #
 class Roda
   module RodaPlugins
-    # The break plugin supports calling break inside a match block, to
+    # The break plugin supports calling +break+ inside a match block, to
     # return from the block and continue in the routing tree, restoring
     # the remaining path so that future matchers operating on the path
     # operate as expected.
@@ -28,7 +28,7 @@ class Roda
       module RequestMethods
         private
 
-        # Handle passing inside the match block.
+        # Handle break inside match blocks, restoring remaining path.
         def always
           rp = @remaining_path
           super
