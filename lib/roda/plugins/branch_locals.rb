@@ -17,9 +17,9 @@ class Roda
     #     end
     #   end
     #
-    # The locals you specify in the set_layout_locals and set_view_locals methods
+    # The locals you specify in the +set_layout_locals+ and +set_view_locals+ methods
     # have higher precedence than the render_locals plugin options, but lower precedence
-    # than options you directly pass to the view/render methods.
+    # than options you directly pass to the +view+/+render+ methods.
     module BranchLocals
       SCOPE_INSTANCE_VARIABLES = [:@_layout_locals, :@_view_locals].freeze
 
