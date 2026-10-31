@@ -141,7 +141,7 @@ class Roda
         private
 
         # Helper method checking if a ETag value list includes the current ETag.
-        # If weak is true, uses the weak comparison that If-None-Match requires
+        # If +weak+ is true, uses the weak comparison that <tt>If-None-Match</tt> requires
         # (RFC 9110 section 13.1.2), which ignores a W/ prefix on both sides.
         def etag_matches?(list, etag, new_resource, weak: false)
           return unless list
@@ -163,11 +163,12 @@ class Roda
         def time_from_header(t)
           Time.httpdate(t).to_i if t
         rescue ArgumentError
+          nil
         end
       end
 
       module ResponseMethods
-        # Specify response freshness policy for using the Cache-Control header.
+        # Specify response freshness policy for using the <tt>Cache-Control</tt> header.
         # Options can can any non-value directives (:public, :private, :no_cache,
         # :no_store, :must_revalidate, :proxy_revalidate), with true as the value.
         # Options can also contain value directives (:max_age, :s_maxage).
