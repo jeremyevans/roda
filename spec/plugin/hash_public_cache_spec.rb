@@ -1,7 +1,7 @@
 require_relative '../spec_helper'
 
 describe 'hash_public_cache plugin' do
-  cache_file = "spec/tmp-hash-public-cache.json"
+  cache_file = "spec/tmp-hash-public-cache-#{$$}.json"
 
   before do
     app(:bare) do
