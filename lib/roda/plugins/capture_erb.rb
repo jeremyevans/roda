@@ -34,7 +34,7 @@ class Roda
     #
     # In this case, the block may return nil, instead of the content of
     # the template.  To handle this case, you can provide the
-    # <tt>returns: :buffer</tt> option when calling the method (to handle
+    # <tt>returns: :buffer</tt> argument when calling the method (to handle
     # that specific call, or when loading the plugin (to default to that
     # behavior). Note that if the output buffer object responds to
     # +capture+ and is not an instance of String, the <tt>returns: :buffer</tt>
@@ -46,9 +46,10 @@ class Roda
 
       # Support <tt>returns: :buffer</tt> to default to returning buffer
       # object.
-      def self.configure(app, opts=OPTS)
+      def self.configure(app, opts=(no_positional_opts = true; OPTS), returns: (opts.has_key?(:returns) ? opts[:returns] : (returns_not_set = true; nil)), **kw)
+        RodaPlugins.check_keywords("the capture_erb plugin", no_positional_opts, opts, kw)
         # RODA4: make returns: :buffer the default behavior
-        app.opts[:capture_erb_returns] = opts[:returns] if opts.has_key?(:returns)
+        app.opts[:capture_erb_returns] = returns unless returns_not_set
       end
 
       module ClassMethods
@@ -61,21 +62,23 @@ class Roda
         # Return the value of the block, converted to a string.
         # Restore the previous ERB output buffer before returning.
         #
-        # Options:
-        # :returns :: If set to :buffer, returns the value of the
-        #             template output variable, instead of the return
-        #             value of the block converted to a string. This
-        #             is the default behavior if the template output
-        #             variable supports the +capture+ method and is not
-        #             a String instance.
-        def capture_erb(opts=OPTS, &block)
+        # Keyword arguments:
+        # +returns+ :: If set to :buffer, returns the value of the
+        #              template output variable, instead of the return
+        #              value of the block converted to a string. This
+        #              is the default behavior if the template output
+        #              variable supports the +capture+ method and is not
+        #              a String instance.
+        def capture_erb(opts=(no_positional_opts = true; OPTS), returns: (opts.has_key?(:returns) ? opts[:returns] : (returns_not_set = true; nil)), **kw, &block)
+          RodaPlugins.check_keywords(__callee__, no_positional_opts, opts, kw)
+
           outvar = render_opts[:template_opts][:outvar]
           buf_was = instance_variable_get(outvar)
 
           if buf_was.respond_to?(:capture) && !buf_was.instance_of?(String)
             buf_was.capture(&block)
           else
-            returns = opts.fetch(:returns) { self.class.capture_erb_returns }
+            returns = self.class.capture_erb_returns if returns_not_set
 
             begin
               instance_variable_set(outvar, String.new)
