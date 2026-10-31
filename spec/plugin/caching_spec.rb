@@ -137,12 +137,20 @@ end
 describe 'request.etag' do
   before(:all) do
     app(:caching) do |r|
+      r.is "pos" do
+        r.etag('foo', {weak: true})
+        'ok'
+      end
+      r.is "extra_kw" do
+        r.etag('foo', bad: true)
+        'ok'
+      end
       r.is "" do
         response.status = r.env['status'].to_i if r.env['status']
         etag_opts = {}
         etag_opts[:new_resource] = r.env['new_resource'] == 'true' if r.env.has_key?('new_resource')
         etag_opts[:weak] = r.env['weak'] == 'true' if r.env.has_key?('weak')
-        r.etag 'foo', etag_opts
+        r.etag 'foo', **etag_opts
         'ok'
       end
     end
@@ -157,6 +165,11 @@ describe 'request.etag' do
 
   it 'uses a weak etag with the :weak option' do
     header(RodaResponseHeaders::ETAG, 'weak'=>'true').must_equal 'W/"foo"'
+  end
+
+  deprecated "warns for positional hash usage and unexpected keywords" do
+    body('/pos').must_equal 'ok'
+    body('/extra_kw').must_equal 'ok'
   end
 
   describe 'for GET requests' do

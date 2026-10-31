@@ -60,7 +60,7 @@ end
 RodaResponseHeaders = Roda::RodaResponseHeaders
 
 $RODA_WARN = true
-def (Roda::RodaPlugins).warn(s)
+def (Roda::RodaPlugins).warn(s, uplevel: nil)
   return unless $RODA_WARN
   $stderr.puts s
   puts caller.grep(/_spec\.rb:\d+:/)

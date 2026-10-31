@@ -42,6 +42,19 @@ class Roda
       nil
     end
 
+    # Handle positional argument to keyword argument conversion warnings in plugins.
+    def self.check_keywords(method, no_positional_opts, opts, kw)
+      unless no_positional_opts
+        warn("A positional options hash is now deprecated for #{method}. Support for this will be removed in Roda 4. Switch to passing keywords arguments. Keys given in positional options hash: #{opts.keys.join(", ")}", uplevel: 2)
+      end
+
+      unless kw.empty?
+        warn("Unrecognized keywords given to #{method}: #{kw.keys.join(", ")}. Backwards compatibility for this will be removed in Roda 4.", uplevel: 2)
+      end
+
+      nil
+    end
+
     # Register the given plugin with Roda, so that it can be loaded using #plugin
     # with a symbol.  Should be used by plugin files. Example:
     #

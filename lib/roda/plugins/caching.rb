@@ -100,26 +100,24 @@ class Roda
           end
         end
 
-        # Set the response entity tag using the ETag header.
+        # Set the response entity tag using the +ETag+ header.
         #
         # The +value+ argument is an identifier that uniquely
         # identifies the current version of the resource.
-        # Options:
-        # :weak :: Use a weak cache validator (a strong cache validator is the default)
-        # :new_resource :: Whether this etag should match an etag of * (true for POST, false otherwise)
+        # Keyword Arguments:
+        # +weak+ :: Use a weak cache validator (a strong cache validator is the default)
+        # +new_resource+ :: Whether this etag should match an etag of * (true for POST, false otherwise)
         #
-        # When the current request includes an If-None-Match header with a
+        # When the current request includes an <tt>If-None-Match</tt> header with a
         # matching etag, immediately returns a response with a 304 or 412 status,
         # depending on the request method.
         #
-        # When the current request includes an If-Match header with an etag that
-        # doesn't match, or where the :weak option was used, immediately returns a
+        # When the current request includes an <tt>If-Match</tt> header with an etag that
+        # doesn't match, or where the +weak+ argument was used, immediately returns a
         # response with a 412 status.
-        def etag(value, opts=OPTS)
-          # Before touching this code, please double check RFC 2616 14.24 and 14.26.
-          weak = opts[:weak]
-          new_resource = opts.fetch(:new_resource){post?}
-
+        def etag(value, opts=(no_positional_opts = true; OPTS), weak: opts[:weak], new_resource: opts.fetch(:new_resource){post?}, **kw)
+          RodaPlugins.check_keywords(__callee__, no_positional_opts, opts, kw)
+          
           res = response
           e = env
           res[RodaResponseHeaders::ETAG] = etag = "#{'W/' if weak}\"#{value}\""
