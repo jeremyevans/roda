@@ -23,7 +23,7 @@ class Roda
     # handling is reduced, since if an error occurs while rendering a template,
     # a successful response code has already been sent.
     #
-    # To use chunked encoding for a response, just call the chunked method
+    # To use chunked encoding for a response, call the +chunked+ method
     # instead of view:
     #
     #   r.root do
@@ -32,7 +32,7 @@ class Roda
     #
     # If you want to execute code after flushing the top part of the layout
     # template, but before rendering the content template, pass a block to
-    # chunked:
+    # +chunked+:
     #
     #   r.root do
     #     chunked(:index) do
@@ -40,7 +40,7 @@ class Roda
     #     end
     #   end
     #
-    # You can also call delay manually with a block, and the execution of the
+    # You can also call +delay+ manually with a block, and the execution of the
     # block will be delayed until rendering the content template.  This is
     # useful if you want to delay execution for all routes under a branch:
     #
@@ -56,12 +56,12 @@ class Roda
     #     end
     #   end
     #
-    # If you want to chunk all responses, pass the :chunk_by_default option
+    # If you want to chunk all responses, pass the +chunk_by_default+ argument
     # when loading the plugin:
     #
     #   plugin :chunked, chunk_by_default: true
     #
-    # then you can just use the normal view method:
+    # then you can just use the normal +view+ method:
     #
     #   r.root do
     #     view(:index)
@@ -73,17 +73,17 @@ class Roda
     # enable chunking by default, you need to make sure that none of your
     # content templates make state changes that affect the layout template.
     # Additionally, make sure nowhere in your app are you doing any processing
-    # after the call to view.
+    # after the call to +view+.
     #
-    # If you use :chunk_by_default, but want to turn off chunking for a view,
-    # call no_chunk!:
+    # If you use +chunk_by_default+, but want to turn off chunking for a view,
+    # call +no_chunk!+:
     #
     #   r.root do
     #     no_chunk!
     #     view(:index)
     #   end
     #
-    # Inside your layout or content templates, you can call the flush method
+    # Inside your layout or content templates, you can call the +flush+ method
     # to flush the current result of the template to the user, useful for
     # streaming large datasets.
     #
@@ -103,7 +103,7 @@ class Roda
     #   <% flush %><%= render(:subtemplate) %>
     #
     # If you want to use chunked encoding when rendering a template, but don't
-    # want to use a layout, pass the <tt>layout: false</tt> option to chunked.
+    # want to use a layout, pass the <tt>layout: false</tt> option to +chunked+.
     #
     #   r.root do
     #     chunked(:index, layout: false)
@@ -116,8 +116,8 @@ class Roda
     #     env['rack.logger'].error(e)
     #   end
     #
-    # It is possible to set @_out_buf to an error notification and call
-    # flush to output the message to the client inside handle_chunk_error.
+    # It is possible to set +@_out_buf+ to an error notification and call
+    # +flush+ to output the message to the client inside handle_chunk_error.
     #
     # In order for chunking to work, you must make sure that no proxies between
     # the application and the client buffer responses.
@@ -125,22 +125,22 @@ class Roda
     # If you are using nginx and have it set to buffer proxy responses by
     # default, you can turn this off on a per response basis using the
     # X-Accel-Buffering header.  To set this header or similar headers for
-    # all chunked responses, pass a :headers option when loading the plugin:
+    # all chunked responses, pass a +headers+ argument when loading the plugin:
     #
     #   plugin :chunked, headers: {'X-Accel-Buffering'=>'no'}
     #
-    # By default, this plugin does not use Transfer-Encoding: chunked, it only
+    # By default, this plugin does not use <tt>Transfer-Encoding: chunked</tt>, it only
     # returns a body that will stream the response in chunks.  If you would like
-    # to force the use of Transfer-Encoding: chunked, you can use the
-    # :force_chunked_encoding plugin option.  If using the
-    # :force_chunked_encoding plugin option, chunking will only be used for 
-    # HTTP/1.1 requests since Transfer-Encoding: chunked is only supported
+    # to force the use of <tt>Transfer-Encoding: chunked</tt>, you can use the
+    # +force_chunked_encoding+ plugin argument.  If using the
+    # +force_chunked_encoding+ argument, chunking will only be used for 
+    # HTTP/1.1 requests since <tt>Transfer-Encoding: chunked</tt> is only supported
     # in HTTP/1.1 (non-HTTP/1.1 requests will have behavior similar to
-    # calling no_chunk!).
+    # calling +no_chunk!+).
     #
     # The chunked plugin requires the render plugin, and only works for
     # template engines that store their template output variable in
-    # @_out_buf.  Also, it only works if the content template is directly
+    # +@_out_buf+.  Also, it only works if the content template is directly
     # injected into the layout template without modification.
     #
     # If using the chunked plugin with the flash plugin, make sure you
@@ -155,14 +155,16 @@ class Roda
         app.plugin :render
       end
 
-      # Set plugin specific options.  Options:
-      # :chunk_by_default :: chunk all calls to view by default
-      # :headers :: Set default additional headers to use when calling view
-      def self.configure(app, opts=OPTS)
-        app.opts[:chunk_by_default] = opts[:chunk_by_default]
-        app.opts[:force_chunked_encoding] = opts[:force_chunked_encoding]
-        if opts[:headers]
-          app.opts[:chunk_headers] = (app.chunk_headers || {}).merge(opts[:headers]).freeze
+      # Set plugin specific arguments.  Keyword arguments:
+      # +chunk_by_default+ :: chunk all calls to view by default
+      # +force_chunked_encoding+ :: force the use of Transfer-Encoding: chunked for HTTP 1.1 requests
+      # +headers+ :: Set default additional headers to use when calling view
+      def self.configure(app, opts=(no_positional_opts = true; OPTS), chunk_by_default: opts[:chunk_by_default], force_chunked_encoding: opts[:force_chunked_encoding], headers: opts[:headers], **kw)
+        RodaPlugins.check_keywords("the chunked plugin", no_positional_opts, opts, kw)
+        app.opts[:chunk_by_default] = chunk_by_default
+        app.opts[:force_chunked_encoding] = force_chunked_encoding
+        if headers
+          app.opts[:chunk_headers] = (app.chunk_headers || {}).merge(headers).freeze
         end
       end
 
@@ -295,7 +297,7 @@ class Roda
             @_out_buf = String.new
           end
 
-          if layout_opts  = view_layout_opts(opts)
+          if layout_opts = view_layout_opts(opts)
             @_out_buf = render_template(layout_opts) do
               flush
               run_delayed_blocks

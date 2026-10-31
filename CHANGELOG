@@ -1,5 +1,7 @@
 === master
 
+* Add keyword arguments and deprecate positional hash for chunked plugin (jeremyevans)
+
 * Add keyword arguments and deprecate positional hash for capture_erb plugin and method (jeremyevans)
 
 * Add keyword arguments and deprecate positional hash for etag method in caching plugin (jeremyevans)

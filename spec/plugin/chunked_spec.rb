@@ -10,11 +10,9 @@ describe "chunked plugin with :force_chunked_encoding" do
     body({'HTTP_VERSION'=>'HTTP/1.1'}.merge(env))
   end
 
-  force_chunked_encoding = {:force_chunked_encoding=>true}.freeze
-
   it "streams templates in chunked encoding only if HTTP 1.1 is used" do
     app(:bare) do
-      plugin :chunked, force_chunked_encoding
+      plugin :chunked, force_chunked_encoding: true
       route do |r|
         chunked(:inline=>'m', :layout=>{:inline=>'h<%= yield %>t'})
       end
@@ -27,7 +25,7 @@ describe "chunked plugin with :force_chunked_encoding" do
   it "hex encodes chunk sizes" do
     m = 'm' * 31
     app(:bare) do
-      plugin :chunked, force_chunked_encoding
+      plugin :chunked, force_chunked_encoding: true
       route do |r|
         chunked(:inline=>m.dup, :layout=>{:inline=>'h<%= yield %>t'})
       end
@@ -39,7 +37,7 @@ describe "chunked plugin with :force_chunked_encoding" do
 
   it "accepts a block that is called after layout yielding but before content when streaming" do
     app(:bare) do
-      plugin :chunked, force_chunked_encoding
+      plugin :chunked, force_chunked_encoding: true
       route do |r|
         @h = nil
         chunked(:inline=>'m<%= @h %>', :layout=>{:inline=>'<%= @h %><%= yield %>t'}) do
@@ -54,7 +52,7 @@ describe "chunked plugin with :force_chunked_encoding" do
 
   it "has delay accept block that is called after layout yielding but before content when streaming" do
     app(:bare) do
-      plugin :chunked, force_chunked_encoding
+      plugin :chunked, force_chunked_encoding: true
       route do |r|
         delay do
           @h << 'i'
@@ -72,7 +70,7 @@ describe "chunked plugin with :force_chunked_encoding" do
 
   it "has delay raise if not given a block" do
     app(:bare) do
-      plugin :chunked, force_chunked_encoding
+      plugin :chunked, force_chunked_encoding: true
       route do |r|
         delay
       end
@@ -82,7 +80,7 @@ describe "chunked plugin with :force_chunked_encoding" do
 
   it "works when a layout is not used" do
     app(:bare) do
-      plugin :chunked, force_chunked_encoding
+      plugin :chunked, force_chunked_encoding: true
       route do |r|
         chunked(:inline=>'m', :layout=>nil)
       end
@@ -94,7 +92,7 @@ describe "chunked plugin with :force_chunked_encoding" do
 
   it "streams partial template responses if flush is used in content template" do
     app(:bare) do
-      plugin :chunked, force_chunked_encoding
+      plugin :chunked, force_chunked_encoding: true
       route do |r|
         chunked(:inline=>'m<%= flush %>n', :layout=>{:inline=>'h<%= yield %>t'})
       end
@@ -106,7 +104,7 @@ describe "chunked plugin with :force_chunked_encoding" do
 
   it "streams partial template responses if flush is used in layout template" do
     app(:bare) do
-      plugin :chunked, force_chunked_encoding
+      plugin :chunked, force_chunked_encoding: true
       route do |r|
         chunked(:inline=>'m', :layout=>{:inline=>'h<%= flush %>i<%= yield %>t'})
       end
@@ -118,7 +116,7 @@ describe "chunked plugin with :force_chunked_encoding" do
 
   it "does not stream if no_chunk! is used" do
     app(:bare) do
-      plugin :chunked, force_chunked_encoding
+      plugin :chunked, force_chunked_encoding: true
       route do |r|
         no_chunk!
         chunked(:inline=>'m', :layout=>{:inline=>'h<%= yield %>t'})
@@ -131,7 +129,7 @@ describe "chunked plugin with :force_chunked_encoding" do
 
   it "streams existing response body before call" do
     app(:bare) do
-      plugin :chunked, force_chunked_encoding
+      plugin :chunked, force_chunked_encoding: true
       route do |r|
         response.write('a')
         response.write chunked(:inline=>'m', :layout=>{:inline=>'h<%= yield %>t'})
@@ -144,7 +142,7 @@ describe "chunked plugin with :force_chunked_encoding" do
 
   it "should not include Content-Length header even if body is already written to" do
     app(:bare) do
-      plugin :chunked, force_chunked_encoding
+      plugin :chunked, force_chunked_encoding: true
       route do |r|
         response.write('a')
         response.write chunked(:inline=>'m', :layout=>{:inline=>'h<%= yield %>t'})
@@ -157,7 +155,7 @@ describe "chunked plugin with :force_chunked_encoding" do
 
   it "stream template responses for view if :chunk_by_default is used" do
     app(:bare) do
-      plugin :chunked, force_chunked_encoding.merge(:chunk_by_default=>true)
+      plugin :chunked, force_chunked_encoding: true, chunk_by_default: true
       route do |r|
         view(:inline=>'m', :layout=>{:inline=>'h<%= yield %>t'})
       end
@@ -169,7 +167,7 @@ describe "chunked plugin with :force_chunked_encoding" do
 
   it "uses Transfer-Encoding header when chunking" do
     app(:bare) do
-      plugin :chunked, force_chunked_encoding
+      plugin :chunked, force_chunked_encoding: true
       route do |r|
         chunked(:inline=>'m', :layout=>{:inline=>'h<%= yield %>t'})
       end
@@ -181,7 +179,7 @@ describe "chunked plugin with :force_chunked_encoding" do
 
   it "uses given :headers when chunking" do
     app(:bare) do
-      plugin :chunked, force_chunked_encoding.merge(:headers=>{'foo'=>'bar'})
+      plugin :chunked, force_chunked_encoding: true, headers: {'foo'=>'bar'}
       route do |r|
         chunked(:inline=>'m', :layout=>{:inline=>'h<%= yield %>t'})
       end
@@ -193,7 +191,7 @@ describe "chunked plugin with :force_chunked_encoding" do
 
   it "handles multiple arguments to chunked" do
     app(:bare) do
-      plugin :chunked, force_chunked_encoding.merge(:chunk_by_default=>true)
+      plugin :chunked, force_chunked_encoding: true, chunk_by_default: true
       plugin :render, :views => "./spec/views"
       route do |r|
         chunked('about', :locals=>{:title=>'m'}, :layout=>{:inline=>'h<%= yield %>t'})
@@ -206,7 +204,7 @@ describe "chunked plugin with :force_chunked_encoding" do
 
   it "handles multiple hash arguments to chunked" do
     app(:bare) do
-      plugin :chunked, force_chunked_encoding
+      plugin :chunked, force_chunked_encoding: true
       route do |r|
         chunked({:inline=>'m'}, :layout=>{:inline=>'h<%= yield %>t'})
       end
@@ -218,7 +216,7 @@ describe "chunked plugin with :force_chunked_encoding" do
 
   it "handles :layout_opts option" do
     app(:bare) do
-      plugin :chunked, force_chunked_encoding
+      plugin :chunked, force_chunked_encoding: true
       route do |r|
         chunked(:inline=>'m', :layout=>{:inline=>'<%= h %><%= yield %>t'}, :layout_opts=>{:locals=>{:h=>'h'}})
       end
@@ -230,7 +228,7 @@ describe "chunked plugin with :force_chunked_encoding" do
 
   it "uses handle_chunk_error for handling errors when chunking" do
     app(:bare) do
-      plugin :chunked, force_chunked_encoding
+      plugin :chunked, force_chunked_encoding: true
       route do |r|
         chunked(:inline=>'m', :layout=>{:inline=>'h<%= yield %><% raise %>'})
       end
