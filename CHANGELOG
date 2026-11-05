@@ -1,5 +1,7 @@
 === master
 
+* Support query method in class_level_routing plugin on Rack 3.3+ (jeremyevans)
+
 * Add keyword arguments and deprecate positional hash for chunked plugin (jeremyevans)
 
 * Add keyword arguments and deprecate positional hash for capture_erb plugin and method (jeremyevans)

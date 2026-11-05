@@ -45,13 +45,16 @@ class Roda
     #
     # When using the class_level_routing plugin with nested routes, you may also want to use the
     # delegate plugin to delegate certain instance methods to the request object, so you don't have
-    # to continually use +request.+ in your routing blocks.
+    # to continually use +request.+ in your routing blocks, or use the r plugin so you can use +r+
+    # instead of +request+.
     #
     # Note that class level routing is implemented via a simple array of routes, so routing performance
     # will degrade linearly as the number of routes increases.  For best performance, you should use
     # the normal +route+ class method to define your routing tree.  This plugin does make it simpler to
     # add additional routes after the routing tree has already been defined, though.
     module ClassLevelRouting
+      SCOPE_INSTANCE_VARIABLES = [:@_original_remaining_path].freeze
+
       # Initialize the class_routes array when the plugin is loaded.  Also, if the application doesn't
       # currently have a routing block, setup an empty routing block so that things will still work if
       # a routing block isn't added.
@@ -63,7 +66,7 @@ class Roda
         RodaPlugins.opt_attr_reader(self, :class_level_routes)
 
         # Define routing methods that will store class level routes.
-        [:root, :on, :is, :get, :post, :delete, :head, :options, :link, :patch, :put, :trace, :unlink].each do |request_meth|
+        %i[root on is get post delete head options link patch put trace unlink query].each do |request_meth|
           define_method(request_meth) do |*args, &block|
             meth = define_roda_method("class_level_routing_#{request_meth}", :any, &block)
             class_level_routes << [request_meth, args, meth].freeze
