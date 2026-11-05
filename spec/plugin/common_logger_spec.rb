@@ -107,23 +107,30 @@ describe "common_logger plugin" do
     @logger.read.must_match(/\A- - - \[\d\d\/[A-Z][a-z]{2}\/\d\d\d\d:\d\d:\d\d:\d\d [-+]\d\d\d\d\] "GET \/ HTTP\/\\x801.0" 200 1 0.\d\d\d\d\n\z/)
   end unless ENV['LINT']
 
-  def cl_app_meth(&block)
-    app(:common_logger, &block)
+  it 'logs using the given method' do
+    cl_app do |r|
+      r.halt [500, {}, []]
+    end
     @logger = (Class.new(SimpleDelegator) do
       def debug(str)
         write "DEBUG #{str}"
       end
     end).new(rack_input)
     @app.plugin :common_logger, @logger, :method=>:debug
-  end
-
-  it 'logs using the given method' do
-    cl_app_meth do |r|
-      r.halt [500, {}, []]
-    end
 
     body("HTTP_VERSION"=>'HTTP/1.0').must_equal ''
     @logger.rewind
     @logger.read.must_match(/\ADEBUG - - - \[\d\d\/[A-Z][a-z]{2}\/\d\d\d\d:\d\d:\d\d:\d\d [-+]\d\d\d\d\] "GET \/ HTTP\/1.0" 500 - 0.\d\d\d\d\n\z/)
+  end
+
+  it 'respects the use_request_ip_option' do
+    cl_app(&:path_info)
+    @app.plugin :common_logger, @logger, use_request_ip: true
+    @app::RodaRequest.send(:define_method, :ip){"1.2.3.4"}
+
+    body("HTTP_VERSION"=>'HTTP/1.0').must_equal '/'
+    @logger.rewind
+    @logger.read.must_match(/\A1.2.3.4 - - \[\d\d\/[A-Z][a-z]{2}\/\d\d\d\d:\d\d:\d\d:\d\d [-+]\d\d\d\d\] "GET \/ HTTP\/1.0" 200 1 0.\d\d\d\d\n\z/)
+
   end
 end

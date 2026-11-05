@@ -1,5 +1,9 @@
 === master
 
+* Support use_request_ip keyword argument to common_logger plugin (jeremyevans)
+
+* Add keyword arguments and deprecate positional hash for commom_logger plugin (jeremyevans)
+
 * Add keyword arguments and deprecate positional hash for class_matcher and symbol_matcher methods (jeremyevans)
 
 * Support query method in class_level_routing plugin on Rack 3.3+ (jeremyevans)

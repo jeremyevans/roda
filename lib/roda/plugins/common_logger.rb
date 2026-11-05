@@ -19,20 +19,31 @@ class Roda
     #   plugin :common_logger, $stdout
     #   plugin :common_logger, Logger.new('filename')
     #   plugin :common_logger, Logger.new('filename'), method: :debug
+    #   plugin :common_logger, use_request_ip: true
+    #
+    # Keyword Arguments:
+    # +method+ :: Specifies the method to call on the logger object when logging.
+    # +use_request_ip+ :: Use +request.ip+ to get the IP address, instead of the default
+    #                     of checking +HTTP_X_FORWARDED_FOR+ and then +REMOTE_ADDR+. This
+    #                     will become the default behavior starting in Roda 4.
     module CommonLogger
       SCOPE_INSTANCE_VARIABLES = [:@_request_timer].freeze
 
       MUTATE_LINE = RUBY_VERSION < '2.3' || RUBY_VERSION >= '3'
       private_constant :MUTATE_LINE
 
-      def self.configure(app, logger=nil, opts=OPTS)
+      def self.configure(app, logger=nil, opts=(no_positional_opts = true; OPTS), method: opts[:method], use_request_ip: false, **kw)
+        RodaPlugins.check_keywords("the common_logger plugin", no_positional_opts, opts, kw)
+
         common_logger = app.opts[:common_logger] = logger || app.opts[:common_logger] || $stderr # RODA4: drop setting of option, no longer used
-        app.opts[:common_logger_meth] = common_logger.method(opts.fetch(:method){logger.respond_to?(:write) ? :write : :<<})
+        app.opts[:common_logger_meth] = common_logger.method(method || (common_logger.respond_to?(:write) ? :write : :<<))
+        app.opts[:common_logger_use_request_ip] = use_request_ip # RODA4: Deefault to true
       end
 
       if RUBY_VERSION >= '2.1'
         # A timer object for calculating elapsed time.
         def self.start_timer
+          # RODA4.1: Remove
           Process.clock_gettime(Process::CLOCK_MONOTONIC)
         end
       else
@@ -45,6 +56,7 @@ class Roda
 
       module ClassMethods
         RodaPlugins.opt_attr_reader(self, :common_logger_meth)
+        RodaPlugins.opt_attr_reader(self, :common_logger_use_request_ip, name: :common_logger_use_request_ip?)
       end
 
       module InstanceMethods
@@ -62,7 +74,13 @@ class Roda
 
           env = @_request.env
 
-          line = "#{env['HTTP_X_FORWARDED_FOR'] || env["REMOTE_ADDR"] || "-"} - #{env["REMOTE_USER"] || "-"} [#{Time.now.strftime("%d/%b/%Y:%H:%M:%S %z")}] \"#{env["REQUEST_METHOD"]} #{env["SCRIPT_NAME"]}#{env["PATH_INFO"]}#{"?#{env["QUERY_STRING"]}" if ((qs = env["QUERY_STRING"]) && !qs.empty?)} #{@_request.http_version}\" #{status} #{((length = headers[RodaResponseHeaders::CONTENT_LENGTH]) && (length unless length == '0')) || '-'} #{elapsed_time} "
+          ip = if self.class.common_logger_use_request_ip?
+            @_request.ip
+          else
+            env['HTTP_X_FORWARDED_FOR'] || env["REMOTE_ADDR"]
+          end
+
+          line = "#{ip || "-"} - #{env["REMOTE_USER"] || "-"} [#{Time.now.strftime("%d/%b/%Y:%H:%M:%S %z")}] \"#{env["REQUEST_METHOD"]} #{env["SCRIPT_NAME"]}#{env["PATH_INFO"]}#{"?#{env["QUERY_STRING"]}" if ((qs = env["QUERY_STRING"]) && !qs.empty?)} #{@_request.http_version}\" #{status} #{((length = headers[RodaResponseHeaders::CONTENT_LENGTH]) && (length unless length == '0')) || '-'} #{elapsed_time} "
           if MUTATE_LINE
             line.gsub!(/[^[:print:]]/){|c| sprintf("\\x%x", c.ord)}
           # simplecov:disable
