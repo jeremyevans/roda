@@ -1,5 +1,7 @@
 === master
 
+* Add keyword arguments and deprecate positional hash for class_matcher and symbol_matcher methods (jeremyevans)
+
 * Support query method in class_level_routing plugin on Rack 3.3+ (jeremyevans)
 
 * Add keyword arguments and deprecate positional hash for chunked plugin (jeremyevans)

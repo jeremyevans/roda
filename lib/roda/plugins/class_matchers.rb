@@ -67,8 +67,8 @@ class Roda
     # Blocks passed to the class_matchers plugin are evaluated in route
     # block context.
     #
-    # When passing a regexp as a matcher, to class_matcher, you can provide a
-    # <tt>segment: true</tt> option to speed up the matching on Ruby 2.4+:
+    # When passing a regexp as a matcher to class_matcher, you can provide a
+    # <tt>segment: true</tt> argument to speed up the matching on Ruby 2.4+:
     #
     #   symbol_matcher(:employee_id, /E-(\d{6})/, segment: true) do |employee_id|
     #     employee_id.to_i
@@ -103,10 +103,13 @@ class Roda
         # If providing a registered class or symbol, the block will be called with the
         # captures returned by the block for the registered class or symbol, or the regexp
         # captures if no block was registered with the class or symbol. In either case,
-        # if a block is given, it should return an array with the captures to yield to
-        # the match block.
-        def class_matcher(klass, matcher, opts=OPTS, &block)
-          _symbol_class_matcher(Class, klass, matcher, block, opts) do |meth, (_, regexp, convert_meth, consume_meth)|
+        # if a block is given, it should return an object to yield to the match block,
+        # or an array to yield multiple arguments to the match block. If the block returns
+        # nil or false, it will be treated as not matching.
+        def class_matcher(klass, matcher, opts=(no_positional_opts = true; OPTS), segment: opts[:segment], **kw, &block)
+          RodaPlugins.check_keywords(__callee__, no_positional_opts, opts, kw)
+
+          _symbol_class_matcher(Class, klass, matcher, block, segment: segment) do |meth, (_, regexp, convert_meth, consume_meth)|
             if regexp
               if consume_meth == :_consume_single_segment
                 define_method(meth){_consume_single_segment(regexp, convert_meth)}
@@ -117,6 +120,8 @@ class Roda
               define_method(meth){_consume_segment(convert_meth)}
             end
           end
+
+          nil
         end
 
         # Freeze the class_matchers hash when freezing the app.

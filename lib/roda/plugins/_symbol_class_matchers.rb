@@ -8,7 +8,7 @@ class Roda
         private
 
         # Backend of symbol_matcher and class_matcher.
-        def _symbol_class_matcher(expected_class, obj, matcher, block, options=OPTS, &request_class_block)
+        def _symbol_class_matcher(expected_class, obj, matcher, block, segment: nil, &request_class_block)
           unless obj.is_a?(expected_class)
             raise RodaError, "Invalid type passed to class_matcher or symbol_matcher: #{matcher.inspect}"
           end
@@ -31,11 +31,9 @@ class Roda
             end
 
             regexp, consume_regexp, convert_meth, consume_meth = symbol_matchers[matcher]
-
             unless regexp
               raise RodaError, "unregistered symbol matcher given to #{type}_matcher: #{matcher.inspect}"
             end
-
             block = _merge_matcher_blocks(type, obj, block, convert_meth)
           when Class
             unless respond_to?(:class_matchers)
@@ -59,7 +57,7 @@ class Roda
             private convert_meth
           end
 
-          consume_meth ||= options[:segment] ? :_consume_single_segment : :consume
+          consume_meth ||= segment ? :_consume_single_segment : :consume
           array = (obj.is_a?(Symbol) ? symbol_matchers : class_matchers)[obj] = [regexp, consume_regexp, convert_meth, consume_meth].freeze
 
           self::RodaRequest.class_exec do

@@ -19,7 +19,7 @@ class Roda
     # Then the route will only if the path is +/foobar123+, but not if it is
     # +/foo+, +/FooBar123+, or +/foobar_123+.
     #
-    # You can provide a <tt>segment: true</tt> option to symbol_matcher to speed up
+    # You can provide a <tt>segment: true</tt> argument to symbol_matcher to speed up
     # the matching on Ruby 2.4+:
     #
     #   symbol_matcher :username, /([a-z0-9]{6,20})/, segment: true
@@ -131,10 +131,13 @@ class Roda
         # If providing a registered symbol or class, the block will be called with the
         # captures returned by the block for the registered symbol or class, or the regexp
         # captures if no block was registered with the symbol or class. In either case,
-        # if a block is given, it should return an array with the captures to yield to
-        # the match block.
-        def symbol_matcher(s, matcher, opts=OPTS, &block)
-          _symbol_class_matcher(Symbol, s, matcher, block, opts) do |meth, array|
+        # if a block is given, it should return an object to yield to the match block,
+        # or an array to yield multiple arguments to the match block. If the block returns
+        # nil or false, it will be treated as not matching.
+        def symbol_matcher(s, matcher, opts=(no_positional_opts = true; OPTS), segment: opts[:segment], **kw, &block)
+          RodaPlugins.check_keywords(__callee__, no_positional_opts, opts, kw)
+
+          _symbol_class_matcher(Symbol, s, matcher, block, segment: segment) do |meth, array|
             define_method(meth){array}
           end
 
