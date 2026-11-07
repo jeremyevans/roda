@@ -34,13 +34,13 @@ class Roda
     #     # ...
     #   end
     #
-    # You can use the :default plugin option to set the default for all settings.
+    # You can use the +:default+ plugin argument to set the default for all settings.
     # For example, to disallow all access for each setting by default:
     #
     #   plugin :permissions_policy, default: :none
     #
     # The following methods are available for configuring the permissions policy,
-    # which specify the setting (substituting _ with -): 
+    # which specify the setting (substituting +_+ with +-+): 
     #
     # * accelerometer
     # * ambient_light_sensor
@@ -73,12 +73,12 @@ class Roda
     # All of these methods support any number of arguments, and each argument should
     # be one of the following values:
     #
-    # :all :: Grants permission to all domains (must be only argument)
-    # :none :: Does not allow permission at all (must be only argument)
-    # :self :: Allows feature in current document and any nested browsing contexts
-    #          that use the same domain as the current document.
-    # :src :: Allows feature in current document and any nested browsing contexts
-    #         that use the same domain as the src of the iframe.
+    # +:all+ :: Grants permission to all domains (must be only argument)
+    # +:none+ :: Does not allow permission at all (must be only argument)
+    # +:self+ :: Allows feature in current document and any nested browsing contexts
+    #            that use the same domain as the current document.
+    # +:src+ :: Allows feature in current document and any nested browsing contexts
+    #           that use the same domain as the src of the iframe.
     # String :: Specifies origin domain where access is allowed
     #
     # When calling a method with no arguments, the setting is removed from the policy instead
@@ -88,7 +88,7 @@ class Roda
     # Calling the method overrides any previous setting.  Each of the methods has +add_*+ and
     # +get_*+ methods defined. The +add_*+ method appends to any existing setting, and the +get_*+ method
     # returns the current value for the setting (this will be +:all+ if all domains are allowed, or
-    # any array of strings/:self/:src).
+    # any array of strings/+:self+/+:src+).
     #
     #   permissions_policy.fullscreen :self, 'https://example.com'
     #   # fullscreen (self "https://example.com")
@@ -99,7 +99,7 @@ class Roda
     #   permissions_policy.get_fullscreen
     #   # => [:self, "https://example.com", "https://*.example.com"]
     #
-    # The clear method can be used to remove all settings from the policy. Empty policies
+    # The +clear+ method can be used to remove all settings from the policy. Empty policies
     # do not set any headers. You can use +response.skip_permissions_policy!+ to skip
     # setting a policy.  This is faster than calling +permissions_policy.clear+, since
     # it does not duplicate the default policy.
@@ -175,16 +175,13 @@ class Roda
           end
         end
 
-        def initialize
-          clear
-        end
-
         # Clear all settings, useful to remove any inherited settings.
         def clear
           @opts = {}
           @report_only = nil
           @header_value = nil
         end
+        alias initialize clear
 
         # Do not allow future modifications to any settings.
         def freeze
@@ -279,14 +276,15 @@ class Roda
       end
 
       # Yield the current Permissions Policy to the block.
-      def self.configure(app, opts=OPTS)
+      def self.configure(app, opts=(no_positional_opts = true; OPTS), default: opts[:default], **kw)
+        RodaPlugins.check_keywords("the permissions_policy plugin", no_positional_opts, opts, kw)
         policy = app.opts[:permissions_policy] = if policy = app.permissions_policy
           policy.dup
         else
           Policy.new
         end
 
-        if default = opts[:default]
+        if default
           SUPPORTED_SETTINGS.each do |setting|
             policy.send(setting.tr('-', '_'), *default)
           end
