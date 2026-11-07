@@ -19,8 +19,8 @@ class Roda
     #   plugin :cookies, domain: 'example.com', path: '/api'
     module Cookies
       # Allow setting default cookie options when loading the cookies plugin.
-      def self.configure(app, opts={})
-        app.opts[:cookies_opts] = (app.cookies_opts||{}).merge(opts).freeze
+      def self.configure(app, opts=OPTS)
+        app.opts[:cookies_opts] = (app.cookies_opts||OPTS).merge(opts).freeze
       end
 
       module ClassMethods
@@ -28,15 +28,17 @@ class Roda
       end
 
       module ResponseMethods
-        # Modify the headers to include a Set-Cookie value that
+        # Modify the headers to include a <tt>Set-Cookie</tt> value that
         # deletes the cookie.  A value hash can be provided to
         # override the default one used to delete the cookie.
         # Example:
         #
         #   response.delete_cookie('foo')
         #   response.delete_cookie('foo', domain: 'example.org')
-        def delete_cookie(key, value = {})
-          ::Rack::Utils.delete_cookie_header!(@headers, key, roda_class.cookies_opts.merge(value))
+        def delete_cookie(key, value = OPTS)
+          opts = roda_class.cookies_opts
+          value = value.empty? ? opts : opts.merge(value)
+          ::Rack::Utils.delete_cookie_header!(@headers, key, value)
         end
 
         # Set the cookie with the given key in the headers.
