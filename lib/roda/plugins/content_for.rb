@@ -11,7 +11,7 @@ class Roda
     # of the normal content pane.
     #
     # In the template in which you want to store content, call
-    # content_for with a block:
+    # +content_for+ with a block:
     #
     #   <% content_for :foo do %>
     #     Some content here.
@@ -27,11 +27,11 @@ class Roda
     #   <% content_for :foo, "Some content" %>
     #
     # In the template in which you want to retrieve content,
-    # call content_for without the block or argument:
+    # call +content_for+ without the block or argument:
     #
     #   <%= content_for :foo %>
     #
-    # Note that when storing content by calling content_for
+    # Note that when storing content by calling +content_for+
     # with a block and embedding template code, the return
     # value of the block is used as the content (after being
     # converted to a string).  This can cause issues in some
@@ -51,7 +51,7 @@ class Roda
     # If content_for is used multiple times with the same key,
     # by default, the last call will append previous calls.
     # If you want to overwrite the previous content, pass the
-    # <tt>append: false</tt> option when loading the plugin:
+    # <tt>append: false</tt> argument when loading the plugin:
     #
     #   plugin :content_for, append: false
     module ContentFor
@@ -65,8 +65,9 @@ class Roda
 
       # Configure whether to append or overwrite if content_for
       # is called multiple times with the same key.
-      def self.configure(app, opts = OPTS)
-        app.opts[:append_content_for] = opts.fetch(:append, true)
+      def self.configure(app, opts=(no_positional_opts = true; OPTS), append: opts.fetch(:append, true), **kw)
+        RodaPlugins.check_keywords("the content_for plugin", no_positional_opts, opts, kw)
+        app.opts[:append_content_for] = append
       end
 
       module ClassMethods

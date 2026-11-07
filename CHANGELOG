@@ -1,5 +1,7 @@
 === master
 
+* Add keyword arguments and deprecate positional hash for content_for plugin (jeremyevans)
+
 * Make recheck_precompiled_assets work with freeze_request_response plugin (jeremyevans)
 
 * Improve assets plugin performance by storing assets configuration in struct instead of hash (jeremyevans)
