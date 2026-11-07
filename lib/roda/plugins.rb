@@ -42,10 +42,21 @@ class Roda
       nil
     end
 
+    # Warn if the opts given contain unsupported keys.
+    def self.check_supported_opts(desc, opts, supported_keys)
+      extra_keys = opts.keys - supported_keys
+
+      unless extra_keys.empty?
+        warn("Unsupported options given to #{desc}: #{extra_keys.map(&:inspect).join(", ")}", uplevel: 2)
+      end
+
+      nil
+    end
+
     # Handle positional argument to keyword argument conversion warnings in plugins.
     def self.check_keywords(method, no_positional_opts, opts, kw)
       unless no_positional_opts
-        warn("A positional options hash is now deprecated for #{method}. Support for this will be removed in Roda 4. Switch to passing keywords arguments. Keys given in positional options hash: #{opts.keys.join(", ")}", uplevel: 2)
+        warn("A positional options hash is now deprecated for #{method}. Support for this will be removed in Roda 4. Switch to passing keywords arguments. Keys given in positional options hash: #{opts.keys.map(&:inspect).join(", ")}", uplevel: 2)
       end
 
       unless kw.empty?

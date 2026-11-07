@@ -130,12 +130,11 @@ class Minitest::Spec
   end
 
   def deprecated
-    begin
-      $RODA_WARN = false
-      yield
-    ensure
-      $RODA_WARN = true
-    end
+    prev = $RODA_WARN
+    $RODA_WARN = false
+    yield
+  ensure
+    $RODA_WARN = prev
   end
 
   def rack_input(str='')

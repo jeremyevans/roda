@@ -8,15 +8,15 @@ class Roda
     # use in applications that want to use sessions for some requests,
     # and want to be sure that sessions are not used for other requests.
     # For example, if you want to make sure that sessions are not used for
-    # requests with paths starting with /static, you could do:
+    # requests with paths starting with +/static+, you could do:
     #
     #   plugin :conditional_sessions, secret: ENV["SECRET"] do
     #     !path_info.start_with?('/static')
     #   end
     #
-    # The the request session, session_created_at, and session_updated_at methods
+    # Then the request +session+, +session_created_at+, and +session_updated_at+ methods
     # raise a RodaError exception when sessions are not allowed.  The request
-    # persist_session and route scope clear_session methods do nothing when
+    # +persist_session+ and route scope +clear_session+ methods do nothing when
     # sessions are not allowed.
     module ConditionalSessions
       # Pass all options to the sessions block, and use the block to define

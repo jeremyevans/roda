@@ -3,8 +3,20 @@ require_relative "../../lib/roda/plugins/_base64"
 
 base64 = Roda::RodaPlugins::Base64_
 
+describe "sessions plugin" do
+  it "requires appropriate :secret option" do
+    proc{app(:bare){plugin :sessions}}.must_raise Roda::RodaError
+    proc{app(:bare){plugin :sessions, :secret=>Object.new}}.must_raise Roda::RodaError
+    proc{app(:bare){plugin :sessions, :secret=>'1'*63}}.must_raise Roda::RodaError
+  end
+
+  deprecated "warns for unsupported options" do
+    app(:bare){plugin :sessions, :secret=>"1"*64, :invalid=>true}
+  end
+end
+
 [true, false].each do |per_cookie_cipher_secret|
-  describe "sessions plugin with per_cookie_cipher_secret: #{per_cookie_cipher_secret}" do 
+  describe "sessions plugin#{" with per_cookie_cipher_secret: false" unless per_cookie_cipher_secret}" do 
     include CookieJar
 
     def req(path, opts={})
@@ -21,8 +33,15 @@ base64 = Roda::RodaPlugins::Base64_
     end
 
     before do
+      scope = self
       app(:bare) do
-        plugin :sessions, :secret=>'1'*64, :per_cookie_cipher_secret=>per_cookie_cipher_secret
+        if per_cookie_cipher_secret
+          plugin :sessions, :secret=>'1'*64
+        else
+          scope.deprecated do
+            plugin :sessions, :secret=>'1'*64, :per_cookie_cipher_secret=>false
+          end
+        end
         route do |r|
           if r.GET['sut']
             session
@@ -46,12 +65,6 @@ base64 = Roda::RodaPlugins::Base64_
           ''
         end
       end
-    end
-
-    it "requires appropriate :secret option" do
-      proc{app(:bare){plugin :sessions}}.must_raise Roda::RodaError
-      proc{app(:bare){plugin :sessions, :secret=>Object.new}}.must_raise Roda::RodaError
-      proc{app(:bare){plugin :sessions, :secret=>'1'*63}}.must_raise Roda::RodaError
     end
 
     it "has session store data between requests" do
@@ -79,7 +92,7 @@ base64 = Roda::RodaPlugins::Base64_
       body('/e/roda.session').must_equal 'foo-baz'
     end
 
-    it "supports loading sessions created when per_cookie_cipher_secret: #{!per_cookie_cipher_secret} " do
+    deprecated "supports loading sessions created when per_cookie_cipher_secret: #{!per_cookie_cipher_secret} " do
       req('/').must_equal [200, {RodaResponseHeaders::CONTENT_TYPE=>"text/html", RodaResponseHeaders::CONTENT_LENGTH=>"0"}, [""]]
       body('/s/foo/bar').must_equal 'bar'
       body('/g/foo').must_equal 'bar'
@@ -221,7 +234,7 @@ base64 = Roda::RodaPlugins::Base64_
       proc{app(:bare){plugin :sessions, :old_secret=>Object.new}}.must_raise Roda::RodaError
     end
 
-    it "handles secret rotation using :old_secret option when also changing :per_cookie_cipher_secret option" do
+    deprecated "handles secret rotation using :old_secret option when also changing :per_cookie_cipher_secret option" do
       body('/s/foo/bar').must_equal 'bar'
       body('/g/foo').must_equal 'bar'
 
@@ -457,6 +470,9 @@ base64 = Roda::RodaPlugins::Base64_
 
       @app.plugin :sessions, :secret=>'1'*64,
                   :upgrade_from_rack_session_cookie_secret=>'1'
+      unless per_cookie_cipher_secret
+        app.plugin :sessions, :per_cookie_cipher_secret=>false
+      end
       @app.middleware_stack.remove{|m, *| m == Rack::Session::Cookie}
 
       @cookie = c.dup

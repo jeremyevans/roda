@@ -1,5 +1,13 @@
 === master
 
+* Improve sessions plugin performance by storing session configuration in struct instead of hash (jeremyevans)
+
+* Deprecate public constants in sessions plugin (jeremyevans)
+
+* Deprecate :per_cookie_cipher_secret option for sessions plugin (jeremyevans)
+
+* Add keyword arguments and deprecate positional hash for sessions and conditional_sessions plugins (jeremyevans)
+
 * Support use_request_ip keyword argument to common_logger plugin (jeremyevans)
 
 * Add keyword arguments and deprecate positional hash for commom_logger plugin (jeremyevans)

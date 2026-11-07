@@ -29,8 +29,8 @@ class Roda
     # used in sessions when this plugin is used.  This plugin sets the
     # +:sessions_convert_symbols+ application option to +true+ if it hasn't been set yet,
     # for better integration with plugins that can use either symbol or string session or 
-    # flash keys.  Unlike Rack::Session::Cookie, the session is stored as a plain ruby hash,
-    # and does not convert all keys to strings.
+    # flash keys.  Unlike some other session implementations, the session is stored as a plain ruby hash,
+    # and does not convert keys to strings.
     #
     # All sessions are timestamped and session expiration is enabled by default, with sessions
     # being valid for 30 days maximum and 7 days since last use by default.  Session creation time is
@@ -39,67 +39,43 @@ class Roda
     #
     # Session secrets can be rotated.  See options below.
     #
-    # The sessions plugin can transparently upgrade sessions from versions of Rack::Session::Cookie
-    # shipped with Rack before Rack 3,
-    # if the default Rack::Session::Cookie coder and HMAC are used, see options below.
-    # It is recommended to only enable transparent upgrades for a brief transition period,
-    # and remove support for them once old sessions have converted or timed out.
-    #
     # If the final cookie is too large (>=4096 bytes), a Roda::RodaPlugins::Sessions::CookieTooLarge
     # exception will be raised.
     #
-    # = Required Options
+    # = Required Keyword Arguments
     #
     # The session cookies this plugin uses are both encrypted and signed, so two separate
     # secrets are used internally.  However, for ease of use, these secrets are combined into
-    # a single +:secret+ option.  The +:secret+ option must be a string of at least 64 bytes
+    # a single +secret+ argument.  The +secret+ argument must be a string of at least 64 bytes
     # and should be randomly generated.  The first 32 bytes are used as the secret for the
     # cipher, any remaining bytes are used for the secret for the HMAC.
     #
-    # = Other Options
+    # = Optional Keyword Arguments
     #
-    # :cookie_options :: Any cookie options to set on the session cookie. By default, uses
-    #                    <tt>httponly: true, path: '/', same_site: :lax</tt> so that the cookie is not accessible
-    #                    to javascript, allowed for all paths, and will not be used for cross-site non-GET requests
-    #                    that.  If the +:secure+ option is not present in the hash, then
-    #                    <tt>secure: true</tt> is also set if the request is made over HTTPS.  If this option is
-    #                    given, it will be merged into the default cookie options.
-    # :env_key :: The key in `env` where the session should be located. Defaults to <tt>"rack.session"</tt>, the
-    #             default key for sessions in Rack.
-    # :gzip_over (deprecated) :: For session data over this many bytes, compress it with the deflate algorithm (default: nil,
-    #               so never compress).  Note that compression should not be enabled if you are storing data in
-    #               the session derived from user input and also storing sensitive data in the session.
-    # :key :: The cookie name to use (default: <tt>'roda.session'</tt>)
-    # :max_seconds :: The maximum number of seconds to allow for total session lifetime, starting with when
-    #                 the session was originally created.  Default is <tt>86400*30</tt> (30 days). Can be set to
-    #                 +nil+ to disable session lifetime checks.
-    # :max_idle_seconds :: The maximum number of seconds to allow since the session was last updated.
-    #                      Default is <tt>86400*7</tt> (7 days).  Can be set to nil to disable session idleness
-    #                      checks.
-    # :old_secret :: The previous secret to use, allowing for secret rotation.  Must be a string of at least 64
-    #                bytes if given.
-    # :pad_size :: Pad session data (after possible compression, before encryption), to a multiple of this
-    #              many bytes (default: 32).  This can be between 2-4096 bytes, or +nil+ to disable padding.
-    # :per_cookie_cipher_secret :: Uses a separate cipher key for every cookie, with the key used generated using
-    #                              HMAC-SHA-256 of 32 bytes of random data with the default cipher secret. This
-    #                              offers additional protection in case the random initialization vector used when
-    #                              encrypting the session data has been reused. Odds of that are 1 in 2**64 if
-    #                              initialization vector is truly random, but weaknesses in the random number
-    #                              generator could make the odds much higher.  Default is +true+.
-    # :parser :: The parser for the serialized session data (default: <tt>JSON.method(:parse)</tt>).
+    # +cookie_options+ :: Any cookie options to set on the session cookie. By default, uses
+    #                     <tt>httponly: true, path: '/', same_site: :lax</tt> so that the cookie is not accessible
+    #                     to javascript, allowed for all paths, and will not be used for cross-site non-GET requests.
+    #                     If the +:secure+ option is not present in the hash, then
+    #                     <tt>secure: true</tt> is also set if the request is made over HTTPS.  If this option is
+    #                     given, it will be merged into the default cookie options.
+    # +env_key+ :: The key in `env` where the session should be located. Defaults to <tt>"rack.session"</tt>, the
+    #              default key for sessions in Rack.
+    # +key+ :: The cookie name to use (default: <tt>'roda.session'</tt>)
+    # +max_idle_seconds+ :: The maximum number of seconds to allow since the session was last updated.
+    #                       Default is <tt>86400*7</tt> (7 days).  Can be set to nil to disable session idleness
+    #                       checks.
+    # +max_seconds+ :: The maximum number of seconds to allow for total session lifetime, starting with when
+    #                  the session was originally created.  Default is <tt>86400*30</tt> (30 days). Can be set to
+    #                  +nil+ to disable session lifetime checks.
+    # +old_secret+ :: The previous secret to use, allowing for secret rotation.  Must be a string of at least 64
+    #                 bytes if given.
+    # +pad_size+ :: Pad session data to a multiple of this many bytes (default: 32).  This can be between
+    #               2-4096 bytes, or +nil+ to disable padding.
+    # +parser+ :: The parser for the serialized session data (default: <tt>JSON.method(:parse)</tt>).
     # :serializer :: The serializer for the session data (default +:to_json.to_proc+).
     # :skip_within :: If the last update time for the session cookie is less than this number of seconds from the
     #                 current time, and the session has not been modified, do not set a new session cookie
     #                 (default: 3600).
-    # :upgrade_from_rack_session_cookie_key :: The cookie name to use for transparently upgrading from
-    #                                          Rack::Session:Cookie (defaults to <tt>'rack.session'</tt>).
-    # :upgrade_from_rack_session_cookie_secret (deprecated) :: The secret for the HMAC-SHA1 signature when allowing
-    #                                             transparent upgrades from Rack::Session::Cookie. Using this
-    #                                             option is only recommended during a short transition period,
-    #                                             and is not enabled by default as it lowers security.
-    # :upgrade_from_rack_session_cookie_options :: Options to pass when deleting the cookie used by
-    #                                              Rack::Session::Cookie after converting it to use the session
-    #                                              cookies used by this plugin.
     #
     # = Not a Rack Middleware
     # 
@@ -118,13 +94,9 @@ class Roda
     #
     #   urlsafe_base64("\1" + random_data + IV + encrypted session data + HMAC)
     #
-    # If +:per_cookie_cipher_secret+ option is set to +false+, an older format is used:
-    #
-    #   urlsafe_base64("\0" + IV + encrypted session data + HMAC)
-    #
     # where:
     #
-    # version :: 1 byte, currently must be 1 or 0, other values reserved for future expansion.
+    # version :: 1 byte, currently must be 1, other values reserved for future expansion.
     # random_data :: 32 bytes, used for generating the per-cookie secret
     # IV :: 16 bytes, initialization vector for AES-256-CTR cipher.
     # encrypted session data :: >=12 bytes of data encrypted with AES-256-CTR cipher, see below.
@@ -138,15 +110,13 @@ class Roda
     # where:
     # 
     # bitmap :: 2 bytes in little endian format, lower 12 bits storing number of padding
-    #           bytes, 13th bit storing whether serialized data is compressed with deflate.
-    #           Bits 14-16 reserved for future expansion.
+    #           bytes.  Bits 13-16 reserved for future expansion.
     # creation time :: 4 byte integer in unsigned little endian format, storing unix timestamp
     #                  since session initially created.
     # update time :: 4 byte integer in unsigned little endian format, storing unix timestamp
     #                since session last updated.
     # padding :: >=0 padding bytes specified in bitmap, filled with random data, can be ignored.
-    # serialized data :: >=2 bytes of serialized data in JSON format.  If the bitmap indicates
-    #                    deflate compression, this contains the deflate compressed data.
+    # serialized data :: >=2 bytes of serialized data in JSON format.
     module Sessions
       DEFAULT_COOKIE_OPTIONS = {:httponly=>true, :path=>'/'.freeze, :same_site=>:lax}.freeze
       DEFAULT_OPTIONS = {:key => 'roda.session'.freeze, :max_seconds=>86400*30, :max_idle_seconds=>86400*7, :pad_size=>32, :gzip_over=>nil, :skip_within=>3600, :env_key=>'rack.session'}.freeze
@@ -158,6 +128,56 @@ class Roda
       SESSION_VERSION_NUM = 'roda.session.version'.freeze
       SESSION_DELETE_RACK_COOKIE = 'roda.session.delete_rack_session_cookie'.freeze
 
+      %i[
+        DEFAULT_COOKIE_OPTIONS
+        DEFAULT_OPTIONS
+        DEFLATE_BIT
+        PADDING_MASK
+        SESSION_CREATED_AT
+        SESSION_UPDATED_AT
+        SESSION_SERIALIZED
+        SESSION_VERSION_NUM
+        SESSION_DELETE_RACK_COOKIE].each do |sym|
+          RodaPlugins.deprecate_constant self, sym
+        end
+
+      PLUGIN_ARGUMENTS = %i[
+        cookie_options
+        env_key
+        gzip_over
+        key
+        max_idle_seconds
+        max_seconds
+        old_secret
+        pad_size
+        parser
+        per_cookie_cipher_secret
+        serializer
+        secret
+        skip_within
+        upgrade_from_rack_session_cookie_key
+        upgrade_from_rack_session_cookie_secret
+        upgrade_from_rack_session_cookie_options
+      ].freeze
+      private_constant :PLUGIN_ARGUMENTS
+
+      deprecated_plugin_arguments = %i[
+        gzip_over
+        per_cookie_cipher_secret
+        upgrade_from_rack_session_cookie_key
+        upgrade_from_rack_session_cookie_secret
+        upgrade_from_rack_session_cookie_options
+      ]
+
+      Config = Struct.new(*(PLUGIN_ARGUMENTS - deprecated_plugin_arguments - %i[secret old_secret]),
+        :remove_cookie_options,
+        :cipher_secret,
+        :hmac_secret,
+        :old_cipher_secret,
+        :old_hmac_secret
+      )
+      private_constant :Config
+
       # Exception class used when creating a session cookie that would exceed the
       # allowable cookie size limit.
       class CookieTooLarge < RodaError
@@ -167,57 +187,71 @@ class Roda
       def self.split_secret(name, secret)
         raise RodaError, "sessions plugin :#{name} option must be a String" unless secret.is_a?(String)
         raise RodaError, "invalid sessions plugin :#{name} option length: #{secret.bytesize}, must be >=64" unless secret.bytesize >= 64
-        hmac_secret = secret = secret.dup.force_encoding('BINARY')
+        hmac_secret = secret = secret.b
         cipher_secret = secret.slice!(0, 32)
         [cipher_secret.freeze, hmac_secret.freeze]
       end
 
-      def self.load_dependencies(app, opts=OPTS)
+      def self.load_dependencies(app, opts=OPTS, **)
         app.plugin :_base64
         app.plugin :_json
       end
 
       # Configure the plugin, see Sessions for details on options.
       def self.configure(app, opts=OPTS)
-        opts = (app.sessions_opts || DEFAULT_OPTIONS).merge(opts)
-        co = opts[:cookie_options] = DEFAULT_COOKIE_OPTIONS.merge(opts[:cookie_options] || OPTS).freeze
-        opts[:remove_cookie_options] = co.merge(:max_age=>'0', :expires=>Time.at(0))
-        opts[:parser] ||= app.json_parser
-        opts[:serializer] ||= app.json_serializer
+        RodaPlugins.check_supported_opts("the sessions plugin", opts, PLUGIN_ARGUMENTS)
+
+        if opts.has_key?(:per_cookie_cipher_secret)
+          RodaPlugins.warn("Roda 4 will default to per cookie cipher secrets, remove the per_cookie_cipher_secret argument", uplevel: 1)
+        end
+
+        if opts.has_key?(:upgrade_from_rack_session_cookie_secret) || opts.has_key?(:upgrade_from_rack_session_cookie_key) || opts.has_key?(:upgrade_from_rack_session_cookie_options)
+          RodaPlugins.warn("Support for upgrading rack session cookie sessions will be removed in Roda 4, remove the upgrade_from_rack_session_cookie_* arguments.", uplevel: 1)
+        end
+
+        if opts.has_key?(:gzip_over)
+          RodaPlugins.warn("Support for compressing session data will be removed in Roda 4, remove the gzip_over argument.", uplevel: 1)
+        end
+
+        opts = (app.sessions_opts || {:key => 'roda.session'.freeze, :max_seconds=>86400*30, :max_idle_seconds=>86400*7, :pad_size=>32, :skip_within=>3600, :env_key=>'rack.session'}).merge(opts)
+        config = Config.new(*opts.values_at(*Config.members))
+        co = config.cookie_options = {:httponly=>true, :path=>'/'.freeze, :same_site=>:lax}.merge(config.cookie_options || OPTS).freeze
+        config.remove_cookie_options = co.merge(:max_age=>'0', :expires=>Time.at(0))
+        config.parser ||= app.json_parser
+        config.serializer ||= app.json_serializer
 
         opts[:per_cookie_cipher_secret] = true unless opts.has_key?(:per_cookie_cipher_secret)
-        opts[:session_version_num] = opts[:per_cookie_cipher_secret] ? 1 : 0
 
         if opts[:upgrade_from_rack_session_cookie_secret]
-          RodaPlugins.warn("Support for upgrading rack session cookie sessions will be removed in Roda 4.")
           opts[:upgrade_from_rack_session_cookie_key] ||= 'rack.session'
           rsco = opts[:upgrade_from_rack_session_cookie_options] = Hash[opts[:upgrade_from_rack_session_cookie_options] || OPTS]
           rsco[:path] ||= co[:path]
           rsco[:domain] ||= co[:domain]
         end
 
-        if opts[:gzip_over]
-          RodaPlugins.warn("Support for compressing session data will be removed in Roda 4.")
+        secret = opts[:secret]
+        config.cipher_secret, config.hmac_secret = split_secret(:secret, secret)
+        if old_secret = opts[:old_secret]
+          config.old_cipher_secret, config.old_hmac_secret = split_secret(:old_secret, old_secret)
         end
 
-        opts[:cipher_secret], opts[:hmac_secret] = split_secret(:secret, opts[:secret])
-        opts[:old_cipher_secret], opts[:old_hmac_secret] = (split_secret(:old_secret, opts[:old_secret]) if opts[:old_secret])
-
-        case opts[:pad_size]
+        case config.pad_size
         when nil
           # no changes
         when Integer
-          raise RodaError, "invalid :pad_size: #{opts[:pad_size]}, must be >=2, < 4096" unless opts[:pad_size] >= 2 && opts[:pad_size] < 4096
+          raise RodaError, "invalid :pad_size: #{config.pad_size}, must be >=2, < 4096" unless config.pad_size >= 2 && config.pad_size < 4096
         else
-          raise RodaError, "invalid :pad_size option: #{opts[:pad_size].inspect}, must be Integer or nil"
+          raise RodaError, "invalid pad_size argument: #{config.pad_size.inspect}, must be Integer or nil"
         end
         
-        app.opts[:sessions] = opts.freeze
+        app.opts[:sessions] = config.to_h.merge(opts).freeze
+        app.opts[:sessions_config] = config.freeze
         app.opts[:sessions_convert_symbols] = true unless app.opts.has_key?(:sessions_convert_symbols)
       end
 
       module ClassMethods
         RodaPlugins.opt_attr_reader(self, :sessions, name: :sessions_opts)
+        RodaPlugins.opt_attr_reader(self, :sessions_config)
       end
 
       module InstanceMethods
@@ -226,8 +260,8 @@ class Roda
         # instead of the previous creation timestamp.
         def clear_session
           session.clear
-          env.delete(SESSION_CREATED_AT)
-          env.delete(SESSION_UPDATED_AT)
+          env.delete('roda.session.created_at')
+          env.delete('roda.session.updated_at')
           nil
         end
 
@@ -237,7 +271,7 @@ class Roda
         # update the rack response headers to set the session cookie in
         # the response.
         def _roda_after_50__sessions(res)
-          if res && (session = env[self.class.sessions_opts[:env_key]])
+          if res && (session = env[self.class.sessions_config.env_key])
             @_request.persist_session(res[1], session)
           end
         end
@@ -251,37 +285,35 @@ class Roda
         # this method stores the session in 'rack.session' in the request environment,
         # but that does not happen until this method is called.
         def session
-          @env[roda_class.sessions_opts[:env_key]] ||= _load_session
+          @env[roda_class.sessions_config.env_key] ||= _load_session
         end
 
         # The time the session was originally created. nil if there is no active session.
         def session_created_at
           session
-          Time.at(@env[SESSION_CREATED_AT]) if @env[SESSION_SERIALIZED]
+          Time.at(@env['roda.session.created_at']) if @env['roda.session.serialized']
         end
 
         # The time the session was last updated. nil if there is no active session.
         def session_updated_at
           session
-          Time.at(@env[SESSION_UPDATED_AT]) if @env[SESSION_SERIALIZED]
+          Time.at(@env['roda.session.updated_at']) if @env['roda.session.serialized']
         end
 
-        # Persist the session data as a cookie.  If transparently upgrading from
-        # Rack::Session::Cookie, mark the related cookie for expiration so it isn't
-        # sent in the future.
+        # Persist the session data as a cookie.
         def persist_session(headers, session)
-          opts = roda_class.sessions_opts
+          config = roda_class.sessions_config
 
           if session.empty?
-            if env[SESSION_SERIALIZED]
+            if env['roda.session.serialized']
               # If session was submitted and is now empty, remove the cookie
-              Rack::Utils.delete_cookie_header!(headers, opts[:key], opts[:remove_cookie_options])
+              Rack::Utils.delete_cookie_header!(headers, config.key, config.remove_cookie_options)
             # else
               # If no session was submitted, and the session is empty
               # then there is no need to do anything
             end
           elsif cookie_value = _serialize_session(session)
-            cookie = Hash[opts[:cookie_options]]
+            cookie = Hash[config.cookie_options]
             cookie[:value] = cookie_value
             cookie[:secure] = true if !cookie.has_key?(:secure) && ssl?
 
@@ -291,7 +323,7 @@ class Roda
               0
             end
 
-            Rack::Utils.set_cookie_header!(headers, opts[:key], cookie)
+            Rack::Utils.set_cookie_header!(headers, config.key, cookie)
 
             cookie_size = case set_cookie_after = headers[RodaResponseHeaders::SET_COOKIE]
             when String
@@ -309,7 +341,8 @@ class Roda
             end
           end
           
-          if env[SESSION_DELETE_RACK_COOKIE]
+          if env['roda.session.delete_rack_session_cookie']
+            opts = roda_class.sessions_opts
             Rack::Utils.delete_cookie_header!(headers, opts[:upgrade_from_rack_session_cookie_key], opts[:upgrade_from_rack_session_cookie_options])
           end
 
@@ -321,12 +354,11 @@ class Roda
         # Load the session by looking for the appropriate cookie, or falling
         # back to the rack session cookie if configured.
         def _load_session
-          opts = roda_class.sessions_opts
           cs = cookies
 
-          if data = cs[opts[:key]]
+          if data = cs[roda_class.sessions_config.key]
             _deserialize_session(data)
-          elsif (key = opts[:upgrade_from_rack_session_cookie_key]) && (data = cs[key])
+          elsif (key = roda_class.sessions_opts[:upgrade_from_rack_session_cookie_key]) && (data = cs[key])
             _deserialize_rack_session(data)
           end || {}
         end
@@ -340,9 +372,6 @@ class Roda
           nil
         end
 
-        # Interpret given cookie data as a Rack::Session::Cookie
-        # serialized session using the default Rack::Session::Cookie
-        # hmac and coder.
         def _deserialize_rack_session(data)
           opts = roda_class.sessions_opts
           data, digest = data.split("--", 2)
@@ -359,26 +388,18 @@ class Roda
             return _session_serialization_error("Error decoding Rack::Session::Cookie session: not base64 encoded marshal dump")
           end
 
-          # Mark rack session cookie for deletion on success
-          env[SESSION_DELETE_RACK_COOKIE] = true
+          env['roda.session.delete_rack_session_cookie'] = true
 
-          # Delete the session id before serializing it.  Starting in rack 2.0.8,
-          # this is an object and not just a string, and calling to_s on it raises
-          # a RuntimeError.
           session.delete("session_id")
 
-          # Convert the rack session by roundtripping it through
-          # the parser and serializer, so that you would get the
-          # same result as you would if the session was handled
-          # by this plugin.
-          env[SESSION_SERIALIZED] = data = opts[:serializer].call(session)
-          env[SESSION_CREATED_AT] = Time.now.to_i
+          env['roda.session.serialized'] = data = opts[:serializer].call(session)
+          env['roda.session.created_at'] = Time.now.to_i
           opts[:parser].call(data)
         end
 
-        # Interpret given cookie data as a Rack::Session::Cookie
+        # Interpret given cookie data as a session
         def _deserialize_session(data)
-          opts = roda_class.sessions_opts
+          config = roda_class.sessions_config
 
           begin
             data = Base64_.urlsafe_decode64(data)
@@ -402,7 +423,6 @@ class Roda
             min_data_length = 93
           when 0
             per_cookie_secret = false
-            # minimum length (1+16+12+32) (version+cipher_iv+minimum session+hmac)
             min_data_length = 61
           when nil
             return _session_serialization_error("Unable to decode session: no data")
@@ -416,9 +436,11 @@ class Roda
           end
 
           encrypted_data = data.slice!(0, length-32)
-          unless Rack::Utils.secure_compare(data, OpenSSL::HMAC.digest(OpenSSL::Digest::SHA256.new, opts[:hmac_secret], encrypted_data+opts[:key]))
-            if opts[:old_hmac_secret] && Rack::Utils.secure_compare(data, OpenSSL::HMAC.digest(OpenSSL::Digest::SHA256.new, opts[:old_hmac_secret], encrypted_data+opts[:key]))
-              use_old_cipher_secret = true
+          hmac_data = encrypted_data+config.key
+          cipher_secret = config.cipher_secret
+          unless Rack::Utils.secure_compare(data, OpenSSL::HMAC.digest(OpenSSL::Digest::SHA256.new, config.hmac_secret, hmac_data))
+            if config.old_hmac_secret && Rack::Utils.secure_compare(data, OpenSSL::HMAC.digest(OpenSSL::Digest::SHA256.new, config.old_hmac_secret, hmac_data))
+              cipher_secret = config.old_cipher_secret
             else
               return _session_serialization_error("Not decoding session: HMAC invalid")
             end
@@ -427,7 +449,6 @@ class Roda
           # Remove version
           encrypted_data.slice!(0)
 
-          cipher_secret = opts[use_old_cipher_secret ? :old_cipher_secret : :cipher_secret]
           if per_cookie_secret
             cipher_secret = OpenSSL::HMAC.digest(OpenSSL::Digest::SHA256.new, cipher_secret, encrypted_data.slice!(0, 32))
           end
@@ -445,71 +466,71 @@ class Roda
           data = cipher.update(encrypted_data) << cipher.final
 
           bitmap, created_at, updated_at = data.unpack('vVV')
-          padding_bytes = bitmap & PADDING_MASK
+          padding_bytes = bitmap & 0x0fff
           now = Time.now.to_i
-          if (max = opts[:max_seconds]) && now > created_at + max
+          if (max = config.max_seconds) && now > created_at + max
             return _session_serialization_error("Not returning session: maximum session time expired")
           end
-          if (max = opts[:max_idle_seconds]) && now > updated_at + max
+          if (max = config.max_idle_seconds) && now > updated_at + max
             return _session_serialization_error("Not returning session: maximum session idle time expired")
           end
 
           data = data.slice(10+padding_bytes, data.bytesize)
 
-          if bitmap & DEFLATE_BIT > 0
+          if bitmap & 0x1000 > 0
             data = Zlib::Inflate.inflate(data)
           end
 
           env = @env
-          env[SESSION_CREATED_AT] = created_at
-          env[SESSION_UPDATED_AT] = updated_at
-          env[SESSION_SERIALIZED] = data
-          env[SESSION_VERSION_NUM] = version
+          env['roda.session.created_at'] = created_at
+          env['roda.session.updated_at'] = updated_at
+          env['roda.session.serialized'] = data
+          env['roda.session.version'] = version
 
-          opts[:parser].call(data)
+          config.parser.call(data)
         end
 
         def _serialize_session(session)
-          opts = roda_class.sessions_opts
+          config = roda_class.sessions_config
           env = @env
           now = Time.now.to_i
-          json_data = opts[:serializer].call(session).force_encoding('BINARY')
+          json_data = config.serializer.call(session).force_encoding(Encoding::ASCII_8BIT)
 
-          if (serialized_session = env[SESSION_SERIALIZED]) &&
-             (opts[:session_version_num] == env[SESSION_VERSION_NUM]) &&
-             (updated_at = env[SESSION_UPDATED_AT]) &&
-             (now - updated_at < opts[:skip_within]) &&
+          if (serialized_session = env['roda.session.serialized']) &&
+             ((roda_class.sessions_opts[:per_cookie_cipher_secret] ? 1 : 0) == env['roda.session.version']) &&
+             (updated_at = env['roda.session.updated_at']) &&
+             (now - updated_at < config.skip_within) &&
              (serialized_session == json_data)
             return
           end
 
           bitmap = 0
           json_length = json_data.bytesize
-          gzip_over = opts[:gzip_over]
+          gzip_over = roda_class.sessions_opts[:gzip_over]
 
           if gzip_over && json_length > gzip_over
             json_data = Zlib.deflate(json_data)
             json_length = json_data.bytesize
-            bitmap |= DEFLATE_BIT
+            bitmap |= 0x1000
           end
 
           # When calculating padding bytes to use, include 10 bytes for bitmap and
           # session create/update times, so total size of encrypted data is a
           # multiple of pad_size.
-          if (pad_size = opts[:pad_size]) && (padding_bytes = (json_length+10) % pad_size) != 0
+          if (pad_size = config.pad_size) && (padding_bytes = (json_length+10) % pad_size) != 0
             padding_bytes = pad_size - padding_bytes
             bitmap |= padding_bytes
             padding_data = SecureRandom.random_bytes(padding_bytes)
           end
 
-          session_create_time = env[SESSION_CREATED_AT]
+          session_create_time = env['roda.session.created_at']
           serialized_data = [bitmap, session_create_time||now, now].pack('vVV')
 
           serialized_data << padding_data if padding_data
           serialized_data << json_data
 
-          cipher_secret = opts[:cipher_secret]
-          if opts[:per_cookie_cipher_secret]
+          cipher_secret = config.cipher_secret
+          if roda_class.sessions_opts[:per_cookie_cipher_secret]
             version = "\1"
             per_cookie_secret_base = SecureRandom.random_bytes(32)
             cipher_secret = OpenSSL::HMAC.digest(OpenSSL::Digest::SHA256.new, cipher_secret, per_cookie_secret_base)
@@ -528,7 +549,7 @@ class Roda
           data << per_cookie_secret_base if per_cookie_secret_base
           data << cipher_iv
           data << encrypted_data
-          data << OpenSSL::HMAC.digest(OpenSSL::Digest::SHA256.new, opts[:hmac_secret], data+opts[:key])
+          data << OpenSSL::HMAC.digest(OpenSSL::Digest::SHA256.new, config.hmac_secret, data+config.key)
 
           data = Base64_.urlsafe_encode64(data)
 
