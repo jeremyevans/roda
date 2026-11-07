@@ -1,11 +1,12 @@
 # frozen-string-literal: true
 
-# RODA4: Remove plugin
 
 require 'rack/csrf'
 
 class Roda
   module RodaPlugins
+    warn("The csrf plugin is deprecated and will be removed in Roda 4. Switch to the route_csrf or sec_fetch_site_csrf plugin, or use the Rack::Csrf middleware directly.", uplevel: 1)
+
     # This plugin is no longer recommended for use, it exists only for
     # backwards compatibility.  Consider using the route_csrf plugin
     # instead, as that provides stronger CSRF protection.

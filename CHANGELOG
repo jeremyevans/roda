@@ -1,5 +1,7 @@
 === master
 
+* Deprecate the csrf plugin, switch to route_csrf or sec_fetch_site_csrf (jeremyevans)
+
 * Add keyword arguments and deprecate positional hash for cookie_flags plugin (jeremyevans)
 
 * Add keyword arguments and deprecate positional hash for permissions_policy plugin (jeremyevans)

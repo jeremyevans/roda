@@ -3,7 +3,6 @@ require_relative "../spec_helper"
 begin
   require 'rack/csrf'
 rescue LoadError
-  warn "rack_csrf not installed, skipping csrf plugin test"  
 else
   begin
     require 'rack/csrf/version'
@@ -13,7 +12,7 @@ else
 describe "csrf plugin" do 
   include CookieJar
 
-  it "adds csrf protection and csrf helper methods" do
+  deprecated "adds csrf protection and csrf helper methods" do
     app(:bare) do
       use(*DEFAULT_SESSION_MIDDLEWARE_ARGS)
       plugin :csrf, :skip=>['POST:/foo']
@@ -55,7 +54,7 @@ describe "csrf plugin" do
     body('/foo', 'REQUEST_METHOD'=>'POST', 'rack.input'=>io).must_equal 'bar'
   end
 
-  it "can optionally skip setting up the middleware" do
+  deprecated "can optionally skip setting up the middleware" do
     sub_app = Class.new(Roda)
     sub_app.class_exec do
       plugin :csrf, :skip_middleware=>true
