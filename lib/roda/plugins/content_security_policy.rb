@@ -41,7 +41,7 @@ class Roda
     #   end
     #
     # The following methods are available for configuring the content security policy,
-    # which specify the setting (substituting _ with -): 
+    # which specify the setting (substituting +_+ with +-+): 
     #
     # * base_uri
     # * child_src
@@ -92,7 +92,7 @@ class Roda
     #   content_security_policy.get_script_src
     #   # => [:self, :unsafe_eval, 'example.com', [:nonce, 'foobarbaz']]
     #
-    # The clear method can be used to remove all settings from the policy. Empty policies
+    # The +clear+ method can be used to remove all settings from the policy. Empty policies
     # do not set any headers. You can use +response.skip_content_security_policy!+ to skip
     # setting a policy.  This is faster than calling +content_security_policy.clear+, since
     # it does not duplicate the default policy.
@@ -115,7 +115,7 @@ class Roda
 
       # Represents a content security policy.
       class Policy
-        '
+        %w'
         base-uri
         child-src
         connect-src
@@ -136,7 +136,7 @@ class Roda
         script-src
         style-src
         worker-src
-        '.split.each(&:freeze).each do |setting|
+        '.each(&:freeze).each do |setting|
           meth = setting.tr('-', '_').freeze
 
           # Setting method name sets the setting value, or removes it if no args are given.
@@ -153,9 +153,12 @@ class Roda
           # are given.
           define_method("add_#{meth}") do |*args|
             unless args.empty?
-              @opts[setting] ||= EMPTY_ARRAY
-              @opts[setting] += args
-              @opts[setting].freeze
+              if @opts[setting]
+                @opts[setting] += args
+                @opts[setting].freeze
+              else
+                @opts[setting] = args.freeze
+              end
             end
             nil
           end
@@ -187,16 +190,13 @@ class Roda
           end
         end
 
-        def initialize
-          clear
-        end
-
         # Clear all settings, useful to remove any inherited settings.
         def clear
           @opts = {}
           @report_only = nil
           @header_value = nil
         end
+        alias initialize clear
 
         # Do not allow future modifications to any settings.
         def freeze
@@ -275,7 +275,6 @@ class Roda
           @header_value = nil
         end
       end
-
 
       # Yield the current Content Security Policy to the block.
       def self.configure(app)
