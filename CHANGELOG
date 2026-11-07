@@ -1,5 +1,11 @@
 === master
 
+* Improve assets plugin performance by storing assets configuration in struct instead of hash (jeremyevans)
+
+* Deprecate passing invalid type to assets_paths in assets plugin (jeremyevans)
+
+* Deprecate public constants in assets plugin (jeremyevans)
+
 * Improve sessions plugin performance by storing session configuration in struct instead of hash (jeremyevans)
 
 * Deprecate public constants in sessions plugin (jeremyevans)

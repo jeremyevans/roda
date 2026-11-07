@@ -48,8 +48,14 @@ if run_tests
           r.on 'paths_test' do
             css_paths = assets_paths(:css)
             js_paths = assets_paths([:js, :head])
+            { 'css' => css_paths, 'js' => js_paths }.map do |k, a|
+            "#{k}:#{a.class}:#{a.length}:#{a.join(',')}"
+            end.join("\n")
+          end
+
+          r.on 'deprecated_paths_test' do
             empty_paths = assets_paths(:empty)
-            { 'css' => css_paths, 'js' => js_paths, 'empty' => empty_paths }.map do |k, a|
+            { 'empty' => empty_paths }.map do |k, a|
             "#{k}:#{a.class}:#{a.length}:#{a.join(',')}"
             end.join("\n")
           end
@@ -158,6 +164,10 @@ if run_tests
       html = body('/paths_test')
       html.scan('css:Array:2:/assets/css/app.str,/assets/css/raw.css').length.must_equal 1
       html.scan('js:Array:1:/assets/js/head/app.js').length.must_equal 1
+    end
+
+    deprecated 'assets_paths should warn for invalid asset type' do
+      html = body('/deprecated_paths_test')
       html.scan('empty:Array:0').length.must_equal 1
     end
 
@@ -168,7 +178,6 @@ if run_tests
       js_hash = app.assets_opts[:compiled]['js.head']
       html.scan("css:Array:1:/assets/app.#{css_hash}.css").length.must_equal 1
       html.scan("js:Array:1:/assets/app.head.#{js_hash}.js").length.must_equal 1
-      html.scan('empty:Array:0').length.must_equal 1
     end
 
     it 'assets_paths should return arrays of relative source paths if the :relative_paths plugin option is used' do
@@ -177,22 +186,18 @@ if run_tests
       html = body('/paths_test')
       html.scan('css:Array:2:./assets/css/app.str,./assets/css/raw.css').length.must_equal 1
       html.scan('js:Array:1:./assets/js/head/app.js').length.must_equal 1
-      html.scan('empty:Array:0').length.must_equal 1
 
       html = body('/paths_test/foo')
       html.scan('css:Array:2:../assets/css/app.str,../assets/css/raw.css').length.must_equal 1
       html.scan('js:Array:1:../assets/js/head/app.js').length.must_equal 1
-      html.scan('empty:Array:0').length.must_equal 1
 
       html = body('/paths_test/foo/')
       html.scan('css:Array:2:../../assets/css/app.str,../../assets/css/raw.css').length.must_equal 1
       html.scan('js:Array:1:../../assets/js/head/app.js').length.must_equal 1
-      html.scan('empty:Array:0').length.must_equal 1
 
       html = body('/paths_test/foo/bar')
       html.scan('css:Array:2:../../assets/css/app.str,../../assets/css/raw.css').length.must_equal 1
       html.scan('js:Array:1:../../assets/js/head/app.js').length.must_equal 1
-      html.scan('empty:Array:0').length.must_equal 1
     end
 
     it 'assets_paths should use relative paths for compiled paths if the :relative_paths plugin option is used' do
@@ -204,17 +209,14 @@ if run_tests
       html = body('/paths_test')
       html.scan("css:Array:1:./assets/app.#{css_hash}.css").length.must_equal 1
       html.scan("js:Array:1:./assets/app.head.#{js_hash}.js").length.must_equal 1
-      html.scan('empty:Array:0').length.must_equal 1
 
       html = body('/paths_test/foo')
       html.scan("css:Array:1:../assets/app.#{css_hash}.css").length.must_equal 1
       html.scan("js:Array:1:../assets/app.head.#{js_hash}.js").length.must_equal 1
-      html.scan('empty:Array:0').length.must_equal 1
 
       html = body('/paths_test/foo/')
       html.scan("css:Array:1:../../assets/app.#{css_hash}.css").length.must_equal 1
       html.scan("js:Array:1:../../assets/app.head.#{js_hash}.js").length.must_equal 1
-      html.scan('empty:Array:0').length.must_equal 1
     end
 
     it 'should handle rendering assets, linking to them, and accepting requests for them when not compiling' do
@@ -866,7 +868,7 @@ END
       File.exist?(metadata_file).must_equal true
       app.allocate.assets([:js, :head]).must_match %r{src="(/assets/app\.head\.[a-f0-9]{64}\.js)"}
 
-      app.plugin :assets, :compiled=>false, :precompiled=>false
+      app.plugin :assets, :precompiled=>false
       app.allocate.assets([:js, :head]).must_equal '<script type="text/javascript"  src="/assets/js/head/app.js"></script>'
 
       app.plugin :assets, :precompiled=>metadata_file

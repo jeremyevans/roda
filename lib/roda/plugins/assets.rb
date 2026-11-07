@@ -279,62 +279,64 @@ class Roda
     # * Use indirection, such as an erb template that loads the external asset file,
     #   so that a file inside the assets path can reference files outside the assets path.
     #
-    # == Plugin Options
+    # == Plugin Keyword Arguments
     #
-    # :add_suffix :: Whether to append a .css or .js extension to asset routes in non-compiled mode
-    #                (default: false)
-    # :compiled_asset_host :: The asset host to use for compiled assets.  Should include the protocol
-    #                         as well as the host (e.g. "https://cdn.example.com", "//cdn.example.com")
-    # :compiled_css_dir :: Directory name in which to store the compiled css file,
+    # +add_suffix+ :: Whether to append a .css or .js extension to asset routes in non-compiled mode
+    #                 (default: false)
+    # +compiled_asset_host+ :: The asset host to use for compiled assets.  Should include the protocol
+    #                          as well as the host (e.g. "https://cdn.example.com", "//cdn.example.com")
+    # +compiled_css_dir+ :: Directory name in which to store the compiled css file,
+    #                       inside :compiled_path (default: nil)
+    # +compiled_css_route+ :: Route under :prefix for compiled css assets (default: :compiled_css_dir)
+    # +compiled_js_dir+ :: Directory name in which to store the compiled javascript file,
     #                      inside :compiled_path (default: nil)
-    # :compiled_css_route :: Route under :prefix for compiled css assets (default: :compiled_css_dir)
-    # :compiled_js_dir :: Directory name in which to store the compiled javascript file,
-    #                     inside :compiled_path (default: nil)
-    # :compiled_js_route :: Route under :prefix for compiled javscript assets (default: :compiled_js_dir)
-    # :compiled_name :: Compiled file name prefix (default: 'app')
-    # :compiled_path:: Path inside public folder in which compiled files are stored (default: :prefix)
-    # :css_compressor :: Compressor callable to use for compressing CSS
-    # :css_dir :: Directory name containing your css source, inside :path (default: 'css')
-    # :css_headers :: A hash of additional headers for your rendered css files
-    # :css_opts :: Template options to pass to the render plugin (via :template_opts) when rendering css assets
-    # :css_route :: Route under :prefix for css assets (default: :css_dir)
-    # :dependencies :: A hash of dependencies for your asset files.  Keys should be paths to asset files,
-    #                  values should be arrays of paths your asset files depends on.  This is used to
-    #                  detect changes in your asset files.
-    # :early_hints :: Automatically send early hints for all assets.  Requires the early_hints plugin.
-    # :group_subdirs :: Whether a hash used in :css and :js options requires the assets for the
-    #                   related group are contained in a subdirectory with the same name (default: true)
-    # :gzip :: Store gzipped compiled assets files, and serve those to clients who accept gzip encoding.
-    # :headers :: A hash of additional headers for both js and css rendered files
-    # :js_compressor :: Compressor callable to use for compressing javascript
-    # :js_dir :: Directory name containing your javascript source, inside :path (default: 'js')
-    # :js_headers :: A hash of additional headers for your rendered javascript files
-    # :js_opts :: Template options to pass to the render plugin (via :template_opts) when rendering javascript assets
-    # :js_route :: Route under :prefix for javascript assets (default: :js_dir)
-    # :path :: Path to your asset source directory (default: 'assets').   Relative
+    # +compiled_js_route+ :: Route under :prefix for compiled javscript assets (default: :compiled_js_dir)
+    # +compiled_name+ :: Compiled file name prefix (default: 'app')
+    # +compiled_path+ :: Path inside public folder in which compiled files are stored (default: :prefix)
+    # +css+ :: The files contain the CSS assets, or a hash to use asset groups.
+    # +css_compressor+ :: Compressor callable to use for compressing CSS
+    # +css_dir+ :: Directory name containing your css source, inside :path (default: 'css')
+    # +css_headers+ :: A hash of additional headers for your rendered css files
+    # +css_opts+ :: Template options to pass to the render plugin (via :template_opts) when rendering css assets
+    # +css_route+ :: Route under :prefix for css assets (default: :css_dir)
+    # +dependencies+ :: A hash of dependencies for your asset files.  Keys should be paths to asset files,
+    #                   values should be arrays of paths your asset files depends on.  This is used to
+    #                   detect changes in your asset files.
+    # +early_hints+ :: Automatically send early hints for all assets.  Requires the early_hints plugin.
+    # +group_subdirs+ :: Whether a hash used in :css and :js options requires the assets for the
+    #                    related group are contained in a subdirectory with the same name (default: true)
+    # +gzip+ :: Store gzipped compiled assets files, and serve those to clients who accept gzip encoding.
+    # +headers+ :: A hash of additional headers for both js and css rendered files
+    # +js+ :: The files contain the javascript assets, or a hash to use assets groups.
+    # +js_compressor+ :: Compressor callable to use for compressing javascript
+    # +js_dir+ :: Directory name containing your javascript source, inside :path (default: 'js')
+    # +js_headers+ :: A hash of additional headers for your rendered javascript files
+    # +js_opts+ :: Template options to pass to the render plugin (via :template_opts) when rendering javascript assets
+    # +js_route+ :: Route under :prefix for javascript assets (default: :js_dir)
+    # +path+ :: Path to your asset source directory (default: 'assets').   Relative
     #          paths will be considered relative to the application's :root option.
-    # :postprocessor :: A block which should accept three arguments (asset name, asset type,
-    #                   content). This block can be used to hook into the asset system and
-    #                   make your own modifications before the asset is served. If the asset
-    #                   is to be compiled, the block is called at compile time.
-    # :prefix :: Prefix for assets path in your URL/routes (default: 'assets')
-    # :precompiled :: Path to the compiled asset metadata file.  If the file exists, will use compiled
-    #                 mode using the metadata in the file.  If the file does not exist, will use
-    #                 non-compiled mode, but will write the metadata to the file if compile_assets is called.
-    # :public :: Path to your public folder, in which compiled files are placed (default: 'public').  Relative
-    #            paths will be considered relative to the application's :root option.
-    # :relative_paths :: Use relative paths instead of absolute paths when setting up link and script tags for
-    #                    assets.
-    # :sri :: Enables subresource integrity when setting up references to compiled assets. The value should be
-    #         :sha256, :sha384, or :sha512 depending on which hash algorithm you want to use.  This changes the
-    #         hash algorithm that Roda will use when naming compiled asset files. The default is :sha256, you
-    #         can use nil to disable subresource integrity.
-    # :timestamp_paths :: Include the timestamp of assets in asset paths in non-compiled mode. Doing this can
-    #                     slow down development requests due to additional requests to get last modified times,
-    #                     but it will make sure the paths change in development when there are modifications,
-    #                     which can fix issues when using a caching proxy in non-compiled mode. This can also
-    #                     be specified as a string to use that string to separate the timestamp from the asset.
-    #                     By default, <tt>/</tt> is used as the separator if timestamp paths are enabled.
+    # +postprocessor+ :: A block which should accept three arguments (asset name, asset type,
+    #                    content). This block can be used to hook into the asset system and
+    #                    make your own modifications before the asset is served. If the asset
+    #                    is to be compiled, the block is called at compile time.
+    # +prefix+ :: Prefix for assets path in your URL/routes (default: 'assets')
+    # +precompiled+ :: Path to the compiled asset metadata file.  If the file exists, will use compiled
+    #                  mode using the metadata in the file.  If the file does not exist, will use
+    #                  non-compiled mode, but will write the metadata to the file if compile_assets is called.
+    # +public+ :: Path to your public folder, in which compiled files are placed (default: 'public').
+    #             Relative paths will be considered relative to the application's :root option.
+    # +relative_paths+ :: Use relative paths instead of absolute paths when setting up link and script tags for
+    #                     assets.
+    # +sri+ :: Enables subresource integrity when setting up references to compiled assets. The value should be
+    #          :sha256, :sha384, or :sha512 depending on which hash algorithm you want to use.  This changes the
+    #          hash algorithm that Roda will use when naming compiled asset files. The default is :sha256, you
+    #          can use nil to disable subresource integrity.
+    # +timestamp_paths+ :: Include the timestamp of assets in asset paths in non-compiled mode. Doing this can
+    #                      slow down development requests due to additional requests to get last modified times,
+    #                      but it will make sure the paths change in development when there are modifications,
+    #                      which can fix issues when using a caching proxy in non-compiled mode. This can also
+    #                      be specified as a string to use that string to separate the timestamp from the asset.
+    #                      By default, <tt>/</tt> is used as the separator if timestamp paths are enabled.
     module Assets
       DEFAULTS = {
         :compiled_name    => 'app'.freeze,
@@ -351,9 +353,15 @@ class Roda
         :compiled_js_dir  => nil,
         :sri              => :sha256
       }.freeze
+      RodaPlugins.deprecate_constant(self, :DEFAULTS)
 
       # Internal exception raised when a compressor cannot be found
       CompressorNotFound = Class.new(RodaError)
+
+      PLUGIN_ARGUMENTS = %i[add_suffix compiled_asset_host compiled_css_dir compiled_css_route compiled_js_dir compiled_js_route compiled_name compiled_path concat_only css css_compressor css_dir css_headers css_opts css_route dependencies early_hints group_subdirs gzip headers js js_compressor js_dir js_headers js_opts js_route path postprocessor prefix precompiled public relative_paths sri timestamp_paths].freeze
+      private_constant :PLUGIN_ARGUMENTS
+
+      Config = Struct.new(*PLUGIN_ARGUMENTS, :compiled, :compiled_css_path, :compiled_css_prefix, :compiled_css_suffix, :compiled_js_path, :compiled_js_prefix, :compiled_js_suffix, :css_path, :css_prefix, :css_suffix, :expanded_dependencies, :js_path, :js_prefix, :js_suffix, :orig_opts)
 
       # Load the render, caching, and h plugins, since the assets plugin
       # depends on them.
@@ -375,7 +383,9 @@ class Roda
 
       # Setup the options for the plugin.  See the Assets module RDoc
       # for a description of the supported options.
-      def self.configure(app, opts = {})
+      def self.configure(app, opts=OPTS)
+        RodaPlugins.check_supported_opts("the assets plugin", opts, PLUGIN_ARGUMENTS)
+
         if app.assets_opts
           prev_opts = app.assets_opts[:orig_opts]
           orig_opts = prev_opts.merge(opts)
@@ -420,9 +430,23 @@ class Roda
           opts[:timestamp_paths] = '/'
         end
 
-        DEFAULTS.each do |k, v|
-          opts[k] = v unless opts.has_key?(k)
-        end
+        {
+          :compiled_name    => 'app'.freeze,
+          :js_dir           => 'js'.freeze,
+          :css_dir          => 'css'.freeze,
+          :prefix           => 'assets'.freeze,
+          :concat_only      => false,
+          :compiled         => false,
+          :add_suffix       => false,
+          :early_hints      => false,
+          :timestamp_paths  => false,
+          :group_subdirs    => true,
+          :compiled_css_dir => nil,
+          :compiled_js_dir  => nil,
+          :sri              => :sha256
+        }.each do |k, v|
+            opts[k] = v unless opts.has_key?(k)
+          end
 
         [
          [:compiled_path, :prefix],
@@ -483,10 +507,12 @@ class Roda
         end
 
         opts.freeze
+        app.opts[:assets_config] = Config.new(*opts.values_at(*Config.members)).freeze
       end
 
       module ClassMethods
         RodaPlugins.opt_attr_reader(self, :assets, name: :assets_opts)
+        RodaPlugins.opt_attr_reader(self, :assets_config)
 
         # Compile options for the given asset type.  If no asset_type
         # is given, compile both the :css and :js asset types.  You
@@ -495,9 +521,7 @@ class Roda
         def compile_assets(type=nil)
           require 'fileutils'
 
-          unless assets_opts[:compiled]
-            opts[:assets] = assets_opts.merge(:compiled => _compiled_assets_initial_hash).freeze
-          end
+          _update_compiled_assets(_compiled_assets_initial_hash) unless assets_config.compiled
 
           if type == nil
             _compile_assets(:css)
@@ -506,17 +530,22 @@ class Roda
             _compile_assets(type)
           end
 
-          if precompile_file = assets_opts[:precompiled]
+          if precompile_file = assets_config.precompiled
             ::FileUtils.mkdir_p(File.dirname(precompile_file))
             tmp_file = "#{precompile_file}.tmp"
-            ::File.open(tmp_file, 'wb'){|f| f.write(json_serializer.call(assets_opts[:compiled]))}
+            ::File.open(tmp_file, 'wb'){|f| f.write(json_serializer.call(assets_config.compiled))}
             ::File.rename(tmp_file, precompile_file)
           end
 
-          assets_opts[:compiled]
+          assets_config.compiled
         end
 
         private
+
+        def _update_compiled_assets(compiled)
+          opts[:assets] = assets_opts.merge(:compiled => compiled).freeze
+          opts[:assets_config] = Config.new(*assets_opts.values_at(*Config.members)).freeze
+        end
 
         # The initial hash to use to store compiled asset metadata.
         def _compiled_assets_initial_hash
@@ -528,7 +557,7 @@ class Roda
         def _compile_assets(type)
           type, *dirs = type if type.is_a?(Array)
           dirs ||= []
-          files = assets_opts[type]
+          files = assets_config[type]
           dirs.each{|d| files = files[d]}
 
           case files
@@ -550,17 +579,17 @@ class Roda
         # are files in an asset group.
         def compile_assets_files(files, type, dirs)
           dirs = nil if dirs && dirs.empty?
-          o = assets_opts
+          o = assets_config
           app = allocate
 
           content = files.map do |file|
-            file = "#{dirs.join('/')}/#{file}" if dirs && o[:group_subdirs]
+            file = "#{dirs.join('/')}/#{file}" if dirs && o.group_subdirs
             file = "#{o[:"#{type}_path"]}#{file}"
             app.read_asset_file(file, type)
           end.join("\n")
 
           # RODA4: Remove :concat_only option
-          unless o[:concat_only]
+          unless o.concat_only
             content = compress_asset(content, type)
           end
 
@@ -584,7 +613,7 @@ class Roda
         # Compress the given content for the given type by using the
         # configured compressor, or trying the supported compressors.
         def compress_asset(content, type)
-          case compressor = assets_opts[:"#{type}_compressor"]
+          case compressor = assets_config[:"#{type}_compressor"]
           when :none
             return content
           when nil
@@ -669,7 +698,7 @@ class Roda
         # a different digest type or to return a static string if you don't
         # want to use a unique value.
         def asset_digest(content)
-          algo = assets_opts[:sri] || :sha256
+          algo = assets_config.sri || :sha256
           digest = begin
             require 'openssl'
             ::OpenSSL::Digest
@@ -687,7 +716,7 @@ class Roda
         # Return an array of paths for the given asset type and optionally
         # asset group. See the assets function documentation for details.
         def assets_paths(type)
-          o = self.class.assets_opts
+          o = self.class.assets_config
           if type.is_a?(Array)
             ltype, *dirs = type
           else
@@ -696,23 +725,29 @@ class Roda
           stype = ltype.to_s
 
           url_prefix = request.script_name if self.class.add_script_name?
-          relative_paths = o[:relative_paths]
+          relative_paths = o.relative_paths
 
-          paths = if o[:compiled]
-            relative_paths = false if o[:compiled_asset_host]
+          paths = if o.compiled
+            relative_paths = false if o.compiled_asset_host
             if ukey = _compiled_assets_hash(type, true)
-              ["#{o[:compiled_asset_host]}#{url_prefix}/#{o[:"compiled_#{stype}_prefix"]}.#{ukey}.#{stype}"]
+              ["#{o.compiled_asset_host}#{url_prefix}/#{o[:"compiled_#{stype}_prefix"]}.#{ukey}.#{stype}"]
             else
               []
             end
           else
-            asset_dir = o[ltype]
+            case ltype
+            when :css, :js
+              asset_dir = o[ltype]
+            else
+              RodaPlugins.warn("Invalid asset type given to assets_paths, such be :css or :js: #{ltype}", uplevel: 1)
+            end
+
             if dirs && !dirs.empty?
               dirs.each{|f| asset_dir = asset_dir[f]}
-              prefix = "#{dirs.join('/')}/" if o[:group_subdirs]
+              prefix = "#{dirs.join('/')}/" if o.group_subdirs
             end
             Array(asset_dir).map do |f|
-              if ts = o[:timestamp_paths]
+              if ts = o.timestamp_paths
                 mtime = asset_last_modified(File.join(o[:"#{stype}_path"], *[prefix, f].compact))
                 mtime = "#{sprintf("%i%06i", mtime.to_i, mtime.usec)}#{ts}"
               end
@@ -745,8 +780,8 @@ class Roda
         def assets(type, attrs = OPTS)
           ltype = type.is_a?(Array) ? type[0] : type
 
-          o = self.class.assets_opts
-          if o[:compiled] && (algo = o[:sri]) && (hash = _compiled_assets_hash(type))
+          o = self.class.assets_config
+          if o.compiled && (algo = o.sri) && (hash = _compiled_assets_hash(type))
             attrs = Hash[attrs]
             attrs[:integrity] = "#{algo}-#{h([[hash].pack('H*')].pack('m').tr("\n", ''))}"
           end
@@ -762,7 +797,7 @@ class Roda
           end
 
           paths = assets_paths(type)
-          if o[:early_hints]
+          if o.early_hints
             early_hint_as = ltype == :js ? 'script' : 'style'
             early_hints = paths.map{|p| "<#{p}>; rel=preload; as=#{early_hint_as}"}
             early_hints = early_hints.join("\n") if Rack.release < '3'
@@ -779,11 +814,11 @@ class Roda
         # In both cases, if the file has not been modified since the last request,
         # this will return a 304 response.
         def render_asset(file, type)
-          o = self.class.assets_opts
-          if o[:compiled]
+          o = self.class.assets_config
+          if o.compiled
             file = "#{o[:"compiled_#{type}_path"]}#{file}"
 
-            if o[:gzip] && env['HTTP_ACCEPT_ENCODING'] =~ /\bgzip\b/
+            if o.gzip && env['HTTP_ACCEPT_ENCODING'] =~ /\bgzip\b/
               @_response[RodaResponseHeaders::CONTENT_ENCODING] = 'gzip'
               file += '.gz'
             end
@@ -801,21 +836,21 @@ class Roda
         # Otherwise, render the file using the render plugin.  +file+ should be
         # the relative path to the file from the current directory.
         def read_asset_file(file, type)
-          o = self.class.assets_opts
+          o = self.class.assets_config
 
           content = if file.end_with?(".#{type}")
             ::File.read(file)
           else
-            render_asset_file(file, :template_opts=>o[:"#{type}_opts"], :dependencies=>o[:expanded_dependencies][file])
+            render_asset_file(file, :template_opts=>o[:"#{type}_opts"], :dependencies=>o.expanded_dependencies[file])
           end
 
-          o[:postprocessor] ? o[:postprocessor].call(file, type, content) : content
+          o.postprocessor ? o.postprocessor.call(file, type, content) : content
         end
 
         private
 
         def _compiled_assets_hash(type, return_ukey=false)
-          compiled = self.class.assets_opts[:compiled]
+          compiled = self.class.assets_config.compiled
           type, *dirs = type if type.is_a?(Array)
           stype = type.to_s
 
@@ -836,7 +871,7 @@ class Roda
         # other files, check the modification times of all dependencies and
         # return the maximum.
         def asset_last_modified(file)
-          if deps = self.class.assets_opts[:expanded_dependencies][file]
+          if deps = self.class.assets_config.expanded_dependencies[file]
             [file, *deps].map!{|f| ::File.stat(f).mtime}.max
           else
             ::File.stat(file).mtime
@@ -848,7 +883,7 @@ class Roda
         # type-specific headers.
         def check_asset_request(file, type, mtime)
           @_request.last_modified(mtime)
-          @_response.headers.merge!(self.class.assets_opts[:"#{type}_headers"])
+          @_response.headers.merge!(self.class.assets_config[:"#{type}_headers"])
         end
 
         # Render the given asset file using the render plugin, with the given options.
@@ -884,8 +919,8 @@ class Roda
         # The regexp matcher to use for the given type.  This handles any asset groups
         # for the asset types.
         def assets_regexp(type)
-          o = roda_class.assets_opts
-          if compiled = o[:compiled]
+          o = roda_class.assets_config
+          if compiled = o.compiled
             assets = compiled.
               select{|k,_| k =~ /\A#{type}/}.
               map{|k, md| _asset_regexp(type, k, md)}
@@ -894,7 +929,7 @@ class Roda
           else
             return unless assets = o[type]
             assets = unnest_assets_hash(assets)
-            ts = o[:timestamp_paths]
+            ts = o.timestamp_paths
             /#{o[:"#{type}_prefix"]}#{"\\d+#{ts}" if ts}(#{Regexp.union(assets.uniq)})#{o[:"#{type}_suffix"]}/
           end
         end
@@ -906,7 +941,7 @@ class Roda
           when Hash
             h.flat_map do |k,v|
               assets = unnest_assets_hash(v)
-              assets = assets.map{|x| "#{k}/#{x}"} if roda_class.assets_opts[:group_subdirs]
+              assets = assets.map{|x| "#{k}/#{x}"} if roda_class.assets_config.group_subdirs
               assets
             end
           else
