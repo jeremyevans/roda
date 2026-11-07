@@ -48,27 +48,37 @@ class Roda
       end
 
       def self.load_dependencies(app)
-        unless app.respond_to?(:assets_opts) && app.assets_opts[:precompiled]
+        unless app.respond_to?(:assets_config) && app.assets_config.precompiled
           raise RodaError, "must load assets plugin with precompiled option before loading recheck_precompiled_assets plugin"
         end
+        # Set mutex before overriding a method that uses it
+        app::RodaRequest.instance_variable_set(:@_precompiled_assets_mutex, Mutex.new)
       end
 
       def self.configure(app)
-        precompiled_file = app.assets_opts[:precompiled]
+        precompiled_file = app.assets_config.precompiled
         prev_mtime = ::File.mtime(precompiled_file)
+
+        request_class = app::RodaRequest
+        mutex = request_class.instance_variable_get(:@_precompiled_assets_mutex)
+        # Unset the assets matchers, in case a frozen value is already set
+        request_class.instance_variable_set(:@assets_matchers, nil)
+        # Ensure the assets matchers is set and an unfrozen array, and get the underlying value
+        request_class.assets_matchers
+        assets_matchers = request_class.instance_variable_get(:@assets_matchers)
+
         app.instance_exec do
-          opts[:assets] = assets_opts.merge(:compiled=>_compiled_assets_initial_hash.replace(assets_opts[:compiled])).freeze
+          _update_compiled_assets(_compiled_assets_initial_hash.replace(assets_config.compiled))
 
           define_singleton_method(:recheck_precompiled_assets) do
             new_mtime = ::File.mtime(precompiled_file)
             if new_mtime != prev_mtime
               prev_mtime = new_mtime
-              assets_opts[:compiled].replace(_precompiled_asset_metadata(precompiled_file))
+              assets_config.compiled.replace(_precompiled_asset_metadata(precompiled_file))
 
-              # Unset the cached asset matchers, so new ones will be generated.
-              # This is needed in case the new precompiled metadata uses
-              # different files.
-              app::RodaRequest.instance_variable_set(:@assets_matchers, nil)
+              # Replace the asset matchers, in case the new precompiled metadata uses different files.
+              new_assets_matchers = request_class.send(:_build_assets_matchers)
+              mutex.synchronize{assets_matchers.replace(new_assets_matchers)}
             end
           end
           singleton_class.send(:alias_method, :recheck_precompiled_assets, :recheck_precompiled_assets)
@@ -91,7 +101,19 @@ class Roda
       end
 
       module RequestClassMethods
+        # Synchronize access and return a dup, so that replacements of the
+        # assets matchers at runtime doesn't cause thread safety issues.
+        def assets_matchers
+          @_precompiled_assets_mutex.synchronize{super.dup}
+        end
+
         private
+
+        # Use a unfrozen array for the assets matchers, so they can be replaced
+        # at runtime.
+        def _build_assets_matchers
+          super.dup
+        end
 
         # Use a regexp that matches any digest.  When the precompiled asset metadata
         # file is updated, this allows requests for a previous precompiled asset to

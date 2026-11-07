@@ -897,11 +897,7 @@ class Roda
         # An array of asset type strings and regexps for that type, for all asset types
         # handled.
         def assets_matchers
-          @assets_matchers ||= [:css, :js].map! do |t|
-            if regexp = assets_regexp(t)
-              [t, regexp].freeze
-            end
-          end.compact.freeze
+          @assets_matchers ||= _build_assets_matchers
         end
 
         def freeze
@@ -910,6 +906,14 @@ class Roda
         end
 
         private
+
+        def _build_assets_matchers
+          [:css, :js].map! do |t|
+            if regexp = assets_regexp(t)
+              [t, regexp].freeze
+            end
+          end.compact.freeze
+        end
 
         # A string for the asset filename for the asset type, key, and digest.
         def _asset_regexp(type, key, digest)

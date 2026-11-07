@@ -18,7 +18,7 @@ if run_tests
   describe 'recheck_precompiled_assets plugin' do
     define_method(:compile_assets) do |opts={}|
       Class.new(Roda) do
-        plugin :assets, {:css => 'app.str', :path => assets_dir, :css_dir=>nil, :precompiled=>metadata_file, :public=>assets_dir, :prefix=>nil, :js_compressor=>:none, :css_compressor=>:none}.merge!(opts)
+        plugin :assets, **{:css => 'app.str', :path => assets_dir, :css_dir=>nil, :precompiled=>metadata_file, :public=>assets_dir, :prefix=>nil, :js_compressor=>:none, :css_compressor=>:none}.merge!(opts)
         compile_assets
       end
     end
@@ -45,44 +45,52 @@ if run_tests
       FileUtils.rm_r(pid_dir) if File.directory?(pid_dir)
     end
 
-    it 'should support :recheck_precompiled option to recheck precompiled file for new precompilation data' do
-      css_hash = app.assets_opts[:compiled]['css']
-      app.assets_opts[:compiled]['js'].must_be_nil
-      body.scan("href=\"/app.#{css_hash}.css\"").length.must_equal 1
-      body("/app.#{css_hash}.css").must_match(/color:\s*red/)
+    [true, false].each do |frozen|
+      it "should support :recheck_precompiled option to recheck precompiled file for new precompilation data when app is #{frozen ? "" : "un"}frozen" do
+        if frozen
+          app.plugin :freeze_request_response
+          app.freeze
+        end
+        css_hash = app.assets_config.compiled['css']
+        app.assets_config.compiled['js'].must_be_nil
+        body.scan("href=\"/app.#{css_hash}.css\"").length.must_equal 1
+        body("/app.#{css_hash}.css").must_match(/color:\s*red/)
 
-      css_file = File.join(assets_dir, 'app.str')
-      File.write(css_file, File.read(css_file).sub('red', 'blue'))
-      compile_assets
-      File.utime(Time.now, Time.now - 10, metadata_file)
+        css_file = File.join(assets_dir, 'app.str')
+        File.write(css_file, File.read(css_file).sub('red', 'blue'))
+        compile_assets
+        File.utime(Time.now, Time.now - 10, metadata_file)
 
-      app.assets_opts[:compiled]['css'].must_equal css_hash
-      body.scan("href=\"/app.#{css_hash}.css\"").length.must_equal 1
-      body("/app.#{css_hash}.css").must_match(/color:\s*red/)
-      css2_hash = nil
+        app.assets_config.compiled['css'].must_equal css_hash
+        body.scan("href=\"/app.#{css_hash}.css\"").length.must_equal 1
+        body("/app.#{css_hash}.css").must_match(/color:\s*red/)
+        css2_hash = nil
 
-      2.times do
+        2.times do
+          app.recheck_precompiled_assets
+          css2_hash = app.assets_config.compiled['css']
+          css2_hash.wont_equal css_hash
+          body.scan("href=\"/app.#{css2_hash}.css\"").length.must_equal 1
+          body("/app.#{css2_hash}.css").must_match(/color:\s*blue/)
+          body("/app.#{css_hash}.css").must_match(/color:\s*red/)
+        end
+
+        compile_assets(:js=>'app.js', :js_dir=>nil)
         app.recheck_precompiled_assets
-        css2_hash = app.assets_opts[:compiled]['css']
-        css2_hash.wont_equal css_hash
+        js_hash = app.assets_config.compiled['js']
+        body.scan("src=\"/app.#{js_hash}.js\"").length.must_equal 1
+        body("/app.#{js_hash}.js").must_match(/console\.log\(.test.\)/)
+
+        app.assets_config.compiled.replace({})
+        app.compile_assets
+        body.strip.must_be_empty
+        next if frozen
+
+        app.plugin :assets, :css => 'app.str', :path => assets_dir, :css_dir=>nil, :css_opts => {:cache=>false}
+        app.compile_assets
         body.scan("href=\"/app.#{css2_hash}.css\"").length.must_equal 1
         body("/app.#{css2_hash}.css").must_match(/color:\s*blue/)
-        body("/app.#{css_hash}.css").must_match(/color:\s*red/)
       end
-
-      compile_assets(:js=>'app.js', :js_dir=>nil)
-      app.recheck_precompiled_assets
-      js_hash = app.assets_opts[:compiled]['js']
-      body.scan("src=\"/app.#{js_hash}.js\"").length.must_equal 1
-      body("/app.#{js_hash}.js").must_match(/console\.log\(.test.\)/)
-
-      app.assets_opts[:compiled].replace({})
-      app.compile_assets
-      body.strip.must_be_empty
-      app.plugin :assets, :css => 'app.str', :path => assets_dir, :css_dir=>nil, :css_opts => {:cache=>false}
-      app.compile_assets
-      body.scan("href=\"/app.#{css2_hash}.css\"").length.must_equal 1
-      body("/app.#{css2_hash}.css").must_match(/color:\s*blue/)
     end
   end
 

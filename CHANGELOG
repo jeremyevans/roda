@@ -1,5 +1,7 @@
 === master
 
+* Make recheck_precompiled_assets work with freeze_request_response plugin (jeremyevans)
+
 * Improve assets plugin performance by storing assets configuration in struct instead of hash (jeremyevans)
 
 * Deprecate passing invalid type to assets_paths in assets plugin (jeremyevans)
