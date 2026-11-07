@@ -1,5 +1,7 @@
 === master
 
+* Add keyword arguments and deprecate positional hash for cookie_flags plugin (jeremyevans)
+
 * Add keyword arguments and deprecate positional hash for permissions_policy plugin (jeremyevans)
 
 * Add keyword arguments and deprecate positional hash for content_for plugin (jeremyevans)

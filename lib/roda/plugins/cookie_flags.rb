@@ -61,6 +61,7 @@ class Roda
       end
 
       def self.configure(app, opts=OPTS)
+        RodaPlugins.check_supported_opts("the cookie_flags plugin", opts, %i[action httponly same_site secure].freeze)
         previous = app.cookie_flags || DEFAULTS
         opts = app.opts[:cookie_flags] = previous.merge(opts)
 
