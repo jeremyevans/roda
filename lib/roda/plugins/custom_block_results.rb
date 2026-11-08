@@ -5,12 +5,11 @@ class Roda
   module RodaPlugins
     # The custom_block_results plugin allows you to specify handling
     # for different block results.  By default, Roda only supports
-    # nil, false, and string block results, but using this plugin,
+    # +nil+, +false+, and string block results, but using this plugin,
     # you can support other block results.
     #
-    # For example, if you wanted to support returning Integer
-    # block results, and have them set the response status code,
-    # you could do:
+    # For example, if you wanted to support Integer block results, and
+    # have the integer set the response status code, you could do:
     #
     #   plugin :custom_block_results
     #
@@ -23,12 +22,12 @@ class Roda
     #   end
     #
     # The expected use case for this is to customize behavior by
-    # class, but matching uses ===, so it is possible to use non-class
-    # objects that respond to === appropriately.
+    # class, but matching uses <tt>===</tt>, so it is possible to use non-class
+    # objects that respond to <tt>===</tt> appropriately.
     #
     # Note that custom block result handling only occurs if the types
     # are not handled by Roda itself.  You cannot use this to modify
-    # the handling of nil, false, or string results.  Additionally,
+    # the handling of +nil+, +false+, or string results.  Additionally,
     # if the response body has already been written to before the the
     # route block exits, then the result of the block is ignored,
     # and the related +handle_block_result+ block will not be called
