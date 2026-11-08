@@ -308,7 +308,7 @@ class Roda
           raise RodaError, "Invalid plugin type: #{plugin.class.inspect}" unless plugin.is_a?(Module)
 
           if !plugin.respond_to?(:load_dependencies) && !plugin.respond_to?(:configure) && (!args.empty? || block)
-            RodaPlugins.warn("Plugin #{plugin} does not accept arguments or a block, but arguments or a block was passed when loading this. This will raise an error in Roda 4.")
+            RodaPlugins.warn("Plugin #{plugin} does not accept arguments or a block, but arguments or a block was passed when loading this. This will raise an error in Roda 4.", uplevel: 1)
           end
 
           plugin.load_dependencies(self, *args, &block) if plugin.respond_to?(:load_dependencies)
@@ -341,7 +341,7 @@ class Roda
         # times will overwrite the previous routing.
         def route(&block)
           unless block
-            RodaPlugins.warn "no block passed to Roda.route"
+            RodaPlugins.warn("no block passed to Roda.route", uplevel: 1)
             return
           end
 
@@ -484,7 +484,7 @@ class Roda
             break if mod == InstanceMethods
             meths = mod.instance_methods(false)
             if meths.include?(:call) && !(meths.include?(:_roda_handle_main_route) || meths.include?(:_roda_run_main_route))
-            RodaPlugins.warn <<WARNING
+            RodaPlugins.warn(<<WARNING, uplevel: 1)
 Falling back to using #call for dispatching for #{self}, due to #call override in #{mod}.
 #{mod} should be fixed to adjust to Roda's new dispatch API, and override _roda_handle_main_route or _roda_run_main_route
 WARNING
