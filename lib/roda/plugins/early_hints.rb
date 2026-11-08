@@ -3,14 +3,14 @@
 #
 class Roda
   module RodaPlugins
-    # The early_hints plugin allows sending 103 Early Hints responses
-    # using the rack.early_hints environment variable.
+    # The early_hints plugin adds the +send_early_hints+ method for sending
+    # 103 Early Hints responses using the +rack.early_hints+ environment variable.
     # Early hints allow clients to preload necessary files before receiving
     # the response.
     module EarlyHints
       module InstanceMethods
-        # Send given hash of Early Hints using the rack.early_hints environment variable,
-        # currenly only supported by puma.  hash given should generally have the single
+        # Send given hash of Early Hints using the +rack.early_hints+ environment variable,
+        # currenly supported by puma and falcon.  hash given should generally have the single
         # key 'Link', and a string or array of strings for each of the early hints.
         def send_early_hints(hash)
           if eh_proc = env['rack.early_hints']
