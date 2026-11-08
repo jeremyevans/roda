@@ -3,7 +3,7 @@
 #
 class Roda
   module RodaPlugins
-    warn("The delay_build plugin no longer has an effect. It will be removed in Roda 4.")
+    warn("The delay_build plugin no longer has an effect. It will be removed in Roda 4.", uplevel: 1)
 
     module DelayBuild
       module ClassMethods
