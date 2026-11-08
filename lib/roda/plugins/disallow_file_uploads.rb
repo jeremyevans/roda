@@ -12,7 +12,7 @@ class Roda
     #
     #   plugin :disallow_file_uploads
     #
-    # This plugin is only supported on Rack 1.6+.  This plugin does not technically
+    # This plugin is supported on Rack 1.6+.  This plugin does not technically
     # block users from uploading files, it only blocks the parsing of request bodies containing
     # multipart file uploads.  So if you do not call +r.POST+ (or something that calls it such as
     # +r.params+), then Roda will not attempt to parse the request body, and an exception will not
@@ -24,7 +24,7 @@ class Roda
       NO_TEMPFILE = lambda{|_,_| raise Error, "Support for uploading files has been disabled"}
 
       module RequestMethods
-        # HTML escape the input and return the escaped version.
+        # Raise an error if there is an attempt to use a tempfile.
         def initialize(_, env)
           env['rack.multipart.tempfile_factory'] = NO_TEMPFILE
           super
@@ -35,4 +35,3 @@ class Roda
     register_plugin(:disallow_file_uploads, DisallowFileUploads)
   end
 end
-
