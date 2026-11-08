@@ -3,8 +3,8 @@
 #
 class Roda
   module RodaPlugins
-    # The each_part plugin adds an each_part method, which is a
-    # render_each-like method that treats all keywords as locals.
+    # The each_part plugin adds an +each_part+ method, which is similar to
+    # +render_each+, but treats all keywords as locals.
     #
     #   # Can replace this:
     #   render_each(enum, :template, locals: {foo: 'bar'})
@@ -15,7 +15,7 @@ class Roda
     # On Ruby 2.7+, the part method takes a keyword splat, so you
     # must pass keywords and not a positional hash for the locals.
     #
-    # If you are using the :assume_fixed_locals render plugin option,
+    # If you are using the +:assume_fixed_locals+ render plugin option,
     # template caching is enabled, you are using Ruby 3+, and you
     # are freezing your Roda application, in addition to providing a
     # simpler API, this also provides a performance improvement.
@@ -51,9 +51,7 @@ class Roda
       end
 
       module AssumeFixedLocalsInstanceMethods
-        # simplecov:disable
-        if RUBY_VERSION >= '3.0'
-        # simplecov:enable
+        if RUBY_VERSION >= '3.0' # simplecov:disable
           def each_part(enum, template, **locals, &block)
             if optimized_method = _cached_render_each_template_method(template)
               optimized_method = optimized_method[0]
