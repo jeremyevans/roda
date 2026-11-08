@@ -4,7 +4,7 @@
 class Roda
   module RodaPlugins
     # The default_headers plugin accepts a hash of headers,
-    # and overrides the default_headers method in the
+    # and overrides the +default_headers+ method in the
     # response class to be a copy of the headers.
     #
     # Note that when using this module, you should not
@@ -22,7 +22,7 @@ class Roda
     #   plugin :default_headers, 'Bar'=>'baz'
     module DefaultHeaders
       # Merge the given headers into the existing default headers, if any.
-      def self.configure(app, headers={})
+      def self.configure(app, headers=OPTS)
         app.opts[:default_headers] = (app.default_headers || app::RodaResponse::DEFAULT_HEADERS).merge(headers).freeze
       end 
 
