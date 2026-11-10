@@ -12,9 +12,9 @@ class Roda
     #
     # To make sure that this speeds up applications using the h
     # plugin, this depends on the h plugin, and overrides the
-    # h method.
+    # +h+ method.
     #
-    # The following example will return "&lt;foo&gt;" as the body.
+    # The following example will return <tt>"&lt;foo&gt;"</tt> as the body.
     #
     #   plugin :erb_h
     #
@@ -25,8 +25,8 @@ class Roda
     # The faster performance offered by the erb_h plugin is due
     # to erb/escape avoiding allocations if not needed (returning the
     # input object if no escaping is needed).  That behavior change
-    # can cause problems if you mutate the result of the h method
-    # (which can mutate the input), or mutate the input of the h
+    # can cause problems if you mutate the result of the +h+ method
+    # (which can mutate the input), or mutate the input of the +h+
     # method after calling it (which can mutate the result).
     module ErbH
       def self.load_dependencies(app)
