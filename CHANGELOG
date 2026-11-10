@@ -1,5 +1,7 @@
 === master
 
+* Improve cookie_flags plugin performance by storing configuration in struct instead of hash (jeremyevans)
+
 * Deprecate the csrf plugin, switch to route_csrf or sec_fetch_site_csrf (jeremyevans)
 
 * Add keyword arguments and deprecate positional hash for cookie_flags plugin (jeremyevans)
@@ -10,13 +12,13 @@
 
 * Make recheck_precompiled_assets work with freeze_request_response plugin (jeremyevans)
 
-* Improve assets plugin performance by storing assets configuration in struct instead of hash (jeremyevans)
+* Improve assets plugin performance by storing configuration in struct instead of hash (jeremyevans)
 
 * Deprecate passing invalid type to assets_paths in assets plugin (jeremyevans)
 
 * Deprecate public constants in assets plugin (jeremyevans)
 
-* Improve sessions plugin performance by storing session configuration in struct instead of hash (jeremyevans)
+* Improve sessions plugin performance by storing configuration in struct instead of hash (jeremyevans)
 
 * Deprecate public constants in sessions plugin (jeremyevans)
 

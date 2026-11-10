@@ -60,8 +60,11 @@ class Roda
       class Error < RodaError
       end
 
+      Config = Struct.new(*DEFAULTS.keys, :same_site_string)
+      private_constant :Config
+
       def self.configure(app, opts=OPTS)
-        RodaPlugins.check_supported_opts("the cookie_flags plugin", opts, %i[action httponly same_site secure].freeze)
+        RodaPlugins.check_supported_opts("the cookie_flags plugin", opts, DEFAULTS.keys)
         previous = app.cookie_flags || DEFAULTS
         opts = app.opts[:cookie_flags] = previous.merge(opts)
 
@@ -73,24 +76,26 @@ class Roda
         end
 
         opts.freeze
+        app.opts[:cookie_flags_config] = Config.new(*opts.values_at(*Config.members)).freeze
       end
 
       module ClassMethods
         RodaPlugins.opt_attr_reader(self, :cookie_flags)
+        RodaPlugins.opt_attr_reader(self, :cookie_flags_config)
       end
 
       module InstanceMethods
         private
 
         def _handle_cookie_flags_array(cookies)
-          opts = self.class.cookie_flags
-          needs_secure = opts[:secure]
-          needs_httponly = opts[:httponly]
-          if needs_same_site = opts[:same_site]
-            same_site_string = opts[:same_site_string]
+          opts = self.class.cookie_flags_config
+          needs_secure = opts.secure
+          needs_httponly = opts.httponly
+          if needs_same_site = opts.same_site
+            same_site_string = opts.same_site_string
             same_site_regexp = /;\s*samesite\s*=\s*(\S+)\s*(?:\z|;)/i
           end
-          action = opts[:action]
+          action = opts.action
 
           cookies.map do |cookie|
             if needs_secure
