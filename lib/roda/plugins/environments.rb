@@ -3,10 +3,10 @@
 #
 class Roda
   module RodaPlugins
-    # The environments plugin adds a environment class accessor to get
-    # the environment for the application, 3 predicate class methods
-    # to check for the current environment (development?, test? and
-    # production?), and a class configure method that takes environment(s)
+    # The environments plugin adds a +environment+ class accessor to get
+    # the environment for the application, predicate class methods
+    # to check for the current environment (+development?+, +test?+ and
+    # +production?+), and a class +configure+ method that takes environment(s)
     # and yields to the block if the given environment(s) match the
     # current environment.
     #
@@ -40,8 +40,8 @@ class Roda
     #     end
     #   end
     module Environments
-      # Set the environment to use for the app.  Default to ENV['RACK_ENV']
-      # if no environment is given.  If ENV['RACK_ENV'] is not set and
+      # Set the environment to use for the app.  Default to <tt>ENV['RACK_ENV']</tt>
+      # if no environment is given.  If <tt>ENV['RACK_ENV']</tt> is not set and
       # no environment is given, assume the development environment.
       def self.configure(app, env=ENV["RACK_ENV"])
         app.opts[:environment] = (env || 'development').to_sym
@@ -53,13 +53,13 @@ class Roda
         # If no environments are given or one of the given environments
         # matches the current environment, yield the receiver to the block.
         def configure(*envs)
-          if envs.empty? || envs.any?{|s| s == environment}
+          if envs.empty? || envs.include?(environment)
             yield self
           end
         end
 
         # Override the environment for the application, instead of using
-        # RACK_ENV.
+        # <tt>ENV['RACK_ENV']</tt>.
         def environment=(v)
           opts[:environment] = v
         end
