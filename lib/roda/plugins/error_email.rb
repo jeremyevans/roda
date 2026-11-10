@@ -5,8 +5,8 @@ require 'net/smtp'
 class Roda
   module RodaPlugins
     # The error_email plugin adds an +error_email+ instance method that
-    # send an email related to the exception.  This is most useful if you are
-    # also using the error_handler plugin:
+    # sends an email related to the exception.  This is designed for use in
+    # combination with the error_handler plugin:
     #
     #   plugin :error_email, to: 'to@example.com', from: 'from@example.com'
     #   plugin :error_handler do |e|
@@ -16,19 +16,19 @@ class Roda
     #
     # It is similar to the error_mail plugin, except that it uses net/smtp
     # directly instead of using the mail library.  If you are not already using the
-    # mail library in your application, it makes sense to use error_email
-    # instead of error_mail.
+    # mail library in your application, using error_email may be preferable over
+    # error_mail in terms of limiting the number of dependencies.
     #
     # Options:
     #
-    # :filter :: Callable called with the key and value for each parameter, environment
-    #            variable, and session value.  If it returns true, the value of the
-    #            parameter is filtered in the email.
-    # :from :: The From address to use in the email (required)
-    # :headers :: A hash of additional headers to use in the email (default: empty hash)
-    # :host :: The SMTP server to use to send the email (default: localhost)
-    # :prefix :: A prefix to use in the email's subject line (default: no prefix)
-    # :to :: The To address to use in the email (required)
+    # +:filter+ :: Callable called with the key and value for each parameter, environment
+    #              variable, and session value.  If it returns true, the value of the
+    #              parameter is filtered in the email.
+    # +:from+ :: The From address to use in the email (required)
+    # +:headers+ :: A hash of additional headers to use in the email (default: empty hash)
+    # +:host+ :: The SMTP server to use to send the email (default: localhost)
+    # +:prefix+ :: A prefix to use in the email's subject line (default: no prefix)
+    # +:to+ :: The To address to use in the email (required)
     #
     # The subject of the error email shows the exception class and message.
     # The body of the error email shows the backtrace of the error and the
@@ -111,17 +111,16 @@ END
         end
       }.freeze
 
-      # Set default opts for plugin.  See ErrorEmail module RDoc for options.
       def self.configure(app, opts=OPTS)
+        RodaPlugins.check_supported_opts("the error_email plugin", opts, [*DEFAULTS.keys, :prefix, :to, :from])
+
         email_opts = app.opts[:error_email] ||= DEFAULTS
         email_opts = email_opts.merge(opts)
-        email_opts[:headers] = email_opts[:headers].dup
+        email_opts[:headers] = email_opts[:headers].dup.freeze
         unless email_opts[:to] && email_opts[:from]
           raise RodaError, "must provide :to and :from options to error_email plugin"
         end
-        app.opts[:error_email] = email_opts
-        app.error_email_opts[:headers].freeze
-        app.error_email_opts.freeze
+        app.opts[:error_email] = email_opts.freeze
       end
 
       module ClassMethods

@@ -1,10 +1,10 @@
 === master
 
+* Check supported options passed to sessions, assets, cookie_flags, and error_email plugins (jeremyevans)
+
 * Improve cookie_flags plugin performance by storing configuration in struct instead of hash (jeremyevans)
 
 * Deprecate the csrf plugin, switch to route_csrf or sec_fetch_site_csrf (jeremyevans)
-
-* Add keyword arguments and deprecate positional hash for cookie_flags plugin (jeremyevans)
 
 * Add keyword arguments and deprecate positional hash for permissions_policy plugin (jeremyevans)
 
@@ -23,8 +23,6 @@
 * Deprecate public constants in sessions plugin (jeremyevans)
 
 * Deprecate :per_cookie_cipher_secret option for sessions plugin (jeremyevans)
-
-* Add keyword arguments and deprecate positional hash for sessions and conditional_sessions plugins (jeremyevans)
 
 * Support use_request_ip keyword argument to common_logger plugin (jeremyevans)
 
