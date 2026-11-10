@@ -3,10 +3,10 @@
 #
 class Roda
   module RodaPlugins
-    # The empty_root plugin makes +r.root+ match both on +/+ and
-    # on the empty string.  This is mostly useful when using multiple
-    # rack applications, where the initial PATH_INFO has been moved
-    # to SCRIPT_NAME.  For example, if you have the following
+    # The empty_root plugin makes +r.root+ match both +/+ and
+    # the empty string.  This is mostly useful when using multiple
+    # rack applications, where the initial +PATH_INFO+ has been moved
+    # to +SCRIPT_NAME+.  For example, if you have the following
     # applications:
     #
     #   class App1 < Roda
@@ -28,7 +28,7 @@ class Roda
     # Then requests for both +/albums/+ and +/albums+ will return
     # "root".  Without this plugin loaded into App2, only requests
     # for +/albums/+ will return "root", since by default, +r.root+
-    # matches only when the current PATH_INFO is +/+ and not when
+    # matches only when the current +PATH_INFO+ is +/+ and not when
     # it is empty.
     module EmptyRoot
       module RequestMethods
