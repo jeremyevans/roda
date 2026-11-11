@@ -3,7 +3,7 @@
 #
 class Roda
   module RodaPlugins
-    # The exception_page plugin provides an exception_page method that is designed
+    # The exception_page plugin provides an +exception_page+ method that is designed
     # to be called inside the error handler to provide a page to the developer
     # with debugging information. It should only be used in developer environments
     # with trusted clients, as it can leak source code and other information that
@@ -21,29 +21,29 @@ class Roda
     # differences:
     #
     # * Not a middleware, so it doesn't handle exceptions itself, and has no effect
-    #   on the callstack unless the exception_page method is called.
+    #   on the callstack unless the +exception_page+ method is called.
     # * Supports external javascript and stylesheets, allowing context toggling to
     #   work in applications that use a content security policy to restrict inline
-    #   javascript and stylesheets (:assets, :css_file, and :js_file options).
-    # * Has fewer dependencies (does not require ostruct and erb).
+    #   javascript and stylesheets (+assets+, +css_file+, and +js_file+ arguments).
+    # * Has fewer dependencies (does not require erb).
     # * Sets the Content-Type for the response, and returns the body string, but does
     #   not modify other headers or the response status.
-    # * Supports a configurable amount of context lines in backtraces (:context option).
-    # * Supports optional JSON formatted output, if used with the json plugin (:json option).
+    # * Supports a configurable amount of context lines in backtraces (+context+ argument).
+    # * Supports optional JSON formatted output, if used with the json plugin (+json+ argument).
     #
-    # To use the external javascript and stylesheets, you can call +r.exception_page_assets+
-    # in your routing tree:
+    # To handle requests for the external javascript and stylesheets, you can call
+    # +r.exception_page_assets+ in your routing tree:
     #
     #   route do |r|
     #     # ...
     #
     #     # serve GET /exception_page.{css,js} requests
-    #     # Use with assets: true +exception_page+ option
+    #     # Use with exception_page assets: true argument
     #     r.exception_page_assets
     #     
     #     r.on "static" do
     #       # serve GET /static/exception_page.{css,js} requests
-    #       # Use with assets: '/static' +exception_page+ option
+    #       # Use with exception_page assets: '/static' option
     #       r.exception_page_assets
     #     end
     #   end
@@ -175,29 +175,37 @@ END
         # is not accepted, then just show a plain text page with the exception
         # class, message, and backtrace.
         #
-        # Options:
+        # Arguments:
         # 
-        # :assets :: If +true+, sets :css_file to +/exception_page.css+ and :js_file to
-        #            +/exception_page.js+, assuming that +r.exception_page_assets+ is called
-        #            in the route block to serve the exception page assets.  If a String,
-        #            uses the string as a prefix, assuming that +r.exception_page_assets+
-        #            is called in a nested block inside the route block. If false, doesn't
-        #            use any CSS or JS.
-        # :context :: The number of context lines before and after each line in
-        #             the backtrace (default: 7).
-        # :css_file :: A path to the external CSS file for the HTML exception page. If false,
-        #              doesn't use any CSS.
-        # :js_file :: A path to the external javascript file for the HTML exception page. If
-        #             false, doesn't use any JS.
-        # :json :: Return a hash of exception information.  The hash will have
-        #          a single key, "exception", with a value being a hash with
-        #          three keys, "class", "message", and "backtrace", which
-        #          contain information derived from the given exception.
-        #          Designed to be used with the +json+ exception, which will
-        #          automatically convert the hash to JSON format.
-        def exception_page(exception, opts=OPTS)
+        # +assets+ :: If +true+, sets :css_file to +/exception_page.css+ and :js_file to
+        #             +/exception_page.js+, assuming that +r.exception_page_assets+ is called
+        #             in the route block to serve the exception page assets.  If a String,
+        #             uses the string as a prefix, assuming that +r.exception_page_assets+
+        #             is called in a nested block inside the route block. If false, doesn't
+        #             use any CSS or JS.
+        # +context+ :: The number of context lines before and after each line in
+        #              the backtrace (default: 7).
+        # +css_file+ :: A path to the external CSS file for the HTML exception page. If false,
+        #               doesn't use any CSS.
+        # +js_file+ :: A path to the external javascript file for the HTML exception page. If
+        #              false, doesn't use any JS.
+        # +json+ :: Return a hash of exception information.  The hash will have
+        #           a single key, <tt>"exception"</tt>, with a value being a hash with
+        #           three keys, <tt>"class"</tt>, <tt>"message"</tt>, and <tt>"backtrace"</tt>, which
+        #           contain information derived from the given exception.
+        #           Designed to be used with the +json+ plugin, which will
+        #           automatically convert the hash to JSON format.
+        def exception_page(exception, opts=(no_positional_opts = true; OPTS),
+            assets: opts[:assets],
+            context: opts[:context],
+            css_file: opts[:css_file],
+            js_file: opts[:js_file],
+            json: opts[:json],
+            **kw)
+          RodaPlugins.check_keywords(__callee__, no_positional_opts, opts, kw)
+
           message = exception_page_exception_message(exception)
-          if opts[:json]
+          if json
             @_response[RodaResponseHeaders::CONTENT_TYPE] = "application/json"
             {
               "exception"=>{
@@ -209,11 +217,9 @@ END
           elsif env['HTTP_ACCEPT'] =~ /text\/html/
             @_response[RodaResponseHeaders::CONTENT_TYPE] = "text/html"
 
-            context = opts[:context] || 7
-            css_file = opts[:css_file]
-            js_file = opts[:js_file]
+            context ||= 7
 
-            case prefix = opts[:assets]
+            case prefix = assets
             when false
               css_file = false if css_file.nil?
               js_file = false if js_file.nil?

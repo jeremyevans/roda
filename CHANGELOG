@@ -1,5 +1,7 @@
 === master
 
+* Add keyword arguments and deprecate positional hash for exception_page method in exception_page plugin (jeremyevans)
+
 * Add keyword arguments and deprecate positional hash for error_handler plugin (jeremyevans)
 
 * Deprecate class-level error method in error_handler plugin, switch to passing plugin a block (jeremyevans)
