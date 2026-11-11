@@ -4,14 +4,12 @@ require 'delegate'
 
 class Roda
   module RodaPlugins
-    # The flash plugin adds a +flash+ instance method to Roda,
-    # for typical web application flash handling, where values
-    # set in the current flash hash are available in the next
-    # request.
+    # The flash plugin adds a +flash+ instance method, for typical web
+    # application flash handling, where values set in the current flash
+    # hash are available in the next request loading the flash.
     #
-    # With the example below, if a POST request is submitted,
-    # it will redirect and the resulting GET request will
-    # return 'b'.
+    # With the example below, if a +POST+ request is submitted, it will
+    # redirect and the resulting +GET+ request will return <tt>'b'</tt>.
     #
     #   plugin :flash
     #
@@ -23,7 +21,7 @@ class Roda
     #
     #       r.post do
     #         flash['a'] = 'b'
-    #         r.redirect('')
+    #         r.redirect
     #       end
     #     end
     #   end
@@ -35,11 +33,16 @@ class Roda
     #     flash.now['a'] = 'b'
     #     flash['a'] # = >'b'
     #   end
+    #
+    # The flash is saved in the session, so it has the same restrictions
+    # as other data saved in the session. If the session does not support
+    # symbols (e.g. when using the sessions plugin), you should not use
+    # symbols as flash keys.
     module Flash
       SCOPE_INSTANCE_VARIABLES = [:@_flash].freeze
 
-      # Simple flash hash, where assiging to the hash updates the flash
-      # used in the following request.
+      # Hash-like flash, where assigning to the object updates the data
+      # accessed in the following request.
       class FlashHash < DelegateClass(Hash)
         # The flash hash for the next request.  This
         # is what gets written to by #[]=.
@@ -48,8 +51,8 @@ class Roda
         # The flash hash for the current request
         alias now __getobj__
 
-        # Setup the next hash when initializing, and handle treat nil
-        # as a new empty hash.
+        # Setup the next hash when initializing, and treat nil
+        # argument as a new empty hash.
         def initialize(hash={})
           super(hash||{})
           @next = {}
@@ -93,7 +96,7 @@ class Roda
         # Access the flash hash for the current request, loading
         # it from the session if it is not already loaded.
         def flash
-          # :_flash to support transparent upgrades from previous key
+          # RODA4: Remove fallback to checking :_flash
           @_flash ||= FlashHash.new(session['_flash'] || (session['_flash'] = session.delete(:_flash)))
         end
 
