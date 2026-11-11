@@ -26,15 +26,17 @@ class Roda
       end
 
       def self.configure(app, &block)
-        app.send(:define_method, :_common_log_request?, &block)
-        app.send(:private, :_common_log_request?)
-        app.send(:alias_method, :_common_log_request?, :_common_log_request?)
+        app.class_exec do
+          define_method(:_common_log_request?, &block)
+          private :_common_log_request?
+          alias _common_log_request? _common_log_request?
+        end
       end
 
       module InstanceMethods
         private
 
-        # Log request/response information in common log format to logger.
+        # Do common logging only if configured to do so.
         def _roda_after_90__common_logger(result)
           super if result && _common_log_request?(result)
         end
