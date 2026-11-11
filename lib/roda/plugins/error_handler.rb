@@ -3,26 +3,19 @@
 #
 class Roda
   module RodaPlugins
-    # The error_handler plugin adds an error handler to the routing,
+    # The error_handler plugin adds an error handler to the routing tree,
     # so that if routing the request raises an error, a nice error
-    # message page can be returned to the user.
+    # message page (or API response) can be returned to the user.
     # 
-    # You can provide the error handler as a block to the plugin:
+    # You should provide the error handler as a block to the plugin:
     #
     #   plugin :error_handler do |e|
     #     "Oh No!"
     #   end
     #
-    # Or later via the +error+ class method:
-    #
-    #   plugin :error_handler
-    #
-    #   error do |e|
-    #     "Oh No!"
-    #   end
-    #
-    # In both cases, the exception instance is passed into the block,
-    # and the block can return the request body via a string.
+    # If an error occurs, the exception instance is passed into the block,
+    # and the block can return the request body via a string (or another
+    # configured block result).
     #
     # If an exception is raised, a new response will be used, with the
     # default status set to 500, before executing the error handler.
@@ -32,40 +25,40 @@ class Roda
     # processing of that response occurs, except that an exception during
     # after processing is logged to <tt>env['rack.errors']</tt> but
     # otherwise ignored. This avoids recursive calls into the
-    # error_handler.  Note that if the error_handler itself raises
+    # error handler.  Note that if the error handler itself raises
     # an exception, the exception will be raised without normal after
     # processing.  This can cause some after processing to run twice
-    # (once before the error_handler is called and once after) if
+    # (once before the error handler is called and once after) if
     # later after processing raises an exception.
     #
     # By default, this plugin handles StandardError and ScriptError.
-    # To override the exception classes it will handle, pass a :classes
-    # option to the plugin:
+    # To override the exception classes it will handle, pass a +classes+
+    # argument to the plugin:
     #
     #   plugin :error_handler, classes: [StandardError, ScriptError, NoMemoryError]
     module ErrorHandler
       DEFAULT_ERROR_HANDLER_CLASSES = [StandardError, ScriptError].freeze
 
-      # If a block is given, automatically call the +error+ method on
-      # the Roda class with it.
-      def self.configure(app, opts={}, &block)
-        app.opts[:error_handler_classes] = (opts[:classes] || app.error_handler_classes || DEFAULT_ERROR_HANDLER_CLASSES).dup.freeze
+      # If a block is given, use it to setup the error handler.
+      def self.configure(app, opts=(no_positional_opts = true; OPTS), classes: opts[:classes], **kw, &block)
+        RodaPlugins.check_keywords("the error_handler plugin", no_positional_opts, opts, kw)
+        app.opts[:error_handler_classes] = (classes || app.error_handler_classes || DEFAULT_ERROR_HANDLER_CLASSES).dup.freeze
 
         if block
-          app.error(&block)
+          app.class_exec do
+            define_method(:handle_error, &block)
+            alias_method(:handle_error, :handle_error)
+            private :handle_error
+          end
         end
       end
 
       module ClassMethods
         RodaPlugins.opt_attr_reader(self, :error_handler_classes)
 
-        # Install the given block as the error handler, so that if routing
-        # the request raises an exception, the block will be called with
-        # the exception in the scope of the Roda instance.
         def error(&block)
-          define_method(:handle_error, &block)
-          alias_method(:handle_error, :handle_error)
-          private :handle_error
+          RodaPlugins.warn("The error class method is deprecated, switch to passing the block when loading the error_handler plugin", uplevel: 1)
+          plugin(:error_handler, &block)
         end
       end
 
@@ -98,7 +91,7 @@ class Roda
         private
 
         # Default empty implementation of _roda_after, usually
-        # overridden by Roda.def_roda_before.
+        # overridden by Roda.def_roda_after.
         def _roda_after(res)
         end
 
@@ -121,9 +114,8 @@ class Roda
           res
         end
 
-        # By default, have the error handler reraise the error, so using
-        # the plugin without installing an error handler doesn't change
-        # behavior.
+        # By default, have the error handler reraise the error, so loading
+        # the plugin without a block doesn't change behavior.
         def handle_error(e)
           raise e
         end

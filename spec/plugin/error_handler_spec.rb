@@ -3,9 +3,7 @@ require_relative "../spec_helper"
 describe "error_handler plugin" do 
   it "executes only if error raised" do
     app(:bare) do
-      plugin :error_handler
-
-      error do |e|
+      plugin :error_handler do |e|
         e.message
       end
 
@@ -26,14 +24,12 @@ describe "error_handler plugin" do
 
   deprecated "works if #call is overridden" do
     app(:bare) do
-      plugin :error_handler
+      plugin :error_handler do |e|
+        e.message
+      end
 
       def call
         super
-      end
-
-      error do |e|
-        e.message
       end
 
       route do |r|
@@ -53,9 +49,7 @@ describe "error_handler plugin" do
 
   it "executes on SyntaxError exceptions" do
     app(:bare) do
-      plugin :error_handler
-
-      error do |e|
+      plugin :error_handler do |e|
         e.message
       end
 
@@ -76,9 +70,7 @@ describe "error_handler plugin" do
 
   it "executes on custom exception classes" do
     app(:bare) do
-      plugin :error_handler, :classes=>[StandardError]
-
-      error do |e|
+      plugin :error_handler, :classes=>[StandardError] do |e|
         e.message
       end
 
@@ -117,6 +109,22 @@ describe "error_handler plugin" do
   it "calculates correct Content-Length" do
     app(:bare) do
       plugin :error_handler do |e|
+        "a"
+      end
+
+      route do |r|
+        raise ArgumentError, "bad idea"
+      end
+    end
+
+    header(RodaResponseHeaders::CONTENT_LENGTH).must_equal "1"
+  end
+
+  deprecated "supports class-level error method for setting error handler" do
+    app(:bare) do
+      plugin :error_handler
+
+      error do |e|
         "a"
       end
 

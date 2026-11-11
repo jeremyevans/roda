@@ -1,5 +1,9 @@
 === master
 
+* Add keyword arguments and deprecate positional hash for error_handler plugin (jeremyevans)
+
+* Deprecate class-level error method in error_handler plugin, switch to passing plugin a block (jeremyevans)
+
 * Improve error_mail plugin performance by storing configuration in struct instead of hash (jeremyevans)
 
 * Check supported options passed to sessions, assets, cookie_flags, error_email, and error_mail plugins (jeremyevans)
