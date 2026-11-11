@@ -1,6 +1,8 @@
 === master
 
-* Check supported options passed to sessions, assets, cookie_flags, and error_email plugins (jeremyevans)
+* Improve error_mail plugin performance by storing configuration in struct instead of hash (jeremyevans)
+
+* Check supported options passed to sessions, assets, cookie_flags, error_email, and error_mail plugins (jeremyevans)
 
 * Improve cookie_flags plugin performance by storing configuration in struct instead of hash (jeremyevans)
 

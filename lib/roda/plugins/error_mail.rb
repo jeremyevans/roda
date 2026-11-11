@@ -5,8 +5,8 @@ require 'mail'
 class Roda
   module RodaPlugins
     # The error_mail plugin adds an +error_mail+ instance method that
-    # send an email related to the exception.  This is most useful if you are
-    # also using the error_handler plugin:
+    # send an email related to the exception.  This is designed to be used
+    # with the error_handler plugin:
     #
     #   plugin :error_mail, to: 'to@example.com', from: 'from@example.com'
     #   plugin :error_handler do |e|
@@ -21,13 +21,13 @@ class Roda
     #
     # Options:
     #
-    # :filter :: Callable called with the key and value for each parameter, environment
-    #            variable, and session value.  If it returns true, the value of the
-    #            parameter is filtered in the email.
-    # :from :: The From address to use in the email (required)
-    # :headers :: A hash of additional headers to use in the email (default: empty hash)
-    # :prefix :: A prefix to use in the email's subject line (default: no prefix)
-    # :to :: The To address to use in the email (required)
+    # +:filter+ :: Callable called with the key and value for each parameter, environment
+    #              variable, and session value.  If it returns true, the value of the
+    #              parameter is filtered in the email.
+    # +:from+ :: The From address to use in the email (required)
+    # +:headers+ :: A hash of additional headers to use in the email (default: empty hash)
+    # +:prefix+ :: A prefix to use in the email's subject line (default: no prefix)
+    # +:to+ :: The To address to use in the email (required)
     #
     # The subject of the error email shows the exception class and message.
     # The body of the error email shows the backtrace of the error and the
@@ -42,16 +42,27 @@ class Roda
       DEFAULT_FILTER = lambda{|k,v| false}
       private_constant :DEFAULT_FILTER
 
+      PLUGIN_ARGUMENTS = %i[to from headers prefix filter].freeze 
+      private_constant :PLUGIN_ARGUMENTS
+
+      Config = Struct.new(*PLUGIN_ARGUMENTS)
+      private_constant :Config
+
       # Set default opts for plugin.  See ErrorEmail module RDoc for options.
       def self.configure(app, opts=OPTS)
+        RodaPlugins.check_supported_opts("the error_mail plugin", opts, PLUGIN_ARGUMENTS)
+
         app.opts[:error_mail] = email_opts = (app.error_mail_opts || {:filter=>DEFAULT_FILTER}).merge(opts).freeze
         unless email_opts[:to] && email_opts[:from]
           raise RodaError, "must provide :to and :from options to error_mail plugin"
         end
+
+        app.opts[:error_mail_config] = Config.new(*email_opts.values_at(*Config.members)).freeze
       end
 
       module ClassMethods
         RodaPlugins.opt_attr_reader(self, :error_mail, name: :error_mail_opts)
+        RodaPlugins.opt_attr_reader(self, :error_mail_config)
       end
 
       module InstanceMethods
@@ -71,14 +82,14 @@ class Roda
         private
 
         def _error_mail(e)
-          email_opts = self.class.error_mail_opts
+          config = self.class.error_mail_config
           subject = if e.respond_to?(:message)
             "#{e.class}: #{e.message}"
           else
             e.to_s
           end
-          subject = "#{email_opts[:prefix]}#{subject}"
-          filter = email_opts[:filter]
+          subject = "#{config.prefix}#{subject}"
+          filter = config.filter
 
           format = lambda do |h|
             h = h.map{|k, v| "#{k.inspect} => #{filter.call(k, v) ? 'FILTERED' : v.inspect}"}
@@ -133,12 +144,12 @@ END
 
 
           Mail.new do
-            from email_opts[:from]
-            to email_opts[:to]
+            from config.from
+            to config.to
             subject subject
             body message
 
-            if headers = email_opts[:headers]
+            if headers = config.headers
               headers.each do |k,v|
                 header[k] = v
               end
