@@ -1,0 +1,90 @@
+= New Features
+
+* The common_logger plugin now supports a use_request_ip keyword
+  argument. If set to true, it calls request.ip to get the IP,
+  instead of checking HTTP_X_FORWARDED_FOR and then REMOTE_ADDR
+  in the environment.  This will become the default behavior in
+  Roda 4.
+
+* A freeze_request_response plugin has been added, which freezes the
+  RodaRequest and RodaResponse classes for the application when
+  freezing the application. It's possible that not all plugins that
+  Roda ships with currently support this. However, all plugins should
+  be modified to support it over the next few months, and this will
+  become the default behavior in Roda 4.
+
+* The hash_routes and class_level_routing plugins now support the
+  query method if Rack::Request#query? is defined.
+
+= Other Improvements
+
+* The public plugin now adds the Vary: Accept-Encoding header if the
+  plugin is configured to support encodings (such as gzip).
+
+* The If-None-Match comparison in the caching plugin now works with
+  weak etags.
+
+* The unescape_path plugin no longer unescapes + as space.
+
+* In the render plugin, when using compiled templates (the default
+  for non-ancient versions if the template class supports it), each
+  Roda class has a separate RodaCompiledTemplates module, so a
+  subclass no longer modifies a module included in the superclass. 
+
+* Many plugins have received minor performance improvements. In some
+  cases, plugins now access a struct instead of a hash to get plugin
+  configuration.
+
+= Deprecations
+
+* The following plugins now accept keyword arguments and have
+  deprecated support for a positional options hash:
+
+  * capture_erb
+  * chunked
+  * class_matchers
+  * content_for
+  * error_handler
+  * permissions_policy
+  * symbol_matchers
+
+* The following plugin methods now accept keyword arguments and have
+  deprecated support for a positional options hash:
+
+  * etag (caching plugin)
+  * capture_erb (capture_erb plugin)
+  * exception_page (exception_page plugin)
+
+* The following plugins now warn if unsupported options are passed:
+
+  * assets
+  * cookie_flags
+  * error_email
+  * error_mail
+  * sessions
+
+* The following plugins have deprecated public constants:
+
+  * assets
+  * sessions
+
+* The csrf plugin is now deprecated. Users are encouraged to switch to
+  the route_csrf or set_fetch_site_csrf plugins.
+
+* The class-level error method in the error_handler plugin is now
+  deprecated. Switch callers to pass the block when loading the
+  error_handler plugin.
+
+* The :per_cookie_cipher_secret option for the sessions plugin is now
+  deprecated. It has been true by default for many years, this only
+  allowed setting it to false.
+
+* Passing an invalid asset type to asset_paths in the assets plugin
+  is now deprecated.
+
+= Backwards Compatibility
+
+* The recheck_precompiled_assets plugin was refactored to improve
+  thread safety and to work with the freeze_request_response plugin.
+  While there are no known incompatibilities, if you are relying on
+  the internals of the plugin, note that they may have changed.

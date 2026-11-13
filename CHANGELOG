@@ -1,4 +1,4 @@
-=== master
+=== 3.110.0 (2026-11-13)
 
 * Add keyword arguments and deprecate positional hash for exception_page method in exception_page plugin (jeremyevans)
 
