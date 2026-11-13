@@ -210,10 +210,10 @@ Roda::RodaPlugins::Base::RequestMethods
 
 <p>Immediately stop execution of the route block and return the given rack response array of status, headers, and body.  If no argument is given, uses the current response.</p>
 
-<pre class="ruby"><span class="ruby-identifier">r</span>.<span class="ruby-identifier">halt</span> [<span class="ruby-value">200</span>, {<span class="ruby-string">&#39;Content-Type&#39;</span><span class="ruby-operator">=&gt;</span><span class="ruby-string">&#39;text/html&#39;</span>}, [<span class="ruby-string">&#39;Hello World!&#39;</span>]]
+<pre class="ruby"><span class="ruby-identifier">r</span>.<span class="ruby-identifier">halt</span> [<span class="ruby-value">200</span>, {<span class="ruby-string">&#39;content-type&#39;</span><span class="ruby-operator">=&gt;</span><span class="ruby-string">&#39;text/html&#39;</span>}, [<span class="ruby-string">&#39;Hello World!&#39;</span>]]
 
 <span class="ruby-identifier">response</span>.<span class="ruby-identifier">status</span> = <span class="ruby-value">200</span>
-<span class="ruby-identifier">response</span>[<span class="ruby-string">&#39;Content-Type&#39;</span>] = <span class="ruby-string">&#39;text/html&#39;</span>
+<span class="ruby-identifier">response</span>[<span class="ruby-string">&#39;content-type&#39;</span>] = <span class="ruby-string">&#39;text/html&#39;</span>
 <span class="ruby-identifier">response</span>.<span class="ruby-identifier">write</span> <span class="ruby-string">&#39;Hello World!&#39;</span>
 <span class="ruby-identifier">r</span>.<span class="ruby-identifier">halt</span>
 </pre>
@@ -589,7 +589,7 @@ Roda::RodaPlugins::Base::RequestMethods
 <span class="ruby-keyword">end</span>
 </pre>
 
-<p>This is usuable inside other match blocks:</p>
+<p>This is usable inside other match blocks:</p>
 
 <pre class="ruby">[<span class="ruby-identifier">r</span>.<span class="ruby-identifier">request_method</span>, <span class="ruby-identifier">r</span>.<span class="ruby-identifier">remaining_path</span>]
 <span class="ruby-comment"># =&gt; [&#39;GET&#39;, &#39;/foo/&#39;]</span>

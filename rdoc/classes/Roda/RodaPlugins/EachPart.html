@@ -36,7 +36,7 @@ Roda::RodaPlugins::EachPart
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The <a href="../../../files/lib/roda/plugins/each_part_rb.html">each_part</a> plugin adds an <a href="../../../files/lib/roda/plugins/each_part_rb.html">each_part</a> method, which is a render_each-like method that treats all keywords as locals.</p>
+<p>The <a href="../../../files/lib/roda/plugins/each_part_rb.html">each_part</a> plugin adds an <a href="../../../files/lib/roda/plugins/each_part_rb.html">each_part</a> method, which is similar to <a href="../../../files/lib/roda/plugins/render_each_rb.html">render_each</a>, but treats all keywords as locals.</p>
 
 <pre class="ruby"><span class="ruby-comment"># Can replace this:</span>
 <span class="ruby-identifier">render_each</span>(<span class="ruby-identifier">enum</span>, <span class="ruby-value">:template</span>, <span class="ruby-value">locals:</span> {<span class="ruby-value">foo:</span> <span class="ruby-string">&#39;bar&#39;</span>})
@@ -47,7 +47,7 @@ Roda::RodaPlugins::EachPart
 
 <p>On Ruby 2.7+, the part method takes a keyword splat, so you must pass keywords and not a positional hash for the locals.</p>
 
-<p>If you are using the :assume_fixed_locals render plugin option, template caching is enabled, you are using Ruby 3+, and you are freezing your <a href="../../Roda.html"><code>Roda</code></a> application, in addition to providing a simpler API, this also provides a performance improvement.</p>
+<p>If you are using the <code>:assume_fixed_locals</code> render plugin option, template caching is enabled, you are using Ruby 3+, and you are freezing your <a href="../../Roda.html"><code>Roda</code></a> application, in addition to providing a simpler API, this also provides a performance improvement.</p>
 </div>
 <div id='method-list'>
 <h2>Methods</h2>

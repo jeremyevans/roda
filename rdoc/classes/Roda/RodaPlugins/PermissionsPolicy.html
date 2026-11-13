@@ -65,12 +65,12 @@ Roda::RodaPlugins::PermissionsPolicy
 <span class="ruby-keyword">end</span>
 </pre>
 
-<p>You can use the :default plugin option to set the default for all settings. For example, to disallow all access for each setting by default:</p>
+<p>You can use the <code>:default</code> plugin argument to set the default for all settings. For example, to disallow all access for each setting by default:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:permissions_policy</span>, <span class="ruby-value">default:</span> <span class="ruby-value">:none</span>
 </pre>
 
-<p>The following methods are available for configuring the permissions policy, which specify the setting (substituting _ with -):</p>
+<p>The following methods are available for configuring the permissions policy, which specify the setting (substituting <code>_</code> with <code>-</code>):</p>
 <ul><li>
 <p>accelerometer</p>
 </li><li>
@@ -128,13 +128,13 @@ Roda::RodaPlugins::PermissionsPolicy
 </li></ul>
 
 <p>All of these methods support any number of arguments, and each argument should be one of the following values:</p>
-<table class="rdoc-list note-list"><tbody><tr><td class='label'>:all </td><td>
+<table class="rdoc-list note-list"><tbody><tr><td class='label'><code>:all</code> </td><td>
 <p>Grants permission to all domains (must be only argument)</p>
-</td></tr><tr><td class='label'>:none </td><td>
+</td></tr><tr><td class='label'><code>:none</code> </td><td>
 <p>Does not allow permission at all (must be only argument)</p>
-</td></tr><tr><td class='label'>:self </td><td>
+</td></tr><tr><td class='label'><code>:self</code> </td><td>
 <p>Allows feature in current document and any nested browsing contexts that use the same domain as the current document.</p>
-</td></tr><tr><td class='label'>:src </td><td>
+</td></tr><tr><td class='label'><code>:src</code> </td><td>
 <p>Allows feature in current document and any nested browsing contexts that use the same domain as the src of the iframe.</p>
 </td></tr><tr><td class='label'>String </td><td>
 <p>Specifies origin domain where access is allowed</p>
@@ -142,7 +142,7 @@ Roda::RodaPlugins::PermissionsPolicy
 
 <p>When calling a method with no arguments, the setting is removed from the policy instead of being left empty, since all of these setting require at least one value.  Likewise, if the policy does not have any settings, the header will not be added.</p>
 
-<p>Calling the method overrides any previous setting.  Each of the methods has <code>add_*</code> and <code>get_*</code> methods defined. The <code>add_*</code> method appends to any existing setting, and the <code>get_*</code> method returns the current value for the setting (this will be <code>:all</code> if all domains are allowed, or any array of strings/:self/:src).</p>
+<p>Calling the method overrides any previous setting.  Each of the methods has <code>add_*</code> and <code>get_*</code> methods defined. The <code>add_*</code> method appends to any existing setting, and the <code>get_*</code> method returns the current value for the setting (this will be <code>:all</code> if all domains are allowed, or any array of strings/<code>:self</code>/<code>:src</code>).</p>
 
 <pre class="ruby"><span class="ruby-identifier">permissions_policy</span>.<span class="ruby-identifier">fullscreen</span> <span class="ruby-value">:self</span>, <span class="ruby-string">&#39;https://example.com&#39;</span>
 <span class="ruby-comment"># fullscreen (self &quot;https://example.com&quot;)</span>
@@ -154,7 +154,7 @@ Roda::RodaPlugins::PermissionsPolicy
 <span class="ruby-comment"># =&gt; [:self, &quot;https://example.com&quot;, &quot;https://*.example.com&quot;]</span>
 </pre>
 
-<p>The clear method can be used to remove all settings from the policy. Empty policies do not set any headers. You can use <code>response.skip_permissions_policy!</code> to skip setting a policy.  This is faster than calling <code>permissions_policy.clear</code>, since it does not duplicate the default policy.</p>
+<p>The <code>clear</code> method can be used to remove all settings from the policy. Empty policies do not set any headers. You can use <code>response.skip_permissions_policy!</code> to skip setting a policy.  This is faster than calling <code>permissions_policy.clear</code>, since it does not duplicate the default policy.</p>
 </div>
 <div id='method-list'>
 <h2>Methods</h2>
@@ -194,7 +194,7 @@ Roda::RodaPlugins::PermissionsPolicy
 <div class='method public-class' id='method-method-c-configure'>
 <a name='method-c-configure'></a>
 <div class='synopsis'>
-<span class='name'>configure</span><span class='arguments'>(app, opts=OPTS)</span>
+<span class='name'>configure</span><span class='arguments'>(app, opts=(no_positional_opts = true; OPTS), default: opts[:default], **kw)</span>
 
 </div>
 <div class='description'>
@@ -207,22 +207,23 @@ Roda::RodaPlugins::PermissionsPolicy
 [show source]
 </a>
 <pre id='method-c-configure-source'>    <span class="ruby-comment"># File lib/roda/plugins/permissions_policy.rb</span>
-<span class="line-num">282</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
-<span class="line-num">283</span>   <span class="ruby-identifier">policy</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:permissions_policy</span>] = <span class="ruby-keyword">if</span> <span class="ruby-identifier">policy</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">permissions_policy</span>
-<span class="line-num">284</span>     <span class="ruby-identifier">policy</span>.<span class="ruby-identifier">dup</span>
-<span class="line-num">285</span>   <span class="ruby-keyword">else</span>
-<span class="line-num">286</span>     <span class="ruby-constant">Policy</span>.<span class="ruby-identifier">new</span>
-<span class="line-num">287</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">288</span> 
-<span class="line-num">289</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">default</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:default</span>]
-<span class="line-num">290</span>     <span class="ruby-constant">SUPPORTED_SETTINGS</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">setting</span><span class="ruby-operator">|</span>
-<span class="line-num">291</span>       <span class="ruby-identifier">policy</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">setting</span>.<span class="ruby-identifier">tr</span>(<span class="ruby-string">&#39;-&#39;</span>, <span class="ruby-string">&#39;_&#39;</span>), <span class="ruby-operator">*</span><span class="ruby-identifier">default</span>)
-<span class="line-num">292</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">293</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">294</span> 
-<span class="line-num">295</span>   <span class="ruby-keyword">yield</span> <span class="ruby-identifier">policy</span> <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-keyword">yield</span>)
-<span class="line-num">296</span>   <span class="ruby-identifier">policy</span>.<span class="ruby-identifier">freeze</span>
-<span class="line-num">297</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">279</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=(<span class="ruby-identifier">no_positional_opts</span> = <span class="ruby-keyword">true</span>; <span class="ruby-constant">OPTS</span>), <span class="ruby-value">default:</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:default</span>], <span class="ruby-operator">**</span><span class="ruby-identifier">kw</span>)
+<span class="line-num">280</span>   <span class="ruby-constant">RodaPlugins</span>.<span class="ruby-identifier">check_keywords</span>(<span class="ruby-string">&quot;the permissions_policy plugin&quot;</span>, <span class="ruby-identifier">no_positional_opts</span>, <span class="ruby-identifier">opts</span>, <span class="ruby-identifier">kw</span>)
+<span class="line-num">281</span>   <span class="ruby-identifier">policy</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:permissions_policy</span>] = <span class="ruby-keyword">if</span> <span class="ruby-identifier">policy</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">permissions_policy</span>
+<span class="line-num">282</span>     <span class="ruby-identifier">policy</span>.<span class="ruby-identifier">dup</span>
+<span class="line-num">283</span>   <span class="ruby-keyword">else</span>
+<span class="line-num">284</span>     <span class="ruby-constant">Policy</span>.<span class="ruby-identifier">new</span>
+<span class="line-num">285</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">286</span> 
+<span class="line-num">287</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">default</span>
+<span class="line-num">288</span>     <span class="ruby-constant">SUPPORTED_SETTINGS</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">setting</span><span class="ruby-operator">|</span>
+<span class="line-num">289</span>       <span class="ruby-identifier">policy</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">setting</span>.<span class="ruby-identifier">tr</span>(<span class="ruby-string">&#39;-&#39;</span>, <span class="ruby-string">&#39;_&#39;</span>), <span class="ruby-operator">*</span><span class="ruby-identifier">default</span>)
+<span class="line-num">290</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">291</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">292</span> 
+<span class="line-num">293</span>   <span class="ruby-keyword">yield</span> <span class="ruby-identifier">policy</span> <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-keyword">yield</span>)
+<span class="line-num">294</span>   <span class="ruby-identifier">policy</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">295</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

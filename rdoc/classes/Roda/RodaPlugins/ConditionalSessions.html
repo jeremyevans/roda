@@ -36,14 +36,14 @@ Roda::RodaPlugins::ConditionalSessions
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The <a href="../../../files/lib/roda/plugins/conditional_sessions_rb.html">conditional_sessions</a> plugin loads the sessions plugin.  However, it only allows sessions if the block passed to the plugin returns truthy.  The block is evaluated in request context. This is designed for use in applications that want to use sessions for some requests, and want to be sure that sessions are not used for other requests. For example, if you want to make sure that sessions are not used for requests with paths starting with /static, you could do:</p>
+<p>The <a href="../../../files/lib/roda/plugins/conditional_sessions_rb.html">conditional_sessions</a> plugin loads the sessions plugin.  However, it only allows sessions if the block passed to the plugin returns truthy.  The block is evaluated in request context. This is designed for use in applications that want to use sessions for some requests, and want to be sure that sessions are not used for other requests. For example, if you want to make sure that sessions are not used for requests with paths starting with <code>/static</code>, you could do:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:conditional_sessions</span>, <span class="ruby-value">secret:</span> <span class="ruby-constant">ENV</span>[<span class="ruby-string">&quot;SECRET&quot;</span>] <span class="ruby-keyword">do</span>
   <span class="ruby-operator">!</span><span class="ruby-identifier">path_info</span>.<span class="ruby-identifier">start_with?</span>(<span class="ruby-string">&#39;/static&#39;</span>)
 <span class="ruby-keyword">end</span>
 </pre>
 
-<p>The the request session, session_created_at, and session_updated_at methods raise a <a href="../RodaError.html"><code>RodaError</code></a> exception when sessions are not allowed.  The request persist_session and route scope clear_session methods do nothing when sessions are not allowed.</p>
+<p>Then the request <code>session</code>, <code>session_created_at</code>, and <code>session_updated_at</code> methods raise a <a href="../RodaError.html"><code>RodaError</code></a> exception when sessions are not allowed.  The request <code>persist_session</code> and route scope <code>clear_session</code> methods do nothing when sessions are not allowed.</p>
 </div>
 <div id='method-list'>
 <h2>Methods</h2>

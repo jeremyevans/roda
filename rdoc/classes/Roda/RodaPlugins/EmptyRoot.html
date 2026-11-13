@@ -36,7 +36,7 @@ Roda::RodaPlugins::EmptyRoot
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The <a href="../../../files/lib/roda/plugins/empty_root_rb.html">empty_root</a> plugin makes <code>r.root</code> match both on <code>/</code> and on the empty string.  This is mostly useful when using multiple rack applications, where the initial PATH_INFO has been moved to SCRIPT_NAME.  For example, if you have the following applications:</p>
+<p>The <a href="../../../files/lib/roda/plugins/empty_root_rb.html">empty_root</a> plugin makes <code>r.root</code> match both <code>/</code> and the empty string.  This is mostly useful when using multiple rack applications, where the initial <code>PATH_INFO</code> has been moved to <code>SCRIPT_NAME</code>.  For example, if you have the following applications:</p>
 
 <pre class="ruby"><span class="ruby-keyword">class</span> <span class="ruby-constant">App1</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Roda</span>
   <span class="ruby-identifier">on</span> <span class="ruby-string">&quot;albums&quot;</span> <span class="ruby-keyword">do</span>
@@ -55,7 +55,7 @@ Roda::RodaPlugins::EmptyRoot
 <span class="ruby-keyword">end</span>
 </pre>
 
-<p>Then requests for both <code>/albums/</code> and <code>/albums</code> will return “root”.  Without this plugin loaded into App2, only requests for <code>/albums/</code> will return “root”, since by default, <code>r.root</code> matches only when the current PATH_INFO is <code>/</code> and not when it is empty.</p>
+<p>Then requests for both <code>/albums/</code> and <code>/albums</code> will return “root”.  Without this plugin loaded into App2, only requests for <code>/albums/</code> will return “root”, since by default, <code>r.root</code> matches only when the current <code>PATH_INFO</code> is <code>/</code> and not when it is empty.</p>
 </div>
 <div id='context'>
 </div>

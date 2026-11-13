@@ -65,9 +65,11 @@ Roda::RodaPlugins::AssetsPreloading::InstanceMethods
 [show source]
 </a>
 <pre id='method-i-preload_assets_link_header-source'>   <span class="ruby-comment"># File lib/roda/plugins/assets_preloading.rb</span>
-<span class="line-num">67</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">preload_assets_link_header</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
-<span class="line-num">68</span>   <span class="ruby-identifier">_preload_assets_array</span>(<span class="ruby-identifier">args</span>).<span class="ruby-identifier">map</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">path</span>, <span class="ruby-identifier">as</span><span class="ruby-operator">|</span> <span class="ruby-node">&quot;&lt;#{path}&gt;;rel=preload;as=#{as}&quot;</span>}.<span class="ruby-identifier">join</span>(<span class="ruby-string">&quot;,&quot;</span>)
-<span class="line-num">69</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">68</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">preload_assets_link_header</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
+<span class="line-num">69</span>   <span class="ruby-identifier">_each_preload_asset</span>(<span class="ruby-identifier">args</span>, <span class="ruby-string">&quot;,&quot;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">path</span>, <span class="ruby-identifier">as</span><span class="ruby-operator">|</span>
+<span class="line-num">70</span>     <span class="ruby-node">&quot;&lt;#{path}&gt;;rel=preload;as=#{as}&quot;</span>
+<span class="line-num">71</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">72</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-preload_assets_link_tags'>
@@ -86,9 +88,11 @@ Roda::RodaPlugins::AssetsPreloading::InstanceMethods
 [show source]
 </a>
 <pre id='method-i-preload_assets_link_tags-source'>   <span class="ruby-comment"># File lib/roda/plugins/assets_preloading.rb</span>
-<span class="line-num">61</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">preload_assets_link_tags</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
-<span class="line-num">62</span>   <span class="ruby-identifier">_preload_assets_array</span>(<span class="ruby-identifier">args</span>).<span class="ruby-identifier">map</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">path</span>, <span class="ruby-identifier">as</span><span class="ruby-operator">|</span> <span class="ruby-node">&quot;&lt;link href=\&quot;#{h(path)}\&quot; rel=\&quot;preload\&quot; as=\&quot;#{as}\&quot;&gt;&quot;</span>}.<span class="ruby-identifier">join</span>(<span class="ruby-string">&quot;\n&quot;</span>)
-<span class="line-num">63</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">60</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">preload_assets_link_tags</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
+<span class="line-num">61</span>   <span class="ruby-identifier">_each_preload_asset</span>(<span class="ruby-identifier">args</span>, <span class="ruby-string">&quot;\n&quot;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">path</span>, <span class="ruby-identifier">as</span><span class="ruby-operator">|</span>
+<span class="line-num">62</span>     <span class="ruby-node">&quot;&lt;link href=\&quot;#{h(path)}\&quot; rel=\&quot;preload\&quot; as=\&quot;#{as}\&quot;&gt;&quot;</span>
+<span class="line-num">63</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">64</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

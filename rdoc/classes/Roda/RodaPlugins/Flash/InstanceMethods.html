@@ -63,11 +63,11 @@ Roda::RodaPlugins::Flash::InstanceMethods
 <a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-flash-source&#39;); return false'>
 [show source]
 </a>
-<pre id='method-i-flash-source'>   <span class="ruby-comment"># File lib/roda/plugins/flash.rb</span>
-<span class="line-num">95</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">flash</span>
-<span class="line-num">96</span>   <span class="ruby-comment"># :_flash to support transparent upgrades from previous key</span>
-<span class="line-num">97</span>   <span class="ruby-ivar">@_flash</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">FlashHash</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">session</span>[<span class="ruby-string">&#39;_flash&#39;</span>] <span class="ruby-operator">||</span> (<span class="ruby-identifier">session</span>[<span class="ruby-string">&#39;_flash&#39;</span>] = <span class="ruby-identifier">session</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:_flash</span>)))
-<span class="line-num">98</span> <span class="ruby-keyword">end</span></pre>
+<pre id='method-i-flash-source'>    <span class="ruby-comment"># File lib/roda/plugins/flash.rb</span>
+<span class="line-num"> 98</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">flash</span>
+<span class="line-num"> 99</span>   <span class="ruby-comment"># RODA4: Remove fallback to checking :_flash</span>
+<span class="line-num">100</span>   <span class="ruby-ivar">@_flash</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">FlashHash</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">session</span>[<span class="ruby-string">&#39;_flash&#39;</span>] <span class="ruby-operator">||</span> (<span class="ruby-identifier">session</span>[<span class="ruby-string">&#39;_flash&#39;</span>] = <span class="ruby-identifier">session</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:_flash</span>)))
+<span class="line-num">101</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

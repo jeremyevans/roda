@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+<head>
+<title>3.110.0.txt</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+<link href='../../../css/style.css' media='screen' rel='stylesheet' type='text/css'>
+<script type='text/javascript'>
+  function popupCode(url) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+  
+  function toggleCode(id) {
+    var code = document.getElementById(id)
+  
+    code.style.display = code.style.display != 'block' ? 'block' : 'none'
+    return true
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+</script>
+</head>
+<body class='page'>
+<div class='file' id='wrapper'>
+<div class='header'>
+<h1 class='name'>3.110.0.txt
+</h1>
+<div class='paths'>
+doc/release_notes/3.110.0.txt
+</div>
+</div>
+<div id='content'>
+<div id='text'>
+<div id='description'>
+<h1 id="label-New+Features"><a href="#label-New+Features">New Features</a></h1>
+<ul><li>
+<p>The <a href="../../lib/roda/plugins/common_logger_rb.html">common_logger</a> plugin now supports a use_request_ip keyword argument. If set to true, it calls request.ip to get the IP, instead of checking HTTP_X_FORWARDED_FOR and then REMOTE_ADDR in the environment.  This will become the default behavior in <a href="../../../classes/Roda.html"><code>Roda</code></a> 4.</p>
+</li><li>
+<p>A <a href="../../lib/roda/plugins/freeze_request_response_rb.html">freeze_request_response</a> plugin has been added, which freezes the RodaRequest and RodaResponse classes for the application when freezing the application. It’s possible that not all plugins that <a href="../../../classes/Roda.html"><code>Roda</code></a> ships with currently support this. However, all plugins should be modified to support it over the next few months, and this will become the default behavior in <a href="../../../classes/Roda.html"><code>Roda</code></a> 4.</p>
+</li><li>
+<p>The <a href="../../lib/roda/plugins/hash_routes_rb.html">hash_routes</a> and <a href="../../lib/roda/plugins/class_level_routing_rb.html">class_level_routing</a> plugins now support the query method if Rack::Request#query? is defined.</p>
+</li></ul>
+
+<h1 id="label-Other+Improvements"><a href="#label-Other+Improvements">Other Improvements</a></h1>
+<ul><li>
+<p>The public plugin now adds the Vary: Accept-Encoding header if the plugin is configured to support encodings (such as gzip).</p>
+</li><li>
+<p>The If-None-Match comparison in the caching plugin now works with weak etags.</p>
+</li><li>
+<p>The <a href="../../lib/roda/plugins/unescape_path_rb.html">unescape_path</a> plugin no longer unescapes + as space.</p>
+</li><li>
+<p>In the render plugin, when using compiled templates (the default for non-ancient versions if the template class supports it), each <a href="../../../classes/Roda.html"><code>Roda</code></a> class has a separate RodaCompiledTemplates module, so a subclass no longer modifies a module included in the superclass.</p>
+</li><li>
+<p>Many plugins have received minor performance improvements. In some cases, plugins now access a struct instead of a hash to get plugin configuration.</p>
+</li></ul>
+
+<h1 id="label-Deprecations"><a href="#label-Deprecations">Deprecations</a></h1>
+<ul><li>
+<p>The following plugins now accept keyword arguments and have deprecated support for a positional options hash:</p>
+<ul><li>
+<p><a href="../../lib/roda/plugins/capture_erb_rb.html">capture_erb</a></p>
+</li><li>
+<p>chunked</p>
+</li><li>
+<p><a href="../../lib/roda/plugins/class_matchers_rb.html">class_matchers</a></p>
+</li><li>
+<p><a href="../../lib/roda/plugins/content_for_rb.html">content_for</a></p>
+</li><li>
+<p><a href="../../lib/roda/plugins/error_handler_rb.html">error_handler</a></p>
+</li><li>
+<p><a href="../../lib/roda/plugins/permissions_policy_rb.html">permissions_policy</a></p>
+</li><li>
+<p><a href="../../lib/roda/plugins/symbol_matchers_rb.html">symbol_matchers</a></p>
+</li></ul>
+</li><li>
+<p>The following plugin methods now accept keyword arguments and have deprecated support for a positional options hash:</p>
+<ul><li>
+<p>etag (caching plugin)</p>
+</li><li>
+<p><a href="../../lib/roda/plugins/capture_erb_rb.html">capture_erb</a> (<a href="../../lib/roda/plugins/capture_erb_rb.html">capture_erb</a> plugin)</p>
+</li><li>
+<p><a href="../../lib/roda/plugins/exception_page_rb.html">exception_page</a> (<a href="../../lib/roda/plugins/exception_page_rb.html">exception_page</a> plugin)</p>
+</li></ul>
+</li><li>
+<p>The following plugins now warn if unsupported options are passed:</p>
+<ul><li>
+<p>assets</p>
+</li><li>
+<p><a href="../../lib/roda/plugins/cookie_flags_rb.html">cookie_flags</a></p>
+</li><li>
+<p><a href="../../lib/roda/plugins/error_email_rb.html">error_email</a></p>
+</li><li>
+<p><a href="../../lib/roda/plugins/error_mail_rb.html">error_mail</a></p>
+</li><li>
+<p>sessions</p>
+</li></ul>
+</li><li>
+<p>The following plugins have deprecated public constants:</p>
+<ul><li>
+<p>assets</p>
+</li><li>
+<p>sessions</p>
+</li></ul>
+</li><li>
+<p>The csrf plugin is now deprecated. Users are encouraged to switch to the <a href="../../lib/roda/plugins/route_csrf_rb.html">route_csrf</a> or set_fetch_site_csrf plugins.</p>
+</li><li>
+<p>The class-level error method in the <a href="../../lib/roda/plugins/error_handler_rb.html">error_handler</a> plugin is now deprecated. Switch callers to pass the block when loading the <a href="../../lib/roda/plugins/error_handler_rb.html">error_handler</a> plugin.</p>
+</li><li>
+<p>The :per_cookie_cipher_secret option for the sessions plugin is now deprecated. It has been true by default for many years, this only allowed setting it to false.</p>
+</li><li>
+<p>Passing an invalid asset type to asset_paths in the assets plugin is now deprecated.</p>
+</li></ul>
+
+<h1 id="label-Backwards+Compatibility"><a href="#label-Backwards+Compatibility">Backwards Compatibility</a></h1>
+<ul><li>
+<p>The <a href="../../lib/roda/plugins/recheck_precompiled_assets_rb.html">recheck_precompiled_assets</a> plugin was refactored to improve thread safety and to work with the <a href="../../lib/roda/plugins/freeze_request_response_rb.html">freeze_request_response</a> plugin. While there are no known incompatibilities, if you are relying on the internals of the plugin, note that they may have changed.</p>
+</li></ul>
+</div>
+<div id='context'>
+</div>
+
+</div>
+</div>
+
+<div id='footer-push'></div>
+</div>
+<div id='footer'>
+<a href="https://github.com/jeremyevans/hanna"><strong>Hanna</strong> RDoc template</a>
+</div>
+</body>
+</html>

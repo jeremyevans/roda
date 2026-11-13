@@ -41,7 +41,7 @@ Roda::RodaPlugins::DisallowFileUploads
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:disallow_file_uploads</span>
 </pre>
 
-<p>This plugin is only supported on Rack 1.6+.  This plugin does not technically block users from uploading files, it only blocks the parsing of request bodies containing multipart file uploads.  So if you do not call <code>r.POST</code> (or something that calls it such as <code>r.params</code>), then <a href="../../Roda.html"><code>Roda</code></a> will not attempt to parse the request body, and an exception will not be raised.</p>
+<p>This plugin is supported on Rack 1.6+.  This plugin does not technically block users from uploading files, it only blocks the parsing of request bodies containing multipart file uploads.  So if you do not call <code>r.POST</code> (or something that calls it such as <code>r.params</code>), then <a href="../../Roda.html"><code>Roda</code></a> will not attempt to parse the request body, and an exception will not be raised.</p>
 </div>
 <div id='context'>
 </div>

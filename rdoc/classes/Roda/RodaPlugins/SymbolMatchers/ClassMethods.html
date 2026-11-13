@@ -65,23 +65,23 @@ Roda::RodaPlugins::SymbolMatchers::ClassMethods
 [show source]
 </a>
 <pre id='method-i-freeze-source'>    <span class="ruby-comment"># File lib/roda/plugins/symbol_matchers.rb</span>
-<span class="line-num">145</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">freeze</span>
-<span class="line-num">146</span>   <span class="ruby-identifier">symbol_matchers</span>.<span class="ruby-identifier">freeze</span>
-<span class="line-num">147</span>   <span class="ruby-keyword">super</span>
-<span class="line-num">148</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">148</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">freeze</span>
+<span class="line-num">149</span>   <span class="ruby-identifier">symbol_matchers</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">150</span>   <span class="ruby-keyword">super</span>
+<span class="line-num">151</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-symbol_matcher'>
 <a name='method-i-symbol_matcher'></a>
 <div class='synopsis'>
-<span class='name'>symbol_matcher</span><span class='arguments'>(s, matcher, opts=OPTS, &block)</span>
+<span class='name'>symbol_matcher</span><span class='arguments'>(s, matcher, opts=(no_positional_opts = true; OPTS), segment: opts[:segment], **kw, &block)</span>
 
 </div>
 <div class='description'>
 
 <p>Set the matcher and block to use for the given class. The matcher can be a regexp, registered symbol matcher, or registered class matcher (if using the <a href="../../../../files/lib/roda/plugins/class_matchers_rb.html">class_matchers</a> plugin).</p>
 
-<p>If providing a regexp, the block given will be called with all regexp captures. If providing a registered symbol or class, the block will be called with the captures returned by the block for the registered symbol or class, or the regexp captures if no block was registered with the symbol or class. In either case, if a block is given, it should return an array with the captures to yield to the match block.</p>
+<p>If providing a regexp, the block given will be called with all regexp captures. If providing a registered symbol or class, the block will be called with the captures returned by the block for the registered symbol or class, or the regexp captures if no block was registered with the symbol or class. In either case, if a block is given, it should return an object to yield to the match block, or an array to yield multiple arguments to the match block. If the block returns nil or false, it will be treated as not matching.</p>
 
 </div>
 <div class='source'>
@@ -89,13 +89,15 @@ Roda::RodaPlugins::SymbolMatchers::ClassMethods
 [show source]
 </a>
 <pre id='method-i-symbol_matcher-source'>    <span class="ruby-comment"># File lib/roda/plugins/symbol_matchers.rb</span>
-<span class="line-num">136</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">symbol_matcher</span>(<span class="ruby-identifier">s</span>, <span class="ruby-identifier">matcher</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">137</span>   <span class="ruby-identifier">_symbol_class_matcher</span>(<span class="ruby-constant">Symbol</span>, <span class="ruby-identifier">s</span>, <span class="ruby-identifier">matcher</span>, <span class="ruby-identifier">block</span>, <span class="ruby-identifier">opts</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">meth</span>, <span class="ruby-identifier">array</span><span class="ruby-operator">|</span>
-<span class="line-num">138</span>     <span class="ruby-identifier">define_method</span>(<span class="ruby-identifier">meth</span>){<span class="ruby-identifier">array</span>}
-<span class="line-num">139</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">140</span> 
-<span class="line-num">141</span>   <span class="ruby-keyword">nil</span>
-<span class="line-num">142</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">137</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">symbol_matcher</span>(<span class="ruby-identifier">s</span>, <span class="ruby-identifier">matcher</span>, <span class="ruby-identifier">opts</span>=(<span class="ruby-identifier">no_positional_opts</span> = <span class="ruby-keyword">true</span>; <span class="ruby-constant">OPTS</span>), <span class="ruby-value">segment:</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:segment</span>], <span class="ruby-operator">**</span><span class="ruby-identifier">kw</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">138</span>   <span class="ruby-constant">RodaPlugins</span>.<span class="ruby-identifier">check_keywords</span>(<span class="ruby-identifier">__callee__</span>, <span class="ruby-identifier">no_positional_opts</span>, <span class="ruby-identifier">opts</span>, <span class="ruby-identifier">kw</span>)
+<span class="line-num">139</span> 
+<span class="line-num">140</span>   <span class="ruby-identifier">_symbol_class_matcher</span>(<span class="ruby-constant">Symbol</span>, <span class="ruby-identifier">s</span>, <span class="ruby-identifier">matcher</span>, <span class="ruby-identifier">block</span>, <span class="ruby-value">segment:</span> <span class="ruby-identifier">segment</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">meth</span>, <span class="ruby-identifier">array</span><span class="ruby-operator">|</span>
+<span class="line-num">141</span>     <span class="ruby-identifier">define_method</span>(<span class="ruby-identifier">meth</span>){<span class="ruby-identifier">array</span>}
+<span class="line-num">142</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">143</span> 
+<span class="line-num">144</span>   <span class="ruby-keyword">nil</span>
+<span class="line-num">145</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

@@ -111,19 +111,21 @@ Roda::RodaPlugins::CookieFlags
 [show source]
 </a>
 <pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/cookie_flags.rb</span>
-<span class="line-num">63</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
-<span class="line-num">64</span>   <span class="ruby-identifier">previous</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">cookie_flags</span> <span class="ruby-operator">||</span> <span class="ruby-constant">DEFAULTS</span>
-<span class="line-num">65</span>   <span class="ruby-identifier">opts</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:cookie_flags</span>] = <span class="ruby-identifier">previous</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">opts</span>)
-<span class="line-num">66</span> 
-<span class="line-num">67</span>   <span class="ruby-keyword">case</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:same_site</span>]
-<span class="line-num">68</span>   <span class="ruby-keyword">when</span> <span class="ruby-constant">String</span>, <span class="ruby-constant">Symbol</span>
-<span class="line-num">69</span>     <span class="ruby-identifier">opts</span>[<span class="ruby-value">:same_site</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:same_site</span>].<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">downcase</span>.<span class="ruby-identifier">freeze</span>
-<span class="line-num">70</span>     <span class="ruby-identifier">opts</span>[<span class="ruby-value">:same_site_string</span>] = <span class="ruby-node">&quot;; samesite=#{opts[:same_site]}&quot;</span>.<span class="ruby-identifier">freeze</span>
-<span class="line-num">71</span>     <span class="ruby-identifier">opts</span>[<span class="ruby-value">:secure</span>] = <span class="ruby-keyword">true</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:same_site</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&#39;none&#39;</span>
-<span class="line-num">72</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">73</span> 
-<span class="line-num">74</span>   <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">freeze</span>
-<span class="line-num">75</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">66</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
+<span class="line-num">67</span>   <span class="ruby-constant">RodaPlugins</span>.<span class="ruby-identifier">check_supported_opts</span>(<span class="ruby-string">&quot;the cookie_flags plugin&quot;</span>, <span class="ruby-identifier">opts</span>, <span class="ruby-constant">DEFAULTS</span>.<span class="ruby-identifier">keys</span>)
+<span class="line-num">68</span>   <span class="ruby-identifier">previous</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">cookie_flags</span> <span class="ruby-operator">||</span> <span class="ruby-constant">DEFAULTS</span>
+<span class="line-num">69</span>   <span class="ruby-identifier">opts</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:cookie_flags</span>] = <span class="ruby-identifier">previous</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">opts</span>)
+<span class="line-num">70</span> 
+<span class="line-num">71</span>   <span class="ruby-keyword">case</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:same_site</span>]
+<span class="line-num">72</span>   <span class="ruby-keyword">when</span> <span class="ruby-constant">String</span>, <span class="ruby-constant">Symbol</span>
+<span class="line-num">73</span>     <span class="ruby-identifier">opts</span>[<span class="ruby-value">:same_site</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:same_site</span>].<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">downcase</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">74</span>     <span class="ruby-identifier">opts</span>[<span class="ruby-value">:same_site_string</span>] = <span class="ruby-node">&quot;; samesite=#{opts[:same_site]}&quot;</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">75</span>     <span class="ruby-identifier">opts</span>[<span class="ruby-value">:secure</span>] = <span class="ruby-keyword">true</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:same_site</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&#39;none&#39;</span>
+<span class="line-num">76</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">77</span> 
+<span class="line-num">78</span>   <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">79</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:cookie_flags_config</span>] = <span class="ruby-constant">Config</span>.<span class="ruby-identifier">new</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">opts</span>.<span class="ruby-identifier">values_at</span>(<span class="ruby-operator">*</span><span class="ruby-constant">Config</span>.<span class="ruby-identifier">members</span>)).<span class="ruby-identifier">freeze</span>
+<span class="line-num">80</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

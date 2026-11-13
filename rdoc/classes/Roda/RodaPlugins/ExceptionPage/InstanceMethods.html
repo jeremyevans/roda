@@ -53,24 +53,24 @@ Roda::RodaPlugins::ExceptionPage::InstanceMethods
 <div class='method public-instance' id='method-method-i-exception_page'>
 <a name='method-i-exception_page'></a>
 <div class='synopsis'>
-<span class='name'>exception_page</span><span class='arguments'>(exception, opts=OPTS)</span>
+<span class='name'>exception_page</span><span class='arguments'>(exception, opts=(no_positional_opts = true; OPTS), assets: opts[:assets], context: opts[:context], css_file: opts[:css_file], js_file: opts[:js_file], json: opts[:json], **kw)</span>
 
 </div>
 <div class='description'>
 
 <p>Return a HTML page showing the exception, allowing a developer more information for debugging.  Designed to be called inside an exception handler, passing in the received exception. Sets the Content-Type header in the response, and returns the string used for the body.  If the Accept request header is present and text/html is accepted, return an HTML page with the backtrace with the ability to see the context for each backtrace line, as well as the GET, POST, cookie, and rack environment data.  If text/html is not accepted, then just show a plain text page with the exception class, message, and backtrace.</p>
 
-<p>Options:</p>
-<table class="rdoc-list note-list"><tbody><tr><td class='label'>:assets </td><td>
+<p>Arguments:</p>
+<table class="rdoc-list note-list"><tbody><tr><td class='label'><code>assets</code> </td><td>
 <p>If <code>true</code>, sets :css_file to <code>/exception_page.css</code> and :js_file to <code>/exception_page.js</code>, assuming that <code>r.exception_page_assets</code> is called in the route block to serve the exception page assets.  If a String, uses the string as a prefix, assuming that <code>r.exception_page_assets</code> is called in a nested block inside the route block. If false, doesn’t use any CSS or JS.</p>
-</td></tr><tr><td class='label'>:context </td><td>
+</td></tr><tr><td class='label'><code>context</code> </td><td>
 <p>The number of context lines before and after each line in the backtrace (default: 7).</p>
-</td></tr><tr><td class='label'>:css_file </td><td>
+</td></tr><tr><td class='label'><code>css_file</code> </td><td>
 <p>A path to the external CSS file for the HTML exception page. If false, doesn’t use any CSS.</p>
-</td></tr><tr><td class='label'>:js_file </td><td>
+</td></tr><tr><td class='label'><code>js_file</code> </td><td>
 <p>A path to the external javascript file for the HTML exception page. If false, doesn’t use any JS.</p>
-</td></tr><tr><td class='label'>:json </td><td>
-<p>Return a hash of exception information.  The hash will have a single key, “exception”, with a value being a hash with three keys, “class”, “message”, and “backtrace”, which contain information derived from the given exception. Designed to be used with the <code>json</code> exception, which will automatically convert the hash to JSON format.</p>
+</td></tr><tr><td class='label'><code>json</code> </td><td>
+<p>Return a hash of exception information.  The hash will have a single key, <code>&quot;exception&quot;</code>, with a value being a hash with three keys, <code>&quot;class&quot;</code>, <code>&quot;message&quot;</code>, and <code>&quot;backtrace&quot;</code>, which contain information derived from the given exception. Designed to be used with the <code>json</code> plugin, which will automatically convert the hash to JSON format.</p>
 </td></tr></tbody></table>
 
 </div>
@@ -79,209 +79,215 @@ Roda::RodaPlugins::ExceptionPage::InstanceMethods
 [show source]
 </a>
 <pre id='method-i-exception_page-source'>    <span class="ruby-comment"># File lib/roda/plugins/exception_page.rb</span>
-<span class="line-num">198</span>         <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">exception_page</span>(<span class="ruby-identifier">exception</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
-<span class="line-num">199</span>           <span class="ruby-identifier">message</span> = <span class="ruby-identifier">exception_page_exception_message</span>(<span class="ruby-identifier">exception</span>)
-<span class="line-num">200</span>           <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:json</span>]
-<span class="line-num">201</span>             <span class="ruby-ivar">@_response</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_TYPE</span>] = <span class="ruby-string">&quot;application/json&quot;</span>
-<span class="line-num">202</span>             {
-<span class="line-num">203</span>               <span class="ruby-string">&quot;exception&quot;</span><span class="ruby-operator">=&gt;</span>{
-<span class="line-num">204</span>                 <span class="ruby-string">&quot;class&quot;</span><span class="ruby-operator">=&gt;</span><span class="ruby-identifier">exception</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">to_s</span>,
-<span class="line-num">205</span>                 <span class="ruby-string">&quot;message&quot;</span><span class="ruby-operator">=&gt;</span><span class="ruby-identifier">message</span>,
-<span class="line-num">206</span>                 <span class="ruby-string">&quot;backtrace&quot;</span><span class="ruby-operator">=&gt;</span><span class="ruby-identifier">exception</span>.<span class="ruby-identifier">backtrace</span>.<span class="ruby-identifier">map</span>(<span class="ruby-operator">&amp;</span><span class="ruby-value">:to_s</span>)
-<span class="line-num">207</span>               }
-<span class="line-num">208</span>             }
-<span class="line-num">209</span>           <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">env</span>[<span class="ruby-string">&#39;HTTP_ACCEPT&#39;</span>] <span class="ruby-operator">=~</span> <span class="ruby-regexp">/text\/html/</span>
-<span class="line-num">210</span>             <span class="ruby-ivar">@_response</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_TYPE</span>] = <span class="ruby-string">&quot;text/html&quot;</span>
-<span class="line-num">211</span> 
-<span class="line-num">212</span>             <span class="ruby-identifier">context</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:context</span>] <span class="ruby-operator">||</span> <span class="ruby-value">7</span>
-<span class="line-num">213</span>             <span class="ruby-identifier">css_file</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:css_file</span>]
-<span class="line-num">214</span>             <span class="ruby-identifier">js_file</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:js_file</span>]
-<span class="line-num">215</span> 
-<span class="line-num">216</span>             <span class="ruby-keyword">case</span> <span class="ruby-identifier">prefix</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:assets</span>]
-<span class="line-num">217</span>             <span class="ruby-keyword">when</span> <span class="ruby-keyword">false</span>
-<span class="line-num">218</span>               <span class="ruby-identifier">css_file</span> = <span class="ruby-keyword">false</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">css_file</span>.<span class="ruby-identifier">nil?</span>
-<span class="line-num">219</span>               <span class="ruby-identifier">js_file</span> = <span class="ruby-keyword">false</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">js_file</span>.<span class="ruby-identifier">nil?</span>
-<span class="line-num">220</span>             <span class="ruby-keyword">when</span> <span class="ruby-keyword">nil</span>
-<span class="line-num">221</span>               <span class="ruby-comment"># nothing</span>
-<span class="line-num">222</span>             <span class="ruby-keyword">else</span>
-<span class="line-num">223</span>               <span class="ruby-identifier">prefix</span> = <span class="ruby-string">&#39;&#39;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">prefix</span> <span class="ruby-operator">==</span> <span class="ruby-keyword">true</span>
-<span class="line-num">224</span>               <span class="ruby-identifier">css_file</span> <span class="ruby-operator">||=</span> <span class="ruby-node">&quot;#{prefix}/exception_page.css&quot;</span>
-<span class="line-num">225</span>               <span class="ruby-identifier">js_file</span> <span class="ruby-operator">||=</span> <span class="ruby-node">&quot;#{prefix}/exception_page.js&quot;</span>
-<span class="line-num">226</span>             <span class="ruby-keyword">end</span>
-<span class="line-num">227</span> 
-<span class="line-num">228</span>             <span class="ruby-identifier">css</span> = <span class="ruby-keyword">case</span> <span class="ruby-identifier">css_file</span>
-<span class="line-num">229</span>             <span class="ruby-keyword">when</span> <span class="ruby-keyword">nil</span>
-<span class="line-num">230</span>               <span class="ruby-node">&quot;&lt;style type=\&quot;text/css\&quot;&gt;#{exception_page_css}&lt;/style&gt;&quot;</span>
-<span class="line-num">231</span>             <span class="ruby-keyword">when</span> <span class="ruby-keyword">false</span>
-<span class="line-num">232</span>               <span class="ruby-comment"># :nothing</span>
-<span class="line-num">233</span>             <span class="ruby-keyword">else</span>
-<span class="line-num">234</span>               <span class="ruby-node">&quot;&lt;link rel=\&quot;stylesheet\&quot; href=\&quot;#{h css_file}\&quot; /&gt;&quot;</span>
-<span class="line-num">235</span>             <span class="ruby-keyword">end</span>
-<span class="line-num">236</span> 
-<span class="line-num">237</span>             <span class="ruby-identifier">js</span> = <span class="ruby-keyword">case</span> <span class="ruby-identifier">js_file</span>
-<span class="line-num">238</span>             <span class="ruby-keyword">when</span> <span class="ruby-keyword">nil</span>
-<span class="line-num">239</span>               <span class="ruby-node">&quot;&lt;script type=\&quot;text/javascript\&quot;&gt;\n//&lt;!--\n#{exception_page_js}\n//--&gt;\n&lt;/script&gt;&quot;</span>
-<span class="line-num">240</span>             <span class="ruby-keyword">when</span> <span class="ruby-keyword">false</span>
-<span class="line-num">241</span>               <span class="ruby-comment"># :nothing</span>
-<span class="line-num">242</span>             <span class="ruby-keyword">else</span>
-<span class="line-num">243</span>               <span class="ruby-node">&quot;&lt;script type=\&quot;text/javascript\&quot; src=\&quot;#{h js_file}\&quot;&gt;&lt;/script&gt;&quot;</span>
-<span class="line-num">244</span>             <span class="ruby-keyword">end</span>
-<span class="line-num">245</span> 
-<span class="line-num">246</span>             <span class="ruby-identifier">frames</span> = <span class="ruby-identifier">exception</span>.<span class="ruby-identifier">backtrace</span>.<span class="ruby-identifier">map</span>.<span class="ruby-identifier">with_index</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">line</span>, <span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
-<span class="line-num">247</span>               <span class="ruby-identifier">frame</span> = {<span class="ruby-value">:id</span><span class="ruby-operator">=&gt;</span><span class="ruby-identifier">i</span>}
-<span class="line-num">248</span>               <span class="ruby-keyword">if</span> <span class="ruby-identifier">line</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">/\A(.*?):(\d+)(?::in [`&#39;](.*)&#39;)?\Z/</span>
-<span class="line-num">249</span>                 <span class="ruby-identifier">filename</span> = <span class="ruby-identifier">frame</span>[<span class="ruby-value">:filename</span>] = <span class="ruby-node">$1</span>
-<span class="line-num">250</span>                 <span class="ruby-identifier">lineno</span> = <span class="ruby-identifier">frame</span>[<span class="ruby-value">:lineno</span>] = <span class="ruby-node">$2</span>.<span class="ruby-identifier">to_i</span>
-<span class="line-num">251</span>                 <span class="ruby-identifier">frame</span>[<span class="ruby-value">:function</span>] = <span class="ruby-node">$3</span>
-<span class="line-num">252</span> 
-<span class="line-num">253</span>                 <span class="ruby-keyword">begin</span>
-<span class="line-num">254</span>                   <span class="ruby-identifier">lineno</span> <span class="ruby-operator">-=</span> <span class="ruby-value">1</span>
-<span class="line-num">255</span>                   <span class="ruby-identifier">lines</span> = <span class="ruby-operator">::</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">readlines</span>(<span class="ruby-identifier">filename</span>)
-<span class="line-num">256</span>                   <span class="ruby-keyword">if</span> <span class="ruby-identifier">line</span> = <span class="ruby-identifier">lines</span>[<span class="ruby-identifier">lineno</span>]
-<span class="line-num">257</span>                     <span class="ruby-identifier">pre_lineno</span> = [<span class="ruby-identifier">lineno</span><span class="ruby-operator">-</span><span class="ruby-identifier">context</span>, <span class="ruby-value">0</span>].<span class="ruby-identifier">max</span>
-<span class="line-num">258</span>                     <span class="ruby-keyword">if</span> (<span class="ruby-identifier">pre_context</span> = <span class="ruby-identifier">lines</span>[<span class="ruby-identifier">pre_lineno</span><span class="ruby-operator">...</span><span class="ruby-identifier">lineno</span>]) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">pre_context</span>.<span class="ruby-identifier">empty?</span>
-<span class="line-num">259</span>                       <span class="ruby-identifier">frame</span>[<span class="ruby-value">:pre_context_lineno</span>] = <span class="ruby-identifier">pre_lineno</span>
-<span class="line-num">260</span>                       <span class="ruby-identifier">frame</span>[<span class="ruby-value">:pre_context</span>] = <span class="ruby-identifier">pre_context</span>
-<span class="line-num">261</span>                     <span class="ruby-keyword">end</span>
-<span class="line-num">262</span> 
-<span class="line-num">263</span>                     <span class="ruby-identifier">post_lineno</span> = [<span class="ruby-identifier">lineno</span><span class="ruby-operator">+</span><span class="ruby-identifier">context</span>, <span class="ruby-identifier">lines</span>.<span class="ruby-identifier">size</span>].<span class="ruby-identifier">min</span>
-<span class="line-num">264</span>                     <span class="ruby-keyword">if</span> (<span class="ruby-identifier">post_context</span> = <span class="ruby-identifier">lines</span>[<span class="ruby-identifier">lineno</span><span class="ruby-value">+1</span><span class="ruby-operator">..</span><span class="ruby-identifier">post_lineno</span>]) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">post_context</span>.<span class="ruby-identifier">empty?</span>
-<span class="line-num">265</span>                       <span class="ruby-identifier">frame</span>[<span class="ruby-value">:post_context_lineno</span>] = <span class="ruby-identifier">post_lineno</span>
-<span class="line-num">266</span>                       <span class="ruby-identifier">frame</span>[<span class="ruby-value">:post_context</span>] = <span class="ruby-identifier">post_context</span>
+<span class="line-num">198</span>         <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">exception_page</span>(<span class="ruby-identifier">exception</span>, <span class="ruby-identifier">opts</span>=(<span class="ruby-identifier">no_positional_opts</span> = <span class="ruby-keyword">true</span>; <span class="ruby-constant">OPTS</span>),
+<span class="line-num">199</span>             <span class="ruby-value">assets:</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:assets</span>],
+<span class="line-num">200</span>             <span class="ruby-value">context:</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:context</span>],
+<span class="line-num">201</span>             <span class="ruby-value">css_file:</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:css_file</span>],
+<span class="line-num">202</span>             <span class="ruby-value">js_file:</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:js_file</span>],
+<span class="line-num">203</span>             <span class="ruby-value">json:</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:json</span>],
+<span class="line-num">204</span>             <span class="ruby-operator">**</span><span class="ruby-identifier">kw</span>)
+<span class="line-num">205</span>           <span class="ruby-constant">RodaPlugins</span>.<span class="ruby-identifier">check_keywords</span>(<span class="ruby-identifier">__callee__</span>, <span class="ruby-identifier">no_positional_opts</span>, <span class="ruby-identifier">opts</span>, <span class="ruby-identifier">kw</span>)
+<span class="line-num">206</span> 
+<span class="line-num">207</span>           <span class="ruby-identifier">message</span> = <span class="ruby-identifier">exception_page_exception_message</span>(<span class="ruby-identifier">exception</span>)
+<span class="line-num">208</span>           <span class="ruby-keyword">if</span> <span class="ruby-identifier">json</span>
+<span class="line-num">209</span>             <span class="ruby-ivar">@_response</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_TYPE</span>] = <span class="ruby-string">&quot;application/json&quot;</span>
+<span class="line-num">210</span>             {
+<span class="line-num">211</span>               <span class="ruby-string">&quot;exception&quot;</span><span class="ruby-operator">=&gt;</span>{
+<span class="line-num">212</span>                 <span class="ruby-string">&quot;class&quot;</span><span class="ruby-operator">=&gt;</span><span class="ruby-identifier">exception</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">to_s</span>,
+<span class="line-num">213</span>                 <span class="ruby-string">&quot;message&quot;</span><span class="ruby-operator">=&gt;</span><span class="ruby-identifier">message</span>,
+<span class="line-num">214</span>                 <span class="ruby-string">&quot;backtrace&quot;</span><span class="ruby-operator">=&gt;</span><span class="ruby-identifier">exception</span>.<span class="ruby-identifier">backtrace</span>.<span class="ruby-identifier">map</span>(<span class="ruby-operator">&amp;</span><span class="ruby-value">:to_s</span>)
+<span class="line-num">215</span>               }
+<span class="line-num">216</span>             }
+<span class="line-num">217</span>           <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">env</span>[<span class="ruby-string">&#39;HTTP_ACCEPT&#39;</span>] <span class="ruby-operator">=~</span> <span class="ruby-regexp">/text\/html/</span>
+<span class="line-num">218</span>             <span class="ruby-ivar">@_response</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_TYPE</span>] = <span class="ruby-string">&quot;text/html&quot;</span>
+<span class="line-num">219</span> 
+<span class="line-num">220</span>             <span class="ruby-identifier">context</span> <span class="ruby-operator">||=</span> <span class="ruby-value">7</span>
+<span class="line-num">221</span> 
+<span class="line-num">222</span>             <span class="ruby-keyword">case</span> <span class="ruby-identifier">prefix</span> = <span class="ruby-identifier">assets</span>
+<span class="line-num">223</span>             <span class="ruby-keyword">when</span> <span class="ruby-keyword">false</span>
+<span class="line-num">224</span>               <span class="ruby-identifier">css_file</span> = <span class="ruby-keyword">false</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">css_file</span>.<span class="ruby-identifier">nil?</span>
+<span class="line-num">225</span>               <span class="ruby-identifier">js_file</span> = <span class="ruby-keyword">false</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">js_file</span>.<span class="ruby-identifier">nil?</span>
+<span class="line-num">226</span>             <span class="ruby-keyword">when</span> <span class="ruby-keyword">nil</span>
+<span class="line-num">227</span>               <span class="ruby-comment"># nothing</span>
+<span class="line-num">228</span>             <span class="ruby-keyword">else</span>
+<span class="line-num">229</span>               <span class="ruby-identifier">prefix</span> = <span class="ruby-string">&#39;&#39;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">prefix</span> <span class="ruby-operator">==</span> <span class="ruby-keyword">true</span>
+<span class="line-num">230</span>               <span class="ruby-identifier">css_file</span> <span class="ruby-operator">||=</span> <span class="ruby-node">&quot;#{prefix}/exception_page.css&quot;</span>
+<span class="line-num">231</span>               <span class="ruby-identifier">js_file</span> <span class="ruby-operator">||=</span> <span class="ruby-node">&quot;#{prefix}/exception_page.js&quot;</span>
+<span class="line-num">232</span>             <span class="ruby-keyword">end</span>
+<span class="line-num">233</span> 
+<span class="line-num">234</span>             <span class="ruby-identifier">css</span> = <span class="ruby-keyword">case</span> <span class="ruby-identifier">css_file</span>
+<span class="line-num">235</span>             <span class="ruby-keyword">when</span> <span class="ruby-keyword">nil</span>
+<span class="line-num">236</span>               <span class="ruby-node">&quot;&lt;style type=\&quot;text/css\&quot;&gt;#{exception_page_css}&lt;/style&gt;&quot;</span>
+<span class="line-num">237</span>             <span class="ruby-keyword">when</span> <span class="ruby-keyword">false</span>
+<span class="line-num">238</span>               <span class="ruby-comment"># :nothing</span>
+<span class="line-num">239</span>             <span class="ruby-keyword">else</span>
+<span class="line-num">240</span>               <span class="ruby-node">&quot;&lt;link rel=\&quot;stylesheet\&quot; href=\&quot;#{h css_file}\&quot; /&gt;&quot;</span>
+<span class="line-num">241</span>             <span class="ruby-keyword">end</span>
+<span class="line-num">242</span> 
+<span class="line-num">243</span>             <span class="ruby-identifier">js</span> = <span class="ruby-keyword">case</span> <span class="ruby-identifier">js_file</span>
+<span class="line-num">244</span>             <span class="ruby-keyword">when</span> <span class="ruby-keyword">nil</span>
+<span class="line-num">245</span>               <span class="ruby-node">&quot;&lt;script type=\&quot;text/javascript\&quot;&gt;\n//&lt;!--\n#{exception_page_js}\n//--&gt;\n&lt;/script&gt;&quot;</span>
+<span class="line-num">246</span>             <span class="ruby-keyword">when</span> <span class="ruby-keyword">false</span>
+<span class="line-num">247</span>               <span class="ruby-comment"># :nothing</span>
+<span class="line-num">248</span>             <span class="ruby-keyword">else</span>
+<span class="line-num">249</span>               <span class="ruby-node">&quot;&lt;script type=\&quot;text/javascript\&quot; src=\&quot;#{h js_file}\&quot;&gt;&lt;/script&gt;&quot;</span>
+<span class="line-num">250</span>             <span class="ruby-keyword">end</span>
+<span class="line-num">251</span> 
+<span class="line-num">252</span>             <span class="ruby-identifier">frames</span> = <span class="ruby-identifier">exception</span>.<span class="ruby-identifier">backtrace</span>.<span class="ruby-identifier">map</span>.<span class="ruby-identifier">with_index</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">line</span>, <span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
+<span class="line-num">253</span>               <span class="ruby-identifier">frame</span> = {<span class="ruby-value">:id</span><span class="ruby-operator">=&gt;</span><span class="ruby-identifier">i</span>}
+<span class="line-num">254</span>               <span class="ruby-keyword">if</span> <span class="ruby-identifier">line</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">/\A(.*?):(\d+)(?::in [`&#39;](.*)&#39;)?\Z/</span>
+<span class="line-num">255</span>                 <span class="ruby-identifier">filename</span> = <span class="ruby-identifier">frame</span>[<span class="ruby-value">:filename</span>] = <span class="ruby-node">$1</span>
+<span class="line-num">256</span>                 <span class="ruby-identifier">lineno</span> = <span class="ruby-identifier">frame</span>[<span class="ruby-value">:lineno</span>] = <span class="ruby-node">$2</span>.<span class="ruby-identifier">to_i</span>
+<span class="line-num">257</span>                 <span class="ruby-identifier">frame</span>[<span class="ruby-value">:function</span>] = <span class="ruby-node">$3</span>
+<span class="line-num">258</span> 
+<span class="line-num">259</span>                 <span class="ruby-keyword">begin</span>
+<span class="line-num">260</span>                   <span class="ruby-identifier">lineno</span> <span class="ruby-operator">-=</span> <span class="ruby-value">1</span>
+<span class="line-num">261</span>                   <span class="ruby-identifier">lines</span> = <span class="ruby-operator">::</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">readlines</span>(<span class="ruby-identifier">filename</span>)
+<span class="line-num">262</span>                   <span class="ruby-keyword">if</span> <span class="ruby-identifier">line</span> = <span class="ruby-identifier">lines</span>[<span class="ruby-identifier">lineno</span>]
+<span class="line-num">263</span>                     <span class="ruby-identifier">pre_lineno</span> = [<span class="ruby-identifier">lineno</span><span class="ruby-operator">-</span><span class="ruby-identifier">context</span>, <span class="ruby-value">0</span>].<span class="ruby-identifier">max</span>
+<span class="line-num">264</span>                     <span class="ruby-keyword">if</span> (<span class="ruby-identifier">pre_context</span> = <span class="ruby-identifier">lines</span>[<span class="ruby-identifier">pre_lineno</span><span class="ruby-operator">...</span><span class="ruby-identifier">lineno</span>]) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">pre_context</span>.<span class="ruby-identifier">empty?</span>
+<span class="line-num">265</span>                       <span class="ruby-identifier">frame</span>[<span class="ruby-value">:pre_context_lineno</span>] = <span class="ruby-identifier">pre_lineno</span>
+<span class="line-num">266</span>                       <span class="ruby-identifier">frame</span>[<span class="ruby-value">:pre_context</span>] = <span class="ruby-identifier">pre_context</span>
 <span class="line-num">267</span>                     <span class="ruby-keyword">end</span>
 <span class="line-num">268</span> 
-<span class="line-num">269</span>                     <span class="ruby-identifier">frame</span>[<span class="ruby-value">:context_line</span>] = <span class="ruby-identifier">line</span>.<span class="ruby-identifier">chomp</span>
-<span class="line-num">270</span>                   <span class="ruby-keyword">end</span>
-<span class="line-num">271</span>                 <span class="ruby-keyword">rescue</span>
-<span class="line-num">272</span>                 <span class="ruby-keyword">end</span>
-<span class="line-num">273</span> 
-<span class="line-num">274</span>                 <span class="ruby-identifier">frame</span>
-<span class="line-num">275</span>               <span class="ruby-keyword">end</span>
-<span class="line-num">276</span>             <span class="ruby-keyword">end</span>.<span class="ruby-identifier">compact</span>
-<span class="line-num">277</span> 
-<span class="line-num">278</span>             <span class="ruby-identifier">r</span> = <span class="ruby-ivar">@_request</span>
-<span class="line-num">279</span>             <span class="ruby-keyword">begin</span> 
-<span class="line-num">280</span>               <span class="ruby-identifier">post_data</span> = <span class="ruby-identifier">r</span>.<span class="ruby-constant">POST</span>
-<span class="line-num">281</span>               <span class="ruby-identifier">missing_post</span> = <span class="ruby-string">&quot;No POST data&quot;</span>
-<span class="line-num">282</span>             <span class="ruby-keyword">rescue</span>
-<span class="line-num">283</span>               <span class="ruby-identifier">missing_post</span> = <span class="ruby-string">&quot;Invalid POST data&quot;</span>
-<span class="line-num">284</span>             <span class="ruby-keyword">end</span>
-<span class="line-num">285</span>             <span class="ruby-identifier">info</span> = <span class="ruby-identifier">lambda</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">title</span>, <span class="ruby-identifier">id</span>, <span class="ruby-identifier">var</span>, <span class="ruby-identifier">none</span><span class="ruby-operator">|</span>
-<span class="line-num">286</span>               <span class="ruby-identifier">&lt;&lt;END</span>
-<span class="line-num">287</span> <span class="ruby-value">  &lt;h3 id=&quot;#{id}&quot;&gt;#{title}&lt;/h3&gt;
-<span class="line-num">288</span>   #{(var &amp;&amp; !var.empty?) ? (&lt;&lt;END1) : &quot;&lt;p&gt;#{none}&lt;/p&gt;&quot;
-<span class="line-num">289</span>     &lt;table class=&quot;req&quot;&gt;
-<span class="line-num">290</span>       &lt;thead&gt;
-<span class="line-num">291</span>         &lt;tr&gt;
-<span class="line-num">292</span>           &lt;th&gt;Variable&lt;/th&gt;
-<span class="line-num">293</span>           &lt;th&gt;Value&lt;/th&gt;
-<span class="line-num">294</span>         &lt;/tr&gt;
-<span class="line-num">295</span>       &lt;/thead&gt;
-<span class="line-num">296</span>       &lt;tbody&gt;
-<span class="line-num">297</span>           #{var.sort_by{|k, _| k.to_s}.map{|key, val| (&lt;&lt;END2)}.join
-<span class="line-num">298</span>           &lt;tr&gt;
-<span class="line-num">299</span>             &lt;td&gt;#{h key}&lt;/td&gt;
-<span class="line-num">300</span>             &lt;td class=&quot;code&quot;&gt;&lt;div&gt;#{h val.inspect}&lt;/div&gt;&lt;/td&gt;
-<span class="line-num">301</span>           &lt;/tr&gt;
-<span class="line-num">302</span> END2
-<span class="line-num">303</span> }
-<span class="line-num">304</span>       &lt;/tbody&gt;
-<span class="line-num">305</span>     &lt;/table&gt;
-<span class="line-num">306</span> END1
-<span class="line-num">307</span> }
-<span class="line-num">308</span> </span><span class="ruby-identifier">END</span>
-<span class="line-num">309</span>             <span class="ruby-keyword">end</span>
-<span class="line-num">310</span> 
-<span class="line-num">311</span>             <span class="ruby-identifier">&lt;&lt;END</span>
-<span class="line-num">312</span> <span class="ruby-value">&lt;!DOCTYPE html&gt;
-<span class="line-num">313</span> &lt;html lang=&quot;en&quot;&gt;
-<span class="line-num">314</span> &lt;head&gt;
-<span class="line-num">315</span>   &lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
-<span class="line-num">316</span>   &lt;title&gt;#{h exception.class} at #{h r.path}&lt;/title&gt;
-<span class="line-num">317</span>   #{css}
-<span class="line-num">318</span> &lt;/head&gt;
-<span class="line-num">319</span> &lt;body&gt;
-<span class="line-num">320</span> 
-<span class="line-num">321</span> &lt;div id=&quot;summary&quot;&gt;
-<span class="line-num">322</span>   &lt;h1&gt;#{h exception.class} at #{h r.path}&lt;/h1&gt;
-<span class="line-num">323</span>   &lt;h2&gt;#{h message}&lt;/h2&gt;
-<span class="line-num">324</span>   &lt;table&gt;&lt;tr&gt;
-<span class="line-num">325</span>     &lt;th&gt;Ruby&lt;/th&gt;
-<span class="line-num">326</span>     &lt;td&gt;
-<span class="line-num">327</span> #{(first = frames.first) ? &quot;&lt;code&gt;#{h first[:filename]}&lt;/code&gt;: in &lt;code&gt;#{h first[:function]}&lt;/code&gt;, line #{first[:lineno]}&quot; : &quot;unknown location&quot;}
-<span class="line-num">328</span>     &lt;/td&gt;
-<span class="line-num">329</span>   &lt;/tr&gt;&lt;tr&gt;
-<span class="line-num">330</span>     &lt;th&gt;Web&lt;/th&gt;
-<span class="line-num">331</span>     &lt;td&gt;&lt;code&gt;#{r.request_method} #{h r.host}#{h r.path}&lt;/code&gt;&lt;/td&gt;
-<span class="line-num">332</span>   &lt;/tr&gt;&lt;/table&gt;
-<span class="line-num">333</span> 
-<span class="line-num">334</span>   &lt;h3&gt;Jump to:&lt;/h3&gt;
-<span class="line-num">335</span>   &lt;ul id=&quot;quicklinks&quot;&gt;
-<span class="line-num">336</span>     &lt;li&gt;&lt;a href=&quot;#get-info&quot;&gt;GET&lt;/a&gt;&lt;/li&gt;
-<span class="line-num">337</span>     &lt;li&gt;&lt;a href=&quot;#post-info&quot;&gt;POST&lt;/a&gt;&lt;/li&gt;
-<span class="line-num">338</span>     &lt;li&gt;&lt;a href=&quot;#cookie-info&quot;&gt;Cookies&lt;/a&gt;&lt;/li&gt;
-<span class="line-num">339</span>     &lt;li&gt;&lt;a href=&quot;#env-info&quot;&gt;ENV&lt;/a&gt;&lt;/li&gt;
-<span class="line-num">340</span>   &lt;/ul&gt;
-<span class="line-num">341</span> &lt;/div&gt;
-<span class="line-num">342</span> 
-<span class="line-num">343</span> &lt;div id=&quot;traceback&quot;&gt;
-<span class="line-num">344</span>   &lt;h2&gt;Traceback &lt;span&gt;(innermost first)&lt;/span&gt;&lt;/h2&gt;
-<span class="line-num">345</span>   &lt;ul class=&quot;traceback&quot;&gt;
-<span class="line-num">346</span> #{frames.map{|frame| id = frame[:id]; (&lt;&lt;END1)}.join
-<span class="line-num">347</span>       &lt;li class=&quot;frame&quot;&gt;
-<span class="line-num">348</span>         &lt;code&gt;#{h frame[:filename]}:#{frame[:lineno]}&lt;/code&gt; in &lt;code&gt;#{h frame[:function]}&lt;/code&gt;
-<span class="line-num">349</span> 
-<span class="line-num">350</span>           #{frame[:context_line] ? (&lt;&lt;END2) : &#39;&lt;/li&gt;&#39;
-<span class="line-num">351</span>           &lt;div class=&quot;context&quot; id=&quot;c#{id}&quot;&gt;
-<span class="line-num">352</span>             #{frame[:pre_context] ? (&lt;&lt;END3) : &#39;&#39;
-<span class="line-num">353</span>             &lt;ol start=&quot;#{frame[:pre_context_lineno]+1}&quot; id=&quot;bc#{id}&quot;&gt;
-<span class="line-num">354</span>               #{frame[:pre_context].map{|line| &quot;&lt;li&gt;#{h line}&lt;/li&gt;&quot;}.join}
-<span class="line-num">355</span>             &lt;/ol&gt;
-<span class="line-num">356</span> END3
-<span class="line-num">357</span> }
-<span class="line-num">358</span> 
-<span class="line-num">359</span>             &lt;ol start=&quot;#{frame[:lineno]}&quot; class=&quot;context-line&quot;&gt;
-<span class="line-num">360</span>               &lt;li&gt;#{h frame[:context_line]}&lt;span&gt;...&lt;/span&gt;&lt;/li&gt;
+<span class="line-num">269</span>                     <span class="ruby-identifier">post_lineno</span> = [<span class="ruby-identifier">lineno</span><span class="ruby-operator">+</span><span class="ruby-identifier">context</span>, <span class="ruby-identifier">lines</span>.<span class="ruby-identifier">size</span>].<span class="ruby-identifier">min</span>
+<span class="line-num">270</span>                     <span class="ruby-keyword">if</span> (<span class="ruby-identifier">post_context</span> = <span class="ruby-identifier">lines</span>[<span class="ruby-identifier">lineno</span><span class="ruby-value">+1</span><span class="ruby-operator">..</span><span class="ruby-identifier">post_lineno</span>]) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">post_context</span>.<span class="ruby-identifier">empty?</span>
+<span class="line-num">271</span>                       <span class="ruby-identifier">frame</span>[<span class="ruby-value">:post_context_lineno</span>] = <span class="ruby-identifier">post_lineno</span>
+<span class="line-num">272</span>                       <span class="ruby-identifier">frame</span>[<span class="ruby-value">:post_context</span>] = <span class="ruby-identifier">post_context</span>
+<span class="line-num">273</span>                     <span class="ruby-keyword">end</span>
+<span class="line-num">274</span> 
+<span class="line-num">275</span>                     <span class="ruby-identifier">frame</span>[<span class="ruby-value">:context_line</span>] = <span class="ruby-identifier">line</span>.<span class="ruby-identifier">chomp</span>
+<span class="line-num">276</span>                   <span class="ruby-keyword">end</span>
+<span class="line-num">277</span>                 <span class="ruby-keyword">rescue</span>
+<span class="line-num">278</span>                 <span class="ruby-keyword">end</span>
+<span class="line-num">279</span> 
+<span class="line-num">280</span>                 <span class="ruby-identifier">frame</span>
+<span class="line-num">281</span>               <span class="ruby-keyword">end</span>
+<span class="line-num">282</span>             <span class="ruby-keyword">end</span>.<span class="ruby-identifier">compact</span>
+<span class="line-num">283</span> 
+<span class="line-num">284</span>             <span class="ruby-identifier">r</span> = <span class="ruby-ivar">@_request</span>
+<span class="line-num">285</span>             <span class="ruby-keyword">begin</span> 
+<span class="line-num">286</span>               <span class="ruby-identifier">post_data</span> = <span class="ruby-identifier">r</span>.<span class="ruby-constant">POST</span>
+<span class="line-num">287</span>               <span class="ruby-identifier">missing_post</span> = <span class="ruby-string">&quot;No POST data&quot;</span>
+<span class="line-num">288</span>             <span class="ruby-keyword">rescue</span>
+<span class="line-num">289</span>               <span class="ruby-identifier">missing_post</span> = <span class="ruby-string">&quot;Invalid POST data&quot;</span>
+<span class="line-num">290</span>             <span class="ruby-keyword">end</span>
+<span class="line-num">291</span>             <span class="ruby-identifier">info</span> = <span class="ruby-identifier">lambda</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">title</span>, <span class="ruby-identifier">id</span>, <span class="ruby-identifier">var</span>, <span class="ruby-identifier">none</span><span class="ruby-operator">|</span>
+<span class="line-num">292</span>               <span class="ruby-identifier">&lt;&lt;END</span>
+<span class="line-num">293</span> <span class="ruby-value">  &lt;h3 id=&quot;#{id}&quot;&gt;#{title}&lt;/h3&gt;
+<span class="line-num">294</span>   #{(var &amp;&amp; !var.empty?) ? (&lt;&lt;END1) : &quot;&lt;p&gt;#{none}&lt;/p&gt;&quot;
+<span class="line-num">295</span>     &lt;table class=&quot;req&quot;&gt;
+<span class="line-num">296</span>       &lt;thead&gt;
+<span class="line-num">297</span>         &lt;tr&gt;
+<span class="line-num">298</span>           &lt;th&gt;Variable&lt;/th&gt;
+<span class="line-num">299</span>           &lt;th&gt;Value&lt;/th&gt;
+<span class="line-num">300</span>         &lt;/tr&gt;
+<span class="line-num">301</span>       &lt;/thead&gt;
+<span class="line-num">302</span>       &lt;tbody&gt;
+<span class="line-num">303</span>           #{var.sort_by{|k, _| k.to_s}.map{|key, val| (&lt;&lt;END2)}.join
+<span class="line-num">304</span>           &lt;tr&gt;
+<span class="line-num">305</span>             &lt;td&gt;#{h key}&lt;/td&gt;
+<span class="line-num">306</span>             &lt;td class=&quot;code&quot;&gt;&lt;div&gt;#{h val.inspect}&lt;/div&gt;&lt;/td&gt;
+<span class="line-num">307</span>           &lt;/tr&gt;
+<span class="line-num">308</span> END2
+<span class="line-num">309</span> }
+<span class="line-num">310</span>       &lt;/tbody&gt;
+<span class="line-num">311</span>     &lt;/table&gt;
+<span class="line-num">312</span> END1
+<span class="line-num">313</span> }
+<span class="line-num">314</span> </span><span class="ruby-identifier">END</span>
+<span class="line-num">315</span>             <span class="ruby-keyword">end</span>
+<span class="line-num">316</span> 
+<span class="line-num">317</span>             <span class="ruby-identifier">&lt;&lt;END</span>
+<span class="line-num">318</span> <span class="ruby-value">&lt;!DOCTYPE html&gt;
+<span class="line-num">319</span> &lt;html lang=&quot;en&quot;&gt;
+<span class="line-num">320</span> &lt;head&gt;
+<span class="line-num">321</span>   &lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
+<span class="line-num">322</span>   &lt;title&gt;#{h exception.class} at #{h r.path}&lt;/title&gt;
+<span class="line-num">323</span>   #{css}
+<span class="line-num">324</span> &lt;/head&gt;
+<span class="line-num">325</span> &lt;body&gt;
+<span class="line-num">326</span> 
+<span class="line-num">327</span> &lt;div id=&quot;summary&quot;&gt;
+<span class="line-num">328</span>   &lt;h1&gt;#{h exception.class} at #{h r.path}&lt;/h1&gt;
+<span class="line-num">329</span>   &lt;h2&gt;#{h message}&lt;/h2&gt;
+<span class="line-num">330</span>   &lt;table&gt;&lt;tr&gt;
+<span class="line-num">331</span>     &lt;th&gt;Ruby&lt;/th&gt;
+<span class="line-num">332</span>     &lt;td&gt;
+<span class="line-num">333</span> #{(first = frames.first) ? &quot;&lt;code&gt;#{h first[:filename]}&lt;/code&gt;: in &lt;code&gt;#{h first[:function]}&lt;/code&gt;, line #{first[:lineno]}&quot; : &quot;unknown location&quot;}
+<span class="line-num">334</span>     &lt;/td&gt;
+<span class="line-num">335</span>   &lt;/tr&gt;&lt;tr&gt;
+<span class="line-num">336</span>     &lt;th&gt;Web&lt;/th&gt;
+<span class="line-num">337</span>     &lt;td&gt;&lt;code&gt;#{r.request_method} #{h r.host}#{h r.path}&lt;/code&gt;&lt;/td&gt;
+<span class="line-num">338</span>   &lt;/tr&gt;&lt;/table&gt;
+<span class="line-num">339</span> 
+<span class="line-num">340</span>   &lt;h3&gt;Jump to:&lt;/h3&gt;
+<span class="line-num">341</span>   &lt;ul id=&quot;quicklinks&quot;&gt;
+<span class="line-num">342</span>     &lt;li&gt;&lt;a href=&quot;#get-info&quot;&gt;GET&lt;/a&gt;&lt;/li&gt;
+<span class="line-num">343</span>     &lt;li&gt;&lt;a href=&quot;#post-info&quot;&gt;POST&lt;/a&gt;&lt;/li&gt;
+<span class="line-num">344</span>     &lt;li&gt;&lt;a href=&quot;#cookie-info&quot;&gt;Cookies&lt;/a&gt;&lt;/li&gt;
+<span class="line-num">345</span>     &lt;li&gt;&lt;a href=&quot;#env-info&quot;&gt;ENV&lt;/a&gt;&lt;/li&gt;
+<span class="line-num">346</span>   &lt;/ul&gt;
+<span class="line-num">347</span> &lt;/div&gt;
+<span class="line-num">348</span> 
+<span class="line-num">349</span> &lt;div id=&quot;traceback&quot;&gt;
+<span class="line-num">350</span>   &lt;h2&gt;Traceback &lt;span&gt;(innermost first)&lt;/span&gt;&lt;/h2&gt;
+<span class="line-num">351</span>   &lt;ul class=&quot;traceback&quot;&gt;
+<span class="line-num">352</span> #{frames.map{|frame| id = frame[:id]; (&lt;&lt;END1)}.join
+<span class="line-num">353</span>       &lt;li class=&quot;frame&quot;&gt;
+<span class="line-num">354</span>         &lt;code&gt;#{h frame[:filename]}:#{frame[:lineno]}&lt;/code&gt; in &lt;code&gt;#{h frame[:function]}&lt;/code&gt;
+<span class="line-num">355</span> 
+<span class="line-num">356</span>           #{frame[:context_line] ? (&lt;&lt;END2) : &#39;&lt;/li&gt;&#39;
+<span class="line-num">357</span>           &lt;div class=&quot;context&quot; id=&quot;c#{id}&quot;&gt;
+<span class="line-num">358</span>             #{frame[:pre_context] ? (&lt;&lt;END3) : &#39;&#39;
+<span class="line-num">359</span>             &lt;ol start=&quot;#{frame[:pre_context_lineno]+1}&quot; id=&quot;bc#{id}&quot;&gt;
+<span class="line-num">360</span>               #{frame[:pre_context].map{|line| &quot;&lt;li&gt;#{h line}&lt;/li&gt;&quot;}.join}
 <span class="line-num">361</span>             &lt;/ol&gt;
-<span class="line-num">362</span> 
-<span class="line-num">363</span>             #{frame[:post_context] ? (&lt;&lt;END4) : &#39;&#39;
-<span class="line-num">364</span>             &lt;ol start=&#39;#{frame[:lineno]+1}&#39; id=&quot;ac#{id}&quot;&gt;
-<span class="line-num">365</span>               #{frame[:post_context].map{|line| &quot;&lt;li&gt;#{h line}&lt;/li&gt;&quot;}.join}
-<span class="line-num">366</span>             &lt;/ol&gt;
-<span class="line-num">367</span> END4
-<span class="line-num">368</span> }
-<span class="line-num">369</span>           &lt;/div&gt;
-<span class="line-num">370</span> END2
-<span class="line-num">371</span> }
-<span class="line-num">372</span> END1
-<span class="line-num">373</span> }
-<span class="line-num">374</span>   &lt;/ul&gt;
-<span class="line-num">375</span> &lt;/div&gt;
-<span class="line-num">376</span> 
-<span class="line-num">377</span> &lt;div id=&quot;requestinfo&quot;&gt;
-<span class="line-num">378</span>   &lt;h2&gt;Request information&lt;/h2&gt;
-<span class="line-num">379</span> 
-<span class="line-num">380</span>   #{info.call(&#39;GET&#39;, &#39;get-info&#39;, r.GET, &#39;No GET data&#39;)}
-<span class="line-num">381</span>   #{info.call(&#39;POST&#39;, &#39;post-info&#39;, post_data, missing_post)}
-<span class="line-num">382</span>   #{info.call(&#39;Cookies&#39;, &#39;cookie-info&#39;, r.cookies, &#39;No cookie data&#39;)}
-<span class="line-num">383</span>   #{info.call(&#39;Rack ENV&#39;, &#39;env-info&#39;, r.env, &#39;No Rack env?&#39;)}
-<span class="line-num">384</span> &lt;/div&gt;
+<span class="line-num">362</span> END3
+<span class="line-num">363</span> }
+<span class="line-num">364</span> 
+<span class="line-num">365</span>             &lt;ol start=&quot;#{frame[:lineno]}&quot; class=&quot;context-line&quot;&gt;
+<span class="line-num">366</span>               &lt;li&gt;#{h frame[:context_line]}&lt;span&gt;...&lt;/span&gt;&lt;/li&gt;
+<span class="line-num">367</span>             &lt;/ol&gt;
+<span class="line-num">368</span> 
+<span class="line-num">369</span>             #{frame[:post_context] ? (&lt;&lt;END4) : &#39;&#39;
+<span class="line-num">370</span>             &lt;ol start=&#39;#{frame[:lineno]+1}&#39; id=&quot;ac#{id}&quot;&gt;
+<span class="line-num">371</span>               #{frame[:post_context].map{|line| &quot;&lt;li&gt;#{h line}&lt;/li&gt;&quot;}.join}
+<span class="line-num">372</span>             &lt;/ol&gt;
+<span class="line-num">373</span> END4
+<span class="line-num">374</span> }
+<span class="line-num">375</span>           &lt;/div&gt;
+<span class="line-num">376</span> END2
+<span class="line-num">377</span> }
+<span class="line-num">378</span> END1
+<span class="line-num">379</span> }
+<span class="line-num">380</span>   &lt;/ul&gt;
+<span class="line-num">381</span> &lt;/div&gt;
+<span class="line-num">382</span> 
+<span class="line-num">383</span> &lt;div id=&quot;requestinfo&quot;&gt;
+<span class="line-num">384</span>   &lt;h2&gt;Request information&lt;/h2&gt;
 <span class="line-num">385</span> 
-<span class="line-num">386</span> &lt;div id=&quot;explanation&quot;&gt;
-<span class="line-num">387</span>   &lt;p&gt;
-<span class="line-num">388</span>     You&#39;re seeing this error because you use the Roda exception_page plugin.
-<span class="line-num">389</span>   &lt;/p&gt;
+<span class="line-num">386</span>   #{info.call(&#39;GET&#39;, &#39;get-info&#39;, r.GET, &#39;No GET data&#39;)}
+<span class="line-num">387</span>   #{info.call(&#39;POST&#39;, &#39;post-info&#39;, post_data, missing_post)}
+<span class="line-num">388</span>   #{info.call(&#39;Cookies&#39;, &#39;cookie-info&#39;, r.cookies, &#39;No cookie data&#39;)}
+<span class="line-num">389</span>   #{info.call(&#39;Rack ENV&#39;, &#39;env-info&#39;, r.env, &#39;No Rack env?&#39;)}
 <span class="line-num">390</span> &lt;/div&gt;
 <span class="line-num">391</span> 
-<span class="line-num">392</span> #{js}
-<span class="line-num">393</span> &lt;/body&gt;
-<span class="line-num">394</span> &lt;/html&gt;
-<span class="line-num">395</span> </span><span class="ruby-identifier">END</span>
-<span class="line-num">396</span>           <span class="ruby-keyword">else</span>
-<span class="line-num">397</span>             <span class="ruby-ivar">@_response</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_TYPE</span>] = <span class="ruby-string">&quot;text/plain&quot;</span>
-<span class="line-num">398</span>             <span class="ruby-node">&quot;#{exception.class}: #{message}\n#{exception.backtrace.map{|l| &quot;\t#{l}&quot;}.join(&quot;\n&quot;)}&quot;</span>
-<span class="line-num">399</span>           <span class="ruby-keyword">end</span>
-<span class="line-num">400</span>         <span class="ruby-keyword">end</span></pre>
+<span class="line-num">392</span> &lt;div id=&quot;explanation&quot;&gt;
+<span class="line-num">393</span>   &lt;p&gt;
+<span class="line-num">394</span>     You&#39;re seeing this error because you use the Roda exception_page plugin.
+<span class="line-num">395</span>   &lt;/p&gt;
+<span class="line-num">396</span> &lt;/div&gt;
+<span class="line-num">397</span> 
+<span class="line-num">398</span> #{js}
+<span class="line-num">399</span> &lt;/body&gt;
+<span class="line-num">400</span> &lt;/html&gt;
+<span class="line-num">401</span> </span><span class="ruby-identifier">END</span>
+<span class="line-num">402</span>           <span class="ruby-keyword">else</span>
+<span class="line-num">403</span>             <span class="ruby-ivar">@_response</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">CONTENT_TYPE</span>] = <span class="ruby-string">&quot;text/plain&quot;</span>
+<span class="line-num">404</span>             <span class="ruby-node">&quot;#{exception.class}: #{message}\n#{exception.backtrace.map{|l| &quot;\t#{l}&quot;}.join(&quot;\n&quot;)}&quot;</span>
+<span class="line-num">405</span>           <span class="ruby-keyword">end</span>
+<span class="line-num">406</span>         <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-exception_page_css'>
@@ -300,9 +306,9 @@ Roda::RodaPlugins::ExceptionPage::InstanceMethods
 [show source]
 </a>
 <pre id='method-i-exception_page_css-source'>    <span class="ruby-comment"># File lib/roda/plugins/exception_page.rb</span>
-<span class="line-num">403</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">exception_page_css</span>
-<span class="line-num">404</span>   <span class="ruby-constant">ExceptionPage</span>.<span class="ruby-identifier">css</span>
-<span class="line-num">405</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">409</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">exception_page_css</span>
+<span class="line-num">410</span>   <span class="ruby-constant">ExceptionPage</span>.<span class="ruby-identifier">css</span>
+<span class="line-num">411</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-exception_page_js'>
@@ -321,9 +327,9 @@ Roda::RodaPlugins::ExceptionPage::InstanceMethods
 [show source]
 </a>
 <pre id='method-i-exception_page_js-source'>    <span class="ruby-comment"># File lib/roda/plugins/exception_page.rb</span>
-<span class="line-num">408</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">exception_page_js</span>
-<span class="line-num">409</span>   <span class="ruby-constant">ExceptionPage</span>.<span class="ruby-identifier">js</span>
-<span class="line-num">410</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">414</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">exception_page_js</span>
+<span class="line-num">415</span>   <span class="ruby-constant">ExceptionPage</span>.<span class="ruby-identifier">js</span>
+<span class="line-num">416</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

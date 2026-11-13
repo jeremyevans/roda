@@ -64,10 +64,10 @@ Roda::RodaPlugins::UnescapePath::RequestMethods
 [show source]
 </a>
 <pre id='method-i-matched_path-source'>   <span class="ruby-comment"># File lib/roda/plugins/unescape_path.rb</span>
-<span class="line-num">25</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">matched_path</span>
-<span class="line-num">26</span>   <span class="ruby-identifier">e</span> = <span class="ruby-ivar">@env</span>
-<span class="line-num">27</span>   <span class="ruby-constant">Rack</span><span class="ruby-operator">::</span><span class="ruby-constant">Utils</span>.<span class="ruby-identifier">unescape</span>(<span class="ruby-identifier">e</span>[<span class="ruby-string">&quot;SCRIPT_NAME&quot;</span>] <span class="ruby-operator">+</span> <span class="ruby-identifier">e</span>[<span class="ruby-string">&quot;PATH_INFO&quot;</span>]).<span class="ruby-identifier">chomp</span>(<span class="ruby-ivar">@remaining_path</span>)
-<span class="line-num">28</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">23</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">matched_path</span>
+<span class="line-num">24</span>   <span class="ruby-identifier">e</span> = <span class="ruby-ivar">@env</span>
+<span class="line-num">25</span>   <span class="ruby-identifier">_unescape_path</span>(<span class="ruby-identifier">e</span>[<span class="ruby-string">&quot;SCRIPT_NAME&quot;</span>] <span class="ruby-operator">+</span> <span class="ruby-identifier">e</span>[<span class="ruby-string">&quot;PATH_INFO&quot;</span>]).<span class="ruby-identifier">chomp</span>(<span class="ruby-ivar">@remaining_path</span>)
+<span class="line-num">26</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

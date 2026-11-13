@@ -42,14 +42,14 @@ Roda::RodaPlugins::Chunked
 
 <p>There are a couple disadvantages of streaming.  First is that the layout must be rendered before the content, so any state changes made in your content template will not affect the layout template.  Second, error handling is reduced, since if an error occurs while rendering a template, a successful response code has already been sent.</p>
 
-<p>To use chunked encoding for a response, just call the chunked method instead of view:</p>
+<p>To use chunked encoding for a response, call the <code>chunked</code> method instead of view:</p>
 
 <pre class="ruby"><span class="ruby-identifier">r</span>.<span class="ruby-identifier">root</span> <span class="ruby-keyword">do</span>
   <span class="ruby-identifier">chunked</span>(<span class="ruby-value">:index</span>)
 <span class="ruby-keyword">end</span>
 </pre>
 
-<p>If you want to execute code after flushing the top part of the layout template, but before rendering the content template, pass a block to chunked:</p>
+<p>If you want to execute code after flushing the top part of the layout template, but before rendering the content template, pass a block to <code>chunked</code>:</p>
 
 <pre class="ruby"><span class="ruby-identifier">r</span>.<span class="ruby-identifier">root</span> <span class="ruby-keyword">do</span>
   <span class="ruby-identifier">chunked</span>(<span class="ruby-value">:index</span>) <span class="ruby-keyword">do</span>
@@ -58,7 +58,7 @@ Roda::RodaPlugins::Chunked
 <span class="ruby-keyword">end</span>
 </pre>
 
-<p>You can also call delay manually with a block, and the execution of the block will be delayed until rendering the content template.  This is useful if you want to delay execution for all routes under a branch:</p>
+<p>You can also call <code>delay</code> manually with a block, and the execution of the block will be delayed until rendering the content template.  This is useful if you want to delay execution for all routes under a branch:</p>
 
 <pre class="ruby"><span class="ruby-identifier">r</span>.<span class="ruby-identifier">on</span> <span class="ruby-string">&#39;albums&#39;</span>, <span class="ruby-constant">Integer</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">album_id</span><span class="ruby-operator">|</span>
   <span class="ruby-identifier">delay</span> <span class="ruby-keyword">do</span>
@@ -73,21 +73,21 @@ Roda::RodaPlugins::Chunked
 <span class="ruby-keyword">end</span>
 </pre>
 
-<p>If you want to chunk all responses, pass the :chunk_by_default option when loading the plugin:</p>
+<p>If you want to chunk all responses, pass the <code>chunk_by_default</code> argument when loading the plugin:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:chunked</span>, <span class="ruby-value">chunk_by_default:</span> <span class="ruby-keyword">true</span>
 </pre>
 
-<p>then you can just use the normal view method:</p>
+<p>then you can just use the normal <code>view</code> method:</p>
 
 <pre class="ruby"><span class="ruby-identifier">r</span>.<span class="ruby-identifier">root</span> <span class="ruby-keyword">do</span>
   <span class="ruby-identifier">view</span>(<span class="ruby-value">:index</span>)
 <span class="ruby-keyword">end</span>
 </pre>
 
-<p>and it will chunk the response.  Note that you still need to call chunked if you want to pass a block of code to be executed after flushing the layout and before rendering the content template. Also, before you enable chunking by default, you need to make sure that none of your content templates make state changes that affect the layout template. Additionally, make sure nowhere in your app are you doing any processing after the call to view.</p>
+<p>and it will chunk the response.  Note that you still need to call chunked if you want to pass a block of code to be executed after flushing the layout and before rendering the content template. Also, before you enable chunking by default, you need to make sure that none of your content templates make state changes that affect the layout template. Additionally, make sure nowhere in your app are you doing any processing after the call to <code>view</code>.</p>
 
-<p>If you use :chunk_by_default, but want to turn off chunking for a view, call no_chunk!:</p>
+<p>If you use <code>chunk_by_default</code>, but want to turn off chunking for a view, call <code>no_chunk!</code>:</p>
 
 <pre class="ruby"><span class="ruby-identifier">r</span>.<span class="ruby-identifier">root</span> <span class="ruby-keyword">do</span>
   <span class="ruby-identifier">no_chunk!</span>
@@ -95,7 +95,7 @@ Roda::RodaPlugins::Chunked
 <span class="ruby-keyword">end</span>
 </pre>
 
-<p>Inside your layout or content templates, you can call the flush method to flush the current result of the template to the user, useful for streaming large datasets.</p>
+<p>Inside your layout or content templates, you can call the <code>flush</code> method to flush the current result of the template to the user, useful for streaming large datasets.</p>
 
 <pre>&lt;% (1..100).each do |i| %&gt;
   &lt;%= i %&gt;
@@ -107,7 +107,7 @@ Roda::RodaPlugins::Chunked
 
 <pre>&lt;% flush %&gt;&lt;%= render(:subtemplate) %&gt;</pre>
 
-<p>If you want to use chunked encoding when rendering a template, but don’t want to use a layout, pass the <code>layout: false</code> option to chunked.</p>
+<p>If you want to use chunked encoding when rendering a template, but don’t want to use a layout, pass the <code>layout: false</code> option to <code>chunked</code>.</p>
 
 <pre class="ruby"><span class="ruby-identifier">r</span>.<span class="ruby-identifier">root</span> <span class="ruby-keyword">do</span>
   <span class="ruby-identifier">chunked</span>(<span class="ruby-value">:index</span>, <span class="ruby-value">layout:</span> <span class="ruby-keyword">false</span>)
@@ -121,18 +121,18 @@ Roda::RodaPlugins::Chunked
 <span class="ruby-keyword">end</span>
 </pre>
 
-<p>It is possible to set @_out_buf to an error notification and call flush to output the message to the client inside handle_chunk_error.</p>
+<p>It is possible to set +@_out_buf+ to an error notification and call <code>flush</code> to output the message to the client inside handle_chunk_error.</p>
 
 <p>In order for chunking to work, you must make sure that no proxies between the application and the client buffer responses.</p>
 
-<p>If you are using nginx and have it set to buffer proxy responses by default, you can turn this off on a per response basis using the X-Accel-Buffering header.  To set this header or similar headers for all chunked responses, pass a :headers option when loading the plugin:</p>
+<p>If you are using nginx and have it set to buffer proxy responses by default, you can turn this off on a per response basis using the X-Accel-Buffering header.  To set this header or similar headers for all chunked responses, pass a <code>headers</code> argument when loading the plugin:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:chunked</span>, <span class="ruby-value">headers:</span> {<span class="ruby-string">&#39;X-Accel-Buffering&#39;</span><span class="ruby-operator">=&gt;</span><span class="ruby-string">&#39;no&#39;</span>}
 </pre>
 
-<p>By default, this plugin does not use Transfer-Encoding: chunked, it only returns a body that will stream the response in chunks.  If you would like to force the use of Transfer-Encoding: chunked, you can use the :force_chunked_encoding plugin option.  If using the :force_chunked_encoding plugin option, chunking will only be used for HTTP/1.1 requests since Transfer-Encoding: chunked is only supported in HTTP/1.1 (non-HTTP/1.1 requests will have behavior similar to calling no_chunk!).</p>
+<p>By default, this plugin does not use <code>Transfer-Encoding: chunked</code>, it only returns a body that will stream the response in chunks.  If you would like to force the use of <code>Transfer-Encoding: chunked</code>, you can use the <code>force_chunked_encoding</code> plugin argument.  If using the <code>force_chunked_encoding</code> argument, chunking will only be used for HTTP/1.1 requests since <code>Transfer-Encoding: chunked</code> is only supported in HTTP/1.1 (non-HTTP/1.1 requests will have behavior similar to calling <code>no_chunk!</code>).</p>
 
-<p>The chunked plugin requires the render plugin, and only works for template engines that store their template output variable in @_out_buf.  Also, it only works if the content template is directly injected into the layout template without modification.</p>
+<p>The chunked plugin requires the render plugin, and only works for template engines that store their template output variable in +@_out_buf+.  Also, it only works if the content template is directly injected into the layout template without modification.</p>
 
 <p>If using the chunked plugin with the flash plugin, make sure you call the flash method early in your route block.  If the flash method is not called until template rendering, the flash may not be rotated.</p>
 </div>
@@ -175,15 +175,17 @@ Roda::RodaPlugins::Chunked
 <div class='method public-class' id='method-method-c-configure'>
 <a name='method-c-configure'></a>
 <div class='synopsis'>
-<span class='name'>configure</span><span class='arguments'>(app, opts=OPTS)</span>
+<span class='name'>configure</span><span class='arguments'>(app, opts=(no_positional_opts = true; OPTS), chunk_by_default: opts[:chunk_by_default], force_chunked_encoding: opts[:force_chunked_encoding], headers: opts[:headers], **kw)</span>
 
 </div>
 <div class='description'>
 
-<p>Set plugin specific options.  Options:</p>
-<table class="rdoc-list note-list"><tbody><tr><td class='label'>:chunk_by_default </td><td>
+<p>Set plugin specific arguments.  Keyword arguments:</p>
+<table class="rdoc-list note-list"><tbody><tr><td class='label'><code>chunk_by_default</code> </td><td>
 <p>chunk all calls to view by default</p>
-</td></tr><tr><td class='label'>:headers </td><td>
+</td></tr><tr><td class='label'><code>force_chunked_encoding</code> </td><td>
+<p>force the use of Transfer-Encoding: chunked for HTTP 1.1 requests</p>
+</td></tr><tr><td class='label'><code>headers</code> </td><td>
 <p>Set default additional headers to use when calling view</p>
 </td></tr></tbody></table>
 
@@ -193,13 +195,14 @@ Roda::RodaPlugins::Chunked
 [show source]
 </a>
 <pre id='method-c-configure-source'>    <span class="ruby-comment"># File lib/roda/plugins/chunked.rb</span>
-<span class="line-num">161</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
-<span class="line-num">162</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:chunk_by_default</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:chunk_by_default</span>]
-<span class="line-num">163</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:force_chunked_encoding</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:force_chunked_encoding</span>]
-<span class="line-num">164</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:headers</span>]
-<span class="line-num">165</span>     <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:chunk_headers</span>] = (<span class="ruby-identifier">app</span>.<span class="ruby-identifier">chunk_headers</span> <span class="ruby-operator">||</span> {}).<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">opts</span>[<span class="ruby-value">:headers</span>]).<span class="ruby-identifier">freeze</span>
-<span class="line-num">166</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">167</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">162</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=(<span class="ruby-identifier">no_positional_opts</span> = <span class="ruby-keyword">true</span>; <span class="ruby-constant">OPTS</span>), <span class="ruby-value">chunk_by_default:</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:chunk_by_default</span>], <span class="ruby-value">force_chunked_encoding:</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:force_chunked_encoding</span>], <span class="ruby-value">headers:</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:headers</span>], <span class="ruby-operator">**</span><span class="ruby-identifier">kw</span>)
+<span class="line-num">163</span>   <span class="ruby-constant">RodaPlugins</span>.<span class="ruby-identifier">check_keywords</span>(<span class="ruby-string">&quot;the chunked plugin&quot;</span>, <span class="ruby-identifier">no_positional_opts</span>, <span class="ruby-identifier">opts</span>, <span class="ruby-identifier">kw</span>)
+<span class="line-num">164</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:chunk_by_default</span>] = <span class="ruby-identifier">chunk_by_default</span>
+<span class="line-num">165</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:force_chunked_encoding</span>] = <span class="ruby-identifier">force_chunked_encoding</span>
+<span class="line-num">166</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">headers</span>
+<span class="line-num">167</span>     <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:chunk_headers</span>] = (<span class="ruby-identifier">app</span>.<span class="ruby-identifier">chunk_headers</span> <span class="ruby-operator">||</span> {}).<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">headers</span>).<span class="ruby-identifier">freeze</span>
+<span class="line-num">168</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">169</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-class' id='method-method-c-load_dependencies'>

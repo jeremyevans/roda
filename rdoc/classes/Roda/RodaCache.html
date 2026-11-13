@@ -76,10 +76,10 @@ Superclass:
 [show source]
 </a>
 <pre id='method-c-new-source'>   <span class="ruby-comment"># File lib/roda/cache.rb</span>
-<span class="line-num">10</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>
-<span class="line-num">11</span>   <span class="ruby-ivar">@mutex</span> = <span class="ruby-constant">Mutex</span>.<span class="ruby-identifier">new</span>
-<span class="line-num">12</span>   <span class="ruby-ivar">@hash</span> = {}
-<span class="line-num">13</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num"> 8</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>
+<span class="line-num"> 9</span>   <span class="ruby-ivar">@mutex</span> = <span class="ruby-constant">Mutex</span>.<span class="ruby-identifier">new</span>
+<span class="line-num">10</span>   <span class="ruby-ivar">@hash</span> = {}
+<span class="line-num">11</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <h2>Public Instance methods</h2>
@@ -99,9 +99,9 @@ Superclass:
 [show source]
 </a>
 <pre id='method-i-5B-5D-source'>   <span class="ruby-comment"># File lib/roda/cache.rb</span>
-<span class="line-num">16</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">[]</span>(<span class="ruby-identifier">key</span>)
-<span class="line-num">17</span>   <span class="ruby-ivar">@mutex</span>.<span class="ruby-identifier">synchronize</span>{<span class="ruby-ivar">@hash</span>[<span class="ruby-identifier">key</span>]}
-<span class="line-num">18</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">14</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">[]</span>(<span class="ruby-identifier">key</span>)
+<span class="line-num">15</span>   <span class="ruby-ivar">@mutex</span>.<span class="ruby-identifier">synchronize</span>{<span class="ruby-ivar">@hash</span>[<span class="ruby-identifier">key</span>]}
+<span class="line-num">16</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-5B-5D-3D'>
@@ -120,9 +120,9 @@ Superclass:
 [show source]
 </a>
 <pre id='method-i-5B-5D-3D-source'>   <span class="ruby-comment"># File lib/roda/cache.rb</span>
-<span class="line-num">21</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">[]=</span>(<span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span>)
-<span class="line-num">22</span>   <span class="ruby-ivar">@mutex</span>.<span class="ruby-identifier">synchronize</span>{<span class="ruby-ivar">@hash</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">value</span>}
-<span class="line-num">23</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">19</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">[]=</span>(<span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span>)
+<span class="line-num">20</span>   <span class="ruby-ivar">@mutex</span>.<span class="ruby-identifier">synchronize</span>{<span class="ruby-ivar">@hash</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">value</span>}
+<span class="line-num">21</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-freeze'>
@@ -141,9 +141,9 @@ Superclass:
 [show source]
 </a>
 <pre id='method-i-freeze-source'>   <span class="ruby-comment"># File lib/roda/cache.rb</span>
-<span class="line-num">28</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">freeze</span>
-<span class="line-num">29</span>   <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">freeze</span>
-<span class="line-num">30</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">26</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">freeze</span>
+<span class="line-num">27</span>   <span class="ruby-ivar">@hash</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">28</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

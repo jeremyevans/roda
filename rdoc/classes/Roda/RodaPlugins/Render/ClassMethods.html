@@ -135,10 +135,13 @@ Roda::RodaPlugins::Render::ClassMethods
 <span class="line-num">583</span>   <span class="ruby-identifier">opts</span> = <span class="ruby-identifier">subclass</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:render</span>] = <span class="ruby-identifier">subclass</span>.<span class="ruby-identifier">render_opts</span>.<span class="ruby-identifier">dup</span>
 <span class="line-num">584</span>   <span class="ruby-keyword">if</span> <span class="ruby-constant">COMPILED_METHOD_SUPPORT</span>
 <span class="line-num">585</span>     <span class="ruby-identifier">opts</span>[<span class="ruby-value">:template_method_cache</span>] = (<span class="ruby-identifier">opts</span>[<span class="ruby-value">:cache_class</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">RodaCache</span>).<span class="ruby-identifier">new</span>
-<span class="line-num">586</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">587</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:cache</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:cache</span>].<span class="ruby-identifier">dup</span>
-<span class="line-num">588</span>   <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">freeze</span>
-<span class="line-num">589</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">586</span>     <span class="ruby-identifier">compiled_templates_module</span> = <span class="ruby-constant">Module</span>.<span class="ruby-identifier">new</span>
+<span class="line-num">587</span>     <span class="ruby-identifier">subclass</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:include</span>, <span class="ruby-identifier">compiled_templates_module</span>)
+<span class="line-num">588</span>     <span class="ruby-identifier">subclass</span>.<span class="ruby-identifier">const_set</span>(<span class="ruby-value">:RodaCompiledTemplates</span>, <span class="ruby-identifier">compiled_templates_module</span>)
+<span class="line-num">589</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">590</span>   <span class="ruby-identifier">opts</span>[<span class="ruby-value">:cache</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:cache</span>].<span class="ruby-identifier">dup</span>
+<span class="line-num">591</span>   <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">592</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-inline_template_block'>

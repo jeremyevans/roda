@@ -69,7 +69,7 @@ Roda::RodaPlugins::Cookies
 <div class='method public-class' id='method-method-c-configure'>
 <a name='method-c-configure'></a>
 <div class='synopsis'>
-<span class='name'>configure</span><span class='arguments'>(app, opts={})</span>
+<span class='name'>configure</span><span class='arguments'>(app, opts=OPTS)</span>
 
 </div>
 <div class='description'>
@@ -82,8 +82,8 @@ Roda::RodaPlugins::Cookies
 [show source]
 </a>
 <pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/cookies.rb</span>
-<span class="line-num">22</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>={})
-<span class="line-num">23</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:cookies_opts</span>] = (<span class="ruby-identifier">app</span>.<span class="ruby-identifier">cookies_opts</span><span class="ruby-operator">||</span>{}).<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">opts</span>).<span class="ruby-identifier">freeze</span>
+<span class="line-num">22</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
+<span class="line-num">23</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:cookies_opts</span>] = (<span class="ruby-identifier">app</span>.<span class="ruby-identifier">cookies_opts</span><span class="ruby-operator">||</span><span class="ruby-constant">OPTS</span>).<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">opts</span>).<span class="ruby-identifier">freeze</span>
 <span class="line-num">24</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>

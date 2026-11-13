@@ -36,7 +36,7 @@ Roda::RodaPlugins::Environments
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The environments plugin adds a environment class accessor to get the environment for the application, 3 predicate class methods to check for the current environment (development?, test? and production?), and a class configure method that takes environment(s) and yields to the block if the given environment(s) match the current environment.</p>
+<p>The environments plugin adds a <code>environment</code> class accessor to get the environment for the application, predicate class methods to check for the current environment (<code>development?</code>, <code>test?</code> and <code>production?</code>), and a class <code>configure</code> method that takes environment(s) and yields to the block if the given environment(s) match the current environment.</p>
 
 <p>The default environment for the application is based on <code>ENV[&#39;RACK_ENV&#39;]</code>.</p>
 
@@ -94,7 +94,7 @@ Roda::RodaPlugins::Environments
 </div>
 <div class='description'>
 
-<p>Set the environment to use for the app.  Default to <a href="&#39;RACK_ENV&#39;">ENV</a> if no environment is given.  If <a href="&#39;RACK_ENV&#39;">ENV</a> is not set and no environment is given, assume the development environment.</p>
+<p>Set the environment to use for the app.  Default to <code>ENV[&#39;RACK_ENV&#39;]</code> if no environment is given.  If <code>ENV[&#39;RACK_ENV&#39;]</code> is not set and no environment is given, assume the development environment.</p>
 
 </div>
 <div class='source'>

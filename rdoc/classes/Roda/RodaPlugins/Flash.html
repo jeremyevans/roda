@@ -36,9 +36,9 @@ Roda::RodaPlugins::Flash
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The flash plugin adds a <code>flash</code> instance method to <a href="../../Roda.html"><code>Roda</code></a>, for typical web application flash handling, where values set in the current flash hash are available in the next request.</p>
+<p>The flash plugin adds a <code>flash</code> instance method, for typical web application flash handling, where values set in the current flash hash are available in the next request loading the flash.</p>
 
-<p>With the example below, if a POST request is submitted, it will redirect and the resulting GET request will return ‘b’.</p>
+<p>With the example below, if a <code>POST</code> request is submitted, it will redirect and the resulting <code>GET</code> request will return <code>&#39;b&#39;</code>.</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:flash</span>
 
@@ -50,7 +50,7 @@ Roda::RodaPlugins::Flash
 
     <span class="ruby-identifier">r</span>.<span class="ruby-identifier">post</span> <span class="ruby-keyword">do</span>
       <span class="ruby-identifier">flash</span>[<span class="ruby-string">&#39;a&#39;</span>] = <span class="ruby-string">&#39;b&#39;</span>
-      <span class="ruby-identifier">r</span>.<span class="ruby-identifier">redirect</span>(<span class="ruby-string">&#39;&#39;</span>)
+      <span class="ruby-identifier">r</span>.<span class="ruby-identifier">redirect</span>
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span>
@@ -63,6 +63,8 @@ Roda::RodaPlugins::Flash
   <span class="ruby-identifier">flash</span>[<span class="ruby-string">&#39;a&#39;</span>] <span class="ruby-comment"># = &gt;&#39;b&#39;</span>
 <span class="ruby-keyword">end</span>
 </pre>
+
+<p>The flash is saved in the session, so it has the same restrictions as other data saved in the session. If the session does not support symbols (e.g. when using the sessions plugin), you should not use symbols as flash keys.</p>
 </div>
 <div id='context'>
 </div>

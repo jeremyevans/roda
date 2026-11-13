@@ -52,23 +52,23 @@ Roda::RodaPlugins::Caching::RequestMethods
 <div class='method public-instance' id='method-method-i-etag'>
 <a name='method-i-etag'></a>
 <div class='synopsis'>
-<span class='name'>etag</span><span class='arguments'>(value, opts=OPTS)</span>
+<span class='name'>etag</span><span class='arguments'>(value, opts=(no_positional_opts = true; OPTS), weak: opts[:weak], new_resource: opts.fetch(:new_resource){post?}, **kw)</span>
 
 </div>
 <div class='description'>
 
-<p>Set the response entity tag using the ETag header.</p>
+<p>Set the response entity tag using the <code>ETag</code> header.</p>
 
-<p>The <code>value</code> argument is an identifier that uniquely identifies the current version of the resource. Options:</p>
-<table class="rdoc-list note-list"><tbody><tr><td class='label'>:weak </td><td>
+<p>The <code>value</code> argument is an identifier that uniquely identifies the current version of the resource. Keyword Arguments:</p>
+<table class="rdoc-list note-list"><tbody><tr><td class='label'><code>weak</code> </td><td>
 <p>Use a weak cache validator (a strong cache validator is the default)</p>
-</td></tr><tr><td class='label'>:new_resource </td><td>
+</td></tr><tr><td class='label'><code>new_resource</code> </td><td>
 <p>Whether this etag should match an etag of * (true for POST, false otherwise)</p>
 </td></tr></tbody></table>
 
-<p>When the current request includes an If-None-Match header with a matching etag, immediately returns a response with a 304 or 412 status, depending on the request method.</p>
+<p>When the current request includes an <code>If-None-Match</code> header with a matching etag, immediately returns a response with a 304 or 412 status, depending on the request method.</p>
 
-<p>When the current request includes an If-Match header with an etag that doesn’t match, or where the :weak option was used, immediately returns a response with a 412 status.</p>
+<p>When the current request includes an <code>If-Match</code> header with an etag that doesn’t match, or where the <code>weak</code> argument was used, immediately returns a response with a 412 status.</p>
 
 </div>
 <div class='source'>
@@ -76,30 +76,28 @@ Roda::RodaPlugins::Caching::RequestMethods
 [show source]
 </a>
 <pre id='method-i-etag-source'>    <span class="ruby-comment"># File lib/roda/plugins/caching.rb</span>
-<span class="line-num">118</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">etag</span>(<span class="ruby-identifier">value</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
-<span class="line-num">119</span>   <span class="ruby-comment"># Before touching this code, please double check RFC 2616 14.24 and 14.26.</span>
-<span class="line-num">120</span>   <span class="ruby-identifier">weak</span> = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:weak</span>]
-<span class="line-num">121</span>   <span class="ruby-identifier">new_resource</span> = <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-value">:new_resource</span>){<span class="ruby-identifier">post?</span>}
-<span class="line-num">122</span> 
-<span class="line-num">123</span>   <span class="ruby-identifier">res</span> = <span class="ruby-identifier">response</span>
-<span class="line-num">124</span>   <span class="ruby-identifier">e</span> = <span class="ruby-identifier">env</span>
-<span class="line-num">125</span>   <span class="ruby-identifier">res</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">ETAG</span>] = <span class="ruby-identifier">etag</span> = <span class="ruby-node">&quot;#{&#39;W/&#39; if weak}\&quot;#{value}\&quot;&quot;</span>
-<span class="line-num">126</span>   <span class="ruby-identifier">status</span> = <span class="ruby-identifier">res</span>.<span class="ruby-identifier">status</span>
-<span class="line-num">127</span> 
-<span class="line-num">128</span>   <span class="ruby-keyword">if</span> (<span class="ruby-operator">!</span><span class="ruby-identifier">status</span> <span class="ruby-operator">||</span> (<span class="ruby-identifier">status</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-value">200</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">status</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">300</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">status</span> <span class="ruby-operator">==</span> <span class="ruby-value">304</span>)
-<span class="line-num">129</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">etag_matches?</span>(<span class="ruby-identifier">e</span>[<span class="ruby-string">&#39;HTTP_IF_NONE_MATCH&#39;</span>], <span class="ruby-identifier">etag</span>, <span class="ruby-identifier">new_resource</span>)
-<span class="line-num">130</span>       <span class="ruby-identifier">res</span>.<span class="ruby-identifier">status</span> = (<span class="ruby-identifier">request_method</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">/\AGET|HEAD|OPTIONS|TRACE\z/i</span> <span class="ruby-operator">?</span> <span class="ruby-value">304</span> <span class="ruby-operator">:</span> <span class="ruby-value">412</span>)
-<span class="line-num">131</span>       <span class="ruby-identifier">halt</span>
-<span class="line-num">132</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">133</span> 
-<span class="line-num">134</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">ifm</span> = <span class="ruby-identifier">e</span>[<span class="ruby-string">&#39;HTTP_IF_MATCH&#39;</span>]
-<span class="line-num">135</span>       <span class="ruby-keyword">if</span> <span class="ruby-identifier">weak</span> <span class="ruby-operator">||</span> <span class="ruby-operator">!</span><span class="ruby-identifier">etag_matches?</span>(<span class="ruby-identifier">ifm</span>, <span class="ruby-identifier">etag</span>, <span class="ruby-identifier">new_resource</span>)
-<span class="line-num">136</span>         <span class="ruby-identifier">res</span>.<span class="ruby-identifier">status</span> = <span class="ruby-value">412</span>
-<span class="line-num">137</span>         <span class="ruby-identifier">halt</span>
-<span class="line-num">138</span>       <span class="ruby-keyword">end</span>
-<span class="line-num">139</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">140</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">141</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">118</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">etag</span>(<span class="ruby-identifier">value</span>, <span class="ruby-identifier">opts</span>=(<span class="ruby-identifier">no_positional_opts</span> = <span class="ruby-keyword">true</span>; <span class="ruby-constant">OPTS</span>), <span class="ruby-value">weak:</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:weak</span>], <span class="ruby-value">new_resource:</span> <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-value">:new_resource</span>){<span class="ruby-identifier">post?</span>}, <span class="ruby-operator">**</span><span class="ruby-identifier">kw</span>)
+<span class="line-num">119</span>   <span class="ruby-constant">RodaPlugins</span>.<span class="ruby-identifier">check_keywords</span>(<span class="ruby-identifier">__callee__</span>, <span class="ruby-identifier">no_positional_opts</span>, <span class="ruby-identifier">opts</span>, <span class="ruby-identifier">kw</span>)
+<span class="line-num">120</span>   
+<span class="line-num">121</span>   <span class="ruby-identifier">res</span> = <span class="ruby-identifier">response</span>
+<span class="line-num">122</span>   <span class="ruby-identifier">e</span> = <span class="ruby-identifier">env</span>
+<span class="line-num">123</span>   <span class="ruby-identifier">res</span>[<span class="ruby-constant">RodaResponseHeaders</span><span class="ruby-operator">::</span><span class="ruby-constant">ETAG</span>] = <span class="ruby-identifier">etag</span> = <span class="ruby-node">&quot;#{&#39;W/&#39; if weak}\&quot;#{value}\&quot;&quot;</span>
+<span class="line-num">124</span>   <span class="ruby-identifier">status</span> = <span class="ruby-identifier">res</span>.<span class="ruby-identifier">status</span>
+<span class="line-num">125</span> 
+<span class="line-num">126</span>   <span class="ruby-keyword">if</span> (<span class="ruby-operator">!</span><span class="ruby-identifier">status</span> <span class="ruby-operator">||</span> (<span class="ruby-identifier">status</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-value">200</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">status</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">300</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">status</span> <span class="ruby-operator">==</span> <span class="ruby-value">304</span>)
+<span class="line-num">127</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">etag_matches?</span>(<span class="ruby-identifier">e</span>[<span class="ruby-string">&#39;HTTP_IF_NONE_MATCH&#39;</span>], <span class="ruby-identifier">etag</span>, <span class="ruby-identifier">new_resource</span>, <span class="ruby-value">weak:</span> <span class="ruby-keyword">true</span>)
+<span class="line-num">128</span>       <span class="ruby-identifier">res</span>.<span class="ruby-identifier">status</span> = (<span class="ruby-identifier">request_method</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">/\AGET|HEAD|OPTIONS|TRACE\z/i</span> <span class="ruby-operator">?</span> <span class="ruby-value">304</span> <span class="ruby-operator">:</span> <span class="ruby-value">412</span>)
+<span class="line-num">129</span>       <span class="ruby-identifier">halt</span>
+<span class="line-num">130</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">131</span> 
+<span class="line-num">132</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">ifm</span> = <span class="ruby-identifier">e</span>[<span class="ruby-string">&#39;HTTP_IF_MATCH&#39;</span>]
+<span class="line-num">133</span>       <span class="ruby-keyword">if</span> <span class="ruby-identifier">weak</span> <span class="ruby-operator">||</span> <span class="ruby-operator">!</span><span class="ruby-identifier">etag_matches?</span>(<span class="ruby-identifier">ifm</span>, <span class="ruby-identifier">etag</span>, <span class="ruby-identifier">new_resource</span>)
+<span class="line-num">134</span>         <span class="ruby-identifier">res</span>.<span class="ruby-identifier">status</span> = <span class="ruby-value">412</span>
+<span class="line-num">135</span>         <span class="ruby-identifier">halt</span>
+<span class="line-num">136</span>       <span class="ruby-keyword">end</span>
+<span class="line-num">137</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">138</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">139</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-last_modified'>

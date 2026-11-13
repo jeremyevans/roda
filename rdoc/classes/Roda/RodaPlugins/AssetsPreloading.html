@@ -40,9 +40,9 @@ Roda::RodaPlugins::AssetsPreloading
 
 <p>For a list of compatible browsers, see <a target="_top" href="http://caniuse.com/#search=link-rel-preload">caniuse.com/#search=link-rel-preload</a></p>
 
-<p>The plugin provides two functions - preload_assets_link_header and preload_assets_link_tags. The resulting preloading should be identical, it is up to you which system you prefer.</p>
+<p>The plugin provides two functions: <code>preload_assets_link_header</code> and <code>preload_assets_link_tags</code>. The resulting preloading should be identical, it is up to you which approach you prefer.</p>
 
-<p>preload_assets_link_header returns a string suitable for populating the response Link header:</p>
+<p><code>preload_assets_link_header</code> returns a string suitable for populating the response Link header:</p>
 
 <pre class="ruby"><span class="ruby-identifier">response</span>.<span class="ruby-identifier">headers</span>[<span class="ruby-string">&#39;Link&#39;</span>] = <span class="ruby-identifier">preload_assets_link_header</span>(<span class="ruby-value">:css</span>)
 <span class="ruby-comment"># Link header will now contain something like:</span>
@@ -119,9 +119,9 @@ Roda::RodaPlugins::AssetsPreloading
 [show source]
 </a>
 <pre id='method-c-load_dependencies-source'>   <span class="ruby-comment"># File lib/roda/plugins/assets_preloading.rb</span>
-<span class="line-num">54</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">load_dependencies</span>(<span class="ruby-identifier">app</span>)
-<span class="line-num">55</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:assets</span>
-<span class="line-num">56</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">53</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">load_dependencies</span>(<span class="ruby-identifier">app</span>)
+<span class="line-num">54</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:assets</span>
+<span class="line-num">55</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

@@ -56,19 +56,16 @@ Roda::RodaPlugins::ErrorHandler::ClassMethods
 </div>
 <div class='description'>
 
-<p>Install the given block as the error handler, so that if routing the request raises an exception, the block will be called with the exception in the scope of the <a href="../../../Roda.html"><code>Roda</code></a> instance.</p>
-
 </div>
 <div class='source'>
 <a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-error-source&#39;); return false'>
 [show source]
 </a>
 <pre id='method-i-error-source'>   <span class="ruby-comment"># File lib/roda/plugins/error_handler.rb</span>
-<span class="line-num">65</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">error</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">66</span>   <span class="ruby-identifier">define_method</span>(<span class="ruby-value">:handle_error</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">67</span>   <span class="ruby-identifier">alias_method</span>(<span class="ruby-value">:handle_error</span>, <span class="ruby-value">:handle_error</span>)
-<span class="line-num">68</span>   <span class="ruby-identifier">private</span> <span class="ruby-value">:handle_error</span>
-<span class="line-num">69</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">59</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">error</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">60</span>   <span class="ruby-constant">RodaPlugins</span>.<span class="ruby-identifier">warn</span>(<span class="ruby-string">&quot;The error class method is deprecated, switch to passing the block when loading the error_handler plugin&quot;</span>, <span class="ruby-value">uplevel:</span> <span class="ruby-value">1</span>)
+<span class="line-num">61</span>   <span class="ruby-identifier">plugin</span>(<span class="ruby-value">:error_handler</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">62</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

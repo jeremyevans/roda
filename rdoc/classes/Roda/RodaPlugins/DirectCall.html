@@ -37,6 +37,8 @@ Roda::RodaPlugins::DirectCall
 <div id='text'>
 <div id='description'>
 <p>The <a href="../../../files/lib/roda/plugins/direct_call_rb.html">direct_call</a> plugin makes the call class method skip the middleware stack (app.call will still call the middleware). This can be used as an optimization, as the <a href="../../Roda.html"><code>Roda</code></a> class itself can be used as the callable, which is faster than using a lambda.</p>
+
+<p>This plugin is used automatically by <a href="../../Roda.html"><code>Roda</code></a> when freezing an app, if <a href="../../Roda.html"><code>Roda</code></a> determines that doing so is safe (where there is no middleware). However, it can be used manually for unfrozen apps, or in cases where middleware is used.</p>
 </div>
 <div id='method-list'>
 <h2>Methods</h2>
@@ -70,9 +72,9 @@ Roda::RodaPlugins::DirectCall
 [show source]
 </a>
 <pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/direct_call.rb</span>
-<span class="line-num">11</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>)
-<span class="line-num">12</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:build_rack_app</span>)
-<span class="line-num">13</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">16</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>)
+<span class="line-num">17</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:build_rack_app</span>)
+<span class="line-num">18</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

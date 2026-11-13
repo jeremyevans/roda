@@ -41,6 +41,7 @@ Roda::RodaPlugins::Assets::RequestClassMethods
 <h3>Public Instance</h3>
 <ol>
 <li><a href="#method-i-assets_matchers">assets_matchers</a></li>
+<li><a href="#method-i-freeze">freeze</a></li>
 </ol>
 </div>
 <div id='context'>
@@ -64,13 +65,29 @@ Roda::RodaPlugins::Assets::RequestClassMethods
 [show source]
 </a>
 <pre id='method-i-assets_matchers-source'>    <span class="ruby-comment"># File lib/roda/plugins/assets.rb</span>
-<span class="line-num">877</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">assets_matchers</span>
-<span class="line-num">878</span>   <span class="ruby-ivar">@assets_matchers</span> <span class="ruby-operator">||=</span> [<span class="ruby-value">:css</span>, <span class="ruby-value">:js</span>].<span class="ruby-identifier">map</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">t</span><span class="ruby-operator">|</span>
-<span class="line-num">879</span>     <span class="ruby-keyword">if</span> <span class="ruby-identifier">regexp</span> = <span class="ruby-identifier">assets_regexp</span>(<span class="ruby-identifier">t</span>)
-<span class="line-num">880</span>       [<span class="ruby-identifier">t</span>, <span class="ruby-identifier">regexp</span>].<span class="ruby-identifier">freeze</span>
-<span class="line-num">881</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">882</span>   <span class="ruby-keyword">end</span>.<span class="ruby-identifier">compact</span>.<span class="ruby-identifier">freeze</span>
-<span class="line-num">883</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">899</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">assets_matchers</span>
+<span class="line-num">900</span>   <span class="ruby-ivar">@assets_matchers</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">_build_assets_matchers</span>
+<span class="line-num">901</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-instance' id='method-method-i-freeze'>
+<a name='method-i-freeze'></a>
+<div class='synopsis'>
+<span class='name'>freeze</span><span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-freeze-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-freeze-source'>    <span class="ruby-comment"># File lib/roda/plugins/assets.rb</span>
+<span class="line-num">903</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">freeze</span>
+<span class="line-num">904</span>   <span class="ruby-identifier">assets_matchers</span>
+<span class="line-num">905</span>   <span class="ruby-keyword">super</span>
+<span class="line-num">906</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

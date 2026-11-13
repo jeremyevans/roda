@@ -36,29 +36,20 @@ Roda::RodaPlugins::ErrorHandler
 <div id='content'>
 <div id='text'>
 <div id='description'>
-<p>The <a href="../../../files/lib/roda/plugins/error_handler_rb.html">error_handler</a> plugin adds an error handler to the routing, so that if routing the request raises an error, a nice error message page can be returned to the user.</p>
+<p>The <a href="../../../files/lib/roda/plugins/error_handler_rb.html">error_handler</a> plugin adds an error handler to the routing tree, so that if routing the request raises an error, a nice error message page (or API response) can be returned to the user.</p>
 
-<p>You can provide the error handler as a block to the plugin:</p>
+<p>You should provide the error handler as a block to the plugin:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:error_handler</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">e</span><span class="ruby-operator">|</span>
   <span class="ruby-string">&quot;Oh No!&quot;</span>
 <span class="ruby-keyword">end</span>
 </pre>
 
-<p>Or later via the <code>error</code> class method:</p>
+<p>If an error occurs, the exception instance is passed into the block, and the block can return the request body via a string (or another configured block result).</p>
 
-<pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:error_handler</span>
+<p>If an exception is raised, a new response will be used, with the default status set to 500, before executing the error handler. The error handler can change the response status if necessary, as well set headers and/or write to the body, just like a regular request.  After the error handler returns a response, normal after processing of that response occurs, except that an exception during after processing is logged to <code>env[&#39;rack.errors&#39;]</code> but otherwise ignored. This avoids recursive calls into the error handler.  Note that if the error handler itself raises an exception, the exception will be raised without normal after processing.  This can cause some after processing to run twice (once before the error handler is called and once after) if later after processing raises an exception.</p>
 
-<span class="ruby-identifier">error</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">e</span><span class="ruby-operator">|</span>
-  <span class="ruby-string">&quot;Oh No!&quot;</span>
-<span class="ruby-keyword">end</span>
-</pre>
-
-<p>In both cases, the exception instance is passed into the block, and the block can return the request body via a string.</p>
-
-<p>If an exception is raised, a new response will be used, with the default status set to 500, before executing the error handler. The error handler can change the response status if necessary, as well set headers and/or write to the body, just like a regular request.  After the error handler returns a response, normal after processing of that response occurs, except that an exception during after processing is logged to <code>env[&#39;rack.errors&#39;]</code> but otherwise ignored. This avoids recursive calls into the error_handler.  Note that if the <a href="../../../files/lib/roda/plugins/error_handler_rb.html">error_handler</a> itself raises an exception, the exception will be raised without normal after processing.  This can cause some after processing to run twice (once before the <a href="../../../files/lib/roda/plugins/error_handler_rb.html">error_handler</a> is called and once after) if later after processing raises an exception.</p>
-
-<p>By default, this plugin handles StandardError and ScriptError. To override the exception classes it will handle, pass a :classes option to the plugin:</p>
+<p>By default, this plugin handles StandardError and ScriptError. To override the exception classes it will handle, pass a <code>classes</code> argument to the plugin:</p>
 
 <pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:error_handler</span>, <span class="ruby-value">classes:</span> [<span class="ruby-constant">StandardError</span>, <span class="ruby-constant">ScriptError</span>, <span class="ruby-constant">NoMemoryError</span>]
 </pre>
@@ -99,12 +90,12 @@ Roda::RodaPlugins::ErrorHandler
 <div class='method public-class' id='method-method-c-configure'>
 <a name='method-c-configure'></a>
 <div class='synopsis'>
-<span class='name'>configure</span><span class='arguments'>(app, opts={}, &block)</span>
+<span class='name'>configure</span><span class='arguments'>(app, opts=(no_positional_opts = true; OPTS), classes: opts[:classes], **kw, &block)</span>
 
 </div>
 <div class='description'>
 
-<p>If a block is given, automatically call the <code>error</code> method on the <a href="../../Roda.html"><code>Roda</code></a> class with it.</p>
+<p>If a block is given, use it to setup the error handler.</p>
 
 </div>
 <div class='source'>
@@ -112,13 +103,18 @@ Roda::RodaPlugins::ErrorHandler
 [show source]
 </a>
 <pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/error_handler.rb</span>
-<span class="line-num">51</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>={}, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">52</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:error_handler_classes</span>] = (<span class="ruby-identifier">opts</span>[<span class="ruby-value">:classes</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">error_handler_classes</span> <span class="ruby-operator">||</span> <span class="ruby-constant">DEFAULT_ERROR_HANDLER_CLASSES</span>).<span class="ruby-identifier">dup</span>.<span class="ruby-identifier">freeze</span>
-<span class="line-num">53</span> 
-<span class="line-num">54</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span>
-<span class="line-num">55</span>     <span class="ruby-identifier">app</span>.<span class="ruby-identifier">error</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">56</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">57</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">43</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=(<span class="ruby-identifier">no_positional_opts</span> = <span class="ruby-keyword">true</span>; <span class="ruby-constant">OPTS</span>), <span class="ruby-value">classes:</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:classes</span>], <span class="ruby-operator">**</span><span class="ruby-identifier">kw</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">44</span>   <span class="ruby-constant">RodaPlugins</span>.<span class="ruby-identifier">check_keywords</span>(<span class="ruby-string">&quot;the error_handler plugin&quot;</span>, <span class="ruby-identifier">no_positional_opts</span>, <span class="ruby-identifier">opts</span>, <span class="ruby-identifier">kw</span>)
+<span class="line-num">45</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:error_handler_classes</span>] = (<span class="ruby-identifier">classes</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">error_handler_classes</span> <span class="ruby-operator">||</span> <span class="ruby-constant">DEFAULT_ERROR_HANDLER_CLASSES</span>).<span class="ruby-identifier">dup</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">46</span> 
+<span class="line-num">47</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span>
+<span class="line-num">48</span>     <span class="ruby-identifier">app</span>.<span class="ruby-identifier">class_exec</span> <span class="ruby-keyword">do</span>
+<span class="line-num">49</span>       <span class="ruby-identifier">define_method</span>(<span class="ruby-value">:handle_error</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">50</span>       <span class="ruby-identifier">alias_method</span>(<span class="ruby-value">:handle_error</span>, <span class="ruby-value">:handle_error</span>)
+<span class="line-num">51</span>       <span class="ruby-identifier">private</span> <span class="ruby-value">:handle_error</span>
+<span class="line-num">52</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">53</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">54</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

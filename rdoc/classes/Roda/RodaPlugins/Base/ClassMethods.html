@@ -124,9 +124,9 @@ Roda::RodaPlugins::Base::ClassMethods
 [show source]
 </a>
 <pre id='method-i-app-source'>   <span class="ruby-comment"># File lib/roda.rb</span>
-<span class="line-num">38</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">app</span>
-<span class="line-num">39</span>   <span class="ruby-ivar">@app</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">build_rack_app</span>
-<span class="line-num">40</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">37</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">app</span>
+<span class="line-num">38</span>   <span class="ruby-ivar">@app</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">build_rack_app</span>
+<span class="line-num">39</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-call'>
@@ -145,9 +145,9 @@ Roda::RodaPlugins::Base::ClassMethods
 [show source]
 </a>
 <pre id='method-i-call-source'>   <span class="ruby-comment"># File lib/roda.rb</span>
-<span class="line-num">60</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">call</span>(<span class="ruby-identifier">env</span>)
-<span class="line-num">61</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">env</span>)
-<span class="line-num">62</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">59</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">call</span>(<span class="ruby-identifier">env</span>)
+<span class="line-num">60</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">env</span>)
+<span class="line-num">61</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-clear_middleware-21'>
@@ -166,10 +166,10 @@ Roda::RodaPlugins::Base::ClassMethods
 [show source]
 </a>
 <pre id='method-i-clear_middleware-21-source'>   <span class="ruby-comment"># File lib/roda.rb</span>
-<span class="line-num">65</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">clear_middleware!</span>
-<span class="line-num">66</span>   <span class="ruby-ivar">@middleware</span>.<span class="ruby-identifier">clear</span>
-<span class="line-num">67</span>   <span class="ruby-ivar">@app</span> = <span class="ruby-keyword">nil</span>
-<span class="line-num">68</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">64</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">clear_middleware!</span>
+<span class="line-num">65</span>   <span class="ruby-ivar">@middleware</span>.<span class="ruby-identifier">clear</span>
+<span class="line-num">66</span>   <span class="ruby-ivar">@app</span> = <span class="ruby-keyword">nil</span>
+<span class="line-num">67</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-define_roda_method'>
@@ -198,7 +198,8 @@ Roda::RodaPlugins::Base::ClassMethods
 [show source]
 </a>
 <pre id='method-i-define_roda_method-source'>    <span class="ruby-comment"># File lib/roda.rb</span>
-<span class="line-num"> 98</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">define_roda_method</span>(<span class="ruby-identifier">meth</span>, <span class="ruby-identifier">expected_arity</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num"> 97</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">define_roda_method</span>(<span class="ruby-identifier">meth</span>, <span class="ruby-identifier">expected_arity</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num"> 98</span>   <span class="ruby-comment"># RODA4: Make expected_arity optional, remove from callers</span>
 <span class="line-num"> 99</span>   <span class="ruby-keyword">if</span> <span class="ruby-identifier">meth</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>)
 <span class="line-num">100</span>     <span class="ruby-identifier">meth</span> = <span class="ruby-identifier">roda_method_name</span>(<span class="ruby-identifier">meth</span>)
 <span class="line-num">101</span>   <span class="ruby-keyword">end</span>
@@ -468,7 +469,7 @@ Roda::RodaPlugins::Base::ClassMethods
 <p>Note that you should not load plugins into a <a href="../../../Roda.html"><code>Roda</code></a> class after the class has been subclassed, as doing so can break the subclasses.</p>
 
 <pre class="ruby"><span class="ruby-constant">Roda</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-constant">PluginModule</span>
-<span class="ruby-constant">Roda</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:csrf</span>
+<span class="ruby-constant">Roda</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:route_csrf</span>
 </pre>
 
 </div>
@@ -483,21 +484,20 @@ Roda::RodaPlugins::Base::ClassMethods
 <span class="line-num">308</span>   <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-node">&quot;Invalid plugin type: #{plugin.class.inspect}&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">plugin</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Module</span>)
 <span class="line-num">309</span> 
 <span class="line-num">310</span>   <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">plugin</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:load_dependencies</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">plugin</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:configure</span>) <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-operator">!</span><span class="ruby-identifier">args</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">block</span>)
-<span class="line-num">311</span>     <span class="ruby-comment"># RODA4: switch from warning to error</span>
-<span class="line-num">312</span>     <span class="ruby-constant">RodaPlugins</span>.<span class="ruby-identifier">warn</span>(<span class="ruby-node">&quot;Plugin #{plugin} does not accept arguments or a block, but arguments or a block was passed when loading this. This will raise an error in Roda 4.&quot;</span>)
-<span class="line-num">313</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">314</span> 
-<span class="line-num">315</span>   <span class="ruby-identifier">plugin</span>.<span class="ruby-identifier">load_dependencies</span>(<span class="ruby-keyword">self</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">plugin</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:load_dependencies</span>)
-<span class="line-num">316</span>   <span class="ruby-ivar">@plugins</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">plugin</span> <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@plugins</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">plugin</span>)
-<span class="line-num">317</span>   <span class="ruby-identifier">include</span>(<span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">InstanceMethods</span>) <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">InstanceMethods</span>)
-<span class="line-num">318</span>   <span class="ruby-identifier">extend</span>(<span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">ClassMethods</span>) <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">ClassMethods</span>)
-<span class="line-num">319</span>   <span class="ruby-keyword">self</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:include</span>, <span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">RequestMethods</span>) <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">RequestMethods</span>)
-<span class="line-num">320</span>   <span class="ruby-keyword">self</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>.<span class="ruby-identifier">extend</span>(<span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">RequestClassMethods</span>) <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">RequestClassMethods</span>)
-<span class="line-num">321</span>   <span class="ruby-keyword">self</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaResponse</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:include</span>, <span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">ResponseMethods</span>) <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">ResponseMethods</span>)
-<span class="line-num">322</span>   <span class="ruby-keyword">self</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaResponse</span>.<span class="ruby-identifier">extend</span>(<span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">ResponseClassMethods</span>) <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">ResponseClassMethods</span>)
-<span class="line-num">323</span>   <span class="ruby-identifier">plugin</span>.<span class="ruby-identifier">configure</span>(<span class="ruby-keyword">self</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">plugin</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:configure</span>)
-<span class="line-num">324</span>   <span class="ruby-ivar">@app</span> = <span class="ruby-keyword">nil</span>
-<span class="line-num">325</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">311</span>     <span class="ruby-constant">RodaPlugins</span>.<span class="ruby-identifier">warn</span>(<span class="ruby-node">&quot;Plugin #{plugin} does not accept arguments or a block, but arguments or a block was passed when loading this. This will raise an error in Roda 4.&quot;</span>, <span class="ruby-value">uplevel:</span> <span class="ruby-value">1</span>)
+<span class="line-num">312</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">313</span> 
+<span class="line-num">314</span>   <span class="ruby-identifier">plugin</span>.<span class="ruby-identifier">load_dependencies</span>(<span class="ruby-keyword">self</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">plugin</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:load_dependencies</span>)
+<span class="line-num">315</span>   <span class="ruby-ivar">@plugins</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">plugin</span> <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@plugins</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">plugin</span>)
+<span class="line-num">316</span>   <span class="ruby-identifier">include</span>(<span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">InstanceMethods</span>) <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">InstanceMethods</span>)
+<span class="line-num">317</span>   <span class="ruby-identifier">extend</span>(<span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">ClassMethods</span>) <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">ClassMethods</span>)
+<span class="line-num">318</span>   <span class="ruby-keyword">self</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:include</span>, <span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">RequestMethods</span>) <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">RequestMethods</span>)
+<span class="line-num">319</span>   <span class="ruby-keyword">self</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>.<span class="ruby-identifier">extend</span>(<span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">RequestClassMethods</span>) <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">RequestClassMethods</span>)
+<span class="line-num">320</span>   <span class="ruby-keyword">self</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaResponse</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:include</span>, <span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">ResponseMethods</span>) <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">ResponseMethods</span>)
+<span class="line-num">321</span>   <span class="ruby-keyword">self</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaResponse</span>.<span class="ruby-identifier">extend</span>(<span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">ResponseClassMethods</span>) <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-identifier">plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">ResponseClassMethods</span>)
+<span class="line-num">322</span>   <span class="ruby-identifier">plugin</span>.<span class="ruby-identifier">configure</span>(<span class="ruby-keyword">self</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">plugin</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:configure</span>)
+<span class="line-num">323</span>   <span class="ruby-ivar">@app</span> = <span class="ruby-keyword">nil</span>
+<span class="line-num">324</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-route'>
@@ -525,18 +525,18 @@ Roda::RodaPlugins::Base::ClassMethods
 [show source]
 </a>
 <pre id='method-i-route-source'>    <span class="ruby-comment"># File lib/roda.rb</span>
-<span class="line-num">343</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">route</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">344</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">block</span>
-<span class="line-num">345</span>     <span class="ruby-constant">RodaPlugins</span>.<span class="ruby-identifier">warn</span> <span class="ruby-string">&quot;no block passed to Roda.route&quot;</span>
-<span class="line-num">346</span>     <span class="ruby-keyword">return</span>
-<span class="line-num">347</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">348</span> 
-<span class="line-num">349</span>   <span class="ruby-ivar">@raw_route_block</span> = <span class="ruby-identifier">block</span>
-<span class="line-num">350</span>   <span class="ruby-ivar">@route_block</span> = <span class="ruby-identifier">block</span> = <span class="ruby-identifier">convert_route_block</span>(<span class="ruby-identifier">block</span>)
-<span class="line-num">351</span>   <span class="ruby-ivar">@rack_app_route_block</span> = <span class="ruby-identifier">block</span> = <span class="ruby-identifier">rack_app_route_block</span>(<span class="ruby-identifier">block</span>)
-<span class="line-num">352</span>   <span class="ruby-identifier">public</span> <span class="ruby-identifier">define_roda_method</span>(<span class="ruby-value">:_roda_main_route</span>, <span class="ruby-value">1</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">353</span>   <span class="ruby-ivar">@app</span> = <span class="ruby-keyword">nil</span>
-<span class="line-num">354</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">342</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">route</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">343</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">block</span>
+<span class="line-num">344</span>     <span class="ruby-constant">RodaPlugins</span>.<span class="ruby-identifier">warn</span>(<span class="ruby-string">&quot;no block passed to Roda.route&quot;</span>, <span class="ruby-value">uplevel:</span> <span class="ruby-value">1</span>)
+<span class="line-num">345</span>     <span class="ruby-keyword">return</span>
+<span class="line-num">346</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">347</span> 
+<span class="line-num">348</span>   <span class="ruby-ivar">@raw_route_block</span> = <span class="ruby-identifier">block</span>
+<span class="line-num">349</span>   <span class="ruby-ivar">@route_block</span> = <span class="ruby-identifier">block</span> = <span class="ruby-identifier">convert_route_block</span>(<span class="ruby-identifier">block</span>)
+<span class="line-num">350</span>   <span class="ruby-ivar">@rack_app_route_block</span> = <span class="ruby-identifier">block</span> = <span class="ruby-identifier">rack_app_route_block</span>(<span class="ruby-identifier">block</span>)
+<span class="line-num">351</span>   <span class="ruby-identifier">public</span> <span class="ruby-identifier">define_roda_method</span>(<span class="ruby-value">:_roda_main_route</span>, <span class="ruby-value">1</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">352</span>   <span class="ruby-ivar">@app</span> = <span class="ruby-keyword">nil</span>
+<span class="line-num">353</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-instance' id='method-method-i-set_default_headers'>
@@ -566,7 +566,7 @@ Roda::RodaPlugins::Base::ClassMethods
 </div>
 <div class='description'>
 
-<p>Add a middleware to use for the rack application.  Must be called before calling <a href="ClassMethods.html#method-i-route"><code>route</code></a> to have an effect. Example:</p>
+<p>Add a middleware to use for the rack application. Example:</p>
 
 <pre class="ruby"><span class="ruby-constant">Roda</span>.<span class="ruby-identifier">use</span> <span class="ruby-constant">Rack</span><span class="ruby-operator">::</span><span class="ruby-constant">ShowExceptions</span>
 </pre>
@@ -577,10 +577,10 @@ Roda::RodaPlugins::Base::ClassMethods
 [show source]
 </a>
 <pre id='method-i-use-source'>    <span class="ruby-comment"># File lib/roda.rb</span>
-<span class="line-num">360</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">use</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-<span class="line-num">361</span>   <span class="ruby-ivar">@middleware</span> <span class="ruby-operator">&lt;&lt;</span> [<span class="ruby-identifier">args</span>, <span class="ruby-identifier">block</span>].<span class="ruby-identifier">freeze</span>
-<span class="line-num">362</span>   <span class="ruby-ivar">@app</span> = <span class="ruby-keyword">nil</span>
-<span class="line-num">363</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">358</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">use</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="line-num">359</span>   <span class="ruby-ivar">@middleware</span> <span class="ruby-operator">&lt;&lt;</span> [<span class="ruby-identifier">args</span>, <span class="ruby-identifier">block</span>].<span class="ruby-identifier">freeze</span>
+<span class="line-num">360</span>   <span class="ruby-ivar">@app</span> = <span class="ruby-keyword">nil</span>
+<span class="line-num">361</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

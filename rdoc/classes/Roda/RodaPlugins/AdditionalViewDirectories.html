@@ -40,7 +40,7 @@ Roda::RodaPlugins::AdditionalViewDirectories
 
 <p>Example:</p>
 
-<pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:render</span>, <span class="ruby-value">:views</span><span class="ruby-operator">=&gt;</span><span class="ruby-string">&#39;dir&#39;</span>
+<pre class="ruby"><span class="ruby-identifier">plugin</span> <span class="ruby-value">:render</span>, <span class="ruby-value">views:</span> <span class="ruby-string">&#39;dir&#39;</span>
 <span class="ruby-identifier">plugin</span> <span class="ruby-value">:additional_view_directories</span>, [<span class="ruby-string">&#39;dir1&#39;</span>, <span class="ruby-string">&#39;dir2&#39;</span>, <span class="ruby-string">&#39;dir3&#39;</span>]
 
 <span class="ruby-identifier">route</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span>
@@ -92,7 +92,7 @@ Roda::RodaPlugins::AdditionalViewDirectories
 <pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/additional_view_directories.rb</span>
 <span class="line-num">37</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">view_dirs</span>)
 <span class="line-num">38</span>   <span class="ruby-identifier">view_dirs</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:additional_view_directories</span>] = <span class="ruby-identifier">view_dirs</span>.<span class="ruby-identifier">map</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">expand_path</span>(<span class="ruby-identifier">f</span>, <span class="ruby-keyword">nil</span>)}.<span class="ruby-identifier">freeze</span>
-<span class="line-num">39</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:render</span>, <span class="ruby-value">:allowed_paths</span><span class="ruby-operator">=&gt;</span>(<span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:render</span>][<span class="ruby-value">:allowed_paths</span>] <span class="ruby-operator">+</span> <span class="ruby-identifier">view_dirs</span>).<span class="ruby-identifier">uniq</span>.<span class="ruby-identifier">freeze</span>
+<span class="line-num">39</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">plugin</span> <span class="ruby-value">:render</span>, <span class="ruby-value">:allowed_paths</span><span class="ruby-operator">=&gt;</span>(<span class="ruby-identifier">app</span>.<span class="ruby-identifier">render_opts</span>[<span class="ruby-value">:allowed_paths</span>] <span class="ruby-operator">+</span> <span class="ruby-identifier">view_dirs</span>).<span class="ruby-identifier">uniq</span>.<span class="ruby-identifier">freeze</span>
 <span class="line-num">40</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>

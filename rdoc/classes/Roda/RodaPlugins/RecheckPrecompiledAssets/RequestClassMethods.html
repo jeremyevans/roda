@@ -36,9 +36,40 @@ Roda::RodaPlugins::RecheckPrecompiledAssets::RequestClassMethods
 <div id='content'>
 <div id='text'>
 <div id='description'></div>
+<div id='method-list'>
+<h2>Methods</h2>
+<h3>Public Instance</h3>
+<ol>
+<li><a href="#method-i-assets_matchers">assets_matchers</a></li>
+</ol>
+</div>
 <div id='context'>
 </div>
 <div id='section'>
+<div id='methods'>
+<h2>Public Instance methods</h2>
+<div class='method public-instance' id='method-method-i-assets_matchers'>
+<a name='method-i-assets_matchers'></a>
+<div class='synopsis'>
+<span class='name'>assets_matchers</span><span class='arguments'>()</span>
+
+</div>
+<div class='description'>
+
+<p>Synchronize access and return a dup, so that replacements of the assets matchers at runtime doesn’t cause thread safety issues.</p>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-i-assets_matchers-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-i-assets_matchers-source'>    <span class="ruby-comment"># File lib/roda/plugins/recheck_precompiled_assets.rb</span>
+<span class="line-num">106</span> <span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">assets_matchers</span>
+<span class="line-num">107</span>   <span class="ruby-ivar">@_precompiled_assets_mutex</span>.<span class="ruby-identifier">synchronize</span>{<span class="ruby-keyword">super</span>.<span class="ruby-identifier">dup</span>}
+<span class="line-num">108</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+</div>
 </div>
 
 </div>

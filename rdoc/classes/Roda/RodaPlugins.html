@@ -197,6 +197,9 @@ Roda::RodaPlugins
 <a href="../../files/lib/roda/plugins/flash_rb.html">lib/roda/plugins/flash.rb</a>
 </li>
 <li class='other'>
+<a href="../../files/lib/roda/plugins/freeze_request_response_rb.html">lib/roda/plugins/freeze_request_response.rb</a>
+</li>
+<li class='other'>
 <a href="../../files/lib/roda/plugins/h_rb.html">lib/roda/plugins/h.rb</a>
 </li>
 <li class='other'>
@@ -522,6 +525,8 @@ Roda::RodaPlugins
 <h2>Methods</h2>
 <h3>Public Class</h3>
 <ol>
+<li><a href="#method-c-check_keywords">check_keywords</a></li>
+<li><a href="#method-c-check_supported_opts">check_supported_opts</a></li>
 <li><a href="#method-c-deprecate_constant">deprecate_constant</a></li>
 <li><a href="#method-c-load_plugin">load_plugin</a></li>
 <li><a href="#method-c-opt_attr_reader">opt_attr_reader</a></li>
@@ -583,6 +588,7 @@ Roda::RodaPlugins
 <li><a href="RodaPlugins/ExceptionPage.html">Roda::RodaPlugins::ExceptionPage</a></li>
 <li><a href="RodaPlugins/FilterCommonLogger.html">Roda::RodaPlugins::FilterCommonLogger</a></li>
 <li><a href="RodaPlugins/Flash.html">Roda::RodaPlugins::Flash</a></li>
+<li><a href="RodaPlugins/FreezeRequestResponse.html">Roda::RodaPlugins::FreezeRequestResponse</a></li>
 <li><a href="RodaPlugins/H.html">Roda::RodaPlugins::H</a></li>
 <li><a href="RodaPlugins/Halt.html">Roda::RodaPlugins::Halt</a></li>
 <li><a href="RodaPlugins/HashBranchViewSubdir.html">Roda::RodaPlugins::HashBranchViewSubdir</a></li>
@@ -716,6 +722,62 @@ Roda::RodaPlugins
 </div>
 <div id='methods'>
 <h2>Public Class methods</h2>
+<div class='method public-class' id='method-method-c-check_keywords'>
+<a name='method-c-check_keywords'></a>
+<div class='synopsis'>
+<span class='name'>check_keywords</span><span class='arguments'>(method, no_positional_opts, opts, kw)</span>
+
+</div>
+<div class='description'>
+
+<p>Handle positional argument to keyword argument conversion warnings in plugins.</p>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-check_keywords-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-c-check_keywords-source'>   <span class="ruby-comment"># File lib/roda/plugins.rb</span>
+<span class="line-num">57</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">check_keywords</span>(<span class="ruby-identifier">method</span>, <span class="ruby-identifier">no_positional_opts</span>, <span class="ruby-identifier">opts</span>, <span class="ruby-identifier">kw</span>)
+<span class="line-num">58</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">no_positional_opts</span>
+<span class="line-num">59</span>     <span class="ruby-identifier">warn</span>(<span class="ruby-node">&quot;A positional options hash is now deprecated for #{method}. Support for this will be removed in Roda 4. Switch to passing keywords arguments. Keys given in positional options hash: #{opts.keys.map(&amp;:inspect).join(&quot;, &quot;)}&quot;</span>, <span class="ruby-value">uplevel:</span> <span class="ruby-value">2</span>)
+<span class="line-num">60</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">61</span> 
+<span class="line-num">62</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">kw</span>.<span class="ruby-identifier">empty?</span>
+<span class="line-num">63</span>     <span class="ruby-identifier">warn</span>(<span class="ruby-node">&quot;Unrecognized keywords given to #{method}: #{kw.keys.join(&quot;, &quot;)}. Backwards compatibility for this will be removed in Roda 4.&quot;</span>, <span class="ruby-value">uplevel:</span> <span class="ruby-value">2</span>)
+<span class="line-num">64</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">65</span> 
+<span class="line-num">66</span>   <span class="ruby-keyword">nil</span>
+<span class="line-num">67</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
+<div class='method public-class' id='method-method-c-check_supported_opts'>
+<a name='method-c-check_supported_opts'></a>
+<div class='synopsis'>
+<span class='name'>check_supported_opts</span><span class='arguments'>(desc, opts, supported_keys)</span>
+
+</div>
+<div class='description'>
+
+<p>Warn if the opts given contain unsupported keys.</p>
+
+</div>
+<div class='source'>
+<a class='source-toggle' href='#' onclick='toggleCode(&#39;method-c-check_supported_opts-source&#39;); return false'>
+[show source]
+</a>
+<pre id='method-c-check_supported_opts-source'>   <span class="ruby-comment"># File lib/roda/plugins.rb</span>
+<span class="line-num">46</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">check_supported_opts</span>(<span class="ruby-identifier">desc</span>, <span class="ruby-identifier">opts</span>, <span class="ruby-identifier">supported_keys</span>)
+<span class="line-num">47</span>   <span class="ruby-identifier">extra_keys</span> = <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">keys</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">supported_keys</span>
+<span class="line-num">48</span> 
+<span class="line-num">49</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">extra_keys</span>.<span class="ruby-identifier">empty?</span>
+<span class="line-num">50</span>     <span class="ruby-identifier">warn</span>(<span class="ruby-node">&quot;Unsupported options given to #{desc}: #{extra_keys.map(&amp;:inspect).join(&quot;, &quot;)}&quot;</span>, <span class="ruby-value">uplevel:</span> <span class="ruby-value">2</span>)
+<span class="line-num">51</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">52</span> 
+<span class="line-num">53</span>   <span class="ruby-keyword">nil</span>
+<span class="line-num">54</span> <span class="ruby-keyword">end</span></pre>
+</div>
+</div>
 <div class='method public-class' id='method-method-c-deprecate_constant'>
 <a name='method-c-deprecate_constant'></a>
 <div class='synopsis'>
@@ -732,13 +794,13 @@ Roda::RodaPlugins
 [show source]
 </a>
 <pre id='method-c-deprecate_constant-source'>   <span class="ruby-comment"># File lib/roda/plugins.rb</span>
-<span class="line-num">55</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">deprecate_constant</span>(<span class="ruby-identifier">mod</span>, <span class="ruby-identifier">name</span>)
-<span class="line-num">56</span>   <span class="ruby-comment"># simplecov:disable</span>
-<span class="line-num">57</span>   <span class="ruby-keyword">if</span> <span class="ruby-constant">RUBY_VERSION</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-string">&#39;2.3&#39;</span>
-<span class="line-num">58</span>     <span class="ruby-identifier">mod</span>.<span class="ruby-identifier">deprecate_constant</span>(<span class="ruby-identifier">name</span>)
-<span class="line-num">59</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">60</span>   <span class="ruby-comment"># simplecov:enable</span>
-<span class="line-num">61</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">79</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">deprecate_constant</span>(<span class="ruby-identifier">mod</span>, <span class="ruby-identifier">name</span>)
+<span class="line-num">80</span>   <span class="ruby-comment"># simplecov:disable</span>
+<span class="line-num">81</span>   <span class="ruby-keyword">if</span> <span class="ruby-constant">RUBY_VERSION</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-string">&#39;2.3&#39;</span>
+<span class="line-num">82</span>     <span class="ruby-identifier">mod</span>.<span class="ruby-identifier">deprecate_constant</span>(<span class="ruby-identifier">name</span>)
+<span class="line-num">83</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">84</span>   <span class="ruby-comment"># simplecov:enable</span>
+<span class="line-num">85</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-class' id='method-method-c-load_plugin'>
@@ -811,9 +873,9 @@ Roda::RodaPlugins
 [show source]
 </a>
 <pre id='method-c-register_plugin-source'>   <span class="ruby-comment"># File lib/roda/plugins.rb</span>
-<span class="line-num">49</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">register_plugin</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">mod</span>)
-<span class="line-num">50</span>   <span class="ruby-ivar">@plugins</span>[<span class="ruby-identifier">name</span>] = <span class="ruby-identifier">mod</span>
-<span class="line-num">51</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">73</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">register_plugin</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">mod</span>)
+<span class="line-num">74</span>   <span class="ruby-ivar">@plugins</span>[<span class="ruby-identifier">name</span>] = <span class="ruby-identifier">mod</span>
+<span class="line-num">75</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-class' id='method-method-c-set_temp_name'>
@@ -832,10 +894,10 @@ Roda::RodaPlugins
 [show source]
 </a>
 <pre id='method-c-set_temp_name-source'>   <span class="ruby-comment"># File lib/roda/plugins.rb</span>
-<span class="line-num">66</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">set_temp_name</span>(<span class="ruby-identifier">mod</span>)
-<span class="line-num">67</span>   <span class="ruby-identifier">mod</span>.<span class="ruby-identifier">set_temporary_name</span>(<span class="ruby-keyword">yield</span>)
-<span class="line-num">68</span>   <span class="ruby-identifier">mod</span>
-<span class="line-num">69</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">90</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">set_temp_name</span>(<span class="ruby-identifier">mod</span>)
+<span class="line-num">91</span>   <span class="ruby-identifier">mod</span>.<span class="ruby-identifier">set_temporary_name</span>(<span class="ruby-keyword">yield</span>)
+<span class="line-num">92</span>   <span class="ruby-identifier">mod</span>
+<span class="line-num">93</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

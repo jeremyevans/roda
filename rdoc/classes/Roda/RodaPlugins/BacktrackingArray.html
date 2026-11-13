@@ -43,7 +43,7 @@ Roda::RodaPlugins::BacktrackingArray
 <span class="ruby-keyword">end</span>
 </pre>
 
-<p>This is because the <code>&#39;a&#39;</code> entry in the array matches, which makes the array match.  However, the next matcher is the terminal matcher (since <code>r.is</code> was used), and since the path is not terminal as it still contains <code>/b</code> after matching <code>&#39;a&#39;</code>.</p>
+<p>This is because the <code>&#39;a&#39;</code> entry in the array matches, which makes the array match.  However, the next matcher is the terminal matcher (since <code>r.is</code> was used), and since the remaining path is not empty as it still contains <code>/b</code> after matching <code>&#39;a&#39;</code>, matching fails.</p>
 
 <p>With the <a href="../../../files/lib/roda/plugins/backtracking_array_rb.html">backtracking_array</a> plugin, when the terminal matcher fails, matching will go on to the next entry in the array, <code>&#39;a/b&#39;</code>, which will also match.  Since <code>&#39;a/b&#39;</code> matches the path fully, the terminal matcher also matches, and the match block yields.</p>
 </div>

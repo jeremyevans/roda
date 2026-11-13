@@ -33,6 +33,73 @@ CHANGELOG
 <div id='content'>
 <div id='text'>
 <div id='description'>
+<h3 id="label-3.110.0+-282026-11-13-29"><a href="#label-3.110.0+-282026-11-13-29"><a href="doc/release_notes/3_110_0_txt.html">3.110.0</a> (2026-11-13)</a></h3>
+<ul><li>
+<p>Add keyword arguments and deprecate positional hash for <a href="lib/roda/plugins/exception_page_rb.html">exception_page</a> method in <a href="lib/roda/plugins/exception_page_rb.html">exception_page</a> plugin (jeremyevans)</p>
+</li><li>
+<p>Add keyword arguments and deprecate positional hash for <a href="lib/roda/plugins/error_handler_rb.html">error_handler</a> plugin (jeremyevans)</p>
+</li><li>
+<p>Deprecate class-level error method in <a href="lib/roda/plugins/error_handler_rb.html">error_handler</a> plugin, switch to passing plugin a block (jeremyevans)</p>
+</li><li>
+<p>Improve <a href="lib/roda/plugins/error_mail_rb.html">error_mail</a> plugin performance by storing configuration in struct instead of hash (jeremyevans)</p>
+</li><li>
+<p>Check supported options passed to sessions, assets, <a href="lib/roda/plugins/cookie_flags_rb.html">cookie_flags</a>, <a href="lib/roda/plugins/error_email_rb.html">error_email</a>, and <a href="lib/roda/plugins/error_mail_rb.html">error_mail</a> plugins (jeremyevans)</p>
+</li><li>
+<p>Improve <a href="lib/roda/plugins/cookie_flags_rb.html">cookie_flags</a> plugin performance by storing configuration in struct instead of hash (jeremyevans)</p>
+</li><li>
+<p>Deprecate the csrf plugin, switch to <a href="lib/roda/plugins/route_csrf_rb.html">route_csrf</a> or <a href="lib/roda/plugins/sec_fetch_site_csrf_rb.html">sec_fetch_site_csrf</a> (jeremyevans)</p>
+</li><li>
+<p>Add keyword arguments and deprecate positional hash for <a href="lib/roda/plugins/permissions_policy_rb.html">permissions_policy</a> plugin (jeremyevans)</p>
+</li><li>
+<p>Add keyword arguments and deprecate positional hash for <a href="lib/roda/plugins/content_for_rb.html">content_for</a> plugin (jeremyevans)</p>
+</li><li>
+<p>Make <a href="lib/roda/plugins/recheck_precompiled_assets_rb.html">recheck_precompiled_assets</a> work with <a href="lib/roda/plugins/freeze_request_response_rb.html">freeze_request_response</a> plugin (jeremyevans)</p>
+</li><li>
+<p>Improve assets plugin performance by storing configuration in struct instead of hash (jeremyevans)</p>
+</li><li>
+<p>Deprecate passing invalid type to assets_paths in assets plugin (jeremyevans)</p>
+</li><li>
+<p>Deprecate public constants in assets plugin (jeremyevans)</p>
+</li><li>
+<p>Improve sessions plugin performance by storing configuration in struct instead of hash (jeremyevans)</p>
+</li><li>
+<p>Deprecate public constants in sessions plugin (jeremyevans)</p>
+</li><li>
+<p>Deprecate :per_cookie_cipher_secret option for sessions plugin (jeremyevans)</p>
+</li><li>
+<p>Support use_request_ip keyword argument to <a href="lib/roda/plugins/common_logger_rb.html">common_logger</a> plugin (jeremyevans)</p>
+</li><li>
+<p>Add keyword arguments and deprecate positional hash for commom_logger plugin (jeremyevans)</p>
+</li><li>
+<p>Add keyword arguments and deprecate positional hash for class_matcher and symbol_matcher methods (jeremyevans)</p>
+</li><li>
+<p>Support query method in <a href="lib/roda/plugins/class_level_routing_rb.html">class_level_routing</a> plugin on Rack 3.3+ (jeremyevans)</p>
+</li><li>
+<p>Add keyword arguments and deprecate positional hash for chunked plugin (jeremyevans)</p>
+</li><li>
+<p>Add keyword arguments and deprecate positional hash for <a href="lib/roda/plugins/capture_erb_rb.html">capture_erb</a> plugin and method (jeremyevans)</p>
+</li><li>
+<p>Add keyword arguments and deprecate positional hash for etag method in caching plugin (jeremyevans)</p>
+</li><li>
+<p>Replace <a href="hash1">Hash</a>.merge!(hash2) with hash1.merge(hash2), as the later is faster since Ruby 2.5 (jeremyevans)</p>
+</li><li>
+<p>Make assets and <a href="lib/roda/plugins/freeze_request_response_rb.html">freeze_request_response</a> plugins work together (jeremyevans)</p>
+</li><li>
+<p>Avoid unnecessary allocations in <a href="lib/roda/plugins/assets_preloading_rb.html">assets_preloading</a> plugin (jeremyevans)</p>
+</li><li>
+<p>Do not decode + as a space in the <a href="lib/roda/plugins/unescape_path_rb.html">unescape_path</a> plugin (wleeaf, jeremyevans) (#434)</p>
+</li><li>
+<p>Use weak etag comparison in caching plugin etag method (wleeaf) (#433)</p>
+</li><li>
+<p>Have public plugin add Vary Accept-Encoding header when using encodings (wleeaf) (#432)</p>
+</li><li>
+<p>Add <a href="lib/roda/plugins/freeze_request_response_rb.html">freeze_request_response</a> plugin for freezing RodaRequest and RodaResponse (jeremyevans)</p>
+</li><li>
+<p>In the render plugin, have each subclass use a separate RodaCompiledTemplates module (jeremyevans)</p>
+</li><li>
+<p>Add query method to <a href="lib/roda/plugins/hash_routes_rb.html">hash_routes</a> DSL, requires Rack::Request#query? to be defined (jeremyevans)</p>
+</li></ul>
+
 <h3 id="label-3.109.0+-282026-10-09-29"><a href="#label-3.109.0+-282026-10-09-29"><a href="doc/release_notes/3_109_0_txt.html">3.109.0</a> (2026-10-09)</a></h3>
 <ul><li>
 <p>Persist symbol keys set in Roda.opts to class instance variables, add attr_reader methods for much faster access (jeremyevans)</p>

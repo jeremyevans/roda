@@ -75,27 +75,35 @@ Roda::RodaPlugins::RecheckPrecompiledAssets
 [show source]
 </a>
 <pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/recheck_precompiled_assets.rb</span>
-<span class="line-num">56</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>)
-<span class="line-num">57</span>   <span class="ruby-identifier">precompiled_file</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">assets_opts</span>[<span class="ruby-value">:precompiled</span>]
-<span class="line-num">58</span>   <span class="ruby-identifier">prev_mtime</span> = <span class="ruby-operator">::</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">mtime</span>(<span class="ruby-identifier">precompiled_file</span>)
-<span class="line-num">59</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">instance_exec</span> <span class="ruby-keyword">do</span>
-<span class="line-num">60</span>     <span class="ruby-identifier">opts</span>[<span class="ruby-value">:assets</span>] = <span class="ruby-identifier">assets_opts</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-value">:compiled</span><span class="ruby-operator">=&gt;</span><span class="ruby-identifier">_compiled_assets_initial_hash</span>.<span class="ruby-identifier">replace</span>(<span class="ruby-identifier">assets_opts</span>[<span class="ruby-value">:compiled</span>])).<span class="ruby-identifier">freeze</span>
+<span class="line-num">58</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>)
+<span class="line-num">59</span>   <span class="ruby-identifier">precompiled_file</span> = <span class="ruby-identifier">app</span>.<span class="ruby-identifier">assets_config</span>.<span class="ruby-identifier">precompiled</span>
+<span class="line-num">60</span>   <span class="ruby-identifier">prev_mtime</span> = <span class="ruby-operator">::</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">mtime</span>(<span class="ruby-identifier">precompiled_file</span>)
 <span class="line-num">61</span> 
-<span class="line-num">62</span>     <span class="ruby-identifier">define_singleton_method</span>(<span class="ruby-value">:recheck_precompiled_assets</span>) <span class="ruby-keyword">do</span>
-<span class="line-num">63</span>       <span class="ruby-identifier">new_mtime</span> = <span class="ruby-operator">::</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">mtime</span>(<span class="ruby-identifier">precompiled_file</span>)
-<span class="line-num">64</span>       <span class="ruby-keyword">if</span> <span class="ruby-identifier">new_mtime</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">prev_mtime</span>
-<span class="line-num">65</span>         <span class="ruby-identifier">prev_mtime</span> = <span class="ruby-identifier">new_mtime</span>
-<span class="line-num">66</span>         <span class="ruby-identifier">assets_opts</span>[<span class="ruby-value">:compiled</span>].<span class="ruby-identifier">replace</span>(<span class="ruby-identifier">_precompiled_asset_metadata</span>(<span class="ruby-identifier">precompiled_file</span>))
-<span class="line-num">67</span> 
-<span class="line-num">68</span>         <span class="ruby-comment"># Unset the cached asset matchers, so new ones will be generated.</span>
-<span class="line-num">69</span>         <span class="ruby-comment"># This is needed in case the new precompiled metadata uses</span>
-<span class="line-num">70</span>         <span class="ruby-comment"># different files.</span>
-<span class="line-num">71</span>         <span class="ruby-identifier">app</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>.<span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-value">:@assets_matchers</span>, <span class="ruby-keyword">nil</span>)
-<span class="line-num">72</span>       <span class="ruby-keyword">end</span>
-<span class="line-num">73</span>     <span class="ruby-keyword">end</span>
-<span class="line-num">74</span>     <span class="ruby-identifier">singleton_class</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:alias_method</span>, <span class="ruby-value">:recheck_precompiled_assets</span>, <span class="ruby-value">:recheck_precompiled_assets</span>)
-<span class="line-num">75</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">76</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">62</span>   <span class="ruby-identifier">request_class</span> = <span class="ruby-identifier">app</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>
+<span class="line-num">63</span>   <span class="ruby-identifier">mutex</span> = <span class="ruby-identifier">request_class</span>.<span class="ruby-identifier">instance_variable_get</span>(<span class="ruby-value">:@_precompiled_assets_mutex</span>)
+<span class="line-num">64</span>   <span class="ruby-comment"># Unset the assets matchers, in case a frozen value is already set</span>
+<span class="line-num">65</span>   <span class="ruby-identifier">request_class</span>.<span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-value">:@assets_matchers</span>, <span class="ruby-keyword">nil</span>)
+<span class="line-num">66</span>   <span class="ruby-comment"># Ensure the assets matchers is set and an unfrozen array, and get the underlying value</span>
+<span class="line-num">67</span>   <span class="ruby-identifier">request_class</span>.<span class="ruby-identifier">assets_matchers</span>
+<span class="line-num">68</span>   <span class="ruby-identifier">assets_matchers</span> = <span class="ruby-identifier">request_class</span>.<span class="ruby-identifier">instance_variable_get</span>(<span class="ruby-value">:@assets_matchers</span>)
+<span class="line-num">69</span> 
+<span class="line-num">70</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">instance_exec</span> <span class="ruby-keyword">do</span>
+<span class="line-num">71</span>     <span class="ruby-identifier">_update_compiled_assets</span>(<span class="ruby-identifier">_compiled_assets_initial_hash</span>.<span class="ruby-identifier">replace</span>(<span class="ruby-identifier">assets_config</span>.<span class="ruby-identifier">compiled</span>))
+<span class="line-num">72</span> 
+<span class="line-num">73</span>     <span class="ruby-identifier">define_singleton_method</span>(<span class="ruby-value">:recheck_precompiled_assets</span>) <span class="ruby-keyword">do</span>
+<span class="line-num">74</span>       <span class="ruby-identifier">new_mtime</span> = <span class="ruby-operator">::</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">mtime</span>(<span class="ruby-identifier">precompiled_file</span>)
+<span class="line-num">75</span>       <span class="ruby-keyword">if</span> <span class="ruby-identifier">new_mtime</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">prev_mtime</span>
+<span class="line-num">76</span>         <span class="ruby-identifier">prev_mtime</span> = <span class="ruby-identifier">new_mtime</span>
+<span class="line-num">77</span>         <span class="ruby-identifier">assets_config</span>.<span class="ruby-identifier">compiled</span>.<span class="ruby-identifier">replace</span>(<span class="ruby-identifier">_precompiled_asset_metadata</span>(<span class="ruby-identifier">precompiled_file</span>))
+<span class="line-num">78</span> 
+<span class="line-num">79</span>         <span class="ruby-comment"># Replace the asset matchers, in case the new precompiled metadata uses different files.</span>
+<span class="line-num">80</span>         <span class="ruby-identifier">new_assets_matchers</span> = <span class="ruby-identifier">request_class</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:_build_assets_matchers</span>)
+<span class="line-num">81</span>         <span class="ruby-identifier">mutex</span>.<span class="ruby-identifier">synchronize</span>{<span class="ruby-identifier">assets_matchers</span>.<span class="ruby-identifier">replace</span>(<span class="ruby-identifier">new_assets_matchers</span>)}
+<span class="line-num">82</span>       <span class="ruby-keyword">end</span>
+<span class="line-num">83</span>     <span class="ruby-keyword">end</span>
+<span class="line-num">84</span>     <span class="ruby-identifier">singleton_class</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:alias_method</span>, <span class="ruby-value">:recheck_precompiled_assets</span>, <span class="ruby-value">:recheck_precompiled_assets</span>)
+<span class="line-num">85</span>   <span class="ruby-keyword">end</span>
+<span class="line-num">86</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-class' id='method-method-c-load_dependencies'>
@@ -113,10 +121,12 @@ Roda::RodaPlugins::RecheckPrecompiledAssets
 </a>
 <pre id='method-c-load_dependencies-source'>   <span class="ruby-comment"># File lib/roda/plugins/recheck_precompiled_assets.rb</span>
 <span class="line-num">50</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">load_dependencies</span>(<span class="ruby-identifier">app</span>)
-<span class="line-num">51</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:assets_opts</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">assets_opts</span>[<span class="ruby-value">:precompiled</span>]
+<span class="line-num">51</span>   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:assets_config</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">app</span>.<span class="ruby-identifier">assets_config</span>.<span class="ruby-identifier">precompiled</span>
 <span class="line-num">52</span>     <span class="ruby-identifier">raise</span> <span class="ruby-constant">RodaError</span>, <span class="ruby-string">&quot;must load assets plugin with precompiled option before loading recheck_precompiled_assets plugin&quot;</span>
 <span class="line-num">53</span>   <span class="ruby-keyword">end</span>
-<span class="line-num">54</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">54</span>   <span class="ruby-comment"># Set mutex before overriding a method that uses it</span>
+<span class="line-num">55</span>   <span class="ruby-identifier">app</span><span class="ruby-operator">::</span><span class="ruby-constant">RodaRequest</span>.<span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-value">:@_precompiled_assets_mutex</span>, <span class="ruby-constant">Mutex</span>.<span class="ruby-identifier">new</span>)
+<span class="line-num">56</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 </div>

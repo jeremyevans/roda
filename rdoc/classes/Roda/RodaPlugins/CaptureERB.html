@@ -55,7 +55,7 @@ Roda::RodaPlugins::CaptureERB
   &lt;% end %&gt;
 &lt;% end %&gt;</pre>
 
-<p>In this case, the block may return nil, instead of the content of the template.  To handle this case, you can provide the <code>returns: :buffer</code> option when calling the method (to handle that specific call, or when loading the plugin (to default to that behavior). Note that if the output buffer object responds to <code>capture</code> and is not an instance of String, the <code>returns: :buffer</code> behavior is the default and cannot be changed.</p>
+<p>In this case, the block may return nil, instead of the content of the template.  To handle this case, you can provide the <code>returns: :buffer</code> argument when calling the method (to handle that specific call, or when loading the plugin (to default to that behavior). Note that if the output buffer object responds to <code>capture</code> and is not an instance of String, the <code>returns: :buffer</code> behavior is the default and cannot be changed.</p>
 </div>
 <div id='method-list'>
 <h2>Methods</h2>
@@ -80,7 +80,7 @@ Roda::RodaPlugins::CaptureERB
 <div class='method public-class' id='method-method-c-configure'>
 <a name='method-c-configure'></a>
 <div class='synopsis'>
-<span class='name'>configure</span><span class='arguments'>(app, opts=OPTS)</span>
+<span class='name'>configure</span><span class='arguments'>(app, opts=(no_positional_opts = true; OPTS), returns: (opts.has_key?(:returns) ? opts[:returns] : (returns_not_set = true; nil)), **kw)</span>
 
 </div>
 <div class='description'>
@@ -93,10 +93,11 @@ Roda::RodaPlugins::CaptureERB
 [show source]
 </a>
 <pre id='method-c-configure-source'>   <span class="ruby-comment"># File lib/roda/plugins/capture_erb.rb</span>
-<span class="line-num">49</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=<span class="ruby-constant">OPTS</span>)
-<span class="line-num">50</span>   <span class="ruby-comment"># RODA4: make returns: :buffer the default behavior</span>
-<span class="line-num">51</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:capture_erb_returns</span>] = <span class="ruby-identifier">opts</span>[<span class="ruby-value">:returns</span>] <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:returns</span>)
-<span class="line-num">52</span> <span class="ruby-keyword">end</span></pre>
+<span class="line-num">49</span> <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">configure</span>(<span class="ruby-identifier">app</span>, <span class="ruby-identifier">opts</span>=(<span class="ruby-identifier">no_positional_opts</span> = <span class="ruby-keyword">true</span>; <span class="ruby-constant">OPTS</span>), <span class="ruby-value">returns:</span> (<span class="ruby-identifier">opts</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:returns</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">opts</span>[<span class="ruby-value">:returns</span>] <span class="ruby-operator">:</span> (<span class="ruby-identifier">returns_not_set</span> = <span class="ruby-keyword">true</span>; <span class="ruby-keyword">nil</span>)), <span class="ruby-operator">**</span><span class="ruby-identifier">kw</span>)
+<span class="line-num">50</span>   <span class="ruby-constant">RodaPlugins</span>.<span class="ruby-identifier">check_keywords</span>(<span class="ruby-string">&quot;the capture_erb plugin&quot;</span>, <span class="ruby-identifier">no_positional_opts</span>, <span class="ruby-identifier">opts</span>, <span class="ruby-identifier">kw</span>)
+<span class="line-num">51</span>   <span class="ruby-comment"># RODA4: make returns: :buffer the default behavior</span>
+<span class="line-num">52</span>   <span class="ruby-identifier">app</span>.<span class="ruby-identifier">opts</span>[<span class="ruby-value">:capture_erb_returns</span>] = <span class="ruby-identifier">returns</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">returns_not_set</span>
+<span class="line-num">53</span> <span class="ruby-keyword">end</span></pre>
 </div>
 </div>
 <div class='method public-class' id='method-method-c-load_dependencies'>

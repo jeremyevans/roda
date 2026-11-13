@@ -51,29 +51,29 @@ Roda::RodaPlugins::ExceptionPage
 <ul><li>
 <p>Not a middleware, so it doesn’t handle exceptions itself, and has no effect on the callstack unless the <a href="../../../files/lib/roda/plugins/exception_page_rb.html">exception_page</a> method is called.</p>
 </li><li>
-<p>Supports external javascript and stylesheets, allowing context toggling to work in applications that use a content security policy to restrict inline javascript and stylesheets (:assets, :css_file, and :js_file options).</p>
+<p>Supports external javascript and stylesheets, allowing context toggling to work in applications that use a content security policy to restrict inline javascript and stylesheets (<code>assets</code>, <code>css_file</code>, and <code>js_file</code> arguments).</p>
 </li><li>
-<p>Has fewer dependencies (does not require ostruct and erb).</p>
+<p>Has fewer dependencies (does not require erb).</p>
 </li><li>
 <p>Sets the Content-Type for the response, and returns the body string, but does not modify other headers or the response status.</p>
 </li><li>
-<p>Supports a configurable amount of context lines in backtraces (:context option).</p>
+<p>Supports a configurable amount of context lines in backtraces (<code>context</code> argument).</p>
 </li><li>
-<p>Supports optional JSON formatted output, if used with the json plugin (:json option).</p>
+<p>Supports optional JSON formatted output, if used with the json plugin (<code>json</code> argument).</p>
 </li></ul>
 
-<p>To use the external javascript and stylesheets, you can call <code>r.exception_page_assets</code> in your routing tree:</p>
+<p>To handle requests for the external javascript and stylesheets, you can call <code>r.exception_page_assets</code> in your routing tree:</p>
 
 <pre class="ruby"><span class="ruby-identifier">route</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span>
   <span class="ruby-comment"># ...</span>
 
   <span class="ruby-comment"># serve GET /exception_page.{css,js} requests</span>
-  <span class="ruby-comment"># Use with assets: true +exception_page+ option</span>
+  <span class="ruby-comment"># Use with exception_page assets: true argument</span>
   <span class="ruby-identifier">r</span>.<span class="ruby-identifier">exception_page_assets</span>
 
   <span class="ruby-identifier">r</span>.<span class="ruby-identifier">on</span> <span class="ruby-string">&quot;static&quot;</span> <span class="ruby-keyword">do</span>
     <span class="ruby-comment"># serve GET /static/exception_page.{css,js} requests</span>
-    <span class="ruby-comment"># Use with assets: &#39;/static&#39; +exception_page+ option</span>
+    <span class="ruby-comment"># Use with exception_page assets: &#39;/static&#39; option</span>
     <span class="ruby-identifier">r</span>.<span class="ruby-identifier">exception_page_assets</span>
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span>
