@@ -3,7 +3,7 @@
 #
 class Roda
   module RodaPlugins
-    # The hash_matcher plugin adds the hash_matcher class method, which
+    # The hash_matcher plugin adds the +hash_matcher+ class method, which
     # allows for easily defining hash matchers:
     #
     #   class App < Roda
@@ -23,7 +23,7 @@ class Roda
       module ClassMethods
         # Create a match_#{key} method in the request class using the given
         # block, so that using a hash key in a request match method will
-        # call the block.  The block should return nil or false to not
+        # call the block.  The block should return +nil+ or +false+ to not
         # match, and anything else to match.  See the HashMatcher module
         # documentation for an example.
         def hash_matcher(key, &block)
