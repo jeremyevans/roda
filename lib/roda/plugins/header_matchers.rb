@@ -3,8 +3,7 @@
 #
 class Roda
   module RodaPlugins
-    # The header_matchers plugin adds hash matchers for matching on less-common
-    # HTTP headers.
+    # The header_matchers plugin adds hash matchers for matching on HTTP headers.
     #
     #   plugin :header_matchers
     #
@@ -38,22 +37,27 @@ class Roda
     #
     # Note that the +:accept+ matcher is very simple and cannot handle wildcards,
     # priorities, or anything but a simple comma separated list of mime types.
+    # The +:accept+ matcher also set the +Content-Type+ header in the response.
     module HeaderMatchers
       module RequestMethods
         private
 
-        # Match if the given mimetype is one of the accepted mimetypes.
+        # Match if the given +mimetype+ is one of the accepted mime types, and
+        # set the response +Content-Type+ header to the +mimetype+ if so.
         def match_accept(mimetype)
           if @env["HTTP_ACCEPT"].to_s.split(',').any?{|s| s.strip == mimetype}
             response[RodaResponseHeaders::CONTENT_TYPE] = mimetype
           end
         end
 
-        # Match if the given uppercase key is present inside the environment.
-        def match_header(key)
-          key = key.upcase
+        # Match if the given HTTP header is present inside the environment.
+        def match_header(header)
+          key = header.upcase
           key.tr!("-","_")
-          unless key == "CONTENT_TYPE" || key == "CONTENT_LENGTH"
+          case key
+          when "CONTENT_TYPE", "CONTENT_LENGTH"
+            nil
+          else
             key = "HTTP_#{key}"
           end
           if v = @env[key]
@@ -62,7 +66,7 @@ class Roda
         end
 
         # Match if the host of the request is the same as the hostname.  +hostname+
-        # can be a regexp or a string.
+        # can be a regexp, string, or another object responding to <tt>===</tt>.
         def match_host(hostname)
           if hostname.is_a?(Regexp)
             if match = hostname.match(host)
