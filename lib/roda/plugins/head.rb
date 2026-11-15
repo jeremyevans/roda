@@ -30,25 +30,24 @@ class Roda
     # after the not_allowed plugin.  In that case, if GET is one of Allow
     # header options, then HEAD will be as well.
     #
-    # NOTE: if you have a public facing website it is recommended that
-    # you enable this plugin, or manually handle HEAD anywhere you would
-    # handle GET. Search engines and other bots may send a
-    # HEAD request prior to crawling a page with a GET request. Without
-    # this plugin those HEAD requests will return a 404 status, which
-    # may prevent search engines from crawling your website.
+    # If you have a public facing website and would like it crawlable by
+    # search engines, it is recommended that you enable this plugin, or
+    # manually handle HEAD anywhere you would handle GET. Search engines
+    # and other bots may send a HEAD request prior to crawling a page
+    # with a GET request. Without special handling, HEAD requests will
+    # return a 404 status, which may prevent search engines from crawling.
     module Head
-      # used to ensure proper resource release on HEAD requests
-      # we do not respond to a to_path method, here.
+      # Closes the body after the response has been generated.
       class CloseLater
         def initialize(body)
           @body = body
         end
 
-        # yield nothing
+        # Empty to avoid iterating over the body.
         def each(&_)
         end
 
-        # this should be called by the Rack server
+        # Close the body (this is called by the Rack server).
         def close
           @body.close
         end
@@ -57,15 +56,14 @@ class Roda
       module InstanceMethods
         private
 
-        # Always use an empty response body for head requests, with a
-        # content length of 0.
+        # Always use an empty response body for HEAD requests
         def _roda_after_30__head(res)
           if res && @_request.head?
             body = res[2]
-            if body.respond_to?(:close)
-              res[2] = CloseLater.new(body)
+            res[2] = if body.respond_to?(:close)
+              CloseLater.new(body)
             else
-              res[2] = EMPTY_ARRAY
+              EMPTY_ARRAY
             end
           end
         end
