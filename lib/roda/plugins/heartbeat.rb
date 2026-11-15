@@ -3,10 +3,11 @@
 #
 class Roda
   module RodaPlugins
-    # The heartbeat handles heartbeat/status requests.  If a request for
-    # the heartbeat path comes in, a 200 response with a
-    # text/plain Content-Type and a body of "OK" will be returned.
-    # The default heartbeat path is "/heartbeat", so to use that:
+    # The heartbeat handles heartbeat requests, which check if the
+    # application is still running. If a request for the heartbeat
+    # path comes in, a 200 response with a text/plain Content-Type
+    # and a body of +OK+ will be returned.  The default heartbeat
+    # path is "/heartbeat", so to use that:
     #
     #   plugin :heartbeat
     #
@@ -15,8 +16,11 @@ class Roda
     #   plugin :heartbeat, path: '/status'
     module Heartbeat
       # Set the heartbeat path to the given path.
-      def self.configure(app, opts=OPTS)
-        app.opts[:heartbeat_path] = (opts[:path] || app.heartbeat_path || "/heartbeat").dup.freeze
+      def self.configure(app, opts=(no_positional_opts = true; OPTS),
+          path: opts[:path] || app.heartbeat_path || "/heartbeat",
+          **kw)
+        RodaPlugins.check_keywords("the heartbeat plugin", no_positional_opts, opts, kw)
+        app.opts[:heartbeat_path] = path.dup.freeze
       end
 
       module ClassMethods
@@ -42,4 +46,3 @@ class Roda
     register_plugin(:heartbeat, Heartbeat)
   end
 end
-

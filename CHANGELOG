@@ -1,5 +1,7 @@
 === master
 
+* Add keyword arguments and deprecate positional hash for heartbeat plugin (jeremyevans)
+
 * Respect public plugin default_mime argument when serving compressed files (jeremyevans)
 
 * Deprecate public constants in public and multi_public plugins (jeremyevans)
