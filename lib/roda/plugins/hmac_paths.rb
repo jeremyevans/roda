@@ -9,7 +9,7 @@ class Roda
     # to prevent users enumerating paths, since only paths with valid HMACs will be
     # respected.
     #
-    # To use the plugin, you must provide a +secret+ option.  This sets the secret for
+    # To use the plugin, you must provide a +secret+ argument.  This sets the secret for
     # the HMACs.  Make sure to keep this value secret, as this plugin does not provide
     # protection against users who know the secret value.  The secret must be at least
     # 32 bytes.
@@ -47,7 +47,7 @@ class Roda
     #
     # In the above example, +r.hmac_path+ is used at the root of the routing tree. If you
     # would like to call it below the root of the routing tree, it works correctly, but you
-    # must pass +hmac_path+ the +:root+ option specifying where +r.hmac_paths+ will be called from.
+    # must pass +hmac_path+ the +root+ argument specifying where +r.hmac_paths+ will be called from.
     # Consider this example:
     #
     #   route do |r|
@@ -72,7 +72,7 @@ class Roda
     # widgets to be a valid match in the +r.hmac_path+ call inside the <tt>r.on 'foobar'</tt>
     # block, preventing users who have a valid HMAC for a widget from looking at the page for
     # a foobar with the same ID.  When generating HMAC paths where the matching +r.hmac_path+
-    # call is not at the root of the routing tree, you must pass the +:root+ option:
+    # call is not at the root of the routing tree, you must pass the +root+ argument:
     #
     #   hmac_path('/1', root: '/widget')
     #   # => "/widget/daccafce3ce0df52e5ce774626779eaa7286085fcbde1e4681c74175ff0bbacd/0/1"
@@ -82,10 +82,10 @@ class Roda
     #
     # Note how the HMAC changes even though the path is the same.
     #
-    # In addition to the +:root+ option, there are additional options that further constrain
+    # In addition to the +root+ argument, there are additional arguments that further constrain
     # use of the generated paths.
     #
-    # The +:method+ option creates a path that can only be called with a certain request
+    # The +method+ argument creates a path that can only be called with a certain request
     # method:
     #
     #   hmac_path('/widget/1', method: :get)
@@ -98,7 +98,7 @@ class Roda
     # underlying path, without providing them the ability to submit a POST request for the
     # underlying path, with no other access control.
     #
-    # The +:params+ option accepts a hash of params, converts it into a query string, and
+    # The +params+ argument accepts a hash of params, converts it into a query string, and
     # includes the query string in the returned path.  It sets the flags segment to +p+, which
     # means +r.hmac_path+ will check for that exact query string.  Requests with an empty query
     # string or a different string will not match.
@@ -113,10 +113,10 @@ class Roda
     # instead of +r.params+ to specifically check query string parameters.
     #
     # The generated paths can be timestamped, so that they are only valid until a given time
-    # or for a given number of seconds after they are generated, using the :until or :seconds
-    # options:
+    # or for a given number of seconds after they are generated, using the +valid_until+ or +seconds+
+    # arguments:
     #
-    #   hmac_path('/widget/1', until: Time.utc(2100))
+    #   hmac_path('/widget/1', valid_until: Time.utc(2100))
     #   # =>  "/dc8b6e56e4cbe7815df7880d42f0e02956b2e4c49881b6060ceb0e49745a540d/t/4102444800/widget/1"
     #
     #   hmac_path('/widget/1', seconds: Time.utc(2100).to_i - Time.now.to_i)
@@ -132,27 +132,27 @@ class Roda
     #   hmac_path('/widget/1', namespace: '2')
     #   # => "/0e1e748860d4fd17fe9b7c8259b1e26996502c38e465f802c2c9a0a13000087c/n/widget/1"
     #
-    # The +r.hmac_path+ method accepts a :namespace option, and if a :namespace option is
-    # provided, it will only match an hmac path if the namespace given matches the one used
+    # The +r.hmac_path+ method accepts a +namespace+ argument, and if given,
+    # it will only match an hmac path if the namespace given matches the one used
     # when the hmac path was created.
     #
     #   r.hmac_path(namespace: '1'){}
     #   # will match "/3793ac2a72ea399c40cbd63f154d19f0fe34cdf8d347772134c506a0b756d590/n/widget/1"
     #   # will not match "/0e1e748860d4fd17fe9b7c8259b1e26996502c38e465f802c2c9a0a13000087c/n/widget/1"
     #
-    # The most common use of the :namespace option is to reference session values, so the value of
-    # each path depends on the logged in user.  You can use the +:namespace_session_key+ plugin
-    # option to set the default namespace for both +hmac_path+ and +r.hmac_path+:
+    # The most common use of the +namespace+ argument is to reference session values, so the value of
+    # each path depends on the logged in user.  You can use the +namespace_session_key+ plugin
+    # argument to set the default namespace for both +hmac_path+ and +r.hmac_path+:
     #
     #   plugin :hmac_paths, secret: 'some-secret-value-with-at-least-32-bytes',
     #                       namespace_session_key: 'account_id'
     #
     # This will use <tt>session['account_id']</tt> as the default namespace for both +hmac_path+
-    # and +r.hmac_path+ (if the session value is not nil, it is converted to a string using +to_s+).
-    # You can override the default namespace by passing a +:namespace+ option when calling +hmac_path+
+    # and +r.hmac_path+ (if the session value is not +nil+, it is converted to a string using +to_s+).
+    # You can override the default namespace by passing a +namespace+ argument when calling +hmac_path+
     # and +r.hmac_path+.
     #
-    # You can use +:root+, +:method+, +:params+, and +:namespace+ at the same time:
+    # You can use +root+, +method+, +params+, and +namespace+ arguments at the same time:
     #
     #   hmac_path('/1', root: '/widget', method: :get, params: {foo: 'bar'}, namespace: '1')
     #   # => "/widget/c14c78a81d34d766cf334a3ddbb7a6b231bc2092ef50a77ded0028586027b14e/mpn/1?foo=bar"
@@ -160,14 +160,14 @@ class Roda
     # This gives you a path only valid for a GET request with a root of <tt>/widget</tt> and
     # a query string of <tt>foo=bar</tt>, using namespace +1+.
     #
-    # To handle secret rotation, you can provide an +:old_secret+ option when loading the
+    # To handle secret rotation, you can provide an +old_secret+ argument when loading the
     # plugin.
     #
     #   plugin :hmac_paths, secret: 'some-secret-value-with-at-least-32-bytes',
     #                       old_secret: 'previous-secret-value-with-at-least-32-bytes'
     #
-    # This will use +:secret+ for constructing new paths, but will respect paths generated by
-    # +:old_secret+.
+    # This will use +secret+ for constructing new paths, but will respect paths generated by
+    # +old_secret+.
     #
     # = HMAC Construction
     #
@@ -176,10 +176,10 @@ class Roda
     #
     # * +HMAC+ is the raw HMAC-SHA256 output (first argument is secret, second is data)
     # * +HMAC_hex+ is the hexidecimal version of +HMAC+
-    # * +secret+ is the plugin :secret option
+    # * +secret+ is the plugin +secret+ argument
     #
-    # The +:secret+ plugin option is never used directly as the HMAC secret.  All HMACs are
-    # generated with a root-specific secret.  The root will be the empty if no +:root+ option
+    # The +secret+ plugin argument is never used directly as the HMAC secret.  All HMACs are
+    # generated with a root-specific secret.  The root will be the empty if no +root+ argument
     # is given.  The hmac path flags are always included in the hmac calculation, prepended to the
     # path:
     #
@@ -189,45 +189,49 @@ class Roda
     #  r.hmac_path('/1', root: '/2')
     #  HMAC_hex(HMAC_hex(secret, '/2'), '/0/1')
     #
-    # The +:method+ option uses an uppercase version of the method prepended to the path. This
+    # The +method+ argument uses an uppercase version of the method prepended to the path. This
     # cannot conflict with the path itself, since paths must start with a slash.
     #
     #  r.hmac_path('/1', method: :get)
     #  HMAC_hex(HMAC_hex(secret, ''), 'GET:/m/1')
     # 
-    # The +:params+ option includes the query string for the params in the HMAC:
+    # The +params+ argument includes the query string for the params in the HMAC:
     #
     #  r.hmac_path('/1', params: {k: 2})
     #  HMAC_hex(HMAC_hex(secret, ''), '/p/1?k=2')
     #
-    # The +:until+ and +:seconds+ option include the timestamp in the HMAC:
+    # The +valid_until+ and +seconds+ arguments include the timestamp in the HMAC:
     #
-    #  r.hmac_path('/1', until: Time.utc(2100))
+    #  r.hmac_path('/1', valid_until: Time.utc(2100))
     #  HMAC_hex(HMAC_hex(secret, ''), '/t/4102444800/1')
     #
-    # If a +:namespace+ option is provided, the original secret used before the +:root+ option is
-    # an HMAC of the +:secret+ plugin option and the given namespace.
+    # If a +namespace+ argument is provided, the original secret used before the +root+
+    # argument is an HMAC of the +secret+ plugin argument and the given namespace.
     # 
     #  r.hmac_path('/1', namespace: '2')
     #  HMAC_hex(HMAC_hex(HMAC(secret, '2'), ''), '/n/1')
     module HmacPaths
-      def self.configure(app, opts=OPTS)
-        hmac_secret = opts[:secret]
-        unless hmac_secret.is_a?(String) && hmac_secret.bytesize >= 32
-          raise RodaError, "hmac_paths plugin :secret option must be a string containing at least 32 bytes"
+      def self.configure(app, opts=(no_positional_opts = true; OPTS),
+          secret: opts[:secret],
+          old_secret: opts[:old_secret],
+          namespace_session_key: opts[:namespace_session_key],
+          **kw)
+        RodaPlugins.check_keywords("the content_for plugin", no_positional_opts, opts, kw)
+        unless secret.is_a?(String) && secret.bytesize >= 32
+          raise RodaError, "hmac_paths plugin secret argument must be a string containing at least 32 bytes"
         end
 
-        if hmac_old_secret = opts[:old_secret]
-          unless hmac_old_secret.is_a?(String) && hmac_old_secret.bytesize >= 32
-            raise RodaError, "hmac_paths plugin :old_secret option must be a string containing at least 32 bytes if present"
+        if old_secret
+          unless old_secret.is_a?(String) && old_secret.bytesize >= 32
+            raise RodaError, "hmac_paths plugin old_secret argument must be a string containing at least 32 bytes if present"
           end
         end
 
-        app.opts[:hmac_paths_secret] = hmac_secret
-        app.opts[:hmac_paths_old_secret] = hmac_old_secret
+        app.opts[:hmac_paths_secret] = secret
+        app.opts[:hmac_paths_old_secret] = old_secret
 
-        if opts[:namespace_session_key]
-          app.opts[:hmac_paths_namespace_session_key] = opts[:namespace_session_key]
+        if namespace_session_key
+          app.opts[:hmac_paths_namespace_session_key] = namespace_session_key
         end
       end
 
@@ -238,52 +242,67 @@ class Roda
       end
 
       module InstanceMethods
-        # Return a path with an HMAC.  Designed to be used with r.hmac_path, to make sure
+        # Return a path with an HMAC.  Designed to be used with +r.hmac_path+, to make sure
         # users can only request paths that they have been provided by the application
         # (directly or indirectly).  This can prevent users of a site from enumerating
-        # valid paths.  The given path should be a string starting with +/+.  Options:
+        # valid paths.  The given path should be a string starting with +/+. Keyword Arguments:
         #
-        # :method :: Limits the returned path to only be valid for the given request method.
-        # :namespace :: Make the HMAC value depend on the given namespace. If this is not
-        #               provided, the default namespace is used.  To explicitly not use a
-        #               namespace when there is a default namespace, pass a nil value.
-        # :params :: Includes parameters in the query string of the returned path, and
-        #            limits the returned path to only be valid for that exact query string.
-        # :root :: Should be an empty string or string starting with +/+. This will be
-        #          the already matched path of the routing tree using r.hmac_path. Defaults
-        #          to the empty string, which will returns paths valid for r.hmac_path at
-        #          the top level of the routing tree.
-        # :seconds :: Make the given path valid for the given integer number of seconds.
-        # :until :: Make the given path valid until the given Time.
-        def hmac_path(path, opts=OPTS)
+        # +method+ :: Limits the returned path to only be valid for the given request method.
+        # +namespace+ :: Makes the HMAC value depend on the given namespace. If this is not
+        #                provided, the default namespace is used.  To explicitly not use a
+        #                namespace when there is a default namespace, pass a nil value.
+        # +params+ :: Includes parameters in the query string of the returned path, and
+        #             limits the returned path to only be valid for that exact query string.
+        # +root+ :: Should be an empty string or string starting with +/+. This will be
+        #           the already matched path of the routing tree using r.hmac_path. Defaults
+        #           to the empty string, which will returns paths valid for r.hmac_path at
+        #           the top level of the routing tree.
+        # +seconds+ :: Make the given path valid for the given integer number of seconds.
+        # +valid_until+ :: Make the given path valid until the given Time.
+        def hmac_path(path, opts=(no_positional_opts = true; OPTS),
+            method: opts[:method],
+            namespace: opts.fetch(:namespace){hmac_path_default_namespace},
+            params: opts[:params],
+            root: opts[:root] || '',
+            seconds: opts[:seconds],
+            valid_until: opts[:until],
+            **kw)
+
+          if kw.has_key?(:until)
+            RodaPlugins.warn("hmac_path until keyword argument is deprecated and will be removed in Roda 4, switch to valid_until argument", uplevel: 1)
+            kw_until = kw.delete(:until)
+            valid_until ||= kw_until
+          end
+
+          RodaPlugins.check_keywords(__callee__, no_positional_opts, opts, kw)
+
           unless path.is_a?(String) && path.getbyte(0) == 47
             raise RodaError, "path must be a string starting with /"
           end
 
-          root = opts[:root] || ''
           unless root.is_a?(String) && ((root_byte = root.getbyte(0)) == 47 || root_byte == nil)
             raise RodaError, "root must be empty string or string starting with /"
           end
 
-          if valid_until = opts[:until]
+          if valid_until
             valid_until = valid_until.to_i
-          elsif seconds = opts[:seconds]
+          elsif seconds
             valid_until = Time.now.to_i + seconds
           end
 
           flags = String.new
           path = path.dup
 
-          if method = opts[:method]
+          if method
             flags << 'm'
           end
 
-          if params = opts[:params]
+          if params
             flags << 'p'
             path << '?' << Rack::Utils.build_query(params)
           end
 
-          if hmac_path_namespace(opts)
+          if namespace
             flags << 'n'
           end
 
@@ -300,37 +319,49 @@ class Roda
             "/#{flags}#{path}"
           end
 
-          "#{root}/#{hmac_path_hmac(root, hmac_path, opts)}/#{flags}#{path}"
+          "#{root}/#{hmac_path_hmac(root, hmac_path, namespace: namespace)}/#{flags}#{path}"
         end
 
-        # The HMAC to use in hmac_path, for the given root, path, and options.
-        def hmac_path_hmac(root, path, opts=OPTS)
-          OpenSSL::HMAC.hexdigest(OpenSSL::Digest::SHA256.new, hmac_path_hmac_secret(root, opts), path)
+        # The HMAC to use in hmac_path, for the given root, path, namespace, and secret.
+        def hmac_path_hmac(root, path, opts=(no_positional_opts = true; OPTS),
+            namespace: opts.fetch(:namespace){hmac_path_default_namespace},
+            secret: opts[:secret] || self.class.hmac_paths_secret,
+            **kw)
+          RodaPlugins.check_keywords(__callee__, no_positional_opts, opts, kw)
+          hmac_secret = hmac_path_hmac_secret(root, secret: secret, namespace: namespace)
+          OpenSSL::HMAC.hexdigest(OpenSSL::Digest::SHA256.new, hmac_secret, path)
         end
 
-        # The namespace to use for the hmac path.  If a :namespace option is not
-        # provided, and a :namespace_session_key option was provided, this will
-        # use the value of the related session key, if present.
-        def hmac_path_namespace(opts=OPTS)
+        def hmac_path_namespace(opts=OPTS) # :nodoc:
+          RodaPlugins.warn("hmac_path_namespace is deprecated and will be removed in Roda 4", uplevel: 1)
           opts.fetch(:namespace){hmac_path_default_namespace}
         end
 
         private
 
         # The secret used to calculate the HMAC in hmac_path. This is itself an HMAC, created
-        # using the secret given in the plugin, for the given root and options.
+        # using the secret given in the plugin, for the given root, namespace, and secret.
         # This always returns a hexidecimal string.
-        def hmac_path_hmac_secret(root, opts=OPTS)
-          secret = opts[:secret] || self.class.hmac_paths_secret
+        def hmac_path_hmac_secret(root, opts=(no_positional_opts = true; OPTS),
+            namespace: (
+              RodaPlugins.warn("hmac_path_hmac_secret namespace argument will be required in Roda 4", uplevel: 1);
+              opts.fetch(:namespace){hmac_path_default_namespace}
+            ),
+            secret: (
+              RodaPlugins.warn("hmac_path_hmac_secret secret argument will be required in Roda 4", uplevel: 1);
+              opts[:secret] || self.class.hmac_paths_secret
+            ),
+            **kw)
+          RodaPlugins.check_keywords(__callee__, no_positional_opts, opts, kw)
 
-          if namespace = hmac_path_namespace(opts)
+          if namespace
             secret = OpenSSL::HMAC.digest(OpenSSL::Digest::SHA256.new, secret, namespace)
           end
 
           OpenSSL::HMAC.hexdigest(OpenSSL::Digest::SHA256.new, secret, root)
         end
 
-        # The default namespace to use for hmac_path, if a :namespace option is not provided.
+        # The default namespace to use for hmac_path, if a namespace argument is not provided.
         def hmac_path_default_namespace
           if (key = self.class.hmac_paths_namespace_session_key) && (value = session[key])
             value.to_s
@@ -340,10 +371,14 @@ class Roda
 
       module RequestMethods
         # Looks at the first segment of the remaining path, and if it contains a valid HMAC for the
-        # rest of the path considering the flags in the second segment and the given options, the
+        # rest of the path considering the flags in the second segment and the namespace, the
         # block matches and is yielded to, and the result of the block is returned. Otherwise, the
         # block does not matches and routing continues after the call.
-        def hmac_path(opts=OPTS, &block)
+        def hmac_path(opts=(no_positional_opts = true; OPTS),
+            namespace: opts.fetch(:namespace){scope.send(:hmac_path_default_namespace)},
+            **kw, &block)
+          RodaPlugins.check_keywords(__callee__, no_positional_opts, opts, kw)
+
           orig_path = remaining_path
           mpath = matched_path
 
@@ -352,7 +387,7 @@ class Roda
 
             if submitted_hmac.bytesize == 64
               on String do |flags|
-                if flags.include?('n') ^ !scope.hmac_path_namespace(opts).nil?
+                if flags.include?('n') ^ !namespace.nil?
                   # Namespace required and not provided, or provided and not required.
                   # Bail early to avoid unnecessary HMAC calculation.
                   @remaining_path = orig_path
@@ -367,7 +402,7 @@ class Roda
                   rpath = "#{rpath}?#{env["QUERY_STRING"]}"
                 end
 
-                if hmac_path_valid?(mpath, rpath, submitted_hmac, opts)
+                if hmac_path_valid?(mpath, rpath, submitted_hmac, namespace: namespace)
                   if flags.include?('t')
                     on Integer do |int|
                       if int >= Time.now.to_i
@@ -398,13 +433,18 @@ class Roda
         private
 
         # Determine whether the provided hmac matches.
-        def hmac_path_valid?(root, path, hmac, opts=OPTS)
-          if Rack::Utils.secure_compare(scope.hmac_path_hmac(root, path, opts), hmac)
+        def hmac_path_valid?(root, path, hmac, opts=(no_positional_opts = true; OPTS),
+            namespace: (
+              RodaPlugins.warn("hmac_path_valid? namespace argument will be required in Roda 4", uplevel: 1);
+              opts.fetch(:namespace){scope.send(:hmac_path_default_namespace)}
+            ),
+            **kw)
+          RodaPlugins.check_keywords(__callee__, no_positional_opts, opts, kw)
+
+          if Rack::Utils.secure_compare(scope.hmac_path_hmac(root, path, namespace: namespace, secret: roda_class.hmac_paths_secret), hmac)
             true
           elsif old_secret = roda_class.hmac_paths_old_secret
-            opts = opts.dup
-            opts[:secret] = old_secret
-            Rack::Utils.secure_compare(scope.hmac_path_hmac(root, path, opts), hmac)
+            Rack::Utils.secure_compare(scope.hmac_path_hmac(root, path, namespace: namespace, secret: old_secret), hmac)
           else
             false
           end

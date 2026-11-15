@@ -8,14 +8,14 @@ describe "hmac_paths plugin" do
     end
   end
 
-  it "plugin requires :secret option be string at least 32 bytes for HMAC secret" do
+  it "plugin requires secret argument be string at least 32 bytes for HMAC secret" do
     proc{app.plugin :hmac_paths}.must_raise Roda::RodaError
     proc{app.plugin :hmac_paths, secret: 1}.must_raise Roda::RodaError
     proc{app.plugin :hmac_paths, secret: '1'}.must_raise Roda::RodaError
     proc{app.plugin :hmac_paths, secret: '1'*31}.must_raise Roda::RodaError
   end
 
-  it "plugin requires :old_secret option be string at least 32 bytes for HMAC secret if given" do
+  it "plugin requires old_secret argument be string at least 32 bytes for HMAC secret if given" do
     proc{app.plugin :hmac_paths, secret: '1'*32, old_secret: 1}.must_raise Roda::RodaError
     proc{app.plugin :hmac_paths, secret: '1'*32, old_secret: '1'}.must_raise Roda::RodaError
     proc{app.plugin :hmac_paths, secret: '1'*32, old_secret: '1'*31}.must_raise Roda::RodaError
@@ -29,6 +29,18 @@ describe "hmac_paths plugin" do
   it "hmac_path method requires path argument must start with /" do
     hmac_paths_app{|r| hmac_path('1')}
     proc{body}.must_raise Roda::RodaError
+  end
+
+  deprecated "handles deprecated calls to private methods" do
+    hmac_paths_app do |r|
+      r.send(:hmac_path_valid?, '/1', '/2', "/1dd95fe7d0dbe409f852e81a7c2cc4c93971c04542a150c6baefe00876e28f13/0/1").to_s
+    end
+    body.must_equal "false"
+
+    hmac_paths_app do |r|
+      hmac_path_hmac_secret("/1")
+    end
+    body.must_equal "15e180177c11fd0e536a5b6075ad01d7b8e0520e93517b8b27f51eb0c4b214c6"
   end
 
   it "hmac_path method returns path with HMAC" do
@@ -45,24 +57,24 @@ describe "hmac_paths plugin" do
     body('/a').must_equal "/adf4707dcc97605cdaeea144bba055ed330ae2d1d23025150d7cbf181af6cd63/0/2"
   end
 
-  it "hmac_path method requires :root option be a string" do
+  it "hmac_path method requires root argument be a string" do
     hmac_paths_app{|r| hmac_path('/1', root: 1)}
     proc{body}.must_raise Roda::RodaError
   end
 
-  it "hmac_path method requires :root option must start with /" do
+  it "hmac_path method requires root argument must start with /" do
     hmac_paths_app{|r| hmac_path('/1', root: '1')}
     proc{body}.must_raise Roda::RodaError
   end
 
-  it "hmac_path uses :root option for path prefix" do
+  it "hmac_path uses root argument for path prefix" do
     hmac_paths_app do |r|
       hmac_path('/1', root: '/foo')
     end
     body.must_equal "/foo/ee408306c4e9a5ba5e57d295fe5cbb2b82e252b636d67c2a15039cc265611210/0/1"
   end
 
-  it "hmac_path HMAC depends on :root option" do
+  it "hmac_path HMAC depends on root argument" do
     hmac_paths_app do |r|
       r.get('a'){hmac_path('/1', root: '/bar')}
       hmac_path('/1', root: '/foo')
@@ -71,14 +83,14 @@ describe "hmac_paths plugin" do
     body('/a').must_equal "/bar/5ba0452a430fca1802eb93b52f2d994b58d768374ba318253cbc50c326e46f95/0/1"
   end
 
-  it "hmac_path sets m flag for :method option" do
+  it "hmac_path sets m flag for method argument" do
     hmac_paths_app do |r|
       hmac_path('/1', method: :get)
     end
     body.must_equal "/e21ef288ee8316f0d8e67eae55a2f27edda28316c3c231f4425281f6d291bccc/m/1"
   end
 
-  it "hmac_path HMAC depends on :method option" do
+  it "hmac_path HMAC depends on method argument" do
     hmac_paths_app do |r|
       r.get('a'){hmac_path('/1', method: :post)}
       hmac_path('/1', method: :get)
@@ -87,14 +99,14 @@ describe "hmac_paths plugin" do
     body('/a').must_equal "/72644ba25f4253acbe5f26370ca948d31f8fa0041fc77ddc9dc92da22415d1cd/m/1"
   end
 
-  it "hmac_path sets p flag and adds query string parameters for :params option" do
+  it "hmac_path sets p flag and adds query string parameters for params argument" do
     hmac_paths_app do |r|
       hmac_path('/1', params: {foo: :bar})
     end
     body.must_equal "/503907ffeb039fa93b0e6d0728d30c2fef4b10d655aef6e1ac23347b2159443c/p/1?foo=bar"
   end
 
-  it "hmac_path HMAC depends on :params option" do
+  it "hmac_path HMAC depends on params argument" do
     hmac_paths_app do |r|
       r.get('a'){hmac_path('/1', params: {bar: :foo})}
       hmac_path('/1', params: {foo: :bar})
@@ -103,7 +115,18 @@ describe "hmac_paths plugin" do
     body('/a').must_equal "/1785c857e23dfd04c127162d292f557cd2db4b0a6ac9c39515c85ce9ff404165/p/1?bar=foo"
   end
 
-  it "hmac_path sets t flag for :seconds and :until options" do
+  it "hmac_path sets t flag for seconds and valid_until argument" do
+    t = Time.utc(2100).to_i
+    seconds = t - Time.now.to_i
+    hmac_paths_app do |r|
+      r.get('s'){hmac_path('/1', seconds: seconds)}
+      hmac_path('/1', valid_until: 3)
+    end
+    body.must_equal "/78a56ddf0e081ca127ab1bc704c8a4d5e7e62ccf327dec5c3189a5c72057334c/t/3/1"
+    body('/s').must_match %r"/64e31560c6df065b6116599c370aca918cfcbde092724b94f2770192ae513a28/t/4102444800/1|/f0206d644636000f733df59dcff98c763ca56d209ee4737c72e1b0fe35013913/t/4102444801/1"
+  end
+
+  deprecated "hmac_path sets t flag for seconds and until argument" do
     t = Time.utc(2100).to_i
     seconds = t - Time.now.to_i
     hmac_paths_app do |r|
@@ -114,13 +137,13 @@ describe "hmac_paths plugin" do
     body('/s').must_match %r"/64e31560c6df065b6116599c370aca918cfcbde092724b94f2770192ae513a28/t/4102444800/1|/f0206d644636000f733df59dcff98c763ca56d209ee4737c72e1b0fe35013913/t/4102444801/1"
   end
 
-  it "hmac_path HMAC depends on :seconds and :until options" do
+  it "hmac_path HMAC depends on :seconds and valid_until arguments" do
     t = Time.utc(2100).to_i
     seconds = t - Time.now.to_i
     hmac_paths_app do |r|
       r.on(Integer) do |v|
         r.get('s'){hmac_path('/1', seconds: seconds - v)}
-        hmac_path('/1', until: v)
+        hmac_path('/1', valid_until: v)
       end
     end
     body('/3').must_equal "/78a56ddf0e081ca127ab1bc704c8a4d5e7e62ccf327dec5c3189a5c72057334c/t/3/1"
@@ -129,14 +152,14 @@ describe "hmac_paths plugin" do
     body('/4/s').must_match %r"(/ecc641d021a3cccd6f3931e41f75f3bbdc9b05791b0ac939278b306e40571c86/t/4102444796/1|/9ffb7ce6b6ae76664aeebc53955c7c1d8d09e6908a512a6b5f22e7a24fffdc15/t/4102444797/1)"
   end
 
-  it "hmac_path gives priority to :until option over seconds option" do
+  it "hmac_path gives priority to valid_until argument over seconds argument" do
     hmac_paths_app do |r|
-      hmac_path('/1', until: 3, seconds: 2)
+      hmac_path('/1', valid_until: 3, seconds: 2)
     end
     body.must_equal "/78a56ddf0e081ca127ab1bc704c8a4d5e7e62ccf327dec5c3189a5c72057334c/t/3/1"
   end
 
-  it "hmac_path HMAC depends on :namespace option" do
+  it "hmac_path HMAC depends on namespace argument" do
     hmac_paths_app do |r|
       r.is String, String do |ns, path|
         hmac_path("/#{path}", namespace: ns)
@@ -148,7 +171,7 @@ describe "hmac_paths plugin" do
     body('/2/2').must_equal "/602cd4704d8c7ec0af4bcd640f0dfb3a16460b1c6115ad09e3aed71c4ebdd6c6/n/2"
   end
 
-  it "hmac_path HMAC depends on :namespace and :root option" do
+  it "hmac_path HMAC depends on namespace and root arguments" do
     hmac_paths_app do |r|
       r.is String, String, String do |root, ns, path|
         hmac_path("/#{path}", namespace: ns, root: "/#{root}")
@@ -184,7 +207,7 @@ describe "hmac_paths plugin" do
     body('/2').must_equal "/602cd4704d8c7ec0af4bcd640f0dfb3a16460b1c6115ad09e3aed71c4ebdd6c6/n/2"
   end
 
-  it "hmac_path allows overriding default namespace via explicit namespace option" do
+  it "hmac_path allows overriding default namespace via explicit namespace argument" do
     session = {}
     app(:bare) do
       define_method(:session){session}
@@ -463,7 +486,7 @@ describe "hmac_paths plugin" do
     body("/2/39a307cf0cb83d29cf7fa18831978eb7de8ace532e052c6fa760564fbb2324a9/n/2").must_equal '/2'
   end
 
-  it "r.hmac_path with :namespace option overrides namespace provided via :namespace_session_key" do
+  it "r.hmac_path with namespace argument overrides namespace provided via namespace_session_key plugin argument" do
     session = {}
     app(:bare) do
       define_method(:session){session}
@@ -481,7 +504,7 @@ describe "hmac_paths plugin" do
     body('/602cd4704d8c7ec0af4bcd640f0dfb3a16460b1c6115ad09e3aed71c4ebdd6c6/n/2', 'QUERY_STRING'=>'ns=2').must_equal '/2'
   end
 
-  it "r.hmac_path works as expected with :root, :method, and :params options" do
+  it "r.hmac_path works as expected with root, method, and params arguments" do
     hmac_paths_app do |r|
       r.get 'path', String, String, String, String do |r, m, k1, v1|
         hmac_path("/1", root: "/#{r}", method: m, params: {k1=>v1})
@@ -514,7 +537,7 @@ describe "hmac_paths plugin" do
     status(p2.sub(/\A\/2/, '/1'), 'QUERY_STRING'=>qs2, 'REQUEST_METHOD'=>'POST').must_equal 404
   end
 
-  it "r.hmac_path works as expected with :root, :method, :params, and :namespace options" do
+  it "r.hmac_path works as expected with root, method, params, and namespace arguments" do
     hmac_paths_app do |r|
       r.get 'path', String, String, String, String do |root, m, k1, v1|
         hmac_path("/1", root: "/#{root}", method: m, params: {k1=>v1}, namespace: r.GET['ns'])
@@ -556,7 +579,7 @@ describe "hmac_paths plugin" do
     status(p2.sub(/\A\/2/, '/1'), 'QUERY_STRING'=>qs2, 'REQUEST_METHOD'=>'POST').must_equal 404
   end
 
-  it "r.hmac_path works as expected with :root, :method, and :params options and default namespace via :namespace_session_key" do
+  it "r.hmac_path works as expected with root, method, and params arguments and default namespace" do
     session = {}
     app(:bare) do
       define_method(:session){session}
@@ -602,7 +625,7 @@ describe "hmac_paths plugin" do
     end
   end
 
-  it "r.hmac_path handles secret rotation using :old_secret option" do
+  it "r.hmac_path handles secret rotation using old_secret argument" do
     hmac_paths_app do |r|
       r.get 'path', String do |path|
         hmac_path("/#{path}", root: '')
@@ -640,7 +663,7 @@ describe "hmac_paths plugin" do
         end
 
         r.on 'until' do
-          hmac_path(r.remaining_path, until: Time.utc(2100))
+          hmac_path(r.remaining_path, valid_until: Time.utc(2100))
         end
 
         r.on 'seconds' do

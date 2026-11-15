@@ -1,5 +1,13 @@
 === master
 
+* Add hmac_path valid_until keyword argument, to replace :until option (jeremyevans)
+
+* Deprecate hmac_path_namespace method in hmac_paths plugin (jeremyevans)
+
+* Add keyword arguments and deprecate positional hash for hmac_path, hmac_path_hmac, and r.hmac_path methods in hmac_paths plugin (jeremyevans)
+
+* Add keyword arguments and deprecate positional hash for hmac_paths plugin (jeremyevans)
+
 * Add keyword arguments and deprecate positional hash for heartbeat plugin (jeremyevans)
 
 * Respect public plugin default_mime argument when serving compressed files (jeremyevans)
