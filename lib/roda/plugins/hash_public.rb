@@ -6,8 +6,8 @@ class Roda
     # content-hash-based paths, and a +r.hash_public+ routing method to serve
     # static files from a directory (using the public plugin).  This plugin is
     # useful when you want to modify the path to static files when the content
-    # of the file changes, ensuring that requests for the static file will not
-    # be cached.
+    # of the file changes, ensuring proper cache busting after cahnges to a
+    # static file.
     #
     # Unlike the timestamp_public plugin, which uses file modification times,
     # hash_public uses a SHA256 digest of the file content.  This makes paths
@@ -37,13 +37,12 @@ class Roda
     #   opts[:root] = '/path/to/app'
     #   plugin :hash_public, root: 'static', prefix: 'public'
     #
-    #   # Assuming public is the location of files, and static as the path prefix
     #   route do
     #     # Make GET /static/any-string/images/foo.png look for public/images/foo.png
     #     r.hash_public
     #
     #     r.get "example" do
-    #       # "/static/sha256-url-safe-base64-encoded-file-digest-/images/foo.png"
+    #       # "/static/sha256-url-safe-base64-encoded-file-digest/images/foo.png"
     #       hash_path("images/foo.png")
     #     end
     #   end
@@ -59,20 +58,26 @@ class Roda
       end
 
       def self.load_dependencies(app, opts = OPTS)
-        app.plugin :public, opts
+        app.plugin :public
       end
 
       # Use options given to setup content-hash-based file serving.  The
-      # following options are recognized by the plugin:
+      # following arguments are recognized by the plugin:
       #
-      # :prefix :: The prefix for paths, before the hash segment
-      # :length :: The number of characters of the digest to use in paths
-      #            (default: full 43-character SHA256 URL safe base64 digest)
+      # +prefix+ :: The prefix for paths, before the hash segment
+      # +length+ :: The number of characters of the digest to use in paths
+      #             (default: full 43-character SHA256 URL safe base64 digest)
       #
-      # The options given are also passed to the public plugin.
-      def self.configure(app, opts = {})
-        app.opts[:hash_public_prefix] = (opts[:prefix] || app.opts[:hash_public_prefix] || 'static').dup.freeze
-        app.opts[:hash_public_length] = opts[:length] || app.opts[:hash_public_length]
+      # Other keyword arguments are passed to the public plugin.
+      def self.configure(app, opts=(no_positional_opts = true; OPTS),
+          prefix: opts[:prefix],
+          length: opts[:length],
+          **kw)
+        RodaPlugins.check_keywords("the hash_public plugin", no_positional_opts, opts, OPTS)
+        app.plugin :public, **opts.merge(kw)
+
+        app.opts[:hash_public_prefix] = (prefix || app.hash_public_prefix || 'static').dup.freeze
+        app.opts[:hash_public_length] = length || app.hash_public_length
         app.opts[:hash_public_mutex] ||= Mutex.new
         app.opts[:hash_public_cache] ||= {}
       end
@@ -106,7 +111,8 @@ class Roda
         # This does not check the file is inside the directory for performance
         # reasons, so this should not be called with untrusted input.
         def hash_path(file)
-          "/#{self.class.hash_public_prefix}/#{self.class.hash_path_digest(file)}/#{file}"
+          klass = self.class
+          "/#{klass.hash_public_prefix}/#{klass.hash_path_digest(file)}/#{file}"
         end
       end
 

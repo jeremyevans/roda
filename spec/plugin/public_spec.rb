@@ -99,7 +99,7 @@ describe "public plugin" do
 
       it "handles serving files with #{ext} extension if client supports accepts #{accept} encoding when :encodings is #{'not ' unless use_encodings}given" do
         app(:bare) do
-          plugin :public, opts
+          plugin :public, **opts
 
           route do |r|
             r.public

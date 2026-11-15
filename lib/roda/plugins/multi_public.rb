@@ -65,17 +65,19 @@ class Roda
     #   end
     module MultiPublic
       RACK_FILES = defined?(Rack::Files) ? Rack::Files : Rack::File
+      RodaPlugins.deprecate_constant(self, :RACK_FILES)
 
       def self.load_dependencies(app, _, opts=OPTS)
-        app.plugin(:public, opts)
+        app.plugin(:public, **opts)
       end
 
       # Use the given directories to setup servers.  Any opts are passed to the public plugin.
       def self.configure(app, directories, _=OPTS)
-        roots = app.opts[:multi_public_servers] = (app.multi_public_servers || {}).dup
+        roots = app.opts[:multi_public_servers] = (app.multi_public_servers || OPTS).dup
+        files = defined?(Rack::Files) ? Rack::Files : Rack::File
         directories.each do |key, path|
           path, headers, mime = path
-          roots[key] = RACK_FILES.new(app.expand_path(path), headers||{}, mime||'text/plain')
+          roots[key] = files.new(app.expand_path(path), headers||OPTS, mime||'text/plain')
         end
         roots.freeze
       end
@@ -96,4 +98,3 @@ class Roda
     register_plugin(:multi_public, MultiPublic)
   end
 end
-

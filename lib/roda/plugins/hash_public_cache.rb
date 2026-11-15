@@ -29,12 +29,12 @@ class Roda
     module HashPublicCache
       def self.load_dependencies(app, _cache_file, opts = OPTS)
         app.plugin :_json
-        app.plugin :hash_public, opts
+        app.plugin :hash_public, **opts
       end
 
       # Specify the location of the hash public cache file.
       #
-      # The options given are passed to the hash_public plugin.
+      # The options given are passed as keyword arguments to the hash_public plugin.
       def self.configure(app, cache_file, opts = OPTS)
         app.opts[:hash_public_cache_file] = cache_file
       end

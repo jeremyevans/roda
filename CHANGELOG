@@ -1,3 +1,11 @@
+=== master
+
+* Respect public plugin default_mime argument when serving compressed files (jeremyevans)
+
+* Deprecate public constants in public and multi_public plugins (jeremyevans)
+
+* Add keyword arguments and deprecate positional hash for public, hash_public, and timestamp_public plugins (jeremyevans)
+
 === 3.110.0 (2026-11-13)
 
 * Add keyword arguments and deprecate positional hash for exception_page method in exception_page plugin (jeremyevans)

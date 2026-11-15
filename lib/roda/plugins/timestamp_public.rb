@@ -7,7 +7,7 @@ class Roda
     # timestamp paths, and a +r.timestamp_public+ routing method to serve static files
     # from a directory (using the public plugin).  This plugin is useful when you want
     # to modify the path to static files when the modify timestamp on the file changes,
-    # ensuring that requests for the static file will not be cached.
+    # ensuring proper cache busting after modifications to static files.
     #
     # Note that while this plugin will not serve files outside of the public directory,
     # for performance reasons it does not check the path of the file is inside the public
@@ -36,17 +36,22 @@ class Roda
     #   end
     module TimestampPublic
       def self.load_dependencies(app, opts=OPTS)
-        app.plugin :public, opts
+        app.plugin :public
       end
 
-      # Use options given to setup timestamped file serving.  The following option is
+      # Use options given to setup timestamped file serving.  The following argument is
       # recognized by the plugin:
       #
       # :prefix :: The prefix for paths, before the timestamp segment
       #
-      # The options given are also passed to the public plugin.
-      def self.configure(app, opts=OPTS)
-        app.opts[:timestamp_public_prefix] = (opts[:prefix] || app.timestamp_public_prefix || "static").dup.freeze
+      # The other arguments given are also passed to the public plugin.
+      def self.configure(app, opts=(no_positional_opts = true; OPTS),
+          prefix: opts[:prefix],
+          **kw)
+        RodaPlugins.check_keywords("the hash_public plugin", no_positional_opts, opts, OPTS)
+        app.plugin :public, **opts.merge(kw)
+
+        app.opts[:timestamp_public_prefix] = (prefix || app.timestamp_public_prefix || "static").dup.freeze
       end
 
       module ClassMethods
@@ -54,7 +59,7 @@ class Roda
       end
 
       module InstanceMethods
-        # Return a path to the static file that could be served by r.timestamp_public.
+        # Return a path to the static file that could be served by +r.timestamp_public+.
         # This does not check the file is inside the directory for performance reasons,
         # so this should not be called with untrusted input.
         def timestamp_path(file)

@@ -51,44 +51,79 @@ class Roda
       MATCH_METHOD = RUBY_VERSION >= '2.4' ? :match? : :match
       # simplecov:enable
 
-      # Use options given to setup a Rack::File instance for serving files. Options:
-      # :brotli :: Whether to serve already brotli-compressed files with a .br extension
-      #            for clients supporting "br" transfer encoding.
-      # :default_mime :: The default mime type to use if the mime type is not recognized.
-      # :encodings :: An enumerable of pairs to handle accepted encodings.  The first
-      #               element of the pair is the accepted encoding name (e.g. 'gzip'),
-      #               and the second element of the pair is the file extension (e.g.
-      #               '.gz'). This allows configuration of the order in which encodings 
-      #               are tried, to prefer brotli to zstd for example, or to support
-      #               encodings other than zstd, brotli, and gzip. This takes
-      #               precedence over the :brotli, :gzip, and :zstd options if given.
+      SPLIT_ = SPLIT
+      ENCODING_MAP_ = {
+        :zstd=>['zstd', '.zst', /\bzstd\b/].freeze,
+        :brotli=>['br', '.br', /\bbr\b/].freeze,
+        :gzip=>['gzip', '.gz', /\bgzip\b/].freeze
+      }.freeze
+      PARSER_ = PARSER
+      MATCH_METHOD_ = MATCH_METHOD
+
+      RodaPlugins.deprecate_constant(self, :SPLIT)
+      RodaPlugins.deprecate_constant(self, :RACK_FILES)
+      RodaPlugins.deprecate_constant(self, :ENCODING_MAP)
+      RodaPlugins.deprecate_constant(self, :ENCODING_EXTENSIONS)
+      RodaPlugins.deprecate_constant(self, :PARSER)
+      RodaPlugins.deprecate_constant(self, :MATCH_METHOD)
+
+      private_constant(:SPLIT_,
+        :ENCODING_MAP_,
+        :PARSER_,
+        :MATCH_METHOD_)
+
+      # Use arguments given to setup a Rack::File instance for serving files. Arguments:
+      # +brotli+ :: Whether to serve already brotli-compressed files with a .br extension
+      #             for clients supporting "br" transfer encoding.
+      # +default_mime+ :: The default mime type to use if the mime type is not recognized.
+      # +encodings+ :: An enumerable of pairs to handle accepted encodings.  The first
+      #                element of the pair is the accepted encoding name (e.g. 'gzip'),
+      #                and the second element of the pair is the file extension (e.g.
+      #                '.gz'). This allows configuration of the order in which encodings 
+      #                are tried, to prefer brotli to zstd for example, or to support
+      #                encodings other than zstd, brotli, and gzip. This takes
+      #                precedence over the +brotli+, +gzip+, and +zstd+ arguments.
       # :gzip :: Whether to serve already gzipped files with a .gz extension for clients
       #          supporting "gzip" transfer encoding.
       # :headers :: A hash of headers to use for statically served files
-      # :root :: Use this option for the root of the public directory (default: "public")
+      # :root :: Specifies the root directory in the file system to serve files from
+      #          (default: "public")
       # :zstd :: Whether to serve already zstd-compressed files with a .zst extension
       #          for clients supporting "zstd" transfer encoding.
-      def self.configure(app, opts={})
-        app.opts[:public_root] = app.expand_path(opts[:root] || app.public_root || "public")
-        app.opts[:public_server] = RACK_FILES.new(app.public_root, opts[:headers]||{}, opts[:default_mime] || 'text/plain')
+      def self.configure(app, opts=(no_positional_opts = true; OPTS),
+          root: opts[:root],
+          headers: opts[:headers],
+          default_mime: opts[:default_mime],
+          encodings: opts[:encodings],
+          gzip: opts[:gzip],
+          brotli: opts[:brotli],
+          zstd: opts[:zstd],
+          **kw)
+        RodaPlugins.check_keywords("the public plugin", no_positional_opts, opts, kw)
 
-        unless encodings = opts[:encodings]
-          if ENCODING_MAP.any?{|k,| opts.has_key?(k)}
-            encodings = ENCODING_MAP.map{|k, v| [v, ENCODING_EXTENSIONS[v]] if opts[k]}.compact
+        app.opts[:public_root] = app.expand_path(root || app.public_root || "public")
+        app.opts[:public_default_mime] =  default_mime || 'text/plain'
+        files = defined?(Rack::Files) ? Rack::Files : Rack::File
+        app.opts[:public_server] = files.new(app.public_root, headers||OPTS, app.public_default_mime)
+
+        app.opts[:public_encodings] = if encodings
+          encodings.map{|a| [*a, /\b#{a[0]}\b/].freeze}.freeze
+        elsif zstd || brotli || gzip
+          encodings = []
+          [[:zstd, zstd], [:brotli, brotli], [:gzip, gzip]].each do |sym, value|
+            encodings << ENCODING_MAP_[sym] if value
           end
+          encodings.freeze
+        else
+          app.public_encodings || EMPTY_ARRAY
         end
-        encodings = (encodings || app.public_encodings || EMPTY_ARRAY).map(&:dup).freeze
-        encodings.each do |a|
-          a << /\b#{a[0]}\b/
-        end
-        encodings.each(&:freeze)
-        app.opts[:public_encodings] = encodings
       end
 
       module ClassMethods
         RodaPlugins.opt_attr_reader(self, :public_root)
         RodaPlugins.opt_attr_reader(self, :public_server)
         RodaPlugins.opt_attr_reader(self, :public_encodings)
+        RodaPlugins.opt_attr_reader(self, :public_default_mime)
       end
 
       module RequestMethods
@@ -104,7 +139,7 @@ class Roda
         def public_path_segments(path)
           segments = []
             
-          path.split(SPLIT).each do |seg|
+          path.split(SPLIT_).each do |seg|
             next if seg.empty? || seg == '.'
             seg == '..' ? segments.pop : segments << seg
           end
@@ -123,14 +158,14 @@ class Roda
 
         def public_serve_with(server)
           return unless is_get?
-          path = PARSER.unescape(real_remaining_path)
+          path = PARSER_.unescape(real_remaining_path)
           return if path.include?("\0")
 
           path = ::File.join(server.root, *public_path_segments(path))
 
           if accept_encoding = env['HTTP_ACCEPT_ENCODING']
             roda_class.public_encodings.each do |enc, ext, regexp|
-              if regexp.send(MATCH_METHOD, accept_encoding)
+              if regexp.send(MATCH_METHOD_, accept_encoding)
                 public_serve_compressed(server, path, ext, enc)
               end
             end
@@ -165,7 +200,7 @@ class Roda
             headers.replace(h)
 
             unless s == 304
-              headers[RodaResponseHeaders::CONTENT_TYPE] = ::Rack::Mime.mime_type(::File.extname(path), 'text/plain')
+              headers[RodaResponseHeaders::CONTENT_TYPE] = ::Rack::Mime.mime_type(::File.extname(path), roda_class.public_default_mime)
               headers[RodaResponseHeaders::CONTENT_ENCODING] = encoding
             end
             public_add_vary(headers)
