@@ -41,6 +41,21 @@ describe "hmac_paths plugin" do
       hmac_path_hmac_secret("/1")
     end
     body.must_equal "15e180177c11fd0e536a5b6075ad01d7b8e0520e93517b8b27f51eb0c4b214c6"
+
+    hmac_paths_app do |r|
+      hmac_path_namespace.inspect
+    end
+    body.must_equal "nil"
+
+    hmac_paths_app do |r|
+      hmac_path_hmac("/1", "/2")
+    end
+    body.must_equal "99c9958d9612b1b5ed386a3aa3bab83007d5e64835ff76157fd745ddd2e7678f"
+
+    hmac_paths_app do |r|
+      hmac_path_hmac("/1", "/2", namespace: "/3")
+    end
+    body.must_equal "45974c15e0a4707ea04cb23463eca1f8e89364117ae40d6fa8b85e2df46f2ba9"
   end
 
   it "hmac_path method returns path with HMAC" do
