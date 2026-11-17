@@ -1,5 +1,7 @@
 === master
 
+* Add content_security_policy_nonce plugin, for easier use of nonces with content_security_policy plugin (jeremyevans, HoneyryderChuck) (#436, #438)
+
 * Add hmac_path valid_until keyword argument, to replace :until option (jeremyevans)
 
 * Deprecate hmac_path_namespace method in hmac_paths plugin (jeremyevans)
