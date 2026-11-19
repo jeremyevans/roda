@@ -3,7 +3,7 @@ require_relative "../spec_helper"
 describe "default_headers plugin" do 
   def app(opts={})
     super(:bare) do
-      plugin :hsts, opts
+      plugin :hsts, **opts
       route do |r|
         ''
       end

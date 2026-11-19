@@ -1,5 +1,7 @@
 === master
 
+* Add keyword arguments and deprecate positional hash for hsts plugin (jeremyevans)
+
 * Add keyword arguments and deprecate positional hash for host_routing plugin (jeremyevans)
 
 * Add keyword arguments and deprecate positional hash for host_authorization plugin (jeremyevans)
