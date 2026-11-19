@@ -3,11 +3,11 @@
 #
 class Roda
   module RodaPlugins
-    # The ip_from_header plugin allows for overriding +request.ip+ to return
-    # the value contained in a specific header. This is useful when the
-    # application is behind a proxy that sets a specific header, especially
-    # when the proxy does not use a fixed IP address range. Example showing 
-    # usage with Cloudflare:
+    # The ip_from_header plugin overrides +request.ip+ to return
+    # the value contained in a specific header (if the header is present).
+    # This is useful when the application is behind a proxy that sets a
+    # specific header, especially when the proxy does not use a fixed IP
+    # address range. Example showing usage with Cloudflare:
     #
     #   plugin :ip_from_header, "CF-Connecting-IP"
     #
