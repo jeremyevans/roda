@@ -3,6 +3,8 @@
 #
 class Roda
   module RodaPlugins
+    warn("The indifferent_params plugin is deprecated and will be removed in Roda 4. Consider using the typecast_params plugin instead of indifferent_params.", uplevel: 1)
+
     # The indifferent_params plugin adds a +params+ instance
     # method which offers indifferent access to the request
     # params, allowing you to use symbols to lookup values in

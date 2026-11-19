@@ -1,7 +1,7 @@
 require_relative "../spec_helper"
 
 describe "indifferent_params plugin" do 
-  it "allows indifferent access to request params via params method" do
+  deprecated "allows indifferent access to request params via params method" do
     app(:indifferent_params) do |r|
       r.on do
         "#{params[:a]}/#{params[:b][0][:c]}"

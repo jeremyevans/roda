@@ -1,5 +1,7 @@
 === master
 
+* Deprecate the indifferent_params plugin, switch to typecast_params instead (jeremyevans)
+
 * Add keyword arguments and deprecate positional hash for hsts plugin (jeremyevans)
 
 * Add keyword arguments and deprecate positional hash for host_routing plugin (jeremyevans)
