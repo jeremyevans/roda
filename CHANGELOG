@@ -1,5 +1,7 @@
 === master
 
+* Add keyword arguments and deprecate positional hash for host_authorization plugin (jeremyevans)
+
 * Add content_security_policy_nonce plugin, for easier use of nonces with content_security_policy plugin (jeremyevans, HoneyryderChuck) (#436, #438)
 
 * Add hmac_path valid_until keyword argument, to replace :until option (jeremyevans)

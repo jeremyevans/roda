@@ -61,14 +61,14 @@ class Roda
     #   plugin :host_authorization, proc{|host| ExternalService.allowed_host?(host)}
     #
     # If an array of values is passed as the host argument, the host is authorized if
-    # it matches any value in the array.  All host authorization checks use the
+    # it matches any value in the array.  Otherwise, host authorization checks use the
     # <tt>===</tt> method, which is why it works for strings, regexps, and procs.
     # It can also work with arbitrary objects that support <tt>===</tt>.
     #
     # For security reasons, only the +Host+ header is checked by default.  If you are
     # sure that your application is being run behind a forwarding proxy that sets the
     # <tt>X-Forwarded-Host</tt> header, you should enable support for checking that
-    # header using the +:check_forwarded+ option:
+    # header using the +check_forwarded+ keyword argument:
     # 
     #   plugin :host_authorization, 'www.example.com', check_forwarded: true
     #
@@ -87,14 +87,18 @@ class Roda
     #   plugin :render
     #   plugin :host_authorization, 'www.example.com' do |r|
     #     response.status = 403
-    #     view(:content=>"<h1>Forbidden</h1>")
+    #     view(content: "<h1>Forbidden</h1>")
     #   end
     #
     # The block passed to this plugin is treated as a match block.
     module HostAuthorization
-      def self.configure(app, host, opts=OPTS, &block)
+      def self.configure(app, host, opts=(no_positional_opts = true; OPTS),
+          check_forwarded: opts[:check_forwarded],
+          **kw, &block)
+        RodaPlugins.check_keywords("the host_authorization plugin", no_positional_opts, opts, kw)
+
         app.opts[:host_authorization_host] = host
-        app.opts[:host_authorization_check_forwarded] = opts[:check_forwarded] if opts.key?(:check_forwarded)
+        app.opts[:host_authorization_check_forwarded] = check_forwarded unless check_forwarded.nil?
 
         if block
           app.define_roda_method(:host_authorization_unauthorized, 1, &block)
