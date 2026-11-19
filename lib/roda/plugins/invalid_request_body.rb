@@ -6,23 +6,25 @@ class Roda
     # The invalid_request_body plugin allows for custom handling of invalid request
     # bodies.  Roda uses Rack for parsing request bodies, so by default, any
     # invalid request bodies would result in Rack raising an exception, and the
-    # exception could change for different reasons the request body is invalid.
-    # This plugin overrides RodaRequest#POST (which parses parameters from request
+    # exception could change for different reasons depending on Rack's implementation
+    # details.
+    #
+    # This plugin overrides Roda::RodaRequest#POST (which parses parameters from request
     # bodies), and if parsing raises an exception, it allows for custom behavior.
     # 
     # If you want to treat an invalid request body as the submission of no parameters,
-    # you can use the :empty_hash argument when loading the plugin:
+    # you can use the +:empty_hash+ argument when loading the plugin:
     #
     #   plugin :invalid_request_body, :empty_hash
     #
     # If you want to return a empty 400 (Bad Request) response if an invalid request
-    # body is submitted, you can use the :empty_400 argument when loading the plugin:
+    # body is submitted, you can use the +:empty_400+ argument when loading the plugin:
     #
     #   plugin :invalid_request_body, :empty_400
     #
     # If you want to raise a Roda::RodaPlugins::InvalidRequestBody::Error exception
     # if an invalid request body is submitted (which makes it easier to handle these
-    # exceptions when using the error_handler plugin), you can use the :raise argument
+    # exceptions when using the error_handler plugin), you can use the +:raise+ argument
     # when loading the plugin:
     #
     #   plugin :invalid_request_body, :raise
@@ -50,8 +52,8 @@ class Roda
       # Exception class raised for invalid request bodies.
       Error = Class.new(RodaError)
 
-      # Set the action to use (:empty_400, :empty_hash, :raise) for invalid request bodies,
-      # or use a block for custom behavior. The rescue_classes argument is an exception
+      # Set the action to use (+:empty_400+, +:empty_hash+, +:raise+) for invalid request bodies,
+      # or use a block for custom behavior. The +rescue_classes+ argument is an exception
       # class or array of exception classes to rescue.
       def self.configure(app, action=nil, rescue_classes: StandardError, &block)
         app.opts[:invalid_response_body_rescue_classes] = Array(rescue_classes).dup.freeze
