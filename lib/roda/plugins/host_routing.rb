@@ -40,7 +40,7 @@ class Roda
     #   # Requests to api.example.com or api2.example.com return "true-false"
     #   # Other requests return "false-true"
     #
-    # If the +:scope_predicates+ plugin option is given, predicate methods are also
+    # If the +scope_predicates+ plugin keyword argument is given, predicate methods are also
     # created in route block scope:
     #
     #   plugin :host_routing, scope_predicates: true do |hosts|
@@ -95,11 +95,13 @@ class Roda
       REQUEST_INSTANCE_VARIABLES = [:@_host_routing_host].freeze
 
       # Setup the host routing support.  The block yields an object used to
-      # configure the plugin.  Options:
+      # configure the plugin.  Keyword arguments:
       #
-      # :scope_predicates :: Setup predicate methods in route block scope
-      #                      in addition to request scope.
-      def self.configure(app, opts=OPTS, &block)
+      # +scope_predicates+ :: Setup predicate methods in route block scope
+      #                       in addition to request scope.
+      def self.configure(app, opts=(no_positional_opts = true; OPTS), scope_predicates: false, **kw, &block)
+        RodaPlugins.check_keywords("the content_for plugin", no_positional_opts, opts, kw)
+
         hosts, host_hash, default_block, default_host = DSL.new.process(&block)
         app.opts[:host_routing_hash] = host_hash
         app.opts[:host_routing_default_host] = default_host
@@ -118,7 +120,7 @@ class Roda
           end
         end
 
-        if opts[:scope_predicates]
+        if scope_predicates
           app.class_exec do
             hosts.each do |host|
               meth = :"#{host}?"
