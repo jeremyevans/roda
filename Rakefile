@@ -79,6 +79,7 @@ end
 desc "Run specs with coverage"
 task "spec_cov" do
   spec.call('COVERAGE'=>'< 4')
+  spec.call('COVERAGE'=>'< 3.2')
   spec.call('COVERAGE'=>'< 3.1')
   spec.call('COVERAGE'=>'< 3')
   spec.call('COVERAGE'=>'< 1.6', 'RODA_RENDER_COMPILED_METHOD_SUPPORT'=>'no')

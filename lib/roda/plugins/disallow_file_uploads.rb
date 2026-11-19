@@ -17,6 +17,10 @@ class Roda
     # multipart file uploads.  So if you do not call +r.POST+ (or something that calls it such as
     # +r.params+), then Roda will not attempt to parse the request body, and an exception will not
     # be raised.
+    #
+    # It is recommended to use the disallow_multipart_parsing plugin instead of this plugin,
+    # unless you for some reason need to support multipart parsing but do not want to support
+    # file uploads (in general, multipart parsing is only required to support file uploads).
     module DisallowFileUploads
       # Exception class used when a multipart file upload is attempted.
       class Error < RodaError; end
