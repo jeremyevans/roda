@@ -5,7 +5,7 @@ class Roda
   module RodaPlugins
     # The disallow_multipart_parsing plugin disables the use of Rack's multipart
     # parser by +r.POST+ and +r.params+. This is recommended if the application
-    # is not expected to receive file uploads, as it avoids all potential
+    # is not expected to receive file uploads, as it avoids potential
     # security issues related to Rack's multipart parser (which has had numerous
     # security issues in the past). If a request attempts to parse a multipart
     # request body, a Roda::RodaPlugins::DisallowMultipartParsing::Error is raised.
@@ -13,7 +13,16 @@ class Roda
     # Usage:
     #
     #   plugin :disallow_multipart_parsing
+    #
+    # Note that this only protects against Roda's parsing of the request body via
+    # +r.POST+ and +r.params+. If a middleware parses the request body and uses
+    # Rack's multipart parser, this does not offer protection, and the behavior is
+    # undefined (it will depend on the Rack version in use).
     module DisallowMultipartParsing
+      unless Rack::Request.private_method_defined?(:multipart_parser)
+        REQUEST_INSTANCE_VARIABLES = [:@_multipart_content_type_checked].freeze
+      end
+
       # Exception class used when a multipart request body is submitted.
       class Error < RodaError; end
 
@@ -56,11 +65,11 @@ class Roda
 
           # Raise an Error if the content type indicates multipart.
           def raise_for_multipart_content_type
-            unless @multipart_content_type_checked
+            unless @_multipart_content_type_checked
               if (ct = content_type) && ct.match(/\Amultipart\//i)
                 raise Error, "multipart request body submitted"
               end
-              @multipart_content_type_checked = true
+              @_multipart_content_type_checked = true
             end
           end
         end
