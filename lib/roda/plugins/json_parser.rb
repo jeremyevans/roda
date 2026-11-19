@@ -7,7 +7,8 @@ class Roda
     # designed for use with JSON API sites.
     #
     # This only parses the request body as JSON if the Content-Type
-    # header for the request includes "json".
+    # header for the request indicates it is json, as determined by
+    # the +content_type_regexp+ plugin keyword argument.
     #
     # The parsed JSON body will be available in +r.POST+, just as a
     # parsed HTML form body would be. It will also be available in
@@ -24,34 +25,42 @@ class Roda
         app.plugin :_json
       end
 
-      # Handle options for the json_parser plugin:
-      # :content_type_regexp :: A regexp used to determine if the request's
-      #                         content type is JSON. For backwards compatibility,
-      #                         uses the insecure /json/ if not provided. Warns
-      #                         if this option is not provided. The recommended
-      #                         value to use is /\Aapplication\/json\b/i or
-      #                         /\Aapplication\/(?:vnd\.api\+)?json\b/i. Roda 4
-      #                         will default to the latter.
-      # :error_handler :: A proc to call if an exception is raised when
-      #                   parsing a JSON request body.  The proc is called
-      #                   with the request object, and should probably call
-      #                   halt on the request or raise an exception.
-      # :parser :: The parser to use for parsing incoming json.  Should be
-      #            an object that responds to +call(str)+ and returns the
-      #            parsed data.  The default is to call JSON.parse.
-      # :include_request :: If true, the parser will be called with the request
-      #                     object as the second argument, so the parser needs
-      #                     to respond to +call(str, request)+.
-      # :wrap :: Whether to wrap uploaded JSON data in a hash with a "_json"
-      #          key.  Without this, calls to +r.params+ will fail if a non-Hash
-      #          (such as an array) is uploaded in JSON format.  A value of
-      #          :always will wrap all values, and a value of :unless_hash will
-      #          only wrap values that are not already hashes.
-      def self.configure(app, opts=OPTS)
-        app.opts[:json_parser_error_handler] = opts[:error_handler] || app.json_parser_error_handler || DEFAULT_ERROR_HANDLER
-        app.opts[:json_parser_parser] = opts[:parser] || app.json_parser_parser || app.json_parser
-        app.opts[:json_parser_include_request] = opts[:include_request] if opts.has_key?(:include_request)
-        app.opts[:json_parser_content_type_regexp] = opts[:content_type_regexp] || app.json_parser_content_type_regexp
+      # Handle keyword arguments for the json_parser plugin:
+      # +content_type_regexp+ :: A regexp used to determine if the request's
+      #                          content type is JSON. For backwards compatibility,
+      #                          uses the insecure /json/ if not provided. Warns
+      #                          if this option is not provided. The recommended
+      #                          value to use is /\Aapplication\/json\b/i or
+      #                          /\Aapplication\/(?:vnd\.api\+)?json\b/i. Roda 4
+      #                          will default to the latter.
+      # +error_handler+ :: A proc to call if an exception is raised when
+      #                    parsing a JSON request body.  The proc is called
+      #                    with the request object, and should probably call
+      #                    halt on the request or raise an exception.
+      # +parser+ :: The parser to use for parsing incoming json.  Should be
+      #             an object that responds to +call(str)+ and returns the
+      #             parsed data.  The default is to call JSON.parse.
+      # +include_request+ :: If true, the parser will be called with the request
+      #                      object as the second argument, so the parser needs
+      #                      to respond to +call(str, request)+.
+      # +wrap+ :: Whether to wrap uploaded JSON data in a hash with a "_json"
+      #           key.  Without this, calls to +r.params+ will fail if a non-Hash
+      #           (such as an array) is uploaded in JSON format.  A value of
+      #           :always will wrap all values, and a value of :unless_hash will
+      #           only wrap values that are not already hashes.
+      def self.configure(app, opts=(no_positional_opts = true; OPTS),
+          content_type_regexp: opts[:content_type_regexp],
+          error_handler: opts[:error_handler],
+          parser: opts[:parser],
+          include_request: opts[:include_request],
+          wrap: opts[:wrap],
+          **kw)
+        RodaPlugins.check_keywords("the json_parser plugin", no_positional_opts, opts, kw)
+
+        app.opts[:json_parser_error_handler] = error_handler || app.json_parser_error_handler || DEFAULT_ERROR_HANDLER
+        app.opts[:json_parser_parser] = parser || app.json_parser_parser || app.json_parser
+        app.opts[:json_parser_include_request] = include_request unless include_request.nil?
+        app.opts[:json_parser_content_type_regexp] = content_type_regexp || app.json_parser_content_type_regexp
 
         unless app.json_parser_content_type_regexp
           # RODA4: Switch to /\Aapplication\/(?:vnd\.api\+)?json\b/i by default
@@ -59,13 +68,13 @@ class Roda
           app.opts[:json_parser_content_type_regexp] = /json/
         end
 
-        case opts[:wrap]
+        case wrap
         when :unless_hash, :always
-          app.opts[:json_parser_wrap] = opts[:wrap]
+          app.opts[:json_parser_wrap] = wrap
         when nil
           # Nothing
         else
-          raise RodaError, "unsupported option value for json_parser plugin :wrap option: #{opts[:wrap].inspect} (should be :unless_hash or :always)"
+          raise RodaError, "unsupported option value for json_parser plugin wrap argument: #{wrap.inspect} (should be :unless_hash or :always)"
         end
       end
 
@@ -78,7 +87,7 @@ class Roda
       end
 
       module RequestMethods
-        # If the Content-Type header in the request includes "json",
+        # If the Content-Type header in the request indicates the body is JSON,
         # parse the request body as JSON.  Ignore an empty request body.
         def POST
           env = @env
@@ -86,7 +95,7 @@ class Roda
             return post_params
           end
 
-          unless (input = env["rack.input"]) && (content_type = self.content_type) && roda_class.json_parser_content_type_regexp.send(MATCH_METHOD, content_type)
+          unless (input = env["rack.input"]) && roda_class.json_parser_content_type_regexp.send(MATCH_METHOD, content_type)
             return super
           end
 
