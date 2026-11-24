@@ -46,6 +46,9 @@ class Roda
     #
     #   link_to("body", "/path?a=1&b=2", foo: '"bar"')
     #   # => "<a href=\"/path?a=1&amp;b=2\" foo=\"&quot;bar&quot;\">body</a>"
+    #
+    # Note that the body and the keys in the attributes are not escaped, so
+    # you should not pass an untrusted body or untrusted keys in attributes.
     module LinkTo
       def self.load_dependencies(app)
         app.plugin :h
