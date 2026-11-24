@@ -100,7 +100,7 @@ class Roda
       # +scope_predicates+ :: Setup predicate methods in route block scope
       #                       in addition to request scope.
       def self.configure(app, opts=(no_positional_opts = true; OPTS), scope_predicates: false, **kw, &block)
-        RodaPlugins.check_keywords("the content_for plugin", no_positional_opts, opts, kw)
+        RodaPlugins.check_keywords("the host_routing plugin", no_positional_opts, opts, kw)
 
         hosts, host_hash, default_block, default_host = DSL.new.process(&block)
         app.opts[:host_routing_hash] = host_hash

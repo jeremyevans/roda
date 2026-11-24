@@ -216,7 +216,7 @@ class Roda
           old_secret: opts[:old_secret],
           namespace_session_key: opts[:namespace_session_key],
           **kw)
-        RodaPlugins.check_keywords("the content_for plugin", no_positional_opts, opts, kw)
+        RodaPlugins.check_keywords("the hmac_paths plugin", no_positional_opts, opts, kw)
         unless secret.is_a?(String) && secret.bytesize >= 32
           raise RodaError, "hmac_paths plugin secret argument must be a string containing at least 32 bytes"
         end

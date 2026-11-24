@@ -48,7 +48,7 @@ class Roda
       def self.configure(app, opts=(no_positional_opts = true; OPTS),
           prefix: opts[:prefix],
           **kw)
-        RodaPlugins.check_keywords("the hash_public plugin", no_positional_opts, opts, OPTS)
+        RodaPlugins.check_keywords("the timestamp_public plugin", no_positional_opts, opts, OPTS)
         app.plugin :public, **opts.merge(kw)
 
         app.opts[:timestamp_public_prefix] = (prefix || app.timestamp_public_prefix || "static").dup.freeze
