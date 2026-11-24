@@ -3,6 +3,8 @@
 #
 class Roda
   module RodaPlugins
+    warn("The run_require_slash plugin is deprecated and will be removed in Roda 4.", uplevel: 1)
+
     # The run_require_slash plugin makes +r.run+ a no-op if the remaining
     # path is not empty and does not start with +/+. The Rack SPEC requires that
     # +PATH_INFO+ start with a slash if not empty, so this plugin prevents
@@ -34,6 +36,7 @@ class Roda
         # Calls the given rack app only if the remaining patch is empty or
         # starts with a slash.
         def run(*)
+          # RODA4: switch to from * to ...
           if @remaining_path.empty? || @remaining_path.start_with?('/')
             super
           end

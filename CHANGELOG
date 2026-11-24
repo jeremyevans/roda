@@ -1,5 +1,7 @@
 === master
 
+* Deprecate the match_affix and run_require_slash plugins (jeremyevans)
+
 * Deprecate the json_result_classes method in the json plugin, no longer needed (jeremyevans)
 
 * Add keyword arguments and deprecate positional hash for json plugin (jeremyevans)

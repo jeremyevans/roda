@@ -3,6 +3,8 @@
 #
 class Roda
   module RodaPlugins
+    warn("The match_affix plugin is deprecated and will be removed in Roda 4.", uplevel: 1)
+
     # The match_affix plugin allows changing the default prefix and suffix used for
     # match patterns.  Roda's default behavior for a match pattern like <tt>"albums"</tt>
     # is to use the pattern <tt>/\A\/(?:albums)(?=\/|\z)/</tt>.  This prefixes the pattern

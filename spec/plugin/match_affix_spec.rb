@@ -1,7 +1,7 @@
 require_relative "../spec_helper"
 
 describe "match_affix plugin" do 
-  it "allows changing the match prefix/suffix" do
+  deprecated "allows changing the match prefix/suffix" do
     app(:bare) do
       plugin :match_affix, "", /(\/|\z)/
 
@@ -20,7 +20,7 @@ describe "match_affix plugin" do
     body("/albums/b/1").must_equal 'b-/-1-""'
   end
 
-  it "handles extra trailing slash only" do
+  deprecated "handles extra trailing slash only" do
     app(:bare) do
       plugin :match_affix, nil, /(?:\/\z|(?=\/|\z))/
 
@@ -41,7 +41,7 @@ describe "match_affix plugin" do
     body("/albums/b/").must_equal 'albums/b:'
   end
 
-  it "allows changing the match prefix without suffix" do
+  deprecated "allows changing the match prefix without suffix" do
     app(:bare) do
       plugin :match_affix, ""
 

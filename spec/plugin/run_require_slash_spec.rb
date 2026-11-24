@@ -6,9 +6,12 @@ describe "run_require_slash plugin" do
       "sub-#{r.remaining_path}"
     end
 
+    scope = self
     app(:bare) do
-      plugin :match_affix, "", /(\/|\z)/
-      plugin :run_require_slash
+      scope.deprecated do
+        plugin :match_affix, "", /(\/|\z)/
+        plugin :run_require_slash
+      end
 
       route do |r|
         r.on "/a" do |b|
@@ -24,16 +27,16 @@ describe "run_require_slash plugin" do
 
   end
 
-  it "dispatches to application for empty PATH_INFO" do
+  deprecated "dispatches to application for empty PATH_INFO" do
     body("/a/b").must_equal 'sub-'
     body("/a/b/").must_equal 'sub-'
   end unless ENV['LINT']
 
-  it "dispatches to application for PATH_INFO starting with /" do
+  deprecated "dispatches to application for PATH_INFO starting with /" do
     body("/a/b//").must_equal 'sub-/'
   end
 
-  it "does not dispatch to application for PATH_INFO not starting with /" do
+  deprecated "does not dispatch to application for PATH_INFO not starting with /" do
     body("/a/b/1").must_equal 'b-1'
   end
 end
