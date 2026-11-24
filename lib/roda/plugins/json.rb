@@ -93,7 +93,7 @@ class Roda
 
         # The classes that should be automatically converted to json
         def json_result_classes
-          # RODA4: remove, only used by previous implementation.
+          RodaPlugins.warn("The json_result_classes method is deprecated and will be removed in Roda 4.", uplevel: 1)
           opts[:json_result_classes]
         end
       end

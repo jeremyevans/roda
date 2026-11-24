@@ -56,7 +56,7 @@ describe "json plugin" do
     body.must_equal '[1]'
   end
 
-  it "should return classes that will be converted to JSON" do
+  deprecated "should return classes that will be converted to JSON" do
     @app.json_result_classes.must_equal [Array, Hash, c]
   end
 
