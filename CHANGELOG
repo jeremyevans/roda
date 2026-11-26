@@ -1,5 +1,7 @@
 === master
 
+* Add keyword arguments and deprecate positional hash for middleware plugin (jeremyevans)
+
 * Deprecate the mailer_opts method in the mailer plugin (jeremyevans)
 
 * Add keyword arguments and deprecate positional hash for mailer plugin (jeremyevans)

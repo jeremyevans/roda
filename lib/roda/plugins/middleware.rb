@@ -6,10 +6,10 @@ class Roda
     # The middleware plugin allows the Roda app to be used as
     # rack middleware.
     #
-    # In the example below, requests to /mid will return Mid
-    # by the Mid middleware, and requests to /app will not be
-    # matched by the Mid middleware, so they will be forwarded
-    # to App.
+    # In the example below, requests to +/mid+ will return +Mid+
+    # by the +Mid+ middleware, and requests to +/app+ will not be
+    # matched by the +Mid+ middleware, so they will be forwarded
+    # to +App+.
     #
     #   class Mid < Roda
     #     plugin :middleware
@@ -68,7 +68,7 @@ class Roda
     # +/foo/app+ request in the <tt>r.on "foo" do</tt> block, but does not
     # have the block return a result, which Roda treats as an empty 404 response.
     # If you would like the middleware to forward +/foo/app+ request to the
-    # application, you should use the +:next_if_not_found+ plugin option.
+    # application, you should use the +next_if_not_found+ plugin argument.
     #
     # It is possible to use the Roda app as a regular app even when using
     # the middleware plugin.  Using an app as middleware automatically creates
@@ -104,29 +104,37 @@ class Roda
       NEXT_PROC = lambda{throw :next, true}
       private_constant :NEXT_PROC
 
-      # Configure the middleware plugin.  Options:
-      # :env_var :: Set the environment variable to use to indicate to the roda
-      #             application that the current request is a middleware request.
-      #             You should only need to override this if you are using multiple
-      #             roda middleware in the same application.
-      # :handle_result :: Callable object that will be called with request environment
-      #                   and rack response for all requests passing through the middleware,
-      #                   after either the middleware or next app handles the request
-      #                   and returns a response.
-      # :forward_response_headers :: Whether changes to the response headers made inside
-      #                              the middleware's route block should be applied to the
-      #                              final response when the request is forwarded to the app.
-      #                              Defaults to false.
-      # :next_if_not_found :: If the middleware handles the request but returns a not found
-      #                       result (404 with no body), forward the result to the next middleware.
-      def self.configure(app, opts={}, &block)
-        app.opts[:middleware_env_var] = opts[:env_var] if opts.has_key?(:env_var)
+      # Configure the middleware plugin.  Arguments:
+      # +env_var+ :: Set the environment variable to use to indicate to the roda
+      #              application that the current request is a middleware request.
+      #              You should only need to override this if you are using multiple
+      #              Roda middleware in the same application.
+      # +handle_result+ :: Callable object that will be called with request environment
+      #                    and rack response for all requests passing through the middleware,
+      #                    after either the middleware or next app handles the request
+      #                    and returns a response.
+      # +forward_response_headers+ :: Whether changes to the response headers made inside
+      #                               the middleware's route block should be applied to the
+      #                               final response when the request is forwarded to the app.
+      #                               Defaults to false.
+      # +next_if_not_found+ :: If the middleware handles the request but returns a not found
+      #                        result (404 with no body), forward the result to the next middleware.
+      def self.configure(app, opts=(no_positional_opts = true; OPTS),
+          env_var: opts[:env_var],
+          handle_result: opts[:handle_result],
+          forward_response_headers: opts[:forward_response_headers],
+          next_if_not_found: opts[:next_if_not_found],
+          **kw,
+          &block)
+        RodaPlugins.check_keywords("the middleware plugin", no_positional_opts, opts, kw)
+
+        app.opts[:middleware_env_var] = env_var unless env_var.nil?
         app.opts[:middleware_env_var] ||= 'roda.forward_next'
         app.opts[:middleware_configure] = block if block
-        app.opts[:middleware_handle_result] = opts[:handle_result]
-        app.opts[:middleware_forward_response_headers] = opts[:forward_response_headers]
+        app.opts[:middleware_handle_result] = handle_result unless handle_result.nil?
+        app.opts[:middleware_forward_response_headers] = forward_response_headers unless forward_response_headers.nil?
         # RODA4: Make next_if_not_found default to true
-        app.opts[:middleware_next_if_not_found] = opts[:next_if_not_found]
+        app.opts[:middleware_next_if_not_found] = next_if_not_found unless next_if_not_found.nil?
       end
 
       # Forwarder instances are what is actually used as middleware.
