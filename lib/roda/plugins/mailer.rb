@@ -110,15 +110,16 @@ class Roda
     #  end
     #
     # By default, the mailer uses text/plain as the Content-Type for emails.
-    # You can override the default by specifying a :content_type option when
+    # You can override the default by specifying a +content_type+ argument when
     # loading the plugin:
     #
     #   plugin :mailer, content_type: 'text/html'
     #
     # For backwards compatibility reasons, the +r.mail+ method does not do
     # a terminal match by default if provided arguments (unlike +r.get+ and
-    # +r.post+).  You can pass the :terminal option to make +r.mail+ enforce
-    # a terminal match if provided arguments.
+    # +r.post+).  You can pass the +terminal+ argument to make +r.mail+ enforce
+    # a terminal match if provided arguments (this will be the default behavior
+    # in Roda 4).
     #
     # The mailer plugin does support being used inside a Roda application
     # that is handling web requests, where the routing block for mails and
@@ -135,17 +136,35 @@ class Roda
 
       # Set the options for the mailer.  Options:
       # :content_type :: The default content type for emails (default: text/plain)
-      def self.configure(app, opts=OPTS)
-        app.opts[:mailer] = (app.mailer_opts||OPTS).merge(opts).freeze
+      def self.configure(app, opts=(no_positional_opts = true; OPTS),
+          content_type: opts[:content_type],
+          terminal: opts[:terminal],
+          **kw)
+        RodaPlugins.check_keywords("the mailer plugin", no_positional_opts, opts, kw)
+
+        # RODA4: Remove
+        app.opts[:mailer] = (app.opts[:mailer]||OPTS).merge(opts).merge!(kw).freeze
+
+        app.opts[:mailer_content_type] = content_type unless content_type.nil?
+        # RODA4: Make terminal match the default
+        app.opts[:mailer_terminal_match] = terminal unless terminal.nil?
       end
 
       module ClassMethods
-        RodaPlugins.opt_attr_reader(self, :mailer, name: :mailer_opts)
+        RodaPlugins.opt_attr_reader(self, :mailer_content_type)
+        RodaPlugins.opt_attr_reader(self, :mailer_terminal_match, name: :mailer_terminal_match?)
+
+        # simplecov:disable
+        def mailer_opts
+          RodaPlugins.warn("The mailer_opts method is deprecated and will be removed in Roda 4.", uplevel: 1)
+          @opt_mailer
+        end
+        # simplecov:enable
 
         # Return a Mail::Message instance for the email for the given request path
-        # and arguments.   Any arguments given are yielded to the appropriate +r.mail+
+        # and arguments. Any arguments given are yielded to the appropriate +r.mail+
         # block after any usual match block arguments. You can further manipulate the
-        #returned mail object before calling +deliver+ to send the mail.
+        # returned mail object before calling +deliver+ to send the mail.
         def mail(path, *args)
           mail = ::Mail.new
           catch(:no_mail) do
@@ -178,19 +197,18 @@ class Roda
         # any arguments passed to the +mail+ or +sendmail+ Roda class methods.
         def mail(*args)
           if @env["REQUEST_METHOD"] == "MAIL"
-            # RODA4: Make terminal match the default
-            send(roda_class.mailer_opts[:terminal] ? :_verb : :if_match, args) do |*vs|
-              yield(*(vs + @env['roda.mail_args']))
+            send(roda_class.mailer_terminal_match? ? :_verb : :if_match, args) do |*vs|
+              yield(*vs, *@env['roda.mail_args'])
             end
           end
         end
       end
 
       module ResponseMethods
-        # The mail object related to the current request.
+        # The mail object related to the current response.
         attr_accessor :mail
 
-        # If the related request was an email request, add any response headers
+        # If there is a mail object associated with the response, add any response headers
         # to the email, as well as adding the response body to the email.
         # Return the email unless no body was set for it, which would indicate
         # that the routing tree did not handle the request.
@@ -204,7 +222,7 @@ class Roda
               block.call if block
             end
 
-            if content_type = header_content_type || roda_class.mailer_opts[:content_type]
+            if content_type = header_content_type || roda_class.mailer_content_type
               if mail.multipart?
                 if /multipart\/mixed/ =~ mail.content_type &&
                    mail.parts.length >= 2 &&
