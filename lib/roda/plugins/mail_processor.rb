@@ -4,7 +4,7 @@ require 'mail'
 
 class Roda
   module RodaPlugins
-    # The mail_processor plugin allows your Roda application to process mail
+    # The mail_processor plugin allows your Roda application to process received mail
     # using a routing tree. Quick example:
     #
     #   class MailProcessor < Roda
@@ -87,9 +87,9 @@ class Roda
     #
     #   MailProcessor.process_mailbox
     #
-    # You can also use a +:retreiver+ option to provide a specific retriever:
+    # You can use the +:retriever+ option provide a specific retriever:
     #
-    #   MailProcessor.process_mailbox(retreiver: Mail::POP3.new)
+    #   MailProcessor.process_mailbox(retriever: Mail::POP3.new)
     #
     # = Routing Mail
     #
@@ -148,7 +148,10 @@ class Roda
     #     r.text /Post: (\d+)-(\h+)/ do |post_id, hmac|
     #       next unless Post[post_id.to_i]
     #       unhandled_mail("no matching Post") unless post = Post[post_id.to_i]
-    #       unhandled_mail("HMAC for doesn't match for post") unless hmac == post.hmac_for_address(from.first)
+    #
+    #       unless hmac == post.hmac_for_address(from.first)
+    #         unhandled_mail("HMAC for doesn't match for post")
+    #       end
     #
     #       r.handle_text 'APPROVE' do
     #         post.approved_by(from)
@@ -176,7 +179,7 @@ class Roda
     #
     # The mail_processor plugin offers hooks for processing mail.
     #
-    # For mail that is handled successfully, you can use the handled_mail hook:
+    # For mail that is handled successfully, you can use the +handled_mail+ hook:
     #
     #   MailProcessor.handled_mail do
     #     # nothing by default
@@ -189,7 +192,7 @@ class Roda
     # The default is to reraise the UnhandledMail exception that was raised during routing,
     # so that calling code will not be able to ignore errors when processing mail.  However,
     # you may want to save such mails to a special location or forward them as attachments
-    # for manual review, and the unhandled_mail hook allows you to do that:
+    # for manual review, and the +unhandled_mail+ hook allows you to do that:
     #
     #   MailProcessor.unhandled_mail do
     #     # raise by default
@@ -203,18 +206,18 @@ class Roda
     #   end
     #   
     # Finally, for all processed mail, regardless of whether it was handled or not,
-    # there is an after_mail hook, which can be used to archive all processed mail:
+    # there is an +after_mail+ hook, which can be used to archive all processed mail:
     #
     #   MailProcessor.after_mail do
     #     # nothing by default
     #
     #     # Add it to a received_mail table using Sequel
-    #     DB[:received_mail].insert(:message=>mail.encoded)
+    #     DB[:received_mail].insert(message: mail.encoded)
     #   end
     #
-    # The after_mail hook is called after the handled_mail or unhandled_mail hook
-    # is called, even if routing, the handled_mail hook, or the unhandled_mail hook
-    # raises an exception.  The handled_mail and unhandled_mail hooks are not called
+    # The +after_mail+ hook is called after the +handled_mail+ or +unhandled_mail+ hook
+    # is called, even if routing, the +handled_mail+ hook, or the +unhandled_mail+ hook
+    # raises an exception.  The +handled_mail+ and +unhandled_mail+ hooks are not called
     # if an exception is raised during routing (other than for UnhandledMail exceptions).
     #
     # = Extracting Text from Mail
@@ -237,9 +240,6 @@ class Roda
     #
     #     # https://github.com/github/email_reply_parser
     #     EmailReplyParser.parse_reply(mail.body.decoded)
-    #
-    #     # https://github.com/fiedl/extended_email_reply_parser
-    #     mail.parse
     #   end
     #
     # = Security
@@ -290,7 +290,7 @@ class Roda
 
         # Freeze the rcpt routes if they are present.
         def freeze
-          if string_routes = mail_processor_string_routes.freeze
+          if string_routes = mail_processor_string_routes
             string_routes.freeze
             mail_processor_regexp_routes.freeze
           end
@@ -383,7 +383,7 @@ class Roda
 
         # Perform the processing of mail for this request, first considering
         # routes defined via the class-level +rcpt+ method, and then the
-        # normal routing tree passed in as the block.
+        # normal routing tree.
         def process_mail(&block)
           if string_routes = self.class.mail_processor_string_routes
             addresses = mail_recipients
@@ -603,11 +603,12 @@ class Roda
         # value (which may be nil).
         def match_header((key, value))
           return unless content = mail.header[key]
+          decoded = content.decoded
 
           if value.nil?
-            @captures << content.decoded
+            @captures << decoded
           else
-            _match_content(:header, value, content.decoded)
+            _match_content(:header, value, decoded)
           end
         end
 
@@ -629,4 +630,3 @@ class Roda
     register_plugin(:mail_processor, MailProcessor)
   end
 end
-
