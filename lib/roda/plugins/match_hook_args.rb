@@ -16,7 +16,7 @@ class Roda
     #   # Term is an implicit matcher used for terminating matches, and
     #   # will be included in the array of matchers yielded to the match hook 
     #   # if a terminating match is used.
-    #   term = self.class::RodaRequest::TERM
+    #   term = Roda::RodaRequest::TERM
     #
     #   route do |r|
     #     r.root do
@@ -92,4 +92,3 @@ class Roda
     register_plugin :match_hook_args, MatchHookArgs
   end
 end
-
