@@ -49,6 +49,7 @@ class Roda
         #   Roda.response_module do
         #     def error!
         #       self.status = 500
+        #       "Internal Server Error"
         #     end
         #   end
         #
@@ -72,7 +73,7 @@ class Roda
           end
 
           if mod
-            raise RodaError, "can't provide both argument and block to response_module" if defined?(yield)
+            raise RodaError, "can't provide both argument and block to #{type}_module" if block
             klass.send(:include, mod)
           else
             if instance_variable_defined?(iv)
