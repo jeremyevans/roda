@@ -58,7 +58,7 @@ class Roda
     # subtrees in the same Roda app/class, while multi_run dispatches to other rack apps.
     # If you want to isolate your routing subtrees, multi_run is a better approach, but
     # it does not let you set instance variables in the main Roda app and have those
-    # instance variables usable in the routing subtrees.
+    # instance variables available in the routing subtrees.
     #
     # To handle development environments that reload code, you can call the
     # +run+ class method without an app to remove dispatching for the prefix.
@@ -114,7 +114,7 @@ class Roda
         # Refresh the multi_run_regexp, using the stored route prefixes,
         # preferring longer routes before shorter routes.
         def refresh_multi_run_regexp!
-          @multi_run_regexp = /(#{Regexp.union((roda_class.multi_run_apps.keys + roda_class.multi_run_app_blocks.keys).sort.reverse)})/
+          @multi_run_regexp = /(#{Regexp.union(roda_class.multi_run_apps.keys.concat(roda_class.multi_run_app_blocks.keys).sort!.reverse!)})/
         end
 
         # Refresh the multi_run_regexp if it hasn't been loaded yet.
