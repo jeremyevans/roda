@@ -72,12 +72,17 @@ describe "middleware_stack plugin" do
     sp.use(make_middleware[:m7])
     sp.use(make_middleware[:m8])
     status.must_equal 404
-    recorded.must_equal [[:m3, [:a2, :a3], b], [:m7, [], nil], [:m8, [], nil], [:m1, [:a1], nil]]
+    recorded.must_equal [[:m3, [:a2, :a3], b], [:m8, [], nil], [:m7, [], nil], [:m1, [:a1], nil]]
 
     sp = app.middleware_stack.before{|m, *a| m.name == :m8}
     sp.use(make_middleware[:m9])
     sp.use(make_middleware[:m10])
     status.must_equal 404
-    recorded.must_equal [[:m3, [:a2, :a3], b], [:m7, [], nil], [:m9, [], nil], [:m10, [], nil], [:m8, [], nil], [:m1, [:a1], nil]]
+    recorded.must_equal [[:m3, [:a2, :a3], b], [:m9, [], nil], [:m10, [], nil], [:m8, [], nil], [:m7, [], nil], [:m1, [:a1], nil]]
+
+    app.middleware_stack.remove{true}.must_be_nil
+    sp.use(make_middleware[:m10])
+    status.must_equal 404
+    recorded.must_equal [[:m10, [], nil]]
   end
 end

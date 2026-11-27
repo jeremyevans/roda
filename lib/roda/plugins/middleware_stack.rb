@@ -19,20 +19,34 @@ class Roda
       # Represents a specific position in the application's middleware stack where new
       # middleware can be inserted.
       class StackPosition
-        def initialize(app, middleware, position)
+        def initialize(app, middleware, offset, block)
           @app = app
           @middleware = middleware
-          @position = position
+          @offset = offset
+          @block = block
         end
 
         # Insert a new middleware into the current position in the middleware stack.
         # Increments the position so that calling this multiple times adds later
         # middleware after earlier middleware, similar to how +Roda.use+ works.
         def use(*args, &block)
-          @middleware.insert(@position, [args, block])
+          insert_middleware(args, block)
           @app.send(:build_rack_app)
-          @position += 1
           nil
+        end
+
+        private
+
+        # Insert the middleware into the appropriate position.
+        def insert_middleware(args, block)
+          @middleware.each_with_index do |(m, _), i|
+            if @block.call(*m)
+              @middleware.insert(i + @offset, [args, block])
+              return
+            end
+          end
+
+          @middleware.push([args, block])
         end
       end
 
@@ -50,7 +64,7 @@ class Roda
         # It the block never returns true, returns a StackPosition that will insert
         # new middleware at the end of the stack.
         def after(&block)
-          handle(1, &block)
+          StackPosition.new(@app, @middleware, 1, block)
         end
 
         # Return a StackPosition representing the position before the middleware where
@@ -59,30 +73,17 @@ class Roda
         # It the block never returns true, returns a StackPosition that will insert
         # new middleware at the end of the stack.
         def before(&block)
-          handle(0, &block)
+          StackPosition.new(@app, @middleware, 0, block)
         end
 
         # Removes any middleware where the block returns true. Yields the middleware
-        # and any middleware arguments given, but not the middleware block
+        # and any middleware arguments given, but not the middleware block.
         def remove
           @middleware.delete_if do |m, _|
             yield(*m)
           end
           @app.send(:build_rack_app)
           nil
-        end
-
-        private
-
-        # Internals of before and after.
-        def handle(offset)
-          @middleware.each_with_index do |(m, _), i|
-            if yield(*m)
-              return StackPosition.new(@app, @middleware, i+offset)
-            end
-          end
-
-          StackPosition.new(@app, @middleware, @middleware.length)
         end
       end
 
