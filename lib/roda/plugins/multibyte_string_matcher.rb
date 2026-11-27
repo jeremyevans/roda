@@ -17,12 +17,12 @@ class Roda
     #   path = "\xD0\xB8".force_encoding('UTF-8')
     #   route do |r|
     #     r.get path do
-    #       # GET /\xD0\xB8 (request.path in UTF-8 format)
+    #       # GET /%D0%B8
     #     end
     #
     #     r.get /y-(#{path})/u do |x|
-    #       # GET /y-\xD0\xB8 (request.path in UTF-8 format)
-    #       x => "\xD0\xB8".force_encoding('BINARY')
+    #       # GET /y-%D0%B8
+    #       x # => path
     #     end
     #   end
     module MultibyteStringMatcher

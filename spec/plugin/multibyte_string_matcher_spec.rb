@@ -9,7 +9,7 @@ describe "multibyte_string_matcher plugin" do
       end
 
       r.is(Integer, /(#{str})/u) do |_, a|
-        a
+        "#{a}.#{a.encoding}"
       end
 
       r.is(Integer, Integer, str) do
@@ -22,7 +22,7 @@ describe "multibyte_string_matcher plugin" do
     end
 
     body('/%D0%B8').must_equal str
-    body('/1/%D0%B8').must_equal str
+    body('/1/%D0%B8').must_equal "#{str}.UTF-8"
     status('/1/%D0%B82').must_equal 404
     status('/1/2/%D0%B8').must_equal 404
     status('/1/%D0%B8/2').must_equal 404
@@ -34,7 +34,7 @@ describe "multibyte_string_matcher plugin" do
     @app.plugin :multibyte_string_matcher
 
     body('/%D0%B8').must_equal str
-    body('/1/%D0%B8').must_equal str
+    body('/1/%D0%B8').must_equal "#{str}.UTF-8"
     body('/1/2/%D0%B8').must_equal 'm'
     body('/1/%D0%B8/2').must_equal 'n'
 
