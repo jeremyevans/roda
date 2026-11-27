@@ -4,9 +4,9 @@
 class Roda
   module RodaPlugins
     # The multi_route plugin builds on the named_routes plugin and allows for
-    # dispatching to multiple named routes # by calling the +r.multi_route+ method,
-    # which will check # if the first segment in the path matches a named route,
-    # and dispatch to that named route.
+    # dispatching to multiple named routes by calling the +r.multi_route+ method,
+    # which will check if the first segment in the path matches a named route,
+    # and dispatch to that named route if so.
     #
     # The hash_branches plugin offers a +r.hash_branches+ method that is similar to
     # and performs better than the +r.multi_route+ method, and it is recommended
@@ -45,7 +45,7 @@ class Roda
     #     "default body"
     #   end
     # 
-    # If a block is not provided to multi_route, the return value of the named
+    # If a block is not provided to +r.multi_route+, the return value of the named
     # route block will be used.
     #
     # == Namespace Support
@@ -129,7 +129,7 @@ class Roda
 
         # A regexp matching any of the current named routes.
         def named_route_regexp(namespace=nil)
-          @namespaced_route_regexps[namespace] ||= /(#{Regexp.union(roda_class.named_routes(namespace).select{|s| s.is_a?(String)}.sort.reverse)})/
+          @namespaced_route_regexps[namespace] ||= /(#{Regexp.union(roda_class.named_routes(namespace).select{|s| s.is_a?(String)}.sort!.reverse!)})/
         end
       end
 
